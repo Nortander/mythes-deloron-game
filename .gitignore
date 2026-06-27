@@ -1,0 +1,72 @@
+# ============================================================
+# Mythes d’Eloron — fichiers locaux non publiés dans game
+# ============================================================
+
+# Assets complets conservés localement.
+# Leur dépôt distant est mythes-deloron-assets.
+assets/
+
+# Exports et données de travail volumineuses ou locales.
+data/
+
+# Métadonnées locales d’agents et arborescences machine.
+.agents/
+arborescence.txt
+
+# Rapports contenant des chemins et informations propres
+# à la machine de développement.
+docs/ENVIRONMENT_AUDIT.md
+docs/ENVIRONMENT_WORKSPACE.md
+docs/ENV-1D_GIT_INITIALIZATION.md
+docs/ENV-1*_REPORT.md
+docs/ENVIRONMENT_*_LOCAL.md
+
+# Dépendances et caches JavaScript.
+node_modules/
+.npm/
+.npx/
+
+# Résultats futurs des tests navigateur.
+playwright-report/
+test-results/
+screenshots/
+artifacts/
+coverage/
+.nyc_output/
+
+# Fichiers temporaires et journaux.
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Secrets et configuration locale.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Archives et paquets locaux.
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+
+# Éditeurs et système.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Métadonnées locales de sauvegarde ou de workspace.
+Mythes-d-Eloron-Backups/
+Mythes-d-Eloron-Workspace-Metadata/
+docs/ENV-1D2_GIT_FINALIZATION.md

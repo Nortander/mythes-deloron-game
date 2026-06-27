@@ -1,0 +1,81 @@
+- 2026-06-05 : suppression du lore affiché en doublon pour le Guerrier cendreux (`MV000001`).
+- 2026-06-05 : correction du chemin d’image du pseudo-avatar Raith le Noir (`AVS000009`).
+- 2026-06-05 : correction des chemins d’image des pseudo-avatars présents dans la partie test.
+- 2026-06-05 : alignement des thèmes Orc, Bête et non-affilié dans la main sur la Collection.
+- 2026-06-06 : ajout des nouveaux dos de cartes et musiques du 06/06 dans la partie test.
+- 2026-06-06 : ajout des 20 nouvelles cartes du 06/06 à la Collection.
+- 2026-06-06 : réalignement strict des 20 cartes ajoutées dans la Collection sur le spreadsheet du 06/06.
+- 2026-06-06 : restauration du rendu Collection et des cartes liées pour les 20 cartes ajoutées du 06/06.
+- 2026-06-06 : ajout des 36 cartes nécessaires au duel Hokhan Ashir Vs Uram dans `CARDS_DATA`.
+- 2026-06-07 : ajout du scénario de test Hokhan Ashir Vs Uram dans la partie test.
+
+- 2026-06-07 : alignement des themes Gobelin, Nain, Bete, Orc et Approvisionnement du duel Hokhan Ashir Vs Uram.
+- 2026-06-07 : correction du rendu des couts, lores et espaces typographiques dans la partie test.
+- 2026-06-07 : refonte du debut de partie avec `player1`, `player2`, positions visuelles et pioche `MAYBE`.
+- 2026-06-07 : correction du rafraichissement des mains et des messages de pioche post-refonte runtime.
+- 2026-06-07 : correction des infobulles des pseudo-avatars Uram et Hokhan dans la partie test.
+- 2026-06-07 : ajustement du style HTML des infobulles des avatars jouables.
+- 2026-06-07 : suppression du code mort faible risque autour de `endTurn` et `playIntro`.
+- 2026-06-07 : implémentation du premier lot de capacités simples pour Hokhan Ashir Vs Uram.
+- 2026-06-07 : ajustement du délai visuel de Rage et des infobulles avatars Uram/Hokhan.
+- 2026-06-07 : généralisation de Rage et protection Sang-froid contre Gel/Coup de glace.
+- 2026-06-07 : ajout des plateaux `PLAT000007` et `PLAT000008` à la rotation aléatoire.
+- 2026-06-07 : ajout des 10 nouvelles cartes du 06/07 à la Collection.
+- 2026-06-07 : synchronisation de `MV000019` avec le spreadsheet 06/07.
+- 2026-06-07 : mise à jour du scénario Hokhan Ashir Vs Uram selon l’export decks 06/07.
+- 2026-06-07 : ajout du scénario de test Rohen Vs Yria dans la partie test.
+- 2026-06-07 : correction du lot A Coup de glace pour le scénario Rohen Vs Yria.
+- 2026-06-08 : ajout d’un VFX de résistance pour Sang-froid dans la partie test.
+- 2026-06-08 : amélioration du VFX Sang-froid avec texte flottant.
+- 2026-06-08 : ajout et synchronisation des cartes Collection depuis le spreadsheet 06/08.
+- 2026-06-10 : correction de l’encodage de l’infobulle Insensible dans la Collection.
+- 2026-06-10 : synchronisation des données et decks Rohen Vs Yria avec l’export 06/08.
+- 2026-06-10 : ajout du helper Insensible et protection de `S000005` dans la partie test.
+- 2026-06-10 : extension du contrôle Insensible aux capacités Gel et Coup de glace.
+- 2026-06-10 : extension du contrôle Insensible aux capacités simples de dégâts, destruction et capture.
+- 2026-06-11 : extension du contrôle Insensible aux Vengeances, avec exception pour `EN000002`.
+- 2026-06-11 : protection des effets automatiques de fin de tour contre Insensible.
+- 2026-06-11 : filtrage des cibles aléatoires protégées par Insensible avant tirage.
+- 2026-06-12 : neutralisation de la Vengeance générique incorrecte de 2 dégâts.
+- 2026-06-12 : implémentation de la Vengeance de `MV000011` avec respect d’Insensible.
+- 2026-06-12 : implémentation de la Vengeance de `MV000015` sur la main adverse.
+- 2026-06-12 : implémentation de l’Initiative et de la Vengeance de `EDB000011` avec suivi de provenance.
+- 2026-06-12 : implémentation de la Vengeance répartie de `DIV000011` avec snapshot d’attaque.
+- 2026-06-12 : implémentation de la Vengeance de `AVS000008` avec retour au fond du deck.
+- 2026-06-12 : raccordement de la Vengeance passive de l’avatar Uram aux morts de ses serviteurs.
+- 2026-06-13 : ajout des 17 cartes classiques et des 14 Faveurs divines dormantes du 06/13 à la Collection.
+- 2026-06-14 : ajout du socle runtime canonique des ressources et des productions vectorielles des Approvisionnements.
+- 2026-06-14 : ajout des couts structures 06/14 et de l'evaluation pure de la jouabilite, sans paiement reel.
+- 2026-06-14 : ajout des modificateurs generiques de cout et suppression des reductions erronees d'Uram et Hokhan.
+- 2026-06-14 : ajout du paiement atomique et de la consommation reelle des Ames.
+- 2026-06-18 : ajout des productions evolutives pour les Approvisionnements R000005, R000007, R000008 et R000017.
+- 2026-06-18 : synchronisation generale des donnees de cartes, ajout dormant des nouvelles cartes dans la Collection et coloration des productions evolutives.
+- 2026-06-18 : correction du rendu des textes de lore, des couts structures et masquage des annotations techniques dans les descriptions.
+- 2026-06-18 : ajout de la defausse volontaire d'un Approvisionnement vers le cimetiere, limitee a une utilisation par tour.
+- 2026-06-18 : correction de la coloration des productions evolutives, appliquee uniquement apres une variation effective.
+- 2026-06-18 : activation des nouvelles cartes liees aux Approvisionnements et ajout du systeme de piles des Jardins botaniques.
+- 2026-06-18 : ajout du scenario Approvisionnement + pioche et synchronisation des dernieres donnees de cartes.
+- 2026-06-19 : stabilisation du scenario Approvisionnement + pioche, de l'interface du Bazar et des donnees de la Collection.
+- 2026-06-19 : correction des couts alternatifs, du pipeline de pioche, des icones de faction et de l'interface d'Assassinat.
+- 2026-06-19 : unification definitive du rendu et du paiement des couts alternatifs, et ajout de la reduction de la decision d'Assassinat.
+- 2026-06-19 : correction de la semantique ET/OU des ressources, de la pioche et des rendus complexes.
+- 2026-06-19 : correction integree de la pioche, du rendu des productions sur le terrain et des textes de lore.
+- 2026-06-19 : correction de la persistance de la pioche et du rendu horizontal des productions sur le terrain.
+- 2026-06-19 : alignement des Initiatives de pioche, restauration de la reduction du Bazar et synchronisation differentielle du nouvel export principal.
+- 2026-06-19 : implementation du mot-clef Embrasement et mise a jour des cartes associees.
+- 2026-06-19 : ajout du premier scenario cheat Embrasement et correction du lore du Demon mineur.
+- 2026-06-22 : stabilisation du noyau Embrasement et Froid, des phases de tour, de la main et du scenario cheat.
+- 2026-06-22 : stabilisation des fenetres de decision, des mains, des decks cheat et du rendu canonique des cartes.
+- 2026-06-22 : finition des projections de mains et decks vides, des messages de Meteores et validation des correctifs structurels.
+- 2026-06-25 : stabilisation des projections de mains et decks vides, reparation des apercus longs et du rendu des couts dans la Collection.
+- 2026-06-25 : correction racine des projections de mains, unification des apercus de cartes et finition du rendu des ressources dans la Collection.
+- 2026-06-25 : restauration du glisser-deposer, stabilisation des apercus de cartes et finition des ressources dans la Collection.
+- 2026-06-25 : transparence complete des apercus pendant les interactions, fermeture fiable, donnees canoniques et correction differentielle des ressources dans la Collection.
+- 2026-06-26 : reparation des mains, suppression des apercus concurrents et reconstruction du rendu normal des ressources dans la Collection.
+- 2026-06-26 : creation du contrat canonique de rendu des cartes, du modele normalise, du glossaire unique et des audits de parite.
+- 2026-06-26 : validation de la fondation canonique et correction du parseur commun des mots-clefs.
+- 2026-06-26 : consolidation du noyau canonique partage, separation des registres et validation stricte des mots-clefs.
+- 2026-06-26 : migration canonique des textes, annotations, mots-clefs, infobulles, cartes liees et fenetres de choix ; normalisation de la ressource Echo.
+- 2026-06-26 : achevement de la migration textuelle des cartes, restauration de la fiche Collection et reconstruction des previsualisations completes.
+- 2026-06-26 : restauration fonctionnelle de la fiche Collection, parite des themes, cartes liees, Approvisionnements et typographie des infobulles.
+- 2026-06-26 : clic Collection garanti, suppression des infobulles generiques de type et separation finale des contenus d’Approvisionnement.
