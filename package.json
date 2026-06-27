@@ -8,9 +8,16 @@
     "dev": "node tools/dev-server.mjs",
     "verify": "node tools/verify-workspace.mjs",
     "smoke": "node tools/smoke-test.mjs",
-    "check": "node tools/verify-workspace.mjs && node tools/smoke-test.mjs"
+    "check": "node tools/verify-workspace.mjs && node tools/smoke-test.mjs",
+    "test:browser": "playwright test",
+    "test:browser:headed": "playwright test --headed",
+    "test:browser:debug": "playwright test --debug",
+    "test:browser:report": "playwright show-report"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
   }
 }

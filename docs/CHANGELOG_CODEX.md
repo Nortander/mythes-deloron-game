@@ -81,3 +81,4 @@
 - 2026-06-26 : clic Collection garanti, suppression des infobulles generiques de type et separation finale des contenus d’Approvisionnement.
 - 2026-06-27 : ajout du serveur local reproductible, des vérifications du workspace et du workflow de développement ENV-1E.
 - 2026-06-28 : workflow ENV-1E rendu compatible avec Node seul, npm restant un raccourci facultatif.
+- 2026-06-28 : bootstrap local de Playwright et premier test navigateur automatisé avec Edge système.

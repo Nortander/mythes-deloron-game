@@ -158,3 +158,22 @@ Si npm est absent, utiliser les commandes Node directes ou les lanceurs Windows.
 ## 12. Prochaine couche de tests
 
 La couche actuelle vérifie le serveur et les principales URLs HTTP. Une future installation locale de Playwright pourra être traitée dans ENV-1F, avec npm si nécessaire.
+
+## Tests navigateur Playwright
+
+Après le bootstrap local :
+
+```text
+bootstrap-browser-tests.cmd
+```
+
+Le workflow de vérification devient :
+
+```text
+check-project.cmd
+run-browser-tests.cmd
+git diff --check
+git status
+```
+
+Les tests navigateur deviennent obligatoires avant les futures corrections d’interface lorsqu’ils couvrent la zone modifiée. Playwright utilise le Node/npm portable local et Microsoft Edge système ; aucun navigateur Playwright n’est téléchargé.

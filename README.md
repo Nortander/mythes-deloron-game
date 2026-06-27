@@ -72,3 +72,20 @@ Aucune dépendance npm n’est nécessaire pour le serveur et les vérifications
 ## Assets et données
 
 `assets/` et `data/` restent locaux et sont ignorés dans le dépôt `game`.
+
+## Tests navigateur
+
+Bootstrap local :
+
+```text
+bootstrap-browser-tests.cmd
+```
+
+Lancer les tests :
+
+```text
+run-browser-tests.cmd
+run-browser-tests.cmd --headed
+```
+
+Playwright est installé localement dans le projet. Les tests utilisent Microsoft Edge déjà installé sur le système, sans téléchargement de navigateur supplémentaire.

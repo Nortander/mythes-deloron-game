@@ -70,3 +70,11 @@ desktop.ini
 Mythes-d-Eloron-Backups/
 Mythes-d-Eloron-Workspace-Metadata/
 docs/ENV-1D2_GIT_FINALIZATION.md
+
+# Toolchain locale et rapports techniques privés.
+.toolchain/
+.local/
+
+# Résultats Playwright.
+playwright-report/
+test-results/
