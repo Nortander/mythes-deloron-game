@@ -7,6 +7,8 @@
 - Le dossier local `assets/` pour le rendu complet du jeu.
 - Le dossier local `data/` pour les exports et données de travail.
 
+npm n’est pas requis pour le serveur statique actuel. Il reste un raccourci facultatif et deviendra probablement utile pour une future couche de tests navigateur, traitée séparément dans ENV-1F.
+
 ## 2. Organisation game/assets
 
 Le dépôt `mythes-deloron-game` contient le code, la documentation, les outils et les tests.
@@ -16,6 +18,20 @@ Le dossier `assets/` reste physiquement présent dans le workspace, mais il n’
 Le serveur local peut servir normalement `assets/` et `data/`, même si ces dossiers restent ignorés par Git dans le dépôt `game`.
 
 ## 3. Démarrage du serveur
+
+Méthode universelle Node :
+
+```text
+start-dev.cmd
+```
+
+ou :
+
+```bash
+node tools/dev-server.mjs
+```
+
+Raccourci facultatif avec npm :
 
 ```bash
 npm run dev
@@ -38,22 +54,52 @@ Ctrl+C
 
 ## 5. Vérification automatique
 
+Méthode universelle Node :
+
+```text
+check-project.cmd
+```
+
+ou :
+
+```bash
+node tools/verify-workspace.mjs
+node tools/smoke-test.mjs
+```
+
+Raccourci facultatif avec npm :
+
 ```bash
 npm run check
 ```
 
-Cette commande vérifie le workspace puis lance un test HTTP local du serveur.
+L’absence de npm ne doit pas invalider les vérifications ENV-1E si les commandes Node directes réussissent.
 
 ## 6. Workflow avant modification
 
 ```bash
 git status
+check-project.cmd
+```
+
+ou, si npm est disponible :
+
+```bash
 npm run check
 ```
 
 Le workspace doit être compris avant toute modification.
 
 ## 7. Workflow après modification
+
+```bash
+check-project.cmd
+git diff --check
+git diff
+git status
+```
+
+ou, si npm est disponible :
 
 ```bash
 npm run check
@@ -99,7 +145,7 @@ Ils sont nécessaires au travail local, même s’ils ne sont pas suivis dans le
 
 ## 11. Résolution des problèmes courants
 
-Si `npm run dev` ne démarre pas, vérifier que Node.js 18 ou supérieur est disponible :
+Si `start-dev.cmd` ou `check-project.cmd` ne démarre pas, vérifier que Node.js 18 ou supérieur est disponible :
 
 ```bash
 node --version
@@ -107,8 +153,8 @@ node --version
 
 Si une page n’affiche pas les images ou effets visuels, vérifier que le dossier `assets/` est présent localement.
 
-Si `npm run check` signale une couverture Git partielle, vérifier que Git est disponible dans le terminal.
+Si npm est absent, utiliser les commandes Node directes ou les lanceurs Windows. Les raccourcis npm restent optionnels pour ENV-1E.
 
 ## 12. Prochaine couche de tests
 
-La couche actuelle vérifie le serveur et les principales URLs HTTP. Les tests navigateur automatisés pourront être ajoutés plus tard, sans modifier le socle local actuel.
+La couche actuelle vérifie le serveur et les principales URLs HTTP. Une future installation locale de Playwright pourra être traitée dans ENV-1F, avec npm si nécessaire.

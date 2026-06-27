@@ -22,10 +22,21 @@ Ne jamais stocker de jeton ou de secret dans le dépôt.
 
 ## Vérification avant commit
 
-Avant de préparer un commit, lancer :
+Avant de préparer un commit, lancer les vérifications avec la méthode Node universelle :
+
+```bash
+check-project.cmd
+```
+
+ou, si npm est disponible :
 
 ```bash
 npm run check
+```
+
+Puis relire :
+
+```bash
 git diff --check
 git diff
 git status
