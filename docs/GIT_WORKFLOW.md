@@ -19,3 +19,23 @@
 6. Pousser seulement après validation explicite.
 
 Ne jamais stocker de jeton ou de secret dans le dépôt.
+
+## Vérification avant commit
+
+Avant de préparer un commit, lancer :
+
+```bash
+npm run check
+git diff --check
+git diff
+git status
+```
+
+Ajouter ensuite uniquement les fichiers explicites nécessaires :
+
+```bash
+git add <fichiers explicites>
+git diff --cached
+```
+
+Ne pas utiliser `git add .` par défaut. Les dossiers locaux ignorés, notamment `assets/` et `data/`, ne doivent pas être supprimés. La branche principale reste `main`.
