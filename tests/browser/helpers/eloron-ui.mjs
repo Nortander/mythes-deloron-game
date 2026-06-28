@@ -50,9 +50,30 @@ export async function collectionModalSnapshot(page) {
     const card = document.querySelector("#modalCard");
     const related = document.querySelector("#modalRelated");
     const right = document.querySelector("#modalRight");
+    const modalDesc = document.querySelector("#modalDesc");
     const style = overlay ? getComputedStyle(overlay) : null;
     const lore = document.querySelector("#modalDesc .card-lore-text, #modalDesc em, #modalDesc");
     const loreStyle = lore ? getComputedStyle(lore) : null;
+    const loreText = (lore?.innerText || "").trim();
+    const visibleDescendants = Array.from(modalDesc?.querySelectorAll("*") || [])
+      .filter((element) => {
+        const elementStyle = getComputedStyle(element);
+        return elementStyle.display !== "none" && elementStyle.visibility !== "hidden" && (element.innerText || "").trim();
+      })
+      .map((element) => {
+        const elementStyle = getComputedStyle(element);
+        const text = (element.innerText || "").trim();
+        return {
+          tagName: element.tagName,
+          className: element.className || "",
+          text,
+          coversAllLore: !!loreText && text === loreText,
+          fontStyle: elementStyle.fontStyle,
+          fontWeight: elementStyle.fontWeight,
+          textDecorationLine: elementStyle.textDecorationLine,
+          color: elementStyle.color
+        };
+      });
     return {
       open: !!document.querySelector("#modalOverlay.open"),
       overlayClass: overlay?.className || "",
@@ -63,11 +84,17 @@ export async function collectionModalSnapshot(page) {
       rightText: right?.innerText || "",
       relatedText: related?.innerText || "",
       relatedVisible: !!related && getComputedStyle(related).display !== "none",
-      loreText: lore?.innerText || "",
+      loreText,
+      loreElementTag: lore?.tagName || "",
+      loreDescendants: visibleDescendants,
+      loreGlobalWrapperTags: visibleDescendants
+        .filter((entry) => entry.coversAllLore && ["STRONG", "B", "U"].includes(entry.tagName))
+        .map((entry) => entry.tagName),
       loreStyle: loreStyle ? {
         fontStyle: loreStyle.fontStyle,
         fontWeight: loreStyle.fontWeight,
-        textDecorationLine: loreStyle.textDecorationLine
+        textDecorationLine: loreStyle.textDecorationLine,
+        color: loreStyle.color
       } : null
     };
   });
@@ -155,6 +182,20 @@ export async function previewSnapshot(page) {
   return page.evaluate(() => {
     const layer = document.querySelector("#card-preview-layer");
     const preview = document.querySelector(".canonical-card-preview");
+    const descInner = preview?.querySelector(".fz-desc-inner");
+    const lore = descInner?.querySelector(".fz-lore-text .card-lore-text, .card-lore-text");
+    const loreStyle = lore ? getComputedStyle(lore) : null;
+    const paragraphs = Array.from(descInner?.querySelectorAll(":scope > .fz-desc-text") || []).map((paragraph) => {
+      const paragraphStyle = getComputedStyle(paragraph);
+      return {
+        text: (paragraph.innerText || "").trim(),
+        className: paragraph.className || "",
+        fontStyle: paragraphStyle.fontStyle,
+        fontWeight: paragraphStyle.fontWeight,
+        textDecorationLine: paragraphStyle.textDecorationLine,
+        color: paragraphStyle.color
+      };
+    });
     const panels = Array.from(document.querySelectorAll(".canonical-keyword-tooltip")).map((panel) => {
       const title = panel.querySelector("strong")?.textContent?.trim() || "";
       return { title, text: panel.innerText || "", html: panel.innerHTML || "" };
@@ -164,6 +205,14 @@ export async function previewSnapshot(page) {
       layerOpen: !!layer?.classList.contains("preview-open"),
       previewClass: preview?.className || "",
       previewText: preview?.innerText || "",
+      descriptionText: descInner?.innerText || "",
+      centralParagraphs: paragraphs,
+      loreStyle: loreStyle ? {
+        fontStyle: loreStyle.fontStyle,
+        fontWeight: loreStyle.fontWeight,
+        textDecorationLine: loreStyle.textDecorationLine,
+        color: loreStyle.color
+      } : null,
       panelCount: panels.length,
       panels,
       relatedText: related?.innerText || "",

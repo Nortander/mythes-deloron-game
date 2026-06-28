@@ -298,6 +298,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .modal-desc-inner p em{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;}
 .modal-desc-inner p i{font-style:italic;}
 .modal-desc-inner p strong{font-weight:700;}
+.modal-card .modal-desc-inner p em.card-lore-text,.modal-card .modal-desc-inner p .card-lore-text{font-style:italic!important;font-weight:400!important;text-decoration:none!important;color:inherit!important;}
+.modal-card .modal-desc-inner p em.card-lore-text *,.modal-card .modal-desc-inner p .card-lore-text *{font-weight:400!important;text-decoration:none!important;}
 /* Guillemets solidaires de leur contenu */
 .nw{white-space:nowrap;}
 .modal-cost-z{flex:0 0 46px;display:flex;align-items:center;justify-content:center;gap:5px;position:relative;padding-bottom:8px;}
@@ -1368,12 +1370,30 @@ function auditLoreRendering(){
 }
 if(typeof window!=='undefined')window.auditLoreRendering=auditLoreRendering;
 
+function normalizedConditionComparable(value){
+  return String(value||'')
+    .replace(/<[^>]*>/g,' ')
+    .replace(/Condition[^a-zA-Z0-9]{0,24}[:：]/gi,' ')
+    .replace(/[.,;:!?]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim()
+    .toLowerCase();
+}
+function hasExplicitInvocationCondition(c){
+  if(!c||!c.cond)return false;
+  if(c.type==='Approvisionnement')return true;
+  const conditionText=normalizedConditionComparable(c.cond);
+  if(!conditionText)return false;
+  const descriptionText=normalizedConditionComparable(c.desc||'');
+  if(descriptionText&&descriptionText.includes(conditionText))return false;
+  return true;
+}
 function displayConditionText(c){
+  if(!hasExplicitInvocationCondition(c))return '';
   return formatPlayerFacingCardText(stripTechnicalIdsForDisplay(applyDisplayTextOverrides(c.id,c.cond||'')),c);
 }
 
-/* ── FACTION CLASS ── */
-
+/* Donnees derivees Collection : conditions explicites, rich text et cartes liees. */
 function hydrateCollectionDerivedData(){
   const byId=new Map(CARDS.map(c=>[c.id,c]));
   CARDS.forEach(c=>{

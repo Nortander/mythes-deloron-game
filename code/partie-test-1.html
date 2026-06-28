@@ -1280,7 +1280,7 @@ body.dragging-card .hc.dragging {
 }
 .hc-desc-text strong.kv, .fz-desc-text strong.kv { font-weight: 700; }
 .hc-desc-text i, .fz-desc-text i { font-style: italic; }
-.card-lore-text { font-style: italic !important; font-weight: inherit !important; text-decoration: none !important; }
+.card-lore-text { font-style: italic !important; font-weight: 400 !important; text-decoration: none !important; }
 
 /* Couleurs des mots-clefs par faction (em) — valeurs exactes de la collection */
 .hc.edb .hc-desc-text em, .fc.edb-fc .fz-desc-text em { color:#2a5a10; }
@@ -1291,6 +1291,7 @@ body.dragging-card .hc.dragging {
 .hc.div .hc-desc-text em, .fc.div-fc .fz-desc-text em { color:#5a1a8a; }
 .hc.sort .hc-desc-text em, .fc.sort-fc .fz-desc-text em { color:#5a1a8a; }
 .hc.appro .hc-desc-text em, .fc.appro-fc .fz-desc-text em { color:#5a1a8a; }
+.fc.appro-fc .fz-desc-text.fz-lore-text,.fc.appro-fc .fz-desc-text.fz-lore-text em.card-lore-text{color:#0e0c08!important;font-style:italic!important;font-weight:400!important;text-decoration:none!important;}
 
 /* Variables (kv) : même couleur que les mots-clefs de la faction */
 .hc.edb .hc-desc-text strong.kv { color:#2a5a10; }
@@ -5687,7 +5688,7 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
       </div>
       <div class="fc-zoom-name-b"><span class="fz-name">${d.name}</span></div>
       <div class="fc-zoom-desc-z"><div class="fz-desc-inner">
-        ${typeH}${renderZoomDescription(d, col)}
+        ${renderZoomDescription(d, col)}
       </div></div>
       ${costH}
     </div>

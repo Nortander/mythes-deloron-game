@@ -62,6 +62,12 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
     const snapshot = await collectionModalSnapshot(page);
     await testInfo.attach("missing-servant-modal-snapshot", { contentType: "application/json", body: Buffer.from(JSON.stringify(snapshot, null, 2), "utf8") });
     expect(snapshot.open).toBeTruthy();
+    expect(snapshot.rightText).toContain("Initiative");
+    expect(snapshot.rightText).not.toContain("CONDITION");
+    expect(snapshot.cardText).toContain("vous piochez instantan");
+    expect(snapshot.relatedVisible).toBeTruthy();
+    expect(snapshot.relatedText).toContain("Amalgame terrifiant");
+    expect(snapshot.relatedText).toContain("Amalgame rageur");
     await attachDiagnostics(testInfo, diagnostics);
   });
 
@@ -84,7 +90,13 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
     expect(snapshot.loreText).toContain("Les ailanteries sont des autels");
     expect(snapshot.loreStyle?.fontStyle).toBe("italic");
     expect(Number.parseInt(snapshot.loreStyle?.fontWeight || "400", 10)).toBeLessThan(700);
-    expect(snapshot.loreStyle?.textDecorationLine).toBe("none");
+    expect(snapshot.loreStyle?.textDecorationLine).not.toContain("underline");
+    expect(snapshot.loreGlobalWrapperTags).toEqual([]);
+    for (const descendant of snapshot.loreDescendants.filter((entry) => entry.coversAllLore)) {
+      expect(["STRONG", "B", "U"]).not.toContain(descendant.tagName);
+      expect(descendant.textDecorationLine).not.toContain("underline");
+      expect(Number.parseInt(descendant.fontWeight || "400", 10)).toBeLessThan(700);
+    }
     await closeCollectionModal(page);
     await attachDiagnostics(testInfo, diagnostics);
   });
@@ -115,6 +127,11 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
     });
     expect(snapshot.layerOpen).toBeTruthy();
     expect(snapshot.previewText).toContain(loreCandidate);
+    expect(snapshot.descriptionText.split(/\n+/).map((line) => line.trim())).not.toContain("Approvisionnement");
+    expect(snapshot.loreStyle?.fontStyle).toBe("italic");
+    expect(Number.parseInt(snapshot.loreStyle?.fontWeight || "400", 10)).toBeLessThan(700);
+    expect(snapshot.loreStyle?.textDecorationLine).not.toContain("underline");
+    expect(snapshot.loreStyle?.color).toBe("rgb(14, 12, 8)");
     await attachDiagnostics(testInfo, diagnostics);
   });
 
@@ -134,6 +151,7 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
     const snapshot = await previewSnapshot(page);
     await testInfo.attach("igor-preview-snapshot", { contentType: "application/json", body: Buffer.from(JSON.stringify(snapshot, null, 2), "utf8") });
     expect(snapshot.previewText).toContain("Igor le Pyromancien");
+    expect(snapshot.descriptionText.split(/\n+/).map((line) => line.trim())).not.toContain("Serviteur");
     expect(snapshot.panels.some((panel) => panel.title.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase() === "capacite")).toBeFalsy();
     await attachDiagnostics(testInfo, diagnostics);
   });
@@ -156,6 +174,7 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
     const snapshot = await previewSnapshot(page);
     expect(snapshot.previewText).toContain("Jardins botaniques");
     expect(snapshot.previewText).toContain("Toutes vos cartes");
+    expect(snapshot.descriptionText.split(/\n+/).map((line) => line.trim())).not.toContain("Sort");
     const abilityPanels = snapshot.panels.filter((panel) => panel.title.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase() === "capacite");
     expect(abilityPanels).toHaveLength(1);
     expect(abilityPanels[0].text.trim().length).toBeGreaterThan("Capacite".length);

@@ -953,3 +953,15 @@ Les huit régressions de rendu caractérisées par Playwright dans ENV-1F2 sont 
 * huit `test.fail()` de caractérisation retirés après passage réel des tests.
 
 État : corrigé localement par `fix: normalize card detail rendering`, à valider visuellement avant push.
+---
+
+## Validation visuelle du Lot 9.3.8f - defauts residuels corriges en 9.3.8g
+
+La validation visuelle utilisateur du Lot 9.3.8f a detecte quatre defauts residuels de rendu, corriges par le Lot 9.3.8g :
+
+* lore d'Ailantérie dans la Collection : retrait du soulignement et de la graisse globale ;
+* Amalgame erratique : suppression de la fausse condition d'invocation issue d'une capacite Initiative ;
+* Herboristerie en partie : lore central en italique sombre, non violet ;
+* previsualisations de partie : suppression du libelle structurel de type dans le champ central.
+
+Etat : corrige localement par `fix: polish card detail text rendering`, a valider visuellement avant push.
