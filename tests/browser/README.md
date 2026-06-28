@@ -30,6 +30,23 @@ Le mode par défaut est headless. Le mode headed ouvre le navigateur système.
 
 Ces dossiers sont ignorés par Git.
 
+## Caractérisation ENV-1F2
+
+La suite `characterization.spec.mjs` documente les anomalies d'interface encore ouvertes sans modifier le jeu.
+Elle utilise des échecs attendus Playwright (`test.fail`) pour les comportements confirmés comme défectueux.
+
+```text
+run-browser-tests.cmd tests/browser/characterization.spec.mjs
+```
+
+Les cas couverts incluent :
+
+- ouverture Collection selon le type de carte ;
+- séparation lore / infobulle / production des Approvisionnements ;
+- panneaux d'infobulles génériques ;
+- mots-clés dans les prévisualisations ;
+- cartes liées et diagnostics `related`.
+
 ## Couverture future
 
 Les futurs tests couvriront :

@@ -10,6 +10,8 @@
     "smoke": "node tools/smoke-test.mjs",
     "check": "node tools/verify-workspace.mjs && node tools/smoke-test.mjs",
     "test:browser": "playwright test",
+    "test:browser:infra": "playwright test tests/browser/infrastructure.spec.mjs",
+    "test:browser:characterization": "playwright test tests/browser/characterization.spec.mjs",
     "test:browser:headed": "playwright test --headed",
     "test:browser:debug": "playwright test --debug",
     "test:browser:report": "playwright show-report"

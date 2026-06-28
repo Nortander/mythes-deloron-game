@@ -89,3 +89,11 @@ run-browser-tests.cmd --headed
 ```
 
 Playwright est installé localement dans le projet. Les tests utilisent Microsoft Edge déjà installé sur le système, sans téléchargement de navigateur supplémentaire.
+
+Tests de caractérisation des anomalies d'interface :
+
+```text
+run-browser-tests.cmd tests/browser/characterization.spec.mjs
+```
+
+Ces tests peuvent contenir des échecs attendus : ils servent à figer l'état observé avant correction.

@@ -177,3 +177,11 @@ git status
 ```
 
 Les tests navigateur deviennent obligatoires avant les futures corrections d’interface lorsqu’ils couvrent la zone modifiée. Playwright utilise le Node/npm portable local et Microsoft Edge système ; aucun navigateur Playwright n’est téléchargé.
+
+Pour caractériser une anomalie avant correction :
+
+```text
+run-browser-tests.cmd tests/browser/characterization.spec.mjs
+```
+
+Les échecs attendus doivent être marqués dans le test avec `test.fail` juste avant l'assertion connue comme défaillante.
