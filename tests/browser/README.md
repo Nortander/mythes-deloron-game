@@ -47,6 +47,8 @@ Les cas couverts incluent :
 - mots-clés dans les prévisualisations ;
 - cartes liées et diagnostics `related`.
 
+Un test de carte ne doit pas dépendre de rechargements répétés pour obtenir aléatoirement la carte recherchée. Il doit utiliser un scénario ou un parcours d'interface garantissant sa disponibilité.
+
 ## Couverture future
 
 Les futurs tests couvriront :

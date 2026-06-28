@@ -1,5 +1,9 @@
 import { expect } from "@playwright/test";
 
+let partieNavigationSequence = 0;
+
+export const FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM = [0, 0.1, 0];
+
 export function attachPageDiagnostics(page) {
   const diagnostics = { pageErrors: [], consoleErrors: [], requestFailures: [] };
   page.on("pageerror", (error) => diagnostics.pageErrors.push(String(error && error.message ? error.message : error)));
@@ -76,27 +80,53 @@ export async function closeCollectionModal(page) {
   }
 }
 
-export async function openPartie(page, scenario = "raith-yria") {
+async function installRandomSequence(page, values) {
+  if (!Array.isArray(values) || values.length === 0) return;
+  await page.addInitScript((sequence) => {
+    const nativeRandom = Math.random.bind(Math);
+    let index = 0;
+    Math.random = () => (index < sequence.length ? sequence[index++] : nativeRandom());
+  }, values);
+}
+
+export async function waitForVisibleHandStable(page) {
+  const visibleFaceCards = page.locator(
+    '.hand-j1[data-hand-visibility="face"] .hc[data-id], .hand-j2[data-hand-visibility="face"] .hc[data-id]'
+  );
+  await expect(visibleFaceCards.first()).toBeVisible();
+  let previousCount = -1;
+  let stableSamples = 0;
+  await expect.poll(async () => {
+    const count = await visibleFaceCards.count();
+    if (count > 0 && count === previousCount) stableSamples += 1;
+    else stableSamples = 0;
+    previousCount = count;
+    return stableSamples;
+  }, {
+    timeout: 3000,
+    intervals: [50, 50, 50, 50, 50, 100, 100]
+  }).toBeGreaterThanOrEqual(2);
+}
+
+export async function openPartie(page, scenario = "raith-yria", options = {}) {
+  await installRandomSequence(page, options.randomValues);
   const params = new URLSearchParams();
   if (scenario && scenario !== "raith-yria") params.set("scenario", scenario);
-  params.set("env1f2", `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  params.set("env1f2", `${Date.now()}-${partieNavigationSequence += 1}`);
   const suffix = `?${params.toString()}`;
   await page.goto(`/code/partie-test-1.html${suffix}`);
-  await expect(page.locator("#scenarioSelect")).toBeVisible();
+  await expect(page.locator("#scenarioSelect")).toHaveValue(scenario);
+  await waitForVisibleHandStable(page);
 }
 
 export function partCard(page, cardId) {
   return page.locator(`.hc[data-id="${cardId}"], .fc[data-id="${cardId}"]`).first();
 }
 
-export async function hoverPartCard(page, cardId, scenario = "raith-yria") {
-  let card = partCard(page, cardId);
-  for (let attempt = 0; attempt < 12; attempt += 1) {
-    await openPartie(page, scenario);
-    card = partCard(page, cardId);
-    if (await card.count()) break;
-  }
-  await expect(card, `Expected ${cardId} to be visible in scenario ${scenario} after repeated real page loads`).toBeVisible();
+export async function hoverPartCard(page, cardId, scenario = "raith-yria", options = {}) {
+  await openPartie(page, scenario, options);
+  const card = partCard(page, cardId);
+  await expect(card, `Expected ${cardId} to be visible in scenario ${scenario}`).toBeVisible();
   const box = await card.boundingBox();
   if (!box) throw new Error(`Card ${cardId} has no bounding box`);
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
@@ -155,11 +185,11 @@ export async function partieInventory(page, scenarios) {
   for (const scenario of scenarios) {
     const params = new URLSearchParams();
     if (scenario !== "raith-yria") params.set("scenario", scenario);
-    params.set("env1f2", `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+    params.set("env1f2", `${Date.now()}-${partieNavigationSequence += 1}`);
     const suffix = `?${params.toString()}`;
     await page.goto(`/code/partie-test-1.html${suffix}`);
-    await page.waitForSelector("#scenarioSelect");
-    await page.waitForTimeout(1200);
+    await expect(page.locator("#scenarioSelect")).toHaveValue(scenario);
+    await waitForVisibleHandStable(page);
     const cards = await page.evaluate(() => Array.from(document.querySelectorAll(".hc, .fc")).map((card) => ({
       cardId: card.dataset.id || card.getAttribute("data-id") || card.getAttribute("data-card-id") || null,
       className: card.className,

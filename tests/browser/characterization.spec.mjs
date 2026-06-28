@@ -8,6 +8,7 @@ import {
   collectionModalSnapshot,
   hoverPartCard,
   hoverFirstPartCardMatching,
+  FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM,
   openCollection,
   openPartie,
   partieInventory,
@@ -156,17 +157,23 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
 
   test("Partie: Jardins botaniques has central text and one Capacité panel", async ({ page }, testInfo) => {
     const diagnostics = attachPageDiagnostics(page);
-    await hoverPartCard(page, "S000045", "approvisionnement-pioche");
+    await hoverPartCard(page, "S000045", "approvisionnement-pioche", {
+      randomValues: FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM
+    });
     const snapshot = await previewSnapshot(page);
     expect(snapshot.previewText).toContain("Jardins botaniques");
     expect(snapshot.previewText).toContain("Toutes vos cartes");
-    expect(snapshot.panels.filter((panel) => panel.title.toLowerCase() === "capacité")).toHaveLength(1);
+    const abilityPanels = snapshot.panels.filter((panel) => panel.title.toLowerCase() === "capacité");
+    expect(abilityPanels).toHaveLength(1);
+    expect(abilityPanels[0].text.trim().length).toBeGreaterThan("Capacité".length);
     await attachDiagnostics(testInfo, diagnostics);
   });
 
   test("Partie: Jardins botaniques related IDs are not resolved before preview rendering", async ({ page }, testInfo) => {
     const diagnostics = attachPageDiagnostics(page);
-    await openPartie(page, "approvisionnement-pioche");
+    await openPartie(page, "approvisionnement-pioche", {
+      randomValues: FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM
+    });
     const relatedAudit = await page.evaluate(() => {
       try {
         const model = window.getCanonicalCardDisplayModel("S000045");

@@ -83,3 +83,4 @@
 - 2026-06-28 : workflow ENV-1E rendu compatible avec Node seul, npm restant un raccourci facultatif.
 - 2026-06-28 : bootstrap local de Playwright et premier test navigateur automatisé avec Edge système.
 - 2026-06-28 : caracterisation automatisee des anomalies d'interface ouvertes avec tests navigateur Playwright.
+- 2026-06-28 : stabilisation du test de caracterisation Jardins botaniques sans rechargement aleatoire.
