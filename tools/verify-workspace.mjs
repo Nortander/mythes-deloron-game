@@ -26,7 +26,8 @@ const requiredDirectories = [
   ".git"
 ];
 
-const expectedDataExport = "Jeu de cartes fantasy " + String.fromCharCode(0x00AB) + " Mythes d'Eloron " + String.fromCharCode(0x00BB) + " - export 2026-06-24.xlsx";
+const dataExportPrefix = "Jeu de cartes fantasy " + String.fromCharCode(0x00AB) + " Mythes d'Eloron " + String.fromCharCode(0x00BB) + " - export ";
+const dataExportSuffix = ".xlsx";
 
 const textFiles = [
   "code/card-rendering-core.js",
@@ -138,18 +139,40 @@ function findGit() {
   }
 }
 
-function verifyExpectedDataExport() {
+function parseExportDate(name) {
+  const escapedPrefix = dataExportPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapedSuffix = dataExportSuffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = name.match(new RegExp(`^${escapedPrefix}(\\d{4}-\\d{2}-\\d{2})${escapedSuffix}$`));
+  return match ? match[1] : null;
+}
+
+function verifyLatestDataExport() {
   const dataDirectory = resolveRootPath("data");
   try {
-    const names = fs.readdirSync(dataDirectory);
-    if (!names.includes(expectedDataExport)) {
-      addError(`Expected data export is missing: ${expectedDataExport}`);
+    const exports = fs.readdirSync(dataDirectory)
+      .map((name) => {
+        const date = parseExportDate(name);
+        if (!date) {
+          return null;
+        }
+        const filePath = path.join(dataDirectory, name);
+        const stats = fs.statSync(filePath);
+        return { name, filePath, date, mtimeMs: stats.mtimeMs };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.date.localeCompare(a.date) || b.mtimeMs - a.mtimeMs);
+
+    if (exports.length === 0) {
+      addError(`No data export matching ${dataExportPrefix}YYYY-MM-DD${dataExportSuffix} was found`);
       return false;
     }
-    fs.accessSync(path.join(dataDirectory, expectedDataExport), fs.constants.R_OK);
+
+    const latest = exports[0];
+    fs.accessSync(latest.filePath, fs.constants.R_OK);
+    report("OK", "export de donnees le plus recent", latest.name);
     return true;
   } catch (error) {
-    addError(`Expected data export is unreadable (${error.message})`);
+    addError(`Latest data export is unreadable (${error.message})`);
     return false;
   }
 }
@@ -195,7 +218,7 @@ function verifyGit() {
 console.log("Workspace verification");
 
 const filesOk = requiredFiles.every(ensureReadableFile);
-const dataExportOk = verifyExpectedDataExport();
+const dataExportOk = verifyLatestDataExport();
 report(filesOk && dataExportOk ? "OK" : "ERROR", "fichiers critiques");
 
 const directoriesOk = requiredDirectories.every(ensureReadableDirectory);

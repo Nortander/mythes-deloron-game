@@ -1570,6 +1570,7 @@ body.dragging-card .hc.dragging {
     <option value="hokhan-uram">Hokhan Ashir Vs Uram</option>
     <option value="rohen-yria">Rohen Vs Yria</option>
     <option value="approvisionnement-pioche">Approvisionnement + pioche</option>
+    <option value="test-import-2-cartes">TEST — Dryade de l'Arbre de vie et Chaud-froid</option>
     <option value="cheat-embrasement">CHEAT — EMBRASEMENT</option>
   </select>
 </label>
@@ -2129,6 +2130,8 @@ const DECK_CHEAT_FLUTE_EMBRASEMENT = [
 ];
 const START_OUI_CHEAT_FLUTE_EMBRASEMENT = ['EDB000013','EDG000001','EDG000003','EDG000004','EDG000005','EDG000008','EDG000009','EDG000010','S000029','S000036'];
 
+const DECK_TEST_IMPORT_2_CARTES = ['EDB000014','S000053'];
+const START_OUI_TEST_IMPORT_2_CARTES = ['EDB000014','S000053'];
 const CHARACTER_DEFS = {
   raith: {
     characterId: 'raith',
@@ -2229,9 +2232,18 @@ const CHARACTER_DEFS = {
     avatarCap: 'bet',
     portrait: 'AVP000014.png',
     tip: `Mage du Cercle - Le Joueur de flûte. Scénario cheat Embrasement.`
+  },
+  import2Cartes: {
+    characterId: 'import2Cartes',
+    name: `TEST — Import deux cartes`,
+    deck: DECK_TEST_IMPORT_2_CARTES,
+    startOui: START_OUI_TEST_IMPORT_2_CARTES,
+    startMaybe: [],
+    avatarCap: 'edb',
+    portrait: 'AVP000005.png',
+    tip: `TEST — Dryade de l'Arbre de vie et Chaud-froid.`
   }
 };
-
 const SCENARIOS = {
   'raith-yria': {
     label: 'Raith Vs Yria',
@@ -2280,6 +2292,7 @@ SCENARIOS['raith-yria'] = {label: 'Raith Vs Yria', participants: ['raith', 'yria
 SCENARIOS['hokhan-uram'] = {label: 'Hokhan Ashir Vs Uram', participants: ['hokhan', 'uram']};
 SCENARIOS['rohen-yria'] = {label: 'Rohen Vs Yria', participants: ['rohen', 'yriaRohen']};
 SCENARIOS['approvisionnement-pioche'] = {label: 'Approvisionnement + pioche', participants: ['mainArgent', 'gor']};
+SCENARIOS['test-import-2-cartes'] = {label: "TEST — Dryade de l'Arbre de vie et Chaud-froid", participants: ['raith', 'import2Cartes'], fixedFirstParticipant: 1};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -2632,6 +2645,7 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "DIV000016": createCostDefinition(7, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "EDB000010": createCompatiblePoolCostDefinition(1, ["bois", "nourriture"], []),
   "EDB000013": createCostDefinition(7, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
+  "EDB000014": createCostDefinition(8, ["lenya", "bois"], [{"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "bois", "amount": 1}], [{"kind": "text", "text": "Votre deck de depart doit comporter au moins 15 serviteurs de la faction Elfe des bois.", "implemented": false}]),
   "EN000012": createCostDefinition(8, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "GOB000001": createCostDefinition(2, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
   "GOB000002": createCostDefinition(1, ["nourriture"], [], []),
@@ -2723,6 +2737,7 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "S000045": createCostDefinition(6, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "aria", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}, {"kind": "minimum", "resource": "bois", "amount": 3}], []),
   "S000047": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "nourriture", "amount": 5}], []),
   "S000050": createCompatiblePoolCostDefinition(8, ["aria", "selene", "lenya", "soul"], []),
+  "S000053": createCompatiblePoolCostDefinition(7, ["aria", "lenya", "selene"], []),
   "TRL000020": createCostDefinition(11, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], [])
 });
 
@@ -4037,7 +4052,8 @@ function applySelectedScenario() {
     renderAvatar(playerZoneSelector(bottomPlayer, 'avatar'), bottomPlayer);
     return;
   }
-  const firstIndex = Math.random() < 0.5 ? 0 : 1;
+  const fixedFirstParticipant = Number.isInteger(activeScenario.fixedFirstParticipant) ? activeScenario.fixedFirstParticipant : null;
+  const firstIndex = fixedFirstParticipant !== null ? fixedFirstParticipant : (Math.random() < 0.5 ? 0 : 1);
   player1 = createRuntimePlayer(defs[firstIndex], 'player1', 'bottom', BACKS.player1);
   player2 = createRuntimePlayer(defs[1 - firstIndex], 'player2', 'top', BACKS.player2);
   bottomPlayer = player1;
@@ -12124,6 +12140,28 @@ Object.assign(CARDS_DATA, {
     "res_val": "7",
     "resType": "any"
   },
+  "EDB000014": {
+    "name": "Dryade de l'Arbre de vie",
+    "type": "Serviteur",
+    "fac": "edb",
+    "atk": 2,
+    "pdv": 12,
+    "cost": 8,
+    "fico": "FCT00000EDB.png",
+    "kws": ["Insensible", "Initiative", "Lenya", "Bois", "Embrasement", "Gel", "Coup de glace", "Hypnose"],
+    "cap": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs. Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à *4* « Pixies » et *1* « Père des arbres_x009d_ _x009d_». Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de *+2*. De plus, ces mêmes serviteurs sont soignés de *1* point de vie à chaque fin de tour.",
+    "lore": "",
+    "max": 1,
+    "assetFolder": "elfes-des-bois",
+    "badge": "",
+    "cond": "Votre deck de départ doit comporter au moins *15* serviteurs de la faction « Elfe des bois ».",
+    "detail": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit, [Embrasement], [Gel], [Coup de glace] et [Hypnose]). Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à *4* « Pixies » [ID = EDB000012] et *1* « Père des arbres_x009d_ _x009d_» [ID = EDB000009]. Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de *+2*. De plus, ces mêmes serviteurs sont soignés de *1* point de vie à chaque fin de tour.",
+    "related": ["EDB000012", "EDB000009"],
+    "res_ico": "IC00000LNY",
+    "res_val": "8",
+    "resType": "lenya+bois",
+    "res2": "IC00000BOI"
+  },
   "EN000012": {
     "name": "Shar Arduin",
     "type": "Serviteur",
@@ -13978,6 +14016,27 @@ Object.assign(CARDS_DATA, {
     "res2": "IC00000SLN",
     "res3": "IC00000LNY",
     "res4": "IC00000AME"
+  },
+  "S000053": {
+    "name": "Chaud-froid",
+    "type": "Sort",
+    "fac": "sort",
+    "atk": null,
+    "pdv": null,
+    "cost": 7,
+    "fico": null,
+    "kws": ["Aria", "Lenya", "Sélène", "Coup de glace", "Gel", "Embrasement"],
+    "cap": "Applique [Coup de glace] pendant *1* tour à tous les serviteurs adverses actuellement sur le terrain, puis applique [Gel] à tous les serviteurs que votre adversaire invoque lors de son prochain tour (de sa main ou par l'effet d'une carte, peu importe) pendant *1* tour également. Le tour encore suivant de votre adversaire, applique [Embrasement] à un maximum de *3* serviteurs ennemis aléatoires.",
+    "lore": "",
+    "max": 2,
+    "assetFolder": "sorts",
+    "badge": "Sort",
+    "res_ico": "IC00000ARI",
+    "res_val": "7",
+    "resType": "aria|lenya|selene",
+    "resOu": true,
+    "res2": "IC00000LNY",
+    "res3": "IC00000SLN"
   },
   "TRL000020": {
     "name": "Ump",

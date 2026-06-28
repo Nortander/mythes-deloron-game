@@ -1,3 +1,4 @@
+- 2026-06-28 : premier import contrôlé de nouvelles cartes depuis le Spreadsheet — EDB000014 et S000053.
 - 2026-06-05 : suppression du lore affiché en doublon pour le Guerrier cendreux (`MV000001`).
 - 2026-06-05 : correction du chemin d’image du pseudo-avatar Raith le Noir (`AVS000009`).
 - 2026-06-05 : correction des chemins d’image des pseudo-avatars présents dans la partie test.
