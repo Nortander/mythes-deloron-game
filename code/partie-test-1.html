@@ -4804,6 +4804,27 @@ function isEmptyCardText(value) {
   return !text || text === '/';
 }
 
+function isLikelySupplyAbilityText(text) {
+  return /^(Fournit|Conf|Quand|Au d|A chacun|À chacun|Votre deck|Choisissez|Donne|Ajoute|Gagne|Produit|La ressource|Le montant|Cette carte)\b/i.test(String(text || '').trim());
+}
+
+function supplyLoreText(card) {
+  if (!card || card.type !== 'Approvisionnement') return '';
+  if (!isEmptyCardText(card.lore)) return card.lore;
+  const cap = String(card.cap || '').trim();
+  const detail = String(card.detail || '').trim();
+  if (!isEmptyCardText(detail) && !isLikelySupplyAbilityText(cap)) return cap;
+  return '';
+}
+
+function supplyAbilityText(card) {
+  if (!card || card.type !== 'Approvisionnement') return '';
+  const detail = String(card.detail || '').trim();
+  if (!isEmptyCardText(detail)) return detail;
+  const cap = String(card.cap || '').trim();
+  return isLikelySupplyAbilityText(cap) ? cap : '';
+}
+
 const SOURCE_LORE_IDS_20260622 = new Set([
   'B000001','B000006','B000007','B000008','B000009','B000010','B000011','B000016',
   'DIV000002','DIV000014','DIV000015','EDB000004','EDG000002','EN000011','GOB000004',
@@ -4846,7 +4867,7 @@ function formatPlayerFacingCardText(rawText) {
 function renderZoomDescription(card, kwColor) {
   if (!card) return '';
   if (card.type === 'Approvisionnement') {
-    const loreText = !isEmptyCardText(card.lore) ? card.lore : '';
+    const loreText = supplyLoreText(card);
     return loreText
       ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(loreText))}</em></p>`
       : '';
@@ -5679,7 +5700,10 @@ function buildPreviewKeywordTooltips(cardId) {
   if (!keywords.length) return '';
   const color = facColor(CARDS_DATA[cardId]?.fac);
   return `<div class="canonical-keyword-tooltips" data-preview-keywords="${cardId}" style="--card-faction-color:${color};--card-kw:${color}">
-    ${keywords.map(item => `<div class="canonical-keyword-tooltip"><strong>${escapeHtml(item.title)}</strong><span>${formatPlayerFacingCardText(item.body)}</span></div>`).join('')}
+    ${keywords.map(item => {
+      const keywordAttr = item.keyword ? ` data-keyword="${escapeHtml(item.keyword)}"` : '';
+      return `<div class="canonical-keyword-tooltip"><strong${keywordAttr}>${escapeHtml(item.title)}</strong><span>${formatPlayerFacingCardText(item.body)}</span></div>`;
+    }).join('')}
   </div>`;
 }
 
@@ -6660,14 +6684,15 @@ function adaptPartCardRecordToCanonicalInput(cardOrId) {
   });
   const related = [
     ...(data.related || []),
-    ...(typeof extractTechnicalIds === 'function' ? extractTechnicalIds(rawText) : [])
+    ...(CardRenderingCore.extractTechnicalCardIds ? CardRenderingCore.extractTechnicalCardIds(rawText) : [])
   ].filter((value, index, all) => value && all.indexOf(value) === index);
   const baseProduction = typeof productionInitialVector === 'function'
     ? productionInitialVector(data)
     : (data.production || data.prod || {});
   const clean = value => typeof stripTechnicalIdsForDisplay === 'function' ? stripTechnicalIdsForDisplay(value || '') : String(value || '');
   const isSupply = data.type === 'Approvisionnement';
-  const supplyAbility = isSupply ? clean(data.cap || data.detail || '') : '';
+  const supplyLore = isSupply ? clean(supplyLoreText(data)) : '';
+  const supplyAbility = isSupply ? clean(supplyAbilityText(data)) : '';
   return {
     id,
     publicName:data.name,
@@ -6675,9 +6700,9 @@ function adaptPartCardRecordToCanonicalInput(cardOrId) {
     type:data.type,
     subtype:data.subtype || null,
     artwork:data.img || data.artwork || null,
-    description:clean(isSupply ? (data.lore || data.description || '') : (data.cap || data.description || '')),
+    description:isSupply ? supplyLore : clean(data.cap || data.description || ''),
     detailedEffect:isSupply ? '' : clean(data.detail && data.detail !== '/' ? data.detail : ''),
-    lore:data.lore || '',
+    lore:isSupply ? supplyLore : (data.lore || ''),
     supplyAbility,
     keywords:keywordCandidates,
     relatedCardIds:related,

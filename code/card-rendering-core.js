@@ -280,6 +280,30 @@
     };
   }
 
+  const TECHNICAL_CARD_ID_RE = /\b[A-Z]{1,5}\d{6}\b/g;
+
+  function extractTechnicalCardIds(rawText) {
+    const ids = [];
+    const collect = (value) => {
+      String(value || "")
+        .replace(/<[^>]*>/g, "")
+        .replace(TECHNICAL_CARD_ID_RE, (id) => {
+          ids.push(id);
+          return id;
+        });
+    };
+    String(rawText || "")
+      .replace(/\[\s*ID(?:\s+carte)?\s*=([\s\S]*?)\]/gi, (_, body) => {
+        collect(body);
+        return "";
+      })
+      .replace(/<(?:em|i|span|strong)[^>]*>\s*ID(?:\s+carte)?\s*=\s*([\s\S]*?)<\/(?:em|i|span|strong)>/gi, (_, body) => {
+        collect(body);
+        return "";
+      });
+    return unique(ids);
+  }
+
   function resolveRelatedCards(cardModel, options) {
     const model = cardModel || {};
     const lookup = options && options.cardLookup ? options.cardLookup : {};
@@ -287,7 +311,12 @@
     const duplicateIds = [];
     const unresolvedIds = [];
     const resolvedCards = [];
-    (model.relatedCardIds || []).forEach((id) => {
+    const relatedIds = unique([
+      ...(model.relatedCardIds || []),
+      ...extractTechnicalCardIds(model.detailedEffect || ""),
+      ...extractTechnicalCardIds(model.description || "")
+    ]).filter((id) => id && id !== model.id);
+    relatedIds.forEach((id) => {
       if (seen.has(id)) {
         duplicateIds.push(id);
         return;
@@ -310,7 +339,7 @@
         right.push({ kind: "ability", title: "APPROVISIONNEMENT", body: supplyAbility, order: 10 });
       }
     }
-    if (model.type !== "Approvisionnement" && model.detailedEffect) {
+    if (model.type === "Sort" && model.detailedEffect) {
       right.push({ kind: "ability", title: "Capacité", body: model.detailedEffect, order: 10 });
     }
     (model.keywords || []).forEach((keywordName, index) => {
@@ -471,6 +500,7 @@
       "resolvePublicCardReferences",
       "formatPlayerFacingCardText",
       "buildCanonicalResourceExpression",
+      "extractTechnicalCardIds",
       "buildCanonicalCardTooltips",
       "resolveRelatedCards",
       "validateCanonicalRegistries",
@@ -605,6 +635,7 @@
     resolvePublicCardReferences,
     formatPlayerFacingCardText,
     buildCanonicalResourceExpression,
+    extractTechnicalCardIds,
     buildCanonicalCardTooltips,
     resolveRelatedCards,
     inferLoreClassification,

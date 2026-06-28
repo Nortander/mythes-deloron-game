@@ -2551,7 +2551,7 @@ function getCanonicalCardDisplayModel(cardOrId,options={}){
   return{
     id:card.id,publicName:card.name,faction:card.faction,type:card.type,subtype:null,artwork:card.img,
     description:stripTechnicalIdsForDisplay(card.desc||''),detailedEffect:stripTechnicalIdsForDisplay(card.detail&&card.detail!=='/'?card.detail:''),
-    lore:isLoreFromSource(card)?stripTechnicalIdsForDisplay(card.desc||''):'',
+    lore:isLoreOnly(card)?stripTechnicalIdsForDisplay(card.desc||''):'',
     keywords:[...(card.kw||[]),...extractKnownKeywordMarkers(rawText)].filter((kw,index,all)=>kw&&all.indexOf(kw)===index),
     relatedCardIds:[...(card.related||[]),...extractTechnicalIds(rawText)].filter((rid,index,all)=>rid&&all.indexOf(rid)===index),
     baseAttack:card.atk,baseHealth:card.hp,baseAbilityPower:null,baseCost:COLLECTION_COST_DEFINITIONS[card.id]||{total:card.cost??null,groups:[]},
@@ -2608,7 +2608,7 @@ function adaptCollectionCardRecordToCanonicalInput(cardOrId){
   return{
     id:card.id,publicName:card.name,faction:card.faction,type:card.type,subtype:null,artwork:card.img,
     description:clean(card.desc||''),detailedEffect:isSupply?'':clean(card.detail&&card.detail!=='/'?card.detail:''),
-    lore:isSupply?clean(card.desc||''):(isLoreFromSource(card)?clean(card.desc||''):''),
+    lore:isSupply?clean(card.desc||''):(isLoreOnly(card)?clean(card.desc||''):''),
     supplyAbility,
     keywords:keywordCandidates,relatedCardIds:related,baseAttack:card.atk,baseHealth:card.pdv??card.hp,baseAbilityPower:null,
     baseCost:COLLECTION_COST_DEFINITIONS[card.id]||{total:card.cost??null,groups:[]},

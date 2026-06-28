@@ -937,3 +937,19 @@ Problème : la carte fournit de nombreux types de ressources comme demandé, mai
 
 
 Nouvelle règle d’affichage attendue : pour les cartes approvisionnement sur le terrain, une même ligne ne peut contenir que 3 types de ressources différents au maximum. Au-delà, les autres types de ressources doivent être affichés sur une ou plusieurs lignes en dessous.
+---
+
+## Corrections validées par le Lot 9.3.8f
+
+Les huit régressions de rendu caractérisées par Playwright dans ENV-1F2 sont corrigées par le lot 9.3.8f, sans suppression de l'historique ci-dessus :
+
+* clics des fiches Collection restaurés pour Approvisionnement, Serviteur possédé, Serviteur manquant et Sort ;
+* erreur `isLoreFromSource is not defined` supprimée ;
+* lore réel des Approvisionnements restauré dans le corps central des prévisualisations de partie ;
+* capacité technique des Approvisionnements restaurée dans un panneau unique `APPROVISIONNEMENT` ;
+* panneaux génériques `CAPACITÉ` supprimés pour les Serviteurs testés ;
+* panneaux utiles de conditions, mots-clés et Sorts conservés ;
+* cartes liées résolues et affichées sans ID technique brut ;
+* huit `test.fail()` de caractérisation retirés après passage réel des tests.
+
+État : corrigé localement par `fix: normalize card detail rendering`, à valider visuellement avant push.

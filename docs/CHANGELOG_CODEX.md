@@ -84,3 +84,4 @@
 - 2026-06-28 : bootstrap local de Playwright et premier test navigateur automatisé avec Edge système.
 - 2026-06-28 : caracterisation automatisee des anomalies d'interface ouvertes avec tests navigateur Playwright.
 - 2026-06-28 : stabilisation du test de caracterisation Jardins botaniques sans rechargement aleatoire.
+- 2026-06-28 : correction du Lot 9.3.8f — fiches Collection, lore et capacités des Approvisionnements, panneaux des Serviteurs et cartes liées.
