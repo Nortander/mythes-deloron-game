@@ -1,3 +1,4 @@
+- 2026-06-30 : assainissement de la définition du scénario Hokhan Ashir Vs Uram, mise en place du moteur générique de conditions d’invocation, et activation des conditions de AVS000007, AVS000008, MV000004, MV000005 et MV000006.
 - 2026-06-28 : premier import contrôlé de nouvelles cartes depuis le Spreadsheet — EDB000014 et S000053.
 - 2026-06-05 : suppression du lore affiché en doublon pour le Guerrier cendreux (`MV000001`).
 - 2026-06-05 : correction du chemin d’image du pseudo-avatar Raith le Noir (`AVS000009`).

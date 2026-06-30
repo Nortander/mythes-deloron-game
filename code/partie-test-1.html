@@ -2135,6 +2135,18 @@ const START_OUI_CHEAT_FLUTE_EMBRASEMENT = ['EDB000013','EDG000001','EDG000003','
 
 const DECK_TEST_IMPORT_2_CARTES = ['EDB000014','S000053'];
 const START_OUI_TEST_IMPORT_2_CARTES = ['EDB000014','S000053'];
+
+const HUVU_CONDITION_CARD_IDS = ['AVS000007','AVS000008','MV000004','MV000005','MV000006'];
+const DECK_HUVU_INVOCATION_CONDITIONS = [
+  ...HUVU_CONDITION_CARD_IDS,
+  'MV000004','MV000005','MV000006',
+  'R000010','R000010','R000010','R000010','R000010',
+  'R000021','R000021','R000021'
+];
+const START_OUI_HUVU_INVOCATION_CONDITIONS = [...HUVU_CONDITION_CARD_IDS];
+const DECK_HUVU_CONDITION_OPPONENT = ['H000001','H000005','R000001','R000002'];
+const START_OUI_HUVU_CONDITION_OPPONENT = ['H000001','R000001'];
+
 const CHARACTER_DEFS = {
   raith: {
     characterId: 'raith',
@@ -2245,6 +2257,26 @@ const CHARACTER_DEFS = {
     avatarCap: 'edb',
     portrait: 'AVP000005.png',
     tip: `TEST — Dryade de l'Arbre de vie et Chaud-froid.`
+  },
+  huvuConditionSubject: {
+    characterId: 'huvuConditionSubject',
+    name: `TEST — Conditions HUVU`,
+    deck: DECK_HUVU_INVOCATION_CONDITIONS,
+    startOui: START_OUI_HUVU_INVOCATION_CONDITIONS,
+    startMaybe: [],
+    avatarCap: 'mvs',
+    portrait: 'AVP000008.png',
+    tip: `TEST — Conditions d'invocation Hokhan Ashir Vs Uram.`
+  },
+  huvuConditionOpponent: {
+    characterId: 'huvuConditionOpponent',
+    name: `TEST — Adversaire HUVU`,
+    deck: DECK_HUVU_CONDITION_OPPONENT,
+    startOui: START_OUI_HUVU_CONDITION_OPPONENT,
+    startMaybe: [],
+    avatarCap: 'hum',
+    portrait: 'AVP000007.png',
+    tip: `TEST — Adversaire neutre pour conditions d'invocation.`
   }
 };
 const SCENARIOS = {
@@ -2292,10 +2324,45 @@ const SCENARIOS = {
   }
 };
 SCENARIOS['raith-yria'] = {label: 'Raith Vs Yria', participants: ['raith', 'yria']};
-SCENARIOS['hokhan-uram'] = {label: 'Hokhan Ashir Vs Uram', participants: ['hokhan', 'uram']};
 SCENARIOS['rohen-yria'] = {label: 'Rohen Vs Yria', participants: ['rohen', 'yriaRohen']};
 SCENARIOS['approvisionnement-pioche'] = {label: 'Approvisionnement + pioche', participants: ['mainArgent', 'gor']};
 SCENARIOS['test-import-2-cartes'] = {label: "TEST — Dryade de l'Arbre de vie et Chaud-froid", participants: ['raith', 'import2Cartes'], fixedFirstParticipant: 1};
+SCENARIOS['huvu-conditions-blocked'] = {
+  label: 'TEST — HUVU conditions refusées',
+  participants: ['huvuConditionSubject', 'huvuConditionOpponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  testSetup: {
+    player1: {
+      resources: {classical:{aria:5, fer:8}, souls:20},
+      hand: [...HUVU_CONDITION_CARD_IDS],
+      servants: []
+    },
+    player2: {
+      resources: {classical:{aria:2}, souls:0},
+      hand: START_OUI_HUVU_CONDITION_OPPONENT,
+      servants: []
+    }
+  }
+};
+SCENARIOS['huvu-conditions-allowed'] = {
+  label: 'TEST — HUVU conditions remplies',
+  participants: ['huvuConditionSubject', 'huvuConditionOpponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  testSetup: {
+    player1: {
+      resources: {classical:{aria:10, fer:10}, souls:20},
+      hand: [...HUVU_CONDITION_CARD_IDS],
+      servants: ['MV000004','MV000005','MV000006']
+    },
+    player2: {
+      resources: {classical:{aria:2}, souls:0},
+      hand: START_OUI_HUVU_CONDITION_OPPONENT,
+      servants: []
+    }
+  }
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -8093,6 +8160,140 @@ function createMinimizableDecisionModal({
   return state;
 }
 
+const INVOCATION_CONDITION_RULES = Object.freeze({
+  AVS000007: {
+    text: 'Au moins 6 des ressources utilisées doivent être de type Aria.',
+    condition: {all:[{type:'minimum-resource-available', resource:'aria', amount:6}]}
+  },
+  AVS000008: {
+    text: 'Au moins 6 des ressources utilisées doivent être de type Aria.',
+    condition: {all:[{type:'minimum-resource-available', resource:'aria', amount:6}]}
+  },
+  MV000004: {
+    text: 'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',
+    condition: {all:[{type:'friendly-servant-count', cardIds:['MV000005','MV000006'], amount:2, label:'serviteurs amalgamés'}]}
+  },
+  MV000005: {
+    text: 'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',
+    condition: {all:[{type:'friendly-servant-count', cardIds:['MV000004','MV000006'], amount:2, label:'serviteurs amalgamés'}]}
+  },
+  MV000006: {
+    text: 'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',
+    condition: {all:[{type:'friendly-servant-count', cardIds:['MV000004','MV000005'], amount:2, label:'serviteurs amalgamés'}]}
+  }
+});
+
+function invocationConditionRule(cardOrId) {
+  const cardId = typeof cardOrId === 'string' ? cardOrId : cardOrId?.id;
+  return cardId ? INVOCATION_CONDITION_RULES[cardId] || null : null;
+}
+
+function friendlyServantCards(player) {
+  const p = playerState(player);
+  const zone = p ? qs(playerZoneSelector(p, 'servants')) : null;
+  return Array.from(zone?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
+}
+
+function invocationConditionMessage(result) {
+  if (result?.message) return result.message;
+  return `La condition d'invocation de cette carte n'est pas remplie.`;
+}
+
+function evaluateInvocationPredicate(predicate, context) {
+  const p = playerState(context.player);
+  if (!predicate || typeof predicate !== 'object') {
+    return {allowed:false, code:'invalid-predicate', message:`Condition d'invocation invalide.`, unmet:[predicate]};
+  }
+  if (predicate.type === 'minimum-resource-available') {
+    const resource = normalizeResourceKey(predicate.resource);
+    const amount = Math.max(0, Number(predicate.amount) || 0);
+    const available = resource === 'soul'
+      ? Number(p?.resourceState?.souls || 0)
+      : getClassicalResourceByType(p, resource);
+    const label = RESOURCE_LABELS[resource] || predicate.resource || 'ressource';
+    const allowed = available >= amount;
+    return {
+      allowed,
+      code: allowed ? 'condition-satisfied' : 'missing-required-resource',
+      message: allowed ? '' : `Il faut au moins ${amount} ressources ${label} disponibles pour invoquer cette carte.`,
+      unmet: allowed ? [] : [{...predicate, available, required:amount}]
+    };
+  }
+  if (predicate.type === 'friendly-servant-count') {
+    const ids = new Set((predicate.cardIds || []).filter(Boolean));
+    const amount = Math.max(0, Number(predicate.amount) || 0);
+    const matching = friendlyServantCards(p).filter(fc => ids.has(fc.dataset.id));
+    const allowed = matching.length >= amount;
+    return {
+      allowed,
+      code: allowed ? 'condition-satisfied' : 'missing-required-board-presence',
+      message: allowed ? '' : `Il faut deux autres serviteurs amalgamés de votre côté du terrain.`,
+      unmet: allowed ? [] : [{...predicate, available:matching.length, required:amount}]
+    };
+  }
+  return {
+    allowed:false,
+    code:'unknown-predicate',
+    message:`Cette condition d'invocation n'est pas reconnue.`,
+    unmet:[predicate]
+  };
+}
+
+function evaluateInvocationExpression(expression, context) {
+  if (!expression) return {allowed:true, code:'condition-satisfied', message:'', unmet:[]};
+  if (Array.isArray(expression.all)) {
+    const results = expression.all.map(item => evaluateInvocationExpression(item, context));
+    const unmet = results.flatMap(result => result.unmet || []);
+    const failed = results.find(result => !result.allowed);
+    return {
+      allowed:!failed,
+      code:failed?.code || 'condition-satisfied',
+      message:failed ? invocationConditionMessage(failed) : '',
+      unmet
+    };
+  }
+  if (Array.isArray(expression.any)) {
+    const results = expression.any.map(item => evaluateInvocationExpression(item, context));
+    if (results.some(result => result.allowed)) return {allowed:true, code:'condition-satisfied', message:'', unmet:[]};
+    return {
+      allowed:false,
+      code:results[0]?.code || 'no-condition-branch-satisfied',
+      message:results[0]?.message || `Aucune condition alternative n'est remplie.`,
+      unmet:results.flatMap(result => result.unmet || [])
+    };
+  }
+  if (expression.not) {
+    const result = evaluateInvocationExpression(expression.not, context);
+    return {
+      allowed:!result.allowed,
+      code:result.allowed ? 'forbidden-condition-present' : 'condition-satisfied',
+      message:result.allowed ? `Cette carte ne peut pas être invoquée dans cet état du terrain.` : '',
+      unmet:result.allowed ? [expression.not] : []
+    };
+  }
+  return evaluateInvocationPredicate(expression, context);
+}
+
+function evaluateInvocationCondition(cardOrId, context={}) {
+  const cardId = typeof cardOrId === 'string' ? cardOrId : (cardOrId?.id || context.cardId);
+  const card = typeof cardOrId === 'string' ? CARDS_DATA[cardId] : cardOrId;
+  const rule = invocationConditionRule(cardId || card);
+  if (!rule) return {cardId, allowed:true, code:'no-condition', message:'', unmet:[]};
+  const result = evaluateInvocationExpression(rule.condition, {...context, cardId, card});
+  return {
+    cardId,
+    invocationConditionText: rule.text,
+    allowed:!!result.allowed,
+    code:result.code || (result.allowed ? 'condition-satisfied' : 'condition-failed'),
+    message:result.allowed ? '' : invocationConditionMessage(result),
+    unmet:result.unmet || []
+  };
+}
+
+function auditInvocationCondition(cardId, player=currentPlayer) {
+  return evaluateInvocationCondition(cardId, {player:playerState(player), cardId});
+}
+
 function validateCardActionStart({player, cardId, slot}) {
   const p = playerState(player);
   const card = CARDS_DATA[cardId];
@@ -8120,6 +8321,10 @@ function validateCardActionStart({player, cardId, slot}) {
       if (isApproSlot !== (card.type === 'Approvisionnement')) return {valid:false, reason:'wrong-slot-type'};
     }
   }
+  const invocationCondition = evaluateInvocationCondition(cardId, {player:p, cardId, slot});
+  if (!invocationCondition.allowed) {
+    return {valid:false, reason:'invocation-condition', conditionResult:invocationCondition};
+  }
   if (cardId === 'S000005') {
     const adverseZone = qs(playerZoneSelector(opponentOf(p), 'servants'));
     const eligible = Array.from(adverseZone?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || [])
@@ -8141,7 +8346,7 @@ function validateCardActionStart({player, cardId, slot}) {
   return {valid:true, reason:null};
 }
 
-function cardActionError(reason) {
+function cardActionError(reason, detail={}) {
   if (reason === 'turn-limit') return `Vous avez déjà joué 3 cartes ce tour.`;
   if (reason === 'wrong-player' || reason === 'wrong-side') return `Vous ne pouvez poser vos cartes que de votre cote du terrain.`;
   if (reason === 'wrong-slot-type') return `Cet emplacement ne correspond pas au type de cette carte.`;
@@ -8153,6 +8358,7 @@ function cardActionError(reason) {
   if (reason === 'pending-decision-choice') return `Une décision est en attente.`;
   if (reason === 'pending-bazar-choice') return `Un choix du Bazar ambulant est en attente.`;
   if (reason === 'pending-assassination-choice') return `Une decision d'Assassinat est en attente.`;
+  if (reason === 'invocation-condition') return detail?.conditionResult?.message || `La condition d'invocation de cette carte n'est pas remplie.`;
   return `Cette action ne peut pas etre resolue.`;
 }
 
@@ -8171,7 +8377,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   const actionValidation = validateCardActionStart({player:p, cardId, slot});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
-    showErr(cardActionError(actionValidation.reason));
+    showErr(cardActionError(actionValidation.reason, actionValidation));
     return {success:false, reason:actionValidation.reason};
   }
   const freshAffordability = getCardAffordabilityResult(cardId, p) || affordability;
@@ -8299,7 +8505,7 @@ async function playCard(cardId, slot) {
   const actionValidation = validateCardActionStart({player:p, cardId, slot});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
-    showErr(cardActionError(actionValidation.reason));
+    showErr(cardActionError(actionValidation.reason, actionValidation));
     return;
   }
   const affordability = getCardAffordabilityResult(cardId, p);
@@ -14064,6 +14270,16 @@ Object.assign(CARDS_DATA, {
   }
 });
 
+function applyInvocationConditionMetadata() {
+  Object.entries(INVOCATION_CONDITION_RULES).forEach(([cardId, rule]) => {
+    if (!CARDS_DATA[cardId]) return;
+    CARDS_DATA[cardId].invocationConditionText = rule.text;
+    CARDS_DATA[cardId].invocationCondition = rule.condition;
+  });
+}
+
+applyInvocationConditionMetadata();
+
 const STATIC_SYNC_20260622 = {
   'DIV000006': {
     name:'Élémentaire du feu', type:'Serviteur', fac:'div', atk:4, pdv:2, cost:3,
@@ -14315,11 +14531,45 @@ function setupInitialHands() {
     updateDeckCount(p);
   });
   applyCheatInitialState();
+  applyScenarioTestSetup();
   activePlayer = player1;
   currentPlayer = activePlayer.key;
   beginTurnState(activePlayer);
   updateVoluntarySupplyDiscardAvailability();
   activePlayer.firstTurnStarted = true;
+}
+
+function applyScenarioTestSetup() {
+  const setup = activeScenario?.testSetup;
+  if (!setup) return;
+  [player1, player2].forEach(p => {
+    const config = setup[p.key];
+    if (!p || !config) return;
+    if (Array.isArray(config.hand)) {
+      p.hand = [...config.hand];
+      config.hand.forEach(id => removeOneFromPile(p.drawPile, id));
+    }
+    if (config.resources) {
+      const classical = createEmptyClassicalResources();
+      Object.entries(config.resources.classical || {}).forEach(([key, value]) => {
+        const resource = normalizeResourceKey(key);
+        if (resource && RESOURCE_KEYS.includes(resource)) classical[resource] = Number(value || 0);
+      });
+      p.resourceState.classical = classical;
+      p.resourceState.souls = Number(config.resources.souls || 0);
+      p.resourceState.revision += 1;
+    }
+    if (Array.isArray(config.servants)) {
+      const zone = qs(playerZoneSelector(p, 'servants'));
+      const slots = Array.from(zone?.querySelectorAll('.slot') || []);
+      config.servants.forEach((cardId, index) => {
+        const slot = slots[index];
+        if (!slot || !CARDS_DATA[cardId]) return;
+        slot.outerHTML = buildFC(cardId, p.key);
+      });
+    }
+    updateDeckCount(p);
+  });
 }
 
 async function playIntroRuntime() {
