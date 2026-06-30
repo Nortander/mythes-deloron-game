@@ -124,16 +124,32 @@
     return token;
   }
 
-  function normalizeFrenchTypography(text, options) {
+  function normalizeImportedCardText(text, options) {
     const original = String(text == null ? "" : text);
     const normalized = original
+      .replace(/_x([0-9A-Fa-f]{4})_/g, (match, hex) => {
+        const codePoint = Number.parseInt(hex, 16);
+        if (!Number.isFinite(codePoint)) return match;
+        if ((codePoint >= 0x0000 && codePoint <= 0x001F && ![0x0009, 0x000A, 0x000D].includes(codePoint)) || (codePoint >= 0x007F && codePoint <= 0x009F)) {
+          return "";
+        }
+        return String.fromCharCode(codePoint);
+      })
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, "");
+    return options && options.audit ? { source: original, normalized, changed: original !== normalized } : normalized;
+  }
+
+  function normalizeFrenchTypography(text, options) {
+    const original = String(text == null ? "" : text);
+    const imported = normalizeImportedCardText(original);
+    const normalized = imported
       .normalize("NFC")
       .replace(/\u00a0/g, " ")
       .replace(/[’`]/g, "'")
       .replace(/\s+([:;!?])/g, "\u00a0$1")
       .replace(/«\s*/g, "«\u00a0")
       .replace(/\s*»/g, "\u00a0»")
-      .replace(/\s*([+])\s*/g, " $1 ")
+      .replace(/\s+\+\s+/g, " + ")
       .replace(/\s*(>=|≥)\s*/g, " ≥\u00a0")
       .replace(/[ \t]{2,}/g, " ")
       .trim();
@@ -203,6 +219,13 @@
       .replace(/pile d['’]âmes/g, (match) => match.replace(/âmes/g, "échos"));
   }
 
+  function formatCanonicalValueMarkers(text) {
+    return String(text == null ? "" : text).replace(/\*([^*]+)\*/g, (match, content) => {
+      const value = String(content || "").trim();
+      return value ? `<strong class="kv">${escapeHtml(value)}</strong>` : "";
+    });
+  }
+
   function normalizeFormattingAnnotations(textFormatRuns, options) {
     const source = Array.isArray(textFormatRuns) ? textFormatRuns : [];
     const annotations = source.map((run, index) => {
@@ -227,6 +250,7 @@
     const normalized = normalizeFrenchTypography(rawText);
     const resolved = resolvePublicCardReferences(normalized, opts);
     let html = normalizePlayerFacingResourceNames(stripTechnicalIdsForDisplay(resolved.htmlOrTokens));
+    html = formatCanonicalValueMarkers(html);
     html = html.replace(/\[([^\]]+)\]/g, (match, content) => {
       const resolution = resolveRegistryToken(content);
       if (!resolution.matched) return match;
@@ -630,6 +654,7 @@
     canonicalNamedAbilityRegistry: () => cloneRegistry(NAMED_ABILITIES),
     ambiguousCanonicalValues: () => ({ ...AMBIGUOUS_VALUES }),
     normalizeFrenchTypography,
+    normalizeImportedCardText,
     normalizeCanonicalToken,
     normalizeFormattingAnnotations,
     resolvePublicCardReferences,

@@ -1279,6 +1279,7 @@ body.dragging-card .hc.dragging {
   text-decoration: underline; text-underline-offset: 1px;
 }
 .hc-desc-text strong.kv, .fz-desc-text strong.kv { font-weight: 700; }
+.fz-desc-text strong.kv { color: var(--card-faction-color, var(--card-kw, currentColor)); }
 .hc-desc-text i, .fz-desc-text i { font-style: italic; }
 .card-lore-text { font-style: italic !important; font-weight: 400 !important; text-decoration: none !important; }
 
@@ -1294,12 +1295,14 @@ body.dragging-card .hc.dragging {
 .fc.appro-fc .fz-desc-text.fz-lore-text,.fc.appro-fc .fz-desc-text.fz-lore-text em.card-lore-text{color:#0e0c08!important;font-style:italic!important;font-weight:400!important;text-decoration:none!important;}
 
 /* Variables (kv) : même couleur que les mots-clefs de la faction */
-.hc.edb .hc-desc-text strong.kv { color:#2a5a10; }
-.hc.edn .hc-desc-text strong.kv { color:#d080e8; }
-.hc.edg .hc-desc-text strong.kv { color:#0a4a8a; }
-.hc.hum .hc-desc-text strong.kv { color:#003ccc; }
-.hc.mvs .hc-desc-text strong.kv { color:#d080e8; }
-.hc.div .hc-desc-text strong.kv { color:#5a1a8a; }
+.hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv { color:#2a5a10; }
+.hc.edn .hc-desc-text strong.kv, .fc.edn-fc .fz-desc-text strong.kv { color:#d080e8; }
+.hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv { color:#0a4a8a; }
+.hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv { color:#003ccc; }
+.hc.mvs .hc-desc-text strong.kv, .fc.mvs-fc .fz-desc-text strong.kv { color:#d080e8; }
+.hc.div .hc-desc-text strong.kv, .fc.div-fc .fz-desc-text strong.kv { color:#5a1a8a; }
+.fc.sort-fc .fz-desc-text strong.kv { color:#5a1a8a; }
+.fc.appro-fc .fz-desc-text strong.kv { color:#8a6820; }
 
 /* Séparateur de ressources "ou"/"+" */
 .res-sep { font-size:9px; color:#c8b898; margin:0 2px; font-weight:700; align-self:center; font-family:'Cinzel',serif; }
@@ -12149,13 +12152,13 @@ Object.assign(CARDS_DATA, {
     "cost": 8,
     "fico": "FCT00000EDB.png",
     "kws": ["Insensible", "Initiative", "Lenya", "Bois", "Embrasement", "Gel", "Coup de glace", "Hypnose"],
-    "cap": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs. Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à *4* « Pixies » et *1* « Père des arbres_x009d_ _x009d_». Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de *+2*. De plus, ces mêmes serviteurs sont soignés de *1* point de vie à chaque fin de tour.",
+    "cap": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs. Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à *4* « Pixies » et *1* « Père des arbres ». Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de *+2*. De plus, ces mêmes serviteurs sont soignés de *1* point de vie à chaque fin de tour.",
     "lore": "",
     "max": 1,
     "assetFolder": "elfes-des-bois",
     "badge": "",
     "cond": "Votre deck de départ doit comporter au moins *15* serviteurs de la faction « Elfe des bois ».",
-    "detail": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit, [Embrasement], [Gel], [Coup de glace] et [Hypnose]). Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à *4* « Pixies » [ID = EDB000012] et *1* « Père des arbres_x009d_ _x009d_» [ID = EDB000009]. Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de *+2*. De plus, ces mêmes serviteurs sont soignés de *1* point de vie à chaque fin de tour.",
+    "detail": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit, [Embrasement], [Gel], [Coup de glace] et [Hypnose]). Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à *4* « Pixies » [ID = EDB000012] et *1* « Père des arbres » [ID = EDB000009]. Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de *+2*. De plus, ces mêmes serviteurs sont soignés de *1* point de vie à chaque fin de tour.",
     "related": ["EDB000012", "EDB000009"],
     "res_ico": "IC00000LNY",
     "res_val": "8",

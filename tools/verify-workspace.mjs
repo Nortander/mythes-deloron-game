@@ -113,6 +113,34 @@ function verifyUtf8(relativePath) {
   }
 }
 
+function verifyNoEmbeddedExcelArtifacts() {
+  const inspectedFiles = [
+    "code/collection.html",
+    "code/partie-test-1.html"
+  ];
+  const pattern = /_x[0-9A-Fa-f]{4}_/g;
+  let total = 0;
+
+  for (const relativePath of inspectedFiles) {
+    const filePath = resolveRootPath(relativePath);
+    try {
+      const text = fs.readFileSync(filePath, "utf8");
+      const count = (text.match(pattern) || []).length;
+      if (count > 0) {
+        total += count;
+        addError(`${relativePath} contains ${count} unresolved Excel escape artifact(s)`);
+      }
+    } catch (error) {
+      addError(`${relativePath} could not be scanned for Excel escape artifacts (${error.message})`);
+    }
+  }
+
+  if (total === 0) {
+    report("OK", "Excel escape artifacts", "0");
+  }
+  return total === 0;
+}
+
 function runGit(gitExe, args) {
   return execFileSync(gitExe, args, {
     cwd: ROOT,
@@ -226,6 +254,8 @@ report(directoriesOk ? "OK" : "ERROR", "assets locaux, données locales et Git")
 
 const utf8Ok = textFiles.every(verifyUtf8);
 report(utf8Ok ? "OK" : "ERROR", "encodage UTF-8");
+
+verifyNoEmbeddedExcelArtifacts();
 
 const gitOk = verifyGit();
 report(gitOk ? "OK" : "ERROR", results.warnings.length ? "Git avec avertissements possibles" : "Git");

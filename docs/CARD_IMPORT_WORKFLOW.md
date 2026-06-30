@@ -66,6 +66,8 @@ run-browser-tests.cmd
 
 Pour un import de cartes, ajouter ou mettre à jour des tests Playwright dédiés.
 
+Chaque import doit aussi vérifier que les textes importés ne contiennent aucune séquence Excel visible du type `_xHHHH_`, que les caractères de contrôle interdits sont normalisés avant rendu, et que le formatage sémantique des variables reste cohérent entre la Collection et la partie.
+
 ## 7. Valider visuellement
 
 Avant commit définitif ou push, ouvrir la Collection et le scénario de test dédié pour vérifier les images, les textes, les panneaux, les cartes liées et la fermeture des fiches.

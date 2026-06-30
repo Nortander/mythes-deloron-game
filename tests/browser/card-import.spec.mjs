@@ -13,6 +13,7 @@ import {
 } from "./helpers/eloron-ui.mjs";
 
 const IMPORT_SCENARIO = "test-import-2-cartes";
+const EXCEL_ESCAPE_ARTIFACT_RE = /_x[0-9A-Fa-f]{4}_/i;
 
 const importedCards = [
   {
@@ -74,6 +75,10 @@ async function hoverVisibleImportedCard(page, cardId) {
   await page.waitForTimeout(250);
 }
 
+function expectNoExcelEscapeArtifact(text) {
+  expect(String(text || "")).not.toMatch(EXCEL_ESCAPE_ARTIFACT_RE);
+}
+
 test.describe("IMPORT-2B imported cards", () => {
   for (const card of importedCards) {
     test(`asset is served for ${card.id}`, async ({ request }) => {
@@ -103,8 +108,16 @@ test.describe("IMPORT-2B imported cards", () => {
 
       expect(snapshot.open).toBeTruthy();
       expect(snapshot.cardText).toContain(card.name);
+      expectNoExcelEscapeArtifact(snapshot.cardText);
+      if (card.id === "EDB000014") {
+        expect(snapshot.cardText).toContain("Père des arbres");
+        expect(snapshot.cardText).toContain("Soigne entièrement vos autres serviteurs");
+      }
 
       await page.screenshot({ path: card.collectionScreenshot, fullPage: true });
+      if (card.id === "EDB000014") {
+        await page.screenshot({ path: "test-results/final-EDB000014-collection-clean-text.png", fullPage: true });
+      }
       await closeCollectionModal(page);
 
       await clickCollectionCard(page, card.id);
@@ -145,6 +158,11 @@ test.describe("IMPORT-2B imported cards", () => {
       expect(snapshot.layerOpen).toBeTruthy();
       expect(snapshot.previewText).toContain(card.name);
       expect(snapshot.descriptionText).toContain(card.centralText);
+      expectNoExcelEscapeArtifact(snapshot.previewText);
+      if (card.id === "EDB000014") {
+        expect(snapshot.descriptionText).toContain("Père des arbres");
+        expect(snapshot.descriptionText).toContain("Soigne entièrement vos autres serviteurs");
+      }
       expect(snapshot.previewText).not.toMatch(/\b(?:EDB000014|S000053)\b/);
       expect(snapshot.panels.every((panel) => panel.text.trim().length > panel.title.length)).toBeTruthy();
 
@@ -159,8 +177,64 @@ test.describe("IMPORT-2B imported cards", () => {
       }
 
       await page.screenshot({ path: card.partieScreenshot, fullPage: true });
+      if (card.id === "EDB000014") {
+        await page.screenshot({ path: "test-results/final-EDB000014-partie-formatted-numbers.png", fullPage: true });
+      }
       await assertNoBlockingDiagnostics(diagnostics);
       await attachDiagnostics(testInfo, diagnostics);
     });
   }
+
+  test("Partie preview formats Dryade numeric variables like the Collection", async ({ page }, testInfo) => {
+    const diagnostics = attachPageDiagnostics(page);
+    await hoverVisibleImportedCard(page, "EDB000014");
+
+    const styles = await page.evaluate(() => {
+      const preview = document.querySelector(".canonical-card-preview[data-preview-card-id='EDB000014']");
+      const desc = preview?.querySelector(".fz-desc-inner");
+      const paragraph = desc?.querySelector(".fz-desc-text");
+      const ordinaryColor = paragraph ? getComputedStyle(paragraph).color : "";
+      const expectedProbe = document.createElement("span");
+      expectedProbe.style.color = "#2a5a10";
+      document.body.appendChild(expectedProbe);
+      const expectedCollectionColor = getComputedStyle(expectedProbe).color;
+      expectedProbe.remove();
+      const entries = Array.from(desc?.querySelectorAll("strong.kv") || []).map((node) => {
+        const computed = getComputedStyle(node);
+        return {
+          text: (node.textContent || "").trim(),
+          fontWeight: computed.fontWeight,
+          color: computed.color,
+          textDecorationLine: computed.textDecorationLine
+        };
+      });
+      const keywordTexts = Array.from(desc?.querySelectorAll(".card-keyword, .canonical-keyword-inline") || [])
+        .map((node) => (node.textContent || "").trim());
+      return { ordinaryColor, expectedCollectionColor, entries, keywordTexts, descriptionText: desc?.innerText || "" };
+    });
+
+    await testInfo.attach("EDB000014-numeric-variable-styles", {
+      contentType: "application/json",
+      body: Buffer.from(JSON.stringify(styles, null, 2), "utf8")
+    });
+
+    expectNoExcelEscapeArtifact(styles.descriptionText);
+    expect(styles.descriptionText).toContain("Père des arbres");
+    for (const expected of ["4", "1", "+2"]) {
+      const matches = styles.entries.filter((entry) => entry.text === expected);
+      expect(matches.length, `Expected formatted numeric variable ${expected}`).toBeGreaterThan(0);
+      for (const match of matches) {
+        expect(Number.parseInt(match.fontWeight, 10)).toBeGreaterThanOrEqual(600);
+        expect(match.color).toBe(styles.expectedCollectionColor);
+        expect(match.color).not.toBe(styles.ordinaryColor);
+        expect(match.textDecorationLine).not.toContain("underline");
+      }
+    }
+    for (const expectedKeyword of ["Insensible", "Initiative", "Embrasement", "Gel", "Coup de glace", "Hypnose"]) {
+      expect(styles.keywordTexts).toContain(expectedKeyword);
+    }
+
+    await assertNoBlockingDiagnostics(diagnostics);
+    await attachDiagnostics(testInfo, diagnostics);
+  });
 });
