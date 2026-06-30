@@ -2136,16 +2136,18 @@ const START_OUI_CHEAT_FLUTE_EMBRASEMENT = ['EDB000013','EDG000001','EDG000003','
 const DECK_TEST_IMPORT_2_CARTES = ['EDB000014','S000053'];
 const START_OUI_TEST_IMPORT_2_CARTES = ['EDB000014','S000053'];
 
-const HUVU_CONDITION_CARD_IDS = ['AVS000007','AVS000008','MV000004','MV000005','MV000006'];
-const DECK_HUVU_INVOCATION_CONDITIONS = [
-  ...HUVU_CONDITION_CARD_IDS,
+const HUVU_AVATAR_RULE_CARD_IDS = ['AVS000007','AVS000008'];
+const HUVU_AMALGAM_RULE_CARD_IDS = ['MV000004','MV000005','MV000006'];
+const HUVU_RULE_CARD_IDS = [...HUVU_AVATAR_RULE_CARD_IDS, ...HUVU_AMALGAM_RULE_CARD_IDS];
+const DECK_HUVU_RULE_TESTS = [
+  ...HUVU_RULE_CARD_IDS,
   'MV000004','MV000005','MV000006',
   'R000010','R000010','R000010','R000010','R000010',
   'R000021','R000021','R000021'
 ];
-const START_OUI_HUVU_INVOCATION_CONDITIONS = [...HUVU_CONDITION_CARD_IDS];
-const DECK_HUVU_CONDITION_OPPONENT = ['H000001','H000005','R000001','R000002'];
-const START_OUI_HUVU_CONDITION_OPPONENT = ['H000001','R000001'];
+const START_OUI_HUVU_RULE_TESTS = [...HUVU_RULE_CARD_IDS];
+const DECK_HUVU_RULE_OPPONENT = ['H000001','H000005','R000001','R000002'];
+const START_OUI_HUVU_RULE_OPPONENT = ['H000001','R000001'];
 
 const CHARACTER_DEFS = {
   raith: {
@@ -2258,21 +2260,21 @@ const CHARACTER_DEFS = {
     portrait: 'AVP000005.png',
     tip: `TEST — Dryade de l'Arbre de vie et Chaud-froid.`
   },
-  huvuConditionSubject: {
-    characterId: 'huvuConditionSubject',
-    name: `TEST — Conditions HUVU`,
-    deck: DECK_HUVU_INVOCATION_CONDITIONS,
-    startOui: START_OUI_HUVU_INVOCATION_CONDITIONS,
+  huvuRuleSubject: {
+    characterId: 'huvuRuleSubject',
+    name: `TEST — Règles HUVU`,
+    deck: DECK_HUVU_RULE_TESTS,
+    startOui: START_OUI_HUVU_RULE_TESTS,
     startMaybe: [],
     avatarCap: 'mvs',
     portrait: 'AVP000008.png',
-    tip: `TEST — Conditions d'invocation Hokhan Ashir Vs Uram.`
+    tip: `TEST — Coûts et règles Hokhan Ashir Vs Uram.`
   },
-  huvuConditionOpponent: {
-    characterId: 'huvuConditionOpponent',
+  huvuRuleOpponent: {
+    characterId: 'huvuRuleOpponent',
     name: `TEST — Adversaire HUVU`,
-    deck: DECK_HUVU_CONDITION_OPPONENT,
-    startOui: START_OUI_HUVU_CONDITION_OPPONENT,
+    deck: DECK_HUVU_RULE_OPPONENT,
+    startOui: START_OUI_HUVU_RULE_OPPONENT,
     startMaybe: [],
     avatarCap: 'hum',
     portrait: 'AVP000007.png',
@@ -2327,38 +2329,74 @@ SCENARIOS['raith-yria'] = {label: 'Raith Vs Yria', participants: ['raith', 'yria
 SCENARIOS['rohen-yria'] = {label: 'Rohen Vs Yria', participants: ['rohen', 'yriaRohen']};
 SCENARIOS['approvisionnement-pioche'] = {label: 'Approvisionnement + pioche', participants: ['mainArgent', 'gor']};
 SCENARIOS['test-import-2-cartes'] = {label: "TEST — Dryade de l'Arbre de vie et Chaud-froid", participants: ['raith', 'import2Cartes'], fixedFirstParticipant: 1};
-SCENARIOS['huvu-conditions-blocked'] = {
-  label: 'TEST — HUVU conditions refusées',
-  participants: ['huvuConditionSubject', 'huvuConditionOpponent'],
+SCENARIOS['huvu-amalgam-zero-echoes'] = {
+  label: 'TEST — HUVU Amalgames sans Échos',
+  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
   fixedFirstParticipant: 0,
   hidden: true,
   testSetup: {
     player1: {
-      resources: {classical:{aria:5, fer:8}, souls:20},
-      hand: [...HUVU_CONDITION_CARD_IDS],
+      resources: {classical:{aria:10, fer:10}, souls:0},
+      hand: [...HUVU_AMALGAM_RULE_CARD_IDS],
       servants: []
     },
     player2: {
       resources: {classical:{aria:2}, souls:0},
-      hand: START_OUI_HUVU_CONDITION_OPPONENT,
+      hand: START_OUI_HUVU_RULE_OPPONENT,
       servants: []
     }
   }
 };
-SCENARIOS['huvu-conditions-allowed'] = {
-  label: 'TEST — HUVU conditions remplies',
-  participants: ['huvuConditionSubject', 'huvuConditionOpponent'],
+SCENARIOS['huvu-amalgam-three-echoes'] = {
+  label: 'TEST — HUVU Amalgames avec 3 Échos',
+  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
   fixedFirstParticipant: 0,
   hidden: true,
   testSetup: {
     player1: {
-      resources: {classical:{aria:10, fer:10}, souls:20},
-      hand: [...HUVU_CONDITION_CARD_IDS],
-      servants: ['MV000004','MV000005','MV000006']
+      resources: {classical:{aria:10, fer:10}, souls:3},
+      hand: [...HUVU_AMALGAM_RULE_CARD_IDS],
+      servants: []
     },
     player2: {
       resources: {classical:{aria:2}, souls:0},
-      hand: START_OUI_HUVU_CONDITION_OPPONENT,
+      hand: START_OUI_HUVU_RULE_OPPONENT,
+      servants: []
+    }
+  }
+};
+SCENARIOS['huvu-avs-cost-insufficient'] = {
+  label: 'TEST — HUVU Avatars coût insuffisant',
+  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  testSetup: {
+    player1: {
+      resources: {classical:{aria:9, fer:4}, souls:7},
+      hand: [...HUVU_AVATAR_RULE_CARD_IDS],
+      servants: []
+    },
+    player2: {
+      resources: {classical:{aria:2}, souls:0},
+      hand: START_OUI_HUVU_RULE_OPPONENT,
+      servants: []
+    }
+  }
+};
+SCENARIOS['huvu-avs-cost-sufficient'] = {
+  label: 'TEST — HUVU Avatars coût suffisant',
+  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  testSetup: {
+    player1: {
+      resources: {classical:{aria:10, fer:10}, souls:8},
+      hand: [...HUVU_AVATAR_RULE_CARD_IDS],
+      servants: []
+    },
+    player2: {
+      resources: {classical:{aria:2}, souls:0},
+      hand: START_OUI_HUVU_RULE_OPPONENT,
       servants: []
     }
   }
@@ -8019,7 +8057,11 @@ function releasePaymentLock(player, cardId=null) {
 function describeAffordabilityFailure(result) {
   if (!result?.failedRequirements?.length) return `Vos ressources ne sont pas suffisantes pour jouer cette carte.`;
   const labels = result.failedRequirements.map(f => {
-    if (f.kind === 'total') return `total requis ${f.required}, disponible ${f.available}`;
+    if (f.kind === 'total') {
+      const resources = (f.allowedForTotal || []).map(resource => RESOURCE_LABELS[resource] || resource).filter(Boolean);
+      const suffix = resources.length ? ` parmi ${resources.join(', ')}` : '';
+      return `total requis ${f.required}${suffix}, disponible ${f.available}`;
+    }
     if (f.kind === 'oneOf' || f.kind === 'compatiblePool') {
       const resources = f.resources || (f.options || []).map(option => option.resource).filter(Boolean);
       const labels = resources.map(resource => RESOURCE_LABELS[resource] || resource);
@@ -8161,26 +8203,9 @@ function createMinimizableDecisionModal({
 }
 
 const INVOCATION_CONDITION_RULES = Object.freeze({
-  AVS000007: {
-    text: 'Au moins 6 des ressources utilisées doivent être de type Aria.',
-    condition: {all:[{type:'minimum-resource-available', resource:'aria', amount:6}]}
-  },
-  AVS000008: {
-    text: 'Au moins 6 des ressources utilisées doivent être de type Aria.',
-    condition: {all:[{type:'minimum-resource-available', resource:'aria', amount:6}]}
-  },
-  MV000004: {
-    text: 'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',
-    condition: {all:[{type:'friendly-servant-count', cardIds:['MV000005','MV000006'], amount:2, label:'serviteurs amalgamés'}]}
-  },
-  MV000005: {
-    text: 'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',
-    condition: {all:[{type:'friendly-servant-count', cardIds:['MV000004','MV000006'], amount:2, label:'serviteurs amalgamés'}]}
-  },
-  MV000006: {
-    text: 'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',
-    condition: {all:[{type:'friendly-servant-count', cardIds:['MV000004','MV000005'], amount:2, label:'serviteurs amalgamés'}]}
-  }
+  // Vraies conditions d'invocation uniquement.
+  // Les coûts restent dans le validateur de ressources et les conditions
+  // de déclenchement de capacité restent dans le texte/registre de capacité.
 });
 
 function invocationConditionRule(cardOrId) {
@@ -8676,6 +8701,16 @@ async function triggerInitiative(cardId, player, context={}) {
   const myServId      = playerZoneSelector(player, 'servants');
   const adverseServants = () => Array.from(qs(adverseServId)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
   const validTargets    = () => adverseServants();
+  const hasRequiredAmalgamInitiativeAllies = (sourceCardId) => {
+    const requirements = {
+      MV000004: ['MV000005','MV000006'],
+      MV000005: ['MV000004','MV000006'],
+      MV000006: ['MV000004','MV000005']
+    }[sourceCardId] || [];
+    if (!requirements.length) return true;
+    const myZone = qs(myServId);
+    return requirements.every(requiredId => !!myZone?.querySelector(`.fc[data-id="${requiredId}"]:not([data-dead])`));
+  };
 
   switch(cardId) {
     case 'EDB000002': // Mage du froid → Gèle un serviteur adverse
@@ -8905,11 +8940,7 @@ async function triggerInitiative(cardId, player, context={}) {
       else showErr('Aucun serviteur adverse éligible.');
       break; }
     case 'MV000005': {
-      const myZone = qs(myServId);
-      const otherAmalgams = Array.from(myZone?.querySelectorAll(
-        '.fc[data-id="MV000004"]:not([data-dead]), .fc[data-id="MV000006"]:not([data-dead])'
-      ) || []);
-      if (otherAmalgams.length >= 2) {
+      if (hasRequiredAmalgamInitiativeAllies('MV000005')) {
         registerRuntimeCostModifier(player, {
           sourceKind: 'servant',
           sourceId: 'MV000005',
@@ -8923,7 +8954,7 @@ async function triggerInitiative(cardId, player, context={}) {
       }
       break; }
     case 'MV000006': {
-      drawMultiple(player, 3);
+      if (hasRequiredAmalgamInitiativeAllies('MV000006')) drawMultiple(player, 3);
       break; }
     case 'MV000008': // Araignée géante réanimée → retire serviteur adverse
     { const candidates = adverseServants();
