@@ -51,3 +51,17 @@ Pour ajouter une nouvelle condition :
 2. ajouter une règle structurée dans le registre de conditions ;
 3. réutiliser un prédicat existant ou ajouter un prédicat générique ;
 4. tester au moins un cas autorisé et un cas refusé.
+
+## Message public, diagnostic technique et scénarios de test
+
+Un refus pour coût insuffisant affiche toujours le même message public :
+
+```text
+Vous manquez de ressources pour jouer cette carte.
+```
+
+Le bandeau public ne doit pas exposer les ressources requises, les ressources disponibles, une équation de coût, un nom de prédicat, un ID technique ou un objet de diagnostic. Ces détails restent dans le résultat structuré du validateur de coût : code stable, réserves disponibles, coût effectif, exigences non satisfaites, branches alternatives et plan de paiement lorsqu'il existe.
+
+Les scénarios techniques peuvent activer un panneau réservé au test avec `showTestResourcePanel: true`. Ce panneau affiche explicitement `MODE TEST — RESSOURCES`, lit l'état moteur réel du joueur actif, montre la carte testée, le coût structuré, le dernier code de validation et les déficits techniques. Il ne doit jamais apparaître dans les scénarios publics ni dans le sélecteur normal.
+
+Les messages importants restent visibles environ `4000 ms` afin de permettre une validation visuelle. Les tests de coût doivent couvrir les frontières : juste insuffisant, exactement suffisant, coût simple, coût composé avec `+` et coût compatible/alternatif avec `ou`.

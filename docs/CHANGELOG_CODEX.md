@@ -1,3 +1,4 @@
+- 2026-06-30 : ajout de scénarios de coût vérifiables pour Hokhan et Uram ; affichage des réserves dans les seuls scénarios techniques ; simplification des messages publics de ressources insuffisantes ; conservation des diagnostics détaillés pour les tests.
 - 2026-06-30 : correction de la classification des règles de AVS000007, AVS000008, MV000004, MV000005 et MV000006 ; suppression des fausses conditions d’invocation ; restauration du contrôle normal des coûts en Échos pour les Amalgames.
 - 2026-06-30 : assainissement de la définition du scénario Hokhan Ashir Vs Uram, mise en place du moteur générique de conditions d’invocation, et activation des conditions de AVS000007, AVS000008, MV000004, MV000005 et MV000006.
 - 2026-06-28 : premier import contrôlé de nouvelles cartes depuis le Spreadsheet — EDB000014 et S000053.

@@ -490,7 +490,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   70%{opacity:1;transform:translateX(-50%) translateY(0);}
   100%{opacity:0;}
 }
-.err-msg.show{animation:errAnim 2.8s cubic-bezier(.23,1,.32,1) forwards;}
+.err-msg.show{animation:errAnim var(--err-duration, 4000ms) cubic-bezier(.23,1,.32,1) forwards;}
+.test-resource-panel{position:fixed;right:18px;bottom:18px;z-index:1800;width:310px;max-height:46vh;overflow:auto;background:rgba(8,5,3,0.94);border:1px solid rgba(200,168,75,0.72);border-radius:12px;color:#f7e4b5;box-shadow:0 12px 32px rgba(0,0,0,0.72);padding:12px 14px;font-family:"Crimson Pro",serif;font-size:13px;line-height:1.25;}
+.test-resource-panel h2{margin:0 0 8px;font-family:"Cinzel",serif;font-size:12px;letter-spacing:.08em;color:var(--gold-lt)}
+.test-resource-panel dl{display:grid;grid-template-columns:1fr auto;gap:3px 10px;margin:8px 0}
+.test-resource-panel dt{color:#d9bf7a}.test-resource-panel dd{margin:0;font-weight:700;color:#fff1bd}
+.test-resource-panel pre{white-space:pre-wrap;margin:8px 0 0;padding:7px;border-radius:8px;background:rgba(0,0,0,.34);color:#f1d38c;font-size:11px;line-height:1.25}
+.test-resource-panel .test-card{font-weight:700;color:#fff1bd}
 
 /* ── Animation pioche ── */
 @keyframes drawAnim{
@@ -2330,76 +2336,36 @@ SCENARIOS['rohen-yria'] = {label: 'Rohen Vs Yria', participants: ['rohen', 'yria
 SCENARIOS['approvisionnement-pioche'] = {label: 'Approvisionnement + pioche', participants: ['mainArgent', 'gor']};
 SCENARIOS['test-import-2-cartes'] = {label: "TEST — Dryade de l'Arbre de vie et Chaud-froid", participants: ['raith', 'import2Cartes'], fixedFirstParticipant: 1};
 SCENARIOS['huvu-amalgam-zero-echoes'] = {
-  label: 'TEST — HUVU Amalgames sans Échos',
-  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
-  fixedFirstParticipant: 0,
-  hidden: true,
-  testSetup: {
-    player1: {
-      resources: {classical:{aria:10, fer:10}, souls:0},
-      hand: [...HUVU_AMALGAM_RULE_CARD_IDS],
-      servants: []
-    },
-    player2: {
-      resources: {classical:{aria:2}, souls:0},
-      hand: START_OUI_HUVU_RULE_OPPONENT,
-      servants: []
-    }
-  }
+  label: 'TEST — HUVU Amalgames sans Échos', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'MV000006',
+  testSetup: {player1: {resources: {classical:{aria:10, fer:10}, souls:0}, hand: [...HUVU_AMALGAM_RULE_CARD_IDS], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
 };
 SCENARIOS['huvu-amalgam-three-echoes'] = {
-  label: 'TEST — HUVU Amalgames avec 3 Échos',
-  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
-  fixedFirstParticipant: 0,
-  hidden: true,
-  testSetup: {
-    player1: {
-      resources: {classical:{aria:10, fer:10}, souls:3},
-      hand: [...HUVU_AMALGAM_RULE_CARD_IDS],
-      servants: []
-    },
-    player2: {
-      resources: {classical:{aria:2}, souls:0},
-      hand: START_OUI_HUVU_RULE_OPPONENT,
-      servants: []
-    }
-  }
+  label: 'TEST — HUVU Amalgames avec 3 Échos', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'MV000006',
+  testSetup: {player1: {resources: {classical:{aria:10, fer:10}, souls:3}, hand: [...HUVU_AMALGAM_RULE_CARD_IDS], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
 };
-SCENARIOS['huvu-avs-cost-insufficient'] = {
-  label: 'TEST — HUVU Avatars coût insuffisant',
-  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
-  fixedFirstParticipant: 0,
-  hidden: true,
-  testSetup: {
-    player1: {
-      resources: {classical:{aria:9, fer:4}, souls:7},
-      hand: [...HUVU_AVATAR_RULE_CARD_IDS],
-      servants: []
-    },
-    player2: {
-      resources: {classical:{aria:2}, souls:0},
-      hand: START_OUI_HUVU_RULE_OPPONENT,
-      servants: []
-    }
-  }
+SCENARIOS['huvu-hokhan-cost-insufficient'] = {
+  label: 'TEST — HUVU Hokhan coût insuffisant visible', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000007',
+  testSetup: {player1: {resources: {classical:{aria:9, fer:4}, souls:0}, hand: ['AVS000007'], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
 };
-SCENARIOS['huvu-avs-cost-sufficient'] = {
-  label: 'TEST — HUVU Avatars coût suffisant',
-  participants: ['huvuRuleSubject', 'huvuRuleOpponent'],
-  fixedFirstParticipant: 0,
-  hidden: true,
-  testSetup: {
-    player1: {
-      resources: {classical:{aria:10, fer:10}, souls:8},
-      hand: [...HUVU_AVATAR_RULE_CARD_IDS],
-      servants: []
-    },
-    player2: {
-      resources: {classical:{aria:2}, souls:0},
-      hand: START_OUI_HUVU_RULE_OPPONENT,
-      servants: []
-    }
-  }
+SCENARIOS['huvu-hokhan-cost-exact'] = {
+  label: 'TEST — HUVU Hokhan coût exact visible', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000007',
+  testSetup: {player1: {resources: {classical:{aria:10, fer:3}, souls:0}, hand: ['AVS000007'], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
+};
+SCENARIOS['huvu-uram-aria-insufficient'] = {
+  label: 'TEST — HUVU Uram Aria insuffisante', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000008',
+  testSetup: {player1: {resources: {classical:{aria:4}, souls:8}, hand: ['AVS000008'], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
+};
+SCENARIOS['huvu-uram-echo-insufficient'] = {
+  label: 'TEST — HUVU Uram Échos insuffisants', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000008',
+  testSetup: {player1: {resources: {classical:{aria:5}, souls:7}, hand: ['AVS000008'], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
+};
+SCENARIOS['huvu-uram-cost-exact'] = {
+  label: 'TEST — HUVU Uram coût exact', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000008',
+  testSetup: {player1: {resources: {classical:{aria:5}, souls:8}, hand: ['AVS000008'], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
+};
+SCENARIOS['huvu-alternative-cost-insufficient'] = {
+  label: 'TEST — HUVU coût alternatif insuffisant', participants: ['huvuRuleSubject', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'DIV000002',
+  testSetup: {player1: {resources: {classical:{aria:1}, souls:0}, hand: ['DIV000002'], servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}
 };
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
@@ -3742,6 +3708,10 @@ const EMBRASEMENT_INITIAL_DAMAGE = 3;
 const EMBRASEMENT_PERIODIC_DAMAGE = 1;
 const EMBRASEMENT_TRIGGER_COUNT = 3;
 const ongoingEffects = { meteores: [] };
+const IMPORTANT_MESSAGE_DURATION_MS = 4000;
+const INSUFFICIENT_RESOURCES_PUBLIC_MESSAGE = 'Vous manquez de ressources pour jouer cette carte.';
+let errorMessageTimer = null;
+let lastCostDiagnostic = null;
 
 // ── Utilitaires DOM ──
 const qs  = s => document.querySelector(s);
@@ -4182,10 +4152,20 @@ function showNotif(txt, dur=2200) {
   void el.offsetWidth; el.className = 'notif show';
   return new Promise(r => setTimeout(r, dur));
 }
-function showErr(htmlTxt) {
+function showErr(htmlTxt, options={}) {
   const el = qs('#errMsg');
-  el.innerHTML = htmlTxt; el.className = 'err-msg';
-  void el.offsetWidth; el.className = 'err-msg show';
+  if (!el) return;
+  const duration = Number(options.durationMs || IMPORTANT_MESSAGE_DURATION_MS);
+  if (errorMessageTimer) clearTimeout(errorMessageTimer);
+  el.innerHTML = htmlTxt;
+  el.dataset.messageDurationMs = String(duration);
+  el.style.setProperty('--err-duration', duration + 'ms');
+  el.className = 'err-msg';
+  void el.offsetWidth;
+  el.className = 'err-msg show';
+  errorMessageTimer = setTimeout(() => {
+    if (el.classList.contains('show')) el.className = 'err-msg';
+  }, duration);
 }
 
 // ── Coût effectif (bonus avatar) ──
@@ -8055,7 +8035,11 @@ function releasePaymentLock(player, cardId=null) {
 }
 
 function describeAffordabilityFailure(result) {
-  if (!result?.failedRequirements?.length) return `Vos ressources ne sont pas suffisantes pour jouer cette carte.`;
+  return INSUFFICIENT_RESOURCES_PUBLIC_MESSAGE;
+}
+
+function describeAffordabilityDiagnostic(result) {
+  if (!result?.failedRequirements?.length) return 'ressources insuffisantes sans détail structuré';
   const labels = result.failedRequirements.map(f => {
     if (f.kind === 'total') {
       const resources = (f.allowedForTotal || []).map(resource => RESOURCE_LABELS[resource] || resource).filter(Boolean);
@@ -8072,7 +8056,24 @@ function describeAffordabilityFailure(result) {
     if (f.resources) return `${f.resources.map(r => RESOURCE_LABELS[r] || r).join(' ou ')} requis ${f.required}, disponible ${f.available}`;
     return f.kind || 'ressource manquante';
   });
-  return `Ressources insuffisantes : ${labels.join('; ')}.`;
+  return labels.join('; ');
+}
+
+function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
+function summarizeCostDefinition(cardId) { const definition = getCanonicalCostDefinition(cardId); if (!definition) return null; return {total: definition.total, allowedForTotal: [...(definition.allowedForTotal || [])], requirements: cloneCostDiagnostic(definition.requirements || []), conditions: cloneCostDiagnostic(definition.conditions || [])}; }
+function currentResourceSnapshot(player=currentPlayer) { const p = playerState(player); const classical = {...createEmptyClassicalResources(), ...(p?.resourceState?.classical || {})}; return {player: p?.key || '', playerName: p?.name || '', classical, souls: Number(p?.resourceState?.souls || 0), revision: Number(p?.resourceState?.revision || 0)}; }
+function buildCostDiagnosticRecord(cardId, result, outcome) { const card = CARDS_DATA[cardId] || {}; const playable = !!result?.playable; return {scenarioId: selectedScenarioId(), cardId, cardName: card.name || '', outcome, code: playable ? 'affordable' : 'insufficient-resources', publicMessage: playable ? '' : INSUFFICIENT_RESOURCES_PUBLIC_MESSAGE, technicalMessage: playable ? 'coût payable' : describeAffordabilityDiagnostic(result), resources: currentResourceSnapshot(), costDefinition: summarizeCostDefinition(cardId), paymentPlan: cloneCostDiagnostic(result?.paymentPlan || null), requirementResults: cloneCostDiagnostic(result?.requirementResults || []), failedRequirements: cloneCostDiagnostic(result?.failedRequirements || [])}; }
+function recordTestCostDiagnostic(cardId, result, outcome) { if (!activeScenario?.showTestResourcePanel) return null; lastCostDiagnostic = buildCostDiagnosticRecord(cardId, result, outcome); updateTestResourcePanel(); return lastCostDiagnostic; }
+function formatCostDefinitionForPanel(definition) { if (!definition) return 'coût structuré indisponible'; const allowed = (definition.allowedForTotal || []).map(resource => RESOURCE_LABELS[resource] || resource).join(', '); const requirements = (definition.requirements || []).map(req => { if (req.resource) return `minimum ${RESOURCE_LABELS[req.resource] || req.resource}: ${req.amount}`; if (req.resources) return `pool ${req.resources.map(r => RESOURCE_LABELS[r] || r).join('/')} : ${req.requiredAmount || req.amount}`; return req.kind || 'exigence'; }); return `total ${definition.total}; ressources: ${allowed || 'aucune'}${requirements.length ? '; ' + requirements.join('; ') : ''}`; }
+function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCostDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic)}; }
+function updateTestResourcePanel() {
+  const existing = document.querySelector('[data-testid="test-resource-panel"]');
+  if (!activeScenario?.showTestResourcePanel) { if (existing) existing.remove(); return; }
+  const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
+  const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
+  const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
+  panel.innerHTML = `<h2>MODE TEST — RESSOURCES</h2><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre>`;
+  if (!existing) document.body.appendChild(panel);
 }
 
 function checkResources(cardId, player) {
@@ -8414,6 +8415,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   const paymentResult = freshAffordability
     ? applyPaymentPlan(p, freshAffordability.paymentPlan, {cardId})
     : {success:true, reason:null, soulsConsumed:0, soulsRemaining:Number(p.resourceState?.souls || 0)};
+  recordTestCostDiagnostic(cardId, freshAffordability, 'paid');
   if (!paymentResult.success) {
     releasePaymentLock(p, cardId);
     showErr(`Le paiement n'est plus valide. Recommencez l'action.`);
@@ -8537,6 +8539,7 @@ async function playCard(cardId, slot) {
   const hasResources = affordability ? affordability.playable : checkResources(cardId, p);
   if (!hasResources) {
     releasePaymentLock(p, cardId);
+    recordTestCostDiagnostic(cardId, affordability, 'blocked');
     showErr(describeAffordabilityFailure(affordability));
     return;
   }
@@ -14601,6 +14604,7 @@ function applyScenarioTestSetup() {
     }
     updateDeckCount(p);
   });
+  updateTestResourcePanel();
 }
 
 async function playIntroRuntime() {
