@@ -52,7 +52,7 @@ test("canonical deck fixture preserves the XLSX multiset contract", async () => 
   expect(fixture.participants.hokhan.avatar).toBe("AVS000008");
   expect(fixture.participants.uram.avatar).toBe("AVS000007");
   expect(fixture.participants.hokhan.startOui).toEqual(["MV000001", "MV000026", "MV000027", "R000021", "R000027"]);
-  expect(fixture.participants.hokhan.startMaybe).toEqual(["MV000002", "R000010"]);
+  expect(fixture.participants.hokhan.startMaybe).toEqual(["R000010"]);
   expect(fixture.participants.uram.startOui).toEqual(["GOB000002", "H000001", "ORC000003", "R000001", "R000013"]);
   expect(fixture.participants.uram.startMaybe).toEqual(["DIV000002"]);
 });

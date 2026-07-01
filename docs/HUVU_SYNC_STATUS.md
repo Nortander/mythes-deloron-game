@@ -17,7 +17,7 @@ Les galeries techniques non publiques `huvu-sync-gallery-a` et `huvu-sync-galler
 
 HUVU-SYNC-2 aligne les compositions directes de Hokhan Ashir et d'Uram sur le classeur canonique `Decks de test`. Les 60 occurrences de chaque joueur sont réconciliées comme `main initiale + pioche`, tandis que l'avatar affiché reste une zone visuelle séparée.
 
-Une seule occurrence de chaque ligne marquée `OUI` est forcée en main initiale et retirée de la pioche. Les lignes marquées `MAYBE` restent documentées dans la fixture canonique, mais ne sont pas forcées en main initiale par ce lot.
+Une seule occurrence de chaque ligne marquée `OUI` est forcée en main initiale et retirée de la pioche. Les lignes marquées `MAYBE` restent documentées dans la fixture canonique, mais ne sont pas forcées en main initiale par ce lot. Depuis HUVU-SYNC-2B, Hokhan ne possède plus qu'un marqueur `MAYBE` : `R000010`; `MV000002` est revenu à `NON`.
 
 Les handlers de capacité, de sort et d'approvisionnement restent non audités lorsqu'ils ne l'étaient pas déjà.
 

@@ -93,3 +93,4 @@
 - 2026-06-28 : nettoyage des artefacts d’encodage Excel et harmonisation du formatage des variables numériques après le premier import contrôlé.
 - 2026-07-01 : synchronisation des données Collection et partie avec les cartes canoniques des decks Hokhan/Uram ; ajout des cartes absentes détectées par HUVU-RECON-2 ; aucune modification des compositions de decks ni des capacités fonctionnelles.
 - 2026-07-01 : alignement des compositions Hokhan Ashir et Uram sur le classeur canonique Decks de test ; ajout des cartes absentes, retrait des cartes obsolètes et correction des exemplaires ; aucune implémentation fonctionnelle de capacité dans ce lot.
+- 2026-07-01 : correction du marqueur de départ de MV000002 dans le deck Hokhan/Uram ; Hokhan ne conserve que R000010 en MAYBE, sans changement de composition ni de main OUI.
