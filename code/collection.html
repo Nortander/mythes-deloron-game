@@ -937,6 +937,27 @@ const CARDS=[
   {id:`DIV000016`,name:`Xyallah`,type:`Serviteur`,faction:`Non-affiliés`,atk:5,pdv:7,cost:7,kw:["Serviteur de la rune", "Insensible", "Initiative"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/autres/DIV000016.png`,fico:null,desc:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » de votre côté du terrain.`,owned:false,qty:0,maxOwned:1,detail:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » [ID = S000021] à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » [ID = DIV000008] de votre côté du terrain. Les marques sont perdues si « Xyallah » quitte le terrain.`,useDetail:true}
 ];
 
+
+const HUVU_SYNC_1_COLLECTION_CARDS = [
+  {id:"MV000024",name:"Morghast L'Os-tentatoire",type:"Serviteur",faction:"Mort-vivant",atk:5,pdv:10,cost:9,kw:["Écho","Aria","Rempart","Vengeance","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/morts-vivants/MV000024.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux », puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",detail:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux » [ID = MV000001], puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",useDetail:true,related:["MV000001"],owned:false,qty:0,maxOwned:1},
+  {id:"MV000026",name:"Adepte de Bélial",type:"Serviteur",faction:"Mort-vivant",atk:1,pdv:4,cost:1,kw:["Aria","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/morts-vivants/MV000026.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Génère 1 à 3 échos chaque fois qu'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 5 échos maximum par « Adepte de Bélial » et par tour.",detail:"Génère 1 à 3 échos chaque fois qu'un serviteur est détruit alors que cette carte est sur le terrain. Le nombre d'échos produit dépend du coût imprimé du serviteur détruit. Production limitée à 5 échos maximum par « Adepte de Bélial » et par tour.",useDetail:true,owned:false,qty:0,maxOwned:3},
+  {id:"MV000027",name:"Sang-lié",type:"Serviteur",faction:"Mort-vivant",atk:1,pdv:4,cost:0,kw:["Initiative","Vengeance","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/morts-vivants/MV000027.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"[Initiative] Inflige 3 points de dégâts à VOTRE avatar. [Vengeance] Génère 3 échos.",cond:"Votre avatar doit avoir 4 points de vie ou plus.",owned:false,qty:0,maxOwned:4},
+  {id:"MV000028",name:"Âme explosive",type:"Serviteur",faction:"Mort-vivant",atk:1,pdv:6,cost:2,kw:["Aria","Vengeance","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/morts-vivants/MV000028.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 échos par serviteur détruit via cet effet.",detail:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 échos par serviteur détruit via cet effet. Ajoute alors la ou les victimes sous votre pile d'approvisionnement [ID = RAME*].",useDetail:true,owned:false,qty:0,maxOwned:3},
+  {id:"MV000029",name:"Gardien du reliquaire",type:"Serviteur",faction:"Mort-vivant",atk:1,pdv:6,cost:3,kw:["Initiative","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/morts-vivants/MV000029.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"[Initiative] Ajoute 3 échos à vos réserves. À chacune de vos fins de tour, si vous n’avez dépensé aucun écho pendant ce tour, fournit 1 écho supplémentaire.",owned:false,qty:0,maxOwned:3},
+  {id:"MV000030",name:"Mur non-mort",type:"Serviteur",faction:"Mort-vivant",atk:0,pdv:30,cost:8,kw:["Aria","Rempart","Vengeance","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/morts-vivants/MV000030.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » et 2 « Guerriers cendreux » à votre main.",detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 échos à vos réserves, fonction des dégâts reçus en une fois : de 0 à 4 dommages, génère 1 écho ; de 5 à 8 dommages, 2 échos ; au-delà de 8 points de dégâts, 3 échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » [ID = MV000022] et 2 « Guerriers cendreux » [ID = MV000001] à votre main.",useDetail:true,related:["MV000022","MV000001"],owned:false,qty:0,maxOwned:1},
+  {id:"R000027",name:"Nécropole",type:"Approvisionnement",faction:"/",atk:null,pdv:null,cost:0,kw:["Approvisionnement","Écho"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/approvisionnement/R000027.png",fico:null,desc:"Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.",detail:"Au début de chacun de vos tours, ajoutez 2 échos à vos réserves + 1 écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu’à un maximum de 3 échos supplémentaires. Si votre cimetière contient au moins 3 serviteurs appartenant initialement à votre adversaire, ajoutez encore 1 écho. Réinitialisez ensuite son compteur de destructions. La « Nécropole » occupe 2 emplacements de votre section d'approvisionnement. Si la « Nécropole » est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d' « Esprits dérangés » [ID = MV000025].",useDetail:true,cond:"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».",related:["MV000025"],badge:"Approvisionnement",owned:false,qty:0,maxOwned:1},
+  {id:"S000041",name:"Puissance du sacrifice",type:"Sort",faction:"Mort-vivant",atk:null,pdv:null,cost:0,kw:["Insensible","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000041.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Pour chaque serviteur actuellement dans votre cimetière, inflige 1 point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit 1 ou plusieurs serviteurs, génère 1 à 3 échos par victime.",detail:"Pour chaque serviteur actuellement dans votre cimetière, inflige 1 point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit 1 ou plusieurs serviteurs, génère 1 à 3 échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement [ID = RAME*].",useDetail:true,cond:"Nécessite au moins 1 serviteur dans votre cimetière.",owned:false,qty:0,maxOwned:2},
+  {id:"S000042",name:"Éclipse solaire",type:"Sort",faction:"Mort-vivant",atk:null,pdv:null,cost:5,kw:["Écho","Aria"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000042.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de 3 ; accroît l'attaque de tous les serviteurs elfes noirs de 2. Toujours jusqu'à la fin de ce tour, réduit de 3 l'attaque des serviteurs humains ; diminue de 2 l'attaque des serviteurs nains.",owned:false,qty:0,maxOwned:3},
+  {id:"S000044",name:"Recyclage",type:"Sort",faction:"Mort-vivant",atk:null,pdv:null,cost:6,kw:["Aria","Écho"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000044.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.",owned:false,qty:0,maxOwned:2},
+  {id:"S000051",name:"Rituel occulte",type:"Sort",faction:"Mort-vivant",atk:null,pdv:null,cost:5,kw:["Aria"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000051.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse.",useDetail:true,owned:false,qty:0,maxOwned:2},
+  {id:"S000052",name:"Le retour des revenants",type:"Sort",faction:"Mort-vivant",atk:null,pdv:null,cost:3,kw:["Aria","Écho","Approvisionnement"],img:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000052.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"Invoque jusqu'à 3 serviteurs « morts-vivants » de votre deck coûtant 2 ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute 5 échos à vos ressources.",owned:false,qty:0,maxOwned:3}
+];
+HUVU_SYNC_1_COLLECTION_CARDS.forEach((card) => {
+  const index = CARDS.findIndex((existing) => existing.id === card.id);
+  if (index >= 0) CARDS[index] = {...CARDS[index], ...card};
+  else CARDS.push(card);
+});
+
 const COLLECTION_COST_DEFINITIONS = Object.freeze({
   'AVS000001': {"total":13,"groups":[{"op":null,"resources":[{"key":"aria","amount":10,"explicit":true}]}]},
   'AVS000002': {"total":13,"groups":[{"op":null,"resources":[{"key":"aria","amount":10,"explicit":true}]}]},
@@ -1201,6 +1222,25 @@ const COLLECTION_COST_DEFINITIONS = Object.freeze({
   'TRL000020': {"total":11,"groups":[]},
 });
 
+
+const HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS = Object.freeze({
+  "MV000024": {"total":9,"groups":[{"op":null,"resources":[{"key":"soul","amount":5,"explicit":true}]},{"op":"+","resources":[{"key":"aria","amount":4,"explicit":true}]}]},
+  "MV000026": {"total":1,"groups":[{"op":null,"resources":[{"key":"aria","amount":1,"explicit":false}]}]},
+  "MV000027": {"total":0,"groups":[]},
+  "MV000028": {"total":2,"groups":[{"op":null,"resources":[{"key":"aria","amount":2,"explicit":true}]}]},
+  "MV000029": {"total":3,"groups":[{"op":null,"resources":[{"key":"aria","amount":3,"explicit":true}]}]},
+  "MV000030": {"total":8,"groups":[{"op":null,"resources":[{"key":"aria","amount":8,"explicit":true}]}]},
+  "R000027": {"total":0,"groups":[]},
+  "S000041": {"total":0,"groups":[]},
+  "S000042": {"total":5,"groups":[{"op":null,"resources":[{"key":"soul","amount":5,"explicit":true}]},{"op":"ou","resources":[{"key":"aria","amount":5,"explicit":true}]}]},
+  "S000044": {"total":6,"groups":[{"op":null,"resources":[{"key":"aria","amount":6,"explicit":true}]},{"op":"ou","resources":[{"key":"soul","amount":6,"explicit":true}]}]},
+  "S000051": {"total":5,"groups":[{"op":null,"resources":[{"key":"aria","amount":5,"explicit":true}]}]},
+  "S000052": {"total":3,"groups":[{"op":null,"resources":[{"key":"aria","amount":3,"explicit":true}]}]}
+});
+function collectionCostDefinition(cardId) {
+  return HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS[cardId] || COLLECTION_COST_DEFINITIONS[cardId] || null;
+}
+
 const KEYWORD_DEFS={
   'Approvisionnement':`L\'un des trois types de cartes. Les cartes d\'approvisionnement fournissent des ressources nécessaires à l\'invocation de la plupart des cartes. Chaque joueur peut en avoir jusqu\'à 6 sur son plateau.`,
   'Camouflage':`Un serviteur avec ce mot-clef ne peut pas être attaqué ou ciblé par un sort jusqu\'à ce qu\'il attaque. Les capacités spéciales ne mettent pas fin au Camouflage.`,
@@ -1449,7 +1489,7 @@ const COLLECTION_RESOURCE_ICONS={
 };
 
 function renderCollectionCostDef(c,pfx){
-  const def=COLLECTION_COST_DEFINITIONS[c.id];
+  const def=collectionCostDefinition(c.id);
   if(!def)return null;
   const sz=pfx==='modal'?'modal-res':'ccard-res';
   const sp=pfx==='modal'?'modal-res-sep':'ccard-res-sep';
@@ -2578,8 +2618,8 @@ function getCanonicalCardDisplayModel(cardOrId,options={}){
     lore:isLoreOnly(card)?stripTechnicalIdsForDisplay(card.desc||''):'',
     keywords:[...(card.kw||[]),...extractKnownKeywordMarkers(rawText)].filter((kw,index,all)=>kw&&all.indexOf(kw)===index),
     relatedCardIds:[...(card.related||[]),...extractTechnicalIds(rawText)].filter((rid,index,all)=>rid&&all.indexOf(rid)===index),
-    baseAttack:card.atk,baseHealth:card.hp,baseAbilityPower:null,baseCost:COLLECTION_COST_DEFINITIONS[card.id]||{total:card.cost??null,groups:[]},
-    baseProduction:production,minimumResourceThreshold:COLLECTION_COST_DEFINITIONS[card.id]?.minimumThreshold||null,formattingAnnotations:[],theme:{factionClass:`${getFc(card)}-card`,modalClass:`m-${getFc(card)}`,factionColor:collectionFactionColor(card),borderColor:collectionFactionColor(card)},
+    baseAttack:card.atk,baseHealth:card.hp,baseAbilityPower:null,baseCost:collectionCostDefinition(card.id)||{total:card.cost??null,groups:[]},
+    baseProduction:production,minimumResourceThreshold:collectionCostDefinition(card.id)?.minimumThreshold||null,formattingAnnotations:[],theme:{factionClass:`${getFc(card)}-card`,modalClass:`m-${getFc(card)}`,factionColor:collectionFactionColor(card),borderColor:collectionFactionColor(card)},
     sourceFound:true,sourceOrigin:{...CANONICAL_CARD_SOURCE_ORIGIN,sourceRow:card.sourceRow||null},sourceOriginNote:'collection-embedded'
   };
 }
@@ -2635,8 +2675,8 @@ function adaptCollectionCardRecordToCanonicalInput(cardOrId){
     lore:isSupply?clean(card.desc||''):(isLoreOnly(card)?clean(card.desc||''):''),
     supplyAbility,
     keywords:keywordCandidates,relatedCardIds:related,baseAttack:card.atk,baseHealth:card.pdv??card.hp,baseAbilityPower:null,
-    baseCost:COLLECTION_COST_DEFINITIONS[card.id]||{total:card.cost??null,groups:[]},
-    baseProduction:production,minimumResourceThreshold:COLLECTION_COST_DEFINITIONS[card.id]?.minimumThreshold||null,
+    baseCost:collectionCostDefinition(card.id)||{total:card.cost??null,groups:[]},
+    baseProduction:production,minimumResourceThreshold:collectionCostDefinition(card.id)?.minimumThreshold||null,
     formattingAnnotations:[],theme:{factionClass:`${getFc(card)}-card`,modalClass:`m-${getFc(card)}`,factionColor:collectionFactionColor(card),borderColor:collectionFactionColor(card)},sourceFound:true,
     sourceOrigin:{sourceType:'collection-embedded',sourceFile:'code/collection.html',sourceSheet:null,sourceRow:card.sourceRow||null,fallbackUsed:true,onlineSourceVerified:false,richTextAvailable:false},
     sourceLoreField:isSupply?'desc':'desc',

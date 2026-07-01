@@ -91,3 +91,4 @@
 - 2026-06-28 : correction du Lot 9.3.8f — fiches Collection, lore et capacités des Approvisionnements, panneaux des Serviteurs et cartes liées.
 - 2026-06-28 : finitions du Lot 9.3.8g — formatage des lores, suppression des libellés de type redondants et correction des fausses conditions d’invocation.
 - 2026-06-28 : nettoyage des artefacts d’encodage Excel et harmonisation du formatage des variables numériques après le premier import contrôlé.
+- 2026-07-01 : synchronisation des données Collection et partie avec les cartes canoniques des decks Hokhan/Uram ; ajout des cartes absentes détectées par HUVU-RECON-2 ; aucune modification des compositions de decks ni des capacités fonctionnelles.
