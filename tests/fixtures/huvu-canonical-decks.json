@@ -1,0 +1,1544 @@
+{
+  "sourceFile": "data/Decks de test - export 2026-06-24.xlsx",
+  "sourceSha256": "de325182ba548254eb1450b3e20987636300377234625a5c63eb5961b5f8be5a",
+  "sheet": "Hokhan Ashir Vs Uram",
+  "runtimeSemantics": {
+    "directInventory": "main + drawPile equals the canonical 60-card multiset after setupInitialHands",
+    "avatarDisplay": "renderAvatar uses character portrait/capability separately; the AVS card occurrence remains in the direct deck multiset",
+    "oui": "one occurrence per row marked OUI is removed from drawPile and placed in hand",
+    "maybe": "MAYBE remains in startMaybe; current runtime may draw the first MAYBE for player2 on first turn, so no MAYBE card is forced into initial hand"
+  },
+  "participants": {
+    "hokhan": {
+      "characterId": "hokhan",
+      "label": "Hokhan Ashir",
+      "avatar": "AVS000008",
+      "entries": [
+        {
+          "id": "AVS000008",
+          "name": "Mage du Cercle - Hokhan Ashir",
+          "type": "Serviteur (pseudo avatar)",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 3,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "H000030",
+          "name": "Nécrâne, Mage des ténèbres",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 4,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000001",
+          "name": "Guerrier cendreux",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 5,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000002",
+          "name": "Spectre hurlant",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "MAYBE",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 6,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000003",
+          "name": "Gueule du trépas",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 7,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000004",
+          "name": "Amalgame terrifiant",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 8,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000005",
+          "name": "Amalgame rageur",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 9,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000006",
+          "name": "Amalgame erratique",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 10,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000007",
+          "name": "Serviteur osseux",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 11,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000008",
+          "name": "Araignée géante réanimée",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 12,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000009",
+          "name": "Faucheur d'âmes",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 13,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000010",
+          "name": "Zombie nouveau-né",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 14,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000011",
+          "name": "Jeteur de sorts réanimé",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 15,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000012",
+          "name": "Géant jamais-sans-tête",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 16,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000013",
+          "name": "Mort-à-vif",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 17,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000014",
+          "name": "Momie dérangée",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 18,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000015",
+          "name": "Banshee hurlante",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 19,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000016",
+          "name": "Serviteur de la Lame",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 20,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000017",
+          "name": "Cauchemar de la Lame",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 21,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000018",
+          "name": "Mage de la Lame",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 22,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000019",
+          "name": "Forgeron de la Lame",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 23,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000020",
+          "name": "Gobelin mort-vivant",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 24,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000021",
+          "name": "Scorpion de la Lame",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 25,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000022",
+          "name": "Commandant squelette",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 26,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000023",
+          "name": "Terreur ancienne réanimée",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 27,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000024",
+          "name": "Morghast L'Os-tentatoire",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 28,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000026",
+          "name": "Adepte de Bélial",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 29,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000027",
+          "name": "Sang-lié",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 30,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000028",
+          "name": "Âme explosive",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 31,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000029",
+          "name": "Gardien du reliquaire",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 32,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "MV000030",
+          "name": "Mur non-mort",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 33,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "PRST000014",
+          "name": "Faveur de Bélial",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 34,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "R000010",
+          "name": "Autel d'aria",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "MAYBE",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 35,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "R000011",
+          "name": "Cascades d'aria",
+          "type": "Approvisionnement",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 36,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "R000021",
+          "name": "Crypte familiale",
+          "type": "Approvisionnement",
+          "copies": 3,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 37,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "R000027",
+          "name": "Nécropole",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 38,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000006",
+          "name": "Murmures divins",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 39,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000017",
+          "name": "Quête magique",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 40,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000019",
+          "name": "Pierres de communication",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 41,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000022",
+          "name": "Galerie des horreurs",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 42,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000041",
+          "name": "Puissance du sacrifice",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 43,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000042",
+          "name": "Éclipse solaire",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 44,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000044",
+          "name": "Recyclage",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 45,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000051",
+          "name": "Rituel occulte",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 46,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        },
+        {
+          "id": "S000052",
+          "name": "Le retour des revenants",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 47,
+          "columns": {
+            "id": 1,
+            "name": 2,
+            "type": 3,
+            "copies": 4,
+            "startingHandMarker": 5
+          }
+        }
+      ],
+      "expandedDeck": [
+        "AVS000008",
+        "H000030",
+        "MV000001",
+        "MV000001",
+        "MV000001",
+        "MV000002",
+        "MV000002",
+        "MV000003",
+        "MV000004",
+        "MV000005",
+        "MV000005",
+        "MV000006",
+        "MV000006",
+        "MV000007",
+        "MV000008",
+        "MV000009",
+        "MV000009",
+        "MV000010",
+        "MV000010",
+        "MV000011",
+        "MV000012",
+        "MV000013",
+        "MV000014",
+        "MV000014",
+        "MV000015",
+        "MV000016",
+        "MV000016",
+        "MV000017",
+        "MV000018",
+        "MV000019",
+        "MV000020",
+        "MV000020",
+        "MV000020",
+        "MV000021",
+        "MV000022",
+        "MV000023",
+        "MV000024",
+        "MV000026",
+        "MV000026",
+        "MV000027",
+        "MV000028",
+        "MV000029",
+        "MV000030",
+        "PRST000014",
+        "R000010",
+        "R000011",
+        "R000011",
+        "R000021",
+        "R000021",
+        "R000021",
+        "R000027",
+        "S000006",
+        "S000017",
+        "S000019",
+        "S000022",
+        "S000041",
+        "S000042",
+        "S000044",
+        "S000051",
+        "S000052"
+      ],
+      "startOui": [
+        "MV000001",
+        "MV000026",
+        "MV000027",
+        "R000021",
+        "R000027"
+      ],
+      "startMaybe": [
+        "MV000002",
+        "R000010"
+      ],
+      "totalCopies": 60,
+      "uniqueIds": 45
+    },
+    "uram": {
+      "characterId": "uram",
+      "label": "Uram le Rouge",
+      "avatar": "AVS000007",
+      "entries": [
+        {
+          "id": "AVS000007",
+          "name": "Mage du Cercle - Uram le Rouge",
+          "type": "Serviteur (pseudo avatar)",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 3,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "B000001",
+          "name": "Pisteur Rhaekor",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 4,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "B000002",
+          "name": "Rhaekor enragé",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 5,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "DIV000002",
+          "name": "Démon mineur",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "MAYBE",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 6,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "DIV000006",
+          "name": "Élémentaire du feu",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 7,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "DIV000009",
+          "name": "Golem magmatique",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 8,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "DIV000011",
+          "name": "Démon majeur",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 9,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "GOB000001",
+          "name": "Mageobelin lance-cailloux",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 10,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "GOB000002",
+          "name": "Surineur",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 11,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000001",
+          "name": "Larron",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 12,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000004",
+          "name": "Élémentaliste",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 13,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000005",
+          "name": "Fantassin rouge",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 14,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000006",
+          "name": "Prêtre de guerre",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 15,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000007",
+          "name": "Mage de guerre",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 16,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000008",
+          "name": "Patrouilleur du village",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 17,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000010",
+          "name": "Éclaireur",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 18,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000018",
+          "name": "Recrue",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 19,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "H000019",
+          "name": "Hallebardier",
+          "type": "Serviteur",
+          "copies": 3,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 20,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "N000004",
+          "name": "Naingociant",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 21,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "ORC000003",
+          "name": "Amasseur",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 22,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "ORC000005",
+          "name": "Pillard",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 23,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "ORC000006",
+          "name": "Orc des cavernes",
+          "type": "Serviteur",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 24,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "ORC000007",
+          "name": "Rejeton du chaos",
+          "type": "Serviteur",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 25,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000001",
+          "name": "Mine de fer",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 26,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000002",
+          "name": "Marché citadin",
+          "type": "Approvisionnement",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 27,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000024",
+          "name": "Campement de pillards",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 28,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000006",
+          "name": "Fontaine d'aria",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 29,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000007",
+          "name": "Ferme céréalière",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 30,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000009",
+          "name": "Sombre fonderie",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 31,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000010",
+          "name": "Autel d'aria",
+          "type": "Approvisionnement",
+          "copies": 3,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 32,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000011",
+          "name": "Cascades d'aria",
+          "type": "Approvisionnement",
+          "copies": 2,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 33,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000013",
+          "name": "Porcherie",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "OUI",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 34,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000016",
+          "name": "Scierie",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 35,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000020",
+          "name": "Collecteur des impôts débordé",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 36,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "S000005",
+          "name": "Assassinat",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 37,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "R000025",
+          "name": "Bazar ambulant",
+          "type": "Approvisionnement",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 38,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        },
+        {
+          "id": "S000019",
+          "name": "Pierres de communication",
+          "type": "Sort",
+          "copies": 1,
+          "startingHandMarker": "NON",
+          "sheet": "Hokhan Ashir Vs Uram",
+          "row": 39,
+          "columns": {
+            "id": 7,
+            "name": 8,
+            "type": 9,
+            "copies": 10,
+            "startingHandMarker": 11
+          }
+        }
+      ],
+      "expandedDeck": [
+        "AVS000007",
+        "B000001",
+        "B000001",
+        "B000002",
+        "B000002",
+        "DIV000002",
+        "DIV000002",
+        "DIV000002",
+        "DIV000006",
+        "DIV000009",
+        "DIV000011",
+        "DIV000011",
+        "GOB000001",
+        "GOB000001",
+        "GOB000001",
+        "GOB000002",
+        "GOB000002",
+        "GOB000002",
+        "H000001",
+        "H000001",
+        "H000004",
+        "H000005",
+        "H000005",
+        "H000006",
+        "H000007",
+        "H000008",
+        "H000008",
+        "H000010",
+        "H000010",
+        "H000018",
+        "H000018",
+        "H000018",
+        "H000019",
+        "H000019",
+        "H000019",
+        "N000004",
+        "ORC000003",
+        "ORC000005",
+        "ORC000005",
+        "ORC000006",
+        "ORC000006",
+        "ORC000007",
+        "R000001",
+        "R000002",
+        "R000002",
+        "R000024",
+        "R000006",
+        "R000007",
+        "R000009",
+        "R000010",
+        "R000010",
+        "R000010",
+        "R000011",
+        "R000011",
+        "R000013",
+        "R000016",
+        "R000020",
+        "S000005",
+        "R000025",
+        "S000019"
+      ],
+      "startOui": [
+        "GOB000002",
+        "H000001",
+        "ORC000003",
+        "R000001",
+        "R000013"
+      ],
+      "startMaybe": [
+        "DIV000002"
+      ],
+      "totalCopies": 60,
+      "uniqueIds": 37
+    }
+  },
+  "expectedTotals": {
+    "hokhan": {
+      "totalCopies": 60,
+      "uniqueIds": 45
+    },
+    "uram": {
+      "totalCopies": 60,
+      "uniqueIds": 37
+    }
+  },
+  "removedObsoleteDirectCards": {
+    "hokhan": [
+      "EN000003",
+      "R000006",
+      "S000005"
+    ],
+    "uram": [
+      "R000003",
+      "S000007"
+    ]
+  },
+  "addedDirectCards": {
+    "hokhan": [
+      "H000030",
+      "MV000024",
+      "MV000026",
+      "MV000027",
+      "MV000028",
+      "MV000029",
+      "MV000030",
+      "PRST000014",
+      "R000027",
+      "S000041",
+      "S000042",
+      "S000044",
+      "S000051",
+      "S000052"
+    ],
+    "uram": [
+      "R000024",
+      "R000025"
+    ]
+  },
+  "correctedQuantityIds": [
+    "MV000001",
+    "MV000002",
+    "MV000004",
+    "MV000008",
+    "MV000009",
+    "MV000010",
+    "MV000015",
+    "R000010",
+    "S000006",
+    "S000022"
+  ],
+  "generatedCardsPolicy": "Cards linked, created, invoked, or generated by effects are excluded from direct deck multiset reconciliation unless explicitly present in the canonical deck export."
+}
