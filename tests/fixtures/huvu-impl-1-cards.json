@@ -1,0 +1,71 @@
+{
+  "sourceAudit": ".local/HUVU-FONC-2-20260701-235115",
+  "scenarios": [
+    "huvu-impl-1-play-conditions",
+    "huvu-impl-1-play-conditions-satisfied",
+    "huvu-impl-1-targeting",
+    "huvu-impl-1-targeting-no-valid"
+  ],
+  "cards": [
+    {
+      "id": "MV000027",
+      "name": "Sang-lié",
+      "primitive": "play-condition",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "R000027",
+      "name": "Nécropole",
+      "primitive": "starting-deck-faction-play-condition",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "MV000017",
+      "name": "Cauchemar de la Lame",
+      "primitive": "friendly-board-presence-play-condition",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "MV000018",
+      "name": "Mage de la Lame",
+      "primitive": "friendly-board-presence-play-condition",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "MV000019",
+      "name": "Forgeron de la Lame",
+      "primitive": "friendly-board-presence-play-condition",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "MV000021",
+      "name": "Scorpion de la Lame",
+      "primitive": "friendly-board-presence-play-condition",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "S000005",
+      "name": "Assassinat",
+      "primitive": "legal-enemy-servant-targeting",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "completeEffectTested": true
+    }
+  ],
+  "deferredCards": [
+    "S000022",
+    "S000041",
+    "S000006",
+    "PRST000014",
+    "R000025",
+    "S000042",
+    "S000044",
+    "S000051",
+    "S000052"
+  ]
+}

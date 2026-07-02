@@ -2167,6 +2167,20 @@ const DECK_HUVU_SYNC_GALLERY_A = ["MV000024","MV000026","MV000027","MV000028","M
 const START_OUI_HUVU_SYNC_GALLERY_A = [...DECK_HUVU_SYNC_GALLERY_A];
 const DECK_HUVU_SYNC_GALLERY_B = ["PRST000014","S000041","S000042","S000044","S000051","S000052"];
 const START_OUI_HUVU_SYNC_GALLERY_B = [...DECK_HUVU_SYNC_GALLERY_B];
+const HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS = ['MV000027','R000027','MV000017','MV000018','MV000019','MV000021'];
+const HUVU_IMPL_1_TARGETING_CARD_IDS = ['S000005'];
+const DECK_HUVU_IMPL_1_TESTS = [
+  ...HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS,
+  ...HUVU_IMPL_1_TARGETING_CARD_IDS,
+  'AVS000008','MV000019','MV000001','MV000002','MV000003','MV000004','MV000005','MV000006',
+  'MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014',
+  'MV000015','MV000016','MV000020','MV000022','MV000023','MV000024','MV000026','MV000028',
+  'MV000029','MV000030','R000010','R000021','R000027'
+];
+const START_OUI_HUVU_IMPL_1_PLAY_CONDITIONS = [...HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS];
+const START_OUI_HUVU_IMPL_1_TARGETING = [...HUVU_IMPL_1_TARGETING_CARD_IDS];
+const DECK_HUVU_IMPL_1_OPPONENT = ['H000001','H000005','H000029','R000001','R000002'];
+const START_OUI_HUVU_IMPL_1_OPPONENT = ['H000001','H000005','H000029'];
 
 const CHARACTER_DEFS = {
   raith: {
@@ -2318,6 +2332,36 @@ const CHARACTER_DEFS = {
     avatarCap: 'mvs',
     portrait: 'AVP000008.png',
     tip: 'MODE TEST — Galerie statique HUVU-SYNC-1 B.'
+  },
+  huvuImpl1Subject: {
+    characterId: 'huvuImpl1Subject',
+    name: 'TEST — HUVU Impl 1',
+    deck: DECK_HUVU_IMPL_1_TESTS,
+    startOui: START_OUI_HUVU_IMPL_1_PLAY_CONDITIONS,
+    startMaybe: [],
+    avatarCap: 'mvs',
+    portrait: 'AVP000008.png',
+    tip: 'MODE TEST — HUVU IMPL 1 : conditions de jeu, coûts et ciblage légal.'
+  },
+  huvuImpl1TargetingSubject: {
+    characterId: 'huvuImpl1TargetingSubject',
+    name: 'TEST — HUVU Impl 1 ciblage',
+    deck: DECK_HUVU_IMPL_1_TESTS,
+    startOui: START_OUI_HUVU_IMPL_1_TARGETING,
+    startMaybe: [],
+    avatarCap: 'hum',
+    portrait: 'AVP000007.png',
+    tip: 'MODE TEST — HUVU IMPL 1 : ciblage légal.'
+  },
+  huvuImpl1Opponent: {
+    characterId: 'huvuImpl1Opponent',
+    name: 'TEST — Cibles HUVU Impl 1',
+    deck: DECK_HUVU_IMPL_1_OPPONENT,
+    startOui: START_OUI_HUVU_IMPL_1_OPPONENT,
+    startMaybe: [],
+    avatarCap: 'hum',
+    portrait: 'AVP000007.png',
+    tip: 'MODE TEST — adversaire pour ciblage HUVU IMPL 1.'
   }
 };
 const SCENARIOS = {
@@ -2402,6 +2446,22 @@ SCENARIOS['huvu-alternative-cost-insufficient'] = {
 };
 SCENARIOS['huvu-sync-gallery-a'] = {label: 'TEST — HUVU Sync galerie A', participants: ['huvuSyncGalleryA', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, testSetup: {player1: {hand: START_OUI_HUVU_SYNC_GALLERY_A, servants: []}, player2: {hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}};
 SCENARIOS['huvu-sync-gallery-b'] = {label: 'TEST — HUVU Sync galerie B', participants: ['huvuSyncGalleryB', 'huvuRuleOpponent'], fixedFirstParticipant: 0, hidden: true, testSetup: {player1: {hand: START_OUI_HUVU_SYNC_GALLERY_B, servants: []}, player2: {hand: START_OUI_HUVU_RULE_OPPONENT, servants: []}}};
+SCENARIOS['huvu-impl-1-play-conditions'] = {
+  label: 'TEST — HUVU IMPL 1 conditions de jeu', participants: ['huvuImpl1Subject', 'huvuImpl1Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl1Panel: true, testCardId: 'MV000027',
+  testSetup: {player1: {resources: {classical:{aria:10}, souls:30}, hand: START_OUI_HUVU_IMPL_1_PLAY_CONDITIONS, servants: [], avatarHp:3}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_IMPL_1_OPPONENT, servants: []}}
+};
+SCENARIOS['huvu-impl-1-play-conditions-satisfied'] = {
+  label: 'TEST — HUVU IMPL 1 conditions remplies', participants: ['huvuImpl1Subject', 'huvuImpl1Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl1Panel: true, testCardId: 'MV000017',
+  testSetup: {player1: {resources: {classical:{aria:10}, souls:30}, hand: START_OUI_HUVU_IMPL_1_PLAY_CONDITIONS, servants: ['AVS000008'], avatarHp:4}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_IMPL_1_OPPONENT, servants: []}}
+};
+SCENARIOS['huvu-impl-1-targeting'] = {
+  label: 'TEST — HUVU IMPL 1 ciblage légal', participants: ['huvuImpl1TargetingSubject', 'huvuImpl1Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl1Panel: true, testCardId: 'S000005',
+  testSetup: {player1: {resources: {classical:{aria:5}, souls:0}, hand: START_OUI_HUVU_IMPL_1_TARGETING, servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_IMPL_1_OPPONENT, servants: ['H000001','H000029']}}
+};
+SCENARIOS['huvu-impl-1-targeting-no-valid'] = {
+  label: 'TEST — HUVU IMPL 1 aucune cible', participants: ['huvuImpl1TargetingSubject', 'huvuImpl1Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl1Panel: true, testCardId: 'S000005',
+  testSetup: {player1: {resources: {classical:{aria:5}, souls:0}, hand: START_OUI_HUVU_IMPL_1_TARGETING, servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_IMPL_1_OPPONENT, servants: ['H000029']}}
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -4146,6 +4206,21 @@ function renderAvatar(zoneSelector, data) {
   if (atk) atk.textContent = '5';
   if (hp) hp.textContent = '50';
   if (hpBar) { hpBar.style.width = '100%'; hpBar.classList.remove('hp-mid','hp-low'); hpBar.classList.add('hp-hi'); }
+}
+
+function setAvatarHitPoints(player, value) {
+  const p = playerState(player);
+  const zone = p ? qs(playerZoneSelector(p, 'avatar')) : null;
+  const hp = zone?.querySelector('.av-stat:nth-child(2) span');
+  const hpBar = zone?.querySelector('.av-hp-bar');
+  const amount = Math.max(0, Number(value) || 0);
+  if (hp) hp.textContent = String(amount);
+  if (hpBar) {
+    const pct = Math.max(0, Math.min(100, (amount / 50) * 100));
+    hpBar.style.width = `${pct}%`;
+    hpBar.classList.remove('hp-hi','hp-mid','hp-low');
+    hpBar.classList.add(pct <= 25 ? 'hp-low' : (pct <= 55 ? 'hp-mid' : 'hp-hi'));
+  }
 }
 
 function setupScenarioSelect(id) {
@@ -8111,20 +8186,33 @@ function describeAffordabilityDiagnostic(result) {
   return labels.join('; ');
 }
 
+let lastPlayLegalityDiagnostic = null;
 function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
 function summarizeCostDefinition(cardId) { const definition = getCanonicalCostDefinition(cardId); if (!definition) return null; return {total: definition.total, allowedForTotal: [...(definition.allowedForTotal || [])], requirements: cloneCostDiagnostic(definition.requirements || []), conditions: cloneCostDiagnostic(definition.conditions || [])}; }
 function currentResourceSnapshot(player=currentPlayer) { const p = playerState(player); const classical = {...createEmptyClassicalResources(), ...(p?.resourceState?.classical || {})}; return {player: p?.key || '', playerName: p?.name || '', classical, souls: Number(p?.resourceState?.souls || 0), revision: Number(p?.resourceState?.revision || 0)}; }
 function buildCostDiagnosticRecord(cardId, result, outcome) { const card = CARDS_DATA[cardId] || {}; const playable = !!result?.playable; return {scenarioId: selectedScenarioId(), cardId, cardName: card.name || '', outcome, code: playable ? 'affordable' : 'insufficient-resources', publicMessage: playable ? '' : INSUFFICIENT_RESOURCES_PUBLIC_MESSAGE, technicalMessage: playable ? 'coût payable' : describeAffordabilityDiagnostic(result), resources: currentResourceSnapshot(), costDefinition: summarizeCostDefinition(cardId), paymentPlan: cloneCostDiagnostic(result?.paymentPlan || null), requirementResults: cloneCostDiagnostic(result?.requirementResults || []), failedRequirements: cloneCostDiagnostic(result?.failedRequirements || [])}; }
 function recordTestCostDiagnostic(cardId, result, outcome) { if (!activeScenario?.showTestResourcePanel) return null; lastCostDiagnostic = buildCostDiagnosticRecord(cardId, result, outcome); updateTestResourcePanel(); return lastCostDiagnostic; }
 function formatCostDefinitionForPanel(definition) { if (!definition) return 'coût structuré indisponible'; const allowed = (definition.allowedForTotal || []).map(resource => RESOURCE_LABELS[resource] || resource).join(', '); const requirements = (definition.requirements || []).map(req => { if (req.resource) return `minimum ${RESOURCE_LABELS[req.resource] || req.resource}: ${req.amount}`; if (req.resources) return `pool ${req.resources.map(r => RESOURCE_LABELS[r] || r).join('/')} : ${req.requiredAmount || req.amount}`; return req.kind || 'exigence'; }); return `total ${definition.total}; ressources: ${allowed || 'aucune'}${requirements.length ? '; ' + requirements.join('; ') : ''}`; }
-function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCostDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic)}; }
+function clonePlayDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
+function buildPlayLegalityDiagnostic(cardId, validation, outcome) {
+  const card = CARDS_DATA[cardId] || {};
+  return {scenarioId:selectedScenarioId(), cardId, cardName:card.name || '', outcome, code:validation?.valid ? 'play-legal' : (validation?.targetResult?.code || validation?.conditionResult?.code || validation?.reason || 'play-illegal'), publicMessage:validation?.valid ? '' : cardActionError(validation?.reason, validation), conditionResult:clonePlayDiagnostic(validation?.conditionResult || null), targetResult:clonePlayDiagnostic(validation?.targetResult || null)};
+}
+function recordTestPlayLegalityDiagnostic(cardId, validation, outcome) {
+  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl1Panel) return null;
+  lastPlayLegalityDiagnostic = buildPlayLegalityDiagnostic(cardId, validation, outcome);
+  updateTestResourcePanel();
+  return lastPlayLegalityDiagnostic;
+}
+function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic)}; }
 function updateTestResourcePanel() {
   const existing = document.querySelector('[data-testid="test-resource-panel"]');
   if (!activeScenario?.showTestResourcePanel) { if (existing) existing.remove(); return; }
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  panel.innerHTML = `<h2>MODE TEST — RESSOURCES</h2><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre>`;
+  const title = activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES';
+  panel.innerHTML = `<h2>${title}</h2><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre>`;
   if (!existing) document.body.appendChild(panel);
 }
 
@@ -8259,6 +8347,30 @@ const INVOCATION_CONDITION_RULES = Object.freeze({
   // Vraies conditions d'invocation uniquement.
   // Les coûts restent dans le validateur de ressources et les conditions
   // de déclenchement de capacité restent dans le texte/registre de capacité.
+  MV000027: {
+    text: 'Votre avatar doit avoir 4 points de vie ou plus.',
+    condition: {type:'own-avatar-hp-at-least', amount:4}
+  },
+  R000027: {
+    text: 'Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».',
+    condition: {type:'starting-deck-faction-minimum', cardType:'Serviteur', faction:'mvs', amount:15}
+  },
+  MV000017: {
+    text: 'Le « Forgeron de la Lame » ou « Hokhan Ashir - Mage du Cercle » doivent être sur votre terrain.',
+    condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
+  },
+  MV000018: {
+    text: 'Le « Forgeron de la Lame » ou « Hokhan Ashir - Mage du Cercle » doivent être sur votre terrain.',
+    condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
+  },
+  MV000019: {
+    text: '« Hokhan Ashir - Mage du Cercle » doit être sur votre terrain.',
+    condition: {type:'friendly-card-present', cardId:'AVS000008'}
+  },
+  MV000021: {
+    text: 'Le « Forgeron de la Lame » ou « Hokhan Ashir - Mage du Cercle » doivent être sur votre terrain.',
+    condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
+  }
 });
 
 function invocationConditionRule(cardOrId) {
@@ -8274,7 +8386,23 @@ function friendlyServantCards(player) {
 
 function invocationConditionMessage(result) {
   if (result?.message) return result.message;
-  return `La condition d'invocation de cette carte n'est pas remplie.`;
+  return `Vous ne remplissez pas les conditions pour jouer cette carte.`;
+}
+
+function avatarHitPoints(player) {
+  const p = playerState(player);
+  const hp = p ? qs(playerZoneSelector(p, 'avatar'))?.querySelector('.av-stat:nth-child(2) span') : null;
+  const value = Number(hp?.textContent || 0);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function countStartingDeckServantsByFaction(player, faction) {
+  const p = playerState(player);
+  const factionKey = String(faction || '').toLowerCase();
+  return (p?.startingDeckCardIds || p?.deck || []).reduce((count, cardId) => {
+    const card = CARDS_DATA[cardId];
+    return count + (card?.type === 'Serviteur' && String(card.fac || '').toLowerCase() === factionKey ? 1 : 0);
+  }, 0);
 }
 
 function evaluateInvocationPredicate(predicate, context) {
@@ -8309,10 +8437,43 @@ function evaluateInvocationPredicate(predicate, context) {
       unmet: allowed ? [] : [{...predicate, available:matching.length, required:amount}]
     };
   }
+  if (predicate.type === 'own-avatar-hp-at-least') {
+    const amount = Math.max(0, Number(predicate.amount) || 0);
+    const available = avatarHitPoints(p);
+    const allowed = available >= amount;
+    return {
+      allowed,
+      code: allowed ? 'condition-satisfied' : 'own-avatar-hp-too-low',
+      message: allowed ? '' : `Vous ne remplissez pas les conditions pour jouer cette carte.`,
+      unmet: allowed ? [] : [{...predicate, available, required:amount}]
+    };
+  }
+  if (predicate.type === 'starting-deck-faction-minimum') {
+    const amount = Math.max(0, Number(predicate.amount) || 0);
+    const available = countStartingDeckServantsByFaction(p, predicate.faction);
+    const allowed = available >= amount;
+    return {
+      allowed,
+      code: allowed ? 'condition-satisfied' : 'starting-deck-faction-minimum-not-met',
+      message: allowed ? '' : `Vous ne remplissez pas les conditions pour jouer cette carte.`,
+      unmet: allowed ? [] : [{...predicate, available, required:amount}]
+    };
+  }
+  if (predicate.type === 'friendly-card-present') {
+    const cardIds = new Set([predicate.cardId, ...(predicate.cardIds || [])].filter(Boolean));
+    const matching = friendlyServantCards(p).filter(fc => cardIds.has(fc.dataset.id));
+    const allowed = matching.length > 0;
+    return {
+      allowed,
+      code: allowed ? 'condition-satisfied' : 'missing-required-board-presence',
+      message: allowed ? '' : `Vous ne remplissez pas les conditions pour jouer cette carte.`,
+      unmet: allowed ? [] : [{...predicate, available:matching.length, required:1}]
+    };
+  }
   return {
     allowed:false,
     code:'unknown-predicate',
-    message:`Cette condition d'invocation n'est pas reconnue.`,
+    message:`Vous ne remplissez pas les conditions pour jouer cette carte.`,
     unmet:[predicate]
   };
 }
@@ -8372,7 +8533,94 @@ function auditInvocationCondition(cardId, player=currentPlayer) {
   return evaluateInvocationCondition(cardId, {player:playerState(player), cardId});
 }
 
-function validateCardActionStart({player, cardId, slot}) {
+const CARD_TARGET_REQUIREMENTS = Object.freeze({
+  S000005: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'opponent',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    atkLessThan: 8,
+    effectKind: 'destroy'
+  }
+});
+
+function cardTargetRequirement(cardId) {
+  return CARD_TARGET_REQUIREMENTS[cardId] || null;
+}
+
+function boardTargetsForRequirement(player, requirement) {
+  const p = playerState(player);
+  const side = requirement?.side === 'self' ? p : opponentOf(p);
+  const zoneName = requirement?.zone || 'servants';
+  const zone = side ? qs(playerZoneSelector(side, zoneName)) : null;
+  return Array.from(zone?.querySelectorAll('.fc:not([data-dead])') || []);
+}
+
+function resolveBoardTargetReferences(refs) {
+  const values = new Set((refs || []).filter(Boolean).map(String));
+  if (!values.size) return [];
+  return Array.from(document.querySelectorAll('.fc:not([data-dead])')).filter(fc =>
+    values.has(fc.dataset.instance || '') ||
+    values.has(fc.dataset.supplyInstance || '') ||
+    values.has(fc.dataset.id || '')
+  );
+}
+
+function legalTargetsForRequirement(cardId, player, requirement=cardTargetRequirement(cardId)) {
+  if (!requirement) return [];
+  const p = playerState(player);
+  let candidates = boardTargetsForRequirement(p, requirement);
+  if (requirement.cardType) {
+    candidates = candidates.filter(fc => (CARDS_DATA[fc.dataset.id]?.type || fc.dataset.type || '') === requirement.cardType);
+  }
+  if (Number.isFinite(Number(requirement.atkLessThan))) {
+    const limit = Number(requirement.atkLessThan);
+    candidates = candidates.filter(fc => (parseInt(fc.dataset.atk) || 0) < limit);
+  }
+  if (requirement.selfAllowed === false) {
+    candidates = candidates.filter(fc => fc.dataset.player !== p?.key);
+  }
+  if (requirement.effectKind) {
+    candidates = getAffectableTargets({sourcePlayer:p, targets:candidates, sourceCardId:cardId, effectKind:requirement.effectKind, isSpell:true});
+  }
+  return candidates;
+}
+
+function evaluateTargetRequirement(cardId, {player=currentPlayer, selectedTargetIds=null}={}) {
+  const requirement = cardTargetRequirement(cardId);
+  if (!requirement) return {cardId, allowed:true, code:'no-target-required', legalTargets:[], selectedTargets:[]};
+  const p = playerState(player);
+  const legalTargets = legalTargetsForRequirement(cardId, p, requirement);
+  const min = Math.max(0, Number(requirement.min ?? (requirement.required ? 1 : 0)) || 0);
+  const max = Math.max(min, Number(requirement.max ?? min) || min);
+  if (!legalTargets.length && min > 0) {
+    return {cardId, allowed:false, code:'no-valid-target', message:'Aucune cible valide n’est disponible.', legalTargets:[], selectedTargets:[], requirement};
+  }
+  const selectedTargets = selectedTargetIds ? resolveBoardTargetReferences(selectedTargetIds) : [];
+  if (selectedTargetIds && (selectedTargets.length < min || selectedTargets.length > max)) {
+    return {cardId, allowed:false, code:'invalid-target-count', message:'Cette cible n’est pas valide.', legalTargets:legalTargets.map(targetSummary), selectedTargets:selectedTargets.map(targetSummary), requirement};
+  }
+  if (selectedTargets.length) {
+    const legal = new Set(legalTargets);
+    const illegal = selectedTargets.filter(target => !legal.has(target));
+    if (illegal.length) {
+      return {cardId, allowed:false, code:'invalid-target', message:'Cette cible n’est pas valide.', legalTargets:legalTargets.map(targetSummary), selectedTargets:selectedTargets.map(targetSummary), invalidTargets:illegal.map(targetSummary), requirement};
+    }
+  }
+  return {cardId, allowed:true, code:'target-valid', message:'', legalTargets:legalTargets.map(targetSummary), selectedTargets:selectedTargets.map(targetSummary), requirement};
+}
+
+function targetSummary(fc) {
+  return fc ? {id:fc.dataset.id || '', player:fc.dataset.player || '', instance:fc.dataset.instance || fc.dataset.supplyInstance || '', atk:Number(fc.dataset.atk || 0), pdv:Number(fc.dataset.pdv || 0)} : null;
+}
+
+function auditTargetRequirement(cardId, player=currentPlayer, selectedTargetIds=null) {
+  return evaluateTargetRequirement(cardId, {player:playerState(player), selectedTargetIds});
+}
+
+function validateCardActionStart({player, cardId, slot, selectedTargetIds=null}) {
   const p = playerState(player);
   const card = CARDS_DATA[cardId];
   if (!p || !card) return {valid:false, reason:'missing-data'};
@@ -8403,12 +8651,9 @@ function validateCardActionStart({player, cardId, slot}) {
   if (!invocationCondition.allowed) {
     return {valid:false, reason:'invocation-condition', conditionResult:invocationCondition};
   }
-  if (cardId === 'S000005') {
-    const adverseZone = qs(playerZoneSelector(opponentOf(p), 'servants'));
-    const eligible = Array.from(adverseZone?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || [])
-      .filter(fc => (parseInt(fc.dataset.atk) || 0) < 8);
-    const targets = getAffectableTargets({sourcePlayer:p, targets:eligible, sourceCardId:cardId, effectKind:'destroy', isSpell:true});
-    if (!targets.length) return {valid:false, reason:'no-valid-target'};
+  const targetResult = evaluateTargetRequirement(cardId, {player:p, selectedTargetIds});
+  if (!targetResult.allowed) {
+    return {valid:false, reason:targetResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', targetResult};
   }
   if (cardId === 'S000002' && !playerHand(opponentOf(p)).length) return {valid:false, reason:'no-valid-target'};
   if (cardId === 'S000023' && p.hand.includes('EDG000006')) {
@@ -8430,13 +8675,14 @@ function cardActionError(reason, detail={}) {
   if (reason === 'wrong-slot-type') return `Cet emplacement ne correspond pas au type de cette carte.`;
   if (reason === 'no-servant-slot') return `Aucun emplacement de serviteur libre.`;
   if (reason === 'no-valid-target') return `Aucune cible valide pour cette carte.`;
+  if (reason === 'invalid-target') return `Cette cible n'est pas valide.`;
   if (reason === 'card-not-in-hand') return `Cette carte n'est plus dans votre main.`;
   if (reason === 'starting-deck-troll-condition') return `Votre deck de depart ne contient pas assez de serviteurs Trolls distincts.`;
   if (reason === 'no-supply-in-graveyard') return `Votre cimetière ne contient aucun Approvisionnement.`;
   if (reason === 'pending-decision-choice') return `Une décision est en attente.`;
   if (reason === 'pending-bazar-choice') return `Un choix du Bazar ambulant est en attente.`;
   if (reason === 'pending-assassination-choice') return `Une decision d'Assassinat est en attente.`;
-  if (reason === 'invocation-condition') return detail?.conditionResult?.message || `La condition d'invocation de cette carte n'est pas remplie.`;
+  if (reason === 'invocation-condition') return detail?.conditionResult?.message || `Vous ne remplissez pas les conditions pour jouer cette carte.`;
   return `Cette action ne peut pas etre resolue.`;
 }
 
@@ -8448,16 +8694,18 @@ function recordCommittedSpell(cardId, player) {
 }
 
 async function commitCardPlay(transaction, {resolveSpell=null}={}) {
-  const {player:p, cardId, slot, card:d, affordability} = transaction;
+  const {player:p, cardId, slot, card:d, affordability, selectedTargetIds=null} = transaction;
   transaction.traceId ||= beginCardPlayTrace(cardId, p);
   const traceId = transaction.traceId;
   traceCardPlay(traceId, 'beforeCommit', p, cardId);
-  const actionValidation = validateCardActionStart({player:p, cardId, slot});
+  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
+    recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-commit');
     showErr(cardActionError(actionValidation.reason, actionValidation));
     return {success:false, reason:actionValidation.reason};
   }
+  recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'allowed-before-payment');
   const freshAffordability = getCardAffordabilityResult(cardId, p) || affordability;
   if (freshAffordability && !freshAffordability.playable) {
     releasePaymentLock(p, cardId);
@@ -8491,7 +8739,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     if (resolveSpell) {
       recordCommittedSpell(cardId, p);
       resolveSpell();
-    } else triggerSort(cardId, p);
+    } else await triggerSort(cardId, p, {selectedTargetIds});
     if (modifiersConsumed) renderAllHands();
     traceCardPlay(traceId, 'commitResolved', p, cardId);
     return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed};
@@ -8572,7 +8820,7 @@ function beginPrecommitSpellChoice(transaction) {
   }
 }
 
-async function playCard(cardId, slot) {
+async function playCard(cardId, slot, options={}) {
   if (window._blockedCard === cardId && window._blockedCardPlayer === currentPlayer && window._blockedCardArmed) {
     showErr('Cette carte est <b>bloquée</b> par Des yeux dans le noir pour ce tour\u00a0!');
     return;
@@ -8581,12 +8829,15 @@ async function playCard(cardId, slot) {
   if (!d) return;
   const p = playerState(currentPlayer);
   if (!acquirePaymentLock(p, cardId)) return;
-  const actionValidation = validateCardActionStart({player:p, cardId, slot});
+  const selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
+  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
+    recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-payment');
     showErr(cardActionError(actionValidation.reason, actionValidation));
     return;
   }
+  recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'allowed-before-payment');
   const affordability = getCardAffordabilityResult(cardId, p);
   const hasResources = affordability ? affordability.playable : checkResources(cardId, p);
   if (!hasResources) {
@@ -8595,7 +8846,7 @@ async function playCard(cardId, slot) {
     showErr(describeAffordabilityFailure(affordability));
     return;
   }
-  const transaction = {player:p, cardId, slot, card:d, affordability};
+  const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds};
   if (cardId === 'R000025') {
     return chooseBazarResource(p, {allowCancel:true, title:'Bazar ambulant'}).then(selected => {
       if (!selected) {
@@ -9032,7 +9283,7 @@ function refreshAdverseHandBacks(player) {
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ── SORTS ──
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-function triggerSort(cardId, player) {
+async function triggerSort(cardId, player, context={}) {
   const d = CARDS_DATA[cardId];
   if (!d) return;
   addHistEntry(cardId, d.fac);
@@ -9110,31 +9361,34 @@ function triggerSort(cardId, player) {
       resolveMurmuresDivins(player);
       break;
     case 'S000005': // Assassinat
-    { const adverseServId2 = playerZoneSelector(opponentOf(player), 'servants');
-      const eligible = Array.from(qs(adverseServId2)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || [])
-        .filter(fc => parseInt(fc.dataset.atk)||0 < 8);
-      const targets = getAffectableTargets({ sourcePlayer: player, targets: eligible, sourceCardId: cardId, effectKind: 'destroy', isSpell: true });
-      if (targets.length) {
-        const target = targets[Math.floor(Math.random()*targets.length)];
-        const defender = opponentOf(player);
-        if (supplyDiscardEntries(defender).length >= 2) {
-          chooseAssassinationDecision(defender, target).then(decision => {
-            if (decision.action === 'sacrifice' && decision.instanceIds?.length === 2) {
-              const discard = discardSupplyInstancesForEffect(defender, decision.instanceIds, 'assassination-cancel');
-              if (discard.success) {
-                showNotif('Assassinat annule par 2 Approvisionnements.', 1400);
-                return;
-              }
-            }
-            sendToCemetery(target);
-            showNotif('Sort : Assassinat !', 1400);
-          });
-        } else {
-          sendToCemetery(target);
-          showNotif('Sort : Assassinat !', 1400);
+    { const targetAudit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || null});
+      if (!targetAudit.allowed) { showErr(cardActionError(targetAudit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:targetAudit})); break; }
+      let targets = [];
+      if (context.selectedTargetIds?.length) {
+        const legalInstances = new Set((targetAudit.legalTargets || []).map(target => target.instance));
+        targets = resolveBoardTargetReferences(context.selectedTargetIds).filter(fc => legalInstances.has(fc.dataset.instance || fc.dataset.supplyInstance || ''));
+      } else {
+        targets = await chooseBoardTargets({
+          title:'Assassinat',
+          prompt:'Choisissez un serviteur adverse avec moins de 8 ATK.',
+          targets:legalTargetsForRequirement(cardId, player)
+        });
+      }
+      const target = targets[0];
+      if (!target || !target.isConnected) { showErr("Cette cible n'est pas valide."); break; }
+      const defender = opponentOf(player);
+      if (supplyDiscardEntries(defender).length >= 2) {
+        const decision = await chooseAssassinationDecision(defender, target);
+        if (decision.action === 'sacrifice' && decision.instanceIds?.length === 2) {
+          const discard = discardSupplyInstancesForEffect(defender, decision.instanceIds, 'assassination-cancel');
+          if (discard.success) {
+            showNotif('Assassinat annule par 2 Approvisionnements.', 1400);
+            break;
+          }
         }
-      } else if (eligible.length) showInsensitiveFailureVfx(eligible);
-      else showErr('Aucun serviteur adverse avec moins de 8 d’attaque.');
+      }
+      await sendToCemetery(target);
+      showNotif('Sort : Assassinat !', 1400);
       break; }
     case 'S000015': // Après la catastrophe : remet des serviteurs dans le deck
       showNotif('Après la catastrophe : des serviteurs retournent dans votre deck !', 1800);
@@ -14645,6 +14899,8 @@ function setupInitialHands() {
 function applyScenarioTestSetup() {
   const setup = activeScenario?.testSetup;
   if (!setup) return;
+  lastCostDiagnostic = null;
+  lastPlayLegalityDiagnostic = null;
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
@@ -14670,6 +14926,9 @@ function applyScenarioTestSetup() {
         if (!slot || !CARDS_DATA[cardId]) return;
         slot.outerHTML = buildFC(cardId, p.key);
       });
+    }
+    if (config.avatarHp !== undefined) {
+      setAvatarHitPoints(p, config.avatarHp);
     }
     updateDeckCount(p);
   });
