@@ -95,3 +95,4 @@
 - 2026-07-01 : alignement des compositions Hokhan Ashir et Uram sur le classeur canonique Decks de test ; ajout des cartes absentes, retrait des cartes obsolètes et correction des exemplaires ; aucune implémentation fonctionnelle de capacité dans ce lot.
 - 2026-07-01 : correction du marqueur de départ de MV000002 dans le deck Hokhan/Uram ; Hokhan ne conserve que R000010 en MAYBE, sans changement de composition ni de main OUI.
 - 2026-07-02 : premier lot fonctionnel issu de HUVU-FONC-2 ; conditions de jeu, coûts avancés déjà stabilisés, ciblage légal d'Assassinat et premiers tests directs d'effets ; aucune modification de composition des decks.
+- 2026-07-02 : corrections visuelles HUVU-IMPL-1B ; fenêtre de cible d'Assassinat minimisable, panneau de test repliable, validation visible du cimetière, panneaux de condition des Lames et table du Forgeron complète avec le Scorpion de la Lame ; aucune modification de composition des decks.

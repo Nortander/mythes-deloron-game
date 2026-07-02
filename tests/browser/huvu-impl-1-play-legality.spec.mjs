@@ -13,6 +13,7 @@ const NO_TARGET_SCENARIO = "huvu-impl-1-targeting-no-valid";
 const CARD_CASES = [
   {id: "MV000027", name: "Sang-lié", primitive: "PV avatar minimum", positive: true, negative: true, completeEffect: false, expectedStatus: "PARTIEL"},
   {id: "R000027", name: "Nécropole", primitive: "deck initial faction minimum", positive: true, negative: false, completeEffect: false, expectedStatus: "PARTIEL"},
+  {id: "MV000016", name: "Serviteur de la Lame", primitive: "présence alliée requise", positive: true, negative: true, completeEffect: false, expectedStatus: "PARTIEL"},
   {id: "MV000017", name: "Cauchemar de la Lame", primitive: "présence alliée requise", positive: true, negative: true, completeEffect: false, expectedStatus: "PARTIEL"},
   {id: "MV000018", name: "Mage de la Lame", primitive: "présence alliée requise", positive: true, negative: true, completeEffect: false, expectedStatus: "PARTIEL"},
   {id: "MV000019", name: "Forgeron de la Lame", primitive: "présence alliée requise", positive: true, negative: true, completeEffect: false, expectedStatus: "PARTIEL"},
@@ -103,6 +104,34 @@ async function boardInstance(page, cardId, playerKey = "player2") {
   }, {id: cardId, key: playerKey});
 }
 
+function rectsOverlap(a, b) {
+  if (!a || !b) return false;
+  return !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
+}
+
+async function elementRect(page, selector) {
+  return page.evaluate((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return null;
+    const rect = el.getBoundingClientRect();
+    return {left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, width: rect.width, height: rect.height};
+  }, selector);
+}
+
+async function zoneRect(page, playerKey, zone) {
+  return page.evaluate(({key, zoneName}) => {
+    const el = qs(playerZoneSelector(key, zoneName));
+    if (!el) return null;
+    const rect = el.getBoundingClientRect();
+    return {left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, width: rect.width, height: rect.height};
+  }, {key: playerKey, zoneName: zone});
+}
+
+async function openManualTargetSelection(page) {
+  await page.evaluate(() => { window.__impl1bPendingPlay = playCard("S000005"); });
+  await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toBeVisible();
+}
+
 test("HUVU-IMPL-1 scope is explicit and technical scenarios stay hidden", async ({ page }, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page, CONDITION_BLOCKED_SCENARIO);
@@ -119,16 +148,50 @@ test("HUVU-IMPL-1 scope is explicit and technical scenarios stay hidden", async 
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+test("HUVU IMPL 1 technical panel collapses without blocking core zones", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, TARGETING_SCENARIO);
+
+  await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+  await expect(page.getByTestId("test-resource-panel")).toContainText("MODE TEST — HUVU IMPL 1");
+  const expandedDiagnostic = await page.getByTestId("test-cost-diagnostic").textContent();
+
+  await page.getByTestId("test-resource-panel-collapse").click();
+  await expect(page.getByTestId("test-resource-panel")).toHaveCount(0);
+  await expect(page.getByTestId("test-resource-panel-restore")).toBeVisible();
+
+  const compact = await elementRect(page, "[data-testid='test-resource-panel-restore']");
+  const cemetery = await zoneRect(page, "player1", "graveyard");
+  const endTurn = await elementRect(page, "#btnEndTurn");
+  expect(rectsOverlap(compact, cemetery)).toBe(false);
+  expect(rectsOverlap(compact, endTurn)).toBe(false);
+
+  await page.getByTestId("test-resource-panel-restore").click();
+  await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+  await expect(page.getByTestId("test-cost-diagnostic")).toContainText(JSON.parse(expandedDiagnostic || "{}").cardId || "S000005");
+
+  await openScenario(page, CONDITION_BLOCKED_SCENARIO);
+  await expect(page.getByTestId("test-resource-panel")).toContainText("MODE TEST — HUVU IMPL 1");
+  await page.getByTestId("test-resource-panel-collapse").click();
+  await expect(page.getByTestId("test-resource-panel-restore")).toBeVisible();
+
+  await openScenario(page, "hokhan-uram");
+  expect(await page.locator("[data-testid='test-resource-panel'],[data-testid='test-resource-panel-restore']").count()).toBe(0);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("play conditions refuse before payment and keep state unchanged", async ({ page }, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page, CONDITION_BLOCKED_SCENARIO);
 
-  const blockedIds = ["MV000027", "MV000017", "MV000018", "MV000019", "MV000021"];
+  const blockedIds = ["MV000027", "MV000016", "MV000017", "MV000018", "MV000019", "MV000021"];
   const audits = {};
   for (const id of blockedIds) audits[id] = (await snapshot(page, id)).condition;
   expect(audits.MV000027.allowed).toBe(false);
   expect(audits.MV000027.code).toBe("own-avatar-hp-too-low");
-  for (const id of ["MV000017", "MV000018", "MV000019", "MV000021"]) {
+  for (const id of ["MV000016", "MV000017", "MV000018", "MV000019", "MV000021"]) {
     expect(audits[id].allowed, `${id} should be blocked without Hokhan or Forgeron`).toBe(false);
     expect(audits[id].code).toBe("missing-required-board-presence");
   }
@@ -155,7 +218,7 @@ test("satisfied play conditions allow the card to enter the board without changi
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page, CONDITION_ALLOWED_SCENARIO);
 
-  for (const id of ["MV000027", "R000027", "MV000017", "MV000018", "MV000019", "MV000021"]) {
+  for (const id of ["MV000027", "R000027", "MV000016", "MV000017", "MV000018", "MV000019", "MV000021"]) {
     const condition = (await snapshot(page, id)).condition;
     expect(condition.allowed, `${id} condition`).toBe(true);
   }
@@ -173,6 +236,59 @@ test("satisfied play conditions allow the card to enter the board without changi
   expect(after.resources.souls).toBe(before.resources.souls);
   expect(after.deckCount).toBe(before.deckCount);
   expect(after.cardsPlayedThisTurn).toBe(before.cardsPlayedThisTurn + 1);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Blade servant previews expose invocation condition panels without losing abilities", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, CONDITION_ALLOWED_SCENARIO);
+
+  for (const id of ["MV000016", "MV000017", "MV000018", "MV000021"]) {
+    await page.evaluate(cardId => openCardPreview(cardId, {origin: "impl1b-test", sourceType: "test"}), id);
+    await expect(page.getByTestId("preview-invocation-condition")).toBeVisible();
+    const previewText = await page.locator("#card-preview-layer").innerText();
+    expect(previewText).toContain("CONDITION D’INVOCATION");
+    expect(previewText).toContain("Forgeron de la Lame");
+    expect(previewText).toContain("Mage du Cercle");
+    expect(previewText).toContain("Hokhan Ashir");
+    expect(previewText).not.toMatch(/MV000019|AVS000008/);
+    if (id !== "MV000016") expect(previewText).toContain("Initiative");
+    await page.evaluate(() => closeCardPreview("impl1b-test"));
+  }
+
+  await page.evaluate(cardId => openCardPreview(cardId, {origin: "impl1b-test", sourceType: "test"}), "MV000019");
+  const forgeronText = await page.locator("#card-preview-layer").innerText();
+  expect(forgeronText).toContain("Scorpion de la Lame");
+  expect(forgeronText).toContain("Serviteur de la Lame");
+  expect(forgeronText).toContain("Mage de la Lame");
+  expect(forgeronText).toContain("Cauchemar de la Lame");
+  expect(forgeronText).not.toMatch(/MV000016|MV000017|MV000018|MV000021/);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Forgeron de la Lame mapping is visible in Collection without raw generated IDs", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await page.goto("/code/collection.html");
+  await page.evaluate(() => openModal("MV000019"));
+  await expect(page.locator("#modalOverlay.open")).toBeVisible();
+  const modalText = await page.locator("#modalOverlay").innerText();
+  const source = await page.evaluate(() => {
+    const card = CARDS.find(c => c.id === "MV000019");
+    return {related: card.related, detail: card.detail || "", desc: card.desc || "", keywords: card.kw || []};
+  });
+  await testInfo.attach("forgeron-collection-source", {contentType: "application/json", body: Buffer.from(JSON.stringify(source, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  expect(modalText).toContain("Scorpion de la Lame");
+  expect(modalText).toContain("Serviteur de la Lame");
+  expect(modalText).toContain("Mage de la Lame");
+  expect(modalText).toContain("Cauchemar de la Lame");
+  expect(modalText).toContain("Insensible");
+  expect(modalText).not.toMatch(/MV000016|MV000017|MV000018|MV000021/);
+  expect(source.related).toEqual(expect.arrayContaining(["MV000016", "MV000021", "MV000018", "MV000017"]));
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -257,6 +373,57 @@ test("Assassinat destroys the selected legal enemy servant and pays exactly once
   expect(after.opponentBoard.map(card => card.id)).toContain("H000029");
   expect(after.opponentGraveyard).toContain("H000001");
   expect(after.cardsPlayedThisTurn).toBe(before.cardsPlayedThisTurn + 1);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Assassinat target choice reuses the minimizable decision window and keeps cemetery visible", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await page.setViewportSize({width: 1280, height: 720});
+  await openScenario(page, TARGETING_SCENARIO);
+  await page.getByTestId("test-resource-panel-collapse").click();
+  await expect(page.getByTestId("test-resource-panel-restore")).toBeVisible();
+
+  const before = await snapshot(page, "S000005");
+  await openManualTargetSelection(page);
+  await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toBeVisible();
+  await expect(page.getByTestId("board-target-confirm")).toBeDisabled();
+  expect(await page.getByTestId("board-target-choice").count()).toBeGreaterThan(0);
+
+  const legalChoice = page.locator("[data-testid='board-target-choice'][data-target-id='H000001']");
+  await legalChoice.click();
+  await expect(page.getByTestId("board-target-confirm")).toBeEnabled();
+  await page.locator(".decision-modal-minimize").click();
+  await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toHaveCount(0);
+  await expect(page.locator(".decision-compact-bar")).toBeVisible();
+  await page.locator(".decision-compact-bar button").click();
+  await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toBeVisible();
+  await expect(legalChoice).toHaveClass(/is-selected/);
+
+  await page.locator(".decision-modal-expand").click();
+  await expect(page.locator(".decision-modal-overlay")).toHaveClass(/is-expanded/);
+  await expect(page.getByTestId("board-target-confirm")).toBeEnabled();
+  await page.getByTestId("board-target-confirm").click();
+  const abandon = page.locator("#assassination-abandon");
+  if (await abandon.isVisible({timeout: 1000}).catch(() => false)) {
+    await abandon.click();
+  }
+  const result = await page.evaluate(() => window.__impl1bPendingPlay);
+
+  const after = await snapshot(page, "S000005");
+  const cemetery = await zoneRect(page, "player2", "graveyard");
+  const compact = await elementRect(page, "[data-testid='test-resource-panel-restore']");
+  await testInfo.attach("assassination-modal-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, after, result, cemetery, compact}, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  expect(before.hand).toContain("S000005");
+  expect(after.hand).not.toContain("S000005");
+  expect(result?.success).toBe(true);
+  expect(after.opponentBoard.map(card => card.id)).not.toContain("H000001");
+  expect(after.opponentGraveyard).toContain("H000001");
+  expect(rectsOverlap(compact, cemetery)).toBe(false);
+  await page.getByTestId("test-resource-panel-restore").click();
+  await expect(page.getByTestId("impl1-legality-diagnostic")).toHaveAttribute("data-code", "play-legal");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

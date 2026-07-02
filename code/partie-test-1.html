@@ -497,6 +497,11 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .test-resource-panel dt{color:#d9bf7a}.test-resource-panel dd{margin:0;font-weight:700;color:#fff1bd}
 .test-resource-panel pre{white-space:pre-wrap;margin:8px 0 0;padding:7px;border-radius:8px;background:rgba(0,0,0,.34);color:#f1d38c;font-size:11px;line-height:1.25}
 .test-resource-panel .test-card{font-weight:700;color:#fff1bd}
+.test-resource-panel-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.test-resource-panel-header h2{margin:0}
+.test-resource-panel-collapse,.test-resource-panel-restore{font-family:"Cinzel",serif;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;border:1px solid rgba(200,168,75,.62);color:#f7e4b5;background:rgba(30,18,8,.95);padding:6px 10px;cursor:pointer}
+.test-resource-panel-collapse:hover,.test-resource-panel-restore:hover{color:#fff1bd;border-color:#f2d58a;background:rgba(68,42,16,.96)}
+.test-resource-panel-restore{position:fixed;left:16px;bottom:16px;z-index:1800;box-shadow:0 8px 24px rgba(0,0,0,.58)}
 
 /* ── Animation pioche ── */
 @keyframes drawAnim{
@@ -718,6 +723,14 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   border-radius:999px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.45);
 }
 .decision-modal-minimize:hover{background:rgba(64,38,16,.98);color:#fff1ca}
+.decision-modal-expand{
+  position:absolute;top:10px;right:98px;z-index:2;
+  font-family:'Cinzel',serif;font-size:10px;font-weight:800;letter-spacing:.08em;
+  color:#f6dfad;background:rgba(23,12,5,.92);border:1px solid rgba(220,185,96,.65);
+  border-radius:999px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.45);
+}
+.decision-modal-expand:hover{background:rgba(64,38,16,.98);color:#fff1ca}
+.decision-modal-overlay.is-expanded .sort-choice-panel{width:min(1120px,calc(100vw - 32px));max-height:calc(100vh - 36px);overflow:auto}
 .decision-compact-bar{
   position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2990;
   display:flex;align-items:center;gap:14px;padding:10px 16px;border-radius:999px;
@@ -734,6 +747,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .sort-choice-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;
   transition:transform 0.2s;}
 .sort-choice-item:hover{transform:translateY(-6px) scale(1.04);}
+.sort-choice-item.is-selected{outline:2px solid #ff9a40;outline-offset:4px;border-radius:12px}
 .sort-choice-card-wrap{width:110px;height:155px;border-radius:10px;overflow:hidden;
   border:2px solid var(--gold);box-shadow:0 6px 20px rgba(0,0,0,0.8);}
 .sort-choice-card-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;}
@@ -1541,6 +1555,9 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview .fc-zoom-desc-z{min-height:0;max-height:none;overflow:hidden!important;display:flex!important;align-items:stretch!important}
 .canonical-card-preview .fz-desc-inner{width:100%;max-height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;background:rgba(18,12,8,.96)}
 .canonical-card-preview .fz-desc-text{line-height:1.34}
+.fc-zoom-condition-panel{margin:7px 0 0;padding:7px 8px;border:1px solid rgba(208,128,232,.48);border-radius:8px;background:rgba(15,6,30,.62);box-shadow:inset 0 0 14px rgba(0,0,0,.22)}
+.fc-zoom-condition-title{font-family:'Cinzel',serif;font-size:8px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--card-faction-color,#d080e8);margin-bottom:4px}
+.fc-zoom-condition-text{font-family:'Crimson Pro',serif;font-size:11px;line-height:1.28;font-weight:600;color:#f3dcff}
 .canonical-card-preview .fc-zoom-cost-z{min-height:42px;display:flex;align-items:center;justify-content:center}
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
@@ -2167,14 +2184,14 @@ const DECK_HUVU_SYNC_GALLERY_A = ["MV000024","MV000026","MV000027","MV000028","M
 const START_OUI_HUVU_SYNC_GALLERY_A = [...DECK_HUVU_SYNC_GALLERY_A];
 const DECK_HUVU_SYNC_GALLERY_B = ["PRST000014","S000041","S000042","S000044","S000051","S000052"];
 const START_OUI_HUVU_SYNC_GALLERY_B = [...DECK_HUVU_SYNC_GALLERY_B];
-const HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS = ['MV000027','R000027','MV000017','MV000018','MV000019','MV000021'];
+const HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS = ['MV000027','R000027','MV000016','MV000017','MV000018','MV000019','MV000021'];
 const HUVU_IMPL_1_TARGETING_CARD_IDS = ['S000005'];
 const DECK_HUVU_IMPL_1_TESTS = [
   ...HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS,
   ...HUVU_IMPL_1_TARGETING_CARD_IDS,
   'AVS000008','MV000019','MV000001','MV000002','MV000003','MV000004','MV000005','MV000006',
   'MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014',
-  'MV000015','MV000016','MV000020','MV000022','MV000023','MV000024','MV000026','MV000028',
+  'MV000015','MV000020','MV000022','MV000023','MV000024','MV000026','MV000028',
   'MV000029','MV000030','R000010','R000021','R000027'
 ];
 const START_OUI_HUVU_IMPL_1_PLAY_CONDITIONS = [...HUVU_IMPL_1_PLAY_CONDITION_CARD_IDS];
@@ -5104,14 +5121,18 @@ function renderZoomDescription(card, kwColor) {
       ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(loreText))}</em></p>`
       : '';
   }
+  const conditionText = !isEmptyCardText(card.invocationConditionText) ? formatPlayerFacingCardText(card.invocationConditionText) : '';
+  const condition = conditionText
+    ? `<section class="fc-zoom-condition-panel" data-testid="preview-invocation-condition"><div class="fc-zoom-condition-title">CONDITION D’INVOCATION</div><div class="fc-zoom-condition-text">${fmtDesc(conditionText, kwColor)}</div></section>`
+    : '';
   if (isLoreOnlyCard(card)) {
     const text = !isEmptyCardText(card.lore) ? card.lore : card.cap;
-    return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>`;
+    return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>` + condition;
   }
   const mechanicalText = !isEmptyCardText(card.detail) ? card.detail : card.cap;
   const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(mechanicalText), kwColor)}</p>` : '';
   const lore = !isEmptyCardText(card.lore) ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(card.lore))}</em></p>` : '';
-  return cap + lore;
+  return cap + lore + condition;
 }
 
 function facColor(fac) {
@@ -8187,6 +8208,8 @@ function describeAffordabilityDiagnostic(result) {
 }
 
 let lastPlayLegalityDiagnostic = null;
+let testResourcePanelCollapsed = false;
+let testResourcePanelScrollTop = 0;
 function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
 function summarizeCostDefinition(cardId) { const definition = getCanonicalCostDefinition(cardId); if (!definition) return null; return {total: definition.total, allowedForTotal: [...(definition.allowedForTotal || [])], requirements: cloneCostDiagnostic(definition.requirements || []), conditions: cloneCostDiagnostic(definition.conditions || [])}; }
 function currentResourceSnapshot(player=currentPlayer) { const p = playerState(player); const classical = {...createEmptyClassicalResources(), ...(p?.resourceState?.classical || {})}; return {player: p?.key || '', playerName: p?.name || '', classical, souls: Number(p?.resourceState?.souls || 0), revision: Number(p?.resourceState?.revision || 0)}; }
@@ -8207,13 +8230,38 @@ function recordTestPlayLegalityDiagnostic(cardId, validation, outcome) {
 function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic)}; }
 function updateTestResourcePanel() {
   const existing = document.querySelector('[data-testid="test-resource-panel"]');
-  if (!activeScenario?.showTestResourcePanel) { if (existing) existing.remove(); return; }
+  const restoreButton = document.querySelector('[data-testid="test-resource-panel-restore"]');
+  if (!activeScenario?.showTestResourcePanel) { if (existing) existing.remove(); if (restoreButton) restoreButton.remove(); testResourcePanelCollapsed = false; return; }
+  if (testResourcePanelCollapsed) {
+    if (existing) existing.remove();
+    if (!restoreButton) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'test-resource-panel-restore';
+      button.dataset.testid = 'test-resource-panel-restore';
+      button.setAttribute('aria-label', 'Afficher le panneau de test');
+      button.textContent = 'Afficher le panneau de test';
+      button.addEventListener('click', () => {
+        testResourcePanelCollapsed = false;
+        updateTestResourcePanel();
+      });
+      document.body.appendChild(button);
+    }
+    return;
+  }
+  if (restoreButton) restoreButton.remove();
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
   const title = activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES';
-  panel.innerHTML = `<h2>${title}</h2><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre>`;
+  panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre>`;
+  panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
+    testResourcePanelScrollTop = panel.scrollTop || 0;
+    testResourcePanelCollapsed = true;
+    updateTestResourcePanel();
+  });
   if (!existing) document.body.appendChild(panel);
+  if (testResourcePanelScrollTop) panel.scrollTop = testResourcePanelScrollTop;
 }
 
 function checkResources(cardId, player) {
@@ -8270,7 +8318,8 @@ function createMinimizableDecisionModal({
     overlay:null,
     bar:null,
     resolved:false,
-    minimized:false
+    minimized:false,
+    expanded:false
   };
   const cleanup = () => {
     state.overlay?.remove();
@@ -8304,6 +8353,16 @@ function createMinimizableDecisionModal({
     state.bar = null;
     renderOverlay();
   };
+  const toggleExpanded = () => {
+    if (state.resolved || !state.overlay) return;
+    state.expanded = !state.expanded;
+    state.overlay.classList.toggle('is-expanded', state.expanded);
+    const button = state.overlay.querySelector('.decision-modal-expand');
+    if (button) {
+      button.textContent = state.expanded ? 'RÉDUIRE TAILLE' : 'AGRANDIR';
+      button.setAttribute('aria-label', state.expanded ? 'Réduire la taille de cette décision' : 'Agrandir cette décision');
+    }
+  };
   const close = result => {
     if (state.resolved) return;
     state.resolved = true;
@@ -8313,15 +8372,17 @@ function createMinimizableDecisionModal({
   function renderOverlay() {
     state.overlay?.remove();
     const overlay = document.createElement('div');
-    overlay.className = 'sort-choice-overlay decision-modal-overlay';
+    overlay.className = `sort-choice-overlay decision-modal-overlay${state.expanded ? ' is-expanded' : ''}`;
     overlay.dataset.decisionId = decisionId || '';
     overlay.innerHTML = `<div class="sort-choice-panel ${panelClass}" style="max-width:860px">
+      <button type="button" class="decision-modal-expand" aria-label="${state.expanded ? 'Réduire la taille de cette décision' : 'Agrandir cette décision'}">${state.expanded ? 'RÉDUIRE TAILLE' : 'AGRANDIR'}</button>
       <button type="button" class="decision-modal-minimize" aria-label="Réduire cette décision">RÉDUIRE</button>
       <div class="sort-choice-title">${escapeHtml(title || '')}</div>
       ${bodyHtml}
       ${canCancel ? `<button type="button" class="sort-choice-cancel-button">ANNULER</button>` : ''}
     </div>`;
     overlay.querySelector('.decision-modal-minimize').addEventListener('click', minimize);
+    overlay.querySelector('.decision-modal-expand').addEventListener('click', toggleExpanded);
     if (canCancel) {
       overlay.querySelector('.sort-choice-cancel-button')?.addEventListener('click', () => {
         close({cancelled:true});
@@ -8336,6 +8397,7 @@ function createMinimizableDecisionModal({
   state.close = close;
   state.minimize = minimize;
   state.reopen = reopen;
+  state.toggleExpanded = toggleExpanded;
   state.renderOverlay = renderOverlay;
   pendingDecisionModal = state;
   suspendCardPreviewsForDecision(`decision-modal-open:${decisionId || 'unknown'}`);
@@ -8355,12 +8417,16 @@ const INVOCATION_CONDITION_RULES = Object.freeze({
     text: 'Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».',
     condition: {type:'starting-deck-faction-minimum', cardType:'Serviteur', faction:'mvs', amount:15}
   },
+  MV000016: {
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
+    condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
+  },
   MV000017: {
-    text: 'Le « Forgeron de la Lame » ou « Hokhan Ashir - Mage du Cercle » doivent être sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   },
   MV000018: {
-    text: 'Le « Forgeron de la Lame » ou « Hokhan Ashir - Mage du Cercle » doivent être sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   },
   MV000019: {
@@ -8368,7 +8434,7 @@ const INVOCATION_CONDITION_RULES = Object.freeze({
     condition: {type:'friendly-card-present', cardId:'AVS000008'}
   },
   MV000021: {
-    text: 'Le « Forgeron de la Lame » ou « Hokhan Ashir - Mage du Cercle » doivent être sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   }
 });
@@ -10772,42 +10838,47 @@ function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1}={})
   if (!available.length) return Promise.resolve([]);
   return new Promise(resolve => {
     const selected = new Set();
-    const overlay = document.createElement('div');
-    overlay.className = 'sort-choice-overlay';
     const cardsHTML = available.map((fc, i) => {
       const id = fc.dataset.id;
-      return `<div class="sort-choice-item" data-idx="${i}">
+      return `<div class="sort-choice-item" data-testid="board-target-choice" data-target-id="${escapeHtml(id || '')}" data-target-instance="${escapeHtml(fc.dataset.instance || '')}" data-idx="${i}">
         ${renderSelectionCard(id, playerState(fc.dataset.player), {context:'target-selection'})}
       </div>`;
     }).join('');
-    overlay.innerHTML = `<div class="sort-choice-panel" style="max-width:820px">
-      <div class="sort-choice-title">${title || 'Sélection'}</div>
-      <div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${prompt || ''}</div>
-      <div class="sort-choice-cards">${cardsHTML}</div>
-      <button class="sort-choice-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>
-    </div>`;
-    document.body.appendChild(overlay);
-    const confirm = overlay.querySelector('.sort-choice-confirm');
+    const modal = createMinimizableDecisionModal({
+      decisionId:'board-target-selection',
+      title:title || 'Sélection',
+      compactLabel:`${title || 'Sélection'} en attente`,
+      panelClass:'board-target-choice-panel',
+      bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
+        <div class="sort-choice-cards" data-testid="board-target-choice-list">${cardsHTML}</div>
+        <button type="button" class="sort-choice-confirm" data-testid="board-target-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
+    });
     function update() {
-      overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
+      modal.overlay?.querySelectorAll('.sort-choice-item').forEach((el, i) => {
         el.classList.toggle('is-selected', selected.has(i));
         el.style.outline = selected.has(i) ? '2px solid #ff9a40' : '';
       });
-      confirm.disabled = selected.size < minCount;
+      const confirm = modal.overlay?.querySelector('.sort-choice-confirm');
+      if (confirm) confirm.disabled = selected.size < minCount;
     }
-    overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
-      el.addEventListener('click', () => {
-        if (selected.has(i)) selected.delete(i);
-        else if (selected.size < maxCount) selected.add(i);
-        update();
+    modal.onRender = () => {
+      const overlay = modal.overlay;
+      if (!overlay) return;
+      overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
+        el.addEventListener('click', () => {
+          if (selected.has(i)) selected.delete(i);
+          else if (selected.size < maxCount) selected.add(i);
+          update();
+        });
       });
-    });
-    confirm.addEventListener('click', () => {
-      const chosen = [...selected].map(index => available[index]).filter(Boolean);
-      overlay.remove();
-      resolve(chosen);
-    });
-    update();
+      overlay.querySelector('.sort-choice-confirm')?.addEventListener('click', () => {
+        const chosen = [...selected].map(index => available[index]).filter(Boolean);
+        modal.close({selected:[...selected]});
+        resolve(chosen);
+      });
+      update();
+    };
+    modal.onRender();
   });
 }
 
@@ -12444,12 +12515,12 @@ Object.assign(CARDS_DATA, {
   'MV000013':{name:'Mort-à-vif',type:'Serviteur',fac:'mvs',atk:6,pdv:3,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Dépecée vivante, puis ramenée d\'entre les morts par le biais de la magie noire, cette créature jadis humaine n\'est plus qu\'un puits sans fond de haine.'},
   'MV000014':{name:'Momie dérangée',type:'Serviteur',fac:'mvs',atk:3,pdv:4,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur revient automatiquement dans votre deck quand il est détruit alors qu\'il se trouvait sur le terrain. Votre deck est ensuite remélangé.',lore:''},
   'MV000015':{name:'Banshee hurlante',type:'Serviteur',fac:'mvs',atk:2,pdv:1,cost:1,res_ico:'IC00000AME',res_val:'1',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Initiative','Vengeance'],cap:'[Initiative] Renvoie *1* serviteur adverse ayant une attaque inférieure ou égale à *4* dans le deck de votre adversaire, qui est ensuite remélangé. [Vengeance] Votre adversaire renvoie *1* carte aléatoire de sa main dans son deck, qui est ensuite remélangé.',lore:''},
-  'MV000016':{name:'Serviteur de la Lame',type:'Serviteur',fac:'mvs',atk:4,pdv:3,cost:2,res_ico:'IC00000AME',res_val:'2',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Les Lames, créatures d\'acier noires animées par la nécromancie, sont habitées par les esprits brisés de pauvres hères, transformés malgré eux en machines à tuer.',cond:'Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000017':{name:'Cauchemar de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:8,cost:6,res_ico:'IC00000AME',res_val:'6',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative','Âme'],cap:'[Initiative] Inflige le montant de son attaque à un serviteur adverse aléatoire, ou *4* points de dégâts directement à l\'avatar si celui-ci n\'a pas de serviteur de son côté du terrain.',lore:'',cond:'Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000018':{name:'Mage de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative','Coup de glace','Gel','Âme'],cap:'[Initiative] Inflige [Coup de glace] à un serviteur adverse aléatoire pendant *1* tour, puis [Gel] à un autre serviteur adverse aléatoire pendant *3* tours. Vous piochez ensuite *1* sort de votre deck.',lore:'',cond:'Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000019':{name:'Forgeron de la Lame',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:12,res_ico:'IC00000AME',res_val:'12',resType:'Ame',fico:'FCT00000MVS.png',kws:['Insensible','Âme'],cap:'[Insensible] Tous vos gains en âmes sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit. Votre deck est ensuite remélangé.',lore:'',detail:'[Insensible] Tous vos gains en âmes sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit (si coût en ressources du serviteur envoyé au cimetière &lt; à 4, alors le serviteur généré pour vous est un « Serviteur de la Lame » [ID = MV000016] ; si coût compris entre 4 et 7, le serviteur généré est un « Mage de la Lame » [ID = MV000018] ; si coût &gt; 7, alors le serviteur généré est un « Cauchemar de la Lame » [ID = MV000017] . Votre deck est ensuite remélangé.',cond:'« Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doit être sur votre terrain.',related:['AVS000008','MV000016','MV000018','MV000017']},
+'MV000016':{name:'Serviteur de la Lame',type:'Serviteur',fac:'mvs',atk:4,pdv:3,cost:2,res_ico:'IC00000AME',res_val:'2',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Les Lames, créatures d\'acier noires animées par la nécromancie, sont habitées par les esprits brisés de pauvres hères, transformés malgré eux en machines à tuer.',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000017':{name:'Cauchemar de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:8,cost:6,res_ico:'IC00000AME',res_val:'6',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative','Âme'],cap:'[Initiative] Inflige le montant de son attaque à un serviteur adverse aléatoire, ou *4* points de dégâts directement à l\'avatar si celui-ci n\'a pas de serviteur de son côté du terrain.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000018':{name:'Mage de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative','Coup de glace','Gel','Âme'],cap:'[Initiative] Inflige [Coup de glace] à un serviteur adverse aléatoire pendant *1* tour, puis [Gel] à un autre serviteur adverse aléatoire pendant *3* tours. Vous piochez ensuite *1* sort de votre deck.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000019':{name:'Forgeron de la Lame',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:12,res_ico:'IC00000AME',res_val:'12',resType:'Ame',fico:'FCT00000MVS.png',kws:['Insensible','Âme'],cap:'[Insensible] Tous vos gains en Échos sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit. Votre deck est ensuite remélangé.',lore:'',detail:'[Insensible] Tous vos gains en Échos sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit (si coût en ressources du serviteur envoyé au cimetière &lt; à 4, alors le serviteur généré pour vous est un « Serviteur de la Lame » ; si coût est égal à 5, alors le serviteur généré est un « Scorpion de la Lame » ; si coût est égal à 6 ou 7, le serviteur généré est un « Mage de la Lame » ; si coût &gt; 7, alors le serviteur généré est un « Cauchemar de la Lame ». Votre deck est ensuite remélangé.',cond:'« Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doit être sur votre terrain.',related:['AVS000008','MV000016','MV000021','MV000018','MV000017'],bladeGeneration:[{test:'lt',value:4,cardId:'MV000016',cardName:'Serviteur de la Lame'},{test:'eq',value:5,cardId:'MV000021',cardName:'Scorpion de la Lame'},{test:'in',values:[6,7],cardId:'MV000018',cardName:'Mage de la Lame'},{test:'gt',value:7,cardId:'MV000017',cardName:'Cauchemar de la Lame'}]},
   'MV000020':{name:'Gobelin mort-vivant',type:'Serviteur',fac:'mvs',atk:1,pdv:3,cost:0,fico:'FCT00000MVS.png',kws:[],cap:'Chaque fois que ce serviteur inflige des dégâts, se soigne de *2* points de vie.',lore:''},
-  'MV000021':{name:'Scorpion de la Lame',type:'Serviteur',fac:'mvs',atk:5,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Rage','Initiative'],cap:'[Rage] [Initiative] Inflige le montant de son attaque en dégâts à *1* serviteur adverse aléatoire. Si cette capacité spéciale détruit le serviteur ciblé, ajoute *+1* âme à votre réserve.',lore:'',cond:'Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000021':{name:'Scorpion de la Lame',type:'Serviteur',fac:'mvs',atk:5,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Rage','Initiative'],cap:'[Rage] [Initiative] Inflige le montant de son attaque en dégâts à *1* serviteur adverse aléatoire. Si cette capacité spéciale détruit le serviteur ciblé, ajoute *+1* âme à votre réserve.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
   'MV000022':{name:'Commandant squelette',type:'Serviteur',fac:'mvs',atk:4,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Chaque fois qu\'il détruit un serviteur, le « Commandant squelette » invoque *1* « Guerrier cendreux » de votre côté du terrain.',lore:'',detail:'Chaque fois qu\'il détruit un serviteur, le « Commandant squelette » invoque *1* « Guerrier cendreux » [ID = MV000001] de votre côté du terrain.',related:['MV000001']},
   'MV000023':{name:'Terreur ancienne réanimée',type:'Serviteur',fac:'mvs',atk:7,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur récupère la totalité de ses points de vie chaque fois qu\'il en détruit un autre.',lore:''},
   'N000004':{name:'Naingociant',type:'Serviteur',fac:'nain',assetFolder:'nains',atk:1,pdv:2,cost:1,res_ico:'IC00000FER',res2:'IC00000NRT',resOu:true,res_val:'1',resType:'Fer|Nourriture',fico:'FCT00000NAI.png',kws:['Initiative'],cap:'[Initiative] : Vous piochez une carte approvisionnement de votre deck.',lore:''},
