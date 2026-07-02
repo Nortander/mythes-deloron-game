@@ -1,0 +1,64 @@
+{
+  "sourceAudit": ".local/HUVU-FONC-2-20260701-235115",
+  "scenarios": [
+    "huvu-impl-2-damage",
+    "huvu-impl-2-healing",
+    "huvu-impl-2-stats"
+  ],
+  "cards": [
+    {
+      "id": "B000002",
+      "name": "Rhaekor enrage",
+      "primitive": "self-damage-and-immediate-atk-update",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "completeEffectTested": true
+    },
+    {
+      "id": "MV000010",
+      "name": "Zombie nouveau-ne",
+      "primitive": "direct-damage-and-combat-healing",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "completeEffectTested": true
+    },
+    {
+      "id": "MV000017",
+      "name": "Cauchemar de la Lame",
+      "primitive": "direct-damage-or-avatar-fallback",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "completeEffectTested": true
+    },
+    {
+      "id": "MV000020",
+      "name": "Gobelin mort-vivant",
+      "primitive": "combat-healing",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "completeEffectTested": true
+    },
+    {
+      "id": "MV000021",
+      "name": "Scorpion de la Lame",
+      "primitive": "direct-lethal-damage",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    },
+    {
+      "id": "MV000027",
+      "name": "Sang-lie",
+      "primitive": "self-avatar-damage",
+      "expectedStatus": "PARTIEL",
+      "completeEffectTested": false
+    }
+  ],
+  "deferredCards": [
+    "S000041",
+    "S000042",
+    "H000004",
+    "H000006",
+    "MV000003",
+    "MV000028",
+    "PRST000014",
+    "MV000030",
+    "GOB000001",
+    "H000019"
+  ]
+}

@@ -2191,6 +2191,14 @@ const START_OUI_HUVU_IMPL_1_PLAY_CONDITIONS = [...HUVU_IMPL_1_PLAY_CONDITION_CAR
 const START_OUI_HUVU_IMPL_1_TARGETING = [...HUVU_IMPL_1_TARGETING_CARD_IDS];
 const DECK_HUVU_IMPL_1_OPPONENT = ['H000001','H000005','H000029','R000001','R000002'];
 const START_OUI_HUVU_IMPL_1_OPPONENT = ['H000001','H000005','H000029'];
+const HUVU_IMPL_2_CARD_IDS = ['B000002','MV000010','MV000017','MV000020','MV000021','MV000027'];
+const DECK_HUVU_IMPL_2_TESTS = [
+  ...HUVU_IMPL_2_CARD_IDS,
+  'AVS000008','MV000019','H000001','H000005','H000018','R000001','R000002'
+];
+const START_OUI_HUVU_IMPL_2_DAMAGE = ['B000002','MV000010','MV000017','MV000021','MV000027'];
+const START_OUI_HUVU_IMPL_2_HEALING = [];
+const START_OUI_HUVU_IMPL_2_STATS = ['B000002'];
 
 const CHARACTER_DEFS = {
   raith: {
@@ -2372,6 +2380,26 @@ const CHARACTER_DEFS = {
     avatarCap: 'hum',
     portrait: 'AVP000007.png',
     tip: 'MODE TEST — adversaire pour ciblage HUVU IMPL 1.'
+  },
+  huvuImpl2Subject: {
+    characterId: 'huvuImpl2Subject',
+    name: 'TEST — HUVU Impl 2',
+    deck: DECK_HUVU_IMPL_2_TESTS,
+    startOui: START_OUI_HUVU_IMPL_2_DAMAGE,
+    startMaybe: [],
+    avatarCap: 'mvs',
+    portrait: 'AVP000008.png',
+    tip: 'MODE TEST — HUVU IMPL 2 : dégâts, soins et ATK/PV immédiats.'
+  },
+  huvuImpl2Opponent: {
+    characterId: 'huvuImpl2Opponent',
+    name: 'TEST — Cibles HUVU Impl 2',
+    deck: DECK_HUVU_IMPL_2_TESTS,
+    startOui: [],
+    startMaybe: [],
+    avatarCap: 'hum',
+    portrait: 'AVP000007.png',
+    tip: 'MODE TEST — adversaire pour effets de combat HUVU IMPL 2.'
   }
 };
 const SCENARIOS = {
@@ -2471,6 +2499,27 @@ SCENARIOS['huvu-impl-1-targeting'] = {
 SCENARIOS['huvu-impl-1-targeting-no-valid'] = {
   label: 'TEST — HUVU IMPL 1 aucune cible', participants: ['huvuImpl1TargetingSubject', 'huvuImpl1Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl1Panel: true, testCardId: 'S000005',
   testSetup: {player1: {resources: {classical:{aria:5}, souls:0}, hand: START_OUI_HUVU_IMPL_1_TARGETING, servants: []}, player2: {resources: {classical:{aria:2}, souls:0}, hand: START_OUI_HUVU_IMPL_1_OPPONENT, servants: ['H000029']}}
+};
+SCENARIOS['huvu-impl-2-damage'] = {
+  label: 'TEST — HUVU IMPL 2 dégâts', participants: ['huvuImpl2Subject', 'huvuImpl2Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl2Panel: true, testCardId: 'MV000021',
+  testSetup: {
+    player1: {resources: {classical:{nourriture:3, aria:10}, souls:40}, hand: START_OUI_HUVU_IMPL_2_DAMAGE, servants: [{id:'AVS000008'}], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], servants: [{id:'H000005', atk:0, pdv:5}, {id:'H000001'}, {id:'H000018'}], avatarHp:10}
+  }
+};
+SCENARIOS['huvu-impl-2-healing'] = {
+  label: 'TEST — HUVU IMPL 2 soins', participants: ['huvuImpl2Subject', 'huvuImpl2Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl2Panel: true, testCardId: 'MV000020',
+  testSetup: {
+    player1: {resources: {classical:{aria:10}, souls:20}, hand: START_OUI_HUVU_IMPL_2_HEALING, servants: [{id:'MV000020', pdv:1, prepared:true}], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], servants: [{id:'H000005', atk:0, pdv:4, prepared:true}], avatarHp:10}
+  }
+};
+SCENARIOS['huvu-impl-2-stats'] = {
+  label: 'TEST — HUVU IMPL 2 ATK/PV', participants: ['huvuImpl2Subject', 'huvuImpl2Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl2Panel: true, testCardId: 'B000002',
+  testSetup: {
+    player1: {resources: {classical:{nourriture:3}, souls:0}, hand: START_OUI_HUVU_IMPL_2_STATS, servants: [], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], servants: [], avatarHp:10}
+  }
 };
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
@@ -8200,6 +8249,7 @@ function describeAffordabilityDiagnostic(result) {
 }
 
 let lastPlayLegalityDiagnostic = null;
+let lastCombatEffectDiagnostic = null;
 let testResourcePanelCollapsed = false;
 let testResourcePanelScrollTop = 0;
 function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
@@ -8211,15 +8261,21 @@ function formatCostDefinitionForPanel(definition) { if (!definition) return 'co�
 function clonePlayDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
 function buildPlayLegalityDiagnostic(cardId, validation, outcome) {
   const card = CARDS_DATA[cardId] || {};
-  return {scenarioId:selectedScenarioId(), cardId, cardName:card.name || '', outcome, code:validation?.valid ? 'play-legal' : (validation?.targetResult?.code || validation?.conditionResult?.code || validation?.reason || 'play-illegal'), publicMessage:validation?.valid ? '' : cardActionError(validation?.reason, validation), conditionResult:clonePlayDiagnostic(validation?.conditionResult || null), targetResult:clonePlayDiagnostic(validation?.targetResult || null)};
+  return {scenarioId:selectedScenarioId(), cardId, cardName:card.name || '', outcome, code:validation?.valid ? 'play-legal' : (validation?.immediateEffectResult?.code || validation?.targetResult?.code || validation?.conditionResult?.code || validation?.reason || 'play-illegal'), publicMessage:validation?.valid ? '' : cardActionError(validation?.reason, validation), conditionResult:clonePlayDiagnostic(validation?.conditionResult || null), targetResult:clonePlayDiagnostic(validation?.targetResult || null), immediateEffectResult:clonePlayDiagnostic(validation?.immediateEffectResult || null)};
 }
 function recordTestPlayLegalityDiagnostic(cardId, validation, outcome) {
-  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl1Panel) return null;
+  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl1Panel && !activeScenario?.showHuvuImpl2Panel) return null;
   lastPlayLegalityDiagnostic = buildPlayLegalityDiagnostic(cardId, validation, outcome);
   updateTestResourcePanel();
   return lastPlayLegalityDiagnostic;
 }
-function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic)}; }
+function recordCombatEffectDiagnostic(cardId, diagnostic) {
+  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl2Panel) return null;
+  lastCombatEffectDiagnostic = clonePlayDiagnostic({scenarioId:selectedScenarioId(), cardId, ...(diagnostic || {})});
+  updateTestResourcePanel();
+  return lastCombatEffectDiagnostic;
+}
+function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCombatEffectDiagnostic?.cardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic), combat: clonePlayDiagnostic(lastCombatEffectDiagnostic)}; }
 function updateTestResourcePanel() {
   const existing = document.querySelector('[data-testid="test-resource-panel"]');
   const restoreButton = document.querySelector('[data-testid="test-resource-panel-restore"]');
@@ -8245,8 +8301,8 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES';
-  panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre>`;
+  const title = activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES');
+  panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
     testResourcePanelCollapsed = true;
@@ -8663,8 +8719,113 @@ function targetSummary(fc) {
   return fc ? {id:fc.dataset.id || '', player:fc.dataset.player || '', instance:fc.dataset.instance || fc.dataset.supplyInstance || '', atk:Number(fc.dataset.atk || 0), pdv:Number(fc.dataset.pdv || 0)} : null;
 }
 
+const IMMEDIATE_PLAY_EFFECTS = Object.freeze({
+  B000002: {trigger:'initiative', effect:'self-damage', amount:1, updates:['rage']},
+  MV000010: {trigger:'initiative', effect:'enemy-servant-damage', amount:1, requiresEnemyServant:true},
+  MV000017: {trigger:'initiative', effect:'enemy-servant-or-avatar-damage', amount:'sourceAttack', avatarAmount:4},
+  MV000021: {trigger:'initiative', effect:'enemy-servant-damage', amount:'sourceAttack', requiresEnemyServant:true, deferred:['echo-generation-on-kill']},
+  MV000027: {trigger:'initiative', effect:'self-avatar-damage', amount:3, deferred:['vengeance-echo-generation']}
+});
+
+function immediatePlayEffectDefinition(cardId) {
+  return IMMEDIATE_PLAY_EFFECTS[cardId] || null;
+}
+
+function livingServantCardsForPlayer(player) {
+  const p = playerState(player);
+  const zone = p ? qs(playerZoneSelector(p, 'servants')) : null;
+  return Array.from(zone?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
+}
+
+function legalImmediateEffectTargets(cardId, player) {
+  const effect = immediatePlayEffectDefinition(cardId);
+  if (!effect) return [];
+  const p = playerState(player);
+  if (effect.effect === 'self-damage') return [];
+  if (effect.effect === 'self-avatar-damage') return [];
+  const candidates = livingServantCardsForPlayer(opponentOf(p));
+  return getAffectableTargets({sourcePlayer:p, targets:candidates, sourceCardId:cardId, effectKind:'damage', isAbility:true});
+}
+
+function evaluateImmediatePlayEffectLegality(cardId, {player=currentPlayer}={}) {
+  const effect = immediatePlayEffectDefinition(cardId);
+  if (!effect) return {cardId, allowed:true, code:'no-immediate-effect', legalTargets:[]};
+  const legalTargets = legalImmediateEffectTargets(cardId, player);
+  if (effect.requiresEnemyServant && !legalTargets.length) {
+    return {cardId, allowed:false, code:'no-valid-target', message:'Aucune cible valide n’est disponible.', effect, legalTargets:[]};
+  }
+  return {cardId, allowed:true, code:'immediate-effect-target-valid', effect, legalTargets:legalTargets.map(targetSummary)};
+}
+
 function auditTargetRequirement(cardId, player=currentPlayer, selectedTargetIds=null) {
   return evaluateTargetRequirement(cardId, {player:playerState(player), selectedTargetIds});
+}
+
+function auditImmediatePlayEffect(cardId, player=currentPlayer) {
+  return evaluateImmediatePlayEffectLegality(cardId, {player:playerState(player)});
+}
+
+function effectAmountValue(amount, sourceFC) {
+  if (amount === 'sourceAttack') return Math.max(0, parseInt(sourceFC?.dataset?.atk) || 0);
+  return Math.max(0, Number(amount) || 0);
+}
+
+function applyAvatarEffectDamage(player, amount, {sourceCardId='', sourceInstanceId=''}={}) {
+  const p = playerState(player);
+  const before = avatarHitPoints(p);
+  const applied = Math.max(0, Number(amount) || 0);
+  const after = Math.max(0, before - applied);
+  setAvatarHitPoints(p, after);
+  return {targetType:'avatar', targetPlayer:p?.key || '', sourceCardId, sourceInstanceId, amount:applied, before, after};
+}
+
+async function applyImmediateServantDamage({sourcePlayer, sourceFC, targetFC, sourceCardId, amount}) {
+  const before = Number(targetFC?.dataset?.pdv || 0);
+  if (targetFC) targetFC._killer = sourceFC || null;
+  const died = await applyDamage(targetFC, amount);
+  const after = Number(targetFC?.dataset?.pdv || 0);
+  return {targetType:'servant', target:targetSummary(targetFC), amount, before, after, died, graveyardOwner:targetFC?.dataset?.player || ''};
+}
+
+async function resolveImmediatePlayEffect({player, cardId, sourceFC}) {
+  const p = playerState(player);
+  const effect = immediatePlayEffectDefinition(cardId);
+  if (!effect) return {success:true, code:'no-immediate-effect'};
+  const sourceInstanceId = sourceFC?.dataset?.instance || '';
+  const diagnostic = {success:true, code:'immediate-effect-resolved', cardId, effect:effect.effect, source:targetSummary(sourceFC), deferred:[...(effect.deferred || [])], operations:[]};
+  if (effect.effect === 'self-damage') {
+    const amount = effectAmountValue(effect.amount, sourceFC);
+    const result = await applyImmediateServantDamage({sourcePlayer:p, sourceFC, targetFC:sourceFC, sourceCardId:cardId, amount});
+    if (effect.updates?.includes('rage')) updateRageState(sourceFC);
+    diagnostic.operations.push(result);
+    recordCombatEffectDiagnostic(cardId, diagnostic);
+    return diagnostic;
+  }
+  if (effect.effect === 'self-avatar-damage') {
+    const result = applyAvatarEffectDamage(p, effectAmountValue(effect.amount, sourceFC), {sourceCardId:cardId, sourceInstanceId});
+    diagnostic.operations.push(result);
+    recordCombatEffectDiagnostic(cardId, diagnostic);
+    return diagnostic;
+  }
+  const targets = legalImmediateEffectTargets(cardId, p);
+  if (!targets.length && effect.effect === 'enemy-servant-or-avatar-damage') {
+    const result = applyAvatarEffectDamage(opponentOf(p), effectAmountValue(effect.avatarAmount, sourceFC), {sourceCardId:cardId, sourceInstanceId});
+    diagnostic.code = 'immediate-effect-avatar-fallback';
+    diagnostic.operations.push(result);
+    recordCombatEffectDiagnostic(cardId, diagnostic);
+    return diagnostic;
+  }
+  if (!targets.length) {
+    const blocked = {success:false, code:'no-valid-target', message:'Aucune cible valide n’est disponible.', cardId, effect:effect.effect, operations:[]};
+    recordCombatEffectDiagnostic(cardId, blocked);
+    return blocked;
+  }
+  const targetFC = targets[0];
+  const amount = effectAmountValue(effect.amount, sourceFC);
+  const result = await applyImmediateServantDamage({sourcePlayer:p, sourceFC, targetFC, sourceCardId:cardId, amount});
+  diagnostic.operations.push(result);
+  recordCombatEffectDiagnostic(cardId, diagnostic);
+  return diagnostic;
 }
 
 function validateCardActionStart({player, cardId, slot, selectedTargetIds=null}) {
@@ -8702,6 +8863,10 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null})
   if (!targetResult.allowed) {
     return {valid:false, reason:targetResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', targetResult};
   }
+  const immediateEffectResult = evaluateImmediatePlayEffectLegality(cardId, {player:p});
+  if (!immediateEffectResult.allowed) {
+    return {valid:false, reason:immediateEffectResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', immediateEffectResult};
+  }
   if (cardId === 'S000002' && !playerHand(opponentOf(p)).length) return {valid:false, reason:'no-valid-target'};
   if (cardId === 'S000023' && p.hand.includes('EDG000006')) {
     const servantZone = qs(playerZoneSelector(p, 'servants'));
@@ -8721,8 +8886,8 @@ function cardActionError(reason, detail={}) {
   if (reason === 'wrong-player' || reason === 'wrong-side') return `Vous ne pouvez poser vos cartes que de votre cote du terrain.`;
   if (reason === 'wrong-slot-type') return `Cet emplacement ne correspond pas au type de cette carte.`;
   if (reason === 'no-servant-slot') return `Aucun emplacement de serviteur libre.`;
-  if (reason === 'no-valid-target') return `Aucune cible valide pour cette carte.`;
-  if (reason === 'invalid-target') return `Cette cible n'est pas valide.`;
+  if (reason === 'no-valid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Aucune cible valide n’est disponible.`;
+  if (reason === 'invalid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Cette cible n'est pas valide.`;
   if (reason === 'card-not-in-hand') return `Cette carte n'est plus dans votre main.`;
   if (reason === 'starting-deck-troll-condition') return `Votre deck de depart ne contient pas assez de serviteurs Trolls distincts.`;
   if (reason === 'no-supply-in-graveyard') return `Votre cimetière ne contient aucun Approvisionnement.`;
@@ -8742,7 +8907,7 @@ function recordCommittedSpell(cardId, player) {
 
 function shouldMoveResolvedSpellToGraveyard(cardId) {
   const card = CARDS_DATA[cardId];
-  return card?.type === 'Sort' && !!cardTargetRequirement(cardId);
+  return card?.type === 'Sort';
 }
 
 function moveResolvedSpellToGraveyard(cardId, player) {
@@ -9067,6 +9232,12 @@ async function triggerInitiative(cardId, player, context={}) {
     const messages = DRAW_INITIATIVE_MESSAGES[cardId] || {};
     if (result.success) showNotif(messages.success || 'Carte piochée\u00a0!', 1400);
     else showNotif(describeDrawInitiativeFailure(cardId, result), 1400);
+    return result;
+  }
+  const immediateEffect = immediatePlayEffectDefinition(cardId);
+  if (immediateEffect?.trigger === 'initiative') {
+    const result = await resolveImmediatePlayEffect({player, cardId, sourceFC});
+    traceCardPlay(traceId, 'afterImmediatePlayEffect', player, cardId, sourceInstanceId, {immediateEffectResult:result});
     return result;
   }
   const adverseServId = playerZoneSelector(opponentOf(player), 'servants');
@@ -10225,8 +10396,19 @@ async function resolveCombat(attacker, targetFC) {
 
   // Marquer l'attaquant épuisé
   // Zombie nouveau-né : soin du montant de son ATK
-  if (attacker.dataset.id === 'MV000010') applyHeal(attacker, parseInt(attacker.dataset.atk)||1);
-  if (attacker.dataset.id === 'MV000020') applyHeal(attacker, 2);
+  const combatHealingResults = [];
+  if (attacker.dataset.id === 'MV000010') combatHealingResults.push({source:'combat-damage-heal', result:applyHeal(attacker, parseInt(attacker.dataset.atk)||1)});
+  if (attacker.dataset.id === 'MV000020') combatHealingResults.push({source:'combat-damage-heal', result:applyHeal(attacker, 2)});
+  if (combatHealingResults.length) {
+    recordCombatEffectDiagnostic(attacker.dataset.id, {
+      success:true,
+      code:'combat-healing-resolved',
+      cardId:attacker.dataset.id,
+      source:targetSummary(attacker),
+      target:targetSummary(targetFC),
+      healing:combatHealingResults
+    });
+  }
   // Sombre-garde : soin après avoir infligé des dégâts
   if (attacker.dataset.id === 'EN000007') applyHeal(attacker, 2);
   // Faucheur d'âmes : quand il détruit un serviteur, +1 âme à l'approvisionnement
@@ -10300,21 +10482,21 @@ async function applyDamage(fc, amount) {
 
   if (newPdv <= 0) {
     fc.dataset.dead = '1';
-    sendToCemetery(fc); // pas d'await : on continue le combat sans bloquer
+    await sendToCemetery(fc);
     return true;
   }
   return false;
 }
 
 function applyHeal(fc, amount) {
-  if (!fc || !amount || amount <= 0 || fc.dataset.dead) return;
+  if (!fc || !amount || amount <= 0 || fc.dataset.dead) return {success:false, reason:'invalid-heal-target', gained:0};
   const pdvEl = fc.querySelector('.fc-pdv-val');
-  if (!pdvEl) return;
+  if (!pdvEl) return {success:false, reason:'missing-pdv', gained:0};
   const cur = parseInt(pdvEl.textContent)||0;
   const max = parseInt(fc.dataset.pdvMax)||cur;
   const nv  = Math.min(max, cur+amount);
   const gained = nv - cur;
-  if (gained <= 0) return;
+  if (gained <= 0) return {success:false, reason:'already-at-maximum', before:cur, after:nv, max, requested:amount, gained:0};
   pdvEl.textContent = nv;
   pdvEl.className   = nv < max ? 'fc-pdv-val red' : 'fc-pdv-val';
   fc.dataset.pdv    = nv;
@@ -10325,6 +10507,7 @@ function applyHeal(fc, amount) {
   glow.className = 'heal-glow';
   fc.appendChild(glow);
   setTimeout(() => glow.remove(), 2200);
+  return {success:true, before:cur, after:nv, max, requested:amount, gained};
 }
 
 
@@ -10427,7 +10610,10 @@ async function sendToCemetery(fc) {
   if (goesToCemetery && !placedAtDeckBottom) {
     if (d.type === 'Serviteur' && player) {
       const graveyardOwner = playerState(player);
-      if (graveyardOwner && !graveyardOwner.graveyard.includes(cardId)) graveyardOwner.graveyard.push(cardId);
+      if (graveyardOwner && fc.dataset.cemeteryRecorded !== '1') {
+        graveyardOwner.graveyard.push(cardId);
+        fc.dataset.cemeteryRecorded = '1';
+      }
     }
     addToCemetery(cardId, player, d.fac||'edn');
   }
@@ -14975,11 +15161,41 @@ function setupInitialHands() {
   activePlayer.firstTurnStarted = true;
 }
 
+function applyScenarioServantState(fc, entry={}) {
+  if (!fc || !entry) return;
+  const atk = Number(entry.atk);
+  if (Number.isFinite(atk)) {
+    fc.dataset.atk = String(atk);
+    const atkEl = fc.querySelector('.fc-atk-val');
+    if (atkEl) atkEl.textContent = String(atk);
+  }
+  const pdvMax = Number(entry.pdvMax);
+  if (Number.isFinite(pdvMax) && pdvMax > 0) fc.dataset.pdvMax = String(pdvMax);
+  const pdv = Number(entry.pdv);
+  if (Number.isFinite(pdv)) {
+    const max = Number(fc.dataset.pdvMax || pdv || 1);
+    const value = Math.max(0, Math.min(max, pdv));
+    fc.dataset.pdv = String(value);
+    const pdvEl = fc.querySelector('.fc-pdv-val');
+    if (pdvEl) {
+      pdvEl.textContent = String(value);
+      pdvEl.className = value < max ? 'fc-pdv-val red' : 'fc-pdv-val';
+    }
+  }
+  if (entry.prepared) {
+    delete fc.dataset.new;
+    delete fc.dataset.exhausted;
+    fc.classList.remove('fc-summoning-sick','fc-exhausted');
+  }
+  updateRageState(fc);
+}
+
 function applyScenarioTestSetup() {
   const setup = activeScenario?.testSetup;
   if (!setup) return;
   lastCostDiagnostic = null;
   lastPlayLegalityDiagnostic = null;
+  lastCombatEffectDiagnostic = null;
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
@@ -15000,10 +15216,15 @@ function applyScenarioTestSetup() {
     if (Array.isArray(config.servants)) {
       const zone = qs(playerZoneSelector(p, 'servants'));
       const slots = Array.from(zone?.querySelectorAll('.slot') || []);
-      config.servants.forEach((cardId, index) => {
+      config.servants.forEach((entry, index) => {
+        const cardId = typeof entry === 'string' ? entry : entry?.id;
         const slot = slots[index];
         if (!slot || !CARDS_DATA[cardId]) return;
+        const parent = slot.parentElement;
+        const slotIndex = parent ? Array.from(parent.children).indexOf(slot) : -1;
         slot.outerHTML = buildFC(cardId, p.key);
+        const placed = parent && slotIndex >= 0 ? parent.children[slotIndex] : null;
+        if (placed && typeof entry === 'object') applyScenarioServantState(placed, entry);
       });
     }
     if (config.avatarHp !== undefined) {

@@ -352,7 +352,7 @@ test("Assassinat refuses an explicitly illegal target before payment", async ({ 
   expect(after.graveyard).toEqual(before.graveyard);
   expect(after.opponentGraveyard).toEqual(before.opponentGraveyard);
   expect(after.cardsPlayedThisTurn).toBe(before.cardsPlayedThisTurn);
-  expect(after.errorText).toBe("Cette cible n'est pas valide.");
+  expect(after.errorText).toBe("Cette cible n’est pas valide.");
   expect(after.errorCode).toBe("invalid-target");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -375,7 +375,7 @@ test("Assassinat refuses when no legal target exists", async ({ page }, testInfo
   expect(after.graveyard).toEqual(before.graveyard);
   expect(after.opponentGraveyard).toEqual(before.opponentGraveyard);
   expect(after.cardsPlayedThisTurn).toBe(before.cardsPlayedThisTurn);
-  expect(after.errorText).toBe("Aucune cible valide pour cette carte.");
+  expect(after.errorText).toBe("Aucune cible valide n’est disponible.");
   expect(after.errorCode).toBe("no-valid-target");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

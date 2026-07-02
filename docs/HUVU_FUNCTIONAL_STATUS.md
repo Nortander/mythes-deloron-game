@@ -36,3 +36,20 @@ Le panneau technique `MODE TEST - HUVU IMPL 1` est reserve aux scenarios techniq
 - Un refus sans cible valide ou avec cible illegale ne retire pas le Sort de la main, ne consomme pas de ressources et ne modifie pas les cimetieres.
 - Les conditions d'invocation des cartes du lot sont rendues comme de vraies infobulles laterales generiques, en dehors du corps descriptif de la carte.
 - `MV000019` reste `PARTIEL` : son texte et son infobulle de condition sont corrects, mais son effet complet reste hors lot.
+
+## HUVU-IMPL-2
+
+Ce deuxieme lot couvre les degats directs immediats, les soins immediats bornes au maximum de PV, les modifications ATK/PV permanentes sans expiration et la resolution letale vers le cimetiere. Il ne modifie pas les compositions Hokhan/Uram.
+
+Le panneau technique `MODE TEST - HUVU IMPL 2` est reserve aux scenarios techniques et expose le diagnostic de combat sans changer les messages publics.
+
+| ID | Carte | Statut avant | Statut apres | Primitive | Test direct | Limites restantes |
+| --- | --- | --- | --- | --- | --- | --- |
+| B000002 | Rhaekor enrage | FONCTIONNEL_NON_TESTE | FONCTIONNEL_TESTE | auto-degat et Rage immediate | oui, succes et cout classique valide par le diagnostic | aucune dans ce lot |
+| MV000010 | Zombie nouveau-ne | FONCTIONNEL_NON_TESTE | FONCTIONNEL_TESTE | degat direct et soin de combat | oui, degat non lethal ; soin couvert par le moteur commun | aucune dans ce lot |
+| MV000017 | Cauchemar de la Lame | PARTIEL | FONCTIONNEL_TESTE | degat direct ou degat avatar si aucune cible | oui, lethal et branche avatar | aucune dans ce lot |
+| MV000020 | Gobelin mort-vivant | PARTIEL | FONCTIONNEL_TESTE | soin de combat immediat | oui, soin borne au maximum | aucune dans ce lot |
+| MV000021 | Scorpion de la Lame | PARTIEL | PARTIEL | degat direct lethal | oui, degat et cimetiere | generation d'Echos sur destruction reportee |
+| MV000027 | Sang-lie | PARTIEL | PARTIEL | degat sur son propre avatar | oui, degat avatar | Vengeance et generation d'Echos reportees |
+
+Cartes reportees pour ce lot : `S000041`, `S000042`, `H000004`, `H000006`, `MV000003`, `MV000028`, `PRST000014`, `MV000030`, `GOB000001` et `H000019`.
