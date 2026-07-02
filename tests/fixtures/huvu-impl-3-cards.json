@@ -1,0 +1,55 @@
+{
+  "phase": "HUVU-IMPL-3",
+  "maxDirectCards": 8,
+  "cards": [
+    {
+      "id": "S000006",
+      "name": "Murmures divins",
+      "deck": "Hokhan",
+      "primitive": "draw-return-bottom-deck",
+      "scenario": "huvu-impl-3-draw-discard",
+      "statusBefore": "FONCTIONNEL_NON_TESTE",
+      "expectedStatusAfter": "FONCTIONNEL_TESTE"
+    },
+    {
+      "id": "S000022",
+      "name": "Galerie des horreurs",
+      "deck": "Hokhan",
+      "primitive": "opponent-graveyard-servant-to-own-deck-shuffle",
+      "scenario": "huvu-impl-3-graveyard-selection",
+      "statusBefore": "ABSENT",
+      "expectedStatusAfter": "FONCTIONNEL_TESTE"
+    },
+    {
+      "id": "S000051",
+      "name": "Rituel occulte",
+      "deck": "Hokhan",
+      "primitive": "opponent-graveyard-to-own-graveyard",
+      "scenario": "huvu-impl-3-graveyard-theft",
+      "statusBefore": "ABSENT",
+      "expectedStatusAfter": "FONCTIONNEL_TESTE"
+    }
+  ],
+  "deferred": [
+    {
+      "id": "S000044",
+      "reason": "persistent end-of-turn and summon trigger"
+    },
+    {
+      "id": "S000052",
+      "reason": "direct invocation from deck/graveyard"
+    },
+    {
+      "id": "PRST000014",
+      "reason": "persistent resource/healing rule"
+    },
+    {
+      "id": "R000024",
+      "reason": "supply production outside zone lot"
+    },
+    {
+      "id": "R000025",
+      "reason": "supply choice/production outside zone lot"
+    }
+  ]
+}

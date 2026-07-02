@@ -2199,6 +2199,13 @@ const DECK_HUVU_IMPL_2_TESTS = [
 const START_OUI_HUVU_IMPL_2_DAMAGE = ['B000002','MV000010','MV000017','MV000021','MV000027'];
 const START_OUI_HUVU_IMPL_2_HEALING = [];
 const START_OUI_HUVU_IMPL_2_STATS = ['B000002'];
+const HUVU_IMPL_3_CARD_IDS = ['S000006','S000022','S000051'];
+const DECK_HUVU_IMPL_3_TESTS = [
+  ...HUVU_IMPL_3_CARD_IDS,
+  'MV000001','MV000002','MV000003','MV000004','S000017','S000019','R000010'
+];
+const START_OUI_HUVU_IMPL_3_ZONES = [...HUVU_IMPL_3_CARD_IDS];
+const DECK_HUVU_IMPL_3_OPPONENT = ['H000001','H000005','H000018','H000029','R000001','R000002'];
 
 const CHARACTER_DEFS = {
   raith: {
@@ -2400,6 +2407,26 @@ const CHARACTER_DEFS = {
     avatarCap: 'hum',
     portrait: 'AVP000007.png',
     tip: 'MODE TEST — adversaire pour effets de combat HUVU IMPL 2.'
+  },
+  huvuImpl3Subject: {
+    characterId: 'huvuImpl3Subject',
+    name: 'TEST — HUVU Impl 3',
+    deck: DECK_HUVU_IMPL_3_TESTS,
+    startOui: START_OUI_HUVU_IMPL_3_ZONES,
+    startMaybe: [],
+    avatarCap: 'mvs',
+    portrait: 'AVP000008.png',
+    tip: 'MODE TEST — HUVU IMPL 3 : main, deck et cimetiere.'
+  },
+  huvuImpl3Opponent: {
+    characterId: 'huvuImpl3Opponent',
+    name: 'TEST — Zones HUVU Impl 3',
+    deck: DECK_HUVU_IMPL_3_OPPONENT,
+    startOui: [],
+    startMaybe: [],
+    avatarCap: 'hum',
+    portrait: 'AVP000007.png',
+    tip: 'MODE TEST — adversaire pour effets de zones HUVU IMPL 3.'
   }
 };
 const SCENARIOS = {
@@ -2519,6 +2546,27 @@ SCENARIOS['huvu-impl-2-stats'] = {
   testSetup: {
     player1: {resources: {classical:{nourriture:3}, souls:0}, hand: START_OUI_HUVU_IMPL_2_STATS, servants: [], avatarHp:10},
     player2: {resources: {classical:{aria:2}, souls:0}, hand: [], servants: [], avatarHp:10}
+  }
+};
+SCENARIOS['huvu-impl-3-draw-discard'] = {
+  label: 'TEST — HUVU IMPL 3 pioche et retour deck', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl3Panel: true, testCardId: 'S000006',
+  testSetup: {
+    player1: {resources: {classical:{aria:10, selene:10, lenya:10}, souls:10}, hand: ['S000006'], drawPile: ['R000010','MV000001','MV000002','MV000003','S000017'], graveyard: [], servants: [], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: [], servants: [], avatarHp:10}
+  }
+};
+SCENARIOS['huvu-impl-3-graveyard-selection'] = {
+  label: 'TEST — HUVU IMPL 3 cimetière vers deck', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl3Panel: true, testCardId: 'S000022',
+  testSetup: {
+    player1: {resources: {classical:{aria:8, selene:0, lenya:0}, souls:0}, hand: ['S000022'], drawPile: ['R000010','MV000001'], graveyard: [], servants: [], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: ['H000001','R000001','H000005','H000018','H000029'], servants: [], avatarHp:10}
+  }
+};
+SCENARIOS['huvu-impl-3-graveyard-theft'] = {
+  label: 'TEST — HUVU IMPL 3 vol de cimetière', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showHuvuImpl3Panel: true, testCardId: 'S000051',
+  testSetup: {
+    player1: {resources: {classical:{aria:5}, souls:0}, hand: ['S000051'], drawPile: ['R000010','MV000001'], graveyard: ['MV000001'], servants: [], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: ['H000001','R000001','H000005'], servants: [], avatarHp:10}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -3860,6 +3908,259 @@ function drawCardFromRuntimeDeck(player, options={}) {
 
 function drawCardFromDeck(player, predicate=()=>true, options={}) {
   return drawCardFromRuntimeDeck(player, {...options, predicate});
+}
+
+function normalizeRuntimeZoneName(zone) {
+  const key = String(zone || '').toLowerCase();
+  if (['drawpile','draw-pile','deck','pioche'].includes(key)) return 'deck';
+  if (['hand','main'].includes(key)) return 'hand';
+  if (['graveyard','cemetery','cimetiere','cimetière'].includes(key)) return 'graveyard';
+  return key;
+}
+
+function zoneArrayForPlayer(player, zone) {
+  const p = playerState(player);
+  if (!p) return null;
+  const normalized = normalizeRuntimeZoneName(zone);
+  if (normalized === 'deck') return playerDrawPile(p);
+  if (normalized === 'hand') return playerHand(p);
+  if (normalized === 'graveyard') {
+    p.graveyard ||= [];
+    return p.graveyard;
+  }
+  return null;
+}
+
+function zoneSize(player, zone) {
+  return zoneArrayForPlayer(player, zone)?.length || 0;
+}
+
+function runtimeCardType(cardId) {
+  return CARDS_DATA[cardId]?.type || '';
+}
+
+function runtimeCardKeywords(cardId) {
+  return (CARDS_DATA[cardId]?.kws || []).map(kw => String(kw || '').toLowerCase());
+}
+
+function cardMatchesZoneRequirement(cardId, requirement={}) {
+  if (!cardId || !CARDS_DATA[cardId]) return false;
+  if (requirement.type && runtimeCardType(cardId) !== requirement.type) return false;
+  if (requirement.cardType && runtimeCardType(cardId) !== requirement.cardType) return false;
+  if (requirement.faction && CARDS_DATA[cardId]?.fac !== requirement.faction) return false;
+  if (Array.isArray(requirement.cardIds) && !requirement.cardIds.includes(cardId)) return false;
+  if (Array.isArray(requirement.excludeKeywords)) {
+    const keywords = runtimeCardKeywords(cardId);
+    if (requirement.excludeKeywords.some(keyword => keywords.includes(String(keyword || '').toLowerCase()))) return false;
+  }
+  return true;
+}
+
+function zoneCardEntries(player, zone, requirement={}) {
+  const p = playerState(player);
+  const normalized = normalizeRuntimeZoneName(zone);
+  const entries = zoneArrayForPlayer(p, normalized) || [];
+  return entries.map((entry, index) => ({
+    ownerKey: p?.key || '',
+    zone: normalized,
+    index,
+    entry,
+    cardId: getRuntimeCardId(entry)
+  })).filter(item => cardMatchesZoneRequirement(item.cardId, requirement));
+}
+
+function countCardsById(entries) {
+  return (entries || []).reduce((acc, entry) => {
+    const cardId = getRuntimeCardId(entry);
+    if (cardId) acc[cardId] = (acc[cardId] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function zoneInventorySnapshot(player) {
+  const p = playerState(player);
+  if (!p) return null;
+  const hand = [...playerHand(p)];
+  const deck = [...playerDrawPile(p)].map(getRuntimeCardId).filter(Boolean);
+  const graveyard = [...(p.graveyard || [])].map(getRuntimeCardId).filter(Boolean);
+  return {
+    playerKey:p.key,
+    hand,
+    deck,
+    graveyard,
+    sizes:{hand:hand.length, deck:deck.length, graveyard:graveyard.length},
+    counts:{hand:countCardsById(hand), deck:countCardsById(deck), graveyard:countCardsById(graveyard)}
+  };
+}
+
+function auditZoneInventories() {
+  return {
+    scenarioId:selectedScenarioId(),
+    currentPlayer,
+    player1:zoneInventorySnapshot(player1),
+    player2:zoneInventorySnapshot(player2)
+  };
+}
+
+function refreshRuntimeZone(player, zone) {
+  const p = playerState(player);
+  if (!p) return;
+  const normalized = normalizeRuntimeZoneName(zone);
+  if (normalized === 'deck') updateDeckCount(p);
+  if (normalized === 'hand') refreshHand(p);
+  if (normalized === 'graveyard') refreshCemeteryVisual(p);
+}
+
+function addEntryToRuntimeZone(player, zone, entry, {position='top'}={}) {
+  const arr = zoneArrayForPlayer(player, zone);
+  if (!arr) return false;
+  const normalized = normalizeRuntimeZoneName(zone);
+  if (normalized === 'deck') {
+    if (position === 'bottom') arr.unshift(entry);
+    else arr.push(entry);
+  } else {
+    arr.push(entry);
+  }
+  refreshRuntimeZone(player, normalized);
+  return true;
+}
+
+function removeZoneEntry(player, zone, index) {
+  const arr = zoneArrayForPlayer(player, zone);
+  if (!arr || !Number.isInteger(index) || index < 0 || index >= arr.length) return null;
+  const removed = arr.splice(index, 1)[0];
+  refreshRuntimeZone(player, zone);
+  return removed;
+}
+
+function moveRuntimeZoneEntry({sourcePlayer, sourceZone, sourceIndex, targetPlayer, targetZone, targetPosition='top', reason='zone-effect'}={}) {
+  const source = playerState(sourcePlayer);
+  const target = playerState(targetPlayer);
+  const before = {
+    source:zoneInventorySnapshot(source),
+    target:source?.key === target?.key ? null : zoneInventorySnapshot(target)
+  };
+  const entry = removeZoneEntry(source, sourceZone, sourceIndex);
+  const cardId = getRuntimeCardId(entry);
+  if (!entry || !cardId) {
+    return {success:false, code:'invalid-zone-entry', reason, sourcePlayer:source?.key || '', targetPlayer:target?.key || '', sourceZone:normalizeRuntimeZoneName(sourceZone), targetZone:normalizeRuntimeZoneName(targetZone), sourceIndex};
+  }
+  addEntryToRuntimeZone(target, targetZone, entry, {position:targetPosition});
+  return {
+    success:true,
+    code:'zone-entry-moved',
+    reason,
+    cardId,
+    sourcePlayer:source?.key || '',
+    targetPlayer:target?.key || '',
+    sourceZone:normalizeRuntimeZoneName(sourceZone),
+    targetZone:normalizeRuntimeZoneName(targetZone),
+    sourceIndex,
+    targetPosition,
+    before,
+    after:{
+      source:zoneInventorySnapshot(source),
+      target:source?.key === target?.key ? null : zoneInventorySnapshot(target)
+    }
+  };
+}
+
+function shuffleRuntimeDeck(player, {sourceCardId='', reason='zone-effect'}={}) {
+  const p = playerState(player);
+  const pile = playerDrawPile(p);
+  const before = [...pile].map(getRuntimeCardId);
+  shuffleDeck(pile);
+  updateDeckCount(p);
+  return {success:true, code:'deck-shuffled', reason, sourceCardId, playerKey:p?.key || '', before, after:[...pile].map(getRuntimeCardId)};
+}
+
+function normalizeZoneSelection(selection) {
+  const source = selection || {};
+  const indexes = Array.isArray(source.selectedIndexes) ? source.selectedIndexes : (Array.isArray(source.indexes) ? source.indexes : []);
+  const cardIds = Array.isArray(source.selectedCardIds) ? source.selectedCardIds : (source.selectedCardId ? [source.selectedCardId] : []);
+  return {
+    selectedIndexes:indexes.map(Number).filter(Number.isInteger),
+    selectedCardIds:cardIds.filter(Boolean),
+    selectedIndex:Number.isInteger(Number(source.selectedIndex)) ? Number(source.selectedIndex) : null
+  };
+}
+
+function selectZoneEntriesFromSelection(candidates, selection, {max=1, min=1}={}) {
+  const normalized = normalizeZoneSelection(selection);
+  const chosen = [];
+  const usedKeys = new Set();
+  const addCandidate = candidate => {
+    if (!candidate) return;
+    const key = `${candidate.ownerKey}:${candidate.zone}:${candidate.index}`;
+    if (usedKeys.has(key)) return;
+    usedKeys.add(key);
+    chosen.push(candidate);
+  };
+  if (normalized.selectedIndexes.length) {
+    normalized.selectedIndexes.forEach(index => addCandidate(candidates.find(candidate => candidate.index === index)));
+  } else if (normalized.selectedIndex !== null) {
+    addCandidate(candidates.find(candidate => candidate.index === normalized.selectedIndex) || candidates[normalized.selectedIndex]);
+  }
+  normalized.selectedCardIds.forEach(cardId => {
+    const match = candidates.find(candidate => candidate.cardId === cardId && !usedKeys.has(`${candidate.ownerKey}:${candidate.zone}:${candidate.index}`));
+    addCandidate(match);
+  });
+  const limited = chosen.slice(0, max);
+  return {
+    allowed: limited.length >= min && limited.length <= max,
+    selected: limited,
+    code: limited.length >= min ? 'zone-selection-valid' : 'zone-selection-missing'
+  };
+}
+
+function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={}) {
+  const available = Array.from(candidates || []);
+  if (typeof document === 'undefined' || !document.body) return Promise.resolve(available.slice(0, maxCount));
+  if (!available.length) return Promise.resolve([]);
+  return new Promise(resolve => {
+    const selected = new Set();
+    const cardsHTML = available.map((candidate, i) => {
+      const id = candidate.cardId;
+      return `<div class="sort-choice-item" data-testid="zone-card-choice" data-card-id="${escapeHtml(id || '')}" data-zone-index="${candidate.index}" data-idx="${i}">
+        ${renderSelectionCard(id, playerState(candidate.ownerKey), {context:'zone-selection', occurrenceId:`${candidate.zone}:${candidate.index}`, selectable:true})}
+      </div>`;
+    }).join('');
+    const modal = createMinimizableDecisionModal({
+      decisionId:'zone-card-selection',
+      title:title || 'Selection de zone',
+      compactLabel:`${title || 'Selection'} en attente`,
+      panelClass:'zone-card-choice-panel',
+      bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
+        <div class="sort-choice-cards" data-testid="zone-card-choice-list">${cardsHTML}</div>
+        <button type="button" class="sort-choice-confirm" data-testid="zone-card-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
+    });
+    function update() {
+      modal.overlay?.querySelectorAll('.sort-choice-item').forEach((el, i) => {
+        el.classList.toggle('is-selected', selected.has(i));
+        el.style.outline = selected.has(i) ? '2px solid #ff9a40' : '';
+      });
+      const confirm = modal.overlay?.querySelector('.sort-choice-confirm');
+      if (confirm) confirm.disabled = selected.size < minCount;
+    }
+    modal.onRender = () => {
+      const overlay = modal.overlay;
+      if (!overlay) return;
+      overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
+        el.addEventListener('click', () => {
+          if (selected.has(i)) selected.delete(i);
+          else if (selected.size < maxCount) selected.add(i);
+          update();
+        });
+      });
+      overlay.querySelector('.sort-choice-confirm')?.addEventListener('click', () => {
+        const chosen = [...selected].map(index => available[index]).filter(Boolean);
+        modal.close({selected:[...selected]});
+        resolve(chosen);
+      });
+      update();
+    };
+    modal.onRender();
+  });
 }
 
 
@@ -5652,6 +5953,7 @@ if (typeof window !== 'undefined') {
   window.getLastCardPlayTrace = getLastCardPlayTrace;
   window.getLastStartTurnTrace = getLastStartTurnTrace;
   window.auditPlayerZoneConsistency = auditPlayerZoneConsistency;
+  window.auditZoneInventories = auditZoneInventories;
   window.auditHandCapacityPaths = auditHandCapacityPaths;
   window.auditHandFullState = auditHandFullState;
   window.auditHandProjection = auditHandProjection;
@@ -8250,6 +8552,7 @@ function describeAffordabilityDiagnostic(result) {
 
 let lastPlayLegalityDiagnostic = null;
 let lastCombatEffectDiagnostic = null;
+let lastZoneEffectDiagnostic = null;
 let testResourcePanelCollapsed = false;
 let testResourcePanelScrollTop = 0;
 function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
@@ -8261,10 +8564,10 @@ function formatCostDefinitionForPanel(definition) { if (!definition) return 'co�
 function clonePlayDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
 function buildPlayLegalityDiagnostic(cardId, validation, outcome) {
   const card = CARDS_DATA[cardId] || {};
-  return {scenarioId:selectedScenarioId(), cardId, cardName:card.name || '', outcome, code:validation?.valid ? 'play-legal' : (validation?.immediateEffectResult?.code || validation?.targetResult?.code || validation?.conditionResult?.code || validation?.reason || 'play-illegal'), publicMessage:validation?.valid ? '' : cardActionError(validation?.reason, validation), conditionResult:clonePlayDiagnostic(validation?.conditionResult || null), targetResult:clonePlayDiagnostic(validation?.targetResult || null), immediateEffectResult:clonePlayDiagnostic(validation?.immediateEffectResult || null)};
+  return {scenarioId:selectedScenarioId(), cardId, cardName:card.name || '', outcome, code:validation?.valid ? 'play-legal' : (validation?.immediateEffectResult?.code || validation?.targetResult?.code || validation?.zoneRequirementResult?.code || validation?.conditionResult?.code || validation?.reason || 'play-illegal'), publicMessage:validation?.valid ? '' : cardActionError(validation?.reason, validation), conditionResult:clonePlayDiagnostic(validation?.conditionResult || null), targetResult:clonePlayDiagnostic(validation?.targetResult || null), zoneRequirementResult:clonePlayDiagnostic(validation?.zoneRequirementResult || null), immediateEffectResult:clonePlayDiagnostic(validation?.immediateEffectResult || null)};
 }
 function recordTestPlayLegalityDiagnostic(cardId, validation, outcome) {
-  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl1Panel && !activeScenario?.showHuvuImpl2Panel) return null;
+  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl1Panel && !activeScenario?.showHuvuImpl2Panel && !activeScenario?.showHuvuImpl3Panel) return null;
   lastPlayLegalityDiagnostic = buildPlayLegalityDiagnostic(cardId, validation, outcome);
   updateTestResourcePanel();
   return lastPlayLegalityDiagnostic;
@@ -8275,7 +8578,13 @@ function recordCombatEffectDiagnostic(cardId, diagnostic) {
   updateTestResourcePanel();
   return lastCombatEffectDiagnostic;
 }
-function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastCombatEffectDiagnostic?.cardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic), combat: clonePlayDiagnostic(lastCombatEffectDiagnostic)}; }
+function recordZoneEffectDiagnostic(cardId, diagnostic) {
+  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl3Panel) return null;
+  lastZoneEffectDiagnostic = clonePlayDiagnostic({scenarioId:selectedScenarioId(), cardId, ...(diagnostic || {})});
+  updateTestResourcePanel();
+  return lastZoneEffectDiagnostic;
+}
+function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastZoneEffectDiagnostic?.cardId || lastCombatEffectDiagnostic?.cardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic), combat: clonePlayDiagnostic(lastCombatEffectDiagnostic), zone: clonePlayDiagnostic(lastZoneEffectDiagnostic)}; }
 function updateTestResourcePanel() {
   const existing = document.querySelector('[data-testid="test-resource-panel"]');
   const restoreButton = document.querySelector('[data-testid="test-resource-panel-restore"]');
@@ -8301,8 +8610,8 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES');
-  panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre>`;
+  const title = activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'));
+  panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
     testResourcePanelCollapsed = true;
@@ -8757,6 +9066,55 @@ function evaluateImmediatePlayEffectLegality(cardId, {player=currentPlayer}={}) 
   return {cardId, allowed:true, code:'immediate-effect-target-valid', effect, legalTargets:legalTargets.map(targetSummary)};
 }
 
+const ZONE_PLAY_REQUIREMENTS = Object.freeze({
+  S000006: {
+    owner:'self',
+    zone:'deck',
+    requirement:{},
+    min:1,
+    code:'own-deck-has-card',
+    message:'Votre deck ne contient aucune carte à piocher.'
+  },
+  S000022: {
+    owner:'opponent',
+    zone:'graveyard',
+    requirement:{type:'Serviteur', excludeKeywords:['Insensible']},
+    min:1,
+    code:'opponent-graveyard-has-servant',
+    message:'Aucune cible valide n’est disponible.'
+  }
+});
+
+function evaluateZonePlayRequirement(cardId, {player=currentPlayer}={}) {
+  const definition = ZONE_PLAY_REQUIREMENTS[cardId];
+  if (!definition) return {cardId, allowed:true, code:'no-zone-requirement', legalCards:[]};
+  const p = playerState(player);
+  const owner = definition.owner === 'opponent' ? opponentOf(p) : p;
+  const legalCards = zoneCardEntries(owner, definition.zone, definition.requirement || {});
+  const min = Number(definition.min || 1);
+  if (legalCards.length < min) {
+    return {
+      cardId,
+      allowed:false,
+      code:definition.code || 'zone-requirement-unmet',
+      message:definition.message || 'Aucune cible valide n’est disponible.',
+      owner:owner?.key || '',
+      zone:normalizeRuntimeZoneName(definition.zone),
+      min,
+      legalCards:[]
+    };
+  }
+  return {
+    cardId,
+    allowed:true,
+    code:definition.code || 'zone-requirement-satisfied',
+    owner:owner?.key || '',
+    zone:normalizeRuntimeZoneName(definition.zone),
+    min,
+    legalCards:legalCards.map(({ownerKey, zone, index, cardId}) => ({ownerKey, zone, index, cardId}))
+  };
+}
+
 function auditTargetRequirement(cardId, player=currentPlayer, selectedTargetIds=null) {
   return evaluateTargetRequirement(cardId, {player:playerState(player), selectedTargetIds});
 }
@@ -8859,6 +9217,10 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null})
   if (!invocationCondition.allowed) {
     return {valid:false, reason:'invocation-condition', conditionResult:invocationCondition};
   }
+  const zoneRequirement = evaluateZonePlayRequirement(cardId, {player:p});
+  if (!zoneRequirement.allowed) {
+    return {valid:false, reason:'zone-play-requirement', zoneRequirementResult:zoneRequirement};
+  }
   const targetResult = evaluateTargetRequirement(cardId, {player:p, selectedTargetIds});
   if (!targetResult.allowed) {
     return {valid:false, reason:targetResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', targetResult};
@@ -8888,6 +9250,7 @@ function cardActionError(reason, detail={}) {
   if (reason === 'no-servant-slot') return `Aucun emplacement de serviteur libre.`;
   if (reason === 'no-valid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Aucune cible valide n’est disponible.`;
   if (reason === 'invalid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Cette cible n'est pas valide.`;
+  if (reason === 'zone-play-requirement') return detail?.zoneRequirementResult?.message || `Aucune cible valide n’est disponible.`;
   if (reason === 'card-not-in-hand') return `Cette carte n'est plus dans votre main.`;
   if (reason === 'starting-deck-troll-condition') return `Votre deck de depart ne contient pas assez de serviteurs Trolls distincts.`;
   if (reason === 'no-supply-in-graveyard') return `Votre cimetière ne contient aucun Approvisionnement.`;
@@ -8919,7 +9282,7 @@ function moveResolvedSpellToGraveyard(cardId, player) {
 }
 
 async function commitCardPlay(transaction, {resolveSpell=null}={}) {
-  const {player:p, cardId, slot, card:d, affordability, selectedTargetIds=null} = transaction;
+  const {player:p, cardId, slot, card:d, affordability, selectedTargetIds=null, zoneSelection=null} = transaction;
   transaction.traceId ||= beginCardPlayTrace(cardId, p);
   const traceId = transaction.traceId;
   traceCardPlay(traceId, 'beforeCommit', p, cardId);
@@ -8966,7 +9329,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
       recordCommittedSpell(cardId, p);
       spellResolution = resolveSpell() || {success:true};
     } else {
-      spellResolution = await triggerSort(cardId, p, {selectedTargetIds});
+      spellResolution = await triggerSort(cardId, p, {selectedTargetIds, zoneSelection});
     }
     const spellMovedToGraveyard = shouldMoveResolvedSpellToGraveyard(cardId) && spellResolution?.success !== false
       ? moveResolvedSpellToGraveyard(cardId, p)
@@ -9061,6 +9424,7 @@ async function playCard(cardId, slot, options={}) {
   const p = playerState(currentPlayer);
   if (!acquirePaymentLock(p, cardId)) return;
   const selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
+  const zoneSelection = options?.zoneSelection || null;
   const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
@@ -9077,7 +9441,7 @@ async function playCard(cardId, slot, options={}) {
     showErr(describeAffordabilityFailure(affordability));
     return;
   }
-  const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds};
+  const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection};
   if (cardId === 'R000025') {
     return chooseBazarResource(p, {allowCancel:true, title:'Bazar ambulant'}).then(selected => {
       if (!selected) {
@@ -9595,8 +9959,11 @@ async function triggerSort(cardId, player, context={}) {
       ]);
       break;
     case 'S000006':
-      resolveMurmuresDivins(player);
-      break;
+      return await resolveMurmuresDivins(player, context);
+    case 'S000022':
+      return await resolveGalerieDesHorreurs(player, context);
+    case 'S000051':
+      return resolveRituelOcculte(player);
     case 'S000005': // Assassinat
     { const targetAudit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || null});
       if (!targetAudit.allowed) {
@@ -9880,19 +10247,29 @@ function chooseMurmuresDivinsReturnCard(player, revealed) {
   });
 }
 
-async function resolveMurmuresDivins(player) {
+async function resolveMurmuresDivins(player, context={}) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player'};
   const pile = playerDrawPile(p);
+  const before = zoneInventorySnapshot(p);
   const revealCount = Math.min(4, pile.length);
   if (revealCount <= 0) {
     updateDeckEmpty(p);
     showNotif('Murmures divins ne révèle aucune carte : le deck est vide.', 1500);
-    return {success:false, reason:'deck-empty', revealed:[]};
+    const diagnostic = {success:false, code:'deck-empty', reason:'deck-empty', cardId:'S000006', revealed:[], before, after:zoneInventorySnapshot(p)};
+    recordZoneEffectDiagnostic('S000006', diagnostic);
+    return diagnostic;
   }
   const revealed = [];
   for (let i = 0; i < revealCount; i++) revealed.push(pile.pop());
-  const returnIndex = await chooseMurmuresDivinsReturnCard(p, revealed);
+  const selected = normalizeZoneSelection(context.zoneSelection || {});
+  let returnIndex = Number.isInteger(selected.selectedIndex) ? selected.selectedIndex : -1;
+  if (returnIndex < 0 && selected.selectedCardIds.length) {
+    returnIndex = revealed.findIndex(occurrence => selected.selectedCardIds.includes(occurrence.cardId));
+  }
+  if (returnIndex < 0 || returnIndex >= revealed.length) {
+    returnIndex = await chooseMurmuresDivinsReturnCard(p, revealed);
+  }
   const returned = revealed[returnIndex] ?? revealed[0];
   const kept = revealed.filter((_, index) => index !== returnIndex);
   pile.unshift(returned);
@@ -10078,15 +10455,18 @@ function chooseMurmuresDivinsReturnCard(player, revealed) {
   });
 }
 
-async function resolveMurmuresDivins(player) {
+async function resolveMurmuresDivins(player, context={}) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player'};
   const pile = playerDrawPile(p);
+  const before = zoneInventorySnapshot(p);
   const revealCount = Math.min(4, pile.length);
   if (revealCount <= 0) {
     updateDeckEmpty(p);
     showNotif('Murmures divins ne révèle aucune carte : le deck est vide.', 1500);
-    return {success:false, reason:'deck-empty', revealed:[]};
+    const diagnostic = {success:false, code:'deck-empty', reason:'deck-empty', cardId:'S000006', revealed:[], before, after:zoneInventorySnapshot(p)};
+    recordZoneEffectDiagnostic('S000006', diagnostic);
+    return diagnostic;
   }
   const revealed = [];
   for (let i = 0; i < revealCount; i++) {
@@ -10094,7 +10474,14 @@ async function resolveMurmuresDivins(player) {
     const entry = pile.pop();
     revealed.push(createRevealOccurrence(entry, originalDeckIndex, i, 'murmures'));
   }
-  const returnIndex = await chooseMurmuresDivinsReturnCard(p, revealed);
+  const selected = normalizeZoneSelection(context.zoneSelection || {});
+  let returnIndex = Number.isInteger(selected.selectedIndex) ? selected.selectedIndex : -1;
+  if (returnIndex < 0 && selected.selectedCardIds.length) {
+    returnIndex = revealed.findIndex(occurrence => selected.selectedCardIds.includes(occurrence.cardId));
+  }
+  if (returnIndex < 0 || returnIndex >= revealed.length) {
+    returnIndex = await chooseMurmuresDivinsReturnCard(p, revealed);
+  }
   const returned = revealed[returnIndex] ?? revealed[0];
   const kept = revealed.filter((_, index) => index !== returnIndex);
   pile.unshift(returned.entry);
@@ -10112,9 +10499,10 @@ async function resolveMurmuresDivins(player) {
   }
   updateDeckCount(p);
   refreshHand(p);
-  showNotif(`Murmures divins : ${added} carte(s) gardée(s), 1 carte replacée sous le deck.`, 1800);
-  return {
+  const diagnostic = {
     success: added > 0 || revealed.length === 1,
+    code: added > 0 || revealed.length === 1 ? 'murmures-divins-resolved' : 'hand-full',
+    cardId:'S000006',
     reason: added > 0 || revealed.length === 1 ? null : 'hand-full',
     revealed: revealed.map(occurrence => occurrence.cardId),
     revealOccurrenceIds: revealed.map(occurrence => occurrence.revealOccurrenceId),
@@ -10122,8 +10510,84 @@ async function resolveMurmuresDivins(player) {
     returnedOccurrenceId: returned.revealOccurrenceId,
     keptCount: added,
     capacityBefore,
-    capacityAfter: getHandCapacityStatus(p)
+    capacityAfter: getHandCapacityStatus(p),
+    before,
+    after:zoneInventorySnapshot(p)
   };
+  recordZoneEffectDiagnostic('S000006', diagnostic);
+  showNotif(`Murmures divins : ${added} carte(s) gardée(s), 1 carte replacée sous le deck.`, 1800);
+  return diagnostic;
+}
+
+async function resolveGalerieDesHorreurs(player, context={}) {
+  const p = playerState(player);
+  const opponent = opponentOf(p);
+  if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player'};
+  const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
+  const candidates = zoneCardEntries(opponent, 'graveyard', {type:'Serviteur', excludeKeywords:['Insensible']});
+  if (!candidates.length) {
+    const diagnostic = {success:false, code:'no-valid-zone-card', reason:'no-valid-target', cardId:'S000022', moved:[], before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+    recordZoneEffectDiagnostic('S000022', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  let selected = selectZoneEntriesFromSelection(candidates, context.zoneSelection || {}, {min:1, max:5});
+  if (!selected.allowed) {
+    const chosen = await chooseZoneCards({
+      title:'Galerie des horreurs',
+      prompt:'Choisissez jusqu’à 5 serviteurs du cimetière adverse à transférer dans votre deck.',
+      candidates,
+      minCount:1,
+      maxCount:5
+    });
+    selected = {allowed: chosen.length > 0, selected: chosen.slice(0, 5), code: chosen.length > 0 ? 'zone-selection-valid' : 'zone-selection-missing'};
+  }
+  if (!selected.allowed || !selected.selected.length) {
+    const diagnostic = {success:false, code:'zone-selection-missing', reason:'no-valid-target', cardId:'S000022', moved:[], before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+    recordZoneEffectDiagnostic('S000022', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  const moved = [];
+  const ordered = [...selected.selected].sort((a, b) => b.index - a.index);
+  ordered.forEach(candidate => {
+    const result = moveRuntimeZoneEntry({
+      sourcePlayer:opponent,
+      sourceZone:'graveyard',
+      sourceIndex:candidate.index,
+      targetPlayer:p,
+      targetZone:'deck',
+      targetPosition:'bottom',
+      reason:'galerie-des-horreurs'
+    });
+    if (result.success) moved.push({cardId:result.cardId, fromIndex:candidate.index});
+  });
+  const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'S000022', reason:'galerie-des-horreurs'});
+  const diagnostic = {success:true, code:'galerie-des-horreurs-resolved', reason:null, cardId:'S000022', moved, shuffled:true, shuffle, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+  recordZoneEffectDiagnostic('S000022', diagnostic);
+  showNotif(`Galerie des horreurs : ${moved.length} serviteur(s) transféré(s), deck remélangé.`, 1800);
+  return diagnostic;
+}
+
+function resolveRituelOcculte(player) {
+  const p = playerState(player);
+  const opponent = opponentOf(p);
+  if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player'};
+  const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
+  const stolen = [];
+  const source = zoneArrayForPlayer(opponent, 'graveyard') || [];
+  while (source.length) {
+    const entry = source.shift();
+    const cardId = getRuntimeCardId(entry);
+    if (cardId) stolen.push(cardId);
+    addEntryToRuntimeZone(p, 'graveyard', entry);
+  }
+  refreshCemeteryVisual(opponent);
+  refreshCemeteryVisual(p);
+  const diagnostic = {success:true, code:'rituel-occulte-resolved', reason:null, cardId:'S000051', moved:stolen, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+  recordZoneEffectDiagnostic('S000051', diagnostic);
+  showNotif(`Rituel occulte : ${stolen.length} carte(s) volée(s) au cimetière adverse.`, 1800);
+  return diagnostic;
 }
 
 function changeSouls(player, delta, reason='effect', preferredSlot=null) {
@@ -15196,12 +15660,21 @@ function applyScenarioTestSetup() {
   lastCostDiagnostic = null;
   lastPlayLegalityDiagnostic = null;
   lastCombatEffectDiagnostic = null;
+  lastZoneEffectDiagnostic = null;
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
+    const hasExplicitDrawPile = Array.isArray(config.drawPile);
+    if (hasExplicitDrawPile) {
+      p.drawPile = [...config.drawPile];
+    }
     if (Array.isArray(config.hand)) {
       p.hand = [...config.hand];
-      config.hand.forEach(id => removeOneFromPile(p.drawPile, id));
+      if (!hasExplicitDrawPile) config.hand.forEach(id => removeOneFromPile(p.drawPile, id));
+    }
+    if (Array.isArray(config.graveyard)) {
+      p.graveyard = [...config.graveyard];
+      refreshCemeteryVisual(p);
     }
     if (config.resources) {
       const classical = createEmptyClassicalResources();
