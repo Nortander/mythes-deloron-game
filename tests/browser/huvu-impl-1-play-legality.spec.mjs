@@ -118,6 +118,21 @@ async function elementRect(page, selector) {
   }, selector);
 }
 
+async function assertDecisionModalOpenContract(page) {
+  const overlay = page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']");
+  await expect(overlay).toBeVisible();
+  await expect(overlay.locator(".decision-modal-minimize")).toBeVisible();
+  await expect(overlay.locator(".decision-modal-expand")).toHaveCount(0);
+  await expect(page.locator(".decision-compact-bar")).toHaveCount(0);
+  const title = await elementRect(page, ".decision-modal-overlay[data-decision-id='board-target-selection'] .sort-choice-title");
+  const minimize = await elementRect(page, ".decision-modal-overlay[data-decision-id='board-target-selection'] .decision-modal-minimize");
+  expect(rectsOverlap(title, minimize)).toBe(false);
+}
+
+function occurrenceCount(values, id) {
+  return values.filter(value => value === id).length;
+}
+
 async function zoneRect(page, playerKey, zone) {
   return page.evaluate(({key, zoneName}) => {
     const el = qs(playerZoneSelector(key, zoneName));
@@ -245,19 +260,40 @@ test("Blade servant previews expose invocation condition panels without losing a
   await openScenario(page, CONDITION_ALLOWED_SCENARIO);
 
   for (const id of ["MV000016", "MV000017", "MV000018", "MV000021"]) {
-    await page.evaluate(cardId => openCardPreview(cardId, {origin: "impl1b-test", sourceType: "test"}), id);
-    await expect(page.getByTestId("preview-invocation-condition")).toBeVisible();
+    await page.evaluate(cardId => openCardPreview(cardId, {origin: "impl1c-test", sourceType: "test"}), id);
+    const conditionPanel = page.locator(".canonical-keyword-tooltip[data-tooltip-kind='invocation-condition']");
+    await expect(conditionPanel).toBeVisible();
+    await expect(page.locator(".fz-desc-inner .fc-zoom-condition-panel")).toHaveCount(0);
+    const placement = await page.evaluate(() => {
+      const layer = document.querySelector("#card-preview-layer");
+      const panel = layer?.querySelector(".canonical-keyword-tooltip[data-tooltip-kind='invocation-condition']");
+      const preview = layer?.querySelector(".canonical-card-preview");
+      const body = layer?.querySelector(".fz-desc-inner");
+      return {
+        outsidePreview: !!panel && !!preview && !preview.contains(panel),
+        outsideBody: !!panel && !!body && !body.contains(panel),
+        bodyText: body?.innerText || ""
+      };
+    });
+    expect(placement.outsidePreview).toBe(true);
+    expect(placement.outsideBody).toBe(true);
+    expect(placement.bodyText).not.toContain("CONDITION");
     const previewText = await page.locator("#card-preview-layer").innerText();
-    expect(previewText).toContain("CONDITION D’INVOCATION");
+    expect(previewText).toContain("CONDITION");
     expect(previewText).toContain("Forgeron de la Lame");
     expect(previewText).toContain("Mage du Cercle");
     expect(previewText).toContain("Hokhan Ashir");
     expect(previewText).not.toMatch(/MV000019|AVS000008/);
     if (id !== "MV000016") expect(previewText).toContain("Initiative");
-    await page.evaluate(() => closeCardPreview("impl1b-test"));
+    await page.evaluate(() => closeCardPreview("impl1c-test"));
   }
 
-  await page.evaluate(cardId => openCardPreview(cardId, {origin: "impl1b-test", sourceType: "test"}), "MV000019");
+  await page.evaluate(cardId => openCardPreview(cardId, {origin: "impl1c-test", sourceType: "test"}), "MV000019");
+  const forgeronConditionPanel = page.locator(".canonical-keyword-tooltip[data-tooltip-kind='invocation-condition']");
+  await expect(forgeronConditionPanel).toBeVisible();
+  const forgeronConditionText = await forgeronConditionPanel.innerText();
+  expect(forgeronConditionText).toContain("Hokhan Ashir");
+  expect(forgeronConditionText).not.toContain("Forgeron de la Lame");
   const forgeronText = await page.locator("#card-preview-layer").innerText();
   expect(forgeronText).toContain("Scorpion de la Lame");
   expect(forgeronText).toContain("Serviteur de la Lame");
@@ -336,6 +372,8 @@ test("Assassinat refuses when no legal target exists", async ({ page }, testInfo
   expect(after.hand).toEqual(before.hand);
   expect(after.opponentBoard).toEqual(before.opponentBoard);
   expect(after.resources).toEqual(before.resources);
+  expect(after.graveyard).toEqual(before.graveyard);
+  expect(after.opponentGraveyard).toEqual(before.opponentGraveyard);
   expect(after.cardsPlayedThisTurn).toBe(before.cardsPlayedThisTurn);
   expect(after.errorText).toBe("Aucune cible valide pour cette carte.");
   expect(after.errorCode).toBe("no-valid-target");
@@ -361,6 +399,8 @@ test("Assassinat destroys the selected legal enemy servant and pays exactly once
   await attachDiagnostics(testInfo, diagnostics);
 
   expect(result?.success).toBe(true);
+  expect(result?.spellResolution?.reason).toBe("target-destroyed");
+  expect(result?.spellMovedToGraveyard).toBe(true);
   expect(before.hand).toContain("S000005");
   expect(after.hand).not.toContain("S000005");
   expect(before.resources.classical.aria).toBe(5);
@@ -371,13 +411,15 @@ test("Assassinat destroys the selected legal enemy servant and pays exactly once
   expect(result.paymentResult.soulsConsumed).toBe(0);
   expect(after.opponentBoard.map(card => card.id)).not.toContain("H000001");
   expect(after.opponentBoard.map(card => card.id)).toContain("H000029");
+  expect(occurrenceCount(after.graveyard, "S000005")).toBe(occurrenceCount(before.graveyard, "S000005") + 1);
   expect(after.opponentGraveyard).toContain("H000001");
+  expect(occurrenceCount(after.opponentGraveyard, "H000001")).toBe(occurrenceCount(before.opponentGraveyard, "H000001") + 1);
   expect(after.cardsPlayedThisTurn).toBe(before.cardsPlayedThisTurn + 1);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Assassinat target choice reuses the minimizable decision window and keeps cemetery visible", async ({ page }, testInfo) => {
+test("Assassinat target choice uses one open control and one compact restore control", async ({ page }, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await page.setViewportSize({width: 1280, height: 720});
   await openScenario(page, TARGETING_SCENARIO);
@@ -386,7 +428,7 @@ test("Assassinat target choice reuses the minimizable decision window and keeps 
 
   const before = await snapshot(page, "S000005");
   await openManualTargetSelection(page);
-  await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toBeVisible();
+  await assertDecisionModalOpenContract(page);
   await expect(page.getByTestId("board-target-confirm")).toBeDisabled();
   expect(await page.getByTestId("board-target-choice").count()).toBeGreaterThan(0);
 
@@ -396,12 +438,12 @@ test("Assassinat target choice reuses the minimizable decision window and keeps 
   await page.locator(".decision-modal-minimize").click();
   await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toHaveCount(0);
   await expect(page.locator(".decision-compact-bar")).toBeVisible();
+  await expect(page.locator(".decision-compact-bar button")).toHaveText("AGRANDIR");
+  await expect(page.locator(".decision-modal-minimize")).toHaveCount(0);
   await page.locator(".decision-compact-bar button").click();
-  await expect(page.locator(".decision-modal-overlay[data-decision-id='board-target-selection']")).toBeVisible();
+  await assertDecisionModalOpenContract(page);
   await expect(legalChoice).toHaveClass(/is-selected/);
 
-  await page.locator(".decision-modal-expand").click();
-  await expect(page.locator(".decision-modal-overlay")).toHaveClass(/is-expanded/);
   await expect(page.getByTestId("board-target-confirm")).toBeEnabled();
   await page.getByTestId("board-target-confirm").click();
   const abandon = page.locator("#assassination-abandon");
@@ -419,11 +461,32 @@ test("Assassinat target choice reuses the minimizable decision window and keeps 
   expect(before.hand).toContain("S000005");
   expect(after.hand).not.toContain("S000005");
   expect(result?.success).toBe(true);
+  expect(result?.spellMovedToGraveyard).toBe(true);
   expect(after.opponentBoard.map(card => card.id)).not.toContain("H000001");
+  expect(after.graveyard).toContain("S000005");
   expect(after.opponentGraveyard).toContain("H000001");
   expect(rectsOverlap(compact, cemetery)).toBe(false);
   await page.getByTestId("test-resource-panel-restore").click();
   await expect(page.getByTestId("impl1-legality-diagnostic")).toHaveAttribute("data-code", "play-legal");
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Assassinat target choice keeps title and controls separated on a wide viewport", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await page.setViewportSize({width: 1600, height: 900});
+  await openScenario(page, TARGETING_SCENARIO);
+  await openManualTargetSelection(page);
+  await assertDecisionModalOpenContract(page);
+
+  const legalChoice = page.locator("[data-testid='board-target-choice'][data-target-id='H000001']");
+  await legalChoice.click();
+  await page.getByTestId("board-target-confirm").click();
+  const abandon = page.locator("#assassination-abandon");
+  if (await abandon.isVisible({timeout: 1000}).catch(() => false)) await abandon.click();
+  await page.evaluate(() => window.__impl1bPendingPlay);
+
+  await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

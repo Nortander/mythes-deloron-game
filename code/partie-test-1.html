@@ -716,21 +716,17 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   box-shadow:0 12px 40px rgba(0,0,0,0.95);
   position:relative;
 }
+.decision-modal-header{
+  width:100%;display:grid;grid-template-columns:112px minmax(0,1fr) 112px;align-items:center;gap:12px;
+}
+.decision-modal-actions{display:flex;justify-content:flex-end;align-items:center}
 .decision-modal-minimize{
-  position:absolute;top:10px;right:12px;z-index:2;
+  position:static;z-index:2;
   font-family:'Cinzel',serif;font-size:10px;font-weight:800;letter-spacing:.08em;
   color:#f6dfad;background:rgba(23,12,5,.92);border:1px solid rgba(220,185,96,.65);
   border-radius:999px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.45);
 }
 .decision-modal-minimize:hover{background:rgba(64,38,16,.98);color:#fff1ca}
-.decision-modal-expand{
-  position:absolute;top:10px;right:98px;z-index:2;
-  font-family:'Cinzel',serif;font-size:10px;font-weight:800;letter-spacing:.08em;
-  color:#f6dfad;background:rgba(23,12,5,.92);border:1px solid rgba(220,185,96,.65);
-  border-radius:999px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.45);
-}
-.decision-modal-expand:hover{background:rgba(64,38,16,.98);color:#fff1ca}
-.decision-modal-overlay.is-expanded .sort-choice-panel{width:min(1120px,calc(100vw - 32px));max-height:calc(100vh - 36px);overflow:auto}
 .decision-compact-bar{
   position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2990;
   display:flex;align-items:center;gap:14px;padding:10px 16px;border-radius:999px;
@@ -1555,9 +1551,6 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview .fc-zoom-desc-z{min-height:0;max-height:none;overflow:hidden!important;display:flex!important;align-items:stretch!important}
 .canonical-card-preview .fz-desc-inner{width:100%;max-height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;background:rgba(18,12,8,.96)}
 .canonical-card-preview .fz-desc-text{line-height:1.34}
-.fc-zoom-condition-panel{margin:7px 0 0;padding:7px 8px;border:1px solid rgba(208,128,232,.48);border-radius:8px;background:rgba(15,6,30,.62);box-shadow:inset 0 0 14px rgba(0,0,0,.22)}
-.fc-zoom-condition-title{font-family:'Cinzel',serif;font-size:8px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--card-faction-color,#d080e8);margin-bottom:4px}
-.fc-zoom-condition-text{font-family:'Crimson Pro',serif;font-size:11px;line-height:1.28;font-weight:600;color:#f3dcff}
 .canonical-card-preview .fc-zoom-cost-z{min-height:42px;display:flex;align-items:center;justify-content:center}
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
@@ -5121,18 +5114,14 @@ function renderZoomDescription(card, kwColor) {
       ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(loreText))}</em></p>`
       : '';
   }
-  const conditionText = !isEmptyCardText(card.invocationConditionText) ? formatPlayerFacingCardText(card.invocationConditionText) : '';
-  const condition = conditionText
-    ? `<section class="fc-zoom-condition-panel" data-testid="preview-invocation-condition"><div class="fc-zoom-condition-title">CONDITION D’INVOCATION</div><div class="fc-zoom-condition-text">${fmtDesc(conditionText, kwColor)}</div></section>`
-    : '';
   if (isLoreOnlyCard(card)) {
     const text = !isEmptyCardText(card.lore) ? card.lore : card.cap;
-    return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>` + condition;
+    return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>`;
   }
   const mechanicalText = !isEmptyCardText(card.detail) ? card.detail : card.cap;
   const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(mechanicalText), kwColor)}</p>` : '';
   const lore = !isEmptyCardText(card.lore) ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(card.lore))}</em></p>` : '';
-  return cap + lore + condition;
+  return cap + lore;
 }
 
 function facColor(fac) {
@@ -5949,13 +5938,14 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
 
 function buildPreviewKeywordTooltips(cardId) {
   const tooltipModel = buildCanonicalCardTooltips(cardId, 'preview');
-  const keywords = tooltipModel.right.filter(item => ['ability','keyword','named-ability'].includes(item.kind));
+  const keywords = tooltipModel.right.filter(item => ['ability','invocation-condition','keyword','named-ability'].includes(item.kind));
   if (!keywords.length) return '';
   const color = facColor(CARDS_DATA[cardId]?.fac);
   return `<div class="canonical-keyword-tooltips" data-preview-keywords="${cardId}" style="--card-faction-color:${color};--card-kw:${color}">
     ${keywords.map(item => {
       const keywordAttr = item.keyword ? ` data-keyword="${escapeHtml(item.keyword)}"` : '';
-      return `<div class="canonical-keyword-tooltip"><strong${keywordAttr}>${escapeHtml(item.title)}</strong><span>${formatPlayerFacingCardText(item.body)}</span></div>`;
+      const kindAttr = item.kind ? ` data-tooltip-kind="${escapeHtml(item.kind)}"` : '';
+      return `<div class="canonical-keyword-tooltip"${kindAttr}><strong${keywordAttr}>${escapeHtml(item.title)}</strong><span>${formatPlayerFacingCardText(item.body)}</span></div>`;
     }).join('')}
   </div>`;
 }
@@ -6689,6 +6679,7 @@ function getCanonicalCardDisplayModel(cardOrId, options={}) {
     artwork:`${GH}/${folder}/${id}.png`,
     description:data.cap || data.desc || '',
     detailedEffect:data.detail || data.cap || '',
+    invocationConditionText:data.invocationConditionText || invocationConditionRule(id)?.text || '',
     lore:data.lore || '',
     keywords:[...new Set(data.kws || [])],
     relatedCardIds,
@@ -6955,6 +6946,7 @@ function adaptPartCardRecordToCanonicalInput(cardOrId) {
     artwork:data.img || data.artwork || null,
     description:isSupply ? supplyLore : clean(data.cap || data.description || ''),
     detailedEffect:isSupply ? '' : clean(data.detail && data.detail !== '/' ? data.detail : ''),
+    invocationConditionText:data.invocationConditionText || invocationConditionRule(id)?.text || '',
     lore:isSupply ? supplyLore : (data.lore || ''),
     supplyAbility,
     keywords:keywordCandidates,
@@ -8318,8 +8310,7 @@ function createMinimizableDecisionModal({
     overlay:null,
     bar:null,
     resolved:false,
-    minimized:false,
-    expanded:false
+    minimized:false
   };
   const cleanup = () => {
     state.overlay?.remove();
@@ -8334,7 +8325,7 @@ function createMinimizableDecisionModal({
     const bar = document.createElement('div');
     bar.className = 'decision-compact-bar';
     bar.dataset.decisionId = decisionId || '';
-    bar.innerHTML = `<span>${escapeHtml(state.compactLabel)}</span><button type="button">ROUVRIR</button>`;
+    bar.innerHTML = `<span>${escapeHtml(state.compactLabel)}</span><button type="button">AGRANDIR</button>`;
     bar.querySelector('button').addEventListener('click', () => state.reopen());
     document.body.appendChild(bar);
     state.bar = bar;
@@ -8353,16 +8344,6 @@ function createMinimizableDecisionModal({
     state.bar = null;
     renderOverlay();
   };
-  const toggleExpanded = () => {
-    if (state.resolved || !state.overlay) return;
-    state.expanded = !state.expanded;
-    state.overlay.classList.toggle('is-expanded', state.expanded);
-    const button = state.overlay.querySelector('.decision-modal-expand');
-    if (button) {
-      button.textContent = state.expanded ? 'RÉDUIRE TAILLE' : 'AGRANDIR';
-      button.setAttribute('aria-label', state.expanded ? 'Réduire la taille de cette décision' : 'Agrandir cette décision');
-    }
-  };
   const close = result => {
     if (state.resolved) return;
     state.resolved = true;
@@ -8372,17 +8353,18 @@ function createMinimizableDecisionModal({
   function renderOverlay() {
     state.overlay?.remove();
     const overlay = document.createElement('div');
-    overlay.className = `sort-choice-overlay decision-modal-overlay${state.expanded ? ' is-expanded' : ''}`;
+    overlay.className = `sort-choice-overlay decision-modal-overlay`;
     overlay.dataset.decisionId = decisionId || '';
     overlay.innerHTML = `<div class="sort-choice-panel ${panelClass}" style="max-width:860px">
-      <button type="button" class="decision-modal-expand" aria-label="${state.expanded ? 'Réduire la taille de cette décision' : 'Agrandir cette décision'}">${state.expanded ? 'RÉDUIRE TAILLE' : 'AGRANDIR'}</button>
-      <button type="button" class="decision-modal-minimize" aria-label="Réduire cette décision">RÉDUIRE</button>
-      <div class="sort-choice-title">${escapeHtml(title || '')}</div>
+      <div class="decision-modal-header">
+        <div class="decision-modal-spacer" aria-hidden="true"></div>
+        <div class="sort-choice-title">${escapeHtml(title || '')}</div>
+        <div class="decision-modal-actions"><button type="button" class="decision-modal-minimize" aria-label="Réduire cette décision">RÉDUIRE</button></div>
+      </div>
       ${bodyHtml}
       ${canCancel ? `<button type="button" class="sort-choice-cancel-button">ANNULER</button>` : ''}
     </div>`;
     overlay.querySelector('.decision-modal-minimize').addEventListener('click', minimize);
-    overlay.querySelector('.decision-modal-expand').addEventListener('click', toggleExpanded);
     if (canCancel) {
       overlay.querySelector('.sort-choice-cancel-button')?.addEventListener('click', () => {
         close({cancelled:true});
@@ -8397,7 +8379,6 @@ function createMinimizableDecisionModal({
   state.close = close;
   state.minimize = minimize;
   state.reopen = reopen;
-  state.toggleExpanded = toggleExpanded;
   state.renderOverlay = renderOverlay;
   pendingDecisionModal = state;
   suspendCardPreviewsForDecision(`decision-modal-open:${decisionId || 'unknown'}`);
@@ -8759,6 +8740,19 @@ function recordCommittedSpell(cardId, player) {
   updateCamouflageVFX();
 }
 
+function shouldMoveResolvedSpellToGraveyard(cardId) {
+  const card = CARDS_DATA[cardId];
+  return card?.type === 'Sort' && !!cardTargetRequirement(cardId);
+}
+
+function moveResolvedSpellToGraveyard(cardId, player) {
+  const p = playerState(player);
+  if (!p || !cardId || CARDS_DATA[cardId]?.type !== 'Sort') return false;
+  p.graveyard.push(cardId);
+  refreshCemeteryVisual(p);
+  return true;
+}
+
 async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   const {player:p, cardId, slot, card:d, affordability, selectedTargetIds=null} = transaction;
   transaction.traceId ||= beginCardPlayTrace(cardId, p);
@@ -8802,13 +8796,19 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   releasePaymentLock(p, cardId);
 
   if (d.type === 'Sort') {
+    let spellResolution = null;
     if (resolveSpell) {
       recordCommittedSpell(cardId, p);
-      resolveSpell();
-    } else await triggerSort(cardId, p, {selectedTargetIds});
+      spellResolution = resolveSpell() || {success:true};
+    } else {
+      spellResolution = await triggerSort(cardId, p, {selectedTargetIds});
+    }
+    const spellMovedToGraveyard = shouldMoveResolvedSpellToGraveyard(cardId) && spellResolution?.success !== false
+      ? moveResolvedSpellToGraveyard(cardId, p)
+      : false;
     if (modifiersConsumed) renderAllHands();
     traceCardPlay(traceId, 'commitResolved', p, cardId);
-    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed};
+    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed, spellResolution, spellMovedToGraveyard};
   }
   const specialResolution = d.specialResolution || supplyDefinition(cardId)?.specialResolution;
   if (d.type === 'Approvisionnement' && specialResolution?.type === 'addSouls') {
@@ -9351,7 +9351,7 @@ function refreshAdverseHandBacks(player) {
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function triggerSort(cardId, player, context={}) {
   const d = CARDS_DATA[cardId];
-  if (!d) return;
+  if (!d) return {success:false, reason:'missing-data'};
   addHistEntry(cardId, d.fac);
   updateCamouflageVFX();
 
@@ -9428,7 +9428,10 @@ async function triggerSort(cardId, player, context={}) {
       break;
     case 'S000005': // Assassinat
     { const targetAudit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || null});
-      if (!targetAudit.allowed) { showErr(cardActionError(targetAudit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:targetAudit})); break; }
+      if (!targetAudit.allowed) {
+        showErr(cardActionError(targetAudit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:targetAudit}));
+        return {success:false, reason:targetAudit.code, targetAudit};
+      }
       let targets = [];
       if (context.selectedTargetIds?.length) {
         const legalInstances = new Set((targetAudit.legalTargets || []).map(target => target.instance));
@@ -9441,7 +9444,10 @@ async function triggerSort(cardId, player, context={}) {
         });
       }
       const target = targets[0];
-      if (!target || !target.isConnected) { showErr("Cette cible n'est pas valide."); break; }
+      if (!target || !target.isConnected) {
+        showErr("Cette cible n'est pas valide.");
+        return {success:false, reason:'invalid-target-after-selection', targetAudit};
+      }
       const defender = opponentOf(player);
       if (supplyDiscardEntries(defender).length >= 2) {
         const decision = await chooseAssassinationDecision(defender, target);
@@ -9449,13 +9455,14 @@ async function triggerSort(cardId, player, context={}) {
           const discard = discardSupplyInstancesForEffect(defender, decision.instanceIds, 'assassination-cancel');
           if (discard.success) {
             showNotif('Assassinat annule par 2 Approvisionnements.', 1400);
-            break;
+            return {success:true, reason:'cancelled-by-supplies', cancelled:true, target:targetSummary(target)};
           }
         }
       }
+      const destroyedTarget = targetSummary(target);
       await sendToCemetery(target);
-      showNotif('Sort : Assassinat !', 1400);
-      break; }
+      showNotif('Sort : Assassinat !', 1400);
+      return {success:true, reason:'target-destroyed', target:destroyedTarget}; }
     case 'S000015': // Après la catastrophe : remet des serviteurs dans le deck
       showNotif('Après la catastrophe : des serviteurs retournent dans votre deck !', 1800);
       break;
@@ -9472,6 +9479,7 @@ async function triggerSort(cardId, player, context={}) {
     default:
       showNotif(`Sort joué : ${d.name}`, 1400);
   }
+  return {success:true, reason:'resolved'};
 }
 
 function showSortChoice(cardId, player, options, onCancel=null) {

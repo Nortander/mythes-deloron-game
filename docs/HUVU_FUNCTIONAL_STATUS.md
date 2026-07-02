@@ -28,3 +28,11 @@ Le panneau technique `MODE TEST - HUVU IMPL 1` est reserve aux scenarios techniq
 ## Cartes Reportees
 
 `S000022`, `S000041`, `S000006`, `PRST000014`, `R000025`, `S000042`, `S000044`, `S000051` et `S000052` restent reportees, car leur resolution principale demande des primitives hors HUVU-IMPL-1 : cimetieres avances, choix joueur, effets temporaires, creation, invocation, recherche ou deplacement de cartes.
+
+## HUVU-IMPL-1C
+
+- `S000005` reste `FONCTIONNEL_TESTE` apres correction complete de son cycle de vie.
+- Quand `Assassinat` se resout, la cible rejoint le cimetiere de son proprietaire et le Sort rejoint le cimetiere de son lanceur.
+- Un refus sans cible valide ou avec cible illegale ne retire pas le Sort de la main, ne consomme pas de ressources et ne modifie pas les cimetieres.
+- Les conditions d'invocation des cartes du lot sont rendues comme de vraies infobulles laterales generiques, en dehors du corps descriptif de la carte.
+- `MV000019` reste `PARTIEL` : son texte et son infobulle de condition sont corrects, mais son effet complet reste hors lot.

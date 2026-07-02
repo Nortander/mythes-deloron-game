@@ -366,6 +366,9 @@
     if (model.type === "Sort" && model.detailedEffect) {
       right.push({ kind: "ability", title: "Capacité", body: model.detailedEffect, order: 10 });
     }
+    if (model.invocationConditionText) {
+      right.push({ kind: "invocation-condition", title: "CONDITION D’INVOCATION", body: model.invocationConditionText, order: 15 });
+    }
     (model.keywords || []).forEach((keywordName, index) => {
       const resolved = resolveRegistryToken(keywordName);
       if (resolved.registry === "keyword") {
