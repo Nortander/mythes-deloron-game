@@ -1,0 +1,789 @@
+{
+  "schemaVersion": 1,
+  "dependencyCount": 87,
+  "dependencies": [
+    {
+      "sourceId": "AVS000004",
+      "sourceName": "Mage du Cercle - Shâr des Îles",
+      "dependencyId": "B000006",
+      "dependencyName": "Rampant des marais",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 5
+    },
+    {
+      "sourceId": "AVS000004",
+      "sourceName": "Mage du Cercle - Shâr des Îles",
+      "dependencyId": "B000007",
+      "dependencyName": "Araignée des bois",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 5
+    },
+    {
+      "sourceId": "AVS000006",
+      "sourceName": "Mage du Cercle - Gor le Changeforme",
+      "dependencyId": "B000003",
+      "dependencyName": "Gor (forme d'ours)",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 7
+    },
+    {
+      "sourceId": "AVS000008",
+      "sourceName": "Mage du Cercle - Hokhan Ashir",
+      "dependencyId": "MV000019",
+      "dependencyName": "Forgeron de la Lame",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 9
+    },
+    {
+      "sourceId": "AVS000008",
+      "sourceName": "Mage du Cercle - Hokhan Ashir",
+      "dependencyId": "AVS000008",
+      "dependencyName": "Mage du Cercle - Hokhan Ashir",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 9
+    },
+    {
+      "sourceId": "B000003",
+      "sourceName": "Gor (forme d'ours)",
+      "dependencyId": "B000004",
+      "dependencyName": "Gor (forme d'hydre)",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 18
+    },
+    {
+      "sourceId": "B000004",
+      "sourceName": "Gor (forme d'hydre)",
+      "dependencyId": "B000005",
+      "dependencyName": "Gor (forme de dragon)",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 19
+    },
+    {
+      "sourceId": "B000013",
+      "sourceName": "Lycantrophe",
+      "dependencyId": "B000013",
+      "dependencyName": "Lycantrophe",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 28
+    },
+    {
+      "sourceId": "B000014",
+      "sourceName": "Loup-garou",
+      "dependencyId": "B000013",
+      "dependencyName": "Lycantrophe",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 29
+    },
+    {
+      "sourceId": "B000015",
+      "sourceName": "Minotaure reproducteur",
+      "dependencyId": "B000016",
+      "dependencyName": "Minus minotaure",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 30
+    },
+    {
+      "sourceId": "DIV000001",
+      "sourceName": "Porte démoniaque",
+      "dependencyId": "DIV000002",
+      "dependencyName": "Démon mineur",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 33
+    },
+    {
+      "sourceId": "DIV000008",
+      "sourceName": "Golem de roche",
+      "dependencyId": "DIV000005",
+      "dependencyName": "Élémentaire de la terre",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 40
+    },
+    {
+      "sourceId": "DIV000011",
+      "sourceName": "Démon majeur",
+      "dependencyId": "DIV000001",
+      "dependencyName": "Porte démoniaque",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 43
+    },
+    {
+      "sourceId": "DIV000016",
+      "sourceName": "Xyallah",
+      "dependencyId": "S000021",
+      "dependencyName": "Pétrification",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 48
+    },
+    {
+      "sourceId": "DIV000016",
+      "sourceName": "Xyallah",
+      "dependencyId": "DIV000008",
+      "dependencyName": "Golem de roche",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 48
+    },
+    {
+      "sourceId": "EDB000011",
+      "sourceName": "Envoûteuse",
+      "dependencyId": "R000014",
+      "dependencyName": "Ailanterie",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 59
+    },
+    {
+      "sourceId": "EDB000011",
+      "sourceName": "Envoûteuse",
+      "dependencyId": "R000004",
+      "dependencyName": "Herboristerie",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 59
+    },
+    {
+      "sourceId": "EDB000011",
+      "sourceName": "Envoûteuse",
+      "dependencyId": "R000017",
+      "dependencyName": "Foresterie",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 59
+    },
+    {
+      "sourceId": "EDB000014",
+      "sourceName": "Dryade de l'Arbre de vie",
+      "dependencyId": "EDB000012",
+      "dependencyName": "Pixie",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 62
+    },
+    {
+      "sourceId": "EDB000014",
+      "sourceName": "Dryade de l'Arbre de vie",
+      "dependencyId": "EDB000009",
+      "dependencyName": "Père des arbres",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 62
+    },
+    {
+      "sourceId": "EDG000005",
+      "sourceName": "Mage de glace",
+      "dependencyId": "DIV000007",
+      "dependencyName": "Élémentaire de glace",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 67
+    },
+    {
+      "sourceId": "EDG000006",
+      "sourceName": "Jeune dragon des neiges",
+      "dependencyId": "S000023",
+      "dependencyName": "Pacte millénaire",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 68
+    },
+    {
+      "sourceId": "EDG000010",
+      "sourceName": "Mère des loups",
+      "dependencyId": "EDG000011",
+      "dependencyName": "Loup blanc",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 72
+    },
+    {
+      "sourceId": "EDG000011",
+      "sourceName": "Loup blanc",
+      "dependencyId": "EDG000011",
+      "dependencyName": "Loup blanc",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 73
+    },
+    {
+      "sourceId": "EDG000011",
+      "sourceName": "Loup blanc",
+      "dependencyId": "EDG000010",
+      "dependencyName": "Mère des loups",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 73
+    },
+    {
+      "sourceId": "EDG000012",
+      "sourceName": "Le Tisseur de Givre",
+      "dependencyId": "DIV000010",
+      "dependencyName": "Golem du froid",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 74
+    },
+    {
+      "sourceId": "EDG000012",
+      "sourceName": "Le Tisseur de Givre",
+      "dependencyId": "EDG000006",
+      "dependencyName": "Jeune dragon des neiges",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 74
+    },
+    {
+      "sourceId": "EDG000012",
+      "sourceName": "Le Tisseur de Givre",
+      "dependencyId": "S000026",
+      "dependencyName": "Serment des anciens",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 74
+    },
+    {
+      "sourceId": "EN000003",
+      "sourceName": "Nécromancien",
+      "dependencyId": "MV000007",
+      "dependencyName": "Serviteur osseux",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 78
+    },
+    {
+      "sourceId": "EN000010",
+      "sourceName": "Sorcier",
+      "dependencyId": "EN000011",
+      "dependencyName": "Sorcier réincarné",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 85
+    },
+    {
+      "sourceId": "H000015",
+      "sourceName": "Chevalier vengeur",
+      "dependencyId": "H000016",
+      "dependencyName": "Paladin gardien",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 122
+    },
+    {
+      "sourceId": "H000016",
+      "sourceName": "Paladin gardien",
+      "dependencyId": "H000015",
+      "dependencyName": "Chevalier vengeur",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 123
+    },
+    {
+      "sourceId": "H000026",
+      "sourceName": "Garde du palais",
+      "dependencyId": "H000001",
+      "dependencyName": "Larron",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 133
+    },
+    {
+      "sourceId": "H000030",
+      "sourceName": "Nécrâne, Mage des ténèbres",
+      "dependencyId": "MV000020",
+      "dependencyName": "Gobelin mort-vivant",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 137
+    },
+    {
+      "sourceId": "H000030",
+      "sourceName": "Nécrâne, Mage des ténèbres",
+      "dependencyId": "MV000009",
+      "dependencyName": "Faucheur d'âmes",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 137
+    },
+    {
+      "sourceId": "H000030",
+      "sourceName": "Nécrâne, Mage des ténèbres",
+      "dependencyId": "MV000016",
+      "dependencyName": "Serviteur de la Lame",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 137
+    },
+    {
+      "sourceId": "H000031",
+      "sourceName": "Igor le Pyromancien",
+      "dependencyId": "DIV000006",
+      "dependencyName": "Élémentaire du feu",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 138
+    },
+    {
+      "sourceId": "H000031",
+      "sourceName": "Igor le Pyromancien",
+      "dependencyId": "DIV000009",
+      "dependencyName": "Golem magmatique",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 138
+    },
+    {
+      "sourceId": "MV000002",
+      "sourceName": "Spectre hurlant",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 140
+    },
+    {
+      "sourceId": "MV000003",
+      "sourceName": "Gueule du trépas",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 141
+    },
+    {
+      "sourceId": "MV000004",
+      "sourceName": "Amalgame terrifiant",
+      "dependencyId": "MV000005",
+      "dependencyName": "Amalgame rageur",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 142
+    },
+    {
+      "sourceId": "MV000004",
+      "sourceName": "Amalgame terrifiant",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 142
+    },
+    {
+      "sourceId": "MV000005",
+      "sourceName": "Amalgame rageur",
+      "dependencyId": "MV000004",
+      "dependencyName": "Amalgame terrifiant",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 143
+    },
+    {
+      "sourceId": "MV000006",
+      "sourceName": "Amalgame erratique",
+      "dependencyId": "MV000004",
+      "dependencyName": "Amalgame terrifiant",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 144
+    },
+    {
+      "sourceId": "MV000008",
+      "sourceName": "Araignée géante réanimée",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 146
+    },
+    {
+      "sourceId": "MV000009",
+      "sourceName": "Faucheur d'âmes",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 147
+    },
+    {
+      "sourceId": "MV000011",
+      "sourceName": "Jeteur de sorts réanimé",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 149
+    },
+    {
+      "sourceId": "MV000016",
+      "sourceName": "Serviteur de la Lame",
+      "dependencyId": "MV000019",
+      "dependencyName": "Forgeron de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 154
+    },
+    {
+      "sourceId": "MV000016",
+      "sourceName": "Serviteur de la Lame",
+      "dependencyId": "AVS000008",
+      "dependencyName": "Mage du Cercle - Hokhan Ashir",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 154
+    },
+    {
+      "sourceId": "MV000017",
+      "sourceName": "Cauchemar de la Lame",
+      "dependencyId": "MV000019",
+      "dependencyName": "Forgeron de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 155
+    },
+    {
+      "sourceId": "MV000017",
+      "sourceName": "Cauchemar de la Lame",
+      "dependencyId": "AVS000008",
+      "dependencyName": "Mage du Cercle - Hokhan Ashir",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 155
+    },
+    {
+      "sourceId": "MV000018",
+      "sourceName": "Mage de la Lame",
+      "dependencyId": "MV000019",
+      "dependencyName": "Forgeron de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 156
+    },
+    {
+      "sourceId": "MV000018",
+      "sourceName": "Mage de la Lame",
+      "dependencyId": "AVS000008",
+      "dependencyName": "Mage du Cercle - Hokhan Ashir",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 156
+    },
+    {
+      "sourceId": "MV000019",
+      "sourceName": "Forgeron de la Lame",
+      "dependencyId": "MV000016",
+      "dependencyName": "Serviteur de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 157
+    },
+    {
+      "sourceId": "MV000019",
+      "sourceName": "Forgeron de la Lame",
+      "dependencyId": "MV000021",
+      "dependencyName": "Scorpion de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 157
+    },
+    {
+      "sourceId": "MV000019",
+      "sourceName": "Forgeron de la Lame",
+      "dependencyId": "MV000018",
+      "dependencyName": "Mage de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 157
+    },
+    {
+      "sourceId": "MV000019",
+      "sourceName": "Forgeron de la Lame",
+      "dependencyId": "MV000017",
+      "dependencyName": "Cauchemar de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 157
+    },
+    {
+      "sourceId": "MV000019",
+      "sourceName": "Forgeron de la Lame",
+      "dependencyId": "AVS000008",
+      "dependencyName": "Mage du Cercle - Hokhan Ashir",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 157
+    },
+    {
+      "sourceId": "MV000021",
+      "sourceName": "Scorpion de la Lame",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 159
+    },
+    {
+      "sourceId": "MV000021",
+      "sourceName": "Scorpion de la Lame",
+      "dependencyId": "MV000019",
+      "dependencyName": "Forgeron de la Lame",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 159
+    },
+    {
+      "sourceId": "MV000021",
+      "sourceName": "Scorpion de la Lame",
+      "dependencyId": "AVS000008",
+      "dependencyName": "Mage du Cercle - Hokhan Ashir",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 159
+    },
+    {
+      "sourceId": "MV000022",
+      "sourceName": "Commandant squelette",
+      "dependencyId": "MV000001",
+      "dependencyName": "Guerrier cendreux",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 160
+    },
+    {
+      "sourceId": "MV000024",
+      "sourceName": "Morghast L'Os-tentatoire",
+      "dependencyId": "MV000001",
+      "dependencyName": "Guerrier cendreux",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 162
+    },
+    {
+      "sourceId": "MV000025",
+      "sourceName": "Esprit dérangé",
+      "dependencyId": "R000027",
+      "dependencyName": "Nécropole",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 163
+    },
+    {
+      "sourceId": "MV000028",
+      "sourceName": "Âme explosive",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 166
+    },
+    {
+      "sourceId": "MV000030",
+      "sourceName": "Mur non-mort",
+      "dependencyId": "MV000022",
+      "dependencyName": "Commandant squelette",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 168
+    },
+    {
+      "sourceId": "MV000030",
+      "sourceName": "Mur non-mort",
+      "dependencyId": "MV000001",
+      "dependencyName": "Guerrier cendreux",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 168
+    },
+    {
+      "sourceId": "N000009",
+      "sourceName": "Gardien de pierre runelié",
+      "dependencyId": "DIV000008",
+      "dependencyName": "Golem de roche",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 177
+    },
+    {
+      "sourceId": "N000015",
+      "sourceName": "Windjalf, l'Ancien",
+      "dependencyId": "S000054",
+      "dependencyName": "Boute-flammes",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 183
+    },
+    {
+      "sourceId": "R000027",
+      "sourceName": "Nécropole",
+      "dependencyId": "MV000025",
+      "dependencyName": "Esprit dérangé",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 244
+    },
+    {
+      "sourceId": "S000007",
+      "sourceName": "Porte infranchissable",
+      "dependencyId": "S000008",
+      "dependencyName": "Clef de pierre",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 251
+    },
+    {
+      "sourceId": "S000008",
+      "sourceName": "Clef de pierre",
+      "dependencyId": "S000007",
+      "dependencyName": "Porte infranchissable",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 252
+    },
+    {
+      "sourceId": "S000013",
+      "sourceName": "Expérience du combat",
+      "dependencyId": "N000007",
+      "dependencyName": "Guerrier",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 257
+    },
+    {
+      "sourceId": "S000013",
+      "sourceName": "Expérience du combat",
+      "dependencyId": "N000008",
+      "dependencyName": "Guerrier expérimenté",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 257
+    },
+    {
+      "sourceId": "S000014",
+      "sourceName": "Pillage en règle",
+      "dependencyId": "ORC000001",
+      "dependencyName": "Chaman tribal",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 258
+    },
+    {
+      "sourceId": "S000014",
+      "sourceName": "Pillage en règle",
+      "dependencyId": "ORC000002",
+      "dependencyName": "Guerrier",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 258
+    },
+    {
+      "sourceId": "S000014",
+      "sourceName": "Pillage en règle",
+      "dependencyId": "ORC000004",
+      "dependencyName": "Sorcier venimeux",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 258
+    },
+    {
+      "sourceId": "S000014",
+      "sourceName": "Pillage en règle",
+      "dependencyId": "ORC000005",
+      "dependencyName": "Pillard",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 258
+    },
+    {
+      "sourceId": "S000023",
+      "sourceName": "Pacte millénaire",
+      "dependencyId": "EDG000006",
+      "dependencyName": "Jeune dragon des neiges",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 267
+    },
+    {
+      "sourceId": "S000040",
+      "sourceName": "Pixiemanie",
+      "dependencyId": "EDB000012",
+      "dependencyName": "Pixie",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 284
+    },
+    {
+      "sourceId": "S000041",
+      "sourceName": "Puissance du sacrifice",
+      "dependencyId": "RAME*",
+      "dependencyName": null,
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": false,
+      "sourceRow": 285
+    },
+    {
+      "sourceId": "S000043",
+      "sourceName": "Prendre le taureau par les cornes",
+      "dependencyId": "B000015",
+      "dependencyName": "Minotaure reproducteur",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 287
+    },
+    {
+      "sourceId": "S000045",
+      "sourceName": "Jardins botaniques",
+      "dependencyId": "R000004",
+      "dependencyName": "Herboristerie",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 289
+    },
+    {
+      "sourceId": "S000045",
+      "sourceName": "Jardins botaniques",
+      "dependencyId": "R000003",
+      "dependencyName": "Buissons à baies",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 289
+    },
+    {
+      "sourceId": "S000047",
+      "sourceName": "Volée de gobelins",
+      "dependencyId": "GOB000002",
+      "dependencyName": "Surineur",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 291
+    },
+    {
+      "sourceId": "TRL000014",
+      "sourceName": "Troll premier-né",
+      "dependencyId": "TRL000001",
+      "dependencyName": "Caillasseur",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 313
+    },
+    {
+      "sourceId": "TRL000014",
+      "sourceName": "Troll premier-né",
+      "dependencyId": "TRL000003",
+      "dependencyName": "Brute très épaisse",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 313
+    }
+  ]
+}

@@ -958,6 +958,18 @@ HUVU_SYNC_1_COLLECTION_CARDS.forEach((card) => {
   else CARDS.push(card);
 });
 
+
+const COLLECTION_INDUS_1_COLLECTION_CARDS = [
+  {id:"MV000025",name:"Esprit dérangé",type:"Serviteur",faction:"Mort-vivant",atk:3,pdv:2,cost:0,kw:["Vengeance","Écho"],img:"../assets/morts-vivants/MV000025.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png",desc:"[Vengeance] Ajoute 1 Écho à vos ressources.",cond:"Invoqué automatiquement en nombre suffisant pour remplir votre côté du plateau quand la « Nécropole » [ID = R000027] est retirée de votre terrain.",related:["R000027"],owned:false,qty:0,maxOwned:0},
+  {id:"N000015",name:"Windjalf, l'Ancien",type:"Serviteur",faction:"Nain",atk:2,pdv:7,cost:5,kw:["Sang ardent","Initiative","Sélène"],img:"../assets/nains/N000015.png",fico:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000NAI.png",desc:"[Sang ardent] [Initiative] Ajoute le sort « Boute-flammes » à votre main.",detail:"[Sang ardent] [Initiative] Ajoute le sort « Boute-flammes » [ID = S000054] à votre main.",useDetail:true,related:["S000054"],owned:false,qty:0,maxOwned:1},
+  {id:"S000054",name:"Boute-flammes",type:"Sort",faction:"/",atk:null,pdv:null,cost:5,kw:["Pierre","Fer","Sélène","Sang ardent","Embrasement"],img:"../assets/sorts/S000054.png",fico:null,desc:"Confère [Sang ardent] à tous vos serviteurs nains actuellement sur le terrain. Si certains sont déjà affectés par [Embrasement], supprimez-le. Jusqu'à la fin de la partie, vos autres serviteurs nains ne subissent plus que les dégâts initiaux d'[Embrasement], et plus les dégâts périodiques de l'effet.",owned:false,qty:0,maxOwned:0}
+];
+COLLECTION_INDUS_1_COLLECTION_CARDS.forEach((card) => {
+  const index = CARDS.findIndex((existing) => existing.id === card.id);
+  if (index >= 0) CARDS[index] = {...CARDS[index], ...card};
+  else CARDS.push(card);
+});
+
 const COLLECTION_COST_DEFINITIONS = Object.freeze({
   'AVS000001': {"total":13,"groups":[{"op":null,"resources":[{"key":"aria","amount":10,"explicit":true}]}]},
   'AVS000002': {"total":13,"groups":[{"op":null,"resources":[{"key":"aria","amount":10,"explicit":true}]}]},
@@ -1237,8 +1249,14 @@ const HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS = Object.freeze({
   "S000051": {"total":5,"groups":[{"op":null,"resources":[{"key":"aria","amount":5,"explicit":true}]}]},
   "S000052": {"total":3,"groups":[{"op":null,"resources":[{"key":"aria","amount":3,"explicit":true}]}]}
 });
+
+const COLLECTION_INDUS_1_COLLECTION_COST_DEFINITIONS = Object.freeze({
+  "MV000025": {"total":0,"groups":[]},
+  "N000015": {"total":5,"groups":[{"op":null,"resources":[{"key":"selene","amount":5,"explicit":true}]}]},
+  "S000054": {"total":5,"groups":[{"op":null,"resources":[{"key":"pierre","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"fer","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"selene","amount":1,"explicit":false}]}]}
+});
 function collectionCostDefinition(cardId) {
-  return HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS[cardId] || COLLECTION_COST_DEFINITIONS[cardId] || null;
+  return COLLECTION_INDUS_1_COLLECTION_COST_DEFINITIONS[cardId] || HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS[cardId] || COLLECTION_COST_DEFINITIONS[cardId] || null;
 }
 
 const KEYWORD_DEFS={
