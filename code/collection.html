@@ -121,6 +121,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 /* Badge X/Y */
 .ccard-qty{position:absolute;top:-8px;right:-4px;background:var(--gold);color:#0a0800;font-family:'Cinzel',serif;font-size:7.5px;font-weight:700;border-radius:10px;padding:2px 5px;min-width:22px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.6);z-index:15;white-space:nowrap;}
+.ccard-qty-unobtainable{font-size:6.7px;letter-spacing:0.04em;background:#4b4030;color:var(--gold-lt);border:1px solid rgba(200,168,75,0.45);}
 
 .ccard.missing .ccard-frame{filter:grayscale(85%) brightness(0.5);}
 .ccard.missing:hover .ccard-frame{transform:translateY(-6px) scale(1.03);filter:grayscale(70%) brightness(0.6) drop-shadow(0 8px 16px rgba(0,0,0,0.7));}
@@ -498,10 +499,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div class="sidebar">
     <div class="filter-section">
       <div class="filter-title">Possession</div>
-      <div class="filter-toggle-group">
-        <button class="ftog active" data-filter="possession" data-value="all">Toutes</button>
-        <button class="ftog" data-filter="possession" data-value="owned">Possédées</button>
-        <button class="ftog" data-filter="possession" data-value="missing">Manquantes</button>
+      <div class="filter-toggle-group" role="radiogroup" aria-label="Possession">
+        <button class="ftog active" data-filter="possession" data-value="all" role="radio" aria-checked="true">Toutes</button>
+        <button class="ftog" data-filter="possession" data-value="owned" role="radio" aria-checked="false">Possédées</button>
+        <button class="ftog" data-filter="possession" data-value="missing" role="radio" aria-checked="false">Manquantes</button>
+        <button class="ftog" data-filter="possession" data-value="unobtainable" role="radio" aria-checked="false">Non obtenables</button>
       </div>
     </div>
     <div class="filter-section">
@@ -605,6 +607,19 @@ if (!globalThis.CardRenderingCore) {
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
 const PER_PAGE=16;
+const CATALOG_KIND={CARD:'CARD',AVATAR:'AVATAR'};
+const OBTAINABILITY={OBTAINABLE:'OBTAINABLE',GENERATED_ONLY:'GENERATED_ONLY',TRANSFORMATION_ONLY:'TRANSFORMATION_ONLY',SPECIAL_UNOBTAINABLE:'SPECIAL_UNOBTAINABLE',NOT_APPLICABLE:'NOT_APPLICABLE'};
+const COLLECTION_NON_OBTAINABLE_CLASSIFICATIONS={
+  B000003:{obtainability:OBTAINABILITY.TRANSFORMATION_ONLY,reason:`Forme alternative de Gor invoquée par la chaîne de transformation de Gor le Changeforme.`},
+  B000004:{obtainability:OBTAINABILITY.TRANSFORMATION_ONLY,reason:`Forme alternative de Gor invoquée par la forme d'ours, puis transformée vers la forme de dragon.`},
+  B000005:{obtainability:OBTAINABILITY.TRANSFORMATION_ONLY,reason:`Forme alternative finale de Gor issue de la chaîne de transformation.`},
+  EDG000011:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte générée par Mère des loups.`},
+  EDG000012:{obtainability:OBTAINABILITY.SPECIAL_UNOBTAINABLE,reason:`Maximum possédé nul et génération déclarée sans relation entrante explicite suffisante.`},
+  EN000011:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte générée par Sorcier.`},
+  MV000025:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte créée par Nécropole pour remplir le plateau.`},
+  S000025:{obtainability:OBTAINABILITY.SPECIAL_UNOBTAINABLE,reason:`Maximum possédé nul et génération déclarée sans relation entrante explicite suffisante.`},
+  S000054:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte ajoutée à la main par Windjalf, l'Ancien.`}
+};
 
 const CARDS=[
   {id:'AV000001',name:`Rohen Tahir`,type:'Avatar',faction:'Humain',atk:5,pdv:50,cost:0,kw:[],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/avatars-collection/AV000001.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png`,desc:`Pendant toute la partie, vos serviteurs humains coûtent 1 unité de ressource en moins.`,owned:true,qty:1,qty:1,maxOwned:1},
@@ -1623,7 +1638,9 @@ function renderCard(c){
   const resourceZone=isAV?'':`<div class="ccard-resource-footer ccard-cost-z resource-lines-${resource.lineCount}" data-resource-lines="${resource.lineCount}" data-resource-count="${resource.resourceCount}" data-connector-count="${resource.connectorCount}" data-card-id="${c.id}" data-resource-kind="${resource.kind || ''}" data-resource-signature="${encodeURIComponent(resource.signature)}"><div class="ccard-resource-row collection-cost-flow">${resource.html}</div></div>`;
 
   let qtyBadge='';
-  if(c.maxOwned>0){
+  if(isNonObtainableCollectionCard(c)){
+    qtyBadge=`<div class="ccard-qty ccard-qty-unobtainable">Non obtenable</div>`;
+  } else if(c.maxOwned>0){
     qtyBadge=`<div class="ccard-qty">${c.qty}/${c.maxOwned}</div>`;
   }
 
@@ -1637,11 +1654,17 @@ function typeMatches(c){
   if(c.type==='Serviteur (pseudo avatar)')return state.types.has('Serviteur');
   return state.types.has(c.type);
 }
+function isObtainableCollectionCard(card){return card?.catalogKind===CATALOG_KIND.CARD&&card?.obtainability===OBTAINABILITY.OBTAINABLE;}
+function isNonObtainableCollectionCard(card){return card?.catalogKind===CATALOG_KIND.CARD&&card?.obtainability&&card.obtainability!==OBTAINABILITY.OBTAINABLE;}
+function matchesPossessionFilter(c){
+  if(state.possession==='owned')return isObtainableCollectionCard(c)&&!!c.owned;
+  if(state.possession==='missing')return isObtainableCollectionCard(c)&&!c.owned;
+  if(state.possession==='unobtainable')return isNonObtainableCollectionCard(c);
+  return c.catalogKind===CATALOG_KIND.AVATAR||isObtainableCollectionCard(c);
+}
 function getFiltered(){
   return CARDS.filter(c=>{
-    if(c.hidden)return false;
-    if(state.possession==='owned'&&!c.owned)return false;
-    if(state.possession==='missing'&&c.owned)return false;
+    if(!matchesPossessionFilter(c))return false;
     if(!typeMatches(c))return false;
     if(c.faction&&c.faction!=='/'&&!state.factions.has(normalizeFactionKey(c.faction)))return false;
     if(state.costMin!==''&&(c.cost||0)<parseInt(state.costMin))return false;
@@ -1872,7 +1895,7 @@ function updateSuggestions(){
   const wrap=document.getElementById('searchSuggestions');
   if(!state.search){wrap.classList.remove('visible');return;}
   const s=normalizeSearchText(state.search);
-  const m=CARDS.filter(c=>!c.hidden&&cardSearchIndex(c).includes(s)).slice(0,4);
+  const m=CARDS.filter(c=>matchesPossessionFilter(c)&&cardSearchIndex(c).includes(s)).slice(0,4);
   if(!m.length){wrap.classList.remove('visible');return;}
   wrap.innerHTML=m.map(c=>`<div class="suggestion-item" data-id="${c.id}"><span>${c.name}</span><span class="suggestion-faction">${c.faction&&c.faction!=='/'?c.faction:''}</span><span class="suggestion-type">${c.type}</span></div>`).join('');
   wrap.querySelectorAll('.suggestion-item').forEach(el=>{
@@ -2771,11 +2794,12 @@ function render(){
     grid.innerHTML=page.map(renderCard).join('');
   }
 
-  // Compteur
-  const countable=c=>!c.hidden;
-  const owned=CARDS.filter(c=>countable(c)&&c.owned).length;
-  const tot=CARDS.filter(countable).length;
-  document.getElementById('collectionCount').textContent=`${owned} / ${tot} cartes possédées`;
+  // Compteur global de progression : cartes obtenables uniquement.
+  const owned=CARDS.filter(c=>isObtainableCollectionCard(c)&&c.owned).length;
+  const tot=CARDS.filter(isObtainableCollectionCard).length;
+  const counter=document.getElementById('collectionCount');
+  counter.textContent=`${owned} / ${tot} cartes obtenables`;
+  counter.setAttribute('aria-label',`${owned} cartes obtenables possédées sur ${tot}`);
 
   // Pagination
   const nav=!state.showAll;
@@ -2817,7 +2841,7 @@ function init(){
 
   // Possession
   document.querySelectorAll('[data-filter="possession"]').forEach(btn=>{
-    btn.addEventListener('click',()=>{document.querySelectorAll('[data-filter="possession"]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.possession=btn.dataset.value;state.page=1;render();});
+    btn.addEventListener('click',()=>setPossessionFilter(btn.dataset.value));
   });
   // Perso
   document.querySelectorAll('[data-filter="perso"]').forEach(btn=>{
@@ -2838,8 +2862,7 @@ function init(){
   document.getElementById('btnReset').addEventListener('click',()=>{
     state={possession:'all',perso:new Set(['Avatar']),types:new Set(['Serviteur','Sort','Approvisionnement']),factions:new Set(FACTIONS.map(([key])=>key)),costMin:'',costMax:'',kw:'',sort:'alpha-cost',search:'',page:1,showAll:false};
     document.querySelectorAll('.ftog').forEach(b=>b.classList.add('active'));
-    document.querySelectorAll('[data-filter="possession"]').forEach(b=>b.classList.remove('active'));
-    document.querySelector('[data-filter="possession"][data-value="all"]').classList.add('active');
+    setPossessionButtonState('all');
     ['costMin','costMax','keywordFilter','searchInput'].forEach(id=>{document.getElementById(id).value='';});
     document.getElementById('sortSelect').value='alpha-cost';
     document.getElementById('searchSuggestions').classList.remove('visible');
@@ -2882,6 +2905,44 @@ function init(){
   render();
 }
 
+function classifyCollectionCatalogEntry(card){
+  if(card.type==='Avatar')return{catalogKind:CATALOG_KIND.AVATAR,obtainability:OBTAINABILITY.NOT_APPLICABLE,obtainabilityReason:'Avatar historique hors corpus canonique des cartes.'};
+  const override=COLLECTION_NON_OBTAINABLE_CLASSIFICATIONS[card.id];
+  if(override)return{catalogKind:CATALOG_KIND.CARD,obtainability:override.obtainability,obtainabilityReason:override.reason};
+  if((card.maxOwned||0)>0)return{catalogKind:CATALOG_KIND.CARD,obtainability:OBTAINABILITY.OBTAINABLE,obtainabilityReason:'Carte canonique obtenable avec maximum possédé supérieur à 0.'};
+  return{catalogKind:CATALOG_KIND.CARD,obtainability:OBTAINABILITY.SPECIAL_UNOBTAINABLE,obtainabilityReason:'Carte non obtenable sans sous-catégorie démontrée.'};
+}
+function hydrateCollectionCatalogClassification(){
+  CARDS.forEach(card=>{
+    const meta=classifyCollectionCatalogEntry(card);
+    card.catalogKind=meta.catalogKind;
+    card.obtainability=meta.obtainability;
+    card.obtainabilityReason=meta.obtainabilityReason;
+    if(card.hidden&&isNonObtainableCollectionCard(card))card.hiddenByDefault=true;
+  });
+}
+function setPossessionButtonState(value){
+  document.querySelectorAll('[data-filter="possession"]').forEach(btn=>{
+    const active=btn.dataset.value===value;
+    btn.classList.toggle('active',active);
+    btn.setAttribute('aria-checked',active?'true':'false');
+  });
+}
+function setPossessionFilter(value){
+  state.possession=value;
+  state.page=1;
+  setPossessionButtonState(value);
+  render();
+}
+function auditCollectionObtainability(){
+  const cards=CARDS.map(card=>({id:card.id,name:card.name,type:card.type,faction:card.faction,maxOwned:card.maxOwned,qty:card.qty,owned:!!card.owned,hidden:!!card.hidden,hiddenByDefault:!!card.hiddenByDefault,catalogKind:card.catalogKind,obtainability:card.obtainability,obtainabilityReason:card.obtainabilityReason}));
+  const obtainable=cards.filter(card=>card.catalogKind==='CARD'&&card.obtainability==='OBTAINABLE');
+  const nonObtainable=cards.filter(card=>card.catalogKind==='CARD'&&card.obtainability!=='OBTAINABLE');
+  const avatars=cards.filter(card=>card.catalogKind==='AVATAR');
+  return{cards,obtainable,nonObtainable,avatars,counter:{owned:obtainable.filter(card=>card.owned).length,total:obtainable.length,label:document.getElementById('collectionCount')?.textContent||''},visibleIds:Array.from(document.querySelectorAll('.ccard[data-id]')).map(el=>el.dataset.id),possession:state.possession};
+}
+if(typeof window!=='undefined')Object.assign(window,{isObtainableCollectionCard,isNonObtainableCollectionCard,matchesPossessionFilter,auditCollectionObtainability});
+
 function applyCollectionStaticSync20260622(){
   const byId=new Map(CARDS.map(c=>[c.id,c]));
   const sync={
@@ -2901,6 +2962,7 @@ function applyCollectionStaticSync20260622(){
 }
 
 applyCollectionStaticSync20260622();
+hydrateCollectionCatalogClassification();
 hydrateCollectionDerivedData();
 init();
 </script>

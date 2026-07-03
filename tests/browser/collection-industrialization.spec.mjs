@@ -16,6 +16,10 @@ const keywords = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-keyw
 const dependencies = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-card-dependencies.json", import.meta.url), "utf8"));
 
 const addedIds = ["MV000025", "N000015", "S000054"];
+const nonObtainableIds = ["B000003", "B000004", "B000005", "EDG000011", "EDG000012", "EN000011", "MV000025", "S000025", "S000054"];
+const transformationOnlyIds = ["B000003", "B000004", "B000005"];
+const generatedOnlyIds = ["EDG000011", "EN000011", "MV000025", "S000054"];
+const specialUnobtainableIds = ["EDG000012", "S000025"];
 const byId = Object.fromEntries(canonical.cards.map(card => [card.id, card]));
 
 function blockingConsoleErrors(diagnostics) {
@@ -24,7 +28,19 @@ function blockingConsoleErrors(diagnostics) {
 
 async function searchCollectionCard(page, cardId) {
   await page.locator("#searchInput").fill(cardId);
-  await expect(collectionCard(page, cardId), `Collection card ${cardId}`).toBeVisible();
+  await expect(collectionCard(page, cardId), "Collection card " + cardId).toBeVisible();
+}
+
+async function setPossessionFilter(page, value) {
+  const button = page.locator('[data-filter="possession"][data-value="' + value + '"]');
+  await button.click();
+  await expect(button).toHaveClass(/active/);
+  await expect(button).toHaveAttribute("aria-checked", "true");
+}
+
+async function resetCollectionFilters(page) {
+  await page.locator("#btnReset").click();
+  await expect(page.locator('[data-filter="possession"][data-value="all"]')).toHaveClass(/active/);
 }
 
 test("Collection corpus matches the 2026-07-03 canonical export", async ({ page }, testInfo) => {
@@ -65,6 +81,14 @@ test("Collection effect inventory covers every canonical card", async () => {
   expect(canonical.uniqueIdCount).toBe(318);
   expect(signatures.cardCount).toBe(318);
   expect(signatures.signatures.map(sig => sig.id).sort()).toEqual(canonical.cards.map(card => card.id).sort());
+  expect(canonical.cards.filter(card => card.catalogKind === "CARD")).toHaveLength(318);
+  expect(canonical.cards.filter(card => card.obtainability === "OBTAINABLE")).toHaveLength(309);
+  expect(canonical.cards.filter(card => card.maxOwned === 0).map(card => card.id).sort()).toEqual([...nonObtainableIds].sort());
+  expect(canonical.cards.filter(card => card.obtainability === "OBTAINABLE" && card.maxOwned === 0)).toEqual([]);
+  expect(canonical.cards.filter(card => card.obtainability !== "OBTAINABLE" && card.maxOwned > 0)).toEqual([]);
+  expect(signatures.signatures.filter(sig => sig.catalogKind !== "CARD")).toEqual([]);
+  expect(signatures.signatures.filter(sig => !["OBTAINABLE", "GENERATED_ONLY", "TRANSFORMATION_ONLY", "SPECIAL_UNOBTAINABLE"].includes(sig.obtainability))).toEqual([]);
+  expect(signatures.signatures.filter(sig => sig.obtainability !== "OBTAINABLE").map(sig => sig.id).sort()).toEqual([...nonObtainableIds].sort());
   expect(primitives.primitives.length).toBeGreaterThan(10);
   expect(keywords.keywordCount).toBeGreaterThan(10);
   const windjalfDependency = dependencies.dependencies.find(dep => dep.sourceId === "N000015" && dep.dependencyId === "S000054");
@@ -78,6 +102,7 @@ for (const cardId of addedIds) {
     const diagnostics = attachPageDiagnostics(page);
     const expected = byId[cardId];
     await openCollection(page);
+    if (expected.obtainability !== "OBTAINABLE") await setPossessionFilter(page, "unobtainable");
     await searchCollectionCard(page, cardId);
     const card = collectionCard(page, cardId);
     await expect(card).toContainText(expected.name);
@@ -142,6 +167,157 @@ test("new Collection records keep structured costs and generated-card semantics"
   ] });
   expect(audit.related).toEqual([{ id: "S000054", name: "Boute-flammes" }]);
   expect(audit.publicTechnicalLeak).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+
+test("Collection obtainability classification drives the global progress counter", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openCollection(page);
+  const audit = await page.evaluate((expectedNonObtainableIds) => {
+    const info = auditCollectionObtainability();
+    const maxOwnedZero = info.cards.filter(card => card.catalogKind === "CARD" && card.maxOwned === 0).map(card => card.id).sort();
+    return {
+      canonicalCards: info.cards.filter(card => card.catalogKind === "CARD").length,
+      avatars: info.avatars.map(card => card.id).sort(),
+      nonObtainable: info.nonObtainable.map(card => ({ id: card.id, obtainability: card.obtainability, hidden: card.hidden, hiddenByDefault: card.hiddenByDefault })).sort((a, b) => a.id.localeCompare(b.id)),
+      obtainableCount: info.obtainable.length,
+      ownedObtainableCount: info.obtainable.filter(card => card.owned).length,
+      counter: info.counter,
+      maxOwnedZero,
+      badObtainableMaxZero: info.cards.filter(card => card.obtainability === "OBTAINABLE" && card.maxOwned === 0).map(card => card.id),
+      badAvatarCard: info.cards.filter(card => card.type === "Avatar" && card.catalogKind !== "AVATAR").map(card => card.id),
+      expectedMissing: expectedNonObtainableIds.filter(id => !maxOwnedZero.includes(id))
+    };
+  }, nonObtainableIds);
+  expect(audit.canonicalCards).toBe(318);
+  expect(audit.avatars).toEqual(Array.from({ length: 14 }, (_, index) => "AV" + String(index + 1).padStart(6, "0")));
+  expect(audit.maxOwnedZero).toEqual([...nonObtainableIds].sort());
+  expect(audit.expectedMissing).toEqual([]);
+  expect(audit.nonObtainable.map(card => card.id)).toEqual([...nonObtainableIds].sort());
+  expect(audit.nonObtainable.filter(card => card.obtainability === "TRANSFORMATION_ONLY").map(card => card.id).sort()).toEqual([...transformationOnlyIds].sort());
+  expect(audit.nonObtainable.filter(card => card.obtainability === "GENERATED_ONLY").map(card => card.id).sort()).toEqual([...generatedOnlyIds].sort());
+  expect(audit.nonObtainable.filter(card => card.obtainability === "SPECIAL_UNOBTAINABLE").map(card => card.id).sort()).toEqual([...specialUnobtainableIds].sort());
+  expect(audit.obtainableCount).toBe(309);
+  expect(audit.counter.total).toBe(309);
+  expect(audit.counter.owned).toBe(audit.ownedObtainableCount);
+  expect(audit.counter.label).toBe(audit.ownedObtainableCount + " / 309 cartes obtenables");
+  expect(audit.badObtainableMaxZero).toEqual([]);
+  expect(audit.badAvatarCard).toEqual([]);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("POSSESSION is a single exclusive four-button group and keeps the counter global", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openCollection(page);
+  const possessionSection = page.locator(".filter-section", { hasText: "Possession" }).first();
+  const buttons = possessionSection.locator('[data-filter="possession"]');
+  await expect(buttons).toHaveCount(4);
+  await expect(buttons).toHaveText(["Toutes", "Possédées", "Manquantes", "Non obtenables"]);
+  await expect(possessionSection.locator('[role="radiogroup"]')).toHaveCount(1);
+  await expect(page.locator('[data-filter="possession"].active')).toHaveCount(1);
+  await expect(page.locator('[data-filter="possession"][data-value="all"]')).toHaveClass(/active/);
+  const initialCounter = await page.locator("#collectionCount").innerText();
+  expect(initialCounter).toContain("cartes obtenables");
+  expect(initialCounter).toMatch(/\/\s*309\s+cartes obtenables/i);
+  for (const value of ["owned", "missing", "unobtainable", "all"]) {
+    await setPossessionFilter(page, value);
+    await expect(page.locator('[data-filter="possession"].active')).toHaveCount(1);
+    await expect(page.locator('[data-filter="possession"][data-value="' + value + '"]')).toHaveAttribute("aria-checked", "true");
+    await expect(page.locator("#collectionCount")).toHaveText(initialCounter);
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("POSSESSION modes separate obtainable cards, unobtainable cards, and avatars", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openCollection(page);
+  const counterText = await page.locator("#collectionCount").innerText();
+
+  await page.locator("#searchInput").fill("S000054");
+  await expect(collectionCard(page, "S000054")).toHaveCount(0);
+  await page.locator("#searchInput").fill("MV000025");
+  await expect(collectionCard(page, "MV000025")).toHaveCount(0);
+
+  await resetCollectionFilters(page);
+  await setPossessionFilter(page, "unobtainable");
+  await page.locator("#btnShowAll").click();
+  const unobtainableRuntime = await page.evaluate(() => getFiltered().map(card => ({ id: card.id, catalogKind: card.catalogKind, obtainability: card.obtainability, owned: card.owned, qty: card.qty, maxOwned: card.maxOwned })).sort((a, b) => a.id.localeCompare(b.id)));
+  expect(unobtainableRuntime.map(card => card.id)).toEqual([...nonObtainableIds].sort());
+  expect(unobtainableRuntime.every(card => card.catalogKind === "CARD" && card.obtainability !== "OBTAINABLE" && card.maxOwned === 0 && card.qty === 0)).toBe(true);
+  await expect(page.locator("#collectionCount")).toHaveText(counterText);
+  for (const id of ["B000003", "B000004", "B000005", "MV000025", "S000054"]) {
+    await page.locator("#searchInput").fill(id);
+    await expect(collectionCard(page, id), id + " non-obtainable search result").toBeVisible();
+    await expect(collectionCard(page, id).locator(".ccard-qty-unobtainable")).toHaveText("Non obtenable");
+  }
+
+  await resetCollectionFilters(page);
+  await setPossessionFilter(page, "owned");
+  const ownedRuntime = await page.evaluate(() => getFiltered().map(card => ({ id: card.id, catalogKind: card.catalogKind, obtainability: card.obtainability, owned: card.owned })));
+  expect(ownedRuntime.length).toBeGreaterThan(0);
+  expect(ownedRuntime.every(card => card.catalogKind === "CARD" && card.obtainability === "OBTAINABLE" && card.owned)).toBe(true);
+  await expect(page.locator("#collectionCount")).toHaveText(counterText);
+
+  await resetCollectionFilters(page);
+  await setPossessionFilter(page, "missing");
+  const missingRuntime = await page.evaluate(() => getFiltered().map(card => ({ id: card.id, catalogKind: card.catalogKind, obtainability: card.obtainability, owned: card.owned })));
+  expect(missingRuntime.length).toBeGreaterThan(0);
+  expect(missingRuntime.every(card => card.catalogKind === "CARD" && card.obtainability === "OBTAINABLE" && !card.owned)).toBe(true);
+  await expect(page.locator("#collectionCount")).toHaveText(counterText);
+
+  await resetCollectionFilters(page);
+  await page.locator("#searchInput").fill("AV000001");
+  await expect(collectionCard(page, "AV000001")).toBeVisible();
+  await setPossessionFilter(page, "unobtainable");
+  await expect(collectionCard(page, "AV000001")).toHaveCount(0);
+  await expect(page.locator("#collectionCount")).toHaveText(counterText);
+
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("non-obtainable cards remain available through linked-card previews and the POSSESSION layout stays contained", async ({ page }, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  for (const viewport of [{ width: 1600, height: 900 }, { width: 1280, height: 720 }]) {
+    await page.setViewportSize(viewport);
+    await openCollection(page);
+    const geometry = await page.evaluate(() => {
+      const section = Array.from(document.querySelectorAll(".filter-section")).find(element => element.querySelector(".filter-title")?.textContent?.trim() === "Possession");
+      const group = section?.querySelector(".filter-toggle-group");
+      const button = section?.querySelector('[data-filter="possession"][data-value="unobtainable"]');
+      const sectionRect = section?.getBoundingClientRect();
+      const groupRect = group?.getBoundingClientRect();
+      const buttonRect = button?.getBoundingClientRect();
+      return {
+        section: sectionRect && { left: sectionRect.left, right: sectionRect.right, top: sectionRect.top, bottom: sectionRect.bottom },
+        group: groupRect && { left: groupRect.left, right: groupRect.right, top: groupRect.top, bottom: groupRect.bottom },
+        button: buttonRect && { left: buttonRect.left, right: buttonRect.right, top: buttonRect.top, bottom: buttonRect.bottom, width: buttonRect.width, height: buttonRect.height },
+        bodyOverflows: document.documentElement.scrollWidth > document.documentElement.clientWidth
+      };
+    });
+    expect(geometry.button.width).toBeGreaterThan(0);
+    expect(geometry.button.left).toBeGreaterThanOrEqual(geometry.section.left - 1);
+    expect(geometry.button.right).toBeLessThanOrEqual(geometry.section.right + 1);
+    expect(geometry.button.right).toBeLessThanOrEqual(geometry.group.right + 1);
+    expect(geometry.bodyOverflows).toBe(false);
+  }
+
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await openCollection(page);
+  await page.locator("#searchInput").fill("Windjalf");
+  await clickCollectionCard(page, "N000015");
+  const modal = await collectionModalSnapshot(page);
+  expect(modal.open).toBe(true);
+  expect(modal.relatedText).toContain("Boute-flammes");
+  expect(modal.relatedText).not.toContain("S000054");
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

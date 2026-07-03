@@ -22,3 +22,28 @@ Les fixtures sous `tests/fixtures/collection-*.json` décrivent le corpus, les s
 ## Limites
 
 Les effets de Windjalf et de Boute-flammes restent non implémentés fonctionnellement dans ce lot. La relation Windjalf -> Boute-flammes est déclarée pour préparer un futur lot de création de carte et d'effets persistants liés à Sang ardent / Embrasement.
+
+## Progression et possession
+
+La Collection distingue maintenant trois ensembles :
+
+- 318 cartes canoniques issues de l'export principal du 3 juillet 2026 ;
+- 309 cartes obtenables, seules prises en compte par la progression ;
+- 9 cartes non obtenables, consultables via le filtre POSSESSION `NON OBTENABLES`.
+
+Les 14 avatars historiques restent dans le catalogue runtime, mais ne sont pas des cartes : ils sont classes `catalogKind = AVATAR` et `obtainability = NOT_APPLICABLE`. Ils sont exclus du numerateur et du denominateur de progression, tout en restant consultables via `TOUTES` et le filtre PERSONNAGE `AVATAR`.
+
+Le compteur global affiche :
+
+`cartes obtenables possedees au moins une fois / cartes obtenables`
+
+Il ne depend ni de la recherche, ni de la page, ni du filtre POSSESSION actif, ni de la visibilite DOM courante.
+
+La section POSSESSION contient quatre choix mutuellement exclusifs :
+
+- `TOUTES` : cartes obtenables et avatars autorises par les autres filtres ;
+- `POSSEDEES` : cartes obtenables possedees ;
+- `MANQUANTES` : cartes obtenables non possedees ;
+- `NON OBTENABLES` : cartes `GENERATED_ONLY`, `TRANSFORMATION_ONLY` ou `SPECIAL_UNOBTAINABLE`.
+
+Les neuf cartes non obtenables sont : `B000003`, `B000004`, `B000005`, `EDG000011`, `EDG000012`, `EN000011`, `MV000025`, `S000025` et `S000054`.

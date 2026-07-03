@@ -50,7 +50,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -98,7 +100,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -129,7 +133,9 @@
       "familyKey": "Serviteur:static:target-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -166,7 +172,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -209,7 +217,9 @@
       "familyKey": "Serviteur:persistent:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -249,7 +259,9 @@
       "familyKey": "Serviteur:vengeance:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -295,7 +307,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -358,7 +372,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -401,7 +417,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -438,7 +456,9 @@
       "familyKey": "Serviteur:turn-start:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -483,7 +503,9 @@
       "familyKey": "Serviteur:static:target-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -532,7 +554,9 @@
       "familyKey": "Serviteur:persistent:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -591,7 +615,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -625,7 +651,9 @@
       "familyKey": "Serviteur:static:target-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -655,7 +683,9 @@
       "familyKey": "Serviteur:static:modify-pv",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -692,7 +722,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -725,7 +757,9 @@
       "familyKey": "Serviteur:vengeance:guard-restriction",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "TRANSFORMATION_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -758,7 +792,9 @@
       "familyKey": "Serviteur:vengeance:guard-restriction",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "TRANSFORMATION_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -785,7 +821,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "TRANSFORMATION_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -812,7 +850,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -839,7 +879,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -866,7 +908,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -893,7 +937,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -920,7 +966,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -947,7 +995,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -992,7 +1042,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1038,7 +1090,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1081,7 +1135,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1118,7 +1174,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1145,7 +1203,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1185,7 +1245,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1227,7 +1289,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1254,7 +1318,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1281,7 +1347,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1311,7 +1379,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1353,7 +1423,9 @@
       "familyKey": "Serviteur:static:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1399,7 +1471,9 @@
       "familyKey": "Serviteur:static:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1441,7 +1515,9 @@
       "familyKey": "Serviteur:static:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1480,7 +1556,9 @@
       "familyKey": "Serviteur:vengeance:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1529,7 +1607,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1577,7 +1657,9 @@
       "familyKey": "Serviteur:static:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1645,7 +1727,9 @@
       "familyKey": "Serviteur:vengeance:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1688,7 +1772,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1727,7 +1813,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1754,7 +1842,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1781,7 +1871,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1830,7 +1922,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1873,7 +1967,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1920,7 +2016,9 @@
       "familyKey": "Serviteur:initiative:ice-hit-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1966,7 +2064,9 @@
       "familyKey": "Serviteur:static:camouflage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -1987,7 +2087,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2025,7 +2127,9 @@
       "familyKey": "Serviteur:static:modify-pv",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2059,7 +2163,9 @@
       "familyKey": "Serviteur:static:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2107,7 +2213,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2160,7 +2268,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2221,7 +2331,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2255,7 +2367,9 @@
       "familyKey": "Serviteur:initiative:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2304,7 +2418,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2347,7 +2463,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2426,7 +2544,9 @@
       "familyKey": "Serviteur:static:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2502,7 +2622,9 @@
       "familyKey": "Serviteur:initiative:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2552,7 +2674,9 @@
       "familyKey": "Serviteur:initiative:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2579,7 +2703,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2622,7 +2748,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2665,7 +2793,9 @@
       "familyKey": "Serviteur:static:camouflage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2696,7 +2826,9 @@
       "familyKey": "Serviteur:turn-end:summon",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2746,7 +2878,9 @@
       "familyKey": "Serviteur:initiative:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2790,7 +2924,9 @@
       "familyKey": "Serviteur:turn-end:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2835,7 +2971,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2883,7 +3021,9 @@
       "familyKey": "Serviteur:initiative:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2920,7 +3060,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -2973,7 +3115,9 @@
       "familyKey": "Serviteur:static:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -3051,7 +3195,9 @@
       "familyKey": "Serviteur:turn-end:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "SPECIAL_UNOBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3094,7 +3240,9 @@
       "familyKey": "Serviteur:static:camouflage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3134,7 +3282,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3183,7 +3333,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3218,7 +3370,9 @@
       "familyKey": "Serviteur:turn-end:summon",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3272,7 +3426,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3334,7 +3490,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3378,7 +3536,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3423,7 +3583,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3474,7 +3636,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3516,7 +3680,9 @@
       "familyKey": "Serviteur:turn-end:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3559,7 +3725,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3580,7 +3748,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -3640,7 +3810,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3680,7 +3852,9 @@
       "familyKey": "Serviteur:turn-end:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3707,7 +3881,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3745,7 +3921,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3772,7 +3950,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3820,7 +4000,9 @@
       "familyKey": "Serviteur:initiative:camouflage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3862,7 +4044,9 @@
       "familyKey": "Serviteur:vengeance:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3905,7 +4089,9 @@
       "familyKey": "Serviteur:turn-end:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3944,7 +4130,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -3986,7 +4174,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4037,7 +4227,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4080,7 +4272,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4130,7 +4324,9 @@
       "familyKey": "Serviteur:initiative:camouflage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4175,7 +4371,9 @@
       "familyKey": "Serviteur:persistent:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4231,7 +4429,9 @@
       "familyKey": "Serviteur:initiative:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4283,7 +4483,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4320,7 +4522,9 @@
       "familyKey": "Serviteur:static:targeting",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4363,7 +4567,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4410,7 +4616,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4468,7 +4676,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4523,7 +4733,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4550,7 +4762,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4598,7 +4812,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4646,7 +4862,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4692,7 +4910,9 @@
       "familyKey": "Serviteur:initiative:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4723,7 +4943,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4777,7 +4999,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4826,7 +5050,9 @@
       "familyKey": "Serviteur:initiative:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4853,7 +5079,9 @@
       "familyKey": "Serviteur:static:camouflage-lock",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4903,7 +5131,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4940,7 +5170,9 @@
       "familyKey": "Serviteur:initiative:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -4991,7 +5223,9 @@
       "familyKey": "Serviteur:initiative:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5050,7 +5284,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5099,7 +5335,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5147,7 +5385,9 @@
       "familyKey": "Serviteur:initiative:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5189,7 +5429,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5237,7 +5479,9 @@
       "familyKey": "Serviteur:initiative:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5275,7 +5519,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5307,7 +5553,9 @@
       "familyKey": "Serviteur:static:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5345,7 +5593,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5381,7 +5631,9 @@
       "familyKey": "Serviteur:turn-end:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5408,7 +5660,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5442,7 +5696,9 @@
       "familyKey": "Serviteur:static:camouflage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5476,7 +5732,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5523,7 +5781,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5550,7 +5810,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5593,7 +5855,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5658,7 +5922,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5689,7 +5955,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5739,7 +6007,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5795,7 +6065,9 @@
       "familyKey": "Serviteur:vengeance:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5864,7 +6136,9 @@
       "familyKey": "Serviteur:initiative:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5891,7 +6165,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5938,7 +6214,9 @@
       "familyKey": "Serviteur:initiative:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -5991,7 +6269,9 @@
       "familyKey": "Serviteur:initiative:heal",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6040,7 +6320,9 @@
       "familyKey": "Serviteur:initiative:heal",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6074,7 +6356,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6116,7 +6400,9 @@
       "familyKey": "Serviteur:initiative:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6150,7 +6436,9 @@
       "familyKey": "Serviteur:static:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6203,7 +6491,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6246,7 +6536,9 @@
       "familyKey": "Serviteur:vengeance:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6293,7 +6585,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6341,7 +6635,9 @@
       "familyKey": "Serviteur:vengeance:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6393,7 +6689,9 @@
       "familyKey": "Serviteur:static:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6425,7 +6723,9 @@
       "familyKey": "Serviteur:static:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6467,7 +6767,9 @@
       "familyKey": "Serviteur:static:lethal-damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6522,7 +6824,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6552,7 +6856,9 @@
       "familyKey": "Serviteur:static:play-condition",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6601,7 +6907,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6664,7 +6972,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6730,7 +7040,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6769,7 +7081,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6823,7 +7137,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6860,7 +7176,9 @@
       "familyKey": "Serviteur:static:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6899,7 +7217,9 @@
       "familyKey": "Serviteur:static:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6946,7 +7266,9 @@
       "familyKey": "Serviteur:vengeance:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -6977,7 +7299,9 @@
       "familyKey": "Serviteur:vengeance:play-condition",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -7011,7 +7335,9 @@
       "familyKey": "Serviteur:static:lethal-damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7059,7 +7385,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7108,7 +7436,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7142,7 +7472,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7193,7 +7525,9 @@
       "familyKey": "Serviteur:vengeance:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7224,7 +7558,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7273,7 +7609,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7318,7 +7656,9 @@
       "familyKey": "Serviteur:persistent:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7360,7 +7700,9 @@
       "familyKey": "Serviteur:initiative:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7409,7 +7751,9 @@
       "familyKey": "Serviteur:static:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7456,7 +7800,9 @@
       "familyKey": "Serviteur:initiative:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7487,7 +7833,9 @@
       "familyKey": "Serviteur:static:rage-stat-buff",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7521,7 +7869,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7567,7 +7917,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7607,7 +7959,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7651,7 +8005,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7693,7 +8049,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7720,7 +8078,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7777,7 +8137,9 @@
       "familyKey": "Serviteur:turn-end:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7820,7 +8182,9 @@
       "familyKey": "Serviteur:initiative:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7875,7 +8239,9 @@
       "familyKey": "Serviteur:initiative:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7902,7 +8268,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7941,7 +8309,9 @@
       "familyKey": "Serviteur:initiative:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7994,7 +8364,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8021,7 +8393,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8042,7 +8416,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8104,7 +8480,9 @@
       "familyKey": "Serviteur:initiative:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8140,7 +8518,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8196,7 +8576,9 @@
       "familyKey": "Serviteur:initiative:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8247,7 +8629,9 @@
       "familyKey": "Serviteur:static:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8290,7 +8674,9 @@
       "familyKey": "Serviteur:initiative:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8332,7 +8718,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8380,7 +8768,9 @@
       "familyKey": "Serviteur:static:modify-atk",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8434,7 +8824,9 @@
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8485,7 +8877,9 @@
       "familyKey": "Serviteur:static:camouflage-lock",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8533,7 +8927,9 @@
       "familyKey": "Serviteur:initiative:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8583,7 +8979,9 @@
       "familyKey": "Serviteur:persistent:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8635,7 +9033,9 @@
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8679,7 +9079,9 @@
       "familyKey": "Serviteur:static:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8732,7 +9134,9 @@
       "familyKey": "Serviteur:vengeance:heal",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8788,7 +9192,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8838,7 +9244,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8881,7 +9289,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8938,7 +9348,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -8983,7 +9395,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9032,7 +9446,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9091,7 +9507,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9140,7 +9558,9 @@
       "familyKey": "Sort:on-play:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9191,7 +9611,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9243,7 +9665,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9287,7 +9711,9 @@
       "familyKey": "Sort:on-play:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9337,7 +9763,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9380,7 +9808,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9431,7 +9861,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9454,7 +9886,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9475,7 +9909,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9496,7 +9932,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9517,7 +9955,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9549,7 +9989,9 @@
       "familyKey": "Approvisionnement:turn-start:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9570,7 +10012,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9591,7 +10035,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9620,7 +10066,9 @@
       "familyKey": "Approvisionnement:turn-start:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9641,7 +10089,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9668,7 +10118,9 @@
       "familyKey": "Approvisionnement:static:create-card",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9689,7 +10141,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9710,7 +10164,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9731,7 +10187,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9752,7 +10210,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9773,7 +10233,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9802,7 +10264,9 @@
       "familyKey": "Approvisionnement:static:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9823,7 +10287,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9844,7 +10310,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9865,7 +10333,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9886,7 +10356,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9915,7 +10387,9 @@
       "familyKey": "Approvisionnement:static:summon",
       "implementationStatus": "ABSENT",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9936,7 +10410,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9957,7 +10433,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -9978,7 +10456,9 @@
       "familyKey": "Approvisionnement:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10005,7 +10485,9 @@
       "familyKey": "Approvisionnement:turn-start:targeting",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10038,7 +10520,9 @@
       "familyKey": "Approvisionnement:static:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10086,7 +10570,9 @@
       "familyKey": "Approvisionnement:turn-start:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10139,7 +10625,9 @@
       "familyKey": "Sort:on-play:lethal-damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10186,7 +10674,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10230,7 +10720,9 @@
       "familyKey": "Sort:on-play:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10275,7 +10767,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10326,7 +10820,9 @@
       "familyKey": "Sort:on-play:lethal-damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10370,7 +10866,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10424,7 +10922,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10462,7 +10962,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10509,7 +11011,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10555,7 +11059,9 @@
       "familyKey": "Sort:on-play:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10603,7 +11109,9 @@
       "familyKey": "Sort:on-play:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10642,7 +11150,9 @@
       "familyKey": "Sort:on-play:modify-atk",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10686,7 +11196,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10723,7 +11235,9 @@
       "familyKey": "Sort:on-play:summon",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10773,7 +11287,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10815,7 +11331,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10854,7 +11372,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10901,7 +11421,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10935,7 +11457,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -10987,7 +11511,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11035,7 +11561,9 @@
       "familyKey": "Sort:on-play:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11086,7 +11614,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11154,7 +11684,9 @@
       "familyKey": "Sort:on-play:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11201,7 +11733,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11242,7 +11776,9 @@
       "familyKey": "Sort:on-play:lethal-damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "SPECIAL_UNOBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11307,7 +11843,9 @@
       "familyKey": "Sort:on-play:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11351,7 +11889,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11405,7 +11945,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11446,7 +11988,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11493,7 +12037,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11541,7 +12087,9 @@
       "familyKey": "Sort:on-play:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11579,7 +12127,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11623,7 +12173,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11667,7 +12219,9 @@
       "familyKey": "Sort:on-play:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11715,7 +12269,9 @@
       "familyKey": "Sort:on-play:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11767,7 +12323,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11810,7 +12368,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11852,7 +12412,9 @@
       "familyKey": "Sort:on-play:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11896,7 +12458,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -11938,7 +12502,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12000,7 +12566,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12056,7 +12624,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12097,7 +12667,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12155,7 +12727,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12207,7 +12781,9 @@
       "familyKey": "Sort:on-play:create-card",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12270,7 +12846,9 @@
       "familyKey": "Sort:on-play:heal",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12313,7 +12891,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12374,7 +12954,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12435,7 +13017,9 @@
       "familyKey": "Sort:on-play:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12505,7 +13089,9 @@
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12545,7 +13131,9 @@
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12604,7 +13192,9 @@
       "familyKey": "Sort:on-play:duration-persistent",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12664,7 +13254,9 @@
       "familyKey": "Sort:on-play:burn-status",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12716,7 +13308,9 @@
       "familyKey": "Sort:on-play:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -12769,7 +13363,9 @@
       "familyKey": "Sort:on-play:lethal-damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12796,7 +13392,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12827,7 +13425,9 @@
       "familyKey": "Serviteur:static:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12854,7 +13454,9 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12893,7 +13495,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12930,7 +13534,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -12974,7 +13580,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13023,7 +13631,9 @@
       "familyKey": "Serviteur:turn-end:heal",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13061,7 +13671,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13114,7 +13726,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13165,7 +13779,9 @@
       "familyKey": "Serviteur:persistent:cold-blood-immunity",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13211,7 +13827,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13255,7 +13873,9 @@
       "familyKey": "Serviteur:static:damage",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13311,7 +13931,9 @@
       "familyKey": "Serviteur:vengeance:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13351,7 +13973,9 @@
       "familyKey": "Serviteur:vengeance:guard-restriction",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13407,7 +14031,9 @@
       "familyKey": "Serviteur:static:heal",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13465,7 +14091,9 @@
       "familyKey": "Serviteur:static:heal",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13523,7 +14151,9 @@
       "familyKey": "Serviteur:turn-start:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13582,7 +14212,9 @@
       "familyKey": "Serviteur:initiative:initiative-trigger",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13635,7 +14267,9 @@
       "familyKey": "Serviteur:persistent:damage",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -13688,7 +14322,9 @@
       "familyKey": "Serviteur:static:burn-protection",
       "implementationStatus": "PARTIEL",
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN"
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
     }
   ],
   "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-03.xlsx",
