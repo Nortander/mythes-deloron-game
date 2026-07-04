@@ -78,3 +78,12 @@ Corrections COLLECTION-BATCH-01C :
 - `S000043` possede maintenant les donnees runtime statiques de `B000015`, `B000016` et `B000017`, ce qui evite les cartes fantomes apres pioche visible des Minotaures.
 - `S000007` conserve le slot adverse reellement vise par le joueur et le scenario technique valide le blocage puis la liberation de ce slot par la Clef liee.
 - La correction Collection de `S000008` en carte non obtenable reste reportee au futur lot `COLLECTION-DATAFIX-1`.
+
+Corrections COLLECTION-BATCH-01D :
+
+- Le marqueur visuel de `S000007` est maintenant un verrou carre arrondi, sans ATK/PV, sans cout et sans libelle technique superpose.
+- Le survol du verrou ouvre un apercu technique propre de type `Zone barree`, avec texte joueur lisible et carte liee `S000008` visible.
+- `S000008` affiche une animation d'ajout au deck adverse, puis une animation d'ouverture lorsque la Clef liee est piochee.
+- La Clef piochee rejoint visuellement le cimetiere du piocheur avec son image, et la Porte liee disparait avec une breve animation d'ouverture.
+- Les messages publics n'exposent pas d'ID technique et distinguent l'ajout de la Clef de l'ouverture de la Porte.
+- La correction Collection de `S000008` en carte non obtenable reste reportee au futur lot `COLLECTION-DATAFIX-1`.

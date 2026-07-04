@@ -1324,10 +1324,12 @@ body.dragging-card .hc.dragging {
 .res-sep { font-size:9px; color:#c8b898; margin:0 2px; font-weight:700; align-self:center; font-family:'Cinzel',serif; }
 .hc-res-total { display:inline-flex; align-items:center; margin-right:2px; }
 .slot-door-lock {
-  width:var(--fc-w, 88px);
-  height:var(--fc-h, 124px);
+  width:min(100%, var(--fc-w, 88px));
+  height:min(100%, var(--fc-w, 88px));
+  aspect-ratio:1 / 1;
+  align-self:center;
   border:1px solid rgba(245,217,154,.62);
-  border-radius:10px;
+  border-radius:16px;
   background:radial-gradient(circle at 50% 22%, rgba(245,217,154,.20), rgba(40,18,8,.92) 58%, rgba(8,4,2,.98));
   box-shadow:0 0 12px rgba(245,217,154,.24), inset 0 0 14px rgba(0,0,0,.55);
   display:flex;
@@ -1335,27 +1337,79 @@ body.dragging-card .hc.dragging {
   justify-content:center;
   overflow:hidden;
   position:relative;
+  cursor:help;
 }
 .slot-door-lock::after {
-  content:'PORTE';
-  position:absolute;
-  left:6px;
-  right:6px;
-  bottom:5px;
-  padding:2px 0;
-  border-radius:6px;
-  background:rgba(20,10,5,.76);
-  color:#f5d99a;
-  font-family:'Cinzel',serif;
-  font-size:8px;
-  letter-spacing:.08em;
-  text-align:center;
+  content:'';
+  display:none;
 }
 .slot-door-lock img {
   width:100%;
   height:100%;
   object-fit:cover;
   opacity:.92;
+}
+.slot-door-lock.door-lock-opening {
+  animation:doorLockOpeningPulse .42s ease-in-out 0s 2;
+  box-shadow:0 0 22px rgba(245,217,154,.78), inset 0 0 18px rgba(255,240,190,.35);
+}
+.door-key-visual {
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(.96);
+  z-index:100050;
+  width:220px;
+  min-height:300px;
+  border:1px solid rgba(245,217,154,.82);
+  border-radius:18px;
+  background:linear-gradient(170deg,#2e1a4a,#0e0618);
+  box-shadow:0 0 28px rgba(245,217,154,.42), 0 18px 38px rgba(0,0,0,.65);
+  color:#f8e7bc;
+  font-family:'Crimson Pro',serif;
+  pointer-events:none;
+  opacity:0;
+  overflow:hidden;
+}
+.door-key-visual img {
+  width:100%;
+  height:178px;
+  object-fit:cover;
+  object-position:top;
+  display:block;
+}
+.door-key-visual-title {
+  font-family:'Cinzel',serif;
+  font-size:15px;
+  text-align:center;
+  padding:8px 10px 3px;
+  color:#f5d99a;
+}
+.door-key-visual-text {
+  font-size:13px;
+  line-height:1.25;
+  text-align:center;
+  padding:0 12px 12px;
+}
+.door-key-visual.is-adding {
+  animation:doorKeyAddedToDeck 1.2s ease-in-out forwards;
+}
+.door-key-visual.is-opening {
+  animation:doorKeyOpensDoor 1.25s ease-in-out forwards;
+}
+@keyframes doorLockOpeningPulse {
+  0%,100% { transform:scale(1); filter:brightness(1); }
+  50% { transform:scale(1.08); filter:brightness(1.28); }
+}
+@keyframes doorKeyAddedToDeck {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(.86); }
+  18%,62% { opacity:1; transform:translate(-50%,-50%) scale(1); }
+  100% { opacity:0; transform:translate(58vw,-46vh) scale(.38); }
+}
+@keyframes doorKeyOpensDoor {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(.86); }
+  16%,66% { opacity:1; transform:translate(-50%,-50%) scale(1); }
+  100% { opacity:0; transform:translate(-50%,-50%) scale(.72); }
 }
 
 
@@ -4154,6 +4208,82 @@ function buildDoorLockMarker(lock) {
   return `<div class="slot-door-lock" data-player="${escapeHtml(lock.affectedPlayerId)}" data-slot-lock-id="${escapeHtml(lock.effectInstanceId)}" data-blocked-card-id="S000007" data-testid="door-lock-marker" role="img" aria-label="Emplacement bloqué par Porte infranchissable"><img src="${GH}/sorts/S000007.png" alt="${escapeHtml(d.name || 'Porte infranchissable')}"></div>`;
 }
 
+function doorLockByMarker(marker) {
+  const effectInstanceId = marker?.dataset?.slotLockId || null;
+  return activeDoorLocks().find(lock => lock.effectInstanceId === effectInstanceId) || null;
+}
+
+function buildDoorLockPreview(lock) {
+  const key = CARDS_DATA.S000008 || {};
+  const keyFolder = key.assetFolder || facFolder(key.fac || 'sort');
+  const text = 'Cette zone est barrée par une Porte infranchissable : aucun serviteur ne pourra passer par là tant que vous n’aurez pas trouvé la clef.';
+  return `<div class="canonical-card-preview-shell" data-preview-root="1" data-door-lock-preview="1">
+    <div class="canonical-related-cards" data-preview-related="door-lock">
+      <div class="canonical-related-title">Carte liée</div>
+      <div class="canonical-related-mini" data-related-card="S000008">
+        <img src="${GH}/${keyFolder}/S000008.png" alt="${escapeHtml(key.name || 'Clef de pierre')}" onerror="this.style.opacity='0.12';this.src=''">
+        <span class="canonical-related-name">${escapeHtml(key.name || 'Clef de pierre')}</span>
+      </div>
+    </div>
+    <div class="canonical-card-preview fc sort-fc door-lock-zone-preview" data-preview-card-id="door-lock" data-source-context="door-lock">
+      <div class="fc-zoom sort-fc">
+        <div class="fc-zoom-art">
+          <img class="fz-img" src="${GH}/sorts/S000007.png" alt="${escapeHtml(CARDS_DATA.S000007?.name || 'Porte infranchissable')}" onerror="this.style.background='#1a1a2e';this.src=''">
+        </div>
+        <div class="fc-zoom-name-b"><span class="fz-name">Porte infranchissable</span></div>
+        <div class="fc-zoom-desc-z"><div class="fz-desc-inner">
+          <p class="fz-desc-text" data-door-lock-type="1" style="opacity:.82;text-align:center;letter-spacing:.08em">Zone barrée</p>
+          <p class="fz-desc-text">${formatPlayerFacingCardText(text)}</p>
+        </div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function openDoorLockPreview(marker) {
+  const lock = doorLockByMarker(marker);
+  if (!lock || isPreviewSuppressed()) return {opened:false, reason:'no-active-door-lock'};
+  const layer = previewLayer();
+  if (!layer) return {opened:false, reason:'missing-preview-layer'};
+  clearCardPreviewSourceMarkers();
+  marker?.classList?.add('is-preview-source');
+  layer.classList.add('preview-open');
+  layer.setAttribute('aria-hidden', 'false');
+  layer.innerHTML = buildDoorLockPreview(lock);
+  cardPreviewState.activeCardId = 'door-lock';
+  cardPreviewState.cardId = 'door-lock';
+  cardPreviewState.sourceElement = marker;
+  cardPreviewState.sourceContext = {sourceType:'door-lock', playerId:lock.affectedPlayerId};
+  cardPreviewState.sourceHovered = true;
+  requestAnimationFrame(positionPreviewTooltips);
+  return {opened:true, cardId:'door-lock'};
+}
+
+function showDoorKeyVisual(cardId, {mode='adding', message='', ownerId='', linkedDoorEffectId=''}={}) {
+  const d = CARDS_DATA[cardId] || {};
+  const folder = d.assetFolder || facFolder(d.fac || 'sort');
+  const testId = mode === 'opening' ? 'stone-key-open-animation' : 'door-key-add-animation';
+  const node = document.createElement('div');
+  node.className = `door-key-visual is-${mode}`;
+  node.dataset.testid = testId;
+  node.dataset.cardId = cardId;
+  node.dataset.ownerId = ownerId;
+  node.dataset.linkedDoorEffectId = linkedDoorEffectId;
+  node.innerHTML = `<img src="${GH}/${folder}/${cardId}.png" alt="${escapeHtml(d.name || cardId)}"><div class="door-key-visual-title">${escapeHtml(d.name || cardId)}</div><div class="door-key-visual-text">${escapeHtml(message)}</div>`;
+  document.body.appendChild(node);
+  const cleanup = () => node.remove();
+  node.addEventListener('animationend', cleanup, {once:true});
+  setTimeout(cleanup, 1500);
+  window.__lastDoorKeyVisual = {cardId, mode, message, ownerId, linkedDoorEffectId, timestamp:Date.now()};
+  return node;
+}
+
+function replaceDoorMarkerWithSlot(lock) {
+  const affected = playerState(lock?.affectedPlayerId);
+  const marker = servantZoneForPlayer(affected)?.querySelector(`[data-slot-lock-id="${CSS.escape(lock.effectInstanceId)}"]`);
+  if (marker) marker.outerHTML = `<div class="slot" data-player="${escapeHtml(lock.affectedPlayerId)}"></div>`;
+}
+
 function createStoneKeyOccurrence(lock) {
   return {
     cardId:'S000008',
@@ -4194,7 +4324,11 @@ function releaseDoorSlotLock(lock, {reason='stone-key-drawn', keyEntry=null}={})
   if (!lock || lock.status !== 'ACTIVE') return {success:false, code:'door-lock-not-active', reason, lock:null};
   const affected = playerState(lock.affectedPlayerId);
   const marker = servantZoneForPlayer(affected)?.querySelector(`[data-slot-lock-id="${CSS.escape(lock.effectInstanceId)}"]`);
-  if (marker) marker.outerHTML = `<div class="slot" data-player="${escapeHtml(lock.affectedPlayerId)}"></div>`;
+  if (marker) {
+    marker.classList.add('door-lock-opening');
+    marker.dataset.opening = '1';
+    setTimeout(() => replaceDoorMarkerWithSlot(lock), 420);
+  }
   lock.status = 'RESOLVED';
   lock.resolvedAtTurn = turnSequence;
   lock.resolvedReason = reason;
@@ -4209,10 +4343,16 @@ function maybeResolveLinkedStoneKeyDraw(player, entry, {sourceCardId=null}={}) {
   const lock = activeDoorLocks().find(candidate => candidate.effectInstanceId === entry.linkedDoorEffectId && candidate.linkedKeyOccurrenceId === entry.occurrenceId);
   if (!lock) return {handled:false, code:'linked-stone-key-without-active-door'};
   addEntryToRuntimeZone(p, 'graveyard', entry, {position:'top'});
+  showDoorKeyVisual('S000008', {
+    mode:'opening',
+    message:'La Clef de pierre est trouvée : la Porte infranchissable s’ouvre.',
+    ownerId:p?.key || '',
+    linkedDoorEffectId:entry.linkedDoorEffectId
+  });
   const release = releaseDoorSlotLock(lock, {reason:'linked-stone-key-drawn', keyEntry:entry});
   const diagnostic = {success:true, code:'linked-stone-key-drawn', sourceCardId, cardId:'S000008', playerKey:p?.key || '', linkedDoorEffectId:entry.linkedDoorEffectId, linkedKeyOccurrenceId:entry.occurrenceId, release, activeLocks:activeDoorLocks().map(item => ({effectInstanceId:item.effectInstanceId, blockedSlotId:item.blockedSlotId}))};
   recordZoneEffectDiagnostic('S000008', diagnostic);
-  showNotif('Clef de pierre piochée : la Porte infranchissable liée disparaît.', 1800);
+  showNotif('La Clef de pierre est trouvée : la Porte infranchissable s’ouvre.', 2200);
   return {handled:true, ...diagnostic};
 }
 
@@ -6745,6 +6885,13 @@ document.addEventListener('pointerout', ev => {
 
 document.addEventListener('pointerover', ev => {
   if (ev.target.closest?.('#card-preview-layer')) return;
+  const doorMarker = ev.target.closest?.('.slot-door-lock[data-slot-lock-id]');
+  if (doorMarker) {
+    if (isPreviewSuppressed()) return;
+    cardPreviewState.sourceHovered = true;
+    openDoorLockPreview(doorMarker);
+    return;
+  }
   const fc = ev.target.closest?.('.fc[data-id]');
   if (!fc || fc.closest('.hand-j1,.hand-j2')) return;
   if (isPreviewSuppressed()) return;
@@ -6759,6 +6906,14 @@ document.addEventListener('pointerover', ev => {
 
 document.addEventListener('pointerout', ev => {
   if (ev.target.closest?.('#card-preview-layer')) return;
+  const doorMarker = ev.target.closest?.('.slot-door-lock[data-slot-lock-id]');
+  if (doorMarker) {
+    if (ev.relatedTarget && doorMarker.contains(ev.relatedTarget)) return;
+    cardPreviewState.sourceHovered = false;
+    cancelPreviewOpenTimer('door-lock-pointerout');
+    scheduleCloseCardPreview('door-lock-pointerout');
+    return;
+  }
   const fc = ev.target.closest?.('.fc[data-id]');
   if (!fc || fc.closest('.hand-j1,.hand-j2')) return;
   if (ev.relatedTarget && fc.contains(ev.relatedTarget)) return;
@@ -10849,7 +11004,8 @@ async function resolvePorteInfranchissable(player, context={}) {
   addEntryToRuntimeZone(opponent, 'deck', keyEntry, {position:'top'});
   const diagnostic = {success:true, code:'porte-infranchissable-resolved', reason:null, cardId:'S000007', selectedSlot:{playerKey:target.playerKey, slotIndex:target.slotIndex, slotId:target.slotId}, lock:{...lockResult.lock}, linkedKey:{cardId:'S000008', occurrenceId:keyEntry.occurrenceId, deckOwner:opponent.key}, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent), activeLocks:activeDoorLocks().map(lock => ({...lock}))}};
   recordZoneEffectDiagnostic('S000007', diagnostic);
-  showNotif('Porte infranchissable bloque un emplacement adverse et ajoute sa Clef au deck adverse.', 2000);
+  showDoorKeyVisual('S000008', {mode:'adding', message:'Une Clef de pierre est ajoutée au deck adverse.', ownerId:opponent.key, linkedDoorEffectId:lockResult.lock.effectInstanceId});
+  showNotif('Porte infranchissable bloque un emplacement. Une Clef de pierre est ajoutée au deck adverse.', 2200);
   return diagnostic;
 }
 
@@ -11505,8 +11661,9 @@ function addToCemetery(cardId, player, fac) {
 function refreshCemeteryVisual(player) {
   const p = playerState(player);
   const last = p?.graveyard?.[p.graveyard.length - 1] || null;
-  if (!last) return addToCemetery('', p, 'appro');
-  return addToCemetery(last, p, CARDS_DATA[last]?.fac || 'appro');
+  const cardId = getRuntimeCardId(last);
+  if (!cardId) return addToCemetery('', p, 'appro');
+  return addToCemetery(cardId, p, CARDS_DATA[cardId]?.fac || 'appro');
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer) {

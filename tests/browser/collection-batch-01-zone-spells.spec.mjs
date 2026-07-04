@@ -48,7 +48,11 @@ async function snapshot(page) {
         player: marker.dataset.player,
         lockId: marker.dataset.slotLockId,
         hasStats: !!marker.querySelector(".fc-stats"),
-        imageSrc: marker.querySelector("img")?.getAttribute("src") || ""
+        hasCost: !!marker.querySelector(".cost,.hc-cost,.fc-cost,.fc-zoom-cost-z"),
+        imageSrc: marker.querySelector("img")?.getAttribute("src") || "",
+        text: marker.innerText || "",
+        ariaLabel: marker.getAttribute("aria-label") || "",
+        opening: marker.dataset.opening || ""
       })),
       publicScenarioValues: Array.from(document.querySelectorAll("#scenarioSelect option")).map(option => option.value),
       panel: typeof getHuvuTestResourcePanelSnapshot === "function" ? getHuvuTestResourcePanelSnapshot() : null,
@@ -96,6 +100,57 @@ async function playDoorOnVisibleSlot(page, targetSelector) {
   }, targetSelector);
   await page.waitForTimeout(300);
   return result;
+}
+
+async function doorMarkerVisualAudit(page) {
+  return page.evaluate(() => {
+    const marker = document.querySelector('[data-testid="door-lock-marker"]');
+    const zone = marker?.parentElement;
+    const markerRect = marker?.getBoundingClientRect();
+    const zoneRect = zone?.getBoundingClientRect();
+    const img = marker?.querySelector("img");
+    const style = marker ? getComputedStyle(marker) : null;
+    const afterStyle = marker ? getComputedStyle(marker, "::after") : null;
+    return {
+      marker: markerRect ? {
+        width: markerRect.width,
+        height: markerRect.height,
+        ratio: markerRect.width / markerRect.height,
+        x: markerRect.x,
+        y: markerRect.y
+      } : null,
+      zone: zoneRect ? {
+        width: zoneRect.width,
+        height: zoneRect.height,
+        x: zoneRect.x,
+        y: zoneRect.y
+      } : null,
+      borderRadius: style?.borderRadius || "",
+      afterContent: afterStyle?.content || "",
+      text: marker?.innerText || "",
+      ariaLabel: marker?.getAttribute("aria-label") || "",
+      hasStats: !!marker?.querySelector(".fc-stats,.fc-atk,.fc-pdv,.hc-atk,.hc-pdv"),
+      hasCost: !!marker?.querySelector(".cost,.hc-cost,.fc-cost,.fc-zoom-cost-z"),
+      imageSrc: img?.getAttribute("src") || "",
+      imageOk: !!img && img.complete && img.naturalWidth > 0 && img.naturalHeight > 0
+    };
+  });
+}
+
+async function doorPreviewAudit(page) {
+  return page.evaluate(() => {
+    const root = document.querySelector('[data-door-lock-preview="1"]');
+    const keyImg = root?.querySelector('[data-related-card="S000008"] img');
+    return {
+      visible: !!root,
+      text: root?.innerText || "",
+      hasAtk: !!root?.querySelector(".fc-zoom-atk,.hc-atk"),
+      hasPdv: !!root?.querySelector(".fc-zoom-pdv,.hc-pdv"),
+      hasCost: !!root?.querySelector(".fc-zoom-cost-z,.hc-cost-z"),
+      keyImageOk: !!keyImg && keyImg.complete && keyImg.naturalWidth > 0 && keyImg.naturalHeight > 0,
+      technicalIdsVisible: /\bS000007\b|\bS000008\b|effectInstanceId|linkedKeyOccurrenceId/.test(root?.innerText || "")
+    };
+  });
 }
 
 test("COLLECTION-BATCH-01 scope is explicit and scenarios stay hidden", async ({page}, testInfo) => {
@@ -495,6 +550,8 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   await openScenario(page, "collection-batch-01-door-key");
   const before = await snapshot(page);
   const playResult = await playDoorOnVisibleSlot(page, "#raithServants .slot:nth-of-type(2)");
+  await expect(page.getByTestId("door-key-add-animation")).toBeVisible();
+  await expect.poll(() => page.getByTestId("door-key-add-animation").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
   await expect.poll(async () => {
     const state = await snapshot(page);
     return state.activeLocks.length;
@@ -504,6 +561,31 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
 
   await expect(page.getByTestId("door-lock-marker")).toBeVisible();
   await expect.poll(() => page.getByTestId("door-lock-marker").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+  const markerAudit = await doorMarkerVisualAudit(page);
+  expect(markerAudit.marker.ratio).toBeGreaterThan(0.88);
+  expect(markerAudit.marker.ratio).toBeLessThan(1.12);
+  expect(markerAudit.marker.width).toBeLessThanOrEqual(90);
+  expect(markerAudit.marker.height).toBeLessThanOrEqual(90);
+  expect(markerAudit.borderRadius).not.toBe("0px");
+  expect(markerAudit.hasStats).toBe(false);
+  expect(markerAudit.hasCost).toBe(false);
+  expect(markerAudit.text.trim()).toBe("");
+  expect(markerAudit.afterContent).not.toMatch(/Porte/i);
+  expect(markerAudit.ariaLabel).toContain("Emplacement bloqué par Porte infranchissable");
+  expect(markerAudit.imageOk).toBe(true);
+
+  await page.getByTestId("door-lock-marker").hover();
+  await expect(page.locator('[data-door-lock-preview="1"]')).toBeVisible();
+  const previewAudit = await doorPreviewAudit(page);
+  expect(previewAudit.text).toContain("Porte infranchissable");
+  expect(previewAudit.text).toContain("Zone barrée");
+  expect(previewAudit.text).toContain("Cette zone est barrée par une Porte infranchissable");
+  expect(previewAudit.text).toContain("Clef de pierre");
+  expect(previewAudit.hasAtk).toBe(false);
+  expect(previewAudit.hasPdv).toBe(false);
+  expect(previewAudit.hasCost).toBe(false);
+  expect(previewAudit.keyImageOk).toBe(true);
+  expect(previewAudit.technicalIdsVisible).toBe(false);
 
   expect(playResult.success).toBe(true);
   expect(result.success).toBe(true);
@@ -537,9 +619,17 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   });
 
   const drawResult = await page.evaluate(() => drawCardFromRuntimeDeck("player2", {sourceCardId: "batch-01-test"}));
-  await page.waitForTimeout(300);
+  await expect(page.getByTestId("stone-key-open-animation")).toBeVisible();
+  await expect.poll(() => page.getByTestId("stone-key-open-animation").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+  await page.waitForTimeout(650);
   const released = await snapshot(page);
-  await testInfo.attach("door-key-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, locked, afterBlockedAgain, drawResult, released}, null, 2), "utf8")});
+  const cemeteryKeyImage = await page.locator(".dc-j2 .cemetery img").evaluate(img => ({
+    src: img.getAttribute("src") || "",
+    naturalWidth: img.naturalWidth,
+    naturalHeight: img.naturalHeight,
+    complete: img.complete
+  }));
+  await testInfo.attach("door-key-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, locked, markerAudit, previewAudit, afterBlockedAgain, drawResult, released, cemeteryKeyImage}, null, 2), "utf8")});
   await attachDiagnostics(testInfo, diagnostics);
 
   expect(drawResult.success).toBe(true);
@@ -550,6 +640,9 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   expect(released.freeSlotsPlayer2).toContain(lockedSlotIndex);
   expect(released.player2.hand).not.toContain("S000008");
   expect(released.player2.graveyard).toEqual(["S000008"]);
+  expect(cemeteryKeyImage.src).toContain("S000008.png");
+  expect(cemeteryKeyImage.naturalWidth).toBeGreaterThan(0);
+  expect(released.notificationText).toContain("Porte infranchissable s’ouvre");
   expect(released.player1.graveyard).toContain("S000007");
   expect(counts([...released.player1.hand, ...released.player1.deck, ...released.player1.graveyard]).S000007).toBe(1);
   expect(diagnostics.pageErrors).toEqual([]);
