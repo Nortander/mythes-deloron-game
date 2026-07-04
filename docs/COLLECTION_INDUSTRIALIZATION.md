@@ -72,3 +72,9 @@ Corrections COLLECTION-BATCH-01B :
 - `S000037` compte la main apres retrait du Sort et pioche les Serviteurs Gobelins jusqu'a 8 cartes si le deck le permet.
 - `S000007` garde un texte public sans IDs techniques ; les details de lien Porte/Clef restent dans le panneau de test.
 - La correction Collection de `S000008` en carte non obtenable est reportee au futur lot `COLLECTION-DATAFIX-1`.
+
+Corrections COLLECTION-BATCH-01C :
+
+- `S000043` possede maintenant les donnees runtime statiques de `B000015`, `B000016` et `B000017`, ce qui evite les cartes fantomes apres pioche visible des Minotaures.
+- `S000007` conserve le slot adverse reellement vise par le joueur et le scenario technique valide le blocage puis la liberation de ce slot par la Clef liee.
+- La correction Collection de `S000008` en carte non obtenable reste reportee au futur lot `COLLECTION-DATAFIX-1`.

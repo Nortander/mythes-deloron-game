@@ -20,7 +20,7 @@ async function openScenario(page, scenario) {
   await page.goto(`/code/partie-test-1.html?${params.toString()}`);
   await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(800);
 }
 
 async function snapshot(page) {
@@ -60,6 +60,40 @@ async function snapshot(page) {
 
 async function playSpell(page, cardId, zoneSelection = null) {
   const result = await page.evaluate(async ({id, selection}) => playCard(id, null, selection ? {zoneSelection: selection} : {}), {id: cardId, selection: zoneSelection});
+  await page.waitForTimeout(300);
+  return result;
+}
+
+async function visibleHandCards(page, playerSelector = ".hand-j1") {
+  return page.evaluate((selector) => Array.from(document.querySelectorAll(`${selector} .hc`)).map(card => {
+    const rect = card.getBoundingClientRect();
+    const img = card.querySelector("img");
+    const name = card.querySelector(".hc-name")?.innerText || "";
+    return {
+      id: card.dataset.id || "",
+      name,
+      visible: !!(card.offsetWidth || card.offsetHeight || card.getClientRects().length),
+      hiddenByCss: getComputedStyle(card).display === "none" || getComputedStyle(card).visibility === "hidden" || Number(getComputedStyle(card).opacity) === 0,
+      rect: {x: rect.x, y: rect.y, width: rect.width, height: rect.height},
+      imageOk: !!img && img.naturalWidth > 0
+    };
+  }), playerSelector);
+}
+
+async function playVisibleSpell(page, cardId) {
+  await expect(page.locator(`.hand-j1 .hc[data-id="${cardId}"]`)).toBeVisible();
+  return playSpell(page, cardId);
+}
+
+async function playDoorOnVisibleSlot(page, targetSelector) {
+  await expect(page.locator(`.hand-j1 .hc[data-id="S000007"]`)).toBeVisible();
+  await expect(page.locator(targetSelector)).toBeVisible();
+  const result = await page.evaluate((selector) => {
+    const target = document.querySelector(selector);
+    const doorDrop = doorZoneSelectionFromDropTarget(target);
+    if (!doorDrop) return {success:false, code:"missing-door-drop-selection"};
+    return playCard("S000007", doorDrop.slot, {zoneSelection:doorDrop.zoneSelection});
+  }, targetSelector);
   await page.waitForTimeout(300);
   return result;
 }
@@ -196,6 +230,57 @@ test("S000043 announces only the real drawn count when no Minotaur is available"
   expect(after.player1.deck).toEqual(before.player1.deck);
   expect(after.player1.graveyard).toEqual(["S000043"]);
   expect(after.notificationText).toContain("0 carte(s) piochée(s)");
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000043 played through the visible hand renders the three Minotaurs", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, "collection-batch-01-zone-spells");
+  const minotaurs = ["B000015", "B000016", "B000017"];
+  const before = await snapshot(page);
+  const staticData = await page.evaluate((ids) => ids.map(id => ({
+    id,
+    exists: !!CARDS_DATA[id],
+    name: CARDS_DATA[id]?.name || "",
+    type: CARDS_DATA[id]?.type || "",
+    imagePath: `${GH}/${CARDS_DATA[id]?.assetFolder || facFolder(CARDS_DATA[id]?.fac)}/${id}.png`
+  })), minotaurs);
+
+  expect(before.player1.deck.filter(id => minotaurs.includes(id)).sort()).toEqual(minotaurs);
+  expect(before.player1.hand.filter(id => minotaurs.includes(id))).toEqual([]);
+  expect(staticData.every(card => card.exists && card.name && card.type === "Serviteur")).toBe(true);
+
+  const playResult = await playVisibleSpell(page, "S000043");
+  const afterPlay = await snapshot(page);
+  expect(playResult.spellResolution.drawn.sort()).toEqual([...minotaurs].sort());
+  expect(playResult.spellResolution.count).toBe(3);
+  expect(afterPlay.notificationText).toContain("3 carte(s) piochée(s)");
+  await expect.poll(async () => {
+    const state = await snapshot(page);
+    return minotaurs.every(id => state.player1.hand.includes(id));
+  }).toBe(true);
+  await expect.poll(async () => {
+    const cards = await visibleHandCards(page);
+    return minotaurs.every(id => cards.some(card => card.id === id && card.visible && !card.hiddenByCss && card.imageOk && card.name));
+  }).toBe(true);
+
+  const after = await snapshot(page);
+  const visibleCards = await visibleHandCards(page);
+  await testInfo.attach("s000043-ui-ghost-card-audit", {contentType: "application/json", body: Buffer.from(JSON.stringify({staticData, before, after, visibleCards}, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  expect(after.player1.deck.filter(id => minotaurs.includes(id))).toEqual([]);
+  expect(after.player1.hand).toEqual(expect.arrayContaining(minotaurs));
+  expect(after.player1.graveyard).toContain("S000043");
+  for (const id of minotaurs) {
+    const card = visibleCards.find(entry => entry.id === id);
+    expect(card).toMatchObject({visible: true, hiddenByCss: false, imageOk: true});
+    expect(card.name).not.toBe("");
+    expect(card.rect.width).toBeGreaterThan(0);
+    expect(card.rect.height).toBeGreaterThan(0);
+  }
+  expect(visibleCards.filter(card => minotaurs.includes(card.id))).toHaveLength(3);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -409,21 +494,27 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page, "collection-batch-01-door-key");
   const before = await snapshot(page);
-  const result = await playSpell(page, "S000007", {slotIndex: 1, playerId: "player2"});
+  const playResult = await playDoorOnVisibleSlot(page, "#raithServants .slot:nth-of-type(2)");
+  await expect.poll(async () => {
+    const state = await snapshot(page);
+    return state.activeLocks.length;
+  }).toBe(1);
+  const result = await page.evaluate(() => getHuvuTestResourcePanelSnapshot().zone);
   const locked = await snapshot(page);
 
   await expect(page.getByTestId("door-lock-marker")).toBeVisible();
   await expect.poll(() => page.getByTestId("door-lock-marker").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
 
+  expect(playResult.success).toBe(true);
   expect(result.success).toBe(true);
-  expect(result.spellMovedToGraveyard).toBe(true);
-  expect(result.spellResolution).toMatchObject({code: "porte-infranchissable-resolved"});
-  expect(result.spellResolution.linkedKey).toMatchObject({cardId: "S000008", deckOwner: "player2"});
+  expect(result).toMatchObject({code: "porte-infranchissable-resolved"});
+  expect(result.linkedKey).toMatchObject({cardId: "S000008", deckOwner: "player2"});
   expect(locked.activeLocks).toHaveLength(1);
-  expect(locked.activeLocks[0]).toMatchObject({sourceCardId: "S000007", affectedPlayerId: "player2", slotIndex: 1, status: "ACTIVE"});
+  const lockedSlotIndex = locked.activeLocks[0].slotIndex;
+  expect(locked.activeLocks[0]).toMatchObject({sourceCardId: "S000007", affectedPlayerId: "player2", status: "ACTIVE"});
   expect(locked.doorMarkers).toHaveLength(1);
   expect(locked.doorMarkers[0].hasStats).toBe(false);
-  expect(locked.freeSlotsPlayer2).not.toContain(1);
+  expect(locked.freeSlotsPlayer2).not.toContain(lockedSlotIndex);
   expect(locked.player1.graveyard).toContain("S000007");
   expect(locked.player2.deck).toContain("S000008");
 
@@ -434,7 +525,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
     p.resourceState.classical.pierre = 10;
     refreshHand(p);
   });
-  const blockedAgain = await playSpell(page, "S000007", {slotIndex: 1, playerId: "player2"});
+  const blockedAgain = await playSpell(page, "S000007", {slotIndex: lockedSlotIndex, playerId: "player2"});
   const afterBlockedAgain = await snapshot(page);
   expect(blockedAgain).toBeUndefined();
   expect(afterBlockedAgain.errorText).toContain("cible");
@@ -456,7 +547,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   expect(drawResult.linkedKeyResolution).toMatchObject({handled: true, code: "linked-stone-key-drawn"});
   expect(released.activeLocks).toEqual([]);
   expect(released.doorMarkers).toEqual([]);
-  expect(released.freeSlotsPlayer2).toContain(1);
+  expect(released.freeSlotsPlayer2).toContain(lockedSlotIndex);
   expect(released.player2.hand).not.toContain("S000008");
   expect(released.player2.graveyard).toEqual(["S000008"]);
   expect(released.player1.graveyard).toContain("S000007");

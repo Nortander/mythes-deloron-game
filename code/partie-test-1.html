@@ -2806,6 +2806,9 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'B000001': createCostDefinition(1, ["nourriture"], [], []),
   'B000002': createCostDefinition(3, ["nourriture"], [], []),
   'B000006': createCostDefinition(4, ["nourriture"], [], []),
+  'B000015': createCostDefinition(7, ["nourriture"], [{"kind": "minimum", "resource": "nourriture", "amount": 7}], []),
+  'B000016': createCostDefinition(2, ["nourriture", "fer"], [{"kind": "minimum", "resource": "nourriture", "amount": 1}, {"kind": "minimum", "resource": "fer", "amount": 1}], []),
+  'B000017': createCostDefinition(4, ["lenya", "nourriture"], [{"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
   'DIV000002': createCompatiblePoolCostDefinition(2, ["aria","lenya","nourriture","soul"], []),
   'DIV000003': createCostDefinition(3, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], []),
   'DIV000004': createCostDefinition(3, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], []),
@@ -12348,6 +12351,17 @@ function applyEndOfTurnEffects(player) {
     if (blesse) applyHeal(blesse, lenyaCount);
   });
 }
+
+function doorZoneSelectionFromDropTarget(target) {
+  const slot = target?.closest?.('.slot');
+  if (!slot) return null;
+  const parent = slot.parentElement;
+  const owner = [player1, player2].filter(Boolean).find(p => qs(playerZoneSelector(p, 'servants')) === parent);
+  if (!owner || !parent) return null;
+  const slotIndex = Array.from(parent.children).indexOf(slot);
+  if (!Number.isInteger(slotIndex) || slotIndex < 0) return null;
+  return {slot, zoneSelection:{slotIndex, playerId:owner.key}};
+}
 function setupDragDrop() {
   document.addEventListener('dragstart', e => {
     const supplyFC = e.target.closest('.fc[data-type="appro"]');
@@ -12430,15 +12444,20 @@ function setupDragDrop() {
     if (!dragId) return;
     const d = CARDS_DATA[dragId];
     if (d && d.type === 'Sort') {
-      // Sort : n'importe où sur le terrain
-      const servZone = qs(playerZoneSelector(currentPlayer, 'servants'));
-      if (servZone) {
-        const fake = document.createElement('div');
-        fake.className = 'slot';
-        if (servZone.dataset) fake.dataset.player = currentPlayer;
-        servZone.appendChild(fake);
-        playCard(dragId, fake);
-        if (fake.parentNode) fake.remove();
+      // Sort : n'importe où sur le terrain. Porte infranchissable garde le slot réellement visé.
+      const doorDrop = dragId === 'S000007' ? doorZoneSelectionFromDropTarget(e.target) : null;
+      if (doorDrop) {
+        playCard(dragId, doorDrop.slot, {zoneSelection:doorDrop.zoneSelection});
+      } else {
+        const servZone = qs(playerZoneSelector(currentPlayer, 'servants'));
+        if (servZone) {
+          const fake = document.createElement('div');
+          fake.className = 'slot';
+          if (servZone.dataset) fake.dataset.player = currentPlayer;
+          servZone.appendChild(fake);
+          playCard(dragId, fake);
+          if (fake.parentNode) fake.remove();
+        }
       }
     } else {
       const stackTarget = e.target.closest('.fc[data-botanical-stack]');
@@ -13549,6 +13568,9 @@ Object.assign(CARDS_DATA, {
   'AVS000008':{name:'Mage du Cercle – Hokhan Ashir',type:'Serviteur',fac:'mvs',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000MVS.png',kws:['Insensible','Vengeance'],cap:'[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* unité de ressource Âme à votre approvisionnement. Ces cartes détruites sont envoyées dans votre cimetière. [Vengeance] : Place cette carte au fond de votre deck.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.'},
   'B000001':{name:'Pisteur Rhaekor',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000BET.png',kws:[],cap:'',lore:'Les Rhaekor, « hommes-bêtes » dans la langue des elfes, vivent en tribus de quelques dizaines d\'individus. Le chef de meute, le plus fort de sa tribu, conduit les siens lors des innombrables pillages qui rythment la vie de ces créatures primitives.'},
   'B000002':{name:'Rhaekor enragé',type:'Serviteur',fac:'bet',atk:5,pdv:3,cost:3,res_ico:'IC00000NRT',res_val:'3',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Initiative'],cap:'[Rage] [Initiative] : Subit *1* point de dégât.',lore:''},
+  'B000015':{name:'Minotaure reproducteur',type:'Serviteur',fac:'bet',atk:3,pdv:9,cost:7,res_ico:'IC00000NRT',res_val:'7',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Nourriture','Rempart'],cap:'[Rempart] Chaque fois que ce serviteur survit à des dégâts, invoque 1 « Minus minotaure » de votre côté du terrain.',lore:'',assetFolder:'betes',related:['B000016']},
+  'B000016':{name:'Minus minotaure',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:2,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture+Fer',fico:'FCT00000BET.png',kws:['Nourriture','Fer'],cap:'',lore:"Ce spécimen est un gringalet selon les standards de son espèce. Un gringalet qui peut tuer un homme adulte d'un seul coup de sabot ! Sans même parler de cette jolie hache qu'il a déniché...",assetFolder:'betes'},
+  'B000017':{name:'Maginotaure',type:'Serviteur',fac:'bet',atk:3,pdv:3,cost:4,res_ico:'IC00000LNY',res_val:'1',resType:'Lenya+Nourriture',fico:'FCT00000BET.png',kws:['Lenya','Nourriture','Initiative'],cap:'[Initiative] Augmente de +1 ATK / +2 PDV les statistiques de tous vos autres serviteurs actuellement sur le terrain.',lore:'',assetFolder:'betes'},
   'DIV000002':{name:'Démon mineur',type:'Serviteur',fac:'div',atk:4,pdv:2,cost:2,res_ico:'IC00000RDM',res_val:'2',resType:'any',fico:'FCT00000RDM.png',kws:[],cap:'',lore:'Les démons mangent les cœurs et dévorent les âmes. Après leur passage, il ne reste plus de leurs victimes que des déchets vidés de toute substance.',related:['DIV000001']},
   'DIV000003':{name:'Gorgone gardienne',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000RDM',res_val:'3',resType:'any',fico:'FCT00000RDM.png',kws:['Rempart'],cap:'[Rempart]',lore:''},
   'DIV000004':{name:'Gorgone séductrice',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000RDM',res_val:'3',resType:'any',fico:'FCT00000RDM.png',kws:['Hypnose'],cap:'Après avoir attaqué un serviteur, si ce dernier est encore sur le terrain, lui inflige [Hypnose].',lore:''},
