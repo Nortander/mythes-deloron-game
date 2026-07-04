@@ -63,3 +63,12 @@ Primitives reutilisees : validation de cout, conditions de jeu, selection legale
 Primitive bornee ajoutee : `Porte infranchissable` bloque un emplacement libre de Serviteur adverse avec l'asset `S000007`. Une occurrence liee de `Clef de pierre` est ajoutee au deck adverse. Quand cette occurrence est piochee, elle libere uniquement son emplacement lie et rejoint le cimetiere du joueur qui l'a piochee.
 
 Scenarios techniques caches : `collection-batch-01-zone-spells` et `collection-batch-01-door-key`.
+
+Corrections COLLECTION-BATCH-01B :
+
+- `S000040` conserve le texte public accentue `cimetiere` dans le runtime visuel sous sa forme correcte `cimetière`.
+- `S000043` annonce uniquement le nombre reel de cartes ajoutees a la main.
+- `GOB000002` affiche son lore en italique et ne traite plus ce texte comme une capacite programmable.
+- `S000037` compte la main apres retrait du Sort et pioche les Serviteurs Gobelins jusqu'a 8 cartes si le deck le permet.
+- `S000007` garde un texte public sans IDs techniques ; les details de lien Porte/Clef restent dans le panneau de test.
+- La correction Collection de `S000008` en carte non obtenable est reportee au futur lot `COLLECTION-DATAFIX-1`.

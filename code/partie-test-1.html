@@ -1773,8 +1773,8 @@ Object.assign(CARDS_DATA,{
   'R000004':{name:'Herboristerie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000LNY',res_val:'2',fico:null,kws:[],cap:'Fournit 2 unités de ressource Lenya au joueur.',badge:'Approvisionnement',lore:'Si les magiciens orcs mâchent directement les feuilles de Lenya, les elfes préfèrent sécher la plante et la consommer en tisane ou en faire de puissantes décoctions.'},
   'S000004':{name:'Commerce avec les légendes',type:'Sort',fac:'sort',atk:null,pdv:null,cost:4,res_ico:'IC00000RDM',res_val:'4',fico:null,kws:[],cap:'Quand vous jouez cette carte, vous pouvez choisir soit de piocher instantanément 3 cartes aléatoires de votre deck, soit de tirer 2 cartes de type Approvisionnement de votre deck ou cimetière.',badge:'Sort',lore:''},
   'R000011':{name:"Cascades d'aria",type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000ARI',res_val:'3',fico:null,kws:[],cap:"Fournit 3 ressources d'Aria au joueur.",badge:'Approvisionnement',lore:'Généralement, l\'aria qui s\'écoule des petites fissures dans la roche produit peu de matière. Certains lieux exceptionnels et gardés secrets, débordent néanmoins littéralement de la précieuse eau magique.'},
-  'S000007':{name:'Porte infranchissable',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000PIE',res_val:'1',fico:null,kws:['Pierre','Aria'],cap:'Place cette carte sur un emplacement de serviteur adverse libre et le bloque\u00a0: le joueur ne peut plus jouer de serviteur à cet emplacement jusqu\'à ce qu\'il joue le sort «\u00a0Clef de pierre\u00a0». Ajoute le sort au deck de votre adversaire.',badge:'Sort',lore:''},
-  'S000008':{name:'Clef de pierre',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',fico:null,kws:[],cap:'Envoie 1 carte « Porte infranchissable » depuis votre terrain jusqu\'au cimetiere du joueur adverse. Cette carte est jouee des qu\'elle est piochee et ne coute pas d\'action.',badge:'Sort',lore:'',assetFolder:'sorts',related:['S000007'],cond:'Ne peut etre jouee que si vous avez une « Porte infranchissable » sur votre terrain.'},
+  'S000007':{name:'Porte infranchissable',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000PIE',res_val:'1',fico:null,kws:['Pierre','Aria'],cap:'Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».',badge:'Sort',lore:''},
+  'S000008':{name:'Clef de pierre',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',fico:null,kws:[],cap:'Envoie une Porte infranchissable liée depuis votre terrain jusqu’au cimetière du joueur adverse. Cette carte est jouée dès qu’elle est piochée et ne coûte pas d’action.',badge:'Sort',lore:'',assetFolder:'sorts',related:['S000007'],cond:'Ne peut être jouée que si vous avez une Porte infranchissable sur votre terrain.'},
   'R000001':{name:'Mine de fer',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000FER',res_val:'2',fico:null,kws:[],cap:'Fournit 2 ressources de Fer au joueur.',badge:'Approvisionnement',lore:'Toutes les races, à des degrés divers, utilisent le fer et d\'autres métaux pour leur armée. Un approvisionnement régulier est indispensable.'},
   'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',fico:'FCT00000EDN.png',kws:['Vengeance'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',badge:'',lore:''},
   'EN000003':{name:'Nécromancien',type:'Serviteur',fac:'edn',atk:1,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',fico:'FCT00000EDN.png',kws:[],cap:'À la fin de chacun de vos tours, invoque 1 « Serviteur osseux » de votre côté du terrain.',badge:'',lore:''},
@@ -2607,7 +2607,7 @@ SCENARIOS['huvu-impl-3-graveyard-theft'] = {
 SCENARIOS['collection-batch-01-zone-spells'] = {
   label: 'TEST — COLLECTION BATCH 01 zones', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch01Panel: true, testCardId: 'S000015',
   testSetup: {
-    player1: {resources: {classical:{aria:20, lenya:20, nourriture:20, bois:20, pierre:20}, souls:20}, hand: ['S000015','S000029','S000037','S000040','S000043'], drawPile: ['R000010','EDG000001','EDG000002','EDG000003','GOB000001','GOB000002','GOB000003','B000015','B000016','B000017'], graveyard: ['MV000001','EDB000012','EDB000012','R000001'], servants: [], avatarHp:10},
+    player1: {resources: {classical:{aria:20, lenya:20, nourriture:20, bois:20, pierre:20}, souls:20}, hand: ['S000015','S000029','S000037','S000040','S000043'], drawPile: ['R000010','EDG000001','EDG000002','EDG000003','GOB000001','GOB000002','GOB000003','GOB000004','B000015','B000016','B000017'], graveyard: ['MV000001','EDB000012','EDB000012','R000001'], servants: [], avatarHp:10},
     player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: ['H000001','R000001'], servants: [], avatarHp:10}
   }
 };
@@ -10902,9 +10902,11 @@ async function resolveApresLaCatastrophe(player, context={}) {
   return diagnostic;
 }
 
-function drawMatchingCardsForSpell(player, {cardId, predicate, maxCount=1, untilHandSize=null, messageLabel='Sort'}={}) {
+function drawMatchingCardsForSpell(player, {cardId, predicate, maxCount=1, untilHandSize=null, messageLabel='Sort', panelNote=null}={}) {
   const p = playerState(player);
   const before = zoneInventorySnapshot(p);
+  const candidatesBefore = playerDrawPile(p).map(getRuntimeCardId).filter(id => predicate(id));
+  const handSizeBeforeDraw = playerHand(p).length;
   const results = [];
   let count = 0;
   while (count < maxCount && (!Number.isInteger(untilHandSize) || playerHand(p).length < untilHandSize)) {
@@ -10915,9 +10917,11 @@ function drawMatchingCardsForSpell(player, {cardId, predicate, maxCount=1, until
   }
   refreshHand(p);
   updateDeckCount(p);
-  const diagnostic = {success:true, code:'controlled-draw-resolved', reason:null, cardId, drawn:results.filter(result => result.success).map(result => result.cardId), count, results, before, after:zoneInventorySnapshot(p)};
+  const drawn = results.filter(result => result.success).map(result => result.cardId);
+  const after = zoneInventorySnapshot(p);
+  const diagnostic = {success:true, code:'controlled-draw-resolved', reason:null, cardId, drawn, count:drawn.length, results, candidatesBefore, handSizeBeforeDraw, handSizeAfterDraw:playerHand(p).length, panelNote, before, after};
   recordZoneEffectDiagnostic(cardId, diagnostic);
-  showNotif(`${messageLabel} : ${count} carte(s) piochée(s).`, 1600);
+  showNotif(`${messageLabel} : ${drawn.length} carte(s) piochée(s).`, 1600);
   return diagnostic;
 }
 
@@ -10927,8 +10931,10 @@ function resolvePatrouilleGlaciale(player) {
 
 function resolveCheminsDeLey(player) {
   const p = playerState(player);
-  const maxCount = Math.max(0, 8 - playerHand(p).length);
-  return drawMatchingCardsForSpell(player, {cardId:'S000037', maxCount, untilHandSize:8, predicate:id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob', messageLabel:'Chemins de Ley'});
+  const handSizeAfterSpellLeaves = Math.max(0, playerHand(p).length);
+  const targetHandSize = 8;
+  const maxCount = Math.max(0, targetHandSize - handSizeAfterSpellLeaves);
+  return drawMatchingCardsForSpell(player, {cardId:'S000037', maxCount, untilHandSize:targetHandSize, predicate:id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob', messageLabel:'Chemins de Ley', panelNote:{targetHandSize, handSizeAfterSpellLeaves, spellCountsTowardTarget:false}});
 }
 
 function resolvePixiemanie(player) {
@@ -13887,8 +13893,8 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Nourriture"
     ],
-    "cap": "Petits, véloces et bigrement agiles, les gobelins constituent une réelle menace quand ils combattent à deux dagues.",
-    "lore": "",
+    "cap": "",
+    "lore": "Petits, véloces et bigrement agiles, les gobelins constituent une réelle menace quand ils combattent à deux dagues.",
     "max": 6,
     "assetFolder": "gobelins",
     "res_ico": "IC00000RDM",
@@ -15386,13 +15392,13 @@ Object.assign(CARDS_DATA, {
       "Pierre",
       "Aria"
     ],
-    "cap": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur à cet emplacement jusqu'à ce qu'il joue le sort « Clef de pierre ». Ajoute le sort au deck de votre adversaire.",
+    "cap": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
     "badge": "Sort",
     "cond": "Un emplacement de serviteur doit être libre sur le terrain adverse.",
-    "detail": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur à cet emplacement jusqu'à ce qu'il joue le sort « Clef de pierre » (ID = S000008). Ajoute le sort (ID = S000008) au deck de votre adversaire. Chaque clef n'ouvre qu'une unique « Porte infranchissable ».",
+    "detail": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».",
     "res_ico": "IC00000PIE",
     "res_val": "3",
     "resType": "pierre|aria",
@@ -15987,8 +15993,8 @@ Object.assign(CARDS_DATA, {
   "S000044":{name:"Recyclage",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000ARI",res_val:"6",resType:"Aria|Écho",fico:"FCT00000MVS.png",kws:["Aria","Écho"],cap:"Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.",badge:"Sort",lore:"",assetFolder:"sorts",max:2},
   "S000051":{name:"Rituel occulte",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000ARI",res_val:"5",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria"],cap:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse."},
   "S000052":{name:"Le retour des revenants",type:"Sort",fac:"sort",atk:null,pdv:null,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Invoque jusqu'à 3 serviteurs « morts-vivants » de votre deck coûtant 2 ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute 5 échos à vos ressources.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
-  "S000040":{name:"Pixiemanie",type:"Sort",fac:"sort",atk:null,pdv:null,cost:10,res_ico:"IC00000LNY",res_val:"10",resType:"Lenya|Nourriture",fico:"FCT00000EDB.png",kws:["Lenya","Nourriture"],cap:"Renvoie toutes les Pixies de votre cimetiere a votre main.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,cond:"Necessite d'avoir au moins 1 carte Pixie [ID = EDB000012] actuellement dans votre cimetiere.",detail:"Renvoie toutes les Pixies [ID = EDB000012] de votre cimetiere a votre main.",related:["EDB000012"]},
-  "S000043":{name:"Prendre le taureau par les cornes",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000NOU",res_val:"6",resType:"Nourriture",fico:"FCT00000BET.png",kws:["Nourriture"],cap:"Piochez immediatement tous les serviteurs de type Minotaure restant dans votre deck.",badge:"Sort",lore:"",assetFolder:"sorts",max:1,detail:"Piochez immediatement tous les serviteurs de type Minotaure [ID = B000015, B000016 et B000017] restant dans votre deck.",related:["B000015","B000016","B000017"]}
+  "S000040":{name:"Pixiemanie",type:"Sort",fac:"sort",atk:null,pdv:null,cost:10,res_ico:"IC00000LNY",res_val:"10",resType:"Lenya|Nourriture",fico:"FCT00000EDB.png",kws:["Lenya","Nourriture"],cap:"Renvoie toutes les Pixies de votre cimetière à votre main.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,cond:"Nécessite d'avoir au moins 1 carte Pixie actuellement dans votre cimetière.",detail:"Renvoie toutes les Pixies de votre cimetière à votre main.",related:["EDB000012"]},
+  "S000043":{name:"Prendre le taureau par les cornes",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000NOU",res_val:"6",resType:"Nourriture",fico:"FCT00000BET.png",kws:["Nourriture"],cap:"Piochez immédiatement tous les serviteurs de type Minotaure restant dans votre deck.",badge:"Sort",lore:"",assetFolder:"sorts",max:1,detail:"Piochez immédiatement tous les serviteurs de type Minotaure restant dans votre deck.",related:["B000015","B000016","B000017"]}
 });
 
 function setupInitialHands() {

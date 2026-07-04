@@ -52,7 +52,8 @@ async function snapshot(page) {
       })),
       publicScenarioValues: Array.from(document.querySelectorAll("#scenarioSelect option")).map(option => option.value),
       panel: typeof getHuvuTestResourcePanelSnapshot === "function" ? getHuvuTestResourcePanelSnapshot() : null,
-      errorText: document.querySelector("#errMsg")?.innerText || ""
+      errorText: document.querySelector("#errMsg")?.innerText || "",
+      notificationText: document.querySelector("#notif")?.innerText || ""
     };
   });
 }
@@ -141,20 +142,60 @@ test("S000029, S000037 and S000043 draw only their legal deck families", async (
   const ley = await playSpell(page, "S000037");
   const afterLey = await snapshot(page);
   expect(ley.success).toBe(true);
-  expect(ley.spellResolution.drawn.sort()).toEqual(["GOB000001", "GOB000002", "GOB000003"]);
-  expect(afterLey.player1.hand).toEqual(expect.arrayContaining(["GOB000001", "GOB000002", "GOB000003"]));
-  expect(afterLey.player1.hand).toHaveLength(7);
+  expect(ley.spellResolution.panelNote).toMatchObject({targetHandSize: 8, spellCountsTowardTarget: false});
+  expect(ley.spellResolution.handSizeBeforeDraw).toBe(4);
+  expect(ley.spellResolution.candidatesBefore.sort()).toEqual(["GOB000001", "GOB000002", "GOB000003", "GOB000004"]);
+  expect(ley.spellResolution.drawn.sort()).toEqual(["GOB000001", "GOB000002", "GOB000003", "GOB000004"]);
+  expect(afterLey.player1.hand).toEqual(expect.arrayContaining(["GOB000001", "GOB000002", "GOB000003", "GOB000004"]));
+  expect(afterLey.player1.hand).toHaveLength(8);
+  expect(afterLey.notificationText).toContain("4 carte(s) piochée(s)");
   expect(afterLey.player1.graveyard).toContain("S000037");
 
   await openScenario(page, "collection-batch-01-zone-spells");
+  const beforeTaureau = await snapshot(page);
   const taureau = await playSpell(page, "S000043");
   const afterTaureau = await snapshot(page);
-  await testInfo.attach("draw-family-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({patrouille, afterPatrouille, ley, afterLey, taureau, afterTaureau}, null, 2), "utf8")});
+  await testInfo.attach("draw-family-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({patrouille, afterPatrouille, ley, afterLey, beforeTaureau, taureau, afterTaureau}, null, 2), "utf8")});
   await attachDiagnostics(testInfo, diagnostics);
   expect(taureau.success).toBe(true);
+  expect(taureau.spellResolution.candidatesBefore.sort()).toEqual(["B000015", "B000016", "B000017"]);
   expect(taureau.spellResolution.drawn.sort()).toEqual(["B000015", "B000016", "B000017"]);
   expect(afterTaureau.player1.hand).toEqual(expect.arrayContaining(["B000015", "B000016", "B000017"]));
+  expect(afterTaureau.player1.hand.length).toBe(beforeTaureau.player1.hand.length - 1 + 3);
+  expect(beforeTaureau.player1.deck.filter(id => id.startsWith("B00001")).sort()).toEqual(["B000015", "B000016", "B000017"]);
+  expect(afterTaureau.player1.deck).not.toEqual(expect.arrayContaining(["B000015", "B000016", "B000017"]));
+  expect(afterTaureau.notificationText).toContain("3 carte(s) piochée(s)");
   expect(afterTaureau.player1.graveyard).toContain("S000043");
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000043 announces only the real drawn count when no Minotaur is available", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, "collection-batch-01-zone-spells");
+  await page.evaluate(() => {
+    const p = playerState("player1");
+    p.hand = ["S000043"];
+    p.drawPile = ["R000010", "EDG000001"];
+    p.graveyard = [];
+    p.resourceState.classical.nourriture = 10;
+    refreshHand(p);
+    updateDeckCount(p);
+    refreshCemeteryVisual(p);
+  });
+  const before = await snapshot(page);
+  const result = await playSpell(page, "S000043");
+  const after = await snapshot(page);
+  await testInfo.attach("s000043-empty-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, after}, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  expect(result.success).toBe(true);
+  expect(result.spellResolution.drawn).toEqual([]);
+  expect(result.spellResolution.count).toBe(0);
+  expect(after.player1.hand).toEqual([]);
+  expect(after.player1.deck).toEqual(before.player1.deck);
+  expect(after.player1.graveyard).toEqual(["S000043"]);
+  expect(after.notificationText).toContain("0 carte(s) piochée(s)");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -162,12 +203,21 @@ test("S000029, S000037 and S000043 draw only their legal deck families", async (
 test("S000040 returns every Pixie from graveyard to hand", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page, "collection-batch-01-zone-spells");
+  const textAudit = await page.evaluate(() => ({
+    cap: CARDS_DATA.S000040.cap,
+    detail: CARDS_DATA.S000040.detail,
+    rendered: renderZoomDescription(CARDS_DATA.S000040, "#fff").replace(/<[^>]+>/g, " ")
+  }));
   const before = await snapshot(page);
   const result = await playSpell(page, "S000040");
   const after = await snapshot(page);
-  await testInfo.attach("s000040-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, after}, null, 2), "utf8")});
+  await testInfo.attach("s000040-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({textAudit, before, result, after}, null, 2), "utf8")});
   await attachDiagnostics(testInfo, diagnostics);
 
+  expect(textAudit.cap).toContain("cimetière");
+  expect(textAudit.detail).toContain("cimetière");
+  expect(textAudit.rendered).toContain("cimetière");
+  expect(`${textAudit.cap} ${textAudit.detail} ${textAudit.rendered}`).not.toContain("cimetiere");
   expect(result.success).toBe(true);
   expect(result.spellMovedToGraveyard).toBe(true);
   expect(result.spellResolution).toMatchObject({code: "pixiemanie-resolved"});
@@ -175,6 +225,57 @@ test("S000040 returns every Pixie from graveyard to hand", async ({page}, testIn
   expect(counts(after.player1.hand).EDB000012).toBe(2);
   expect(after.player1.graveyard).toEqual(["MV000001", "R000001", "S000040"]);
   expect(after.panel.zone).toMatchObject({code: "pixiemanie-resolved"});
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("lore-only Surineur is italic while spell abilities stay normal", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, "collection-batch-01-zone-spells");
+  const audit = await page.evaluate(() => {
+    const mount = document.createElement("div");
+    mount.innerHTML = buildCanonicalCardPreview("GOB000002", {sourceType: "test"});
+    document.body.appendChild(mount);
+    const surineurLore = mount.querySelector(".canonical-card-preview .fz-desc-inner .card-lore-text");
+    const surineurStyle = surineurLore ? getComputedStyle(surineurLore).fontStyle : "";
+    mount.remove();
+
+    const pixiemanie = document.createElement("div");
+    pixiemanie.innerHTML = buildCanonicalCardPreview("S000040", {sourceType: "test"});
+    document.body.appendChild(pixiemanie);
+    const pixiemanieDesc = pixiemanie.querySelector(".canonical-card-preview .fz-desc-inner .fz-desc-text");
+    const pixiemanieLore = pixiemanie.querySelector(".canonical-card-preview .fz-desc-inner .card-lore-text");
+    const pixiemanieStyle = pixiemanieDesc ? getComputedStyle(pixiemanieDesc).fontStyle : "";
+    pixiemanie.remove();
+
+    const door = document.createElement("div");
+    door.innerHTML = buildCanonicalCardPreview("S000007", {sourceType: "test"});
+    document.body.appendChild(door);
+    const doorDesc = door.querySelector(".canonical-card-preview .fz-desc-inner .fz-desc-text");
+    const doorLore = door.querySelector(".canonical-card-preview .fz-desc-inner .card-lore-text");
+    const doorStyle = doorDesc ? getComputedStyle(doorDesc).fontStyle : "";
+    door.remove();
+
+    return {
+      surineurCap: CARDS_DATA.GOB000002.cap,
+      surineurLore: CARDS_DATA.GOB000002.lore,
+      surineurStyle,
+      pixiemanieStyle,
+      pixiemanieHasLore: !!pixiemanieLore,
+      doorStyle,
+      doorHasLore: !!doorLore
+    };
+  });
+  await testInfo.attach("lore-style-audit", {contentType: "application/json", body: Buffer.from(JSON.stringify(audit, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  expect(audit.surineurCap).toBe("");
+  expect(audit.surineurLore).toContain("gobelins");
+  expect(audit.surineurStyle).toBe("italic");
+  expect(audit.pixiemanieStyle).not.toBe("italic");
+  expect(audit.pixiemanieHasLore).toBe(false);
+  expect(audit.doorStyle).not.toBe("italic");
+  expect(audit.doorHasLore).toBe(false);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -234,7 +335,12 @@ test("S000007 refuses illegal slots before payment or mutation", async ({page}, 
   const before = await snapshot(page);
   const result = await playSpell(page, "S000007", {slotIndex: 0, playerId: "player2"});
   const after = await snapshot(page);
-  await testInfo.attach("door-refusal-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, after}, null, 2), "utf8")});
+
+  await openScenario(page, "collection-batch-01-door-key");
+  const beforeAlly = await snapshot(page);
+  const allyResult = await playSpell(page, "S000007", {slotIndex: 0, playerId: "player1"});
+  const afterAlly = await snapshot(page);
+  await testInfo.attach("door-refusal-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, after, beforeAlly, allyResult, afterAlly}, null, 2), "utf8")});
   await attachDiagnostics(testInfo, diagnostics);
 
   expect(result).toBeUndefined();
@@ -245,6 +351,56 @@ test("S000007 refuses illegal slots before payment or mutation", async ({page}, 
   expect(after.doorMarkers).toEqual([]);
   expect(after.errorText).toContain("cible");
   expect(after.panel.play.code).toBe("invalid-door-slot");
+  expect(allyResult).toBeUndefined();
+  expect(afterAlly.player1.hand).toEqual(beforeAlly.player1.hand);
+  expect(afterAlly.player1.resources).toEqual(beforeAlly.player1.resources);
+  expect(afterAlly.activeLocks).toEqual([]);
+  expect(afterAlly.errorText).toContain("cible");
+  expect(afterAlly.panel.play.code).toBe("invalid-door-slot");
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000007 public text stays free of technical ids", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, "collection-batch-01-door-key");
+  const audit = await page.evaluate(() => {
+    const cap = CARDS_DATA.S000007.cap;
+    const previewText = renderZoomDescription(CARDS_DATA.S000007, "#fff").replace(/<[^>]+>/g, " ");
+    const sideText = buildCanonicalCardTooltips("S000007").right.map(item => item.body).join(" ");
+    return {cap, previewText, sideText};
+  });
+  await testInfo.attach("door-text-audit", {contentType: "application/json", body: Buffer.from(JSON.stringify(audit, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  const publicText = `${audit.cap} ${audit.previewText} ${audit.sideText}`;
+  expect(publicText).toContain("Clef de pierre");
+  expect(publicText).toContain("Chaque clef n’ouvre qu’une unique");
+  expect(publicText).not.toMatch(/\bS000007\b|\bS000008\b|effectInstanceId|linkedKeyOccurrenceId|\(ID\s*=/);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000007 distinguishes insufficient resources from invalid target", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page, "collection-batch-01-door-key");
+  await page.evaluate(() => {
+    const p = playerState("player1");
+    p.resourceState.classical = {...createEmptyClassicalResources(), aria: 1, pierre: 0};
+    p.resourceState.souls = 0;
+  });
+  const before = await snapshot(page);
+  const result = await playSpell(page, "S000007", {slotIndex: 1, playerId: "player2"});
+  const after = await snapshot(page);
+  await testInfo.attach("door-resource-refusal-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, after}, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
+
+  expect(result).toBeUndefined();
+  expect(after.player1.hand).toEqual(before.player1.hand);
+  expect(after.player1.resources).toEqual(before.player1.resources);
+  expect(after.activeLocks).toEqual([]);
+  expect(after.errorText).toContain("Vous manquez de ressources");
+  expect(after.errorText).not.toContain("cible");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -259,12 +415,6 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   await expect(page.getByTestId("door-lock-marker")).toBeVisible();
   await expect.poll(() => page.getByTestId("door-lock-marker").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
 
-  const drawResult = await page.evaluate(() => drawCardFromRuntimeDeck("player2", {sourceCardId: "batch-01-test"}));
-  await page.waitForTimeout(300);
-  const released = await snapshot(page);
-  await testInfo.attach("door-key-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, locked, drawResult, released}, null, 2), "utf8")});
-  await attachDiagnostics(testInfo, diagnostics);
-
   expect(result.success).toBe(true);
   expect(result.spellMovedToGraveyard).toBe(true);
   expect(result.spellResolution).toMatchObject({code: "porte-infranchissable-resolved"});
@@ -276,6 +426,30 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   expect(locked.freeSlotsPlayer2).not.toContain(1);
   expect(locked.player1.graveyard).toContain("S000007");
   expect(locked.player2.deck).toContain("S000008");
+
+  await page.evaluate(() => {
+    const p = playerState("player1");
+    p.hand = ["S000007"];
+    p.resourceState.classical.aria = 10;
+    p.resourceState.classical.pierre = 10;
+    refreshHand(p);
+  });
+  const blockedAgain = await playSpell(page, "S000007", {slotIndex: 1, playerId: "player2"});
+  const afterBlockedAgain = await snapshot(page);
+  expect(blockedAgain).toBeUndefined();
+  expect(afterBlockedAgain.errorText).toContain("cible");
+  expect(afterBlockedAgain.activeLocks).toHaveLength(1);
+  await page.evaluate(() => {
+    const p = playerState("player1");
+    p.hand = [];
+    refreshHand(p);
+  });
+
+  const drawResult = await page.evaluate(() => drawCardFromRuntimeDeck("player2", {sourceCardId: "batch-01-test"}));
+  await page.waitForTimeout(300);
+  const released = await snapshot(page);
+  await testInfo.attach("door-key-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, locked, afterBlockedAgain, drawResult, released}, null, 2), "utf8")});
+  await attachDiagnostics(testInfo, diagnostics);
 
   expect(drawResult.success).toBe(true);
   expect(drawResult.cardId).toBe("S000008");

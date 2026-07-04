@@ -20,6 +20,7 @@
   "deferredCards": [
     {
       "id": "S000016",
+      "name": "Portail actif",
       "reason": "Effet persistant pendant le reste de la partie et pioche reactive adverse hors perimetre du lot."
     }
   ],
