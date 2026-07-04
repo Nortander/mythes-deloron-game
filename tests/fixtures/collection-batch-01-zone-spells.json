@@ -1,0 +1,30 @@
+{
+  "batchId": "COLLECTION-BATCH-01",
+  "title": "Sorts de zones et duo Porte / Clef",
+  "lockedCards": [
+    "S000004",
+    "S000006",
+    "S000017",
+    "S000022",
+    "S000051"
+  ],
+  "implementedCards": [
+    "S000007",
+    "S000008",
+    "S000015",
+    "S000029",
+    "S000037",
+    "S000040",
+    "S000043"
+  ],
+  "deferredCards": [
+    {
+      "id": "S000016",
+      "reason": "Effet persistant pendant le reste de la partie et pioche reactive adverse hors perimetre du lot."
+    }
+  ],
+  "scenarios": [
+    "collection-batch-01-zone-spells",
+    "collection-batch-01-door-key"
+  ]
+}

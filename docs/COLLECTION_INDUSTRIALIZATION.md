@@ -47,3 +47,19 @@ La section POSSESSION contient quatre choix mutuellement exclusifs :
 - `NON OBTENABLES` : cartes `GENERATED_ONLY`, `TRANSFORMATION_ONLY` ou `SPECIAL_UNOBTAINABLE`.
 
 Les neuf cartes non obtenables sont : `B000003`, `B000004`, `B000005`, `EDG000011`, `EDG000012`, `EN000011`, `MV000025`, `S000025` et `S000054`.
+
+## COLLECTION-BATCH-01 - Sorts de zones et duo Porte / Clef
+
+Le premier lot fonctionnel industriel couvre les sorts immediats de pioche et de deplacement de zones, plus le micro-systeme borne `S000007` / `S000008`.
+
+Cartes protegees par non-regression, sans recodage fonctionnel : `S000004`, `S000006`, `S000017`, `S000022`, `S000051`.
+
+Cartes nouvellement implementees et testees : `S000007`, `S000008`, `S000015`, `S000029`, `S000037`, `S000040`, `S000043`.
+
+Carte reportee : `S000016`, car son texte demande un effet persistant pendant le reste de la partie et une reaction aux pioches adverses.
+
+Primitives reutilisees : validation de cout, conditions de jeu, selection legale dans une zone, pioche controlee, deplacement main/deck/cimetiere, melange, cycle de vie des Sorts et inventaires runtime.
+
+Primitive bornee ajoutee : `Porte infranchissable` bloque un emplacement libre de Serviteur adverse avec l'asset `S000007`. Une occurrence liee de `Clef de pierre` est ajoutee au deck adverse. Quand cette occurrence est piochee, elle libere uniquement son emplacement lie et rejoint le cimetiere du joueur qui l'a piochee.
+
+Scenarios techniques caches : `collection-batch-01-zone-spells` et `collection-batch-01-door-key`.

@@ -1323,6 +1323,40 @@ body.dragging-card .hc.dragging {
 /* Séparateur de ressources "ou"/"+" */
 .res-sep { font-size:9px; color:#c8b898; margin:0 2px; font-weight:700; align-self:center; font-family:'Cinzel',serif; }
 .hc-res-total { display:inline-flex; align-items:center; margin-right:2px; }
+.slot-door-lock {
+  width:var(--fc-w, 88px);
+  height:var(--fc-h, 124px);
+  border:1px solid rgba(245,217,154,.62);
+  border-radius:10px;
+  background:radial-gradient(circle at 50% 22%, rgba(245,217,154,.20), rgba(40,18,8,.92) 58%, rgba(8,4,2,.98));
+  box-shadow:0 0 12px rgba(245,217,154,.24), inset 0 0 14px rgba(0,0,0,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+.slot-door-lock::after {
+  content:'PORTE';
+  position:absolute;
+  left:6px;
+  right:6px;
+  bottom:5px;
+  padding:2px 0;
+  border-radius:6px;
+  background:rgba(20,10,5,.76);
+  color:#f5d99a;
+  font-family:'Cinzel',serif;
+  font-size:8px;
+  letter-spacing:.08em;
+  text-align:center;
+}
+.slot-door-lock img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.92;
+}
 
 
 
@@ -1740,6 +1774,7 @@ Object.assign(CARDS_DATA,{
   'S000004':{name:'Commerce avec les légendes',type:'Sort',fac:'sort',atk:null,pdv:null,cost:4,res_ico:'IC00000RDM',res_val:'4',fico:null,kws:[],cap:'Quand vous jouez cette carte, vous pouvez choisir soit de piocher instantanément 3 cartes aléatoires de votre deck, soit de tirer 2 cartes de type Approvisionnement de votre deck ou cimetière.',badge:'Sort',lore:''},
   'R000011':{name:"Cascades d'aria",type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000ARI',res_val:'3',fico:null,kws:[],cap:"Fournit 3 ressources d'Aria au joueur.",badge:'Approvisionnement',lore:'Généralement, l\'aria qui s\'écoule des petites fissures dans la roche produit peu de matière. Certains lieux exceptionnels et gardés secrets, débordent néanmoins littéralement de la précieuse eau magique.'},
   'S000007':{name:'Porte infranchissable',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000PIE',res_val:'1',fico:null,kws:['Pierre','Aria'],cap:'Place cette carte sur un emplacement de serviteur adverse libre et le bloque\u00a0: le joueur ne peut plus jouer de serviteur à cet emplacement jusqu\'à ce qu\'il joue le sort «\u00a0Clef de pierre\u00a0». Ajoute le sort au deck de votre adversaire.',badge:'Sort',lore:''},
+  'S000008':{name:'Clef de pierre',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',fico:null,kws:[],cap:'Envoie 1 carte « Porte infranchissable » depuis votre terrain jusqu\'au cimetiere du joueur adverse. Cette carte est jouee des qu\'elle est piochee et ne coute pas d\'action.',badge:'Sort',lore:'',assetFolder:'sorts',related:['S000007'],cond:'Ne peut etre jouee que si vous avez une « Porte infranchissable » sur votre terrain.'},
   'R000001':{name:'Mine de fer',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000FER',res_val:'2',fico:null,kws:[],cap:'Fournit 2 ressources de Fer au joueur.',badge:'Approvisionnement',lore:'Toutes les races, à des degrés divers, utilisent le fer et d\'autres métaux pour leur armée. Un approvisionnement régulier est indispensable.'},
   'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',fico:'FCT00000EDN.png',kws:['Vengeance'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',badge:'',lore:''},
   'EN000003':{name:'Nécromancien',type:'Serviteur',fac:'edn',atk:1,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',fico:'FCT00000EDN.png',kws:[],cap:'À la fin de chacun de vos tours, invoque 1 « Serviteur osseux » de votre côté du terrain.',badge:'',lore:''},
@@ -2569,6 +2604,20 @@ SCENARIOS['huvu-impl-3-graveyard-theft'] = {
     player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: ['H000001','R000001','H000005'], servants: [], avatarHp:10}
   }
 };
+SCENARIOS['collection-batch-01-zone-spells'] = {
+  label: 'TEST — COLLECTION BATCH 01 zones', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch01Panel: true, testCardId: 'S000015',
+  testSetup: {
+    player1: {resources: {classical:{aria:20, lenya:20, nourriture:20, bois:20, pierre:20}, souls:20}, hand: ['S000015','S000029','S000037','S000040','S000043'], drawPile: ['R000010','EDG000001','EDG000002','EDG000003','GOB000001','GOB000002','GOB000003','B000015','B000016','B000017'], graveyard: ['MV000001','EDB000012','EDB000012','R000001'], servants: [], avatarHp:10},
+    player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: ['H000001','R000001'], servants: [], avatarHp:10}
+  }
+};
+SCENARIOS['collection-batch-01-door-key'] = {
+  label: 'TEST — COLLECTION BATCH 01 Porte / Clef', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch01Panel: true, testCardId: 'S000007',
+  testSetup: {
+    player1: {resources: {classical:{aria:10, pierre:10, lenya:10}, souls:0}, hand: ['S000007','EDB000004'], drawPile: ['R000010'], graveyard: [], servants: [], avatarHp:10},
+    player2: {resources: {classical:{aria:10, pierre:10}, souls:0}, hand: ['H000001'], drawPile: ['H000005','R000001'], graveyard: [], servants: [{id:'H000005'}], avatarHp:10}
+  }
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -2999,6 +3048,7 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "S000004": createCompatiblePoolCostDefinition(4, ["aria", "lenya", "selene"], []),
   "S000005": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "S000007": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "pierre", "amount": 1}, {"kind": "minimum", "resource": "aria", "amount": 1}], []),
+  "S000008": createCostDefinition(0, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "S000009": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "nourriture", "amount": 3}], []),
   "S000014": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "nourriture", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "bois", "amount": 1}], []),
   "S000016": createCostDefinition(12, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "aria", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "soul", "amount": 1}], []),
@@ -3010,6 +3060,8 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "S000035": createCompatiblePoolCostDefinition(8, ["aria", "selene", "soul", "lenya"], []),
   "S000037": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "lenya", "amount": 5}], []),
   "S000038": createCompatiblePoolCostDefinition(3, ["nourriture", "lenya"], []),
+  "S000040": createCostDefinition(10, ["lenya", "nourriture"], [{"kind": "minimum", "resource": "lenya", "amount": 6}, {"kind": "minimum", "resource": "nourriture", "amount": 4}], []),
+  "S000043": createCostDefinition(6, ["nourriture"], [{"kind": "minimum", "resource": "nourriture", "amount": 6}], []),
   "S000045": createCostDefinition(6, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "aria", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}, {"kind": "minimum", "resource": "bois", "amount": 3}], []),
   "S000047": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "nourriture", "amount": 5}], []),
   "S000050": createCompatiblePoolCostDefinition(8, ["aria", "selene", "lenya", "soul"], []),
@@ -3863,7 +3915,8 @@ function drawCardFromRuntimeDeck(player, options={}) {
     emitDrawTrace({...trace, selectedEntry, deckSizeAfter:pile.length, handSizeAfter:hand.length, result:'failure', reason:result.reason});
     return result;
   }
-  hand.push(cardId);
+  const linkedKeyResolution = maybeResolveLinkedStoneKeyDraw(p, selectedEntry, {sourceCardId:options.sourceCardId || null});
+  if (!linkedKeyResolution.handled) hand.push(cardId);
   updateDeckCount(p);
   if (options.refresh !== false) {
     if (playerKey(p) === currentPlayer) refreshHand(p);
@@ -3871,7 +3924,8 @@ function drawCardFromRuntimeDeck(player, options={}) {
   }
   const deckDomCountAfter = deckDomCount(p);
   const handDomCountAfter = handDomCount(p);
-  const runtimeConsistent = pile.length === deckSizeBefore - 1 && hand.length === handSizeBefore + 1;
+  const expectedHandIncrease = linkedKeyResolution.handled ? 0 : 1;
+  const runtimeConsistent = pile.length === deckSizeBefore - 1 && hand.length === handSizeBefore + expectedHandIncrease;
   const domConsistent = (deckDomCountAfter == null || deckDomCountAfter === pile.length) &&
     (handDomCountAfter == null || handDomCountAfter === hand.length);
   const result = {
@@ -3883,6 +3937,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
     deckSizeAfter: pile.length,
     handSizeBefore,
     handSizeAfter: hand.length,
+    linkedKeyResolution: linkedKeyResolution.handled ? linkedKeyResolution : null,
     deckDomCountAfter,
     handDomCountAfter,
     runtimeConsistent,
@@ -4025,6 +4080,162 @@ function addEntryToRuntimeZone(player, zone, entry, {position='top'}={}) {
   return true;
 }
 
+function normalizeSlotSelection(selection) {
+  const source = selection || {};
+  const raw = source.slotIndex ?? source.selectedSlotIndex ?? source.targetSlotIndex ?? source.blockedSlotIndex ?? null;
+  const slotIndex = Number.isInteger(Number(raw)) ? Number(raw) : null;
+  const playerId = source.playerId || source.playerKey || source.targetPlayerId || null;
+  return {slotIndex, playerId};
+}
+
+function servantZoneForPlayer(player) {
+  const p = playerState(player);
+  return p ? qs(playerZoneSelector(p, 'servants')) : null;
+}
+
+function playerSlotChildren(player) {
+  return Array.from(servantZoneForPlayer(player)?.children || []);
+}
+
+function activeDoorLocks() {
+  return activeSlotLocks.filter(lock => lock && lock.status === 'ACTIVE');
+}
+
+function slotLockId(player, slotIndex) {
+  const key = playerKey(player);
+  return `${key}:servant:${slotIndex}`;
+}
+
+function activeDoorLockForSlot(player, slotIndex) {
+  const id = slotLockId(player, slotIndex);
+  return activeDoorLocks().find(lock => lock.blockedSlotId === id) || null;
+}
+
+function activeDoorLocksForPlayer(player) {
+  const key = playerKey(player);
+  return activeDoorLocks().filter(lock => lock.affectedPlayerId === key);
+}
+
+function getFreeServantSlotCandidates(player) {
+  const p = playerState(player);
+  return playerSlotChildren(p)
+    .map((element, slotIndex) => ({player:p, playerKey:p?.key || '', slotIndex, element, slotId:slotLockId(p, slotIndex)}))
+    .filter(candidate => candidate.element?.classList?.contains('slot') && !activeDoorLockForSlot(p, candidate.slotIndex));
+}
+
+function legalDoorTargetSlots(player) {
+  return getFreeServantSlotCandidates(opponentOf(player));
+}
+
+function evaluateDoorPlayRequirement(cardId, {player=currentPlayer, zoneSelection=null}={}) {
+  if (cardId !== 'S000007' && cardId !== 'S000008') return null;
+  const p = playerState(player);
+  if (cardId === 'S000008') {
+    const locks = activeDoorLocksForPlayer(p);
+    if (!locks.length) return {cardId, allowed:false, code:'stone-key-without-door', message:'Vous ne remplissez pas les conditions pour jouer cette carte.', activeLocks:[]};
+    return {cardId, allowed:true, code:'stone-key-has-door', activeLocks:locks.map(lock => ({effectInstanceId:lock.effectInstanceId, blockedSlotId:lock.blockedSlotId}))};
+  }
+  const legalSlots = legalDoorTargetSlots(p);
+  const selected = normalizeSlotSelection(zoneSelection);
+  const summarized = legalSlots.map(slot => ({playerKey:slot.playerKey, slotIndex:slot.slotIndex, slotId:slot.slotId}));
+  if (!legalSlots.length) return {cardId, allowed:false, code:'no-free-opponent-servant-slot', message:'Aucune cible valide n’est disponible.', legalSlots:[]};
+  if (selected.slotIndex !== null) {
+    const selectedLegal = legalSlots.find(slot => slot.slotIndex === selected.slotIndex && (!selected.playerId || selected.playerId === slot.playerKey));
+    if (!selectedLegal) return {cardId, allowed:false, code:'invalid-door-slot', message:'Cette cible n’est pas valide.', selectedSlot:selected, legalSlots:summarized};
+  }
+  return {cardId, allowed:true, code:'free-opponent-servant-slot', selectedSlot:selected.slotIndex === null ? null : selected, legalSlots:summarized};
+}
+
+function buildDoorLockMarker(lock) {
+  const d = CARDS_DATA.S000007 || {};
+  return `<div class="slot-door-lock" data-player="${escapeHtml(lock.affectedPlayerId)}" data-slot-lock-id="${escapeHtml(lock.effectInstanceId)}" data-blocked-card-id="S000007" data-testid="door-lock-marker" role="img" aria-label="Emplacement bloqué par Porte infranchissable"><img src="${GH}/sorts/S000007.png" alt="${escapeHtml(d.name || 'Porte infranchissable')}"></div>`;
+}
+
+function createStoneKeyOccurrence(lock) {
+  return {
+    cardId:'S000008',
+    __collectionBatch01Key:true,
+    linkedDoorEffectId:lock.effectInstanceId,
+    occurrenceId:lock.linkedKeyOccurrenceId,
+    ownerId:lock.affectedPlayerId,
+    controllerId:lock.affectedPlayerId
+  };
+}
+
+function createDoorSlotLock({caster, affectedPlayer, slotIndex}={}) {
+  const casterKey = playerKey(caster);
+  const affectedKey = playerKey(affectedPlayer);
+  const effectInstanceId = `door-lock-${++slotLockEffectSequence}`;
+  const lock = {
+    effectInstanceId,
+    sourceCardId:'S000007',
+    casterPlayerId:casterKey,
+    affectedPlayerId:affectedKey,
+    blockedSlotId:slotLockId(affectedPlayer, slotIndex),
+    slotIndex,
+    linkedKeyCardId:'S000008',
+    linkedKeyOccurrenceId:`stone-key-${effectInstanceId}`,
+    createdAtTurn:turnSequence,
+    status:'ACTIVE',
+    visualMarkerCardId:'S000007'
+  };
+  const children = playerSlotChildren(affectedPlayer);
+  const slot = children[slotIndex];
+  if (!slot?.classList?.contains('slot')) return {success:false, code:'invalid-door-slot', lock};
+  slot.outerHTML = buildDoorLockMarker(lock);
+  activeSlotLocks.push(lock);
+  return {success:true, code:'door-slot-locked', lock};
+}
+
+function releaseDoorSlotLock(lock, {reason='stone-key-drawn', keyEntry=null}={}) {
+  if (!lock || lock.status !== 'ACTIVE') return {success:false, code:'door-lock-not-active', reason, lock:null};
+  const affected = playerState(lock.affectedPlayerId);
+  const marker = servantZoneForPlayer(affected)?.querySelector(`[data-slot-lock-id="${CSS.escape(lock.effectInstanceId)}"]`);
+  if (marker) marker.outerHTML = `<div class="slot" data-player="${escapeHtml(lock.affectedPlayerId)}"></div>`;
+  lock.status = 'RESOLVED';
+  lock.resolvedAtTurn = turnSequence;
+  lock.resolvedReason = reason;
+  lock.keyEntry = keyEntry ? {cardId:getRuntimeCardId(keyEntry), occurrenceId:keyEntry.occurrenceId || keyEntry.linkedDoorEffectId || null} : null;
+  return {success:true, code:'door-slot-released', reason, lock:{...lock}};
+}
+
+function maybeResolveLinkedStoneKeyDraw(player, entry, {sourceCardId=null}={}) {
+  const cardId = getRuntimeCardId(entry);
+  if (cardId !== 'S000008' || !entry || typeof entry !== 'object' || !entry.linkedDoorEffectId) return {handled:false};
+  const p = playerState(player);
+  const lock = activeDoorLocks().find(candidate => candidate.effectInstanceId === entry.linkedDoorEffectId && candidate.linkedKeyOccurrenceId === entry.occurrenceId);
+  if (!lock) return {handled:false, code:'linked-stone-key-without-active-door'};
+  addEntryToRuntimeZone(p, 'graveyard', entry, {position:'top'});
+  const release = releaseDoorSlotLock(lock, {reason:'linked-stone-key-drawn', keyEntry:entry});
+  const diagnostic = {success:true, code:'linked-stone-key-drawn', sourceCardId, cardId:'S000008', playerKey:p?.key || '', linkedDoorEffectId:entry.linkedDoorEffectId, linkedKeyOccurrenceId:entry.occurrenceId, release, activeLocks:activeDoorLocks().map(item => ({effectInstanceId:item.effectInstanceId, blockedSlotId:item.blockedSlotId}))};
+  recordZoneEffectDiagnostic('S000008', diagnostic);
+  showNotif('Clef de pierre piochée : la Porte infranchissable liée disparaît.', 1800);
+  return {handled:true, ...diagnostic};
+}
+
+function chooseDoorSlot(player, legalSlots) {
+  const slots = Array.from(legalSlots || []);
+  if (!slots.length) return Promise.resolve(null);
+  if (typeof document === 'undefined' || !document.body) return Promise.resolve(null);
+  return new Promise(resolve => {
+    const bodyHtml = `<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Choisissez un emplacement libre de serviteur adverse à bloquer.</div><div class="sort-choice-cards">${slots.map(slot => `<button type="button" class="sort-choice-item" data-slot-index="${slot.slotIndex}" data-testid="door-slot-choice">Emplacement ${slot.slotIndex + 1}</button>`).join('')}</div>`;
+    const modal = createMinimizableDecisionModal({decisionId:'porte-infranchissable-slot', title:'PORTE INFRANCHISSABLE', bodyHtml, compactLabel:'PORTE INFRANCHISSABLE EN ATTENTE', ownerPlayerId:playerKey(player)});
+    const bind = () => {
+      const overlay = modal.overlay;
+      if (!overlay) return;
+      overlay.querySelectorAll('[data-testid="door-slot-choice"]').forEach(button => {
+        button.addEventListener('click', () => {
+          const slotIndex = Number(button.dataset.slotIndex);
+          modal.close({selected:slotIndex});
+          resolve(slots.find(slot => slot.slotIndex === slotIndex) || null);
+        }, {once:true});
+      });
+    };
+    modal.onRender = bind;
+    bind();
+  });
+}
+
 function removeZoneEntry(player, zone, index) {
   const arr = zoneArrayForPlayer(player, zone);
   if (!arr || !Number.isInteger(index) || index < 0 || index >= arr.length) return null;
@@ -4078,10 +4289,13 @@ function normalizeZoneSelection(selection) {
   const source = selection || {};
   const indexes = Array.isArray(source.selectedIndexes) ? source.selectedIndexes : (Array.isArray(source.indexes) ? source.indexes : []);
   const cardIds = Array.isArray(source.selectedCardIds) ? source.selectedCardIds : (source.selectedCardId ? [source.selectedCardId] : []);
+  const slot = normalizeSlotSelection(source);
   return {
     selectedIndexes:indexes.map(Number).filter(Number.isInteger),
     selectedCardIds:cardIds.filter(Boolean),
-    selectedIndex:Number.isInteger(Number(source.selectedIndex)) ? Number(source.selectedIndex) : null
+    selectedIndex:Number.isInteger(Number(source.selectedIndex)) ? Number(source.selectedIndex) : null,
+    slotIndex:slot.slotIndex,
+    slotPlayerId:slot.playerId
   };
 }
 
@@ -4180,6 +4394,8 @@ const EMBRASEMENT_INITIAL_DAMAGE = 3;
 const EMBRASEMENT_PERIODIC_DAMAGE = 1;
 const EMBRASEMENT_TRIGGER_COUNT = 3;
 const ongoingEffects = { meteores: [] };
+const activeSlotLocks = [];
+let slotLockEffectSequence = 0;
 const IMPORTANT_MESSAGE_DURATION_MS = 4000;
 const INSUFFICIENT_RESOURCES_PUBLIC_MESSAGE = 'Vous manquez de ressources pour jouer cette carte.';
 let errorMessageTimer = null;
@@ -8579,7 +8795,7 @@ function recordCombatEffectDiagnostic(cardId, diagnostic) {
   return lastCombatEffectDiagnostic;
 }
 function recordZoneEffectDiagnostic(cardId, diagnostic) {
-  if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl3Panel) return null;
+    if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl3Panel && !activeScenario?.showCollectionBatch01Panel) return null;
   lastZoneEffectDiagnostic = clonePlayDiagnostic({scenarioId:selectedScenarioId(), cardId, ...(diagnostic || {})});
   updateTestResourcePanel();
   return lastZoneEffectDiagnostic;
@@ -8610,7 +8826,7 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'));
+  const title = activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES')));
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
@@ -9073,7 +9289,7 @@ const ZONE_PLAY_REQUIREMENTS = Object.freeze({
     requirement:{},
     min:1,
     code:'own-deck-has-card',
-    message:'Votre deck ne contient aucune carte à piocher.'
+    message:'Votre deck ne contient aucune carte a piocher.'
   },
   S000022: {
     owner:'opponent',
@@ -9082,10 +9298,28 @@ const ZONE_PLAY_REQUIREMENTS = Object.freeze({
     min:1,
     code:'opponent-graveyard-has-servant',
     message:'Aucune cible valide n’est disponible.'
+  },
+  S000015: {
+    owner:'self',
+    zone:'graveyard',
+    requirement:{type:'Serviteur'},
+    min:1,
+    code:'own-graveyard-has-servant',
+    message:'Aucune cible valide n’est disponible.'
+  },
+  S000040: {
+    owner:'self',
+    zone:'graveyard',
+    requirement:{cardIds:['EDB000012']},
+    min:1,
+    code:'own-graveyard-has-pixie',
+    message:'Aucune cible valide n’est disponible.'
   }
 });
 
-function evaluateZonePlayRequirement(cardId, {player=currentPlayer}={}) {
+function evaluateZonePlayRequirement(cardId, {player=currentPlayer, zoneSelection=null}={}) {
+  const doorRequirement = evaluateDoorPlayRequirement(cardId, {player, zoneSelection});
+  if (doorRequirement) return doorRequirement;
   const definition = ZONE_PLAY_REQUIREMENTS[cardId];
   if (!definition) return {cardId, allowed:true, code:'no-zone-requirement', legalCards:[]};
   const p = playerState(player);
@@ -9186,7 +9420,7 @@ async function resolveImmediatePlayEffect({player, cardId, sourceFC}) {
   return diagnostic;
 }
 
-function validateCardActionStart({player, cardId, slot, selectedTargetIds=null}) {
+function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, zoneSelection=null}) {
   const p = playerState(player);
   const card = CARDS_DATA[cardId];
   if (!p || !card) return {valid:false, reason:'missing-data'};
@@ -9217,7 +9451,7 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null})
   if (!invocationCondition.allowed) {
     return {valid:false, reason:'invocation-condition', conditionResult:invocationCondition};
   }
-  const zoneRequirement = evaluateZonePlayRequirement(cardId, {player:p});
+  const zoneRequirement = evaluateZonePlayRequirement(cardId, {player:p, zoneSelection});
   if (!zoneRequirement.allowed) {
     return {valid:false, reason:'zone-play-requirement', zoneRequirementResult:zoneRequirement};
   }
@@ -9286,7 +9520,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   transaction.traceId ||= beginCardPlayTrace(cardId, p);
   const traceId = transaction.traceId;
   traceCardPlay(traceId, 'beforeCommit', p, cardId);
-  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds});
+  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
     recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-commit');
@@ -9425,7 +9659,7 @@ async function playCard(cardId, slot, options={}) {
   if (!acquirePaymentLock(p, cardId)) return;
   const selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
   const zoneSelection = options?.zoneSelection || null;
-  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds});
+  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
     recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-payment');
@@ -9964,6 +10198,20 @@ async function triggerSort(cardId, player, context={}) {
       return await resolveGalerieDesHorreurs(player, context);
     case 'S000051':
       return resolveRituelOcculte(player);
+    case 'S000007':
+      return await resolvePorteInfranchissable(player, context);
+    case 'S000008':
+      return resolveClefDePierre(player, context);
+    case 'S000015':
+      return await resolveApresLaCatastrophe(player, context);
+    case 'S000029':
+      return resolvePatrouilleGlaciale(player);
+    case 'S000037':
+      return resolveCheminsDeLey(player);
+    case 'S000040':
+      return resolvePixiemanie(player);
+    case 'S000043':
+      return resolveTaureauParLesCornes(player);
     case 'S000005': // Assassinat
     { const targetAudit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || null});
       if (!targetAudit.allowed) {
@@ -10001,9 +10249,6 @@ async function triggerSort(cardId, player, context={}) {
       await sendToCemetery(target);
       showNotif('Sort : Assassinat !', 1400);
       return {success:true, reason:'target-destroyed', target:destroyedTarget}; }
-    case 'S000015': // Après la catastrophe : remet des serviteurs dans le deck
-      showNotif('Après la catastrophe : des serviteurs retournent dans votre deck !', 1800);
-      break;
     case 'S000002': {
       showEyesInDarkSelection(player, {
         onSelect:blockedId => {
@@ -10567,6 +10812,157 @@ async function resolveGalerieDesHorreurs(player, context={}) {
   recordZoneEffectDiagnostic('S000022', diagnostic);
   showNotif(`Galerie des horreurs : ${moved.length} serviteur(s) transféré(s), deck remélangé.`, 1800);
   return diagnostic;
+}
+
+async function resolvePorteInfranchissable(player, context={}) {
+  const p = playerState(player);
+  const opponent = opponentOf(p);
+  if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player'};
+  const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent), activeLocks:activeDoorLocks().map(lock => ({...lock}))};
+  const legalSlots = legalDoorTargetSlots(p);
+  if (!legalSlots.length) {
+    const diagnostic = {success:false, code:'no-free-opponent-servant-slot', reason:'no-valid-target', cardId:'S000007', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent), activeLocks:activeDoorLocks().map(lock => ({...lock}))}};
+    recordZoneEffectDiagnostic('S000007', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  const selectedSlot = normalizeSlotSelection(context.zoneSelection || {});
+  let target = selectedSlot.slotIndex === null ? null : legalSlots.find(slot => slot.slotIndex === selectedSlot.slotIndex && (!selectedSlot.playerId || selectedSlot.playerId === slot.playerKey));
+  if (!target) target = await chooseDoorSlot(p, legalSlots);
+  if (!target) {
+    const diagnostic = {success:false, code:'door-slot-selection-missing', reason:'no-valid-target', cardId:'S000007', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent), activeLocks:activeDoorLocks().map(lock => ({...lock}))}};
+    recordZoneEffectDiagnostic('S000007', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  const lockResult = createDoorSlotLock({caster:p, affectedPlayer:opponent, slotIndex:target.slotIndex});
+  if (!lockResult.success) {
+    const diagnostic = {success:false, code:lockResult.code, reason:'invalid-target', cardId:'S000007', selectedSlot:{playerKey:target.playerKey, slotIndex:target.slotIndex}, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent), activeLocks:activeDoorLocks().map(lock => ({...lock}))}};
+    recordZoneEffectDiagnostic('S000007', diagnostic);
+    showErr('Cette cible n’est pas valide.');
+    return diagnostic;
+  }
+  const keyEntry = createStoneKeyOccurrence(lockResult.lock);
+  addEntryToRuntimeZone(opponent, 'deck', keyEntry, {position:'top'});
+  const diagnostic = {success:true, code:'porte-infranchissable-resolved', reason:null, cardId:'S000007', selectedSlot:{playerKey:target.playerKey, slotIndex:target.slotIndex, slotId:target.slotId}, lock:{...lockResult.lock}, linkedKey:{cardId:'S000008', occurrenceId:keyEntry.occurrenceId, deckOwner:opponent.key}, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent), activeLocks:activeDoorLocks().map(lock => ({...lock}))}};
+  recordZoneEffectDiagnostic('S000007', diagnostic);
+  showNotif('Porte infranchissable bloque un emplacement adverse et ajoute sa Clef au deck adverse.', 2000);
+  return diagnostic;
+}
+
+function resolveClefDePierre(player, context={}) {
+  const p = playerState(player);
+  const locks = activeDoorLocksForPlayer(p);
+  if (!locks.length) {
+    const diagnostic = {success:false, code:'stone-key-without-door', reason:'play-condition', cardId:'S000008'};
+    recordZoneEffectDiagnostic('S000008', diagnostic);
+    showErr('Vous ne remplissez pas les conditions pour jouer cette carte.');
+    return diagnostic;
+  }
+  const selected = context.zoneSelection?.linkedDoorEffectId || context.zoneSelection?.effectInstanceId || null;
+  const lock = selected ? locks.find(item => item.effectInstanceId === selected) : locks[0];
+  const release = releaseDoorSlotLock(lock, {reason:'stone-key-played-from-hand'});
+  const diagnostic = {success:release.success, code:release.success ? 'stone-key-resolved' : release.code, reason:release.success ? null : release.reason, cardId:'S000008', release, activeLocks:activeDoorLocks().map(item => ({effectInstanceId:item.effectInstanceId, blockedSlotId:item.blockedSlotId}))};
+  recordZoneEffectDiagnostic('S000008', diagnostic);
+  if (release.success) showNotif('Clef de pierre libère une Porte infranchissable.', 1600);
+  return diagnostic;
+}
+
+async function resolveApresLaCatastrophe(player, context={}) {
+  const p = playerState(player);
+  if (!p) return {success:false, code:'invalid-player', reason:'invalid-player'};
+  const before = zoneInventorySnapshot(p);
+  const candidates = zoneCardEntries(p, 'graveyard', {type:'Serviteur'});
+  if (!candidates.length) {
+    const diagnostic = {success:false, code:'own-graveyard-has-servant', reason:'no-valid-target', cardId:'S000015', moved:[], before, after:zoneInventorySnapshot(p)};
+    recordZoneEffectDiagnostic('S000015', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  let selected = selectZoneEntriesFromSelection(candidates, context.zoneSelection || {}, {min:1, max:3});
+  if (!selected.allowed) {
+    const chosen = await chooseZoneCards({title:'Après la catastrophe', prompt:'Choisissez jusqu’à 3 serviteurs de votre cimetière à renvoyer dans votre deck.', candidates, minCount:1, maxCount:3});
+    selected = {allowed:chosen.length > 0, selected:chosen.slice(0, 3), code:chosen.length > 0 ? 'zone-selection-valid' : 'zone-selection-missing'};
+  }
+  if (!selected.allowed || !selected.selected.length) {
+    const diagnostic = {success:false, code:'zone-selection-missing', reason:'no-valid-target', cardId:'S000015', moved:[], before, after:zoneInventorySnapshot(p)};
+    recordZoneEffectDiagnostic('S000015', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  const moved = [];
+  [...selected.selected].sort((a,b) => b.index - a.index).forEach(candidate => {
+    const result = moveRuntimeZoneEntry({sourcePlayer:p, sourceZone:'graveyard', sourceIndex:candidate.index, targetPlayer:p, targetZone:'deck', targetPosition:'bottom', reason:'apres-la-catastrophe'});
+    if (result.success) moved.push({cardId:result.cardId, fromIndex:candidate.index});
+  });
+  const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'S000015', reason:'apres-la-catastrophe'});
+  const diagnostic = {success:true, code:'apres-la-catastrophe-resolved', reason:null, cardId:'S000015', moved, shuffled:true, shuffle, before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic('S000015', diagnostic);
+  showNotif(`Après la catastrophe : ${moved.length} serviteur(s) retourné(s) dans le deck.`, 1800);
+  return diagnostic;
+}
+
+function drawMatchingCardsForSpell(player, {cardId, predicate, maxCount=1, untilHandSize=null, messageLabel='Sort'}={}) {
+  const p = playerState(player);
+  const before = zoneInventorySnapshot(p);
+  const results = [];
+  let count = 0;
+  while (count < maxCount && (!Number.isInteger(untilHandSize) || playerHand(p).length < untilHandSize)) {
+    const result = drawCardFromRuntimeDeck(p, {predicate, refresh:false, sourceCardId:cardId});
+    results.push(result);
+    if (!result.success) break;
+    count++;
+  }
+  refreshHand(p);
+  updateDeckCount(p);
+  const diagnostic = {success:true, code:'controlled-draw-resolved', reason:null, cardId, drawn:results.filter(result => result.success).map(result => result.cardId), count, results, before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic(cardId, diagnostic);
+  showNotif(`${messageLabel} : ${count} carte(s) piochée(s).`, 1600);
+  return diagnostic;
+}
+
+function resolvePatrouilleGlaciale(player) {
+  return drawMatchingCardsForSpell(player, {cardId:'S000029', maxCount:3, predicate:id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'edg', messageLabel:'Patrouille glaciale'});
+}
+
+function resolveCheminsDeLey(player) {
+  const p = playerState(player);
+  const maxCount = Math.max(0, 8 - playerHand(p).length);
+  return drawMatchingCardsForSpell(player, {cardId:'S000037', maxCount, untilHandSize:8, predicate:id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob', messageLabel:'Chemins de Ley'});
+}
+
+function resolvePixiemanie(player) {
+  const p = playerState(player);
+  const before = zoneInventorySnapshot(p);
+  const candidates = zoneCardEntries(p, 'graveyard', {cardIds:['EDB000012']});
+  if (!candidates.length) {
+    const diagnostic = {success:false, code:'own-graveyard-has-pixie', reason:'no-valid-target', cardId:'S000040', moved:[], before, after:zoneInventorySnapshot(p)};
+    recordZoneEffectDiagnostic('S000040', diagnostic);
+    showErr('Aucune cible valide n’est disponible.');
+    return diagnostic;
+  }
+  const capacity = getHandCapacityStatus(p);
+  if (capacity.available < candidates.length) {
+    const diagnostic = {success:false, code:'hand-capacity-insufficient', reason:'hand-full', cardId:'S000040', required:candidates.length, capacity, before, after:zoneInventorySnapshot(p)};
+    recordZoneEffectDiagnostic('S000040', diagnostic);
+    showErr('Votre main ne peut pas accueillir toutes les Pixies.');
+    return diagnostic;
+  }
+  const moved = [];
+  [...candidates].sort((a,b) => b.index - a.index).forEach(candidate => {
+    const result = moveRuntimeZoneEntry({sourcePlayer:p, sourceZone:'graveyard', sourceIndex:candidate.index, targetPlayer:p, targetZone:'hand', reason:'pixiemanie'});
+    if (result.success) moved.push({cardId:result.cardId, fromIndex:candidate.index});
+  });
+  refreshHand(p);
+  const diagnostic = {success:true, code:'pixiemanie-resolved', reason:null, cardId:'S000040', moved, before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic('S000040', diagnostic);
+  showNotif(`Pixiemanie : ${moved.length} Pixie(s) reviennent en main.`, 1800);
+  return diagnostic;
+}
+
+function resolveTaureauParLesCornes(player) {
+  const minotaurIds = new Set(['B000015','B000016','B000017']);
+  return drawMatchingCardsForSpell(player, {cardId:'S000043', maxCount:99, predicate:id => minotaurIds.has(id), messageLabel:'Prendre le taureau par les cornes'});
 }
 
 function resolveRituelOcculte(player) {
@@ -15590,13 +15986,16 @@ Object.assign(CARDS_DATA, {
   "S000042":{name:"Éclipse solaire",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria"],cap:"Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de 3 ; accroît l'attaque de tous les serviteurs elfes noirs de 2. Toujours jusqu'à la fin de ce tour, réduit de 3 l'attaque des serviteurs humains ; diminue de 2 l'attaque des serviteurs nains.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
   "S000044":{name:"Recyclage",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000ARI",res_val:"6",resType:"Aria|Écho",fico:"FCT00000MVS.png",kws:["Aria","Écho"],cap:"Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.",badge:"Sort",lore:"",assetFolder:"sorts",max:2},
   "S000051":{name:"Rituel occulte",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000ARI",res_val:"5",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria"],cap:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse."},
-  "S000052":{name:"Le retour des revenants",type:"Sort",fac:"sort",atk:null,pdv:null,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Invoque jusqu'à 3 serviteurs « morts-vivants » de votre deck coûtant 2 ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute 5 échos à vos ressources.",badge:"Sort",lore:"",assetFolder:"sorts",max:3}
+  "S000052":{name:"Le retour des revenants",type:"Sort",fac:"sort",atk:null,pdv:null,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Invoque jusqu'à 3 serviteurs « morts-vivants » de votre deck coûtant 2 ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute 5 échos à vos ressources.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
+  "S000040":{name:"Pixiemanie",type:"Sort",fac:"sort",atk:null,pdv:null,cost:10,res_ico:"IC00000LNY",res_val:"10",resType:"Lenya|Nourriture",fico:"FCT00000EDB.png",kws:["Lenya","Nourriture"],cap:"Renvoie toutes les Pixies de votre cimetiere a votre main.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,cond:"Necessite d'avoir au moins 1 carte Pixie [ID = EDB000012] actuellement dans votre cimetiere.",detail:"Renvoie toutes les Pixies [ID = EDB000012] de votre cimetiere a votre main.",related:["EDB000012"]},
+  "S000043":{name:"Prendre le taureau par les cornes",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000NOU",res_val:"6",resType:"Nourriture",fico:"FCT00000BET.png",kws:["Nourriture"],cap:"Piochez immediatement tous les serviteurs de type Minotaure restant dans votre deck.",badge:"Sort",lore:"",assetFolder:"sorts",max:1,detail:"Piochez immediatement tous les serviteurs de type Minotaure [ID = B000015, B000016 et B000017] restant dans votre deck.",related:["B000015","B000016","B000017"]}
 });
 
 function setupInitialHands() {
   turnSequence = 1;
   servantInstanceSequence = 0;
   ongoingEffects.meteores = [];
+  activeSlotLocks.length = 0;
   [player1, player2].forEach(p => {
     resetRuntimeResources(p);
     p.startingDeckCardIds = [...p.deck];
