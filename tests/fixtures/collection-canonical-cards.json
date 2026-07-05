@@ -9502,12 +9502,12 @@
       "related": [
         "S000007"
       ],
-      "maxOwned": 3,
-      "generatedOnly": false,
+      "maxOwned": 0,
+      "generatedOnly": true,
       "sourceRow": 252,
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE",
-      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée au deck adverse par S000007 — Porte infranchissable. Ne peut pas être obtenue comme carte normale."
     },
     {
       "id": "S000009",

@@ -16,9 +16,9 @@ const keywords = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-keyw
 const dependencies = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-card-dependencies.json", import.meta.url), "utf8"));
 
 const addedIds = ["MV000025", "N000015", "S000054"];
-const nonObtainableIds = ["B000003", "B000004", "B000005", "EDG000011", "EDG000012", "EN000011", "MV000025", "S000025", "S000054"];
+const nonObtainableIds = ["B000003", "B000004", "B000005", "EDG000011", "EDG000012", "EN000011", "MV000025", "S000008", "S000025", "S000054"];
 const transformationOnlyIds = ["B000003", "B000004", "B000005"];
-const generatedOnlyIds = ["EDG000011", "EN000011", "MV000025", "S000054"];
+const generatedOnlyIds = ["EDG000011", "EN000011", "MV000025", "S000008", "S000054"];
 const specialUnobtainableIds = ["EDG000012", "S000025"];
 const byId = Object.fromEntries(canonical.cards.map(card => [card.id, card]));
 
@@ -82,7 +82,7 @@ test("Collection effect inventory covers every canonical card", async () => {
   expect(signatures.cardCount).toBe(318);
   expect(signatures.signatures.map(sig => sig.id).sort()).toEqual(canonical.cards.map(card => card.id).sort());
   expect(canonical.cards.filter(card => card.catalogKind === "CARD")).toHaveLength(318);
-  expect(canonical.cards.filter(card => card.obtainability === "OBTAINABLE")).toHaveLength(309);
+  expect(canonical.cards.filter(card => card.obtainability === "OBTAINABLE")).toHaveLength(308);
   expect(canonical.cards.filter(card => card.maxOwned === 0).map(card => card.id).sort()).toEqual([...nonObtainableIds].sort());
   expect(canonical.cards.filter(card => card.obtainability === "OBTAINABLE" && card.maxOwned === 0)).toEqual([]);
   expect(canonical.cards.filter(card => card.obtainability !== "OBTAINABLE" && card.maxOwned > 0)).toEqual([]);
@@ -93,6 +93,10 @@ test("Collection effect inventory covers every canonical card", async () => {
   expect(keywords.keywordCount).toBeGreaterThan(10);
   const windjalfDependency = dependencies.dependencies.find(dep => dep.sourceId === "N000015" && dep.dependencyId === "S000054");
   expect(windjalfDependency).toMatchObject({ relation: "ADDS_TO_HAND", dependencyInCanonicalCorpus: true });
+  const doorKeyDependency = dependencies.dependencies.find(dep => dep.sourceId === "S000007" && dep.dependencyId === "S000008");
+  expect(doorKeyDependency).toMatchObject({ relation: "REFERENCES", dependencyInCanonicalCorpus: true });
+  expect(byId.S000008).toMatchObject({ id: "S000008", name: "Clef de pierre", catalogKind: "CARD", obtainability: "GENERATED_ONLY", maxOwned: 0, generatedOnly: true });
+  expect(byId.S000008.obtainabilityReason).toContain("Porte infranchissable");
   expect(signatures.signatures.find(sig => sig.id === "N000015")?.requiredPrimitives).toContain("create-card");
   expect(signatures.signatures.find(sig => sig.id === "S000054")?.requiredPrimitives).toEqual(expect.arrayContaining(["burn-protection", "burn-status", "duration-persistent"]));
 });
@@ -188,6 +192,7 @@ test("Collection obtainability classification drives the global progress counter
       counter: info.counter,
       maxOwnedZero,
       badObtainableMaxZero: info.cards.filter(card => card.obtainability === "OBTAINABLE" && card.maxOwned === 0).map(card => card.id),
+      s000008: info.cards.find(card => card.id === "S000008"),
       badAvatarCard: info.cards.filter(card => card.type === "Avatar" && card.catalogKind !== "AVATAR").map(card => card.id),
       expectedMissing: expectedNonObtainableIds.filter(id => !maxOwnedZero.includes(id))
     };
@@ -200,10 +205,12 @@ test("Collection obtainability classification drives the global progress counter
   expect(audit.nonObtainable.filter(card => card.obtainability === "TRANSFORMATION_ONLY").map(card => card.id).sort()).toEqual([...transformationOnlyIds].sort());
   expect(audit.nonObtainable.filter(card => card.obtainability === "GENERATED_ONLY").map(card => card.id).sort()).toEqual([...generatedOnlyIds].sort());
   expect(audit.nonObtainable.filter(card => card.obtainability === "SPECIAL_UNOBTAINABLE").map(card => card.id).sort()).toEqual([...specialUnobtainableIds].sort());
-  expect(audit.obtainableCount).toBe(309);
-  expect(audit.counter.total).toBe(309);
+  expect(audit.obtainableCount).toBe(308);
+  expect(audit.counter.total).toBe(308);
   expect(audit.counter.owned).toBe(audit.ownedObtainableCount);
-  expect(audit.counter.label).toBe(audit.ownedObtainableCount + " / 309 cartes obtenables");
+  expect(audit.counter.label).toBe(audit.ownedObtainableCount + " / 308 cartes obtenables");
+  expect(audit.s000008).toMatchObject({ catalogKind: "CARD", obtainability: "GENERATED_ONLY", maxOwned: 0, qty: 0, owned: false, hidden: false });
+  expect(audit.s000008.obtainabilityReason).toContain("Porte infranchissable");
   expect(audit.badObtainableMaxZero).toEqual([]);
   expect(audit.badAvatarCard).toEqual([]);
   await attachDiagnostics(testInfo, diagnostics);
@@ -223,7 +230,7 @@ test("POSSESSION is a single exclusive four-button group and keeps the counter g
   await expect(page.locator('[data-filter="possession"][data-value="all"]')).toHaveClass(/active/);
   const initialCounter = await page.locator("#collectionCount").innerText();
   expect(initialCounter).toContain("cartes obtenables");
-  expect(initialCounter).toMatch(/\/\s*309\s+cartes obtenables/i);
+  expect(initialCounter).toMatch(/\/\s*308\s+cartes obtenables/i);
   for (const value of ["owned", "missing", "unobtainable", "all"]) {
     await setPossessionFilter(page, value);
     await expect(page.locator('[data-filter="possession"].active')).toHaveCount(1);
@@ -242,6 +249,8 @@ test("POSSESSION modes separate obtainable cards, unobtainable cards, and avatar
 
   await page.locator("#searchInput").fill("S000054");
   await expect(collectionCard(page, "S000054")).toHaveCount(0);
+  await page.locator("#searchInput").fill("S000008");
+  await expect(collectionCard(page, "S000008")).toHaveCount(0);
   await page.locator("#searchInput").fill("MV000025");
   await expect(collectionCard(page, "MV000025")).toHaveCount(0);
 
@@ -252,7 +261,7 @@ test("POSSESSION modes separate obtainable cards, unobtainable cards, and avatar
   expect(unobtainableRuntime.map(card => card.id)).toEqual([...nonObtainableIds].sort());
   expect(unobtainableRuntime.every(card => card.catalogKind === "CARD" && card.obtainability !== "OBTAINABLE" && card.maxOwned === 0 && card.qty === 0)).toBe(true);
   await expect(page.locator("#collectionCount")).toHaveText(counterText);
-  for (const id of ["B000003", "B000004", "B000005", "MV000025", "S000054"]) {
+  for (const id of ["B000003", "B000004", "B000005", "MV000025", "S000008", "S000054"]) {
     await page.locator("#searchInput").fill(id);
     await expect(collectionCard(page, id), id + " non-obtainable search result").toBeVisible();
     await expect(collectionCard(page, id).locator(".ccard-qty-unobtainable")).toHaveText("Non obtenable");
@@ -260,6 +269,9 @@ test("POSSESSION modes separate obtainable cards, unobtainable cards, and avatar
 
   await resetCollectionFilters(page);
   await setPossessionFilter(page, "owned");
+  await page.locator("#searchInput").fill("S000008");
+  await expect(collectionCard(page, "S000008")).toHaveCount(0);
+  await page.locator("#searchInput").fill("");
   const ownedRuntime = await page.evaluate(() => getFiltered().map(card => ({ id: card.id, catalogKind: card.catalogKind, obtainability: card.obtainability, owned: card.owned })));
   expect(ownedRuntime.length).toBeGreaterThan(0);
   expect(ownedRuntime.every(card => card.catalogKind === "CARD" && card.obtainability === "OBTAINABLE" && card.owned)).toBe(true);
@@ -267,6 +279,9 @@ test("POSSESSION modes separate obtainable cards, unobtainable cards, and avatar
 
   await resetCollectionFilters(page);
   await setPossessionFilter(page, "missing");
+  await page.locator("#searchInput").fill("S000008");
+  await expect(collectionCard(page, "S000008")).toHaveCount(0);
+  await page.locator("#searchInput").fill("");
   const missingRuntime = await page.evaluate(() => getFiltered().map(card => ({ id: card.id, catalogKind: card.catalogKind, obtainability: card.obtainability, owned: card.owned })));
   expect(missingRuntime.length).toBeGreaterThan(0);
   expect(missingRuntime.every(card => card.catalogKind === "CARD" && card.obtainability === "OBTAINABLE" && !card.owned)).toBe(true);

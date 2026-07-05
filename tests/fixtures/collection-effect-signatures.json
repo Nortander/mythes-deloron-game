@@ -10963,7 +10963,7 @@
       "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
       "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,

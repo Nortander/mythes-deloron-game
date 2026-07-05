@@ -28,8 +28,8 @@ Les effets de Windjalf et de Boute-flammes restent non implémentés fonctionnel
 La Collection distingue maintenant trois ensembles :
 
 - 318 cartes canoniques issues de l'export principal du 3 juillet 2026 ;
-- 309 cartes obtenables, seules prises en compte par la progression ;
-- 9 cartes non obtenables, consultables via le filtre POSSESSION `NON OBTENABLES`.
+- 308 cartes obtenables, seules prises en compte par la progression ;
+- 10 cartes non obtenables, consultables via le filtre POSSESSION `NON OBTENABLES`.
 
 Les 14 avatars historiques restent dans le catalogue runtime, mais ne sont pas des cartes : ils sont classes `catalogKind = AVATAR` et `obtainability = NOT_APPLICABLE`. Ils sont exclus du numerateur et du denominateur de progression, tout en restant consultables via `TOUTES` et le filtre PERSONNAGE `AVATAR`.
 
@@ -46,7 +46,7 @@ La section POSSESSION contient quatre choix mutuellement exclusifs :
 - `MANQUANTES` : cartes obtenables non possedees ;
 - `NON OBTENABLES` : cartes `GENERATED_ONLY`, `TRANSFORMATION_ONLY` ou `SPECIAL_UNOBTAINABLE`.
 
-Les neuf cartes non obtenables sont : `B000003`, `B000004`, `B000005`, `EDG000011`, `EDG000012`, `EN000011`, `MV000025`, `S000025` et `S000054`.
+Les dix cartes non obtenables sont : `B000003`, `B000004`, `B000005`, `EDG000011`, `EDG000012`, `EN000011`, `MV000025`, `S000008`, `S000025` et `S000054`.
 
 ## COLLECTION-BATCH-01 - Sorts de zones et duo Porte / Clef
 
@@ -96,3 +96,8 @@ Corrections COLLECTION-BATCH-01E :
 - Le texte de l'apercu de zone parle maintenant d'une `porte monumentale` et ne contient aucun ID technique.
 - Le contour du marqueur Porte est legerement renforce pour ameliorer sa lisibilite sans changer son format carre arrondi.
 - La correction Collection de `S000008` en carte non obtenable reste reportee au futur lot `COLLECTION-DATAFIX-1`.
+
+Correction COLLECTION-DATAFIX-1 :
+
+- `S000008` est classee `GENERATED_ONLY` : elle reste canonique et consultable via `NON OBTENABLES`, ainsi que comme carte liee de `S000007`, mais elle ne compte plus dans les cartes obtenables.
+- La progression Collection passe a 308 cartes obtenables et 10 cartes non obtenables.
