@@ -153,6 +153,25 @@ async function doorPreviewAudit(page) {
   });
 }
 
+async function waitForDoorPhase(page, phase) {
+  await page.waitForFunction(expected => document.body.dataset.doorKeyPhase === expected, phase);
+}
+
+async function doorSequenceState(page) {
+  return page.evaluate(() => {
+    const notif = document.querySelector("#notif");
+    return {
+      phase: document.body.dataset.doorKeyPhase || "",
+      phaseLog: Array.isArray(window.__doorKeyPhaseLog) ? window.__doorKeyPhaseLog.map(item => item.phase) : [],
+      notificationText: notif?.innerText || "",
+      notificationVisible: !!notif && notif.classList.contains("show"),
+      addKeyVisible: !!document.querySelector('[data-testid="door-key-add-animation"]'),
+      openKeyVisible: !!document.querySelector('[data-testid="stone-key-open-animation"]'),
+      doorMarkerVisible: !!document.querySelector('[data-testid="door-lock-marker"]')
+    };
+  });
+}
+
 test("COLLECTION-BATCH-01 scope is explicit and scenarios stay hidden", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page, "collection-batch-01-zone-spells");
@@ -550,8 +569,18 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   await openScenario(page, "collection-batch-01-door-key");
   const before = await snapshot(page);
   const playResult = await playDoorOnVisibleSlot(page, "#raithServants .slot:nth-of-type(2)");
+  await waitForDoorPhase(page, "cast-message");
+  const castMessageState = await doorSequenceState(page);
+  expect(castMessageState.notificationText).toContain("UNE PORTE COLOSSALE BLOQUE UN ACCÈS !");
+  expect(castMessageState.notificationText).toContain("LA CLEF DOIT BIEN SE TROUVER QUELQUE PART...");
+  expect(castMessageState.addKeyVisible).toBe(false);
+  await waitForDoorPhase(page, "door-marker-enter");
+  await expect(page.getByTestId("door-lock-marker")).toBeVisible();
+  await waitForDoorPhase(page, "key-to-deck");
   await expect(page.getByTestId("door-key-add-animation")).toBeVisible();
   await expect.poll(() => page.getByTestId("door-key-add-animation").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
+  const keyToDeckState = await doorSequenceState(page);
+  expect(keyToDeckState.notificationText).not.toContain("UNE PORTE COLOSSALE");
   await expect.poll(async () => {
     const state = await snapshot(page);
     return state.activeLocks.length;
@@ -579,7 +608,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   const previewAudit = await doorPreviewAudit(page);
   expect(previewAudit.text).toContain("Porte infranchissable");
   expect(previewAudit.text).toContain("Zone barrée");
-  expect(previewAudit.text).toContain("Cette zone est barrée par une Porte infranchissable");
+  expect(previewAudit.text).toContain("Cette zone est barrée par une porte monumentale");
   expect(previewAudit.text).toContain("Clef de pierre");
   expect(previewAudit.hasAtk).toBe(false);
   expect(previewAudit.hasPdv).toBe(false);
@@ -618,10 +647,25 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
     refreshHand(p);
   });
 
-  const drawResult = await page.evaluate(() => drawCardFromRuntimeDeck("player2", {sourceCardId: "batch-01-test"}));
+  await page.evaluate(() => {
+    playerState("player2").firstTurnStarted = true;
+    window.__batch01eEndTurnPromise = endTurnRuntime().then(() => true);
+  });
+  await page.waitForFunction(() => (document.querySelector("#notif")?.innerText || "").includes("pioche"));
+  const drawMessageState = await doorSequenceState(page);
+  expect(drawMessageState.openKeyVisible).toBe(false);
+  await waitForDoorPhase(page, "key-found");
   await expect(page.getByTestId("stone-key-open-animation")).toBeVisible();
   await expect.poll(() => page.getByTestId("stone-key-open-animation").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
-  await page.waitForTimeout(650);
+  await waitForDoorPhase(page, "key-to-graveyard");
+  const openingMessageState = await doorSequenceState(page);
+  expect(openingMessageState.notificationText).toContain("Voilà enfin la clef ! La porte est ouverte.");
+  expect(openingMessageState.openKeyVisible).toBe(false);
+  await waitForDoorPhase(page, "door-opening");
+  const openingPhaseState = await doorSequenceState(page);
+  expect(openingPhaseState.phaseLog).toEqual(expect.arrayContaining(["cast-message", "door-marker-enter", "key-to-deck", "key-found", "key-to-graveyard", "door-opening", "resolved"]));
+  await page.waitForFunction(() => document.body.dataset.doorKeyPhase === "resolved" && !document.querySelector('[data-testid="door-lock-marker"]'));
+  await page.evaluate(() => window.__batch01eEndTurnPromise);
   const released = await snapshot(page);
   const cemeteryKeyImage = await page.locator(".dc-j2 .cemetery img").evaluate(img => ({
     src: img.getAttribute("src") || "",
@@ -629,12 +673,9 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
     naturalHeight: img.naturalHeight,
     complete: img.complete
   }));
-  await testInfo.attach("door-key-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, locked, markerAudit, previewAudit, afterBlockedAgain, drawResult, released, cemeteryKeyImage}, null, 2), "utf8")});
+  await testInfo.attach("door-key-state", {contentType: "application/json", body: Buffer.from(JSON.stringify({before, result, locked, markerAudit, previewAudit, afterBlockedAgain, castMessageState, keyToDeckState, drawMessageState, openingMessageState, openingPhaseState, released, cemeteryKeyImage}, null, 2), "utf8")});
   await attachDiagnostics(testInfo, diagnostics);
 
-  expect(drawResult.success).toBe(true);
-  expect(drawResult.cardId).toBe("S000008");
-  expect(drawResult.linkedKeyResolution).toMatchObject({handled: true, code: "linked-stone-key-drawn"});
   expect(released.activeLocks).toEqual([]);
   expect(released.doorMarkers).toEqual([]);
   expect(released.freeSlotsPlayer2).toContain(lockedSlotIndex);
@@ -642,7 +683,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   expect(released.player2.graveyard).toEqual(["S000008"]);
   expect(cemeteryKeyImage.src).toContain("S000008.png");
   expect(cemeteryKeyImage.naturalWidth).toBeGreaterThan(0);
-  expect(released.notificationText).toContain("Porte infranchissable s’ouvre");
+  expect(released.notificationText).toContain("Voilà enfin la clef ! La porte est ouverte.");
   expect(released.player1.graveyard).toContain("S000007");
   expect(counts([...released.player1.hand, ...released.player1.deck, ...released.player1.graveyard]).S000007).toBe(1);
   expect(diagnostics.pageErrors).toEqual([]);

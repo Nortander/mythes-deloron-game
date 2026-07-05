@@ -87,3 +87,12 @@ Corrections COLLECTION-BATCH-01D :
 - La Clef piochee rejoint visuellement le cimetiere du piocheur avec son image, et la Porte liee disparait avec une breve animation d'ouverture.
 - Les messages publics n'exposent pas d'ID technique et distinguent l'ajout de la Clef de l'ouverture de la Porte.
 - La correction Collection de `S000008` en carte non obtenable reste reportee au futur lot `COLLECTION-DATAFIX-1`.
+
+Corrections COLLECTION-BATCH-01E :
+
+- Le duo `S000007` / `S000008` utilise une file d'animations bornee au micro-systeme Porte/Clef, avec phases DOM observables pour les tests.
+- Au lancement de `S000007`, le message joueur apparait seul avant le marqueur puis avant l'animation de la Clef vers le deck adverse.
+- A la pioche de `S000008`, le message de pioche reste lisible avant l'apparition de la Clef, puis le message d'ouverture apparait sans etre masque.
+- Le texte de l'apercu de zone parle maintenant d'une `porte monumentale` et ne contient aucun ID technique.
+- Le contour du marqueur Porte est legerement renforce pour ameliorer sa lisibilite sans changer son format carre arrondi.
+- La correction Collection de `S000008` en carte non obtenable reste reportee au futur lot `COLLECTION-DATAFIX-1`.
