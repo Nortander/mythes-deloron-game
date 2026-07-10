@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "dependencyCount": 87,
+  "dependencyCount": 104,
   "dependencies": [
     {
       "sourceId": "AVS000004",
@@ -784,6 +784,159 @@
       "relation": "SUMMONS_OR_CREATES",
       "dependencyInCanonicalCorpus": true,
       "sourceRow": 313
+    },
+    {
+      "sourceId": "H000032",
+      "sourceName": "Gabar, l'apprenti magicien maladroit",
+      "dependencyId": "S000057",
+      "dependencyName": "Aube de soie de lumière",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 139
+    },
+    {
+      "sourceId": "H000033",
+      "sourceName": "Gabar, l'apprenti magicien timoré",
+      "dependencyId": "S000058",
+      "dependencyName": "Grimoire du maître",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 140
+    },
+    {
+      "sourceId": "H000034",
+      "sourceName": "Gabar, l'apprenti magicien dévoué",
+      "dependencyId": "S000059",
+      "dependencyName": "Plume enchantée",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 141
+    },
+    {
+      "sourceId": "H000035",
+      "sourceName": "Gabar, l'apprenti magicien prodige",
+      "dependencyId": "DIV000005",
+      "dependencyName": "Élémentaire de la terre",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 142
+    },
+    {
+      "sourceId": "H000035",
+      "sourceName": "Gabar, l'apprenti magicien prodige",
+      "dependencyId": "H000035",
+      "dependencyName": "Gabar, l'apprenti magicien prodige",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 142
+    },
+    {
+      "sourceId": "H000035",
+      "sourceName": "Gabar, l'apprenti magicien prodige",
+      "dependencyId": "S000060",
+      "dependencyName": "Craie d'invocation",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 142
+    },
+    {
+      "sourceId": "H000036",
+      "sourceName": "Gabar, maître-magicien",
+      "dependencyId": "DIV000008",
+      "dependencyName": "Golem de roche",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 143
+    },
+    {
+      "sourceId": "H000036",
+      "sourceName": "Gabar, maître-magicien",
+      "dependencyId": "H000036",
+      "dependencyName": "Gabar, maître-magicien",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 143
+    },
+    {
+      "sourceId": "S000055",
+      "sourceName": "Triangle des ténèbres",
+      "dependencyId": "MV000024",
+      "dependencyName": "Morghast L'Os-tentatoire",
+      "relation": "SUMMONS_OR_CREATES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 304
+    },
+    {
+      "sourceId": "S000057",
+      "sourceName": "Aube de soie de lumière",
+      "dependencyId": "H000032",
+      "dependencyName": "Gabar, l'apprenti magicien maladroit",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 306
+    },
+    {
+      "sourceId": "S000057",
+      "sourceName": "Aube de soie de lumière",
+      "dependencyId": "H000033",
+      "dependencyName": "Gabar, l'apprenti magicien timoré",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 306
+    },
+    {
+      "sourceId": "S000058",
+      "sourceName": "Grimoire du maître",
+      "dependencyId": "H000033",
+      "dependencyName": "Gabar, l'apprenti magicien timoré",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 307
+    },
+    {
+      "sourceId": "S000058",
+      "sourceName": "Grimoire du maître",
+      "dependencyId": "H000034",
+      "dependencyName": "Gabar, l'apprenti magicien dévoué",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 307
+    },
+    {
+      "sourceId": "S000059",
+      "sourceName": "Plume enchantée",
+      "dependencyId": "H000034",
+      "dependencyName": "Gabar, l'apprenti magicien dévoué",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 308
+    },
+    {
+      "sourceId": "S000059",
+      "sourceName": "Plume enchantée",
+      "dependencyId": "H000035",
+      "dependencyName": "Gabar, l'apprenti magicien prodige",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 308
+    },
+    {
+      "sourceId": "S000060",
+      "sourceName": "Craie d'invocation",
+      "dependencyId": "H000035",
+      "dependencyName": "Gabar, l'apprenti magicien prodige",
+      "relation": "REFERENCES",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 309
+    },
+    {
+      "sourceId": "S000060",
+      "sourceName": "Craie d'invocation",
+      "dependencyId": "H000036",
+      "dependencyName": "Gabar, maître-magicien",
+      "relation": "ADDS_TO_HAND",
+      "dependencyInCanonicalCorpus": true,
+      "sourceRow": 309
     }
   ]
 }

@@ -619,7 +619,15 @@ const COLLECTION_NON_OBTAINABLE_CLASSIFICATIONS={
   MV000025:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte créée par Nécropole pour remplir le plateau.`},
   S000025:{obtainability:OBTAINABILITY.SPECIAL_UNOBTAINABLE,reason:`Maximum possédé nul et génération déclarée sans relation entrante explicite suffisante.`},
   S000008:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte ajoutée au deck adverse par Porte infranchissable.`},
-  S000054:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte ajoutée à la main par Windjalf, l'Ancien.`}
+  S000054:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:`Carte ajoutée à la main par Windjalf, l'Ancien.`},
+  H000033:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée à la main par S000057 — Aube de soie de lumière."},
+  H000034:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée à la main par S000058 — Grimoire du maître."},
+  H000035:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée à la main par S000059 — Plume enchantée."},
+  H000036:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée à la main par S000060 — Craie d'invocation."},
+  S000057:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée au deck par H000032 — Gabar, l'apprenti magicien maladroit."},
+  S000058:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée au deck par H000033 — Gabar, l'apprenti magicien timoré."},
+  S000059:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée au deck par H000034 — Gabar, l'apprenti magicien dévoué."},
+  S000060:{obtainability:OBTAINABILITY.GENERATED_ONLY,reason:"Carte ajoutée au deck par H000035 — Gabar, l'apprenti magicien prodige."}
 };
 
 const CARDS=[
@@ -950,7 +958,17 @@ const CARDS=[
   {id:`EN000012`,name:`Shar Arduin`,type:`Serviteur`,faction:`Elfe noir`,atk:6,pdv:6,cost:8,kw:["Serviteur de la rune", "Insensible", "Vengeance"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000012.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`<em>Serviteur de la rune</em> <em>Insensible</em> Chaque fois que « Shar Arduin » survit à des dégâts, il se soigne de <strong class="kv">4 </strong> points de vie et inflige en prime <strong class="kv">1 </strong> point de dommage à tous les serviteurs adverses sur le terrain. Cet effet ne peut se produire qu'une fois par tour. <em>Vengeance</em> Piochez <strong class="kv">1 </strong> serviteur de la faction « Elfe noir » de votre deck.`,owned:false,qty:0,maxOwned:1},
   {id:`N000014`,name:`Glamrig`,type:`Serviteur`,faction:`Nain`,atk:9,pdv:10,cost:9,kw:["Sang-froid", "Serviteur de la rune", "Rempart"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/nains/N000014.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000NAI.png`,desc:`<em>Serviteur de la rune</em> <em>Rempart</em> <em>Sang-froid</em> Chaque fois qu'il attaque, « Glamrig » inflige également <strong class="kv">2 </strong> points de dégâts aux serviteurs adjacents. Un emplacement vide entre deux serviteurs interrompt l'adjacence. À la fin de chacun de vos tours que « Glamrig » passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de <strong class="kv">2 </strong>.`,owned:false,qty:0,maxOwned:1},
   {id:`TRL000020`,name:`Ump`,type:`Serviteur`,faction:`Troll`,atk:12,pdv:12,cost:11,kw:["Serviteur de la rune", "Sang-froid", "Rempart"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/trolls/TRL000020.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`<em>Serviteur de la rune</em> <em>Sang-froid</em> <em>Rempart</em> Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de <strong class="kv">1 </strong> à <strong class="kv">4 </strong> PDV inclus.`,owned:false,qty:0,maxOwned:1},
-  {id:`DIV000016`,name:`Xyallah`,type:`Serviteur`,faction:`Non-affiliés`,atk:5,pdv:7,cost:7,kw:["Serviteur de la rune", "Insensible", "Initiative"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/autres/DIV000016.png`,fico:null,desc:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » de votre côté du terrain.`,owned:false,qty:0,maxOwned:1,detail:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » [ID = S000021] à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » [ID = DIV000008] de votre côté du terrain. Les marques sont perdues si « Xyallah » quitte le terrain.`,useDetail:true}
+  {id:`DIV000016`,name:`Xyallah`,type:`Serviteur`,faction:`Non-affiliés`,atk:5,pdv:7,cost:7,kw:["Serviteur de la rune", "Insensible", "Initiative"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/autres/DIV000016.png`,fico:null,desc:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » de votre côté du terrain.`,owned:false,qty:0,maxOwned:1,detail:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » [ID = S000021] à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » [ID = DIV000008] de votre côté du terrain. Les marques sont perdues si « Xyallah » quitte le terrain.`,useDetail:true},
+  {"id":"H000032","name":"Gabar, l'apprenti magicien maladroit","type":"Serviteur","faction":"Humain","atk":1,"pdv":2,"cost":1,"kw":["Aria","Lenya","Nourriture","Initiative"],"img":"../assets/humains/H000032.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.","owned":false,"qty":0,"maxOwned":1,"detail":"[Initiative] Ajoute le sort « Aube de soie de lumière » [ID = S000057] à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.","useDetail":true,"related":["S000057"],"res":[{"i":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png","n":1}],"rs":"ou","res2":[{"i":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png","n":1}],"rs2":"ou","res3":[{"i":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png","n":1}]},
+  {"id":"H000033","name":"Gabar, l'apprenti magicien timoré","type":"Serviteur","faction":"Humain","atk":2,"pdv":4,"cost":0,"kw":["Initiative"],"img":"../assets/humains/H000033.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Initiative] Ajoute le sort « Grimoire du maître » à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.","owned":false,"qty":0,"maxOwned":0,"detail":"[Initiative] Ajoute le sort « Grimoire du maître » [ID = S000058] à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.","useDetail":true,"related":["S000058"],"cond":"Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Aube de soie de lumière »."},
+  {"id":"H000034","name":"Gabar, l'apprenti magicien dévoué","type":"Serviteur","faction":"Humain","atk":3,"pdv":6,"cost":0,"kw":["Initiative","Hypnose","Coup de glace","Embrasement"],"img":"../assets/humains/H000034.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez 1 sort de votre deck.","owned":false,"qty":0,"maxOwned":0,"detail":"[Initiative] Ajoute le sort « Plume enchantée » [ID = S000059] à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » [ID = H000034] est de votre côté du terrain, piochez 1 sort de votre deck.","useDetail":true,"related":["S000059","H000034"],"cond":"Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Grimoire du maître »."},
+  {"id":"H000035","name":"Gabar, l'apprenti magicien prodige","type":"Serviteur","faction":"Humain","atk":4,"pdv":8,"cost":0,"kw":["Initiative"],"img":"../assets/humains/H000035.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez 1 sort de votre deck.","owned":false,"qty":0,"maxOwned":0,"detail":"[Initiative] Ajoute le sort « Craie d'invocation » [ID = S000060] à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » [ID = DIV000005] pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » [ID = H000035] est de votre côté du terrain, piochez 1 sort de votre deck.","useDetail":true,"related":["S000060","DIV000005","H000035"],"cond":"Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Plume enchantée »."},
+  {"id":"H000036","name":"Gabar, maître-magicien","type":"Serviteur","faction":"Humain","atk":5,"pdv":10,"cost":0,"kw":["Insensible"],"img":"../assets/humains/H000036.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main.","owned":false,"qty":0,"maxOwned":0,"detail":"[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » [ID = DIV000008] pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » [ID = H000036] est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main, sauf si le sort en question appartient à une faction ou qu'il ne peut être joué qu'en dépensant des Échos.","useDetail":true,"related":["DIV000008","H000036"],"cond":"Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein). Ne peut être invoqué que par le sort « Craie d'invocation »."},
+  {"id":"S000055","name":"Triangle des ténèbres","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":["Insensible","Écho"],"img":"../assets/sorts/S000055.png","fico":null,"desc":"Choisissez 3 serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère 10 Échos et invoque « Morghast L'Os-tentatoire ». Pendant vos 3 prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].","owned":false,"qty":0,"maxOwned":1,"detail":"Choisissez 3 serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère 10 Échos et invoque « Morghast L'Os-tentatoire » [ID = MV000024]. Pendant vos 3 prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].","useDetail":true,"related":["MV000024"],"cond":"Avoir au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible]."},
+  {"id":"S000057","name":"Aube de soie de lumière","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000057.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien timoré » [ID = H000033] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » [ID = H000032] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000033","H000032"],"cond":"Joué dès qu'il est pioché."},
+  {"id":"S000058","name":"Grimoire du maître","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000058.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien dévoué » [ID = H000034] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » [ID = H000033] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000034","H000033"],"cond":"Joué dès qu'il est pioché."},
+  {"id":"S000059","name":"Plume enchantée","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000059.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien prodige » [ID = H000035] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » [ID = H000034] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000035","H000034"],"cond":"Joué dès qu'il est pioché."},
+  {"id":"S000060","name":"Craie d'invocation","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000060.png","fico":null,"desc":"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, maître-magicien » [ID = H000036] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » [ID = H000035] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000036","H000035"],"cond":"Joué dès qu'il est pioché."},
 ];
 
 
@@ -1271,8 +1289,81 @@ const COLLECTION_INDUS_1_COLLECTION_COST_DEFINITIONS = Object.freeze({
   "N000015": {"total":5,"groups":[{"op":null,"resources":[{"key":"selene","amount":5,"explicit":true}]}]},
   "S000054": {"total":5,"groups":[{"op":null,"resources":[{"key":"pierre","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"fer","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"selene","amount":1,"explicit":false}]}]}
 });
+const COLLECTION_IMPORT_20260710_COST_DEFINITIONS = Object.freeze({
+  "H000032": {
+    "total": 1,
+    "groups": [
+      {
+        "op": null,
+        "resources": [
+          {
+            "key": "aria",
+            "amount": 1,
+            "explicit": false
+          }
+        ]
+      },
+      {
+        "op": "ou",
+        "resources": [
+          {
+            "key": "lenya",
+            "amount": 1,
+            "explicit": false
+          }
+        ]
+      },
+      {
+        "op": "ou",
+        "resources": [
+          {
+            "key": "nourriture",
+            "amount": 1,
+            "explicit": false
+          }
+        ]
+      }
+    ]
+  },
+  "H000033": {
+    "total": 0,
+    "groups": []
+  },
+  "H000034": {
+    "total": 0,
+    "groups": []
+  },
+  "H000035": {
+    "total": 0,
+    "groups": []
+  },
+  "H000036": {
+    "total": 0,
+    "groups": []
+  },
+  "S000055": {
+    "total": 0,
+    "groups": []
+  },
+  "S000057": {
+    "total": 0,
+    "groups": []
+  },
+  "S000058": {
+    "total": 0,
+    "groups": []
+  },
+  "S000059": {
+    "total": 0,
+    "groups": []
+  },
+  "S000060": {
+    "total": 0,
+    "groups": []
+  }
+});
 function collectionCostDefinition(cardId) {
-  return COLLECTION_INDUS_1_COLLECTION_COST_DEFINITIONS[cardId] || HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS[cardId] || COLLECTION_COST_DEFINITIONS[cardId] || null;
+  return COLLECTION_IMPORT_20260710_COST_DEFINITIONS[cardId] || COLLECTION_INDUS_1_COLLECTION_COST_DEFINITIONS[cardId] || HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS[cardId] || COLLECTION_COST_DEFINITIONS[cardId] || null;
 }
 
 const KEYWORD_DEFS={

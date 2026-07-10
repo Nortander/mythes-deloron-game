@@ -101,3 +101,11 @@ Correction COLLECTION-DATAFIX-1 :
 
 - `S000008` est classee `GENERATED_ONLY` : elle reste canonique et consultable via `NON OBTENABLES`, ainsi que comme carte liee de `S000007`, mais elle ne compte plus dans les cartes obtenables.
 - La progression Collection passe a 308 cartes obtenables et 10 cartes non obtenables.
+
+## Import dormant du 10 juillet 2026
+
+L'export principal `Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-10.xlsx` (SHA-256 `d874b8d2f6260765aa241dab396cc35d1d42fd8d5a95bd0b3d3c6eb173e1b62f`) ajoute 10 cartes canoniques à la Collection : `H000032` à `H000036`, `S000055` et `S000057` à `S000060`.
+
+Les cartes `H000032` et `S000055` sont obtenables. Les huit autres maillons de la chaîne Gabar sont classés `GENERATED_ONLY`. Tous leurs effets restent dormants et portent le statut déclaratif `ABSENT` : aucun handler ni comportement de partie n'est ajouté.
+
+Le corpus passe à 328 cartes canoniques, dont 310 obtenables et 18 non obtenables. Les 14 avatars historiques restent hors corpus.

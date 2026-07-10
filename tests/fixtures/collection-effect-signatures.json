@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "cardCount": 318,
+  "cardCount": 328,
   "signatures": [
     {
       "schemaVersion": 1,
@@ -6139,6 +6139,231 @@
       "confidence": "MOYEN",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "H000032",
+      "name": "Gabar, l'apprenti magicien maladroit",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "sourceRow": 139,
+      "timing": [
+        "initiative"
+      ],
+      "operations": [
+        "cost-validation",
+        "create-card",
+        "damage",
+        "initiative-trigger"
+      ],
+      "targetHints": [
+        "all-servants"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "cost-validation",
+        "create-card",
+        "damage",
+        "initiative-trigger"
+      ],
+      "supportedPrimitives": [
+        "cost-validation",
+        "damage"
+      ],
+      "missingPrimitives": [
+        "create-card",
+        "initiative-trigger"
+      ],
+      "familyKey": "Serviteur:initiative:cost-validation",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "H000033",
+      "name": "Gabar, l'apprenti magicien timoré",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "sourceRow": 140,
+      "timing": [
+        "initiative",
+        "on-draw"
+      ],
+      "operations": [
+        "create-card",
+        "damage",
+        "initiative-trigger",
+        "summon"
+      ],
+      "targetHints": [
+        "random-enemy-servants",
+        "enemy-avatar"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "damage",
+        "initiative-trigger",
+        "summon"
+      ],
+      "supportedPrimitives": [
+        "damage"
+      ],
+      "missingPrimitives": [
+        "create-card",
+        "initiative-trigger",
+        "summon"
+      ],
+      "familyKey": "Serviteur:initiative:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "H000034",
+      "name": "Gabar, l'apprenti magicien dévoué",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "sourceRow": 141,
+      "timing": [
+        "initiative",
+        "static"
+      ],
+      "operations": [
+        "burn-status",
+        "create-card",
+        "draw",
+        "freeze-status",
+        "ice-hit-status",
+        "initiative-trigger",
+        "move-hand-deck-graveyard"
+      ],
+      "targetHints": [
+        "enemy-servants",
+        "allied-servant-death"
+      ],
+      "durationHints": [
+        "2-turns",
+        "3-turns"
+      ],
+      "requiredPrimitives": [
+        "burn-status",
+        "create-card",
+        "draw",
+        "freeze-status",
+        "ice-hit-status",
+        "initiative-trigger",
+        "move-hand-deck-graveyard"
+      ],
+      "supportedPrimitives": [
+        "draw",
+        "move-hand-deck-graveyard"
+      ],
+      "missingPrimitives": [
+        "burn-status",
+        "create-card",
+        "freeze-status",
+        "ice-hit-status",
+        "initiative-trigger"
+      ],
+      "familyKey": "Serviteur:initiative:burn-status",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "H000035",
+      "name": "Gabar, l'apprenti magicien prodige",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "sourceRow": 142,
+      "timing": [
+        "initiative",
+        "start-turn",
+        "static"
+      ],
+      "operations": [
+        "create-card",
+        "draw",
+        "initiative-trigger",
+        "summon"
+      ],
+      "targetHints": [
+        "allied-servant-death"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "draw",
+        "initiative-trigger",
+        "summon"
+      ],
+      "supportedPrimitives": [
+        "draw"
+      ],
+      "missingPrimitives": [
+        "create-card",
+        "initiative-trigger",
+        "summon"
+      ],
+      "familyKey": "Serviteur:initiative:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "H000036",
+      "name": "Gabar, maître-magicien",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "sourceRow": 143,
+      "timing": [
+        "start-turn",
+        "static"
+      ],
+      "operations": [
+        "create-card",
+        "draw",
+        "summon",
+        "target-immunity"
+      ],
+      "targetHints": [
+        "allied-servant-death",
+        "opponent-spell"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "draw",
+        "summon",
+        "target-immunity"
+      ],
+      "supportedPrimitives": [
+        "draw"
+      ],
+      "missingPrimitives": [
+        "create-card",
+        "summon",
+        "target-immunity"
+      ],
+      "familyKey": "Serviteur:start-turn:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,
@@ -13313,6 +13538,56 @@
     },
     {
       "schemaVersion": 1,
+      "id": "S000055",
+      "name": "Triangle des ténèbres",
+      "type": "Sort",
+      "faction": "/",
+      "sourceRow": 304,
+      "timing": [
+        "resolution"
+      ],
+      "operations": [
+        "duration-persistent",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "summon",
+        "target-immunity",
+        "targeting"
+      ],
+      "targetHints": [
+        "three-allied-servants",
+        "MV000024"
+      ],
+      "durationHints": [
+        "3-turns"
+      ],
+      "requiredPrimitives": [
+        "duration-persistent",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "summon",
+        "target-immunity",
+        "targeting"
+      ],
+      "supportedPrimitives": [
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "targeting"
+      ],
+      "missingPrimitives": [
+        "duration-persistent",
+        "summon",
+        "target-immunity"
+      ],
+      "familyKey": "Sort:resolution:duration-persistent",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE"
+    },
+    {
+      "schemaVersion": 1,
       "id": "S000056",
       "name": "Déplacement instantané",
       "type": "Sort",
@@ -13365,6 +13640,174 @@
       "confidence": "MOYEN",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "S000057",
+      "name": "Aube de soie de lumière",
+      "type": "Sort",
+      "faction": "/",
+      "sourceRow": 306,
+      "timing": [
+        "on-draw"
+      ],
+      "operations": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "targetHints": [
+        "H000032",
+        "H000033"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "supportedPrimitives": [
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "missingPrimitives": [
+        "create-card"
+      ],
+      "familyKey": "Sort:on-draw:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "S000058",
+      "name": "Grimoire du maître",
+      "type": "Sort",
+      "faction": "/",
+      "sourceRow": 307,
+      "timing": [
+        "on-draw"
+      ],
+      "operations": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "targetHints": [
+        "H000033",
+        "H000034"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "supportedPrimitives": [
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "missingPrimitives": [
+        "create-card"
+      ],
+      "familyKey": "Sort:on-draw:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "S000059",
+      "name": "Plume enchantée",
+      "type": "Sort",
+      "faction": "/",
+      "sourceRow": 308,
+      "timing": [
+        "on-draw"
+      ],
+      "operations": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "targetHints": [
+        "H000034",
+        "H000035"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "supportedPrimitives": [
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "missingPrimitives": [
+        "create-card"
+      ],
+      "familyKey": "Sort:on-draw:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "S000060",
+      "name": "Craie d'invocation",
+      "type": "Sort",
+      "faction": "/",
+      "sourceRow": 309,
+      "timing": [
+        "on-draw"
+      ],
+      "operations": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "targetHints": [
+        "H000035",
+        "H000036"
+      ],
+      "durationHints": [],
+      "requiredPrimitives": [
+        "create-card",
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "supportedPrimitives": [
+        "move-hand-deck-graveyard",
+        "play-condition",
+        "send-spell-to-graveyard"
+      ],
+      "missingPrimitives": [
+        "create-card"
+      ],
+      "familyKey": "Sort:on-draw:create-card",
+      "implementationStatus": "ABSENT",
+      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
+      "confidence": "MOYEN",
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY"
     },
     {
       "schemaVersion": 1,

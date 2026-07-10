@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-03.xlsx",
-  "sourceSha256": "892a0fe51dde030944dab165a21e77657a303548aa350eea7edd7a1eb2843883",
+  "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-10.xlsx",
+  "sourceSha256": "d874b8d2f6260765aa241dab396cc35d1d42fd8d5a95bd0b3d3c6eb173e1b62f",
   "sourceSheet": "Cartes et description",
   "deckSourceFile": "Decks de test - export 2026-07-03.xlsx",
   "deckSourceSha256": "90811b81fc240b2ea50140f7385612f927f970671e958c02459de44ebe573da7",
   "deckSourceSheet": "Hokhan Ashir Vs Uram",
-  "exportDate": "2026-07-03",
-  "cardCount": 318,
-  "uniqueIdCount": 318,
+  "exportDate": "2026-07-10",
+  "cardCount": 328,
+  "uniqueIdCount": 328,
   "cards": [
     {
       "id": "AVS000001",
@@ -5704,6 +5704,163 @@
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "H000032",
+      "name": "Gabar, l'apprenti magicien maladroit",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "attack": 1,
+      "health": 2,
+      "costTotal": 1,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Aria",
+          "key": "aria",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.",
+      "detailedEffect": "[Initiative] Ajoute le sort « Aube de soie de lumière » [ID = S000057] à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.",
+      "keywords": [
+        "Aria",
+        "Lenya",
+        "Nourriture",
+        "Initiative"
+      ],
+      "related": [
+        "S000057"
+      ],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 139,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "H000033",
+      "name": "Gabar, l'apprenti magicien timoré",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "attack": 2,
+      "health": 4,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Aube de soie de lumière » [ID = S000057].",
+      "displayText": "[Initiative] Ajoute le sort « Grimoire du maître » à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.",
+      "detailedEffect": "[Initiative] Ajoute le sort « Grimoire du maître » [ID = S000058] à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.",
+      "keywords": [
+        "Initiative"
+      ],
+      "related": [
+        "S000058"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 140,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée à la main par S000057 — Aube de soie de lumière."
+    },
+    {
+      "id": "H000034",
+      "name": "Gabar, l'apprenti magicien dévoué",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "attack": 3,
+      "health": 6,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Grimoire du maître » [ID = S000058].",
+      "displayText": "[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez 1 sort de votre deck.",
+      "detailedEffect": "[Initiative] Ajoute le sort « Plume enchantée » [ID = S000059] à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » [ID = H000034] est de votre côté du terrain, piochez 1 sort de votre deck.",
+      "keywords": [
+        "Initiative",
+        "Hypnose",
+        "Coup de glace",
+        "Embrasement"
+      ],
+      "related": [
+        "S000059",
+        "H000034"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 141,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée à la main par S000058 — Grimoire du maître."
+    },
+    {
+      "id": "H000035",
+      "name": "Gabar, l'apprenti magicien prodige",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "attack": 4,
+      "health": 8,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Plume enchantée » [ID = S000059].",
+      "displayText": "[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez 1 sort de votre deck.",
+      "detailedEffect": "[Initiative] Ajoute le sort « Craie d'invocation » [ID = S000060] à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » [ID = DIV000005] pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » [ID = H000035] est de votre côté du terrain, piochez 1 sort de votre deck.",
+      "keywords": [
+        "Initiative"
+      ],
+      "related": [
+        "S000060",
+        "DIV000005",
+        "H000035"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 142,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée à la main par S000059 — Plume enchantée."
+    },
+    {
+      "id": "H000036",
+      "name": "Gabar, maître-magicien",
+      "type": "Serviteur",
+      "faction": "Humain",
+      "attack": 5,
+      "health": 10,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein). Ne peut être invoqué que par le sort « Craie d'invocation » [ID = S000060].",
+      "displayText": "[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main.",
+      "detailedEffect": "[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » [ID = DIV000008] pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » [ID = H000036] est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main, sauf si le sort en question appartient à une faction ou qu'il ne peut être joué qu'en dépensant des Échos.",
+      "keywords": [
+        "Insensible"
+      ],
+      "related": [
+        "DIV000008",
+        "H000036"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 143,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée à la main par S000060 — Craie d'invocation."
     },
     {
       "id": "MV000001",
@@ -11555,6 +11712,32 @@
       "obtainabilityReason": "Carte ajoutee a la main par Windjalf, l Ancien selon la relation ADDS_TO_HAND."
     },
     {
+      "id": "S000055",
+      "name": "Triangle des ténèbres",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Avoir au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",
+      "displayText": "Choisissez 3 serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère 10 Échos et invoque « Morghast L'Os-tentatoire ». Pendant vos 3 prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",
+      "detailedEffect": "Choisissez 3 serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère 10 Échos et invoque « Morghast L'Os-tentatoire » [ID = MV000024]. Pendant vos 3 prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",
+      "keywords": [
+        "Insensible",
+        "Écho"
+      ],
+      "related": [
+        "MV000024"
+      ],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 304,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
       "id": "S000056",
       "name": "Déplacement instantané",
       "type": "Sort",
@@ -11601,6 +11784,102 @@
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "S000057",
+      "name": "Aube de soie de lumière",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué dès qu'il est pioché.",
+      "displayText": "Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "detailedEffect": "Ajoute « Gabar, l'apprenti magicien timoré » [ID = H000033] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » [ID = H000032] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "keywords": [],
+      "related": [
+        "H000033",
+        "H000032"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 306,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée au deck par H000032 — Gabar, l'apprenti magicien maladroit."
+    },
+    {
+      "id": "S000058",
+      "name": "Grimoire du maître",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué dès qu'il est pioché.",
+      "displayText": "Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "detailedEffect": "Ajoute « Gabar, l'apprenti magicien dévoué » [ID = H000034] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » [ID = H000033] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "keywords": [],
+      "related": [
+        "H000034",
+        "H000033"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 307,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée au deck par H000033 — Gabar, l'apprenti magicien timoré."
+    },
+    {
+      "id": "S000059",
+      "name": "Plume enchantée",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué dès qu'il est pioché.",
+      "displayText": "Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "detailedEffect": "Ajoute « Gabar, l'apprenti magicien prodige » [ID = H000035] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » [ID = H000034] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "keywords": [],
+      "related": [
+        "H000035",
+        "H000034"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 308,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée au deck par H000034 — Gabar, l'apprenti magicien dévoué."
+    },
+    {
+      "id": "S000060",
+      "name": "Craie d'invocation",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Joué dès qu'il est pioché.",
+      "displayText": "Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "detailedEffect": "Ajoute « Gabar, maître-magicien » [ID = H000036] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » [ID = H000035] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+      "keywords": [],
+      "related": [
+        "H000036",
+        "H000035"
+      ],
+      "maxOwned": 0,
+      "generatedOnly": true,
+      "sourceRow": 309,
+      "catalogKind": "CARD",
+      "obtainability": "GENERATED_ONLY",
+      "obtainabilityReason": "Carte ajoutée au deck par H000035 — Gabar, l'apprenti magicien prodige."
     },
     {
       "id": "TRL000001",

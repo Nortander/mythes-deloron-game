@@ -109,3 +109,4 @@
 - 2026-07-02 : deuxieme lot fonctionnel HUVU-FONC-2 ; degats directs, soins immediats, modifications ATK/PV sans expiration, resolution letale et diagnostics de combat pour Hokhan/Uram ; aucune modification de composition des decks.
 - 2026-07-02 : troisieme lot fonctionnel HUVU-FONC-2 ; manipulation immediate de la main, du deck et du cimetiere pour Murmures divins, Galerie des horreurs et Rituel occulte ; aucune modification de composition des decks.
 - 2026-07-03 : synchronisation du corpus Collection 2026-07-03 ; ajout de `MV000025`, `N000015` et `S000054`, fixtures déclaratives des 318 cartes et documentation de la cartographie d'effets, sans nouveau handler fonctionnel.
+- 2026-07-10 : import dormant de 10 nouvelles cartes depuis l'export principal du 10 juillet ; corpus Collection porté à 328 cartes, sans handler ni modification du runtime de partie.
