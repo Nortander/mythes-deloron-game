@@ -359,3 +359,22 @@ Règles :
 - vérifier après push que `HEAD` local = `origin/main` ;
 - vérifier le working tree propre ;
 - arrêter le serveur si demandé.
+
+## 18. Retention des exports Spreadsheet
+
+Quand Daddy signale qu'un nouvel export Spreadsheet a ete place dans `data`, Cody doit appliquer une retention par famille d'export.
+
+Regle canonique :
+
+- identifier uniquement les fichiers qui respectent le motif `<nom> - export YYYY-MM-DD.xlsx` ;
+- regrouper les exports par `<nom>` ;
+- conserver seulement les deux versions les plus recentes par famille ;
+- si une famille ne contient qu'un ou deux exports, les conserver ;
+- si deux exports d'une meme famille portent la meme date, arreter avec `DUPLICATE_EXPORT_DATE` ;
+- archiver une copie de securite des versions retirees dans `.local/<lot>/archived-data-exports/` avant suppression ;
+- calculer et documenter les SHA-256 des sources, des copies archivees et des exports conserves ;
+- supprimer du dossier `data` uniquement apres confirmation que le SHA-256 source correspond au SHA-256 de la copie archivee ;
+- ne jamais importer automatiquement le nouvel export dans les fixtures ou le code sans commande explicite distincte ;
+- ne jamais modifier les XLSX eux-memes ;
+- ne jamais supprimer de fichier qui ne correspond pas au motif d'export ;
+- documenter les fichiers conserves et retires dans le rapport local du lot.
