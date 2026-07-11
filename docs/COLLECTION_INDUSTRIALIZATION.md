@@ -109,3 +109,11 @@ L'export principal `Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07
 Les cartes `H000032` et `S000055` sont obtenables. Les huit autres maillons de la chaîne Gabar sont classés `GENERATED_ONLY`. Tous leurs effets restent dormants et portent le statut déclaratif `ABSENT` : aucun handler ni comportement de partie n'est ajouté.
 
 Le corpus passe à 328 cartes canoniques, dont 310 obtenables et 18 non obtenables. Les 14 avatars historiques restent hors corpus.
+
+## COLLECTION-BATCH-02 - Gabar et Triangle des ténèbres
+
+Les dix cartes importées le 10 juillet disposent désormais d'un comportement runtime et d'un test fonctionnel direct. La chaîne `H000032` à `H000036` crée puis résout automatiquement `S000057` à `S000060`, retire la forme précédente de la partie et invoque la forme suivante si un emplacement est libre.
+
+Les Initiatives, les effets de mort alliée, les invocations de début de tour et la copie de Sort de `H000036` sont actifs. `S000055` exige exactement trois serviteurs alliés sans `Insensible`, les sacrifie, génère dix Échos et invoque `MV000024` avec `Insensible` pendant les trois prochains tours du lanceur.
+
+Interprétations bornées et testées : `H000033` effectue deux tirages aléatoires indépendants pour le nombre de cibles et les dégâts (chacun de 0 à 4) ; l'Insensible accordé par `S000055` expire après la fin du troisième prochain tour du propriétaire. Les scénarios techniques restent cachés du sélecteur public.

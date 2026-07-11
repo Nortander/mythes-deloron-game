@@ -6168,18 +6168,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
         "create-card",
+        "damage",
         "initiative-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:cost-validation",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -6210,19 +6210,19 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "damage"
-      ],
-      "missingPrimitives": [
         "create-card",
+        "damage",
         "initiative-trigger",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -6262,22 +6262,22 @@
         "move-hand-deck-graveyard"
       ],
       "supportedPrimitives": [
-        "draw",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
         "burn-status",
         "create-card",
+        "draw",
         "freeze-status",
         "ice-hit-status",
-        "initiative-trigger"
+        "initiative-trigger",
+        "move-hand-deck-graveyard"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:burn-status",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -6308,19 +6308,19 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "draw"
-      ],
-      "missingPrimitives": [
         "create-card",
+        "draw",
         "initiative-trigger",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -6351,19 +6351,19 @@
         "target-immunity"
       ],
       "supportedPrimitives": [
-        "draw"
-      ],
-      "missingPrimitives": [
         "create-card",
+        "draw",
         "summon",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:start-turn:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13570,21 +13570,21 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "duration-persistent",
         "move-hand-deck-graveyard",
         "play-condition",
+        "summon",
+        "target-immunity",
         "targeting"
       ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "summon",
-        "target-immunity"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:resolution:duration-persistent",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13669,19 +13669,19 @@
         "send-spell-to-graveyard"
       ],
       "supportedPrimitives": [
+        "create-card",
         "move-hand-deck-graveyard",
         "play-condition",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "create-card"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-draw:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13711,19 +13711,19 @@
         "send-spell-to-graveyard"
       ],
       "supportedPrimitives": [
+        "create-card",
         "move-hand-deck-graveyard",
         "play-condition",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "create-card"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-draw:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13753,19 +13753,19 @@
         "send-spell-to-graveyard"
       ],
       "supportedPrimitives": [
+        "create-card",
         "move-hand-deck-graveyard",
         "play-condition",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "create-card"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-draw:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13795,19 +13795,19 @@
         "send-spell-to-graveyard"
       ],
       "supportedPrimitives": [
+        "create-card",
         "move-hand-deck-graveyard",
         "play-condition",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "create-card"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-draw:create-card",
-      "implementationStatus": "ABSENT",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-02-gabar-darkness.spec.mjs"
     },
     {
       "schemaVersion": 1,

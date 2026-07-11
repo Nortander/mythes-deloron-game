@@ -96,7 +96,14 @@ test("Collection effect inventory covers every canonical card", async () => {
     const card = byId[id];
     const signature = signatures.signatures.find(item => item.id === id);
     expect(card).toBeTruthy();
-    expect(signature).toMatchObject({ id, implementationStatus: "ABSENT", catalogKind: "CARD", obtainability: card.obtainability });
+    expect(signature).toMatchObject({
+      id,
+      implementationStatus: "FONCTIONNEL_TESTE",
+      industrialReadiness: "IMPLEMENTED_TESTED",
+      directTest: "tests/browser/collection-batch-02-gabar-darkness.spec.mjs",
+      catalogKind: "CARD",
+      obtainability: card.obtainability
+    });
   }
   expect(byId.H000032).toMatchObject({ type: "Serviteur", faction: "Humain", attack: 1, health: 2, costTotal: 1, maxOwned: 1, obtainability: "OBTAINABLE" });
   expect(byId.S000055).toMatchObject({ type: "Sort", faction: "/", costTotal: 0, maxOwned: 1, obtainability: "OBTAINABLE" });
