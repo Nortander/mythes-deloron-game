@@ -726,6 +726,15 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   color:#f6dfad;background:rgba(23,12,5,.92);border:1px solid rgba(220,185,96,.65);
   border-radius:999px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.45);
 }
+.triangle-sacrifice-choice-panel .decision-modal-header{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+.triangle-sacrifice-choice-panel .decision-modal-spacer{display:none}
+.triangle-sacrifice-choice-panel .decision-modal-actions{order:1;align-self:flex-end}
+.triangle-sacrifice-choice-panel .sort-choice-title{order:2;width:100%;text-align:center}
+.batch02-deck-addition-vfx{position:fixed;right:28px;bottom:118px;z-index:3600;width:132px;padding:10px;border:1px solid rgba(236,196,94,.8);border-radius:12px;background:rgba(12,7,3,.94);box-shadow:0 14px 36px rgba(0,0,0,.7);text-align:center;animation:batch02DeckAdd 1.45s ease-out forwards;pointer-events:none}
+.batch02-deck-addition-vfx img{width:82px;height:116px;object-fit:cover;object-position:top;border-radius:7px;display:block;margin:0 auto 6px}
+.batch02-deck-addition-vfx strong{display:block;font-family:'Cinzel',serif;font-size:10px;color:#f4d58a;line-height:1.15}
+.batch02-temporary-status{position:absolute;left:6px;right:6px;top:6px;z-index:3;padding:3px 5px;border:1px solid rgba(244,213,138,.8);border-radius:999px;background:rgba(16,8,2,.88);color:#f9df9b;font-family:'Cinzel',serif;font-size:8px;font-weight:800;text-align:center;letter-spacing:.04em;box-shadow:0 2px 8px rgba(0,0,0,.55)}
+@keyframes batch02DeckAdd{0%{opacity:0;transform:translateY(18px) scale(.92)}18%{opacity:1;transform:translateY(0) scale(1)}82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(.96)}}
 .decision-modal-minimize:hover{background:rgba(64,38,16,.98);color:#fff1ca}
 .decision-compact-bar{
   position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2990;
@@ -1830,6 +1839,14 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','DIV000005','DIV000008']);
+function cardArtworkSrc(cardId, folder=null) {
+  const id = String(cardId || '');
+  const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
+  const resolvedFolder = folder || data?.assetFolder || facFolder(data?.fac || 'sort');
+  if (COLLECTION_BATCH_02_LOCAL_ASSET_IDS.has(id)) return `../assets/${resolvedFolder}/${id}.png`;
+  return `${GH}/${resolvedFolder}/${id}.png`;
+}
 
 // â•â• Données des cartes (coût, faction pour bonus avatar) â•â•
 const CARDS_DATA={};
@@ -2686,24 +2703,24 @@ SCENARIOS['collection-batch-01-door-key'] = {
   }
 };
 SCENARIOS['collection-batch-02-gabar'] = {
-  label: 'TEST - COLLECTION BATCH 02 Gabar', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000032',
+  label: 'TEST — COLLECTION BATCH 02 Gabar', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000032',
   testSetup: {
-    player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:20}, hand:['H000032'], drawPile:['R000010'], graveyard:[], servants:[], avatarHp:20},
-    player2: {resources:{classical:{aria:2}, souls:0}, hand:[], drawPile:['H000001'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5}], avatarHp:20}
+    player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:20}, hand:['H000032'], drawPile:['S000004','R000010'], graveyard:[], servants:[{id:'DIV000005'},{id:'DIV000008'}], avatarHp:20},
+    player2: {resources:{classical:{aria:8, lenya:8, nourriture:8}, souls:5}, hand:['S000004','S000055'], drawPile:['S000004','H000001'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'H000018',pdv:4}], avatarHp:20}
   }
 };
 SCENARIOS['collection-batch-02-triangle'] = {
-  label: 'TEST - COLLECTION BATCH 02 Triangle', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000055',
+  label: 'TEST — COLLECTION BATCH 02 Triangle', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000055',
   testSetup: {
-    player1: {resources:{classical:{aria:10}, souls:0}, hand:['S000055'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'H000018'},{id:'MV000030'}], avatarHp:20},
-    player2: {resources:{classical:{aria:2}, souls:0}, hand:[], drawPile:['H000001'], graveyard:[], servants:[], avatarHp:20}
+    player1: {resources:{classical:{aria:10}, souls:0}, hand:['S000055'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'H000018'},{id:'H000036'}], avatarHp:20},
+    player2: {resources:{classical:{aria:8}, souls:0}, hand:[], drawPile:['H000001'], graveyard:[], servants:[{id:'H000033'}], avatarHp:20}
   }
 };
 SCENARIOS['collection-batch-02-generated-spells'] = {
-  label: 'TEST - COLLECTION BATCH 02 Sorts generes', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000057',
+  label: 'TEST — COLLECTION BATCH 02 Sorts générés', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000057',
   testSetup: {
-    player1: {resources:{classical:{aria:20}, souls:0}, hand:[], drawPile:['S000060','S000059','S000058','S000057'], graveyard:[], servants:[{id:'H000032'}], avatarHp:20},
-    player2: {resources:{classical:{aria:2}, souls:0}, hand:[], drawPile:['H000001'], graveyard:[], servants:[], avatarHp:20}
+    player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:[], drawPile:['S000060','S000059','S000058','S000057','S000004','R000010'], graveyard:[], servants:[{id:'H000032'},{id:'H000034'},{id:'H000036'}], avatarHp:20},
+    player2: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:['S000004','S000055'], drawPile:['S000004','S000055','H000001'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'}], avatarHp:20}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -4008,8 +4025,9 @@ function drawCardFromRuntimeDeck(player, options={}) {
   }
   const linkedKeyResolution = maybeResolveLinkedStoneKeyDraw(p, selectedEntry, {sourceCardId:options.sourceCardId || null});
   const evolutionRule = COLLECTION_BATCH_02_EVOLUTION?.[cardId] || null;
-  const evolutionResolution = evolutionRule ? resolveBatch02EvolutionDraw(p, cardId) : null;
-  if (!linkedKeyResolution.handled && !evolutionRule) hand.push(cardId);
+  const evolutionCanResolve = evolutionRule ? canResolveBatch02Evolution(p, cardId) : false;
+  const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDraw(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
+  if (!linkedKeyResolution.handled && !evolutionCanResolve) hand.push(cardId);
   updateDeckCount(p);
   if (options.refresh !== false) {
     if (playerKey(p) === currentPlayer) refreshHand(p);
@@ -4017,7 +4035,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
   }
   const deckDomCountAfter = deckDomCount(p);
   const handDomCountAfter = handDomCount(p);
-  const expectedHandIncrease = linkedKeyResolution.handled || evolutionRule ? 0 : 1;
+  const expectedHandIncrease = linkedKeyResolution.handled || evolutionCanResolve ? 0 : 1;
   const runtimeConsistent = pile.length === deckSizeBefore - 1 && hand.length === handSizeBefore + expectedHandIncrease;
   const domConsistent = (deckDomCountAfter == null || deckDomCountAfter === pile.length) &&
     (handDomCountAfter == null || handDomCountAfter === hand.length);
@@ -4345,7 +4363,7 @@ function showDoorKeyVisual(cardId, {mode='adding', message='', ownerId='', linke
   node.dataset.ownerId = ownerId;
   node.dataset.linkedDoorEffectId = linkedDoorEffectId;
   node.dataset.doorKeyPhase = mode === 'opening' ? 'key-found' : 'key-to-deck';
-  node.innerHTML = `<img src="${GH}/${folder}/${cardId}.png" alt="${escapeHtml(d.name || cardId)}"><div class="door-key-visual-title">${escapeHtml(d.name || cardId)}</div><div class="door-key-visual-text">${escapeHtml(message)}</div>`;
+  node.innerHTML = `<img src="${cardArtworkSrc(cardId, folder)}" alt="${escapeHtml(d.name || cardId)}"><div class="door-key-visual-title">${escapeHtml(d.name || cardId)}</div><div class="door-key-visual-text">${escapeHtml(message)}</div>`;
   document.body.appendChild(node);
   const cleanup = () => node.remove();
   node.addEventListener('animationend', cleanup, {once:true});
@@ -6630,7 +6648,7 @@ function buildHC(cardId, player, drawAnim=false) {
   return `<div class="hc ${facClsHC}${animCls}" data-id="${cardId}" data-player="${player}" draggable="true" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="hc-frame">
       <div class="hc-art-z">
-        <img class="hc-art" src="${GH}/${folder}/${cardId}.png" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
+        <img class="hc-art" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
         ${fico}${badge}${atk_h}${pdv_h}
       </div>
       <div class="hc-name-b"><span class="hc-name">${d.name}</span></div>
@@ -6794,7 +6812,7 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
   return `<div class="canonical-card-preview fc ${cls}" data-preview-card-id="${cardId}" data-source-context="${sourceContext.sourceType || 'unknown'}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="fc-zoom ${cls}">
       <div class="fc-zoom-art">
-        <img class="fz-img" src="${GH}/${folder}/${cardId}.png" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
+        <img class="fz-img" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
         ${ficoH}${atkH}${pdvH}
       </div>
       <div class="fc-zoom-name-b"><span class="fz-name">${d.name}</span></div>
@@ -7561,7 +7579,7 @@ function getCanonicalCardDisplayModel(cardOrId, options={}) {
     faction:data.fac || data.faction || null,
     type:data.type || null,
     subtype:data.badge || data.displayType || null,
-    artwork:`${GH}/${folder}/${id}.png`,
+    artwork:cardArtworkSrc(id, folder),
     description:data.cap || data.desc || '',
     detailedEffect:data.detail || data.cap || '',
     invocationConditionText:data.invocationConditionText || invocationConditionRule(id)?.text || '',
@@ -8380,7 +8398,7 @@ function buildFC(cardId, player) {
   const ficoH = iconFile ? `<img class="fc-zoom-fico" src="${GH}/icones/${iconFile}" alt="">` : '';
   const zoomHTML = false && d.atk != null ? `<div class="fc-zoom ${cls}">
     <div class="fc-zoom-art">
-      <img class="fz-img" src="${GH}/${folder}/${cardId}.png" alt="">
+      <img class="fz-img" src="${cardArtworkSrc(cardId, folder)}" alt="">
       ${ficoH}
       <div class="fc-zoom-atk"><div class="fz-sb"><img src="${GH}/icones/IC00000ATK.png"><span class="fc-atk-val">${d.atk}</span></div></div>
       <div class="fc-zoom-pdv"><div class="fz-sb"><img src="${GH}/icones/IC00000PDV.png"><span class="fc-pdv-val-z">${d.pdv}</span></div></div>
@@ -8413,7 +8431,7 @@ function buildFC(cardId, player) {
   return `<div class="fc ${cls}" data-id="${cardId}" data-player="${player}" data-new="1"
       data-atk="${d.atk}" data-pdv="${d.pdv}" data-pdv-max="${d.pdv}" data-fac="${d.fac}"
       ${instanceAttr} ${insensibleAttr} ${rempartAttr}>
-    <img class="fi" src="${GH}/${folder}/${cardId}.png" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
+    <img class="fi" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
     <div class="fc-stats">
       <div class="fc-stat"><img src="${GH}/icones/IC00000ATK.png"><span class="fc-atk-val">${d.atk}</span></div>
       <div class="fc-stat"><img src="${GH}/icones/IC00000PDV.png"><span class="fc-pdv-val">${d.pdv}</span></div>
@@ -9316,6 +9334,10 @@ const INVOCATION_CONDITION_RULES = Object.freeze({
   MV000021: {
     text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
+  },
+  S000055: {
+    text: 'Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].',
+    condition: {type:'friendly-sacrificable-servant-count', amount:3, excludeKeywords:['Insensible']}
   }
 });
 
@@ -9414,6 +9436,22 @@ function evaluateInvocationPredicate(predicate, context) {
       code: allowed ? 'condition-satisfied' : 'missing-required-board-presence',
       message: allowed ? '' : `Vous ne remplissez pas les conditions pour jouer cette carte.`,
       unmet: allowed ? [] : [{...predicate, available:matching.length, required:1}]
+    };
+  }
+  if (predicate.type === 'friendly-sacrificable-servant-count') {
+    const amount = Math.max(0, Number(predicate.amount) || 0);
+    const excluded = new Set((predicate.excludeKeywords || []).map(value => normalizeKeywordValue(value)));
+    const matching = friendlyServantCards(p).filter(fc => {
+      const keywords = new Set(runtimeCardKeywords(fc.dataset.id).map(value => normalizeKeywordValue(value)));
+      if (fc.dataset.insensible) keywords.add(normalizeKeywordValue('Insensible'));
+      return ![...excluded].some(keyword => keywords.has(keyword));
+    });
+    const allowed = matching.length >= amount;
+    return {
+      allowed,
+      code: allowed ? 'condition-satisfied' : 'missing-sacrificable-servants',
+      message: allowed ? '' : 'Vous ne remplissez pas les conditions pour jouer cette carte.',
+      unmet: allowed ? [] : [{...predicate, available:matching.length, required:amount}]
     };
   }
   return {
@@ -9575,7 +9613,7 @@ function evaluateTargetRequirement(cardId, {player=currentPlayer, selectedTarget
 }
 
 function targetSummary(fc) {
-  return fc ? {id:fc.dataset.id || '', player:fc.dataset.player || '', instance:fc.dataset.instance || fc.dataset.supplyInstance || '', atk:Number(fc.dataset.atk || 0), pdv:Number(fc.dataset.pdv || 0)} : null;
+  return fc ? {id:fc.dataset.id || '', player:fc.dataset.player || '', instance:fc.dataset.instance || fc.dataset.supplyInstance || '', atk:Number(fc.dataset.atk || 0), pdv:Number(fc.dataset.pdv || 0), insensible:fc.dataset.insensible === '1' || (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Insensible'), temporaryInsensibleTurns:fc.dataset.temporaryInsensibleTurns || null} : null;
 }
 
 const IMMEDIATE_PLAY_EFFECTS = Object.freeze({
@@ -10011,11 +10049,11 @@ async function playCard(cardId, slot, options={}) {
   }
   const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection};
   if (cardId === 'S000055' && !selectedTargetIds) {
-    const targets = legalTargetsForRequirement(cardId, p);
-    const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Choisissez exactement 3 serviteurs allies a sacrifier.', targets, minCount:3, maxCount:3});
+    const targets = legalTargetsForRequirement(cardId, p).filter(target => !target.dataset.insensible);
+    const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel'});
     if (chosen.length !== 3) {
       releasePaymentLock(p, cardId);
-      showErr('Vous devez choisir exactement 3 serviteurs allies.');
+      showErr('Vous devez choisir exactement 3 serviteurs alliés non Insensibles.');
       return {success:false, reason:'invalid-target-count'};
     }
     transaction.selectedTargetIds = chosen.map(fc => fc.dataset.instance);
@@ -10473,7 +10511,7 @@ async function triggerSort(cardId, player, context={}) {
   updateCamouflageVFX();
   const opposingGabar = qs(playerZoneSelector(opponentOf(player), 'servants'))?.querySelector('.fc[data-id="H000036"]:not([data-dead])');
   const boundFaction = (d.kws || []).some(keyword => ['Elfes des bois','Elfes noirs','Elfes de glace','Humains','Nains','Orcs','Gobelins','Morts-vivants'].includes(keyword));
-  const requiresEcho = String(d.resType || '').toLowerCase().includes('cho');
+  const requiresEcho = String(d.resType || '').toLowerCase().includes('cho') || /[ÉE]chos?/i.test(String(d.cap || '') + ' ' + String(d.cond || ''));
   if (opposingGabar && !boundFaction && !requiresEcho && addCardToHand(opponentOf(player), cardId, {refresh:true})) {
     recordCollectionBatch02Event('spell-copy',{sourceCardId:'H000036',copiedCardId:cardId,playerId:playerKey(opponentOf(player))});
   }
@@ -10635,7 +10673,7 @@ function showSortChoice(cardId, player, options, onCancel=null) {
         ${options.map((opt,i) => `
           <div class="sort-choice-item" data-idx="${i}">
             <div class="sort-choice-card-wrap">
-              <img src="${GH}/${folder}/${cardId}.png" alt="">
+              <img src="${cardArtworkSrc(cardId, folder)}" alt="">
             </div>
             <div class="sort-choice-label">Option ${i+1}<br><span>${opt.label}</span></div>
           </div>
@@ -10677,7 +10715,7 @@ function renderDecisionCard(cardId, {occurrenceId=null, context='selection', sel
   const formattedText = formatPlayerFacingCardText(text, getCanonicalCardDisplayModel(cardId));
   return `<div class="selection-card${selectable ? ' is-selectable' : ''}" data-selection-context="${escapeHtml(context)}"${occurrenceId ? ` data-occurrence-id="${escapeHtml(occurrenceId)}"` : ''}>
     <div class="selection-card-art">
-      <img src="${GH}/${folder}/${cardId}.png" alt="" onerror="this.style.opacity='0.12';this.removeAttribute('src')">
+      <img src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.opacity='0.12';this.removeAttribute('src')">
       ${stats}
     </div>
     <div class="selection-card-name">${escapeHtml(d.name || 'Carte inconnue')}</div>
@@ -10909,7 +10947,7 @@ function showSortChoice(cardId, player, options, onCancel=null) {
       ${options.map((opt,i) => `
         <div class="sort-choice-item" data-idx="${i}">
           <div class="sort-choice-card-wrap">
-            <img src="${GH}/${folder}/${cardId}.png" alt="">
+            <img src="${cardArtworkSrc(cardId, folder)}" alt="">
           </div>
           <div class="sort-choice-label">Option ${i+1}<br><span>${escapeHtml(opt.label)}</span></div>
         </div>
@@ -11855,7 +11893,7 @@ function addToCemetery(cardId, player, fac) {
     return true;
   }
   const folder = CARDS_DATA[cardId]?.assetFolder || facFolder(fac);
-  cem.innerHTML = `<div class="cem-card"><img src="${GH}/${folder}/${cardId}.png" alt=""></div>`;
+  cem.innerHTML = `<div class="cem-card"><img src="${cardArtworkSrc(cardId, folder)}" alt=""></div>`;
   return true;
 }
 
@@ -12253,7 +12291,7 @@ function applyHealerEffect() {
   });
 }
 
-function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1}={}) {
+function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, panelClass='board-target-choice-panel'}={}) {
   const available = Array.from(targets || []).filter(fc => fc && !fc.dataset.dead);
   if (typeof document === 'undefined' || !document.body) return Promise.resolve(available.slice(0, maxCount));
   if (!available.length) return Promise.resolve([]);
@@ -12269,7 +12307,7 @@ function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1}={})
       decisionId:'board-target-selection',
       title:title || 'Sélection',
       compactLabel:`${title || 'Sélection'} en attente`,
-      panelClass:'board-target-choice-panel',
+      panelClass,
       bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
         <div class="sort-choice-cards" data-testid="board-target-choice-list">${cardsHTML}</div>
         <button type="button" class="sort-choice-confirm" data-testid="board-target-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
@@ -13728,7 +13766,7 @@ function addHistEntry(cardId, fac) {
   const folder=CARDS_DATA[cardId]?.assetFolder || facFolder(fac);
   const div=document.createElement('div');
   div.className='hist-thumb new';
-  div.innerHTML=`<img src="${GH}/${folder}/${cardId}.png" alt="">`;
+  div.innerHTML=`<img src="${cardArtworkSrc(cardId, folder)}" alt="">`;
   const first=hist.querySelector('.hist-thumb');
   hist.insertBefore(div, first||null);
   const thumbs=hist.querySelectorAll('.hist-thumb');
@@ -16392,25 +16430,25 @@ Object.assign(CARDS_DATA, {
 });
 
 Object.assign(CARDS_DATA, {
-  DIV000005:{name:'Élémentaire de la terre',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre'],assetFolder:'autres',max:6,cap:'Chaque fois qu il survit a des degats, ce serviteur a 50% de chance de creer une copie parfaite de lui-meme.'},
-  DIV000008:{name:'Golem de roche',type:'Serviteur',fac:'div',atk:4,pdv:7,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre','Vengeance','Rempart'],assetFolder:'autres',max:4,related:['DIV000005'],cap:'[Rempart] [Vengeance] Remplit votre cote du terrain d Elementaires de la terre.'},
-  H000032:{name:"Gabar, l'apprenti magicien maladroit",type:'Serviteur',fac:'hum',atk:1,pdv:2,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria|Lenya|Nourriture',fico:'FCT00000HUM.png',kws:['Aria','Lenya','Nourriture','Initiative'],assetFolder:'humains',max:1,related:['S000057'],cap:'[Initiative] Ajoutez Aube de soie de lumière a votre deck. Inflige 1 point de degat a chaque serviteur sur le plateau.'},
-  H000033:{name:"Gabar, l'apprenti magicien timoré",type:'Serviteur',fac:'hum',atk:2,pdv:4,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000058','S000057'],cap:'Jouee gratuitement des sa pioche. [Initiative] Ajoutez Grimoire du maître a votre deck puis infligez aleatoirement 0 a 4 degats a 0 a 4 serviteurs adverses.'},
-  H000034:{name:"Gabar, l'apprenti magicien dévoué",type:'Serviteur',fac:'hum',atk:3,pdv:6,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative','Hypnose','Coup de glace','Embrasement'],assetFolder:'humains',max:0,related:['S000059','S000058'],cap:'Jouee gratuitement des sa pioche. [Initiative] Ajoutez Plume enchantée a votre deck puis appliquez aleatoirement Hypnose, Coup de glace ou Embrasement a un maximum de 3 serviteurs adverses. Chaque mort alliee vous fait piocher un Sort.'},
-  H000035:{name:"Gabar, l'apprenti magicien prodige",type:'Serviteur',fac:'hum',atk:4,pdv:8,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000060','S000059','DIV000005'],cap:'Jouee gratuitement des sa pioche. [Initiative] Ajoutez Craie d invocation a votre deck. Au debut de chacun de vos tours, invoquez un Élémentaire de la terre. Chaque mort alliee vous fait piocher un Sort.'},
-  H000036:{name:'Gabar, maître-magicien',type:'Serviteur',fac:'hum',atk:5,pdv:10,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Insensible'],assetFolder:'humains',max:0,related:['S000060','DIV000008'],cap:'Jouee gratuitement des sa pioche. [Insensible] Au debut de chacun de vos tours, invoquez un Golem de roche. Chaque mort alliee vous fait piocher un Sort. Copiez dans votre main les Sorts adverses eligibles.'},
-  S000055:{name:'Triangle des ténèbres',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000MVS.png',kws:['Echo','Insensible'],assetFolder:'sorts',max:1,related:['MV000024'],cond:'Necessite au moins 3 serviteurs allies qui ne possedent pas Insensible.',cap:'Sacrifiez 3 serviteurs allies, generez 10 Echos puis invoquez Morghast L Os-tentatoire. Il possede Insensible pendant vos 3 prochains tours.'},
-  S000057:{name:'Aube de soie de lumière',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000032','H000033'],cap:'Se joue immediatement a la pioche. Ajoutez Gabar timore a votre main et retirez Gabar maladroit de la partie.'},
-  S000058:{name:'Grimoire du maître',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000033','H000034'],cap:'Se joue immediatement a la pioche. Ajoutez Gabar devoue a votre main et retirez Gabar timore de la partie.'},
-  S000059:{name:'Plume enchantée',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000034','H000035'],cap:'Se joue immediatement a la pioche. Ajoutez Gabar prodige a votre main et retirez Gabar devoue de la partie.'},
-  S000060:{name:"Craie d'invocation",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000035','H000036'],cap:'Se joue immediatement a la pioche. Ajoutez Gabar maitre-magicien a votre main et retirez Gabar prodige de la partie.'}
+  DIV000005:{name:'Élémentaire de la terre',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre'],assetFolder:'autres',max:6,cap:'Chaque fois qu’il survit à des dégâts, ce serviteur a 50% de chance de créer une copie parfaite de lui-même.'},
+  DIV000008:{name:'Golem de roche',type:'Serviteur',fac:'div',atk:4,pdv:7,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre','Vengeance','Rempart'],assetFolder:'autres',max:4,related:['DIV000005'],cap:'[Rempart] [Vengeance] Remplit votre côté du terrain d’Élémentaires de la terre.'},
+  H000032:{name:"Gabar, l'apprenti magicien maladroit",type:'Serviteur',fac:'hum',atk:1,pdv:2,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria|Lenya|Nourriture',fico:'FCT00000HUM.png',kws:['Aria','Lenya','Nourriture','Initiative'],assetFolder:'humains',max:1,related:['S000057'],cap:'[Initiative] Ajoutez « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à chaque serviteur sur le plateau.'},
+  H000033:{name:"Gabar, l'apprenti magicien timoré",type:'Serviteur',fac:'hum',atk:2,pdv:4,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000058','S000057'],cap:'Joué gratuitement dès sa pioche. [Initiative] Ajoutez « Grimoire du maître » à votre deck puis infligez aléatoirement **0 à 4** dégâts à **0 à 4** serviteurs adverses.'},
+  H000034:{name:"Gabar, l'apprenti magicien dévoué",type:'Serviteur',fac:'hum',atk:3,pdv:6,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative','Hypnose','Coup de glace','Embrasement'],assetFolder:'humains',max:0,related:['S000059','S000058'],cap:'Joué gratuitement dès sa pioche. [Initiative] Ajoutez « Plume enchantée » à votre deck puis appliquez aléatoirement Hypnose, Coup de glace ou Embrasement à un maximum de 3 serviteurs adverses. Chaque mort alliée vous fait piocher un Sort.'},
+  H000035:{name:"Gabar, l'apprenti magicien prodige",type:'Serviteur',fac:'hum',atk:4,pdv:8,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000060','S000059','DIV000005'],cap:'Joué gratuitement dès sa pioche. [Initiative] Ajoutez « Craie d’invocation » à votre deck. Au début de chacun de vos tours, invoquez un Élémentaire de la terre. Chaque mort alliée vous fait piocher un Sort.'},
+  H000036:{name:'Gabar, maître-magicien',type:'Serviteur',fac:'hum',atk:5,pdv:10,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Insensible'],assetFolder:'humains',max:0,related:['S000060','DIV000008'],cap:'Joué gratuitement dès sa pioche. [Insensible] Au début de chacun de vos tours, invoquez un Golem de roche. Chaque mort alliée vous fait piocher un Sort. Copiez dans votre main les Sorts adverses éligibles.'},
+  S000055:{name:'Triangle des ténèbres',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000MVS.png',kws:['Echo','Insensible'],assetFolder:'sorts',max:1,related:['MV000024'],cond:'Vous devez posséder au moins **3** serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].',cap:'Sacrifiez **3** serviteurs alliés, générez **10 Échos** puis invoquez Morghast L’Os-tentatoire. Il possède [Insensible] pendant vos **3** prochains tours.'},
+  S000057:{name:'Aube de soie de lumière',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000032','H000033'],cap:'Se joue immédiatement à la pioche si Gabar maladroit est sur votre terrain. Ajoutez Gabar timoré à votre main et retirez Gabar maladroit de la partie.'},
+  S000058:{name:'Grimoire du maître',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000033','H000034'],cap:'Se joue immédiatement à la pioche si Gabar timoré est sur votre terrain. Ajoutez Gabar dévoué à votre main et retirez Gabar timoré de la partie.'},
+  S000059:{name:'Plume enchantée',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000034','H000035'],cap:'Se joue immédiatement à la pioche si Gabar dévoué est sur votre terrain. Ajoutez Gabar prodige à votre main et retirez Gabar dévoué de la partie.'},
+  S000060:{name:"Craie d’invocation",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000035','H000036'],cap:'Se joue immédiatement à la pioche si Gabar prodige est sur votre terrain. Ajoutez Gabar maître-magicien à votre main et retirez Gabar prodige de la partie.'}
 });
 
 const COLLECTION_BATCH_02_EVOLUTION = Object.freeze({
-  S000057:{remove:'H000032', create:'H000033'},
-  S000058:{remove:'H000033', create:'H000034'},
-  S000059:{remove:'H000034', create:'H000035'},
-  S000060:{remove:'H000035', create:'H000036'}
+  S000057:{remove:'H000032', create:'H000033', source:'H000032'},
+  S000058:{remove:'H000033', create:'H000034', source:'H000033'},
+  S000059:{remove:'H000034', create:'H000035', source:'H000034'},
+  S000060:{remove:'H000035', create:'H000036', source:'H000035'}
 });
 const collectionBatch02State = {removedFromGame:[], events:[], triangleEffects:[]};
 
@@ -16419,6 +16457,30 @@ function recordCollectionBatch02Event(type, detail={}) {
   collectionBatch02State.events.push(event);
   window.__collectionBatch02LastEvent = event;
   return event;
+}
+
+function findBatch02GabarSource(player, cardId) {
+  const p = playerState(player);
+  return qs(playerZoneSelector(p, 'servants'))?.querySelector(`.fc[data-id="${cardId}"]:not([data-dead])`) || null;
+}
+
+function canResolveBatch02Evolution(player, spellId) {
+  const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
+  return !!(rule && findBatch02GabarSource(player, rule.source || rule.remove));
+}
+
+function showBatch02DeckAddition(player, cardId) {
+  const d = CARDS_DATA[cardId] || {};
+  const folder = d.assetFolder || facFolder(d.fac || 'sort');
+  const node = document.createElement('div');
+  node.className = 'batch02-deck-addition-vfx';
+  node.dataset.testid = 'batch02-deck-addition-vfx';
+  node.dataset.cardId = cardId;
+  node.dataset.playerId = playerKey(player);
+  node.innerHTML = `<img src="${cardArtworkSrc(cardId, folder)}" alt="${escapeHtml(d.name || cardId)}"><strong>Ajouté au deck</strong><span>${escapeHtml(d.name || cardId)}</span>`;
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 5000);
+  return node;
 }
 
 function removeBatch02CardEverywhere(player, cardId) {
@@ -16457,6 +16519,7 @@ async function summonBatch02Servant(player, cardId, {sourceCardId=null, insensib
     fc.dataset.insensible = '1';
     fc.dataset.temporaryInsensibleTurns = String(insensibleTurns);
   }
+  updateBatch02TemporaryInsensibleBadge(fc);
   const result = {success:true, cardId, instanceId:fc.dataset.instance, sourceCardId};
   recordCollectionBatch02Event('summon', {...result, playerId:p.key});
   if (shouldTriggerInitiative(cardId, CARDS_DATA[cardId])) await triggerInitiative(cardId, p, {sourceInstanceId:fc.dataset.instance});
@@ -16467,6 +16530,12 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
   const p = playerState(player);
   const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
   if (!p || !rule) return {handled:false};
+  const source = findBatch02GabarSource(p, rule.source || rule.remove);
+  if (!source) {
+    const result = {handled:false, success:false, reason:'missing-required-gabar-source', spellId, requiredSource:rule.source || rule.remove};
+    recordCollectionBatch02Event('evolution-refused', {...result, playerId:p.key});
+    return result;
+  }
   const removed = removeBatch02CardEverywhere(p, rule.remove);
   let destination = 'hand';
   if (!addCardToHand(p, rule.create, {refresh:false})) {
@@ -16479,7 +16548,7 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
   if (destination === 'hand') summoned = await summonBatch02ServantFromHand(p, rule.create, spellId);
   const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned};
   recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
-  showNotif(`${CARDS_DATA[spellId].name} fait evoluer Gabar.`, 1500);
+  showNotif(`« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 1500);
   return result;
 }
 
@@ -16496,7 +16565,7 @@ async function summonBatch02ServantFromHand(player, cardId, sourceCardId) {
 async function resolveBatch02Initiative(cardId, player) {
   const p = playerState(player);
   const nextSpell = {H000032:'S000057',H000033:'S000058',H000034:'S000059',H000035:'S000060'}[cardId];
-  if (nextSpell) p.drawPile.push(nextSpell);
+  if (nextSpell) { p.drawPile.push(nextSpell); showBatch02DeckAddition(p, nextSpell); }
   const result = {success:true, cardId, addedToDeck:nextSpell || null, affected:[]};
   if (cardId === 'H000032') {
     const all = Array.from(document.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'));
@@ -16537,7 +16606,7 @@ async function resolveTriangleDesTenebres(player, context={}) {
   collectionBatch02State.triangleEffects.push({playerId:p.key, instanceId:summon.instanceId, remainingOwnerTurns:3});
   const result = {success:true, sacrificed:refs.map(targetSummary), echoes, summon};
   recordCollectionBatch02Event('triangle', {...result, playerId:p.key});
-  showNotif('Triangle des ténèbres : 3 sacrifices, 10 Echos et Morghast invoque.', 1900);
+  showNotif("TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !", 2200);
   return result;
 }
 
@@ -16548,7 +16617,13 @@ async function applyBatch02StartTurnAbilities(player) {
   for (const fc of Array.from(zone?.querySelectorAll('.fc[data-id="H000035"],.fc[data-id="H000036"]') || [])) {
     if (!canResolveServantAbility(fc,{triggerType:'start-turn'})) continue;
     const cardId = fc.dataset.id === 'H000035' ? 'DIV000005' : 'DIV000008';
-    summons.push(await summonBatch02Servant(p, cardId, {sourceCardId:fc.dataset.id}));
+    const summon = await summonBatch02Servant(p, cardId, {sourceCardId:fc.dataset.id});
+    if (summon.instanceId) {
+      const summonedFc = document.querySelector(`.fc[data-instance="${summon.instanceId}"]`);
+      summonedFc?.removeAttribute('data-new');
+      summonedFc?.querySelector('.fc-new-badge')?.remove();
+    }
+    summons.push(summon);
   }
   return summons;
 }
@@ -16558,9 +16633,25 @@ function resolveBatch02OwnerTurnExpiration(player) {
   for (const effect of collectionBatch02State.triangleEffects.filter(item => item.playerId === p?.key && item.remainingOwnerTurns > 0)) {
     effect.remainingOwnerTurns--;
     const fc = document.querySelector(`.fc[data-instance="${effect.instanceId}"]`);
-    if (fc) fc.dataset.temporaryInsensibleTurns = String(effect.remainingOwnerTurns);
+    if (fc) {
+      fc.dataset.temporaryInsensibleTurns = String(effect.remainingOwnerTurns);
+      updateBatch02TemporaryInsensibleBadge(fc);
+    }
     if (effect.remainingOwnerTurns === 0 && fc && !(CARDS_DATA[fc.dataset.id]?.kws || []).includes('Insensible')) delete fc.dataset.insensible;
   }
+}
+
+function updateBatch02TemporaryInsensibleBadge(fc) {
+  if (!fc) return;
+  fc.querySelector('.batch02-temporary-status')?.remove();
+  const turns = Number(fc.dataset.temporaryInsensibleTurns || 0);
+  if (turns <= 0) return;
+  const badge = document.createElement('div');
+  badge.className = 'batch02-temporary-status';
+  badge.dataset.testid = 'batch02-temporary-insensible';
+  badge.title = `Insensible temporaire — expire après ${turns} tour(s) du propriétaire.`;
+  badge.textContent = `Insensible temporaire — ${turns}`;
+  fc.appendChild(badge);
 }
 
 function handleBatch02AlliedServantDeath(player, dyingCardId) {

@@ -1,14 +1,64 @@
 {
   "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-10.xlsx",
   "sourceSha256": "d874b8d2f6260765aa241dab396cc35d1d42fd8d5a95bd0b3d3c6eb173e1b62f",
-  "cardIds": ["H000032", "H000033", "H000034", "H000035", "H000036", "S000055", "S000057", "S000058", "S000059", "S000060"],
-  "evolution": [
-    {"spellId":"S000057","remove":"H000032","create":"H000033"},
-    {"spellId":"S000058","remove":"H000033","create":"H000034"},
-    {"spellId":"S000059","remove":"H000034","create":"H000035"},
-    {"spellId":"S000060","remove":"H000035","create":"H000036"}
+  "cardIds": [
+    "H000032",
+    "H000033",
+    "H000034",
+    "H000035",
+    "H000036",
+    "S000055",
+    "S000057",
+    "S000058",
+    "S000059",
+    "S000060"
   ],
-  "triangle": {"cardId":"S000055","sacrificeCount":3,"echoGain":10,"summon":"MV000024","insensibleOwnerTurns":3},
-  "startTurnSummons": {"H000035":"DIV000005","H000036":"DIV000008"},
-  "scenarios": ["collection-batch-02-gabar", "collection-batch-02-triangle", "collection-batch-02-generated-spells"]
+  "dependencyIds": [
+    "MV000024",
+    "DIV000005",
+    "DIV000008"
+  ],
+  "evolution": [
+    {
+      "spellId": "S000057",
+      "source": "H000032",
+      "remove": "H000032",
+      "create": "H000033"
+    },
+    {
+      "spellId": "S000058",
+      "source": "H000033",
+      "remove": "H000033",
+      "create": "H000034"
+    },
+    {
+      "spellId": "S000059",
+      "source": "H000034",
+      "remove": "H000034",
+      "create": "H000035"
+    },
+    {
+      "spellId": "S000060",
+      "source": "H000035",
+      "remove": "H000035",
+      "create": "H000036"
+    }
+  ],
+  "triangle": {
+    "cardId": "S000055",
+    "sacrificeCount": 3,
+    "echoGain": 10,
+    "summon": "MV000024",
+    "insensibleOwnerTurns": 3,
+    "publicMessage": "TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !"
+  },
+  "startTurnSummons": {
+    "H000035": "DIV000005",
+    "H000036": "DIV000008"
+  },
+  "scenarios": [
+    "collection-batch-02-gabar",
+    "collection-batch-02-triangle",
+    "collection-batch-02-generated-spells"
+  ]
 }

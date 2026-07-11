@@ -117,3 +117,11 @@ Les dix cartes importées le 10 juillet disposent désormais d'un comportement r
 Les Initiatives, les effets de mort alliée, les invocations de début de tour et la copie de Sort de `H000036` sont actifs. `S000055` exige exactement trois serviteurs alliés sans `Insensible`, les sacrifie, génère dix Échos et invoque `MV000024` avec `Insensible` pendant les trois prochains tours du lanceur.
 
 Interprétations bornées et testées : `H000033` effectue deux tirages aléatoires indépendants pour le nombre de cibles et les dégâts (chacun de 0 à 4) ; l'Insensible accordé par `S000055` expire après la fin du troisième prochain tour du propriétaire. Les scénarios techniques restent cachés du sélecteur public.
+
+### Corrections COLLECTION-BATCH-02B
+
+- Les cartes `H000032` à `H000036`, `S000055` et `S000057` à `S000060` utilisent les assets locaux dans la partie test, y compris les aperçus et cartes liées.
+- `S000055` exclut les serviteurs `Insensible` des sacrifices, affiche une condition d'invocation claire et laisse un marqueur `Insensible temporaire` visible sur Morghast pendant trois tours du propriétaire.
+- Les sorts d'évolution Gabar exigent leur forme source exacte : une mauvaise forme ne déclenche plus d'évolution automatique et évite toute boucle de pioche.
+- Les scénarios techniques `collection-batch-02-gabar`, `collection-batch-02-triangle` et `collection-batch-02-generated-spells` ont été enrichis pour vérifier les messages accentués, l'animation d'ajout au deck, les invocations de début de tour, la pioche sur mort alliée et la copie sélective de Sorts par Gabar maître-magicien.
+- Aucun changement n'est apporté au corpus Collection, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

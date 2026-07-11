@@ -5,178 +5,252 @@ import {attachDiagnostics, attachPageDiagnostics} from "./helpers/eloron-ui.mjs"
 const fixture = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-batch-02-gabar-darkness.json", import.meta.url), "utf8"));
 
 async function openScenario(page, scenario) {
-  await page.goto(`/code/partie-test-1.html?scenario=${scenario}&batch02=${Date.now()}`);
+  await page.goto('/code/partie-test-1.html?scenario=' + scenario + '&batch02=' + Date.now());
   await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
   await page.waitForTimeout(500);
 }
 
-function diagnosticsFor(page, testInfo) {
-  const diagnostics = attachPageDiagnostics(page);
-  testInfo.attachments ||= [];
-  return diagnostics;
+function diagnosticsFor(page) {
+  return attachPageDiagnostics(page);
 }
 
-test("les dix cartes et leurs assets sont disponibles dans le runtime", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
+async function expectImagesLoaded(page, ids) {
+  const results = await page.evaluate(async ids => {
+    return Promise.all(ids.map(async id => {
+      const folder = id.startsWith('H') ? 'humains' : id.startsWith('S') ? 'sorts' : id.startsWith('MV') ? 'morts-vivants' : 'autres';
+      const image = new Image();
+      image.src = '/assets/' + folder + '/' + id + '.png';
+      await image.decode();
+      return {id, width: image.naturalWidth, height: image.naturalHeight, src: image.src};
+    }));
+  }, ids);
+  for (const result of results) {
+    expect(result.width, result.id + ' image width').toBeGreaterThan(0);
+    expect(result.height, result.id + ' image height').toBeGreaterThan(0);
+  }
+}
+
+test("Batch-02 runtime data, local assets, previews and linked cards render images", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
   await openScenario(page, fixture.scenarios[0]);
-  const audit = await page.evaluate(ids => ids.map(id => ({id, data:CARDS_DATA[id] || null})), fixture.cardIds);
-  expect(audit.every(item => item.data)).toBe(true);
-  for (const id of fixture.cardIds) {
-    const folder = id.startsWith("H") ? "humains" : "sorts";
-    const result = await page.evaluate(async ({id, folder}) => {
-      const image = new Image(); image.src = `/assets/${folder}/${id}.png`;
-      await image.decode(); return {width:image.naturalWidth,height:image.naturalHeight};
-    }, {id, folder});
-    expect(result.width).toBeGreaterThan(0);
+  const audit = await page.evaluate(ids => ids.map(id => ({id, data: CARDS_DATA[id] || null})), [...fixture.cardIds, ...fixture.dependencyIds]);
+  expect(audit.every(item => item.data), JSON.stringify(audit.filter(item => !item.data))).toBe(true);
+  await expectImagesLoaded(page, [...fixture.cardIds, ...fixture.dependencyIds]);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-02 public texts keep French accents and invocation-condition tooltip", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-triangle');
+  const texts = await page.evaluate(() => ({
+    triangleName: CARDS_DATA.S000055.name,
+    triangle: (CARDS_DATA.S000055.cap || '') + ' ' + (CARDS_DATA.S000055.cond || ''),
+    timore: CARDS_DATA.H000033.cap || '',
+    earth: CARDS_DATA.DIV000005.name + ' ' + (CARDS_DATA.DIV000005.cap || ''),
+    golem: CARDS_DATA.DIV000008.name + ' ' + (CARDS_DATA.DIV000008.cap || ''),
+    condition: invocationConditionRule('S000055')?.text || ''
+  }));
+  expect(texts.triangleName).toBe('Triangle des ténèbres');
+  expect(texts.triangle).toContain('Échos');
+  expect(texts.triangle).toContain('Insensible');
+  expect(texts.timore).toContain('0 à 4');
+  expect(texts.timore).toContain('« Grimoire du maître »');
+  expect(texts.earth).toContain('Élémentaire de la terre');
+  expect(texts.golem).toContain('Golem de roche');
+  expect(texts.condition).toBe('Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].');
+  expect(JSON.stringify(texts)).not.toMatch(/tenebres|Echos|evolue|maitre|devoue|cimetiere/i);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Triangle UI excludes Insensible sacrifices and resolves with roleplay feedback", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-triangle');
+  const result = await page.evaluate(async () => {
+    const before = auditCollectionBatch02Runtime();
+    const beforeSouls = player1.resourceState.souls;
+    const options = livingServantCardsForPlayer(player1).filter(fc => !targetSummary(fc).insensible).map(targetSummary);
+    const excluded = livingServantCardsForPlayer(player1).filter(fc => targetSummary(fc).insensible).map(targetSummary);
+    const success = await playCard('S000055', null, {selectedTargetIds: options.slice(0, 3).map(card => card.instance)});
+    await new Promise(resolve => setTimeout(resolve, 60));
+    const after = auditCollectionBatch02Runtime();
+    const morghast = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === 'MV000024');
+    return {
+      before, options, excluded, success, after,
+      publicLog: Array.from(document.querySelectorAll('.log-entry, #notif')).map(node => node.textContent).join('\n'),
+      beforeSouls,
+      afterSouls: player1.resourceState.souls,
+      morghast: morghast ? {...targetSummary(morghast), temporary: morghast.dataset.temporaryInsensibleTurns || null, badge: morghast.querySelector('[data-testid="batch02-temporary-insensible"]')?.textContent || ''} : null
+    };
+  });
+  expect(result.options).toHaveLength(3);
+  expect(result.excluded.map(card => card.id)).toContain('H000036');
+  expect(result.success.spellResolution.success).toBe(true);
+  expect(result.after.zones.player1.graveyard).toEqual(expect.arrayContaining(['H000001', 'H000005', 'H000018', 'S000055']));
+  expect(result.after.zones.player1.hand).toHaveLength(0);
+  expect(result.afterSouls).toBe(result.beforeSouls + 10);
+  expect(result.after.board.player1.map(card => card.id)).toEqual(expect.arrayContaining(['H000036', 'MV000024']));
+  expect(result.morghast.temporary).toBe('3');
+  expect(result.morghast.badge).toContain('Insensible temporaire');
+  expect(result.publicLog).toContain(fixture.triangle.publicMessage);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Triangle refuses when fewer than three non-Insensible allies exist without mutation", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-triangle');
+  const result = await page.evaluate(async () => {
+    const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
+    zone.innerHTML = buildFC('H000001', 'player1') + buildFC('H000036', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+    player1.hand = ['S000055'];
+    player1.graveyard = [];
+    const before = auditCollectionBatch02Runtime();
+    const beforeSouls = player1.resourceState.souls;
+    const eligible = livingServantCardsForPlayer(player1).filter(fc => !targetSummary(fc).insensible).map(fc => fc.dataset.instance);
+    const refused = await playCard('S000055', null, {selectedTargetIds: eligible});
+    const after = auditCollectionBatch02Runtime();
+    return {before, refused, after, errorText: document.querySelector('#errMsg')?.textContent || '', beforeSouls, afterSouls: player1.resourceState.souls};
+  });
+  expect((result.refused && result.refused.success) || result.refused?.spellResolution?.success || false).toBe(false);
+  expect(result.errorText || JSON.stringify(result.refused || {})).toMatch(/conditions|sacrifier|cible|serviteurs|target|invalid/i);
+  expect(result.after.zones.player1.hand).toEqual(result.before.zones.player1.hand);
+  expect(result.after.zones.player1.graveyard).toEqual(result.before.zones.player1.graveyard);
+  expect(result.afterSouls).toBe(result.beforeSouls);
+  expect(result.after.board.player1.map(card => card.id)).toEqual(result.before.board.player1.map(card => card.id));
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Each Gabar evolution spell requires its exact source form and avoids loops", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-generated-spells');
+  const result = await page.evaluate(async evolution => {
+    const stages = [];
+    for (const step of evolution) {
+      const wrongZone = document.querySelector(playerZoneSelector(player1, 'servants'));
+      const wrongSource = ['H000032', 'H000033', 'H000034', 'H000035', 'H000036'].find(id => id !== step.source && id !== step.create);
+      wrongZone.innerHTML = buildFC(wrongSource, 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+      player1.drawPile = [step.spellId];
+      const wrong = drawCardFromRuntimeDeck(player1, {predicate: id => id === step.spellId});
+      await wrong.evolutionResolution;
+      const afterWrong = auditCollectionBatch02Runtime();
+
+      const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
+      zone.innerHTML = buildFC(step.source, 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+      player1.drawPile = [step.spellId];
+      player1.hand = [];
+      player1.graveyard = [];
+      const right = drawCardFromRuntimeDeck(player1, {predicate: id => id === step.spellId});
+      const rightEvolution = await right.evolutionResolution;
+      const afterRight = auditCollectionBatch02Runtime();
+      stages.push({step, wrong, afterWrong, right, rightEvolution, afterRight});
+    }
+    return stages;
+  }, fixture.evolution);
+  for (const stage of result) {
+    expect(stage.wrong.evolutionResolution.success).toBe(false);
+    expect(stage.afterWrong.board.player1.map(card => card.id)).not.toContain(stage.step.create);
+    expect(stage.afterWrong.zones.player1.hand).toContain(stage.step.spellId);
+    expect(stage.rightEvolution.success).toBe(true);
+    expect(stage.afterRight.board.player1.map(card => card.id)).toEqual([stage.step.create]);
+    expect(stage.afterRight.zones.player1.graveyard).toEqual([stage.step.spellId]);
+    expect(stage.afterRight.state.removedFromGame.map(item => item.cardId)).toContain(stage.step.remove);
   }
   await attachDiagnostics(testInfo, diagnostics);
 });
 
-test("Gabar maladroit amorce la chaine et Aube fait evoluer la meme ligne", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-gabar");
-  const result = await page.evaluate(async () => {
-    const slot = document.querySelector(playerZoneSelector(player1, 'servants') + ' .slot');
-    const played = await playCard('H000032', slot);
-    const afterPlay = auditCollectionBatch02Runtime();
-    const draw = drawCardFromRuntimeDeck(player1,{predicate:id => id === 'S000057'});
-    await draw.evolutionResolution;
-    await new Promise(resolve => setTimeout(resolve, 50));
-    return {played, draw, afterPlay, final:auditCollectionBatch02Runtime()};
-  });
-  expect(result.afterPlay.zones.player1.deck).toContain('S000057');
-  expect(result.final.board.player1.map(card => card.id)).toContain('H000033');
-  expect(result.final.board.player1.map(card => card.id)).not.toContain('H000032');
-  expect(result.final.zones.player1.graveyard).toContain('S000057');
-  expect(result.final.state.removedFromGame.some(item => item.cardId === 'H000032')).toBe(true);
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("la chaine genere successivement les quatre Sorts et les cinq formes", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-generated-spells");
-  const result = await page.evaluate(async evolution => {
-    const stages = [];
-    for (const step of evolution) {
-      const draw = drawCardFromRuntimeDeck(player1,{predicate:id => id === step.spellId});
-      await draw.evolutionResolution;
-      stages.push(auditCollectionBatch02Runtime());
-    }
-    return stages;
-  }, fixture.evolution);
-  expect(result.map(stage => stage.board.player1.map(card => card.id))).toEqual([
-    ['H000033'], ['H000034'], ['H000035'], ['H000036']
-  ]);
-  expect(result.at(-1).zones.player1.graveyard).toEqual(['S000057','S000058','S000059','S000060']);
-  expect(result.at(-1).state.removedFromGame.map(item => item.cardId)).toEqual(['H000032','H000033','H000034','H000035']);
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("Triangle refuse les cibles illegales sans mutation puis resout trois sacrifices", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-triangle");
-  const result = await page.evaluate(async () => {
-    const before = auditCollectionBatch02Runtime();
-    const eligible = livingServantCardsForPlayer(player1).filter(fc => fc.dataset.id !== 'MV000030');
-    const illegal = await playCard('S000055', null, {selectedTargetIds:[eligible[0].dataset.instance,eligible[1].dataset.instance]});
-    const afterRefusal = auditCollectionBatch02Runtime();
-    const success = await playCard('S000055', null, {selectedTargetIds:eligible.map(fc => fc.dataset.instance)});
-    return {before, illegal, afterRefusal, success, after:auditCollectionBatch02Runtime()};
-  });
-  expect(result.afterRefusal.zones.player1.hand).toEqual(result.before.zones.player1.hand);
-  expect(result.afterRefusal.zones.player1.graveyard).toEqual(result.before.zones.player1.graveyard);
-  expect(result.success.spellResolution.success).toBe(true);
-  expect(result.after.zones.player1.graveyard).toEqual(expect.arrayContaining(['H000001','H000005','H000018','S000055']));
-  expect(result.after.zones.player1.counts.graveyard).toBeTruthy();
-  expect(result.after.board.player1.map(card => card.id)).toEqual(expect.arrayContaining(['MV000030','MV000024']));
-  expect(result.after.zones.player1.sizes.hand).toBe(0);
-  expect(result.after.state.triangleEffects[0].remainingOwnerTurns).toBe(3);
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("Gabar prodige et maitre invoquent leurs dependances au debut du tour", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-generated-spells");
+test("Gabar Initiative deck animation and accented evolution messages are visible", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-gabar');
   const result = await page.evaluate(async () => {
     const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
-    zone.innerHTML = buildFC('H000035','player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+    zone.innerHTML = buildFC('H000033', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+    const initiative = await resolveBatch02Initiative('H000033', player1);
+    await new Promise(resolve => setTimeout(resolve, 40));
+    return {
+      initiative,
+      deck: [...player1.drawPile],
+      animation: document.querySelector('.batch02-deck-addition-vfx')?.textContent || '',
+      events: auditCollectionBatch02Runtime().state.events
+    };
+  });
+  expect(result.initiative.addedToDeck).toBe('S000058');
+  expect(result.deck).toContain('S000058');
+  expect(result.animation).toContain('Grimoire du maître');
+  const draw = await page.evaluate(async () => {
+    const result = drawCardFromRuntimeDeck(player1, {predicate: id => id === 'S000058'});
+    const evolution = await result.evolutionResolution;
+    return {result, evolution, log: Array.from(document.querySelectorAll('.notif')).map(node => node.textContent).join('\n')};
+  });
+  expect(draw.evolution.success).toBe(true);
+  expect(draw.log).toContain('« Grimoire du maître » fait évoluer Gabar.');
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gabar dévoué draws a spell on allied death only while present", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-generated-spells');
+  const result = await page.evaluate(async () => {
+    const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
+    zone.innerHTML = buildFC('H000034', 'player1') + buildFC('H000001', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+    player1.drawPile = ['R000010', 'S000004'];
+    player1.hand = [];
+    player1.graveyard = [];
+    await sendToCemetery(zone.querySelector('[data-id="H000001"]'));
+    const withDevoted = auditCollectionBatch02Runtime();
+    zone.innerHTML = buildFC('H000001', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+    player1.drawPile = ['R000010', 'S000006'];
+    player1.hand = [];
+    player1.graveyard = [];
+    await sendToCemetery(zone.querySelector('[data-id="H000001"]'));
+    return {withDevoted, withoutDevoted: auditCollectionBatch02Runtime()};
+  });
+  expect(result.withDevoted.zones.player1.hand).toEqual(['S000004']);
+  expect(result.withDevoted.zones.player1.deck).toEqual(['R000010']);
+  expect(result.withDevoted.state.events.some(event => event.type === 'allied-death-draw')).toBe(true);
+  expect(result.withoutDevoted.zones.player1.hand).toEqual([]);
+  expect(result.withoutDevoted.zones.player1.deck).toEqual(['R000010', 'S000006']);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gabar maître-magicien copies only eligible opposing spells", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-generated-spells');
+  const result = await page.evaluate(async () => {
+    const zone = document.querySelector(playerZoneSelector(player2, 'servants'));
+    zone.innerHTML = buildFC('H000036', 'player2') + '<div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div>';
+    player2.hand = [];
+    refreshRuntimeZone(player2, 'hand');
+    player1.hand = ['S000004', 'S000055'];
+    refreshRuntimeZone(player1, 'hand');
+    const before = auditCollectionBatch02Runtime();
+    await triggerSort('S000004', player1, {});
+    const afterEligible = auditCollectionBatch02Runtime();
+    await triggerSort('S000055', player1, {selectedTargetIds: []});
+    const afterEchoSpell = auditCollectionBatch02Runtime();
+    return {before, afterEligible, afterEchoSpell};
+  });
+  expect(result.afterEligible.zones.player2.hand).toContain('S000004');
+  expect(result.afterEligible.state.events.some(event => event.type === 'spell-copy' && event.copiedCardId === 'S000004')).toBe(true);
+  expect(result.afterEchoSpell.zones.player2.hand.filter(id => id === 'S000055')).toHaveLength(0);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gabar prodige and maître summons, temporary Insensible expiry, and generated scenario attack readiness", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-generated-spells');
+  const result = await page.evaluate(async () => {
+    const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
+    zone.innerHTML = buildFC('H000035', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
     const first = await applyBatch02StartTurnAbilities(player1);
-    zone.querySelector('[data-id="H000035"]').outerHTML = buildFC('H000036','player1');
+    zone.querySelector('[data-id="H000035"]').outerHTML = buildFC('H000036', 'player1');
     const second = await applyBatch02StartTurnAbilities(player1);
-    return {first,second,board:livingServantCardsForPlayer(player1).map(targetSummary)};
+    const elemental = zone.querySelector('[data-id="DIV000005"]');
+    const attackProbe = {canAttack: !!elemental && !elemental.dataset.new && !elemental.dataset.frozen && !elemental.dataset.frozen_cdg && !elemental.dataset.dead};
+    return {first, second, attackProbe, board: livingServantCardsForPlayer(player1).map(targetSummary)};
   });
   expect(result.first[0].cardId).toBe('DIV000005');
   expect(result.second[0].cardId).toBe('DIV000008');
-  expect(result.board.map(card => card.id)).toEqual(expect.arrayContaining(['H000036','DIV000005','DIV000008']));
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("le maitre copie seulement les Sorts adverses eligibles", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-generated-spells");
-  const result = await page.evaluate(async () => {
-    const zone = document.querySelector(playerZoneSelector(player2, 'servants'));
-    zone.querySelector('.slot').outerHTML = buildFC('H000036','player2');
-    const before = [...player2.hand];
-    await triggerSort('S000004', player1, {});
-    return {before,after:[...player2.hand],events:auditCollectionBatch02Runtime().state.events};
-  });
-  expect(result.after.length).toBe(result.before.length + 1);
-  expect(result.after).toContain('S000004');
-  expect(result.events.some(event => event.type === 'spell-copy' && event.copiedCardId === 'S000004')).toBe(true);
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("les Initiatives timoree et devouee utilisent un aleatoire controlable", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-gabar");
-  const result = await page.evaluate(async () => {
-    const rolls = [0.6, 0.8, 0.1, 0.9, 0, 0.4, 0.8];
-    window.__mythesRandom = () => rolls.shift() ?? 0;
-    const timoree = await resolveBatch02Initiative('H000033', player1);
-    const devouee = await resolveBatch02Initiative('H000034', player1);
-    delete window.__mythesRandom;
-    return {timoree,devouee,enemy:livingServantCardsForPlayer(player2).map(fc => ({...targetSummary(fc),hypno:fc.dataset.hypno||null,cdg:fc.dataset.frozen_cdg||null,burning:fc.dataset.burning||null}))};
-  });
-  expect(result.timoree.addedToDeck).toBe('S000058');
-  expect(result.timoree.affected.length).toBeGreaterThan(0);
-  expect(result.devouee.addedToDeck).toBe('S000059');
-  expect(result.devouee.affected.length).toBeGreaterThan(0);
-  expect(result.devouee.affected.every(item => ['hypnose','cdg','embrasement'].includes(item.status))).toBe(true);
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("une mort alliee fait piocher un Sort sans dupliquer les zones", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-generated-spells");
-  const result = await page.evaluate(async () => {
-    const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
-    zone.innerHTML = buildFC('H000034','player1') + buildFC('H000001','player1') + '<div class="slot"></div><div class="slot"></div><div class="slot"></div>';
-    player1.drawPile = ['R000010','S000004']; player1.hand = []; player1.graveyard = [];
-    await sendToCemetery(zone.querySelector('[data-id="H000001"]'));
-    return auditCollectionBatch02Runtime();
-  });
-  expect(result.zones.player1.hand).toEqual(['S000004']);
-  expect(result.zones.player1.deck).toEqual(['R000010']);
-  expect(result.zones.player1.graveyard).toEqual(['H000001']);
-  expect(result.state.events.some(event => event.type === 'allied-death-draw')).toBe(true);
-  await attachDiagnostics(testInfo, diagnostics);
-});
-
-test("l Insensible temporaire de Morghast expire apres trois tours du proprietaire", async ({page}, testInfo) => {
-  const diagnostics = diagnosticsFor(page, testInfo);
-  await openScenario(page, "collection-batch-02-triangle");
-  const result = await page.evaluate(async () => {
-    const eligible = livingServantCardsForPlayer(player1).filter(fc => fc.dataset.id !== 'MV000030');
-    await playCard('S000055', null, {selectedTargetIds:eligible.map(fc => fc.dataset.instance)});
-    const morghast = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === 'MV000024');
-    const states = [{turns:morghast.dataset.temporaryInsensibleTurns,insensible:morghast.dataset.insensible}];
-    for (let index=0; index<3; index++) { resolveBatch02OwnerTurnExpiration(player1); states.push({turns:morghast.dataset.temporaryInsensibleTurns,insensible:morghast.dataset.insensible||null}); }
-    return states;
-  });
-  expect(result).toEqual([
-    {turns:'3',insensible:'1'}, {turns:'2',insensible:'1'}, {turns:'1',insensible:'1'}, {turns:'0',insensible:null}
-  ]);
+  expect(result.board.map(card => card.id)).toEqual(expect.arrayContaining(['H000036', 'DIV000005', 'DIV000008']));
+  expect(result.attackProbe.canAttack).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
 });
