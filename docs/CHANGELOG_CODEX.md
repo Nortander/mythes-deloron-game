@@ -113,3 +113,4 @@
 - 2026-07-10 : import dormant de 10 nouvelles cartes depuis l'export principal du 10 juillet ; corpus Collection porté à 328 cartes, sans handler ni modification du runtime de partie.
 
 - 2026-07-11 : corrections visuelles et fonctionnelles Batch-02B ; assets locaux des cartes Gabar/Triangle, accents, exclusion des sacrifices Insensible, statut temporaire de Morghast, prérequis exacts des évolutions Gabar et scénarios techniques renforcés ; aucun changement de Collection, decks, mains initiales ou exports.
+- 2026-07-11 : corrections restantes Batch-02C ; textes canoniques du 10 juillet réalignés, sorts générés non rendus comme lore, cartes liées en assets locaux, aperçu dynamique de Morghast, expiration correcte de l'Insensible temporaire et feedback visuel de responsabilité Gabar ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.

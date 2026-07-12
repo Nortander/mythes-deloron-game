@@ -15,6 +15,15 @@ function diagnosticsFor(page) {
   return attachPageDiagnostics(page);
 }
 
+function normalizeCardTextForComparison(value) {
+  return String(value || '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\*/g, '')
+    .replace(/\u00a0/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 async function expectImagesLoaded(page, ids) {
   const results = await page.evaluate(async ids => {
     return Promise.all(ids.map(async id => {
@@ -40,25 +49,31 @@ test("Batch-02 runtime data, local assets, previews and linked cards render imag
   await attachDiagnostics(testInfo, diagnostics);
 });
 
-test("Batch-02 public texts keep French accents and invocation-condition tooltip", async ({page}, testInfo) => {
+test("Batch-02 public texts match the 2026-07-10 export and generated spells are not lore", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, 'collection-batch-02-triangle');
-  const texts = await page.evaluate(() => ({
-    triangleName: CARDS_DATA.S000055.name,
-    triangle: (CARDS_DATA.S000055.cap || '') + ' ' + (CARDS_DATA.S000055.cond || ''),
-    timore: CARDS_DATA.H000033.cap || '',
-    earth: CARDS_DATA.DIV000005.name + ' ' + (CARDS_DATA.DIV000005.cap || ''),
-    golem: CARDS_DATA.DIV000008.name + ' ' + (CARDS_DATA.DIV000008.cap || ''),
-    condition: invocationConditionRule('S000055')?.text || ''
-  }));
-  expect(texts.triangleName).toBe('Triangle des ténèbres');
-  expect(texts.triangle).toContain('Échos');
-  expect(texts.triangle).toContain('Insensible');
-  expect(texts.timore).toContain('0 à 4');
-  expect(texts.timore).toContain('« Grimoire du maître »');
-  expect(texts.earth).toContain('Élémentaire de la terre');
-  expect(texts.golem).toContain('Golem de roche');
-  expect(texts.condition).toBe('Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].');
+  const texts = await page.evaluate(ids => Object.fromEntries(ids.map(id => [id, {
+    name: CARDS_DATA[id]?.name || '',
+    cap: CARDS_DATA[id]?.cap || '',
+    detail: CARDS_DATA[id]?.detail || '',
+    cond: CARDS_DATA[id]?.cond || '',
+    loreOnly: isLoreOnlyCard(CARDS_DATA[id]),
+    rendered: renderZoomDescription(CARDS_DATA[id], facColor(CARDS_DATA[id]?.fac || 'sort'))
+  }])), [...fixture.cardIds, ...fixture.dependencyIds]);
+  for (const [id, expected] of Object.entries(fixture.canonicalTexts)) {
+    expect(normalizeCardTextForComparison(texts[id].cap), id + ' public text').toBe(normalizeCardTextForComparison(expected));
+    if (fixture.cardIds.includes(id) || ['DIV000005','DIV000008'].includes(id)) {
+      expect(normalizeCardTextForComparison(texts[id].detail), id + ' detail text').toBe(normalizeCardTextForComparison(expected));
+    }
+  }
+  expect(texts.S000055.cond).toBe('Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].');
+  expect(texts.H000033.cap).toContain('*0 à 4*');
+  expect(texts.H000033.cap).toContain('« Grimoire du maître »');
+  expect(texts.S000055.cap).toContain('*10 Échos*');
+  for (const id of ['S000057','S000058','S000059','S000060']) {
+    expect(texts[id].loreOnly, id + ' should render as a playable spell text').toBe(false);
+    expect(texts[id].rendered, id + ' should not be lore italic').not.toContain('card-lore-text');
+  }
   expect(JSON.stringify(texts)).not.toMatch(/tenebres|Echos|evolue|maitre|devoue|cimetiere/i);
   await attachDiagnostics(testInfo, diagnostics);
 });
@@ -93,6 +108,20 @@ test("Triangle UI excludes Insensible sacrifices and resolves with roleplay feed
   expect(result.morghast.temporary).toBe('3');
   expect(result.morghast.badge).toContain('Insensible temporaire');
   expect(result.publicLog).toContain(fixture.triangle.publicMessage);
+  const previewText = await page.evaluate(() => {
+    const morghast = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === 'MV000024');
+    openCardPreview(morghast, {sourceType:'board', playerId:'player1', sourceElement:morghast});
+    return document.querySelector('#card-preview-layer')?.textContent || '';
+  });
+  expect(previewText).toContain('Pendant encore 3 tour(s) de son propriétaire');
+  expect(previewText).toContain('Insensible');
+  await expect.poll(() => page.evaluate(() => {
+    const imgs = Array.from(document.querySelectorAll('#card-preview-layer .canonical-related-mini img'));
+    return imgs.length > 0 && imgs.every(img => {
+      const src = img.getAttribute('src') || '';
+      return src && !src.includes('githubusercontent') && img.naturalWidth > 0;
+    });
+  }), {timeout: 3000}).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -170,12 +199,19 @@ test("Gabar Initiative deck animation and accented evolution messages are visibl
       initiative,
       deck: [...player1.drawPile],
       animation: document.querySelector('.batch02-deck-addition-vfx')?.textContent || '',
+      responsibility: {
+        ribbon: document.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
+        reason: document.querySelector('.fc[data-id="H000033"]')?.dataset.batch02Responsibility || ''
+      },
       events: auditCollectionBatch02Runtime().state.events
     };
   });
   expect(result.initiative.addedToDeck).toBe('S000058');
   expect(result.deck).toContain('S000058');
   expect(result.animation).toContain('Grimoire du maître');
+  expect(result.events.some(event => event.type === 'initiative' && event.cardId === 'H000033')).toBe(true);
+  expect(result.responsibility.ribbon).toContain('Gabar déclenche l’effet');
+  expect(result.responsibility.reason).toBe('initiative');
   const draw = await page.evaluate(async () => {
     const result = drawCardFromRuntimeDeck(player1, {predicate: id => id === 'S000058'});
     const evolution = await result.evolutionResolution;
@@ -196,17 +232,23 @@ test("Gabar dévoué draws a spell on allied death only while present", async ({
     player1.hand = [];
     player1.graveyard = [];
     await sendToCemetery(zone.querySelector('[data-id="H000001"]'));
+    const responsibility = {
+      ribbon: zone.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
+      reason: zone.querySelector('[data-id="H000034"]')?.dataset.batch02Responsibility || ''
+    };
     const withDevoted = auditCollectionBatch02Runtime();
     zone.innerHTML = buildFC('H000001', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
     player1.drawPile = ['R000010', 'S000006'];
     player1.hand = [];
     player1.graveyard = [];
     await sendToCemetery(zone.querySelector('[data-id="H000001"]'));
-    return {withDevoted, withoutDevoted: auditCollectionBatch02Runtime()};
+    return {withDevoted, withoutDevoted: auditCollectionBatch02Runtime(), responsibility};
   });
   expect(result.withDevoted.zones.player1.hand).toEqual(['S000004']);
   expect(result.withDevoted.zones.player1.deck).toEqual(['R000010']);
   expect(result.withDevoted.state.events.some(event => event.type === 'allied-death-draw')).toBe(true);
+  expect(result.responsibility.ribbon).toContain('Gabar déclenche l’effet');
+  expect(result.responsibility.reason).toBe('allied-death-draw');
   expect(result.withoutDevoted.zones.player1.hand).toEqual([]);
   expect(result.withoutDevoted.zones.player1.deck).toEqual(['R000010', 'S000006']);
   await attachDiagnostics(testInfo, diagnostics);
@@ -225,12 +267,18 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
     const before = auditCollectionBatch02Runtime();
     await triggerSort('S000004', player1, {});
     const afterEligible = auditCollectionBatch02Runtime();
+    const copyPulse = {
+      ribbon: document.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
+      reason: document.querySelector('.fc[data-id="H000036"]')?.dataset.batch02Responsibility || ''
+    };
     await triggerSort('S000055', player1, {selectedTargetIds: []});
     const afterEchoSpell = auditCollectionBatch02Runtime();
-    return {before, afterEligible, afterEchoSpell};
+    return {before, afterEligible, afterEchoSpell, copyPulse};
   });
   expect(result.afterEligible.zones.player2.hand).toContain('S000004');
   expect(result.afterEligible.state.events.some(event => event.type === 'spell-copy' && event.copiedCardId === 'S000004')).toBe(true);
+  expect(result.copyPulse.ribbon).toContain('Gabar déclenche l’effet');
+  expect(result.copyPulse.reason).toBe('spell-copy');
   expect(result.afterEchoSpell.zones.player2.hand.filter(id => id === 'S000055')).toHaveLength(0);
   await attachDiagnostics(testInfo, diagnostics);
 });
@@ -242,15 +290,54 @@ test("Gabar prodige and maître summons, temporary Insensible expiry, and genera
     const zone = document.querySelector(playerZoneSelector(player1, 'servants'));
     zone.innerHTML = buildFC('H000035', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
     const first = await applyBatch02StartTurnAbilities(player1);
+    const firstPulse = {
+      ribbon: zone.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
+      reason: zone.querySelector('[data-id="H000035"]')?.dataset.batch02Responsibility || ''
+    };
     zone.querySelector('[data-id="H000035"]').outerHTML = buildFC('H000036', 'player1');
     const second = await applyBatch02StartTurnAbilities(player1);
     const elemental = zone.querySelector('[data-id="DIV000005"]');
     const attackProbe = {canAttack: !!elemental && !elemental.dataset.new && !elemental.dataset.frozen && !elemental.dataset.frozen_cdg && !elemental.dataset.dead};
-    return {first, second, attackProbe, board: livingServantCardsForPlayer(player1).map(targetSummary)};
+    return {first, second, firstPulse, attackProbe, board: livingServantCardsForPlayer(player1).map(targetSummary)};
   });
   expect(result.first[0].cardId).toBe('DIV000005');
   expect(result.second[0].cardId).toBe('DIV000008');
+  expect(result.firstPulse.ribbon).toContain('Gabar déclenche l’effet');
+  expect(result.firstPulse.reason).toBe('start-turn');
   expect(result.board.map(card => card.id)).toEqual(expect.arrayContaining(['H000036', 'DIV000005', 'DIV000008']));
   expect(result.attackProbe.canAttack).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Triangle temporary Insensible starts after invocation turn and then expires after three owner turns", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-triangle');
+  const result = await page.evaluate(async () => {
+    const selected = livingServantCardsForPlayer(player1).filter(fc => !targetSummary(fc).insensible).slice(0, 3).map(fc => fc.dataset.instance);
+    await playCard('S000055', null, {selectedTargetIds: selected});
+    const morghast = () => livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === 'MV000024');
+    const legalSelfTargetIds = () => evaluateTargetRequirement('S000055', {player:player1, selectedTargetIds:[]}).legalTargets.map(card => card.instance);
+    const states = [];
+    states.push({label:'created', turnSequence, turns:morghast()?.dataset.temporaryInsensibleTurns || null, insensible:morghast()?.dataset.insensible || null, legal:legalSelfTargetIds().includes(morghast()?.dataset.instance)});
+    resolveBatch02OwnerTurnExpiration(player1);
+    states.push({label:'same-turn-owner-end', turnSequence, turns:morghast()?.dataset.temporaryInsensibleTurns || null, insensible:morghast()?.dataset.insensible || null, legal:legalSelfTargetIds().includes(morghast()?.dataset.instance)});
+    for (const label of ['owner-1','owner-2','owner-3']) {
+      turnSequence += 1;
+      resolveBatch02OwnerTurnExpiration(player2);
+      turnSequence += 1;
+      resolveBatch02OwnerTurnExpiration(player1);
+      states.push({label, turnSequence, turns:morghast()?.dataset.temporaryInsensibleTurns || null, insensible:morghast()?.dataset.insensible || null, legal:legalSelfTargetIds().includes(morghast()?.dataset.instance)});
+    }
+    return {states, board: livingServantCardsForPlayer(player1).map(targetSummary), effects: collectionBatch02State.triangleEffects};
+  });
+  expect(result.states.map(state => [state.label, state.turns, state.insensible, state.legal])).toEqual([
+    ['created', '3', '1', false],
+    ['same-turn-owner-end', '3', '1', false],
+    ['owner-1', '2', '1', false],
+    ['owner-2', '1', '1', false],
+    ['owner-3', '0', null, true]
+  ]);
+  expect(result.effects[0].createdTurnSequence).toBe(1);
+  expect(result.effects[0].remainingOwnerTurns).toBe(0);
   await attachDiagnostics(testInfo, diagnostics);
 });

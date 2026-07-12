@@ -60,5 +60,32 @@
     "collection-batch-02-gabar",
     "collection-batch-02-triangle",
     "collection-batch-02-generated-spells"
-  ]
+  ],
+  "canonicalTexts": {
+    "DIV000005": "Chaque fois qu'il survit à des dégâts, ce serviteur a 50% de chance de créer 1 copie parfaite de lui-même.",
+    "DIV000008": "[Rempart] [Vengeance] Remplit votre côté du terrain d'Élémentaires de la terre.",
+    "H000032": "[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.",
+    "H000033": "[Initiative] Ajoute le sort « Grimoire du maître » à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.",
+    "H000034": "[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez 1 sort de votre deck.",
+    "H000035": "[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez 1 sort de votre deck.",
+    "H000036": "[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main.",
+    "MV000024": "[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux », puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",
+    "S000055": "Choisissez 3 serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère 10 Échos et invoque « Morghast L'Os-tentatoire ». Pendant vos 3 prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",
+    "S000057": "Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+    "S000058": "Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+    "S000059": "Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",
+    "S000060": "Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."
+  },
+  "canonicalPlayConditions": {
+    "H000033": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Aube de soie de lumière » [ID = S000057].",
+    "H000034": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Grimoire du maître » [ID = S000058].",
+    "H000035": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Plume enchantée » [ID = S000059].",
+    "H000036": "Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein). Ne peut être invoqué que par le sort « Craie d'invocation » [ID = S000060].",
+    "S000055": "Avoir au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",
+    "S000057": "Joué dès qu'il est pioché.",
+    "S000058": "Joué dès qu'il est pioché.",
+    "S000059": "Joué dès qu'il est pioché.",
+    "S000060": "Joué dès qu'il est pioché."
+  },
+  "morghastTemporaryInsensibleText": "Pendant encore 3 tour(s) de son propriétaire, Morghast L'Os-tentatoire bénéficie de la capacité [Insensible]."
 }

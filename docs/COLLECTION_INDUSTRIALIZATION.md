@@ -125,3 +125,11 @@ Interprétations bornées et testées : `H000033` effectue deux tirages aléatoi
 - Les sorts d'évolution Gabar exigent leur forme source exacte : une mauvaise forme ne déclenche plus d'évolution automatique et évite toute boucle de pioche.
 - Les scénarios techniques `collection-batch-02-gabar`, `collection-batch-02-triangle` et `collection-batch-02-generated-spells` ont été enrichis pour vérifier les messages accentués, l'animation d'ajout au deck, les invocations de début de tour, la pioche sur mort alliée et la copie sélective de Sorts par Gabar maître-magicien.
 - Aucun changement n'est apporté au corpus Collection, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-02C
+
+- Les textes runtime de `H000032` à `H000036`, `S000055` et `S000057` à `S000060` sont réalignés sur l'export principal du 10 juillet ; les marquages visuels de variables restent limités au rendu.
+- Les sorts générés de Gabar sont rendus comme des textes de capacité, pas comme du lore, et les cartes liées utilisent les assets locaux, y compris `MV000001` depuis l'aperçu de Morghast.
+- L'Insensible temporaire de Morghast est visible dans l'aperçu complet de la carte, ne consomme pas le tour d'invocation et expire après trois fins de tour du propriétaire.
+- Gabar affiche un feedback visuel quand il est responsable d'un ajout au deck, d'une pioche, d'une copie de Sort ou d'une invocation de début de tour.
+- Aucun changement n'est apporté à `code/collection.html`, aux decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
