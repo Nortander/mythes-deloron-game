@@ -78,6 +78,77 @@ test("Batch-02 public texts match the 2026-07-10 export and generated spells are
   await attachDiagnostics(testInfo, diagnostics);
 });
 
+test("Triangle preview tooltips keep condition, ability and Insensible readable", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-triangle');
+  const tooltipAudit = await page.evaluate(() => {
+    openCardPreview('S000055', {sourceType:'test'});
+    const tips = Array.from(document.querySelectorAll('#card-preview-layer .canonical-keyword-tooltip'));
+    return tips.map(tip => {
+      const title = tip.querySelector(':scope > strong');
+      const body = tip.querySelector(':scope > span');
+      return {
+        kind: tip.dataset.tooltipKind || '',
+        title: title?.textContent?.trim() || '',
+        titleDisplay: title ? getComputedStyle(title).display : null,
+        bodyText: body?.textContent?.replace(/\s+/g, ' ').trim() || '',
+        bodyStrongDisplays: Array.from(body?.querySelectorAll('strong') || []).map(node => getComputedStyle(node).display),
+        bodyStrongTexts: Array.from(body?.querySelectorAll('strong') || []).map(node => node.textContent.trim())
+      };
+    });
+  });
+  expect(tooltipAudit).toHaveLength(3);
+  expect(tooltipAudit[0].kind).toBe('invocation-condition');
+  expect(tooltipAudit[0].title).toMatch(/condition/i);
+  expect(tooltipAudit[1].kind).toBe('ability');
+  expect(tooltipAudit[1].title).toMatch(/capacit/i);
+  expect(tooltipAudit[2].title).toMatch(/insensible/i);
+  for (const tip of tooltipAudit) {
+    expect(tip.title).not.toMatch(/^(3|3 serviteurs alli[eé]s|10 [eé]chos)$/i);
+    expect(tip.titleDisplay).toBe('block');
+    expect(tip.bodyText).not.toMatch(/^\s*(3|10)\s*$/);
+    for (const display of tip.bodyStrongDisplays) expect(display).toBe('inline');
+  }
+  expect(tooltipAudit.flatMap(tip => tip.bodyStrongTexts).join(' ')).toMatch(/3 serviteurs alli|10|3 prochains tours|Insensible/i);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("H000032 renders its compatible cost and Humain mechanical text in dark blue", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-gabar');
+  const audit = await page.evaluate(({resources, color}) => {
+    const costHtml = renderCostHTML('H000032', player1);
+    const costResources = Array.from(resourceKeysRenderedByCostHTML(costHtml)).sort();
+    const mount = document.createElement('div');
+    mount.style.position = 'absolute';
+    mount.style.left = '-9999px';
+    mount.innerHTML = buildHC('H000032', 'player1');
+    document.body.appendChild(mount);
+    openCardPreview('H000032', {sourceType:'test'});
+    const handNodes = Array.from(mount.querySelectorAll('.hc-desc-text em, .hc-desc-text strong.kv'));
+    const previewNodes = Array.from(document.querySelectorAll('#card-preview-layer .fz-desc-text em, #card-preview-layer .fz-desc-text strong.kv'));
+    const handColors = handNodes.map(node => getComputedStyle(node).color);
+    const previewColors = previewNodes.map(node => getComputedStyle(node).color);
+    mount.remove();
+    const expectedRgb = (() => {
+      const probe = document.createElement('span');
+      probe.style.color = color;
+      document.body.appendChild(probe);
+      const rgb = getComputedStyle(probe).color;
+      probe.remove();
+      return rgb;
+    })();
+    return {costHtml, costResources, handColors, previewColors, expectedRgb, resources};
+  }, {resources: fixture.h000032CostResources, color: fixture.humanAccentColor});
+  expect(audit.costResources).toEqual([...fixture.h000032CostResources].sort());
+  expect(audit.costHtml).toContain('OU');
+  expect(audit.costHtml).toContain('&ge;');
+  expect(audit.handColors.length).toBeGreaterThan(0);
+  expect(audit.previewColors.length).toBeGreaterThan(0);
+  for (const color of [...audit.handColors, ...audit.previewColors]) expect(color).toBe(audit.expectedRgb);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
 test("Triangle UI excludes Insensible sacrifices and resolves with roleplay feedback", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, 'collection-batch-02-triangle');
@@ -271,30 +342,69 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, 'collection-batch-02-generated-spells');
   const result = await page.evaluate(async () => {
-    const zone = document.querySelector(playerZoneSelector(player2, 'servants'));
-    zone.innerHTML = buildFC('H000036', 'player2') + '<div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div>';
-    player2.hand = [];
-    refreshRuntimeZone(player2, 'hand');
-    player1.hand = ['S000004', 'S000055'];
+    const ownerZone = document.querySelector(playerZoneSelector(player1, 'servants'));
+    const casterZone = document.querySelector(playerZoneSelector(player2, 'servants'));
+    ownerZone.innerHTML = buildFC('H000036', 'player1') + buildFC('H000001', 'player1') + buildFC('H000005', 'player1') + buildFC('H000018', 'player1') + '<div class="slot" data-player="player1"></div>';
+    casterZone.innerHTML = buildFC('H000033', 'player2') + buildFC('ORC000017', 'player2') + buildFC('H000005', 'player2') + '<div class="slot" data-player="player2"></div><div class="slot" data-player="player2"></div>';
+    player1.hand = [];
     refreshRuntimeZone(player1, 'hand');
+    player2.hand = ['S000005', 'S000055'];
+    refreshRuntimeZone(player2, 'hand');
+    currentPlayer = 'player2';
+    activePlayer = player2;
     const before = auditCollectionBatch02Runtime();
-    await triggerSort('S000004', player1, {});
+    const assassinatTarget = ownerZone.querySelector('[data-id="H000001"]').dataset.instance;
+    const eligiblePlay = await playCard('S000005', null, {selectedTargetIds:[assassinatTarget]});
     const afterEligible = auditCollectionBatch02Runtime();
     const copyPulse = {
       ribbon: document.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
       reason: document.querySelector('.fc[data-id="H000036"]')?.dataset.batch02Responsibility || '',
       active: document.querySelector('.fc[data-id="H000036"]')?.dataset.batch02ResponsibilityActive || ''
     };
-    await triggerSort('S000055', player1, {selectedTargetIds: []});
+    player2.hand = ['S000055'];
+    refreshRuntimeZone(player2, 'hand');
+    const echoTargets = livingServantCardsForPlayer(player2).filter(fc => !targetSummary(fc).insensible).slice(0, 3).map(fc => fc.dataset.instance);
+    const echoPlay = await playCard('S000055', null, {selectedTargetIds: echoTargets});
     const afterEchoSpell = auditCollectionBatch02Runtime();
-    return {before, afterEligible, afterEchoSpell, copyPulse};
+    const handVisibility = (() => {
+      currentPlayer = 'player1';
+      activePlayer = player1;
+      refreshRuntimeZone(player1, 'hand');
+      const copied = document.querySelector(playerZoneSelector(player1, 'hand'))?.querySelector('.hc[data-id="S000005"]');
+      const image = copied?.querySelector('img');
+      return {visible:!!copied, imageLoaded:!!image && image.naturalWidth > 0, count:document.querySelectorAll(`${playerZoneSelector(player1, 'hand')} .hc[data-id="S000005"]`).length};
+    })();
+
+    player1.hand = [];
+    refreshRuntimeZone(player1, 'hand');
+    ownerZone.innerHTML = buildFC('H000001', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
+    player2.hand = ['S000005'];
+    refreshRuntimeZone(player2, 'hand');
+    currentPlayer = 'player2';
+    activePlayer = player2;
+    const noGabarTarget = ownerZone.querySelector('[data-id="H000001"]').dataset.instance;
+    const noGabarPlay = await playCard('S000005', null, {selectedTargetIds:[noGabarTarget]});
+    const afterNoGabar = auditCollectionBatch02Runtime();
+    return {before, eligiblePlay, afterEligible, echoPlay, afterEchoSpell, copyPulse, handVisibility, noGabarPlay, afterNoGabar};
   });
-  expect(result.afterEligible.zones.player2.hand).toContain('S000004');
-  expect(result.afterEligible.state.events.some(event => event.type === 'spell-copy' && event.copiedCardId === 'S000004')).toBe(true);
+  expect(result.eligiblePlay.success).toBe(true);
+  expect(result.eligiblePlay.spellResolution.success).toBe(true);
+  expect(result.afterEligible.zones.player1.hand).toContain('S000005');
+  expect(result.afterEligible.zones.player2.hand).not.toContain('S000005');
+  expect(result.afterEligible.zones.player2.graveyard).toContain('S000005');
+  expect(result.afterEligible.state.events.some(event => event.type === 'spell-copy' && event.copiedCardId === 'S000005')).toBe(true);
   expect(result.copyPulse.ribbon).toBe('');
   expect(result.copyPulse.reason).toBe('spell-copy');
   expect(result.copyPulse.active).toBe('1');
-  expect(result.afterEchoSpell.zones.player2.hand.filter(id => id === 'S000055')).toHaveLength(0);
+  expect(result.handVisibility.visible).toBe(true);
+  expect(result.handVisibility.imageLoaded).toBe(true);
+  expect(result.handVisibility.count).toBe(1);
+  expect(result.echoPlay.success).toBe(true);
+  expect(result.afterEchoSpell.zones.player1.hand.filter(id => id === 'S000055')).toHaveLength(0);
+  expect(result.afterEchoSpell.state.events.some(event => event.type === 'spell-copy-skipped' && event.copiedCardId === 'S000055')).toBe(true);
+  expect(result.noGabarPlay.success).toBe(true);
+  expect(result.afterNoGabar.zones.player1.hand.filter(id => id === 'S000005')).toHaveLength(0);
+  expect(result.afterNoGabar.state.events.filter(event => event.type === 'spell-copy' && event.copiedCardId === 'S000005')).toHaveLength(1);
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -330,14 +440,25 @@ test("Batch-02 scenarios give the opponent visible R000020 x15 cheat resources",
   const diagnostics = diagnosticsFor(page);
   for (const scenario of fixture.scenarios) {
     await openScenario(page, scenario);
-    const audit = await page.evaluate(() => ({
+    const audit = await page.evaluate(expectedIds => ({
       scenarioId:selectedScenarioId(),
       supplies: player2.supplies.map(item => ({cardId:item.cardId, currentProduction:item.currentProduction})),
-      resources: {...player2.resourceState.classical, souls:player2.resourceState.souls}
-    }));
+      resources: {...player2.resourceState.classical, souls:player2.resourceState.souls},
+      opponentIds:[
+        ...player2.hand,
+        ...player2.drawPile,
+        ...livingServantCardsForPlayer(player2).map(fc => fc.dataset.id)
+      ],
+      missingOpponentIds: expectedIds.filter(id => ![
+        ...player2.hand,
+        ...player2.drawPile,
+        ...livingServantCardsForPlayer(player2).map(fc => fc.dataset.id)
+      ].includes(id))
+    }), fixture.opponentEnrichmentIds);
     expect(audit.supplies.some(item => item.cardId === 'R000020')).toBe(true);
     for (const key of ['aria','lenya','selene','fer','bois','pierre','nourriture']) expect(audit.resources[key]).toBeGreaterThanOrEqual(15);
     expect(audit.resources.souls).toBeGreaterThanOrEqual(15);
+    expect(audit.missingOpponentIds, scenario).toEqual([]);
   }
   await attachDiagnostics(testInfo, diagnostics);
 });

@@ -323,6 +323,11 @@ Règles :
 - les messages publics doivent être simples et exacts ;
 - les diagnostics techniques doivent rester dans le mode test.
 
+
+### Charte couleur Humain
+
+Pour les cartes de faction Humain, le champ de description principal doit utiliser le bleu humain sombre `#002fa7` pour les mots-clefs, chiffres, variables et valeurs mécaniques. Le bleu céleste `#26c4ec` reste réservé aux liserés, overlays lumineux, titres et éléments de mise en valeur hors corps principal, notamment les infobulles.
+
 ## 16. Collection
 
 État canonique publié :

@@ -61,6 +61,25 @@
     "collection-batch-02-triangle",
     "collection-batch-02-generated-spells"
   ],
+  "humanAccentColor": "#002fa7",
+  "h000032CostResources": [
+    "aria",
+    "lenya",
+    "nourriture"
+  ],
+  "opponentEnrichmentIds": [
+    "ORC000017",
+    "S000005",
+    "S000007",
+    "S000031",
+    "N000004",
+    "N000015",
+    "H000011",
+    "B000015",
+    "B000016",
+    "B000017",
+    "R000024"
+  ],
   "canonicalTexts": {
     "DIV000005": "Chaque fois qu'il survit à des dégâts, ce serviteur a 50% de chance de créer 1 copie parfaite de lui-même.",
     "DIV000008": "[Rempart] [Vengeance] Remplit votre côté du terrain d'Élémentaires de la terre.",

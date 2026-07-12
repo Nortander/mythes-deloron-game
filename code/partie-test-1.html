@@ -1672,7 +1672,8 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview.sort-fc .fz-desc-inner{background:linear-gradient(155deg,#e8d090,#c09840)!important}
 .canonical-keyword-tooltips{position:fixed;width:min(244px,calc(100vw - 376px));max-height:calc(100vh - 52px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:7px;pointer-events:none!important;z-index:100002}
 .canonical-keyword-tooltip{border:1px solid rgba(218,185,103,.55);border-radius:9px;background:rgba(20,12,6,.94);box-shadow:0 10px 28px rgba(0,0,0,.55);padding:8px 9px;color:#f3dfb4;font-family:'Crimson Pro',serif;font-size:12px;line-height:1.25}
-.canonical-keyword-tooltip strong{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.06em;margin-bottom:4px;color:var(--card-faction-color,#ffe2a0)}
+.canonical-keyword-tooltip > strong{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.06em;margin-bottom:4px;color:var(--card-faction-color,#ffe2a0)}
+.canonical-keyword-tooltip span strong{display:inline;font-family:inherit;font-size:inherit;letter-spacing:normal;margin:0;color:inherit}
 .canonical-related-cards{position:fixed;right:calc(50% + 190px);top:50%;transform:translateY(-50%);width:118px;max-height:calc(100vh - 52px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:7px;pointer-events:none!important;z-index:100002}
 .canonical-related-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-align:center;color:#ffe2a0;text-shadow:0 1px 2px #000}
 .canonical-related-mini{border:1px solid rgba(218,185,103,.5);border-radius:8px;background:rgba(20,12,6,.94);padding:5px;color:#f3dfb4;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,.48)}
@@ -2707,21 +2708,21 @@ SCENARIOS['collection-batch-02-gabar'] = {
   label: 'TEST — COLLECTION BATCH 02 Gabar', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000032',
   testSetup: {
     player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:20}, hand:['H000032'], drawPile:['S000004','R000010'], graveyard:[], servants:[{id:'DIV000005'},{id:'DIV000008'}], avatarHp:20},
-    player2: {resources:{classical:{aria:15, lenya:15, selene:15, fer:15, bois:15, pierre:15, nourriture:15}, souls:15}, hand:['S000004','S000055'], drawPile:['S000004','H000001'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'H000018',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['S000004','S000005','S000007','S000031','S000055','N000004','N000015','H000011'], drawPile:['ORC000017','B000015','B000016','B000017','R000024','S000004','H000001'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'H000018',pdv:4},{id:'ORC000017',pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-02-triangle'] = {
   label: 'TEST — COLLECTION BATCH 02 Triangle', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000055',
   testSetup: {
     player1: {resources:{classical:{aria:10}, souls:0}, hand:['S000055'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'H000018'},{id:'H000036'}], avatarHp:20},
-    player2: {resources:{classical:{aria:15, lenya:15, selene:15, fer:15, bois:15, pierre:15, nourriture:15}, souls:15}, hand:[], drawPile:['H000001'], graveyard:[], servants:[{id:'H000033'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['S000004','S000005','S000007','S000031','S000055','N000004','N000015','H000011'], drawPile:['ORC000017','B000015','B000016','B000017','R000024','S000004','H000001'], graveyard:[], servants:[{id:'H000033'},{id:'ORC000017'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-02-generated-spells'] = {
   label: 'TEST — COLLECTION BATCH 02 Sorts générés', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000057',
   testSetup: {
     player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:[], drawPile:['S000060','S000059','S000058','S000057','S000004','R000010'], graveyard:[], servants:[{id:'H000032'},{id:'H000034'},{id:'H000036'}], avatarHp:20},
-    player2: {resources:{classical:{aria:15, lenya:15, selene:15, fer:15, bois:15, pierre:15, nourriture:15}, souls:15}, hand:['S000004','S000055'], drawPile:['S000004','S000055','H000001'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['S000004','S000005','S000007','S000031','S000055','N000004','N000015','H000011'], drawPile:['S000004','S000055','H000001','ORC000017','B000015','B000016','B000017','R000024'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'ORC000017'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -3104,6 +3105,7 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "H000010": createCostDefinition(1, ["bois"], [], []),
   "H000030": createCostDefinition(7, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "H000031": createCostDefinition(6, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
+  "H000032": createCompatiblePoolCostDefinition(1, ["aria", "lenya", "nourriture"], []),
   "N000004": createCompatiblePoolCostDefinition(1, ["fer", "nourriture"], []),
   "N000014": createCostDefinition(9, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "ORC000001": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
@@ -6018,8 +6020,13 @@ function formatPlayerFacingCardText(rawText) {
   return formatKnownKeywordMarkersForDisplay(resolved.htmlOrTokens);
 }
 
+function humanDescriptionAccentColor(card, fallbackColor) {
+  return card?.fac === 'hum' ? '#002fa7' : fallbackColor;
+}
+
 function renderZoomDescription(card, kwColor) {
   if (!card) return '';
+  const descColor = humanDescriptionAccentColor(card, kwColor);
   if (card.type === 'Approvisionnement') {
     const loreText = supplyLoreText(card);
     return loreText
@@ -6031,7 +6038,7 @@ function renderZoomDescription(card, kwColor) {
     return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>`;
   }
   const mechanicalText = !isEmptyCardText(card.detail) ? card.detail : card.cap;
-  const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(mechanicalText), kwColor)}</p>` : '';
+  const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(mechanicalText), descColor)}</p>` : '';
   const lore = !isEmptyCardText(card.lore) ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(card.lore))}</em></p>` : '';
   return cap + lore;
 }
@@ -6650,7 +6657,7 @@ function buildHC(cardId, player, drawAnim=false) {
   // Description : pour un appro à simple production, afficher SEULEMENT le lore.
   // Pour les autres cartes : capacité (formatée) + lore en italique.
   const approResourceOnly = d.type === 'Approvisionnement' && d.cap && /^Fournit|^Conf[èe]re/i.test(d.cap.trim());
-  const capFmt  = approResourceOnly ? '' : fmtDesc(formatPlayerFacingCardText(d.cap), col);
+  const capFmt  = approResourceOnly ? '' : fmtDesc(formatPlayerFacingCardText(d.cap), humanDescriptionAccentColor(d, col));
   const loreFmt = d.lore ? `<i class="card-lore-text" style="color:inherit;opacity:0.75">${fmtLore(formatPlayerFacingCardText(d.lore))}</i>` : '';
   const descContent = isLoreOnlyCard(d)
     ? `<em class="card-lore-text" style="color:inherit;opacity:0.75">${fmtLore(formatPlayerFacingCardText(!isEmptyCardText(d.lore) ? d.lore : d.cap))}</em>`
@@ -6866,7 +6873,17 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
 
 function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   const tooltipModel = buildCanonicalCardTooltips(cardId, 'preview');
-  const keywords = tooltipModel.right.filter(item => ['ability','invocation-condition','keyword','named-ability'].includes(item.kind));
+  const priorityForPreviewTooltip = item => {
+    if (cardId === 'S000055') {
+      if (item.kind === 'invocation-condition') return 0;
+      if (item.kind === 'ability') return 1;
+      if ((item.keyword || item.title) === 'Insensible') return 2;
+    }
+    return Number.isFinite(item.order) ? item.order : 50;
+  };
+  const keywords = tooltipModel.right
+    .filter(item => ['ability','invocation-condition','keyword','named-ability'].includes(item.kind))
+    .sort((a,b) => priorityForPreviewTooltip(a) - priorityForPreviewTooltip(b));
   if (cardId === 'MV000024' && sourceContext.sourceElement?.dataset?.insensible === '1' && !keywords.some(item => item.keyword === 'Insensible' || item.title === 'Insensible')) {
     keywords.push({kind:'keyword', keyword:'Insensible', title:'Insensible', body:KDEF.Insensible || 'Ne peut pas \u00eatre la cible de sorts adverses.'});
   }
@@ -6874,8 +6891,12 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   const color = facColor(CARDS_DATA[cardId]?.fac);
   return `<div class="canonical-keyword-tooltips" data-preview-keywords="${cardId}" style="--card-faction-color:${color};--card-kw:${color}">
     ${keywords.map(item => {
-      const title = String(item.title || item.keyword || '').replace(/^\s*(?:\d+|INSENSIBLE)\s*$/i, item.keyword || item.title || '').trim();
-      const body = String(item.body || '').replace(/\n\s*(?:\d+|INSENSIBLE)\s*\n/gi, '\n').trim();
+      const rawTitle = String(item.title || item.keyword || '').trim();
+      const title = (/^\s*(?:\d+|INSENSIBLE|3\s+SERVITEURS\s+ALLI[ÉE]S|10\s+[ÉE]CHOS)\s*$/i.test(rawTitle) ? (item.keyword || item.title || '') : rawTitle).trim();
+      const body = String(item.body || '')
+        .replace(/\n\s*(?:\d+|INSENSIBLE|3\s+SERVITEURS\s+ALLI[ÉE]S|10\s+[ÉE]CHOS)\s*\n/gi, '\n')
+        .replace(/\s+/g, ' ')
+        .trim();
       const keywordAttr = item.keyword ? ` data-keyword="${escapeHtml(item.keyword)}"` : '';
       const kindAttr = item.kind ? ` data-tooltip-kind="${escapeHtml(item.kind)}"` : '';
       return `<div class="canonical-keyword-tooltip"${kindAttr}><strong${keywordAttr}>${escapeHtml(title)}</strong><span>${formatPlayerFacingCardText(body)}</span></div>`;
@@ -9990,9 +10011,10 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     const spellMovedToGraveyard = shouldMoveResolvedSpellToGraveyard(cardId) && spellResolution?.success !== false
       ? moveResolvedSpellToGraveyard(cardId, p)
       : false;
-    if (modifiersConsumed) renderAllHands();
+    const batch02SpellCopy = handleBatch02OpposingSpellResolved(cardId, p, spellResolution);
+    if (modifiersConsumed || batch02SpellCopy.copied) renderAllHands();
     traceCardPlay(traceId, 'commitResolved', p, cardId);
-    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed, spellResolution, spellMovedToGraveyard};
+    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed, spellResolution, spellMovedToGraveyard, batch02SpellCopy};
   }
   const specialResolution = d.specialResolution || supplyDefinition(cardId)?.specialResolution;
   if (d.type === 'Approvisionnement' && specialResolution?.type === 'addSouls') {
@@ -10559,16 +10581,6 @@ async function triggerSort(cardId, player, context={}) {
   if (!d) return {success:false, reason:'missing-data'};
   addHistEntry(cardId, d.fac);
   updateCamouflageVFX();
-  const opposingGabar = qs(playerZoneSelector(opponentOf(player), 'servants'))?.querySelector('.fc[data-id="H000036"]:not([data-dead])');
-  const boundFaction = (d.kws || []).some(keyword => ['Elfes des bois','Elfes noirs','Elfes de glace','Humains','Nains','Orcs','Gobelins','Morts-vivants'].includes(keyword));
-  const effectTextForGabarCopy = String(d.cap || '') + ' ' + String(d.cond || '') + ' ' + (d.kws || []).join(' ');
-  const normalizedEffectTextForGabarCopy = effectTextForGabarCopy.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  const requiresEcho = String(d.resType || '').toLowerCase().includes('cho') || normalizedEffectTextForGabarCopy.includes('echo');
-  if (opposingGabar && !boundFaction && !requiresEcho && addCardToHand(opponentOf(player), cardId, {refresh:true})) {
-    pulseBatch02Gabar(opposingGabar, 'spell-copy');
-    recordCollectionBatch02Event('spell-copy',{sourceCardId:'H000036',copiedCardId:cardId,playerId:playerKey(opponentOf(player))});
-  }
-
   switch(cardId) {
     case 'S000016':
       activatePersistentCostReduction(
@@ -16520,6 +16532,35 @@ function markBatch02VisualPhase(phase, detail={}) {
 
 function waitBatch02VisualStep(ms=75) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function isBatch02SpellCopyEligible(cardId) {
+  const d = CARDS_DATA[cardId];
+  if (!d || d.type !== 'Sort') return false;
+  const factionKeywords = ['Elfes des bois','Elfes noirs','Elfes de glace','Humains','Nains','Orcs','Gobelins','Morts-vivants'];
+  const boundFaction = (d.kws || []).some(keyword => factionKeywords.includes(keyword));
+  const effectText = String(d.cap || '') + ' ' + String(d.cond || '') + ' ' + (d.kws || []).join(' ') + ' ' + String(d.resType || '');
+  const normalized = effectText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const requiresEcho = normalized.includes('echo');
+  return !boundFaction && !requiresEcho;
+}
+
+function handleBatch02OpposingSpellResolved(cardId, caster, spellResolution=null) {
+  if (spellResolution?.success === false) return {copied:false, reason:'spell-not-resolved', cardId};
+  const owner = opponentOf(caster);
+  const gabar = qs(playerZoneSelector(owner, 'servants'))?.querySelector('.fc[data-id="H000036"]:not([data-dead])');
+  if (!gabar) return {copied:false, reason:'missing-H000036', cardId, ownerId:playerKey(owner)};
+  if (!isBatch02SpellCopyEligible(cardId)) {
+    recordCollectionBatch02Event('spell-copy-skipped',{sourceCardId:'H000036',copiedCardId:cardId,playerId:playerKey(owner),reason:'not-eligible'});
+    return {copied:false, reason:'not-eligible', cardId, ownerId:playerKey(owner)};
+  }
+  const copied = addCardToHand(owner, cardId, {refresh:true});
+  if (copied) {
+    pulseBatch02Gabar(gabar, 'spell-copy');
+    showBatch02DeckAddition(owner, cardId);
+    recordCollectionBatch02Event('spell-copy',{sourceCardId:'H000036',copiedCardId:cardId,playerId:playerKey(owner)});
+  }
+  return {copied:!!copied, reason:copied ? null : 'hand-full', cardId, ownerId:playerKey(owner)};
 }
 
 function findBatch02GabarSource(player, cardId) {
