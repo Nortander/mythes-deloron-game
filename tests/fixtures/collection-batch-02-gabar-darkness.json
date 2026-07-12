@@ -62,11 +62,29 @@
     "collection-batch-02-generated-spells"
   ],
   "humanAccentColor": "#002fa7",
+  "humanForbiddenMainDescriptionColor": "#26c4ec",
+  "humanMainDescriptionCardIds": [
+    "H000032",
+    "H000033",
+    "H000034",
+    "H000035",
+    "H000036",
+    "H000011"
+  ],
+  "captainPublicTextCardId": "H000011",
+  "captainLinkedCardId": "H000008",
   "h000032CostResources": [
     "aria",
     "lenya",
     "nourriture"
   ],
+  "copyEligibility": {
+    "normalSpell": "S000005",
+    "echoMentionSpell": "S000055",
+    "testFactionSpell": "__BATCH02_TEST_FACTION_SPELL",
+    "testEchoOnlySpell": "__BATCH02_TEST_ECHO_ONLY_SPELL",
+    "testEchoTextSpell": "__BATCH02_TEST_ECHO_TEXT_SPELL"
+  },
   "opponentEnrichmentIds": [
     "ORC000017",
     "S000005",

@@ -734,8 +734,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch02-deck-addition-vfx img{width:82px;height:116px;object-fit:cover;object-position:top;border-radius:7px;display:block;margin:0 auto 6px}
 .batch02-deck-addition-vfx strong{display:block;font-family:'Cinzel',serif;font-size:10px;color:#f4d58a;line-height:1.15}
 @keyframes batch02DeckAdd{0%{opacity:0;transform:translateY(18px) scale(.92)}18%{opacity:1;transform:translateY(0) scale(1)}82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(.96)}}
-.batch02-responsibility-pulse{animation:batch02ResponsibilityPulse 1.4s ease-out 1;box-shadow:0 0 0 3px rgba(244,213,138,.68),0 0 22px rgba(111,210,255,.62)!important}
-@keyframes batch02ResponsibilityPulse{0%{filter:brightness(1);transform:translateY(0)}30%{filter:brightness(1.35);transform:translateY(-3px)}100%{filter:brightness(1);transform:translateY(0)}}
+.batch02-responsibility-pulse{animation:batch02ResponsibilityPulse 1.9s ease-out 1;box-shadow:0 0 0 4px rgba(38,196,236,.95),0 0 28px rgba(38,196,236,.92),0 0 54px rgba(38,196,236,.62),0 0 76px rgba(0,47,167,.38)!important;outline:2px solid rgba(38,196,236,.82);outline-offset:3px}
+@keyframes batch02ResponsibilityPulse{0%{filter:brightness(1);transform:translateY(0);box-shadow:0 0 0 0 rgba(38,196,236,.25)}18%{filter:brightness(1.55) drop-shadow(0 0 18px rgba(38,196,236,.95));transform:translateY(-4px) scale(1.018)}46%{filter:brightness(1.32) drop-shadow(0 0 26px rgba(0,47,167,.72));transform:translateY(-2px) scale(1.01)}74%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(38,196,236,.55));transform:translateY(0) scale(1.004)}100%{filter:brightness(1);transform:translateY(0) scale(1)}}
 .decision-modal-minimize:hover{background:rgba(64,38,16,.98);color:#fff1ca}
 .decision-compact-bar{
   position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2990;
@@ -1666,6 +1666,7 @@ body.dragging-card .hc.dragging {
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
 .canonical-card-preview.hum-fc{--card-dark:#0f1a3a;--card-border:#26c4ec;--card-faction-color:#002fa7;--card-kw:#002fa7}
+.hc.hum .hc-desc-text .canonical-keyword-inline,.hc.hum .hc-desc-text strong.kv,.hc.hum .hc-desc-text .card-keyword,.hc.hum .hc-desc-text .card-named-ability,.fc.hum-fc .fz-desc-text .canonical-keyword-inline,.fc.hum-fc .fz-desc-text strong.kv,.fc.hum-fc .fz-desc-text .card-keyword,.fc.hum-fc .fz-desc-text .card-named-ability,.canonical-card-preview.hum-fc .fz-desc-text .canonical-keyword-inline,.canonical-card-preview.hum-fc .fz-desc-text strong.kv,.canonical-card-preview.hum-fc .fz-desc-text .card-keyword,.canonical-card-preview.hum-fc .fz-desc-text .card-named-ability{color:#002fa7!important}
 .canonical-card-preview.sort-fc{--card-dark:#1e0e34;--card-border:#6a3a9a;--card-faction-color:#6a3a9a;--card-kw:#6a3a9a}
 .canonical-card-preview.sort-fc .fc-zoom{background:linear-gradient(170deg,#2e1a4a,#0e0618)!important}
 .canonical-card-preview.sort-fc .fc-zoom-name-b,.canonical-card-preview.sort-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1e0e34,#150a28 50%,#1e0e34)!important}
@@ -5931,7 +5932,10 @@ function fmtDesc(text, kwColor) {
     return `<strong class="canonical-keyword-inline"${style}>${label}</strong>`;
   });
   // Variables/chiffres *N* → <strong class="kv">
-  text = text.replace(/\*([^*]+)\*/g, (_, v) => '<strong class="kv">' + v + '</strong>');
+  text = text.replace(/\*([^*]+)\*/g, (_, v) => {
+    const style = kwColor ? ' style="color:' + kwColor + '"' : '';
+    return '<strong class="kv"' + style + '>' + v + '</strong>';
+  });
   return text;
 }
 
@@ -14100,7 +14104,7 @@ Object.assign(CARDS_DATA, {
   'AVS000001':{name:'Mage du Cercle – Rohen Tahir',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Coup de glace','Insensible'],cap:'[Initiative] Inflige [Coup de glace] à tous les serviteurs adverses présents sur le terrain pendant 4 tours. Inflige [Coup de glace] à tout serviteur qui l\'attaque pendant 2 tours. [Insensible] aux sorts.',lore:'',cond:'Au moins 6 des ressources utilisées pour l\'invocation doivent être de type Aria.',related:['H000008']},
   'H000002':{name:'Mage ermite',type:'Serviteur',fac:'hum',atk:6,pdv:2,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
   'H000003':{name:'Mentaliste',type:'Serviteur',fac:'hum',atk:3,pdv:1,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
-  'H000011':{name:'Capitaine des patrouilleurs',type:'Serviteur',fac:'hum',atk:6,pdv:4,cost:4,res_ico:'IC00000BOI',res2:'IC00000FER',res3:'IC00000NRT',res_val:'4',resType:'Bois+Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Bois','Fer','Nourriture','Rempart'],cap:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque.',lore:'',detail:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » (ID carte = H000008) de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque. Les invocations ne tiennent pas compte de la limite de cartes jouées par tour. Un emplacement libre de serviteur de votre côté du terrain est nécessaire pour l\'invocation des patrouilleurs.',related:['H000008']},
+  'H000011':{name:'Capitaine des patrouilleurs',type:'Serviteur',fac:'hum',atk:6,pdv:4,cost:4,res_ico:'IC00000BOI',res2:'IC00000FER',res3:'IC00000NRT',res_val:'4',resType:'Bois+Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Bois','Fer','Nourriture','Rempart'],cap:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque.',lore:'',detail:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque. Les invocations ne tiennent pas compte de la limite de cartes jouées par tour. Un emplacement libre de serviteur de votre côté du terrain est nécessaire pour l\'invocation des patrouilleurs.',related:['H000008']},
   'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','Âme'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1* ressource Âme du terrain adverse.',lore:''},
   'H000014':{name:'Seigneur-chevalier',type:'Serviteur',fac:'hum',atk:7,pdv:6,cost:6,res_ico:'IC00000NRT',res2:'IC00000FER',res_val:'6',resType:'Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Nourriture','Fer','Rempart','Initiative'],cap:'[Rempart], [Initiative] Détruit un serviteur adverse avec moins de *7* points de vie.',lore:''},
   'H000017':{name:'Arbalétrier',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:3,res_ico:'IC00000BOI',res2:'IC00000NRT',res3:'IC00000FER',res_val:'3',resType:'Bois+Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Bois','Nourriture','Fer'],cap:'Ce serviteur inflige également ses dégâts aux serviteurs adjacents à ceux qu\'il attaque.',lore:''},
@@ -16534,15 +16538,63 @@ function waitBatch02VisualStep(ms=75) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const BATCH02_FACTION_RESTRICTED_KEYWORDS = new Set(['Elfes des bois','Elfes noirs','Elfes de glace','Humains','Nains','Orcs','Gobelins','Morts-vivants']);
+
+function batch02NormalizeResourceKey(resource) {
+  return normalizeResourceKey(String(resource || '').toLowerCase());
+}
+
+function isBatch02FactionRestrictedSpell(card) {
+  if (!card) return false;
+  if ((card.kws || []).some(keyword => BATCH02_FACTION_RESTRICTED_KEYWORDS.has(keyword))) return true;
+  const structuredValues = [
+    card.factionRestriction,
+    card.requiredFaction,
+    card.onlyFaction,
+    ...(Array.isArray(card.factionRestrictions) ? card.factionRestrictions : []),
+    ...(Array.isArray(card.requiredFactions) ? card.requiredFactions : []),
+    ...(Array.isArray(card.onlyFactions) ? card.onlyFactions : [])
+  ].filter(Boolean);
+  return structuredValues.length > 0;
+}
+
+function batch02CostResources(costDefinition) {
+  const resources = [];
+  const visit = value => {
+    if (!value) return;
+    if (typeof value === 'string') {
+      const normalized = batch02NormalizeResourceKey(value);
+      if (normalized) resources.push(normalized);
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+    if (typeof value === 'object') {
+      visit(value.resource);
+      visit(value.resources);
+      visit(value.options);
+      visit(value.allowedResources);
+      visit(value.allowedForTotal);
+    }
+  };
+  visit(costDefinition?.allowedForTotal);
+  visit(costDefinition?.requirements);
+  return [...new Set(resources)];
+}
+
+function isBatch02EchoOnlyCostDefinition(costDefinition) {
+  if (!costDefinition || Number(costDefinition.total || 0) <= 0) return false;
+  const resources = batch02CostResources(costDefinition);
+  return resources.length > 0 && resources.every(resource => resource === 'soul');
+}
+
 function isBatch02SpellCopyEligible(cardId) {
   const d = CARDS_DATA[cardId];
   if (!d || d.type !== 'Sort') return false;
-  const factionKeywords = ['Elfes des bois','Elfes noirs','Elfes de glace','Humains','Nains','Orcs','Gobelins','Morts-vivants'];
-  const boundFaction = (d.kws || []).some(keyword => factionKeywords.includes(keyword));
-  const effectText = String(d.cap || '') + ' ' + String(d.cond || '') + ' ' + (d.kws || []).join(' ') + ' ' + String(d.resType || '');
-  const normalized = effectText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  const requiresEcho = normalized.includes('echo');
-  return !boundFaction && !requiresEcho;
+  if (isBatch02FactionRestrictedSpell(d)) return false;
+  return !isBatch02EchoOnlyCostDefinition(getCanonicalCostDefinition(cardId));
 }
 
 function handleBatch02OpposingSpellResolved(cardId, caster, spellResolution=null) {

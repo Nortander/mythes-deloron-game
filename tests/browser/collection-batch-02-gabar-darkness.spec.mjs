@@ -113,39 +113,84 @@ test("Triangle preview tooltips keep condition, ability and Insensible readable"
   await attachDiagnostics(testInfo, diagnostics);
 });
 
-test("H000032 renders its compatible cost and Humain mechanical text in dark blue", async ({page}, testInfo) => {
+test("Human cards render every main-description mechanical highlight in dark blue", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, 'collection-batch-02-gabar');
-  const audit = await page.evaluate(({resources, color}) => {
+  const audit = await page.evaluate(({resources, color, forbiddenColor, ids}) => {
     const costHtml = renderCostHTML('H000032', player1);
     const costResources = Array.from(resourceKeysRenderedByCostHTML(costHtml)).sort();
-    const mount = document.createElement('div');
-    mount.style.position = 'absolute';
-    mount.style.left = '-9999px';
-    mount.innerHTML = buildHC('H000032', 'player1');
-    document.body.appendChild(mount);
-    openCardPreview('H000032', {sourceType:'test'});
-    const handNodes = Array.from(mount.querySelectorAll('.hc-desc-text em, .hc-desc-text strong.kv'));
-    const previewNodes = Array.from(document.querySelectorAll('#card-preview-layer .fz-desc-text em, #card-preview-layer .fz-desc-text strong.kv'));
-    const handColors = handNodes.map(node => getComputedStyle(node).color);
-    const previewColors = previewNodes.map(node => getComputedStyle(node).color);
-    mount.remove();
-    const expectedRgb = (() => {
+    const toRgb = cssColor => {
       const probe = document.createElement('span');
-      probe.style.color = color;
+      probe.style.color = cssColor;
       document.body.appendChild(probe);
       const rgb = getComputedStyle(probe).color;
       probe.remove();
       return rgb;
-    })();
-    return {costHtml, costResources, handColors, previewColors, expectedRgb, resources};
-  }, {resources: fixture.h000032CostResources, color: fixture.humanAccentColor});
+    };
+    const expectedRgb = toRgb(color);
+    const forbiddenRgb = toRgb(forbiddenColor);
+    const highlightSelectors = ['.canonical-keyword-inline', 'strong.kv', '.card-keyword', '.card-named-ability'];
+    const scopedSelector = root => highlightSelectors.map(selector => root + ' ' + selector).join(',');
+    const cards = ids.map(id => {
+      const mount = document.createElement('div');
+      mount.style.position = 'absolute';
+      mount.style.left = '-9999px';
+      mount.innerHTML = buildHC(id, id === 'H000011' ? 'player2' : 'player1');
+      document.body.appendChild(mount);
+      openCardPreview(id, {sourceType:'test'});
+      const handNodes = Array.from(mount.querySelectorAll(scopedSelector('.hc-desc-text')));
+      const previewNodes = Array.from(document.querySelectorAll(scopedSelector('#card-preview-layer .fz-desc-text')));
+      const handColors = handNodes.map(node => ({text:node.textContent.trim(), color:getComputedStyle(node).color, inline:node.getAttribute('style') || ''}));
+      const previewColors = previewNodes.map(node => ({text:node.textContent.trim(), color:getComputedStyle(node).color, inline:node.getAttribute('style') || ''}));
+      mount.remove();
+      return {id, handColors, previewColors};
+    });
+    return {
+      costHtml,
+      costResources,
+      expectedRgb,
+      forbiddenRgb,
+      resources,
+      factionColor: facColor('hum'),
+      descAccent: humanDescriptionAccentColor(CARDS_DATA.H000032, facColor('hum')),
+      cards
+    };
+  }, {
+    resources: fixture.h000032CostResources,
+    color: fixture.humanAccentColor,
+    forbiddenColor: fixture.humanForbiddenMainDescriptionColor,
+    ids: fixture.humanMainDescriptionCardIds
+  });
   expect(audit.costResources).toEqual([...fixture.h000032CostResources].sort());
   expect(audit.costHtml).toContain('OU');
   expect(audit.costHtml).toContain('&ge;');
-  expect(audit.handColors.length).toBeGreaterThan(0);
-  expect(audit.previewColors.length).toBeGreaterThan(0);
-  for (const color of [...audit.handColors, ...audit.previewColors]) expect(color).toBe(audit.expectedRgb);
+  expect(audit.factionColor).toBe(fixture.humanForbiddenMainDescriptionColor);
+  expect(audit.descAccent).toBe(fixture.humanAccentColor);
+  for (const card of audit.cards) {
+    const allColors = [...card.handColors, ...card.previewColors];
+    expect(allColors.length, card.id + ' highlighted elements').toBeGreaterThan(0);
+    for (const item of allColors) {
+      expect(item.color, `${card.id} ${item.text}`).toBe(audit.expectedRgb);
+      expect(item.color, `${card.id} must not use border cyan`).not.toBe(audit.forbiddenRgb);
+    }
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Capitaine des patrouilleurs public text keeps linked name but hides technical IDs", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, 'collection-batch-02-gabar');
+  const audit = await page.evaluate(({cardId}) => {
+    const d = CARDS_DATA[cardId];
+    openCardPreview(cardId, {sourceType:'test'});
+    const previewText = document.querySelector('#card-preview-layer')?.textContent?.replace(/\s+/g, ' ').trim() || '';
+    const rendered = renderZoomDescription(d, facColor(d.fac)).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    return {cap:d.cap || '', detail:d.detail || '', rendered, previewText};
+  }, {cardId: fixture.captainPublicTextCardId});
+  const publicText = [audit.cap, audit.detail, audit.rendered, audit.previewText].join('\n');
+  expect(publicText).toContain('Patrouilleur du village');
+  expect(publicText).not.toMatch(/\bH000008\b/);
+  expect(publicText).not.toMatch(/\(ID\b|ID\s*carte\s*=/i);
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -267,18 +312,24 @@ test("Gabar Initiative deck animation and accented evolution messages are visibl
     zone.innerHTML = buildFC('H000033', 'player1') + '<div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div><div class="slot" data-player="player1"></div>';
     const initiative = await resolveBatch02Initiative('H000033', player1);
     await new Promise(resolve => setTimeout(resolve, 40));
-    return {
-      initiative,
-      deck: [...player1.drawPile],
-      animation: document.querySelector('.batch02-deck-addition-vfx')?.textContent || '',
-      responsibility: {
-        ribbon: document.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
-        reason: document.querySelector('.fc[data-id="H000033"]')?.dataset.batch02Responsibility || '',
-        active: document.querySelector('.fc[data-id="H000033"]')?.dataset.batch02ResponsibilityActive || '',
-        pulse: document.querySelector('.fc[data-id="H000033"]')?.classList.contains('batch02-responsibility-pulse') || false
-      },
-      events: auditCollectionBatch02Runtime().state.events
-    };
+      const responsibleCard = document.querySelector('.fc[data-id="H000033"]');
+      const pulseStyle = responsibleCard ? getComputedStyle(responsibleCard) : null;
+      return {
+        initiative,
+        deck: [...player1.drawPile],
+        animation: document.querySelector('.batch02-deck-addition-vfx')?.textContent || '',
+        responsibility: {
+          ribbon: document.querySelector('[data-testid="batch02-gabar-responsibility"]')?.textContent || '',
+          reason: responsibleCard?.dataset.batch02Responsibility || '',
+          active: responsibleCard?.dataset.batch02ResponsibilityActive || '',
+          pulse: responsibleCard?.classList.contains('batch02-responsibility-pulse') || false,
+          animationDuration: pulseStyle?.animationDuration || '',
+          boxShadow: pulseStyle?.boxShadow || '',
+          outlineWidth: pulseStyle?.outlineWidth || '',
+          outlineColor: pulseStyle?.outlineColor || ''
+        },
+        events: auditCollectionBatch02Runtime().state.events
+      };
   });
   expect(result.initiative.addedToDeck).toBe('S000058');
   expect(result.deck).toContain('S000058');
@@ -288,6 +339,10 @@ test("Gabar Initiative deck animation and accented evolution messages are visibl
   expect(result.responsibility.reason).toBe('initiative');
   expect(result.responsibility.active).toBe('1');
   expect(result.responsibility.pulse).toBe(true);
+  expect(parseFloat(result.responsibility.animationDuration)).toBeGreaterThanOrEqual(1.8);
+  expect(result.responsibility.boxShadow).toContain('38, 196, 236');
+  expect(result.responsibility.outlineWidth).not.toBe('0px');
+  expect(result.responsibility.outlineColor).toContain('38, 196, 236');
   const draw = await page.evaluate(async () => {
     const result = drawCardFromRuntimeDeck(player1, {predicate: id => id === 'S000058'});
     const evolution = await result.evolutionResolution;
@@ -370,10 +425,38 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
       currentPlayer = 'player1';
       activePlayer = player1;
       refreshRuntimeZone(player1, 'hand');
-      const copied = document.querySelector(playerZoneSelector(player1, 'hand'))?.querySelector('.hc[data-id="S000005"]');
+      const handZone = document.querySelector(playerZoneSelector(player1, 'hand'));
+      const copied = handZone?.querySelector('.hc[data-id="S000005"]');
+      const copiedTriangle = handZone?.querySelector('.hc[data-id="S000055"]');
       const image = copied?.querySelector('img');
-      return {visible:!!copied, imageLoaded:!!image && image.naturalWidth > 0, count:document.querySelectorAll(`${playerZoneSelector(player1, 'hand')} .hc[data-id="S000005"]`).length};
+      const triangleImage = copiedTriangle?.querySelector('img');
+      return {
+        visible:!!copied,
+        imageLoaded:!!image && image.naturalWidth > 0,
+        count:handZone?.querySelectorAll('.hc[data-id="S000005"]').length || 0,
+        triangleVisible:!!copiedTriangle,
+        triangleImageLoaded:!!triangleImage && triangleImage.naturalWidth > 0,
+        triangleCount:handZone?.querySelectorAll('.hc[data-id="S000055"]').length || 0,
+        triangleName: CARDS_DATA.S000055?.name || '',
+        triangleType: CARDS_DATA.S000055?.type || ''
+      };
     })();
+
+    const testIds = {
+      faction: '__BATCH02_TEST_FACTION_SPELL',
+      echoOnly: '__BATCH02_TEST_ECHO_ONLY_SPELL',
+      echoText: '__BATCH02_TEST_ECHO_TEXT_SPELL'
+    };
+    CARDS_DATA[testIds.faction] = {name:'Sort technique de faction',type:'Sort',fac:'sort',cost:0,resType:'any',kws:['Humains'],cap:'Sort technique de faction.'};
+    CARDS_DATA[testIds.echoOnly] = {name:'Sort technique Ã‰chos seuls',type:'Sort',fac:'sort',cost:3,resType:'Ã‰cho',kws:[],cap:'Sort technique Ã  coÃ»t structurÃ© exclusivement Ã‰chos.'};
+    CARDS_DATA[testIds.echoText] = {name:'Sort technique mention Ã‰chos',type:'Sort',fac:'sort',cost:0,resType:'any',kws:[],cap:'Mentionne les Ã‰chos dans le texte sans les exiger en coÃ»t.'};
+    EXTRA_CARD_COST_DEFINITIONS[testIds.faction] = createCostDefinition(0, COST_RESOURCE_ORDER, [], []);
+    EXTRA_CARD_COST_DEFINITIONS[testIds.echoOnly] = createCostDefinition(3, ['soul'], [{resource:'soul', amount:3}], []);
+    EXTRA_CARD_COST_DEFINITIONS[testIds.echoText] = createCostDefinition(0, COST_RESOURCE_ORDER, [], []);
+    const factionCopy = handleBatch02OpposingSpellResolved(testIds.faction, player2, {success:true});
+    const echoOnlyCopy = handleBatch02OpposingSpellResolved(testIds.echoOnly, player2, {success:true});
+    const echoTextEligible = isBatch02SpellCopyEligible(testIds.echoText);
+    const afterEligibilityProbes = auditCollectionBatch02Runtime();
 
     player1.hand = [];
     refreshRuntimeZone(player1, 'hand');
@@ -385,7 +468,7 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
     const noGabarTarget = ownerZone.querySelector('[data-id="H000001"]').dataset.instance;
     const noGabarPlay = await playCard('S000005', null, {selectedTargetIds:[noGabarTarget]});
     const afterNoGabar = auditCollectionBatch02Runtime();
-    return {before, eligiblePlay, afterEligible, echoPlay, afterEchoSpell, copyPulse, handVisibility, noGabarPlay, afterNoGabar};
+    return {before, eligiblePlay, afterEligible, echoPlay, afterEchoSpell, copyPulse, handVisibility, factionCopy, echoOnlyCopy, echoTextEligible, afterEligibilityProbes, noGabarPlay, afterNoGabar};
   });
   expect(result.eligiblePlay.success).toBe(true);
   expect(result.eligiblePlay.spellResolution.success).toBe(true);
@@ -400,8 +483,19 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
   expect(result.handVisibility.imageLoaded).toBe(true);
   expect(result.handVisibility.count).toBe(1);
   expect(result.echoPlay.success).toBe(true);
-  expect(result.afterEchoSpell.zones.player1.hand.filter(id => id === 'S000055')).toHaveLength(0);
-  expect(result.afterEchoSpell.state.events.some(event => event.type === 'spell-copy-skipped' && event.copiedCardId === 'S000055')).toBe(true);
+  expect(result.afterEchoSpell.zones.player1.hand.filter(id => id === 'S000055')).toHaveLength(1);
+  expect(result.afterEchoSpell.state.events.some(event => event.type === 'spell-copy' && event.copiedCardId === 'S000055')).toBe(true);
+  expect(result.handVisibility.triangleVisible).toBe(true);
+  expect(result.handVisibility.triangleImageLoaded).toBe(true);
+  expect(result.handVisibility.triangleCount).toBe(1);
+  expect(result.handVisibility.triangleName).toContain('Triangle');
+  expect(result.handVisibility.triangleType).toBe('Sort');
+  expect(result.factionCopy).toEqual(expect.objectContaining({copied:false, reason:'not-eligible'}));
+  expect(result.echoOnlyCopy).toEqual(expect.objectContaining({copied:false, reason:'not-eligible'}));
+  expect(result.echoTextEligible).toBe(true);
+  expect(result.afterEligibilityProbes.zones.player1.hand).not.toContain(fixture.copyEligibility.testFactionSpell);
+  expect(result.afterEligibilityProbes.zones.player1.hand).not.toContain(fixture.copyEligibility.testEchoOnlySpell);
+  expect(result.afterEligibilityProbes.zones.player1.hand).not.toContain(fixture.copyEligibility.testEchoTextSpell);
   expect(result.noGabarPlay.success).toBe(true);
   expect(result.afterNoGabar.zones.player1.hand.filter(id => id === 'S000005')).toHaveLength(0);
   expect(result.afterNoGabar.state.events.filter(event => event.type === 'spell-copy' && event.copiedCardId === 'S000005')).toHaveLength(1);
