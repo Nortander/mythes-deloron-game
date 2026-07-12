@@ -733,10 +733,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch02-deck-addition-vfx{position:fixed;right:28px;bottom:118px;z-index:3600;width:132px;padding:10px;border:1px solid rgba(236,196,94,.8);border-radius:12px;background:rgba(12,7,3,.94);box-shadow:0 14px 36px rgba(0,0,0,.7);text-align:center;animation:batch02DeckAdd 1.45s ease-out forwards;pointer-events:none}
 .batch02-deck-addition-vfx img{width:82px;height:116px;object-fit:cover;object-position:top;border-radius:7px;display:block;margin:0 auto 6px}
 .batch02-deck-addition-vfx strong{display:block;font-family:'Cinzel',serif;font-size:10px;color:#f4d58a;line-height:1.15}
-.batch02-temporary-status{position:absolute;left:7px;right:7px;bottom:7px;z-index:3;padding:2px 5px;border:1px solid rgba(244,213,138,.65);border-radius:999px;background:rgba(16,8,2,.72);color:#f9df9b;font-family:'Cinzel',serif;font-size:7px;font-weight:800;text-align:center;letter-spacing:.035em;box-shadow:0 2px 6px rgba(0,0,0,.45);pointer-events:none}
 @keyframes batch02DeckAdd{0%{opacity:0;transform:translateY(18px) scale(.92)}18%{opacity:1;transform:translateY(0) scale(1)}82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(.96)}}
 .batch02-responsibility-pulse{animation:batch02ResponsibilityPulse 1.4s ease-out 1;box-shadow:0 0 0 3px rgba(244,213,138,.68),0 0 22px rgba(111,210,255,.62)!important}
-.batch02-responsibility-ribbon{position:absolute;left:8px;right:8px;top:8px;z-index:4;padding:3px 5px;border:1px solid rgba(111,210,255,.7);border-radius:999px;background:rgba(7,15,28,.82);color:#dff5ff;font-family:'Cinzel',serif;font-size:7px;font-weight:900;text-align:center;letter-spacing:.04em;pointer-events:none}
 @keyframes batch02ResponsibilityPulse{0%{filter:brightness(1);transform:translateY(0)}30%{filter:brightness(1.35);transform:translateY(-3px)}100%{filter:brightness(1);transform:translateY(0)}}
 .decision-modal-minimize:hover{background:rgba(64,38,16,.98);color:#fff1ca}
 .decision-compact-bar{
@@ -1315,7 +1313,7 @@ body.dragging-card .hc.dragging {
 .hc.edb .hc-desc-text em, .fc.edb-fc .fz-desc-text em { color:#2a5a10; }
 .hc.edn .hc-desc-text em, .fc.edn-fc .fz-desc-text em { color:#d080e8; }
 .hc.edg .hc-desc-text em, .fc.edg-fc .fz-desc-text em { color:#0a4a8a; }
-.hc.hum .hc-desc-text em, .fc.hum-fc .fz-desc-text em { color:#003ccc; }
+.hc.hum .hc-desc-text em, .fc.hum-fc .fz-desc-text em { color:#002fa7; }
 .hc.mvs .hc-desc-text em, .fc.mvs-fc .fz-desc-text em { color:#d080e8; }
 .hc.div .hc-desc-text em, .fc.div-fc .fz-desc-text em { color:#5a1a8a; }
 .hc.sort .hc-desc-text em, .fc.sort-fc .fz-desc-text em { color:#5a1a8a; }
@@ -1326,7 +1324,7 @@ body.dragging-card .hc.dragging {
 .hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv { color:#2a5a10; }
 .hc.edn .hc-desc-text strong.kv, .fc.edn-fc .fz-desc-text strong.kv { color:#d080e8; }
 .hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv { color:#0a4a8a; }
-.hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv { color:#003ccc; }
+.hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv { color:#002fa7; }
 .hc.mvs .hc-desc-text strong.kv, .fc.mvs-fc .fz-desc-text strong.kv { color:#d080e8; }
 .hc.div .hc-desc-text strong.kv, .fc.div-fc .fz-desc-text strong.kv { color:#5a1a8a; }
 .fc.sort-fc .fz-desc-text strong.kv { color:#5a1a8a; }
@@ -1667,7 +1665,7 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview .fc-zoom-cost-z{min-height:42px;display:flex;align-items:center;justify-content:center}
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
-.canonical-card-preview.hum-fc{--card-dark:#0f1a3a;--card-border:#26c4ec;--card-faction-color:#26c4ec;--card-kw:#26c4ec}
+.canonical-card-preview.hum-fc{--card-dark:#0f1a3a;--card-border:#26c4ec;--card-faction-color:#002fa7;--card-kw:#002fa7}
 .canonical-card-preview.sort-fc{--card-dark:#1e0e34;--card-border:#6a3a9a;--card-faction-color:#6a3a9a;--card-kw:#6a3a9a}
 .canonical-card-preview.sort-fc .fc-zoom{background:linear-gradient(170deg,#2e1a4a,#0e0618)!important}
 .canonical-card-preview.sort-fc .fc-zoom-name-b,.canonical-card-preview.sort-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1e0e34,#150a28 50%,#1e0e34)!important}
@@ -2709,21 +2707,21 @@ SCENARIOS['collection-batch-02-gabar'] = {
   label: 'TEST — COLLECTION BATCH 02 Gabar', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000032',
   testSetup: {
     player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:20}, hand:['H000032'], drawPile:['S000004','R000010'], graveyard:[], servants:[{id:'DIV000005'},{id:'DIV000008'}], avatarHp:20},
-    player2: {resources:{classical:{aria:8, lenya:8, nourriture:8}, souls:5}, hand:['S000004','S000055'], drawPile:['S000004','H000001'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'H000018',pdv:4}], avatarHp:20}
+    player2: {resources:{classical:{aria:15, lenya:15, selene:15, fer:15, bois:15, pierre:15, nourriture:15}, souls:15}, hand:['S000004','S000055'], drawPile:['S000004','H000001'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'H000018',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-02-triangle'] = {
   label: 'TEST — COLLECTION BATCH 02 Triangle', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000055',
   testSetup: {
     player1: {resources:{classical:{aria:10}, souls:0}, hand:['S000055'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'H000018'},{id:'H000036'}], avatarHp:20},
-    player2: {resources:{classical:{aria:8}, souls:0}, hand:[], drawPile:['H000001'], graveyard:[], servants:[{id:'H000033'}], avatarHp:20}
+    player2: {resources:{classical:{aria:15, lenya:15, selene:15, fer:15, bois:15, pierre:15, nourriture:15}, souls:15}, hand:[], drawPile:['H000001'], graveyard:[], servants:[{id:'H000033'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-02-generated-spells'] = {
   label: 'TEST — COLLECTION BATCH 02 Sorts générés', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000057',
   testSetup: {
     player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:[], drawPile:['S000060','S000059','S000058','S000057','S000004','R000010'], graveyard:[], servants:[{id:'H000032'},{id:'H000034'},{id:'H000036'}], avatarHp:20},
-    player2: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:['S000004','S000055'], drawPile:['S000004','S000055','H000001'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'}], avatarHp:20}
+    player2: {resources:{classical:{aria:15, lenya:15, selene:15, fer:15, bois:15, pierre:15, nourriture:15}, souls:15}, hand:['S000004','S000055'], drawPile:['S000004','S000055','H000001'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -4309,6 +4307,24 @@ function doorLockByMarker(marker) {
   return activeDoorLocks().find(lock => lock.effectInstanceId === effectInstanceId) || null;
 }
 
+const doorLockImagePreloadCache = new Map();
+function preloadDoorLockImage(cardId) {
+  const d = CARDS_DATA[cardId] || {};
+  const folder = d.assetFolder || facFolder(d.fac || 'sort');
+  const src = cardArtworkSrc(cardId, folder);
+  if (!doorLockImagePreloadCache.has(src)) {
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+    doorLockImagePreloadCache.set(src, img);
+  }
+  return doorLockImagePreloadCache.get(src);
+}
+function preloadDoorLockAssets() {
+  preloadDoorLockImage('S000007');
+  preloadDoorLockImage('S000008');
+}
+
 function buildDoorLockPreview(lock) {
   const key = CARDS_DATA.S000008 || {};
   const keyFolder = key.assetFolder || facFolder(key.fac || 'sort');
@@ -4317,14 +4333,14 @@ function buildDoorLockPreview(lock) {
     <div class="canonical-related-cards" data-preview-related="door-lock">
       <div class="canonical-related-title">Carte liée</div>
       <div class="canonical-related-mini" data-related-card="S000008">
-        <img src="${GH}/${keyFolder}/S000008.png" alt="${escapeHtml(key.name || 'Clef de pierre')}" onerror="this.style.opacity='0.12';this.src=''">
+        <img src="${cardArtworkSrc('S000008', keyFolder)}" alt="${escapeHtml(key.name || 'Clef de pierre')}" loading="eager" decoding="sync" onerror="this.style.opacity='0.12';this.src=''">
         <span class="canonical-related-name">${escapeHtml(key.name || 'Clef de pierre')}</span>
       </div>
     </div>
     <div class="canonical-card-preview fc sort-fc door-lock-zone-preview" data-preview-card-id="door-lock" data-source-context="door-lock">
       <div class="fc-zoom sort-fc">
         <div class="fc-zoom-art">
-          <img class="fz-img" src="${GH}/sorts/S000007.png" alt="${escapeHtml(CARDS_DATA.S000007?.name || 'Porte infranchissable')}" onerror="this.style.background='#1a1a2e';this.src=''">
+          <img class="fz-img" src="${cardArtworkSrc('S000007', 'sorts')}" alt="${escapeHtml(CARDS_DATA.S000007?.name || 'Porte infranchissable')}" loading="eager" decoding="sync" onerror="this.style.background='#1a1a2e';this.src=''">
         </div>
         <div class="fc-zoom-name-b"><span class="fz-name">Porte infranchissable</span></div>
         <div class="fc-zoom-desc-z"><div class="fz-desc-inner">
@@ -4358,6 +4374,7 @@ function openDoorLockPreview(marker) {
 function showDoorKeyVisual(cardId, {mode='adding', message='', ownerId='', linkedDoorEffectId=''}={}) {
   const d = CARDS_DATA[cardId] || {};
   const folder = d.assetFolder || facFolder(d.fac || 'sort');
+  preloadDoorLockImage(cardId);
   const testId = mode === 'opening' ? 'stone-key-open-animation' : 'door-key-add-animation';
   const node = document.createElement('div');
   node.className = `door-key-visual is-${mode}`;
@@ -4366,7 +4383,7 @@ function showDoorKeyVisual(cardId, {mode='adding', message='', ownerId='', linke
   node.dataset.ownerId = ownerId;
   node.dataset.linkedDoorEffectId = linkedDoorEffectId;
   node.dataset.doorKeyPhase = mode === 'opening' ? 'key-found' : 'key-to-deck';
-  node.innerHTML = `<img src="${cardArtworkSrc(cardId, folder)}" alt="${escapeHtml(d.name || cardId)}"><div class="door-key-visual-title">${escapeHtml(d.name || cardId)}</div><div class="door-key-visual-text">${escapeHtml(message)}</div>`;
+  node.innerHTML = `<img src="${cardArtworkSrc(cardId, folder)}" alt="${escapeHtml(d.name || cardId)}" loading="eager" decoding="sync"><div class="door-key-visual-title">${escapeHtml(d.name || cardId)}</div><div class="door-key-visual-text">${escapeHtml(message)}</div>`;
   document.body.appendChild(node);
   const cleanup = () => node.remove();
   node.addEventListener('animationend', cleanup, {once:true});
@@ -6807,7 +6824,7 @@ function positionPreviewTooltips() {
 function batch02TemporaryInsensibleText(fc) {
   const turns = Number(fc?.dataset?.temporaryInsensibleTurns || 0);
   if (!fc || fc.dataset.id !== 'MV000024' || turns <= 0) return '';
-  return `Pendant encore ${turns} tour(s) de son propriétaire, Morghast L'Os-tentatoire bénéficie de la capacité [Insensible].`;
+  return `B\u00e9n\u00e9ficie temporairement de [Insensible] : *${turns}* tour(s) restant(s).`;
 }
 
 function batch02PreviewCardData(cardId, data, sourceContext={}) {
@@ -6847,16 +6864,21 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
   </div>`;
 }
 
-function buildPreviewKeywordTooltips(cardId) {
+function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   const tooltipModel = buildCanonicalCardTooltips(cardId, 'preview');
   const keywords = tooltipModel.right.filter(item => ['ability','invocation-condition','keyword','named-ability'].includes(item.kind));
+  if (cardId === 'MV000024' && sourceContext.sourceElement?.dataset?.insensible === '1' && !keywords.some(item => item.keyword === 'Insensible' || item.title === 'Insensible')) {
+    keywords.push({kind:'keyword', keyword:'Insensible', title:'Insensible', body:KDEF.Insensible || 'Ne peut pas \u00eatre la cible de sorts adverses.'});
+  }
   if (!keywords.length) return '';
   const color = facColor(CARDS_DATA[cardId]?.fac);
   return `<div class="canonical-keyword-tooltips" data-preview-keywords="${cardId}" style="--card-faction-color:${color};--card-kw:${color}">
     ${keywords.map(item => {
+      const title = String(item.title || item.keyword || '').replace(/^\s*(?:\d+|INSENSIBLE)\s*$/i, item.keyword || item.title || '').trim();
+      const body = String(item.body || '').replace(/\n\s*(?:\d+|INSENSIBLE)\s*\n/gi, '\n').trim();
       const keywordAttr = item.keyword ? ` data-keyword="${escapeHtml(item.keyword)}"` : '';
       const kindAttr = item.kind ? ` data-tooltip-kind="${escapeHtml(item.kind)}"` : '';
-      return `<div class="canonical-keyword-tooltip"${kindAttr}><strong${keywordAttr}>${escapeHtml(item.title)}</strong><span>${formatPlayerFacingCardText(item.body)}</span></div>`;
+      return `<div class="canonical-keyword-tooltip"${kindAttr}><strong${keywordAttr}>${escapeHtml(title)}</strong><span>${formatPlayerFacingCardText(body)}</span></div>`;
     }).join('')}
   </div>`;
 }
@@ -6881,7 +6903,8 @@ function buildPreviewRelatedCards(cardId) {
 }
 
 function buildHandPreview(cardId, player) {
-  return `<div class="canonical-card-preview-shell">${buildPreviewRelatedCards(cardId)}${buildCanonicalCardPreview(cardId, {playerId:player, sourceType:'hand'})}${buildPreviewKeywordTooltips(cardId)}</div>`;
+  const context = {playerId:player, sourceType:'hand'};
+  return `<div class="canonical-card-preview-shell">${buildPreviewRelatedCards(cardId)}${buildCanonicalCardPreview(cardId, context)}${buildPreviewKeywordTooltips(cardId, context)}</div>`;
 }
 
 function clearCardPreviewSourceMarkers() {
@@ -6960,7 +6983,7 @@ function openCardPreview(cardOrId, sourceContext={}) {
   sourceContext.sourceElement?.classList?.add('is-preview-source');
   layer.classList.add('preview-open');
   layer.setAttribute('aria-hidden', 'false');
-  layer.innerHTML = `<div class="canonical-card-preview-shell" data-preview-root="1">${buildPreviewRelatedCards(cardId)}${buildCanonicalCardPreview(cardId, sourceContext)}${buildPreviewKeywordTooltips(cardId)}</div>`;
+  layer.innerHTML = `<div class="canonical-card-preview-shell" data-preview-root="1">${buildPreviewRelatedCards(cardId)}${buildCanonicalCardPreview(cardId, sourceContext)}${buildPreviewKeywordTooltips(cardId, sourceContext)}</div>`;
   requestAnimationFrame(positionPreviewTooltips);
   const shell = layer.querySelector('.canonical-card-preview-shell');
   if (shell) {
@@ -10538,7 +10561,9 @@ async function triggerSort(cardId, player, context={}) {
   updateCamouflageVFX();
   const opposingGabar = qs(playerZoneSelector(opponentOf(player), 'servants'))?.querySelector('.fc[data-id="H000036"]:not([data-dead])');
   const boundFaction = (d.kws || []).some(keyword => ['Elfes des bois','Elfes noirs','Elfes de glace','Humains','Nains','Orcs','Gobelins','Morts-vivants'].includes(keyword));
-  const requiresEcho = String(d.resType || '').toLowerCase().includes('cho') || /[ÉE]chos?/i.test(String(d.cap || '') + ' ' + String(d.cond || ''));
+  const effectTextForGabarCopy = String(d.cap || '') + ' ' + String(d.cond || '') + ' ' + (d.kws || []).join(' ');
+  const normalizedEffectTextForGabarCopy = effectTextForGabarCopy.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const requiresEcho = String(d.resType || '').toLowerCase().includes('cho') || normalizedEffectTextForGabarCopy.includes('echo');
   if (opposingGabar && !boundFaction && !requiresEcho && addCardToHand(opponentOf(player), cardId, {refresh:true})) {
     pulseBatch02Gabar(opposingGabar, 'spell-copy');
     recordCollectionBatch02Event('spell-copy',{sourceCardId:'H000036',copiedCardId:cardId,playerId:playerKey(opponentOf(player))});
@@ -16460,12 +16485,12 @@ Object.assign(CARDS_DATA, {
 Object.assign(CARDS_DATA, {
   DIV000005:{name:'Élémentaire de la terre',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre'],assetFolder:'autres',max:6,cap:"Chaque fois qu'il survit à des dégâts, ce serviteur a 50% de chance de créer 1 copie parfaite de lui-même.",detail:"Chaque fois qu'il survit à des dégâts, ce serviteur a 50% de chance de créer 1 copie parfaite de lui-même."},
   DIV000008:{name:'Golem de roche',type:'Serviteur',fac:'div',atk:4,pdv:7,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre','Vengeance','Rempart'],assetFolder:'autres',max:4,related:['DIV000005'],cap:"[Rempart] [Vengeance] Remplit votre côté du terrain d'Élémentaires de la terre.",detail:"[Rempart] [Vengeance] Remplit votre côté du terrain d'Élémentaires de la terre."},
-  H000032:{name:"Gabar, l'apprenti magicien maladroit",type:'Serviteur',fac:'hum',atk:1,pdv:2,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria|Lenya|Nourriture',fico:'FCT00000HUM.png',kws:['Aria','Lenya','Nourriture','Initiative'],assetFolder:'humains',max:1,related:['S000057'],cap:"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.",detail:"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis."},
+  H000032:{name:"Gabar, l'apprenti magicien maladroit",type:'Serviteur',fac:'hum',atk:1,pdv:2,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria|Lenya|Nourriture',fico:'FCT00000HUM.png',kws:['Aria','Lenya','Nourriture','Initiative'],assetFolder:'humains',max:1,related:['S000057'],cap:"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige *1 point de dégât* à tous les serviteurs sur le plateau, alliés comme ennemis.",detail:"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige *1 point de dégât* à tous les serviteurs sur le plateau, alliés comme ennemis."},
   H000033:{name:"Gabar, l'apprenti magicien timoré",type:'Serviteur',fac:'hum',atk:2,pdv:4,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000058','S000057'],cap:"[Initiative] Ajoute le sort « Grimoire du maître » à votre deck. Inflige *0 à 4* points de dégâts à *0 à 4* serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place *0 à 4* points de dégâts à l'avatar ennemi.",detail:"[Initiative] Ajoute le sort « Grimoire du maître » à votre deck. Inflige *0 à 4* points de dégâts à *0 à 4* serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place *0 à 4* points de dégâts à l'avatar ennemi."},
-  H000034:{name:"Gabar, l'apprenti magicien dévoué",type:'Serviteur',fac:'hum',atk:3,pdv:6,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative','Hypnose','Coup de glace','Embrasement'],assetFolder:'humains',max:0,related:['S000059','S000058'],cap:"[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez 1 sort de votre deck.",detail:"[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant 3 tours, [Coup de glace] pendant 2 tours ou [Embrasement] à un maximum de 3 serviteurs adverses. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez 1 sort de votre deck."},
-  H000035:{name:"Gabar, l'apprenti magicien prodige",type:'Serviteur',fac:'hum',atk:4,pdv:8,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000060','S000059','DIV000005'],cap:"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez 1 sort de votre deck.",detail:"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque 1 « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez 1 sort de votre deck."},
-  H000036:{name:'Gabar, maître-magicien',type:'Serviteur',fac:'hum',atk:5,pdv:10,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Insensible'],assetFolder:'humains',max:0,related:['S000060','DIV000008'],cap:"[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main.",detail:"[Insensible] À chacun de vos débuts de tours, invoque 1 « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez 1 sort de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute 1 copie dans votre main."},
-  S000055:{name:'Triangle des ténèbres',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000MVS.png',kws:['Echo','Insensible'],assetFolder:'sorts',max:1,related:['MV000024'],cond:"Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",cap:"Choisissez *3* serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3* prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",detail:"Choisissez *3* serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3* prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible]."},
+  H000034:{name:"Gabar, l'apprenti magicien dévoué",type:'Serviteur',fac:'hum',atk:3,pdv:6,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative','Hypnose','Coup de glace','Embrasement'],assetFolder:'humains',max:0,related:['S000059','S000058'],cap:"[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant *3 tours*, [Coup de glace] pendant *2 tours* ou [Embrasement] à un maximum de *3 serviteurs adverses*. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez *1 sort* de votre deck.",detail:"[Initiative] Ajoute le sort « Plume enchantée » à votre deck. Inflige aléatoirement [Hypnose] pendant *3 tours*, [Coup de glace] pendant *2 tours* ou [Embrasement] à un maximum de *3 serviteurs adverses*. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien dévoué » est de votre côté du terrain, piochez *1 sort* de votre deck."},
+  H000035:{name:"Gabar, l'apprenti magicien prodige",type:'Serviteur',fac:'hum',atk:4,pdv:8,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000060','S000059','DIV000005'],cap:"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque *1* « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez *1 sort* de votre deck.",detail:"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque *1* « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez *1 sort* de votre deck."},
+  H000036:{name:"Gabar, maître-magicien",type:'Serviteur',fac:'hum',atk:5,pdv:10,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Insensible'],assetFolder:'humains',max:0,related:['S000060','DIV000008'],cap:"[Insensible] À chacun de vos débuts de tours, invoque *1* « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez *1 sort* de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute *1 copie* dans votre main.",detail:"[Insensible] À chacun de vos débuts de tours, invoque *1* « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez *1 sort* de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute *1 copie* dans votre main."},
+  S000055:{name:"Triangle des ténèbres",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000MVS.png',kws:['Echo','Insensible'],assetFolder:'sorts',max:1,related:['MV000024'],cond:"Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",cap:"Choisissez *3 serviteurs alliés* de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3 prochains tours*, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",detail:"Choisissez *3 serviteurs alliés* de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3 prochains tours*, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible]."},
   S000057:{name:'Aube de soie de lumière',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000032','H000033'],cap:"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
   S000058:{name:'Grimoire du maître',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000033','H000034'],cap:"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
   S000059:{name:'Plume enchantée',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000034','H000035'],cap:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
@@ -16487,6 +16512,16 @@ function recordCollectionBatch02Event(type, detail={}) {
   return event;
 }
 
+function markBatch02VisualPhase(phase, detail={}) {
+  document.body.dataset.batch02VisualPhase = phase;
+  collectionBatch02State.lastVisualPhase = phase;
+  return recordCollectionBatch02Event('visual-phase', {phase, ...detail});
+}
+
+function waitBatch02VisualStep(ms=75) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function findBatch02GabarSource(player, cardId) {
   const p = playerState(player);
   return qs(playerZoneSelector(p, 'servants'))?.querySelector(`.fc[data-id="${cardId}"]:not([data-dead])`) || null;
@@ -16503,18 +16538,14 @@ function pulseBatch02Gabar(fc, reason='effet') {
   void fc.offsetWidth;
   fc.classList.add('batch02-responsibility-pulse');
   fc.dataset.batch02Responsibility = reason;
+  fc.dataset.batch02ResponsibilityActive = '1';
   fc.querySelector('.batch02-responsibility-ribbon')?.remove();
-  const ribbon = document.createElement('div');
-  ribbon.className = 'batch02-responsibility-ribbon';
-  ribbon.dataset.testid = 'batch02-gabar-responsibility';
-  ribbon.textContent = 'Gabar déclenche l’effet';
-  fc.appendChild(ribbon);
   setTimeout(() => {
     fc.classList.remove('batch02-responsibility-pulse');
     if (fc.dataset.batch02Responsibility === reason) delete fc.dataset.batch02Responsibility;
-    ribbon.remove();
+    delete fc.dataset.batch02ResponsibilityActive;
   }, 1500);
-  return ribbon;
+  return fc;
 }
 
 function showBatch02DeckAddition(player, cardId) {
@@ -16584,14 +16615,24 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
     recordCollectionBatch02Event('evolution-refused', {...result, playerId:p.key});
     return result;
   }
+  markBatch02VisualPhase('draw-evolution-spell', {playerId:p.key, spellId});
+  await waitBatch02VisualStep();
+  markBatch02VisualPhase('transform-remove-source', {playerId:p.key, spellId, removedCardId:rule.remove});
   const removed = removeBatch02CardEverywhere(p, rule.remove);
+  await waitBatch02VisualStep();
+  p.graveyard.push(spellId);
+  markBatch02VisualPhase('spell-to-graveyard', {playerId:p.key, spellId});
+  refreshRuntimeZone(p, 'hand'); refreshRuntimeZone(p, 'deck'); refreshRuntimeZone(p, 'graveyard');
+  await waitBatch02VisualStep();
   let destination = 'hand';
   if (!addCardToHand(p, rule.create, {refresh:false})) {
     p.drawPile.push(rule.create);
     destination = 'deck-top';
   }
-  p.graveyard.push(spellId);
+  markBatch02VisualPhase('next-form-created', {playerId:p.key, spellId, createdCardId:rule.create, destination});
+  await waitBatch02VisualStep();
   refreshRuntimeZone(p, 'hand'); refreshRuntimeZone(p, 'deck'); refreshRuntimeZone(p, 'graveyard');
+  await waitBatch02VisualStep();
   let summoned = null;
   if (destination === 'hand') summoned = await summonBatch02ServantFromHand(p, rule.create, spellId);
   const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned};
@@ -16615,7 +16656,7 @@ async function resolveBatch02Initiative(cardId, player) {
   const nextSpell = {H000032:'S000057',H000033:'S000058',H000034:'S000059',H000035:'S000060'}[cardId];
   const gabarSource = findBatch02GabarSource(p, cardId) || qs(playerZoneSelector(p, 'servants'))?.querySelector(`.fc[data-id="${cardId}"]`);
   if (gabarSource) pulseBatch02Gabar(gabarSource, 'initiative');
-  if (nextSpell) { p.drawPile.push(nextSpell); showBatch02DeckAddition(p, nextSpell); }
+  if (nextSpell) { p.drawPile.push(nextSpell); markBatch02VisualPhase('next-spell-to-deck', {playerId:p.key, sourceCardId:cardId, spellId:nextSpell}); showBatch02DeckAddition(p, nextSpell); }
   const result = {success:true, cardId, addedToDeck:nextSpell || null, affected:[]};
   if (cardId === 'H000032') {
     const all = Array.from(document.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'));
@@ -16702,13 +16743,13 @@ function updateBatch02TemporaryInsensibleBadge(fc) {
   if (!fc) return;
   fc.querySelector('.batch02-temporary-status')?.remove();
   const turns = Number(fc.dataset.temporaryInsensibleTurns || 0);
-  if (turns <= 0) return;
-  const badge = document.createElement('div');
-  badge.className = 'batch02-temporary-status';
-  badge.dataset.testid = 'batch02-temporary-insensible';
-  badge.title = `Insensible temporaire — expire après ${turns} tour(s) du propriétaire.`;
-  badge.textContent = `Insensible temporaire — ${turns}`;
-  fc.appendChild(badge);
+  if (turns > 0) {
+    fc.dataset.batch02TemporaryInsensible = '1';
+    fc.title = 'Insensible temporaire';
+  } else {
+    delete fc.dataset.batch02TemporaryInsensible;
+    if (fc.title === 'Insensible temporaire') fc.removeAttribute('title');
+  }
 }
 
 function handleBatch02AlliedServantDeath(player, dyingCardId) {
@@ -16797,6 +16838,7 @@ function applyScenarioServantState(fc, entry={}) {
 function applyScenarioTestSetup() {
   const setup = activeScenario?.testSetup;
   if (!setup) return;
+  if (selectedScenarioId() === 'collection-batch-01-door-key') preloadDoorLockAssets();
   lastCostDiagnostic = null;
   lastPlayLegalityDiagnostic = null;
   lastCombatEffectDiagnostic = null;
@@ -16839,6 +16881,24 @@ function applyScenarioTestSetup() {
         const placed = parent && slotIndex >= 0 ? parent.children[slotIndex] : null;
         if (placed && typeof entry === 'object') applyScenarioServantState(placed, entry);
       });
+    }
+    if (config.initialSupplyCardId) {
+      const zone = qs(playerZoneSelector(p, 'appro'));
+      const slot = zone?.querySelector('.slot-appro');
+      if (slot && CARDS_DATA[config.initialSupplyCardId]) {
+        slot.outerHTML = buildFC(config.initialSupplyCardId, p.key);
+        const fc = zone.querySelector(`.fc[data-id="${config.initialSupplyCardId}"]`);
+        const instance = fc ? registerSupplyInstance(p, fc) : null;
+        if (instance) {
+          const vector = createCheatCollectorVector(Number(config.initialSupplyMultiplier || 15));
+          instance.currentProduction = {...vector};
+          instance.productionState ||= {};
+          instance.productionState.currentVector = {...vector};
+          instance.productionState.scenarioOverride = 'collection-batch-02';
+          projectSupplyInstanceToDom(p, instance, fc);
+          recomputeClassicalResources(p);
+        }
+      }
     }
     if (config.avatarHp !== undefined) {
       setAvatarHitPoints(p, config.avatarHp);
