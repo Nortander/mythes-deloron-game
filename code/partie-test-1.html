@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Mythes d’Eloron — Partie test 1</title>
+<title>Mythes d’Eloron — Partie test 1</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -35,10 +35,10 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 
 /* ── Layout : 10% | 10% terrain | 20% deck | 10%
    Zones fixes :
-   left 0..10%   → historique
-   left 10%..right 20% → terrain (centré)
-   right 0..20%  → deck/cem + gemme
-   right 20%..right 10% → avatars
+   left 0..10%   â†’ historique
+   left 10%..right 20% â†’ terrain (centré)
+   right 0..20%  â†’ deck/cem + gemme
+   right 20%..right 10% â†’ avatars
    (on va utiliser des px fixes pour plus de contrôle)
 */
 
@@ -1094,9 +1094,9 @@ span.cost-red {
 
 
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ════════════════════════════════════
    CARTE MAIN : survol x1.5 + tip à droite
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ════════════════════════════════════ */
 
 /* Carte : agrandissement x1.5 depuis le bas */
 .hc {
@@ -1298,7 +1298,7 @@ body.dragging-card .hc.dragging {
 
 
 
-/* â•â•â•â•â•â•â•â• Mise en forme des descriptions (alignée sur la collection) â•â•â•â•â•â•â•â• */
+/* ════════ Mise en forme des descriptions (alignée sur la collection) ════════ */
 /* Mots-clefs : gras + souligné, style normal (pas italique) */
 .hc-desc-text em, .fz-desc-text em {
   font-style: normal; font-weight: 700;
@@ -1437,7 +1437,7 @@ body.dragging-card .hc.dragging {
 
 
 
-/* â•â•â•â•â•â•â•â• Fonds de description par faction (alignés sur la collection) â•â•â•â•â•â•â•â• */
+/* ════════ Fonds de description par faction (alignés sur la collection) ════════ */
 .hc.edb .hc-desc-inner { background:linear-gradient(155deg,#c8aa80,#a87840); }
 .hc.edb .hc-desc-text  { color:#1e1005; }
 .hc.edn .hc-desc-inner { background:linear-gradient(155deg,#180820,#100614); }
@@ -1728,7 +1728,7 @@ body.dragging-card .hc.dragging {
   <div class="av-name">Raith le Noir</div>
   <div class="av-tip">
     <b>Raith le Noir</b>
-    <p>Pendant toute la partie, vos serviteurs elfes noirs coûtent 1 unité de ressource en moins.</p>
+    <p>Pendant toute la partie, vos serviteurs elfes noirs coûtent 1 unité de ressource en moins.</p>
   </div>
 </div>
 
@@ -1743,7 +1743,7 @@ body.dragging-card .hc.dragging {
   <div class="av-name">Yria de la lumière</div>
   <div class="av-tip">
     <b>Yria de la lumière</b>
-    <p>Pendant toute la partie, vos serviteurs elfes des bois coûtent 1 unité de ressource en moins.</p>
+    <p>Pendant toute la partie, vos serviteurs elfes des bois coûtent 1 unité de ressource en moins.</p>
   </div>
 </div>
 
@@ -1802,7 +1802,7 @@ body.dragging-card .hc.dragging {
     <div class="cemetery"><div class="cem-empty">Vide</div></div>
   </div>
   <div class="dc-zone">
-    <div class="deck-count" id="raithDeckCount">44 cartes</div>
+    <div class="deck-count" id="raithDeckCount">44 cartes</div>
     <div class="deck-stack">
       <div class="deck-layer"></div><div class="deck-layer"></div>
       <div class="deck-layer"><img id="deckImgRaith" src="" alt=""></div>
@@ -1814,7 +1814,7 @@ body.dragging-card .hc.dragging {
 <!-- Deck + Cimetière Yria (droite bas) -->
 <div class="dc-j1" style="opacity:0;transition:opacity 0.8s 0.9s;">
   <div class="dc-zone">
-    <div class="deck-count" id="yriaDeckCount">45 cartes</div>
+    <div class="deck-count" id="yriaDeckCount">45 cartes</div>
     <div class="deck-stack">
       <div class="deck-layer"></div><div class="deck-layer"></div>
       <div class="deck-layer"><img id="deckImgYria" src="" alt=""></div>
@@ -1851,7 +1851,7 @@ function cardArtworkSrc(cardId, folder=null) {
   return `${GH}/${resolvedFolder}/${id}.png`;
 }
 
-// â•â• Données des cartes (coût, faction pour bonus avatar) â•â•
+// ══ Données des cartes (coût, faction pour bonus avatar) ══
 const CARDS_DATA={};
 Object.assign(CARDS_DATA,{
   'EDB000004':{name:'Ouvrier elfe',type:'Serviteur',fac:'edb',atk:1,pdv:1,cost:0,res_ico:'IC00000RDM',res_val:'0',fico:'FCT00000EDB.png',kws:[],cap:'',badge:'',lore:"D'apparence délicate, les ouvriers sont pourtant le pilier de toute communauté elfe."},
@@ -1860,15 +1860,15 @@ Object.assign(CARDS_DATA,{
   'R000004':{name:'Herboristerie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000LNY',res_val:'2',fico:null,kws:[],cap:'Fournit 2 unités de ressource Lenya au joueur.',badge:'Approvisionnement',lore:'Si les magiciens orcs mâchent directement les feuilles de Lenya, les elfes préfèrent sécher la plante et la consommer en tisane ou en faire de puissantes décoctions.'},
   'S000004':{name:'Commerce avec les légendes',type:'Sort',fac:'sort',atk:null,pdv:null,cost:4,res_ico:'IC00000RDM',res_val:'4',fico:null,kws:[],cap:'Quand vous jouez cette carte, vous pouvez choisir soit de piocher instantanément 3 cartes aléatoires de votre deck, soit de tirer 2 cartes de type Approvisionnement de votre deck ou cimetière.',badge:'Sort',lore:''},
   'R000011':{name:"Cascades d'aria",type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000ARI',res_val:'3',fico:null,kws:[],cap:"Fournit 3 ressources d'Aria au joueur.",badge:'Approvisionnement',lore:'Généralement, l\'aria qui s\'écoule des petites fissures dans la roche produit peu de matière. Certains lieux exceptionnels et gardés secrets, débordent néanmoins littéralement de la précieuse eau magique.'},
-  'S000007':{name:'Porte infranchissable',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000PIE',res_val:'1',fico:null,kws:['Pierre','Aria'],cap:'Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».',badge:'Sort',lore:''},
+  'S000007':{name:'Porte infranchissable',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000PIE',res_val:'1',fico:null,kws:['Pierre','Aria'],cap:'Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».',badge:'Sort',lore:''},
   'S000008':{name:'Clef de pierre',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',fico:null,kws:[],cap:'Envoie une Porte infranchissable liée depuis votre terrain jusqu’au cimetière du joueur adverse. Cette carte est jouée dès qu’elle est piochée et ne coûte pas d’action.',badge:'Sort',lore:'',assetFolder:'sorts',related:['S000007'],cond:'Ne peut être jouée que si vous avez une Porte infranchissable sur votre terrain.'},
   'R000001':{name:'Mine de fer',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000FER',res_val:'2',fico:null,kws:[],cap:'Fournit 2 ressources de Fer au joueur.',badge:'Approvisionnement',lore:'Toutes les races, à des degrés divers, utilisent le fer et d\'autres métaux pour leur armée. Un approvisionnement régulier est indispensable.'},
   'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',fico:'FCT00000EDN.png',kws:['Vengeance'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',badge:'',lore:''},
-  'EN000003':{name:'Nécromancien',type:'Serviteur',fac:'edn',atk:1,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',fico:'FCT00000EDN.png',kws:[],cap:'À la fin de chacun de vos tours, invoque 1 « Serviteur osseux » de votre côté du terrain.',badge:'',lore:''},
+  'EN000003':{name:'Nécromancien',type:'Serviteur',fac:'edn',atk:1,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',fico:'FCT00000EDN.png',kws:[],cap:'À la fin de chacun de vos tours, invoque 1 « Serviteur osseux » de votre côté du terrain.',badge:'',lore:''},
   'S000016':{name:'Portail actif',type:'Sort',fac:'sort',atk:null,pdv:null,cost:12,res_ico:'IC00000ARI',res_val:'1',fico:null,kws:[],cap:'Pendant le reste de la partie, vos serviteurs coûtent 4 unités de ressources en moins. De plus, vous piochez 1 carte supplémentaire chaque fois que votre adversaire pioche.',badge:'Sort',lore:''},
 
-  'R000014':{name:'Ailanterie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000ARI',res_val:'2',resType:'Aria',fico:null,kws:[],cap:'Fournit 2 ressources d’Aria et 1 ressource de Lenya au joueur.',badge:'Approvisionnement',lore:'Les ailanteries sont des autels sacrés, érigés par les elfes au nom de la déesse Elen. Les mages s\'y réunissent pour échanger, prier et se ressourcer grâce à l\'eau d\'aria du bassin.'},
-  'R000015':{name:'Arbre-murerie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000BOI',res_val:'1',resType:'Bois|Fer',fico:null,kws:[],cap:'Fournit 1 de Bois et 1 de Fer au joueur.',badge:'Approvisionnement',lore:'Les elfes travaillent peu le métal, refusant de construire les infrastructures lourdes liées à son extraction, afin de protéger leur environnement.'},
+  'R000014':{name:'Ailanterie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000ARI',res_val:'2',resType:'Aria',fico:null,kws:[],cap:'Fournit 2 ressources d’Aria et 1 ressource de Lenya au joueur.',badge:'Approvisionnement',lore:'Les ailanteries sont des autels sacrés, érigés par les elfes au nom de la déesse Elen. Les mages s\'y réunissent pour échanger, prier et se ressourcer grâce à l\'eau d\'aria du bassin.'},
+  'R000015':{name:'Arbre-murerie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000BOI',res_val:'1',resType:'Bois|Fer',fico:null,kws:[],cap:'Fournit 1 de Bois et 1 de Fer au joueur.',badge:'Approvisionnement',lore:'Les elfes travaillent peu le métal, refusant de construire les infrastructures lourdes liées à son extraction, afin de protéger leur environnement.'},
   'H000009':{name:'Léna, magicienne du froid',type:'Serviteur',fac:'hum',atk:3,pdv:5,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Coup de glace','Gèle'],cap:'[Initiative] Inflige [Coup de glace] à un maximum de trois serviteurs adverses aléatoires pendant 3 tours. [Gèle] pendant 1 tour tout serviteur qui attaque directement cette carte, autrement que par une capacité spéciale.',badge:'',lore:''},
 });
 
@@ -1906,7 +1906,7 @@ Object.assign(CARDS_DATA, {
   // Sorts EDB
   'S000003':{name:'Guérison miraculeuse',type:'Sort',fac:'sort',atk:null,pdv:null,cost:4,
     res_ico:'IC00000LNY',res_val:'4',fico:null,kws:[],
-    cap:'Rend à tous vos serviteurs un montant de points de vie égal à leur attaque. Si vous avez un serviteur elfe des bois « Guérisseur » ou « Druide » sur le terrain, double le montant des soins.',
+    cap:'Rend à tous vos serviteurs un montant de points de vie égal à leur attaque. Si vous avez un serviteur elfe des bois « Guérisseur » ou « Druide » sur le terrain, double le montant des soins.',
     badge:'Sort',lore:''},
   'S000015':{name:'Après la catastrophe',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,
     res_ico:'IC00000LNY',res_val:'3',fico:null,kws:[],
@@ -1936,7 +1936,7 @@ Object.assign(CARDS_DATA, {
     lore:'Os dorsal des armées morts-vivantes, ces guerriers ne connaissent ni la peur, ni la douleur, seulement la haine.'},
   'MV000002':{name:'Spectre hurlant',type:'Serviteur',fac:'mvs',atk:4,pdv:2,cost:2,
     res_ico:'IC00000AME',res_val:'2',fico:'FCT00000MVS.png',kws:['Vigilance','Initiative'],
-    cap:'[Vigilance] [Initiative] Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite 1 ressource Âme pour le propriétaire du Spectre hurlant.',
+    cap:'[Vigilance] [Initiative] Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite 1 ressource me pour le propriétaire du Spectre hurlant.',
     badge:'',lore:''},
   'MV000007':{name:'Serviteur osseux',type:'Serviteur',fac:'mvs',atk:2,pdv:2,cost:0,
     res_ico:'IC00000RDM',res_val:'0',fico:'FCT00000MVS.png',kws:['Rempart','Vigilance'],
@@ -1961,7 +1961,7 @@ Object.assign(CARDS_DATA, {
     cap:'Fournit 2\u00a0ressources de Fer au joueur.',badge:'Approvisionnement',lore:'Les elfes noirs gardent jalousement les secrets de leur artisanat. Même leurs forges rougeoyantes sont entourées d\'un impénétrable voile obscur.'},
   'R000010':{name:'Autel d\u2019aria',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,
     res_ico:'IC00000ARI',res_val:'2',fico:null,kws:[],
-    cap:'Fournit 2\u00a0ressources d\u2019Aria au joueur.',badge:'Approvisionnement',lore:'Il est possible d\'extraire l\'aria directement du sol, pour peu que l\'on sache où chercher. Les sorciers qui se rassemblent autour de ces puits pour régénérer leur magie en buvant l\'eau sacrée les appellent « autels ».'},
+    cap:'Fournit 2\u00a0ressources d\u2019Aria au joueur.',badge:'Approvisionnement',lore:'Il est possible d\'extraire l\'aria directement du sol, pour peu que l\'on sache où chercher. Les sorciers qui se rassemblent autour de ces puits pour régénérer leur magie en buvant l\'eau sacrée les appellent « autels ».'},
 });
 
 
@@ -1987,12 +1987,12 @@ Object.assign(CARDS_DATA, {
     cap:'[Rempart] Après avoir infligé des dégâts à un serviteur adverse et survécu, se soigne de 2 points de vie.',
     badge:'',lore:''},
   'MV000009':{name:'Faucheur d\u2019\u00e2mes',type:'Serviteur',fac:'mvs',atk:5,pdv:2,cost:3,
-    res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:'FCT00000MVS.png',
+    res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',
     kws:[],
     cap:'Chaque fois que ce serviteur détruit un adversaire, ajoute 1 âme à votre approvisionnement. Le serviteur détruit est alors envoyé tout en dessous de votre pile d\'âmes plutôt que dans le cimetière adverse.',
     badge:'',lore:''},
   'MV000010':{name:'Zombie nouveau-n\u00e9',type:'Serviteur',fac:'mvs',atk:1,pdv:3,cost:1,
-    res_ico:'IC00000AME',res_val:'1',resType:'Ame',fico:'FCT00000MVS.png',
+    res_ico:'IC00000AME',res_val:'1',resType:'Âme',fico:'FCT00000MVS.png',
     kws:['Initiative'],
     cap:'Ce serviteur se soigne du montant de son attaque chaque fois qu\'il inflige des dégâts. [Initiative] Inflige 1 point de dégât à un serviteur adverse aléatoire.',
     badge:'',lore:''},
@@ -2041,13 +2041,13 @@ Object.assign(CARDS_DATA, {
     badge:'',lore:''},
   // Équilibrage MVS
   'MV000001':{name:'Guerrier cendreux',type:'Serviteur',fac:'mvs',atk:3,pdv:2,cost:1,
-    res_ico:'IC00000AME',res_val:'1',resType:'Ame',fico:'FCT00000MVS.png',
+    res_ico:'IC00000AME',res_val:'1',resType:'Âme',fico:'FCT00000MVS.png',
     kws:[],cap:'',badge:'',
     lore:'Os dorsal des armées morts-vivantes, ces guerriers ne connaissent ni la peur, ni la douleur, seulement la haine.'},
   // Nouvelle carte EDG
   'EDG000005':{name:'Mage de glace',type:'Serviteur',fac:'edg',atk:6,pdv:3,cost:5,
     res_ico:'IC00000LNY',res_val:'5',resType:'Lenya',fico:'FCT00000EDG.png',
-    kws:[],cap:'À la fin de chacun de vos tours, invoque 1 « Élémentaire de glace » de votre côté du terrain.',
+    kws:[],cap:'À la fin de chacun de vos tours, invoque 1 « Élémentaire de glace » de votre côté du terrain.',
     badge:'',lore:''},
   // Nouveaux sorts
   'S000017':{name:'Quête magique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,
@@ -2064,7 +2064,7 @@ Object.assign(CARDS_DATA, {
     kws:[],cap:'Fournit 1 ressource de Nourriture au joueur.',badge:'Approvisionnement',lore:'Le problème avec la chasse est que le prédateur peut vite devenir la proie.'},
   'R000013':{name:'Porcherie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,
     res_ico:'IC00000NRT',res_val:'3',resType:'Nourriture',fico:null,
-    kws:[],cap:'Fournit 3 ressources de Nourriture au joueur.',badge:'Approvisionnement',lore:'Chez les orcs, rien n\'est raffiné, et la « porcherie » porte bien son nom...'},
+    kws:[],cap:'Fournit 3 ressources de Nourriture au joueur.',badge:'Approvisionnement',lore:'Chez les orcs, rien n\'est raffiné, et la « porcherie » porte bien son nom...'},
   'R000016':{name:'Scierie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,
     res_ico:'IC00000BOI',res_val:'3',resType:'Bois',fico:null,
     kws:[],cap:'Fournit 3 ressources de Bois au joueur.',badge:'Approvisionnement',lore:'Les humains débitent le bois bien plus vite que les forêts ne poussent ! S\'il n\'en tenait qu\'à eux, le monde serait recouvert de champs, non de bois.'},
@@ -2408,7 +2408,7 @@ const CHARACTER_DEFS = {
     startMaybe: START_MAYBE_URAM,
     avatarCap: 'hum',
     portrait: 'AVP000007.png',
-    tip: `Pendant toute la partie, vos serviteurs acquièrent la capacité spéciale <strong>Vengeance</strong> : quand ce serviteur est envoyé au cimetière, inflige <strong class="kv">2</strong> points de dégât à un serviteur adverse aléatoire.`
+    tip: `Pendant toute la partie, vos serviteurs acquièrent la capacité spéciale <strong>Vengeance</strong> : quand ce serviteur est envoyé au cimetière, inflige <strong class="kv">2</strong> points de dégât à un serviteur adverse aléatoire.`
   },
   cheatSharEmbrasement: {
     characterId: 'shar',
@@ -2582,7 +2582,7 @@ const SCENARIOS = {
       startHand: START_HAND_HOKHAN,
       avatarCap: 'mvs',
       portrait: 'AVP000008.png',
-      tip: `<strong>Insensible</strong> Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute <strong class="kv">1 Âme</strong> à votre approvisionnement. Ces cartes détruites sont envoyées dans votre cimetière. <strong>Vengeance</strong> : Place cette carte au fond de votre deck.`
+      tip: `<strong>Insensible</strong> Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute <strong class="kv">1 me</strong> à votre approvisionnement. Ces cartes détruites sont envoyées dans votre cimetière. <strong>Vengeance</strong> : Place cette carte au fond de votre deck.`
     },
     bottom: {
       name: 'Uram le Rouge',
@@ -2591,7 +2591,7 @@ const SCENARIOS = {
       startRemove: START_HAND_URAM,
       avatarCap: 'hum',
       portrait: 'AVP000007.png',
-      tip: `<strong>Insensible</strong> <strong>Initiative</strong> : Place une « Porte démoniaque » de votre côté du terrain. Tant qu'Uram reste sur le terrain, tous les serviteurs adverses subissent <strong class="kv">2</strong> points de dégât à chaque début de tour de leur propriétaire.`
+      tip: `<strong>Insensible</strong> <strong>Initiative</strong> : Place une « Porte démoniaque » de votre côté du terrain. Tant qu'Uram reste sur le terrain, tous les serviteurs adverses subissent <strong class="kv">2</strong> points de dégât à chaque début de tour de leur propriétaire.`
     }
   }
 };
@@ -2724,6 +2724,34 @@ SCENARIOS['collection-batch-02-generated-spells'] = {
   testSetup: {
     player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:[], drawPile:['S000060','S000059','S000058','S000057','S000004','R000010'], graveyard:[], servants:[{id:'H000032'},{id:'H000034'},{id:'H000036'}], avatarHp:20},
     player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['S000004','S000005','S000007','S000031','S000055','N000004','N000015','H000011'], drawPile:['S000004','S000055','H000001','ORC000017','B000015','B000016','B000017','R000024'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'ORC000017'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-03-humans-overview'] = {
+  label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','H000008','H000011','H000017','H000018','H000019','H000022','H000023','H000025'], drawPile:['H000008','H000021','H000001','H000013','S000010','S000028','S000033','R000010'], graveyard:[], servants:[{id:'H000006',pdv:3},{id:'H000020'},{id:'H000024',pdv:6},{id:'H000027'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','S000010','S000028','S000033','R000010'], drawPile:['H000001','H000005','H000018','H000021','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'MV000020',pdv:3},{id:'ORC000017',pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-03-humans-triggers'] = {
+  label: 'TEST - COLLECTION BATCH 03 Triggers humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000002',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000002','H000003','H000004','H000007','H000009','H000011','H000012','H000013','H000014','H000015','H000016','H000027','H000031'], drawPile:['H000008','H000001','H000021','MV000020','MV000009','MV000016','DIV000006','DIV000006','R000010'], graveyard:[], servants:[{id:'H000016'},{id:'H000015'},{id:'H000027'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','H000018','S000010','R000010'], drawPile:['H000001','H000005','H000018','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'MV000020',pdv:3},{id:'MV000009',pdv:3},{id:'ORC000017',pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-03-humans-avatars'] = {
+  label: 'TEST - COLLECTION BATCH 03 AVS humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000001',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['AVS000001','AVS000002','AVS000003','AVS000004','AVS000007','AVS000010','AVS000011','AVS000014','S000010'], drawPile:['B000006','B000007','DIV000001','S000010','R000010'], graveyard:[], servants:[], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','S000033','R000010'], drawPile:['H000001','H000005','H000018','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'ORC000017',pdv:6},{id:'MV000020',pdv:3}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-03-humans-spells'] = {
+  label: 'TEST - COLLECTION BATCH 03 Sorts humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000010',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['S000010','S000028','S000033'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001',pdv:2},{id:'H000005',pdv:3},{id:'H000018',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','S000010','R000010'], drawPile:['H000001','H000005','R000010'], graveyard:[], servants:[{id:'MV000020',pdv:3},{id:'H000001',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -2981,6 +3009,17 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'H000026': createCostDefinition(4, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
   'H000027': createCompatiblePoolCostDefinition(4, ["aria","lenya","soul"], []),
   'H000029': createCostDefinition(10, ["fer","aria"], [{"kind":"minimum","resource":"fer","amount":5},{"kind":"minimum","resource":"aria","amount":5}], []),
+  'AVS000002': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'AVS000003': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'AVS000004': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'AVS000010': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'AVS000014': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'DIV000001': createCompatiblePoolCostDefinition(8, ["aria","lenya","soul"], []),
+  'H000015': createCostDefinition(5, ["aria","nourriture","fer"], [{"kind":"minimum","resource":"aria","amount":3},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"fer","amount":1}], []),
+  'H000016': createCostDefinition(5, ["aria","nourriture","fer"], [{"kind":"minimum","resource":"aria","amount":3},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"fer","amount":1}], []),
+  'H000028': createCostDefinition(3, ["fer","nourriture"], [{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
+  'S000028': createCompatiblePoolCostDefinition(3, ["aria"], []),
+  'S000033': createCompatiblePoolCostDefinition(4, ["aria","selene"], []),
   'MV000001': createCostDefinition(1, ["soul"], [], []),
   'MV000002': createCostDefinition(2, ["soul"], [], []),
   'MV000003': createCostDefinition(5, ["soul"], [], []),
@@ -3190,7 +3229,7 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "MV000029": createCostDefinition(3, ["aria"], [{"kind":"minimum","resource":"aria","amount":3}], []),
   "MV000030": createCostDefinition(8, ["aria"], [{"kind":"minimum","resource":"aria","amount":8}], []),
   "PRST000014": createCostDefinition(0, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], [{"kind":"text","text":"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.","implemented":false}]),
-  "R000027": createCostDefinition(0, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], [{"kind":"text","text":"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».","implemented":false}]),
+  "R000027": createCostDefinition(0, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], [{"kind":"text","text":"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».","implemented":false}]),
   "S000041": createCostDefinition(0, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], [{"kind":"text","text":"Nécessite au moins 1 serviteur dans votre cimetière.","implemented":false}]),
   "S000042": createCompatiblePoolCostDefinition(5, ["soul","aria"], []),
   "S000044": createCompatiblePoolCostDefinition(6, ["aria","soul"], []),
@@ -3696,7 +3735,7 @@ function configureVisualSlots() {
 function renderDeckBacks() {
   [bottomPlayer, topPlayer].forEach(p => renderDeckProjection(p));
 }
-// Total Raith deck : 50 cartes, main de départ 6 → reste 44 dans le deck
+// Total Raith deck : 50 cartes, main de départ 6 â†’ reste 44 dans le deck
 
 // ── Fonctions de gestion deck ──
 function shuffleDeck(deck) {
@@ -4716,7 +4755,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
 }
 
 
-// â•â• État de la partie â•â•
+// ══ État de la partie ══
 const AVATAR_CAP = {};
 let cardsPlayedThisTurn = 0;
 let turnTransitionInProgress = false;
@@ -5923,7 +5962,7 @@ function formatFrenchTypography(text) {
 function fmtDesc(text, kwColor) {
   if (!text) return '';
   text = formatFrenchTypography(text);
-  // Mots-clefs [X] → <em> (gras + souligné, couleur gérée par CSS selon faction)
+  // Mots-clefs [X] â†’ <em> (gras + souligné, couleur gérée par CSS selon faction)
   text = text.replace(/\[([^\]]+)\]/g, (match, kw) => {
     const label = String(kw || '').trim();
     const knownKeyword = typeof KDEF !== 'undefined' && !!KDEF[label] && !(typeof RES_KWS !== 'undefined' && RES_KWS.includes(label));
@@ -5931,7 +5970,7 @@ function fmtDesc(text, kwColor) {
     const style = kwColor ? ` style="color:${kwColor}"` : '';
     return `<strong class="canonical-keyword-inline"${style}>${label}</strong>`;
   });
-  // Variables/chiffres *N* → <strong class="kv">
+  // Variables/chiffres *N* â†’ <strong class="kv">
   text = text.replace(/\*([^*]+)\*/g, (_, v) => {
     const style = kwColor ? ' style="color:' + kwColor + '"' : '';
     return '<strong class="kv"' + style + '>' + v + '</strong>';
@@ -6599,9 +6638,9 @@ if (typeof window !== 'undefined') {
   window.runIntegratedDrawRegressionTests = runIntegratedDrawRegressionTests;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── Construire une carte main ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 const KDEF = {
   'Rempart':     `Tant qu’un serviteur avec <b>Rempart</b> est présent sur le terrain, les serviteurs ennemis ne peuvent attaquer aucune autre carte.`,
   'Vengeance':   `Déclenche un effet spécial lorsque ce serviteur est envoyé au cimetière depuis le terrain.`,
@@ -6610,16 +6649,16 @@ const KDEF = {
   'Insensible':  `Ne peut pas être ciblé par des sorts adverses. Ne protège pas contre les sorts de zone.`,
   'Camouflage':  `Ne peut pas être attaqué ni ciblé par un sort jusqu’à ce qu’il attaque lui-même.`,
   'Rage':        `Gagne +2 d’attaque tant que ses points de vie sont inférieurs à leur maximum.`,
-  'Gèle':        `Empêche la cible d’attaquer ou d’utiliser ses capacités pendant X tours. La cible ne peut pas riposter.`,
-  'Coup de glace': `Immobilise comme <b>Gèle</b> et inflige en plus 2 PdV de dégâts au début de chaque tour du propriétaire.`,
+  'Gèle':        `Empêche la cible d’attaquer ou d’utiliser ses capacités pendant X tours. La cible ne peut pas riposter.`,
+  'Coup de glace': `Immobilise comme <b>Gèle</b> et inflige en plus 2 PdV de dégâts au début de chaque tour du propriétaire.`,
   'Embrasement': `Inflige immédiatement 3 dégâts, met fin à <b>Gèle</b> et <b>Coup de glace</b>, puis inflige 1 dégât au début des 3 prochains tours de la cible.`,
 };
 
 // KDEF mis à jour pour correspondre à la collection
 const KDEF_UPDATES = {
   'Initiative': 'Lorsqu’elle est jouée depuis la main, cette carte produit directement un effet unique.',
-  'Coup de glace': 'Empêche le serviteur ciblé d’attaquer ou d’utiliser ses capacités spéciales pendant X tours. Inflige également 2 points de dégâts par tour. Le serviteur gelé ne peut pas riposter.',
-  'Gèle': 'Empêche le serviteur ciblé d’attaquer ou d’utiliser ses capacités spéciales pendant X tours. Le serviteur gelé ne peut pas riposter.',
+  'Coup de glace': 'Empêche le serviteur ciblé d’attaquer ou d’utiliser ses capacités spéciales pendant X tours. Inflige également 2 points de dégâts par tour. Le serviteur gelé ne peut pas riposter.',
+  'Gèle': 'Empêche le serviteur ciblé d’attaquer ou d’utiliser ses capacités spéciales pendant X tours. Le serviteur gelé ne peut pas riposter.',
   'Rempart': 'Tant qu’un serviteur avec [Rempart] est présent sur le terrain, les serviteurs ennemis ne peuvent attaquer aucune autre carte.',
   'Vengeance': 'Déclenche un effet lorsque ce serviteur est envoyé au cimetière depuis le terrain.',
   'Vigilance': 'Aucun serviteur adverse ne peut utiliser le mot-clé [Camouflage] tant qu’un allié avec [Vigilance] est sur le terrain.',
@@ -6632,7 +6671,7 @@ const KDEF_UPDATES = {
 };
 Object.assign(KDEF, KDEF_UPDATES);
 
-const RES_KWS = ['Pierre','Aria','Lenya','Fer','Nourriture','Sélène','Âme','Bois'];
+const RES_KWS = ['Pierre','Aria','Lenya','Fer','Nourriture','Sélène','me','Bois'];
 
 function buildHC(cardId, player, drawAnim=false) {
   player = playerKey(player);
@@ -6695,9 +6734,9 @@ function buildHC(cardId, player, drawAnim=false) {
   </div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── Construire une carte terrain ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 const cardPreviewState = {
   cardId:null,
   sourceContext:null,
@@ -7790,7 +7829,7 @@ function auditCardSourceParity(cardId) {
   return {
     cardId,
     onlineSourceAvailable:true,
-    exportSource:"data/Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-06-24.xlsx",
+    exportSource:"data/Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-06-24.xlsx",
     partEmbeddedSource:!!part,
     collectionEmbeddedSource:null,
     descriptionMismatch:null,
@@ -8535,9 +8574,9 @@ function updateRageState(fc) {
   });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── JOUER UNE CARTE ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 
 function getTotalResByType(player, resType) {
   const key = normalizeResourceKey(resType);
@@ -9383,27 +9422,27 @@ const INVOCATION_CONDITION_RULES = Object.freeze({
     condition: {type:'own-avatar-hp-at-least', amount:4}
   },
   R000027: {
-    text: 'Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».',
+    text: 'Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».',
     condition: {type:'starting-deck-faction-minimum', cardType:'Serviteur', faction:'mvs', amount:15}
   },
   MV000016: {
-    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   },
   MV000017: {
-    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   },
   MV000018: {
-    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   },
   MV000019: {
-    text: '« Hokhan Ashir - Mage du Cercle » doit être sur votre terrain.',
+    text: '« Hokhan Ashir - Mage du Cercle » doit être sur votre terrain.',
     condition: {type:'friendly-card-present', cardId:'AVS000008'}
   },
   MV000021: {
-    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
+    text: 'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',
     condition: {any:[{type:'friendly-card-present', cardId:'MV000019'}, {type:'friendly-card-present', cardId:'AVS000008'}]}
   },
   S000055: {
@@ -9598,6 +9637,24 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     cardType: 'Serviteur',
     atkLessThan: 8,
     effectKind: 'destroy'
+  },
+  S000010: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'self',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'heal'
+  },
+  S000028: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'self',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'buff'
   },
   S000055: {
     required: true,
@@ -10016,9 +10073,10 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
       ? moveResolvedSpellToGraveyard(cardId, p)
       : false;
     const batch02SpellCopy = handleBatch02OpposingSpellResolved(cardId, p, spellResolution);
-    if (modifiersConsumed || batch02SpellCopy.copied) renderAllHands();
+    const batch03SpellEcho = await handleBatch03SpellResolved(cardId, p, {spellResolution, selectedTargetIds, zoneSelection});
+    if (modifiersConsumed || batch02SpellCopy.copied || batch03SpellEcho?.echoed) renderAllHands();
     traceCardPlay(traceId, 'commitResolved', p, cardId);
-    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed, spellResolution, spellMovedToGraveyard, batch02SpellCopy};
+    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed, spellResolution, spellMovedToGraveyard, batch02SpellCopy, batch03SpellEcho};
   }
   const specialResolution = d.specialResolution || supplyDefinition(cardId)?.specialResolution;
   if (d.type === 'Approvisionnement' && specialResolution?.type === 'addSouls') {
@@ -10051,6 +10109,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   const placedFC = slotParent && slotIndex >= 0 ? slotParent.children[slotIndex] : null;
   const sourceInstanceId = placedFC?.dataset?.instance || placedFC?.dataset?.supplyInstance || null;
   traceCardPlay(traceId, 'afterBoardPlacement', p, cardId, sourceInstanceId);
+  applyBatch03OnBoardPlacement(placedFC, p, cardId);
   if (d.type === 'Approvisionnement' && placedFC) {
     const instance = registerSupplyInstance(p, placedFC);
     if (cardId === 'R000025' && instance) {
@@ -10263,9 +10322,9 @@ function resolvePacteMillenaireCostEffects(player) {
   showNotif(`Pacte millénaire pioche ${drawn} Jeune(s) dragon(s) des neiges et réduit leur coût de 2.`, 1700);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── INITIATIVE ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 async function triggerInitiative(cardId, player, context={}) {
   const d = CARDS_DATA[cardId];
   if (!d) return;
@@ -10277,6 +10336,8 @@ async function triggerInitiative(cardId, player, context={}) {
   if (['H000032','H000033','H000034','H000035'].includes(cardId)) {
     return resolveBatch02Initiative(cardId, player);
   }
+  const batch03Initiative = await resolveBatch03Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
+  if (batch03Initiative?.handled) return batch03Initiative;
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
@@ -10316,13 +10377,13 @@ async function triggerInitiative(cardId, player, context={}) {
   };
 
   switch(cardId) {
-    case 'EDB000002': // Mage du froid → Gèle un serviteur adverse
+    case 'EDB000002': // Mage du froid â†’ Gèle un serviteur adverse
     { const candidates = adverseServants().filter(fc => !fc.dataset.frozen && !fc.dataset.frozen_cdg);
       const ts = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'gel', isAbility: true });
       if (ts.length) tryApplyGel({ sourcePlayer: player, targetFC: ts[Math.floor(Math.random()*ts.length)], sourceCardId: cardId, turns: 1 });
       else showInsensitiveFailureVfx(candidates);
       break; }
-    case 'EDB000008': // Maître-archer → détruit 1 carte main adverse + 5 dégâts + gel 1 tour
+    case 'EDB000008': // Maître-archer â†’ détruit 1 carte main adverse + 5 dégâts + gel 1 tour
     { const adv = playerHand(opponentOf(player));
       if (adv.length) { const ri = Math.floor(Math.random()*adv.length); removeHandCardAt(opponentOf(player), ri); refreshAdverseHandBacks(player); }
       const candidates = adverseServants();
@@ -10332,20 +10393,20 @@ async function triggerInitiative(cardId, player, context={}) {
         applyDamage(t,5).then(()=>tryApplyGel({ sourcePlayer: player, targetFC: t, sourceCardId: cardId, turns: 1, type: 'cdg' }));
       } else showInsensitiveFailureVfx(candidates);
       break; }
-    case 'EDG000001': // Prêtresse de l'Hiver → Coup de glace 3 tours sur 1 cible
+    case 'EDG000001': // Prêtresse de l'Hiver â†’ Coup de glace 3 tours sur 1 cible
     { const candidates = adverseServants();
       const tt2 = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'cdg', isAbility: true });
       if (tt2.length) tryApplyGel({ sourcePlayer: player, targetFC: tt2[Math.floor(Math.random()*tt2.length)], sourceCardId: cardId, turns: 3, type: 'cdg' });
       else showInsensitiveFailureVfx(candidates);
       break; }
-    case 'EN000001': // Ensorceleur → ATK sur 2 serviteurs aléatoires
+    case 'EN000001': // Ensorceleur â†’ ATK sur 2 serviteurs aléatoires
     { const candidates = validTargets();
       const ts2 = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'damage', isAbility: true });
       ts2.sort(()=>Math.random()-0.5);
       ts2.slice(0,2).forEach(t => tryApplyAbilityDamage({ sourcePlayer: player, targetFC: t, sourceCardId: cardId, amount: 4 }));
       if (!ts2.length) showInsensitiveFailureVfx(candidates);
       break; }
-    case 'EN000004': // Avatar de destruction → détruit 1 carte main adverse
+    case 'EN000004': // Avatar de destruction â†’ détruit 1 carte main adverse
     { const adv2 = playerHand(opponentOf(player));
       if (adv2.length) { removeHandCardAt(opponentOf(player), Math.floor(Math.random()*adv2.length)); refreshAdverseHandBacks(player); }
       break; }
@@ -10442,7 +10503,7 @@ async function triggerInitiative(cardId, player, context={}) {
         });
       }
       break; }
-    case 'EDB000010': { // Forestier → piochez 1 carte
+    case 'EDB000010': { // Forestier â†’ piochez 1 carte
       const result = drawCardFromRuntimeDeck(player, {sourceCardId:cardId, sourceInstanceId});
       traceCardPlay(traceId, 'afterDrawHelper', player, cardId, sourceInstanceId, {drawResult:result});
       if (result.success && result.deckSizeAfter === result.deckSizeBefore - 1 && result.handSizeAfter === result.handSizeBefore + 1) showNotif('Le Forestier vous fait piocher 1 carte\u00a0!', 1400);
@@ -10454,7 +10515,7 @@ async function triggerInitiative(cardId, player, context={}) {
       if (result.success && result.deckSizeAfter === result.deckSizeBefore - 1 && result.handSizeAfter === result.handSizeBefore + 1) showNotif('L\'Éclaireur vous fait piocher 1 carte\u00a0!', 1400);
       else showNotif('L\'Éclaireur ne pioche aucune carte.', 1200);
       break; }
-    case 'ORC000003': { // Amasseur → piochez 1 carte Approvisionnement du deck
+    case 'ORC000003': { // Amasseur â†’ piochez 1 carte Approvisionnement du deck
       const result = drawCardFromRuntimeDeck(player, {predicate:isSupplyCard, sourceCardId:cardId, sourceInstanceId});
       traceCardPlay(traceId, 'afterDrawHelper', player, cardId, sourceInstanceId, {drawResult:result});
       if (result.success) showNotif('L\'Amasseur pioche une carte Approvisionnement\u00a0!', 1500);
@@ -10525,14 +10586,14 @@ async function triggerInitiative(cardId, player, context={}) {
         showNotif(`L'Envoûteuse ajoute ${created.length}\u00a0carte(s) à votre main\u00a0!`, 1500);
       }
       break; }
-    case 'ORC000004': { // Sorcier venimeux → dégâts (= ATK) sur 1 serviteur adverse choisi
+    case 'ORC000004': { // Sorcier venimeux â†’ dégâts (= ATK) sur 1 serviteur adverse choisi
       const tsv = validTargets();
       if (tsv.length) {
         const atk = parseInt(qs('[data-id="ORC000004"]')?.dataset.atk) || 4;
         showTargetSelection(tsv, (target) => { if (target) tryApplyAbilityDamage({ sourcePlayer: player, targetFC: target, sourceCardId: cardId, amount: atk }); });
       }
       break; }
-    case 'MV000002': // Spectre hurlant → détruit adverse ATK < propre ATK
+    case 'MV000002': // Spectre hurlant â†’ détruit adverse ATK < propre ATK
     { const myAtk = parseInt(qs('[data-id="MV000002"]')?.dataset.atk)||4;
       const eligible = adverseServants().filter(fc => (parseInt(fc.dataset.atk)||0) < myAtk);
       const targets = getAffectableTargets({ sourcePlayer: player, targets: eligible, sourceCardId: cardId, effectKind: 'destroy', isAbility: true });
@@ -10559,7 +10620,7 @@ async function triggerInitiative(cardId, player, context={}) {
     case 'MV000006': {
       if (hasRequiredAmalgamInitiativeAllies('MV000006')) drawMultiple(player, 3);
       break; }
-    case 'MV000008': // Araignée géante réanimée → retire serviteur adverse
+    case 'MV000008': // Araignée géante réanimée â†’ retire serviteur adverse
     { const candidates = adverseServants();
       const ts3 = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'capture', isAbility: true });
       if (ts3.length) {
@@ -10577,9 +10638,9 @@ function refreshAdverseHandBacks(player) {
   return renderHiddenOpponentHand(adverse);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── SORTS ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 async function triggerSort(cardId, player, context={}) {
   const d = CARDS_DATA[cardId];
   if (!d) return {success:false, reason:'missing-data'};
@@ -10645,12 +10706,12 @@ async function triggerSort(cardId, player, context={}) {
       qs(sId)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])').forEach(fc => {
         applyHeal(fc, (parseInt(fc.dataset.atk)||0) * mult3);
       });
-      showNotif('Guérison miraculeuse' + (mult3===2?' (×2)':'') + ' !', 1400);
+      showNotif('Guérison miraculeuse' + (mult3===2?' (×2)':'') + ' !', 1400);
       break; }
     case 'S000004': // Commerce avec les légendes : choix
       showSortChoice(cardId, player, [
-        { label:'Piocher 3 cartes', fn:() => drawMultiple(player, 3) },
-        { label:'Tirer 2 cartes Approvisionnement', fn:() => drawApproFromDeck(player, 2) }
+        { label:'Piocher 3 cartes', fn:() => drawMultiple(player, 3) },
+        { label:'Tirer 2 cartes Approvisionnement', fn:() => drawApproFromDeck(player, 2) }
       ]);
       break;
     case 'S000006':
@@ -10712,6 +10773,12 @@ async function triggerSort(cardId, player, context={}) {
       await sendToCemetery(target);
       showNotif('Sort : Assassinat !', 1400);
       return {success:true, reason:'target-destroyed', target:destroyedTarget}; }
+    case 'S000010':
+      return resolveBatch03HealingHand(player, context);
+    case 'S000028':
+      return resolveBatch03AuraProtection(player, context);
+    case 'S000033':
+      return resolveBatch03BlessedSwords(player, context);
     case 'S000002': {
       showEyesInDarkSelection(player, {
         onSelect:blockedId => {
@@ -10723,7 +10790,7 @@ async function triggerSort(cardId, player, context={}) {
       });
       break; }
     default:
-      showNotif(`Sort joué : ${d.name}`, 1400);
+      showNotif(`Sort joué : ${d.name}`, 1400);
   }
   return {success:true, reason:'resolved'};
 }
@@ -10851,7 +10918,7 @@ function healAll(player) {
     const atk = parseInt(fc.dataset.atk)||0;
     applyHeal(fc, atk);
   });
-  showNotif('Guérison miraculeuse !', 1400);
+  showNotif('Guérison miraculeuse !', 1400);
 }
 
 function healAllDouble(player) {
@@ -10862,7 +10929,7 @@ function healAllDouble(player) {
     const atk = parseInt(fc.dataset.atk)||0;
     applyHeal(fc, atk * mult);
   });
-  showNotif(`Guérison miraculeuse ${mult===2?'(×2) ':''} !`, 1400);
+  showNotif(`Guérison miraculeuse ${mult===2?'(×2) ':''} !`, 1400);
 }
 
 function drawMultiple(player, n, {notify=true, sourceCardId=null, sourceInstanceId=null}={}) {
@@ -10877,7 +10944,7 @@ function drawMultiple(player, n, {notify=true, sourceCardId=null, sourceInstance
     added++;
   }
   refreshHand(p);
-  if (notify) showNotif(added ? `${added} carte(s) piochée(s) !` : `Aucune carte piochée.`, 1400);
+  if (notify) showNotif(added ? `${added} carte(s) piochée(s) !` : `Aucune carte piochée.`, 1400);
   return {
     success: added > 0,
     count: added,
@@ -10902,7 +10969,7 @@ function drawApproFromDeck(player, n, {notify=true, sourceCardId=null, sourceIns
     added++;
   }
   refreshHand(p);
-  if (notify) showNotif(added ? `${added} carte(s) Approvisionnement piochée(s) !` : `Aucun Approvisionnement pioché.`, 1400);
+  if (notify) showNotif(added ? `${added} carte(s) Approvisionnement piochée(s) !` : `Aucun Approvisionnement pioché.`, 1400);
   return {
     success: added > 0,
     count: added,
@@ -11572,9 +11639,9 @@ function refreshHand(player) {
   return renderPlayerHand(p, {faceUp:p.key === currentPlayer});
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── COMBAT ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 function highlightTargets() {
   const adversePlayer  = opponentOf(currentPlayer);
   const adverseZoneId  = playerZoneSelector(adversePlayer, 'servants');
@@ -11650,13 +11717,13 @@ document.addEventListener('click', e => {
     return;
   }
 
-  // 3. Clic sur une carte invalide → annuler
+  // 3. Clic sur une carte invalide â†’ annuler
   if (e.target.closest('.fc-invalid-target')) {
     showErr('Cette cible est protégée par un <b>Rempart</b>.');
     return;
   }
 
-  // 4. Clic sur un serviteur allié → tenter d'attaquer avec lui
+  // 4. Clic sur un serviteur allié â†’ tenter d'attaquer avec lui
   const ownFC = e.target.closest('#yriaServants .fc:not([data-type="appro"]), #raithServants .fc:not([data-type="appro"])');
   if (ownFC && ownFC.dataset.player === currentPlayer && !ownFC.dataset.dead) {
     // Capacité spéciale activable ? (sinon attaque)
@@ -11665,7 +11732,7 @@ document.addEventListener('click', e => {
     return;
   }
 
-  // 5. Clic ailleurs → annuler la sélection d'attaque
+  // 5. Clic ailleurs â†’ annuler la sélection d'attaque
   if (attackingFC && !e.target.closest('.fc-attacking')) {
     cancelAttack();
   }
@@ -11711,6 +11778,7 @@ async function resolveCombat(attacker, targetFC) {
       damageDealt: finalAtkDmg
     });
   }
+  await triggerBatch03CombatHooks(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
 
   // Riposte immédiate si le défenseur était vivant
   if (defAlive && defAtk > 0) {
@@ -11724,6 +11792,7 @@ async function resolveCombat(attacker, targetFC) {
         damageDealt: counterAtk
       });
     }
+    await triggerBatch03CombatHooks(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
   }
 
   // Marquer l'attaquant épuisé
@@ -11746,7 +11815,7 @@ async function resolveCombat(attacker, targetFC) {
   // Faucheur d'âmes : quand il détruit un serviteur, +1 âme à l'approvisionnement
   if (attacker.dataset.id === 'MV000009' && defDied) {
     addSoulToAppro(currentPlayer, 1);
-    showNotif('Le Faucheur d\'âmes récolte 1 âme\u00a0!', 1400);
+    showNotif('Le Faucheur d\'âmes récolte 1 Âme\u00a0!', 1400);
   }
   // Druide : soin d'un allié après avoir infligé des dégâts
   if (attacker.dataset.id === 'EDB000001' && !defDied) {
@@ -11786,6 +11855,8 @@ async function resolveCombat(attacker, targetFC) {
 async function applyDamage(fc, amount) {
   if (!fc || !amount || amount <= 0) return false;
   if (fc.dataset.dead) return true;
+  amount = adjustBatch03IncomingDamage(fc, amount);
+  if (!amount || amount <= 0) return false;
 
   const pdvEl = fc.querySelector('.fc-pdv-val');
   if (!pdvEl) return false;
@@ -11808,6 +11879,7 @@ async function applyDamage(fc, amount) {
   pdvEl.className   = displayPdv < maxPdv ? 'fc-pdv-val red' : 'fc-pdv-val';
   fc.dataset.pdv    = displayPdv;
   updateRageState(fc);
+  await triggerBatch03DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
 
   await new Promise(r => setTimeout(r, 380));
   fc.classList.remove('anim-damage');
@@ -11901,7 +11973,7 @@ async function sendToCemetery(fc) {
     const freeSlot = capZone?.querySelector('.slot');
     if (freeSlot && CARDS_DATA[capId]) {
       freeSlot.outerHTML = buildFC(capId, capPl);
-      showNotif('Le serviteur capturé est libéré !', 1400);
+      showNotif('Le serviteur capturé est libéré !', 1400);
     }
   }
   let vengeanceResult = null;
@@ -11975,9 +12047,17 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000008') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
+  }
+
+  if (cardId === 'H000030') {
+    return triggerBatch03NecraneVengeance(player, dyingFC);
+  }
+
+  if (cardId === 'H000031') {
+    return triggerBatch03IgorVengeance(player, dyingFC, killer);
   }
 
   if (cardId === 'AVS000008') {
@@ -12024,12 +12104,12 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
   const adverseId = playerZoneSelector(opponentOf(player), 'servants');
   const targets = Array.from(qs(adverseId)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
   if (!targets.length) return;
-  showNotif('Vengeance !', 1200);
+  showNotif('Vengeance !', 1200);
   await new Promise(r => setTimeout(r, 500));
   // EN000002 : dégâts au serviteur en face et adjacents
   if (cardId === 'EN000002') {
     // Le serviteur qui a tué l'Assassin + ses voisins immédiats (gauche/droite réels)
-    if (!killer) { return; } // pas de tueur (mort par sort) → pas de Vengeance
+    if (!killer) { return; } // pas de tueur (mort par sort) â†’ pas de Vengeance
     const advZoneEl = killer.parentElement;
     const advSlots = Array.from(advZoneEl?.children || []);
     const killerIdx = advSlots.indexOf(killer);
@@ -12547,7 +12627,8 @@ async function applyStartTurnServantAbilities(player) {
     }
   }
   const batch02Summons = await applyBatch02StartTurnAbilities(p);
-  return {healed, batch02Summons};
+  const batch03 = await applyBatch03StartTurnAbilities(p);
+  return {healed, batch02Summons, batch03};
 }
 
 async function applyFireMasterEndOfTurn(player) {
@@ -12739,8 +12820,8 @@ function applyEndOfTurnEffects(player) {
     invoked++;
   });
   if (invoked > 0) showNotif(invoked > 1
-    ? invoked + ' Nécromanciens invoquent un Serviteur osseux !'
-    : 'Le Nécromancien invoque un Serviteur osseux !', 1600);
+    ? invoked + ' Nécromanciens invoquent un Serviteur osseux !'
+    : 'Le Nécromancien invoque un Serviteur osseux !', 1600);
 
   // Mage de glace : invoque 1 Élémentaire de glace
   zone.querySelectorAll('[data-id="EDG000005"]:not([data-dead])').forEach(mage => {
@@ -12792,7 +12873,7 @@ function applyEndOfTurnEffects(player) {
     } else {
       fc.dataset.frozen = t;
       const b = fc.querySelector('.fc-gel-badge');
-      if (b) b.textContent = 'â„ ' + t + 't';
+      if (b) b.textContent = 'â”ž ' + t + 't';
       applyVFXOverlays(fc, 'gel', t);
     }
   });
@@ -12813,7 +12894,7 @@ function applyEndOfTurnEffects(player) {
     } else {
       fc.dataset.frozen_cdg = t;
       const b = fc.querySelector('.fc-cdg-badge');
-      if (b) b.textContent = 'ðŸ§Š ' + t + 't';
+      if (b) b.textContent = '🧠 ' + t + 't';
       applyVFXOverlays(fc, 'cdg', t);
     }
   });
@@ -12952,9 +13033,9 @@ function setupDragDrop() {
   });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── GESTION DES TOURS ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 function renderHand(player, faceUp, drawLast=false) {
   return renderPlayerHand(player, {faceUp, drawLast});
 }
@@ -13499,7 +13580,7 @@ async function startTurn(player) {
     const drawResult = drawCardFromDeck(p, () => true, {refresh:false});
     drawn = drawResult.success ? drawResult.cardId : null;
   } else if (!p.drawPile.length) {
-    showNotif(`Le deck de ${p.name} est vide !`, 1200);
+    showNotif(`Le deck de ${p.name} est vide !`, 1200);
   } else {
     showErr(`Main de ${p.name} pleine. Défaussez une carte sur votre deck.`);
   }
@@ -13709,6 +13790,7 @@ async function endTurnRuntime() {
     applyEndOfTurnEffects(activePlayer);
     await applyFireMasterEndOfTurn(activePlayer);
     await resolveMeteoresEndOfTurn(activePlayer);
+    await applyBatch03EndTurnAbilities(activePlayer);
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
     resolveBatch02OwnerTurnExpiration(activePlayer);
     cleanTurnState(activePlayer);
@@ -13716,10 +13798,10 @@ async function endTurnRuntime() {
     turnSequence += 1;
     currentPlayer = activePlayer.key;
     cardsPlayedThisTurn = 0;
-    await showNotif(`C’est le tour de ${playerName(activePlayer)} !`);
+    await showNotif(`C’est le tour de ${playerName(activePlayer)} !`);
     const drawn = await startTurn(activePlayer);
     renderAllHands(drawn ? activePlayer.key : null);
-    if (drawn) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
+    if (drawn) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
     await flushPendingDoorKeyDrawVisuals(activePlayer);
     updateCamouflageVFX();
     if (window._blockedCardPlayer === currentPlayer) {
@@ -13736,9 +13818,9 @@ async function endTurn() {
   return endTurnRuntime();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── HISTORIQUE ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 
 function showTargetSelection(targets, callback) {
   if (!targets.length) { callback(null); return; }
@@ -13765,7 +13847,7 @@ function showTargetSelection(targets, callback) {
 // Cimetière en mémoire
 async function apresLaCatastropheUI(player) {
   const grave = (playerState(player)?.graveyard || []).filter(id => CARDS_DATA[id]?.type === 'Serviteur');
-  if (!grave.length) { showErr('Votre cimetière est vide !'); return; }
+  if (!grave.length) { showErr('Votre cimetière est vide !'); return; }
 
   const overlay = document.createElement('div');
   overlay.className = 'sort-choice-overlay';
@@ -13781,7 +13863,7 @@ async function apresLaCatastropheUI(player) {
   overlay.innerHTML = `<div class="sort-choice-panel" style="max-width:720px">
     <div class="sort-choice-title">Après la catastrophe</div>
     <div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">
-      Choisissez jusqu’à 3 serviteurs — clic pour sélectionner, puis Confirmer.
+      Choisissez jusqu’à 3 serviteurs — clic pour sélectionner, puis Confirmer.
     </div>
     <div class="sort-choice-cards" id="apresCards">${cards_html}</div>
     <div style="display:flex;gap:16px;margin-top:16px;justify-content:center">
@@ -13821,9 +13903,9 @@ async function apresLaCatastropheUI(player) {
     });
     shuffleDeck(pile);
     const cnt = deckCountElement(player);
-    if (cnt) cnt.textContent = pile.length + ' cartes';
+    if (cnt) cnt.textContent = pile.length + ' cartes';
     cardsPlayedThisTurn++;
-    showNotif(selected.size + ' serviteur(s) rappelé(s) dans votre deck !', 1800);
+    showNotif(selected.size + ' serviteur(s) rappelé(s) dans votre deck !', 1800);
   });
   overlay.querySelector('#apresCancel').addEventListener('click', () => overlay.remove());
   overlay.addEventListener('contextmenu', e => { e.preventDefault(); overlay.remove(); });
@@ -13843,9 +13925,9 @@ function addHistEntry(cardId, fac) {
   setTimeout(()=>div.classList.remove('new'),400);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── ARC DE CERCLE ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 function applyArc(containerEl, isTop) {
   if (!containerEl) return;
   const selector = isTop ? '.hc-back,.hc-mini' : '.hc';
@@ -13884,9 +13966,9 @@ function applyArc(containerEl, isTop) {
   });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 // ── INTRO ──
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════════════════════════════════════════════════════════════
 
 // Types de ressources multiples pour serviteurs (spreadsheet)
 (function(){
@@ -13915,11 +13997,11 @@ Object.assign(CARDS_DATA, {
 });
 
 
-// â•â•â•â•â•â•â•â• Modèle de ressources (spreadsheet : "ou" / "+" / (n)) â•â•â•â•â•â•â•â•
+// ════════ Modèle de ressources (spreadsheet : "ou" / "+" / (n)) ════════
 // 'ou'   : n'importe quelle combinaison des types listés, total >= cost
 // 'plus' : chaque type >= son minimum (1 par défaut, ou (n)), total >= cost
 const RES_ICO = {Aria:'IC00000ARI',Bois:'IC00000BOI',Fer:'IC00000FER',Lenya:'IC00000LNY',
-  Nourriture:'IC00000NRT',Pierre:'IC00000PIE',Selene:'IC00000SLN','Sélène':'IC00000SLN',Ame:'IC00000AME','Âme':'IC00000AME'};
+  Nourriture:'IC00000NRT',Pierre:'IC00000PIE',Selene:'IC00000SLN','Sélène':'IC00000SLN',Ame:'IC00000AME','me':'IC00000AME'};
 
 const RES_REQ = {
   // ── "ou" ──
@@ -13956,7 +14038,7 @@ const RES_REQ = {
 };
 
 
-// â•â•â•â•â•â•â•â• Cartes ajoutées pour les nouveaux decks (données spreadsheet) â•â•â•â•â•â•â•â•
+// ════════ Cartes ajoutées pour les nouveaux decks (données spreadsheet) ════════
 Object.assign(CARDS_DATA, {
   // ── Pseudo-avatars (Mage du Cercle) ──
   'AVS000005':{name:'Mage du Cercle - Yria de la lumière',type:'Serviteur',fac:'edb',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,
@@ -13991,7 +14073,7 @@ Object.assign(CARDS_DATA, {
   // ── Elfe des bois ──
   'EDB000009':{name:'Père des arbres',type:'Serviteur',fac:'edb',atk:9,pdv:7,cost:8,
     res_ico:'IC00000LNY',res2:'IC00000ARI',resOu:true,res_val:'8',resType:'Lenya|Aria',fico:'FCT00000EDB.png',kws:['Insensible','Rempart'],
-    cap:'[Insensible] [Rempart] Tant que ce serviteur est sur le terrain, tous vos autres serviteurs gagnent +2 points de vie. Chaque fois qu\'un serviteur de la faction « Elfe des bois » est envoyé au cimetière depuis votre côté du terrain, le « Père des Arbres » gagne +1 d\'attaque.',badge:'',lore:''},
+    cap:'[Insensible] [Rempart] Tant que ce serviteur est sur le terrain, tous vos autres serviteurs gagnent +2 points de vie. Chaque fois qu\'un serviteur de la faction « Elfe des bois » est envoyé au cimetière depuis votre côté du terrain, le « Père des Arbres » gagne +1 d\'attaque.',badge:'',lore:''},
   // ── Non-affilié ──
   'DIV000010':{name:'Golem du froid',type:'Serviteur',fac:'div',atk:6,pdv:5,cost:5,
     res_ico:'IC00000ARI',res2:'IC00000LNY',resOu:true,res_val:'5',resType:'Aria|Lenya',fico:'FCT00000RDM.png',kws:['Sang-froid','Coup de glace'],
@@ -14009,7 +14091,7 @@ Object.assign(CARDS_DATA, {
     prods:[{ico:'IC00000ARI',n:1},{ico:'IC00000LNY',n:1},{ico:'IC00000SLN',n:1},{ico:'IC00000FER',n:1},{ico:'IC00000BOI',n:1},{ico:'IC00000PIE',n:1},{ico:'IC00000NRT',n:1}],
     cap:'Confère 1 unité d\'Aria, 1 de Lenya, 1 de Sélène, 1 de Fer, 1 de Bois, 1 de Pierre et 1 de Nourriture au joueur.',badge:'Approvisionnement',lore:'Quand le commerce se porte bien, les collecteurs d\'impôts croulent sous le travail... et sous les richesses !'},
   'R000006':{name:'Fontaine d\'aria',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000ARI',res_val:'1',resType:'Aria',fico:null,kws:[],
-    cap:'Fournit 1 ressource d\'Aria au joueur.',badge:'Approvisionnement',lore:'L\'aria, l\'eau magique, est présente naturellement un peu partout. Certains peuples la puisent directement des nappes phréatiques, tandis que d\'autres construisent des autels autour des monolithes dits « fontaines » d\'aria.'},
+    cap:'Fournit 1 ressource d\'Aria au joueur.',badge:'Approvisionnement',lore:'L\'aria, l\'eau magique, est présente naturellement un peu partout. Certains peuples la puisent directement des nappes phréatiques, tandis que d\'autres construisent des autels autour des monolithes dits « fontaines » d\'aria.'},
   // ── Sorts ──
   'S000001':{name:'Embuscade elfique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:null,kws:[],
     cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à 5. Vole 1 carte Approvisionnement du deck ou cimetière de votre adversaire.',badge:'Sort',lore:''},
@@ -14022,7 +14104,7 @@ Object.assign(CARDS_DATA, {
 });
 
 
-// â•â•â•â•â•â•â•â• Cartes ajoutées (mise à jour decks) â•â•â•â•â•â•â•â•
+// ════════ Cartes ajoutées (mise à jour decks) ════════
 Object.assign(CARDS_DATA, {
   'B000006':{name:'Rampant des marais',type:'Serviteur',fac:'bet',atk:6,pdv:3,cost:4,
     res_ico:'IC00000NRT',res_val:'4',resType:'Nourriture',fico:'FCT00000BET.png',kws:[],
@@ -14038,16 +14120,31 @@ Object.assign(CARDS_DATA, {
     cap:'Piochez 1 carte de votre deck. Jusqu\'à la fin de la partie, la main de votre adversaire vous est révélée.',badge:'Sort',lore:''},
   'S000023':{name:'Pacte millénaire',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,
     res_ico:'IC00000LNY',res2:'IC00000ARI',res3:'IC00000NRT',resOu:true,res_val:'5',resType:'Lenya|Aria|Nourriture',fico:'FCT00000EDG.png',kws:[],
-    cap:'Si vous avez en main un « Jeune dragon des neiges », l\'invoque de votre côté du terrain sans tenir compte de son coût en ressources. Si ce serviteur n\'est pas présent dans votre main, piochez tous les exemplaires de « Jeune dragon des neiges » restant dans votre deck et réduit leur coût de 2. Si tous vos exemplaires du « Jeune dragon des neiges » sont au cimetière, alors donne +1 attaque à vos serviteurs de la faction « Elfe de glace » pour le reste de la partie.',badge:'Sort',lore:''}
+    cap:'Si vous avez en main un « Jeune dragon des neiges », l\'invoque de votre côté du terrain sans tenir compte de son coût en ressources. Si ce serviteur n\'est pas présent dans votre main, piochez tous les exemplaires de « Jeune dragon des neiges » restant dans votre deck et réduit leur coût de 2. Si tous vos exemplaires du « Jeune dragon des neiges » sont au cimetière, alors donne +1 attaque à vos serviteurs de la faction « Elfe de glace » pour le reste de la partie.',badge:'Sort',lore:''}
 });
 
-// â•â•â•â•â•â•â•â• Cartes reconnues pour le duel Hokhan Ashir Vs Uram â•â•â•â•â•â•â•â•
+// Cartes Humain et dependances directes implementees par COLLECTION-BATCH-03.
 Object.assign(CARDS_DATA, {
-  'AVS000007':{name:'Mage du Cercle – Uram le Rouge',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Initiative'],cap:'[Insensible] [Initiative] : Place une « Porte démoniaque » de votre côté du terrain. Tant qu\'Uram reste sur le terrain, tous les serviteurs adverses subissent *2* points de dégât à chaque début de tour de leur propriétaire.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.',related:['DIV000001']},
-  'AVS000008':{name:'Mage du Cercle – Hokhan Ashir',type:'Serviteur',fac:'mvs',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000MVS.png',kws:['Insensible','Vengeance'],cap:'[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* unité de ressource Âme à votre approvisionnement. Ces cartes détruites sont envoyées dans votre cimetière. [Vengeance] : Place cette carte au fond de votre deck.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.'},
+  'AVS000002':{name:'Mage du Cercle - Le Sombre',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Gèle','Insensible','Aria'],cap:"[Insensible] [Initiative] Inflige *13* points de dégâts à un serviteur adverse. Si le serviteur ciblé survit, il subit *2* points de dégâts supplémentaires à chaque début de tour jusqu'à sa mort. [Gèle] un autre serviteur adverse pendant *3* tours.",lore:''},
+  'AVS000003':{name:'Mage du Cercle - Undergast',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria'],cap:'[Insensible] Tous vos sorts sont lancés une seconde fois.',lore:''},
+  'AVS000004':{name:'Mage du Cercle - Shâr des Îles',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria','Initiative'],cap:'[Insensible] [Initiative] Invoque 2 « Gorgonnes » de votre côté du terrain. Recommence chaque fois que Shâr subit des dégâts.',lore:'',related:['B000006','B000007']},
+  'AVS000010':{name:'Mage du Cercle - Ianna la Chanteuse',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria'],cap:'[Insensible] Au début de chacun de ses tours, vous avez *50%* de chance de voler la première carte que pioche votre adversaire.',lore:''},
+  'AVS000014':{name:'Mage du Cercle - Le Joueur de flûte',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria','Initiative'],cap:'[Insensible] [Initiative] Votre adversaire passe automatiquement son prochain tour.',lore:''},
+  'DIV000001':{name:'Porte démoniaque',type:'Serviteur',fac:'div',atk:0,pdv:30,cost:8,res_ico:'IC00000ARI',res2:'IC00000LNY',res3:'IC00000AME',resOu:true,res_val:'8',resType:'Aria|Lenya|Écho',fico:'FCT00000RDM.png',kws:['Rempart','Insensible','Aria','Lenya','Écho'],cap:'[Rempart] [Insensible] Ne peut ni attaquer ni riposter. À chaque fin de tour du propriétaire, invoque 1 « Démon mineur » de votre côté du terrain.',lore:'',related:['DIV000002']},
+  'H000015':{name:'Chevalier vengeur',type:'Serviteur',fac:'hum',atk:6,pdv:3,cost:5,res_ico:'IC00000ARI',res2:'IC00000NRT',res3:'IC00000FER',res_val:'5',resType:'Aria+Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Aria','Nourriture','Fer','Rempart','Initiative'],cap:'[Rempart] [Initiative] Si vous avez un « Paladin gardien » de votre côté du terrain, inflige *12* points de dégâts répartis aléatoirement entre les serviteurs adverses.',lore:'',related:['H000016']},
+  'H000016':{name:'Paladin gardien',type:'Serviteur',fac:'hum',atk:3,pdv:6,cost:5,res_ico:'IC00000ARI',res2:'IC00000NRT',res3:'IC00000FER',res_val:'5',resType:'Aria+Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Aria','Nourriture','Fer','Rempart','Initiative'],cap:'[Rempart] [Initiative] Si vous avez un « Chevalier vengeur » de votre côté du terrain, rend *6* points de vie à tous vos serviteurs alliés sur le terrain.',lore:'',related:['H000015']},
+  'H000028':{name:'Soldat inféodé',type:'Serviteur',fac:'hum',atk:2,pdv:6,cost:3,res_ico:'IC00000FER',res2:'IC00000NRT',res_val:'3',resType:'Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Fer','Nourriture','Rempart'],cap:'[Rempart]',lore:''},
+  'S000028':{name:'Aura de protection',type:'Sort',fac:'hum',assetFolder:'sorts',atk:null,pdv:null,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000HUM.png',kws:['Aria','Insensible'],cap:"Jusqu'à la fin de la partie, le serviteur ciblé par ce sort reçoit la capacité spéciale [Insensible] et son maximum de points de vie est augmenté de +3.",detail:"Jusqu'à la fin de la partie, le serviteur ciblé par ce sort reçoit la capacité spéciale [Insensible] et son maximum de points de vie est augmenté de +3. Si le serviteur est détruit, il perd ces effets.",badge:'Sort',lore:''},
+  'S000033':{name:'Épées bénies',type:'Sort',fac:'hum',assetFolder:'sorts',atk:null,pdv:null,cost:4,res_ico:'IC00000ARI',res2:'IC00000SLN',resOu:true,res_val:'4',resType:'Aria|Sélène',fico:'FCT00000HUM.png',kws:['Aria','Sélène','Colère divine'],cap:"Jusqu'à la fin de votre tour, tous vos serviteurs infligent [Colère divine] aux morts-vivants auxquels ils infligent des dégâts.",badge:'Sort',lore:''}
+});
+
+// ════════ Cartes reconnues pour le duel Hokhan Ashir Vs Uram ════════
+Object.assign(CARDS_DATA, {
+  'AVS000007':{name:'Mage du Cercle ”“ Uram le Rouge',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Initiative'],cap:'[Insensible] [Initiative] : Place une « Porte démoniaque » de votre côté du terrain. Tant qu\'Uram reste sur le terrain, tous les serviteurs adverses subissent *2* points de dégât à chaque début de tour de leur propriétaire.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.',related:['DIV000001']},
+  'AVS000008':{name:'Mage du Cercle ”“ Hokhan Ashir',type:'Serviteur',fac:'mvs',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000MVS.png',kws:['Insensible','Vengeance'],cap:'[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* unité de ressource me à votre approvisionnement. Ces cartes détruites sont envoyées dans votre cimetière. [Vengeance] : Place cette carte au fond de votre deck.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.'},
   'B000001':{name:'Pisteur Rhaekor',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000BET.png',kws:[],cap:'',lore:'Les Rhaekor, « hommes-bêtes » dans la langue des elfes, vivent en tribus de quelques dizaines d\'individus. Le chef de meute, le plus fort de sa tribu, conduit les siens lors des innombrables pillages qui rythment la vie de ces créatures primitives.'},
-  'B000002':{name:'Rhaekor enragé',type:'Serviteur',fac:'bet',atk:5,pdv:3,cost:3,res_ico:'IC00000NRT',res_val:'3',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Initiative'],cap:'[Rage] [Initiative] : Subit *1* point de dégât.',lore:''},
-  'B000015':{name:'Minotaure reproducteur',type:'Serviteur',fac:'bet',atk:3,pdv:9,cost:7,res_ico:'IC00000NRT',res_val:'7',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Nourriture','Rempart'],cap:'[Rempart] Chaque fois que ce serviteur survit à des dégâts, invoque 1 « Minus minotaure » de votre côté du terrain.',lore:'',assetFolder:'betes',related:['B000016']},
+  'B000002':{name:'Rhaekor enragé',type:'Serviteur',fac:'bet',atk:5,pdv:3,cost:3,res_ico:'IC00000NRT',res_val:'3',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Initiative'],cap:'[Rage] [Initiative] : Subit *1* point de dégât.',lore:''},
+  'B000015':{name:'Minotaure reproducteur',type:'Serviteur',fac:'bet',atk:3,pdv:9,cost:7,res_ico:'IC00000NRT',res_val:'7',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Nourriture','Rempart'],cap:'[Rempart] Chaque fois que ce serviteur survit à des dégâts, invoque 1 « Minus minotaure » de votre côté du terrain.',lore:'',assetFolder:'betes',related:['B000016']},
   'B000016':{name:'Minus minotaure',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:2,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture+Fer',fico:'FCT00000BET.png',kws:['Nourriture','Fer'],cap:'',lore:"Ce spécimen est un gringalet selon les standards de son espèce. Un gringalet qui peut tuer un homme adulte d'un seul coup de sabot ! Sans même parler de cette jolie hache qu'il a déniché...",assetFolder:'betes'},
   'B000017':{name:'Maginotaure',type:'Serviteur',fac:'bet',atk:3,pdv:3,cost:4,res_ico:'IC00000LNY',res_val:'1',resType:'Lenya+Nourriture',fico:'FCT00000BET.png',kws:['Lenya','Nourriture','Initiative'],cap:'[Initiative] Augmente de +1 ATK / +2 PDV les statistiques de tous vos autres serviteurs actuellement sur le terrain.',lore:'',assetFolder:'betes'},
   'DIV000002':{name:'Démon mineur',type:'Serviteur',fac:'div',atk:4,pdv:2,cost:2,res_ico:'IC00000RDM',res_val:'2',resType:'any',fico:'FCT00000RDM.png',kws:[],cap:'',lore:'Les démons mangent les cœurs et dévorent les âmes. Après leur passage, il ne reste plus de leurs victimes que des déchets vidés de toute substance.',related:['DIV000001']},
@@ -14055,44 +14152,44 @@ Object.assign(CARDS_DATA, {
   'DIV000004':{name:'Gorgone séductrice',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000RDM',res_val:'3',resType:'any',fico:'FCT00000RDM.png',kws:['Hypnose'],cap:'Après avoir attaqué un serviteur, si ce dernier est encore sur le terrain, lui inflige [Hypnose].',lore:''},
   'DIV000006':{name:'Élémentaire du feu',type:'Serviteur',fac:'div',atk:4,pdv:2,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000RDM.png',kws:['Aria','Embrasement'],cap:'Chaque fois qu\'il inflige des dégâts à un serviteur adverse, a 50% de chance d\'infliger [Embrasement] à 1 serviteur adverse adjacent aléatoire.',lore:''},
   'DIV000009':{name:'Golem magmatique',type:'Serviteur',fac:'div',atk:7,pdv:4,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria',fico:'FCT00000RDM.png',kws:['Aria'],cap:'Chaque fois qu\'il détruit un serviteur adverse, envoie une carte aléatoire de la main de votre adversaire au cimetière.',lore:''},
-  'DIV000011':{name:'Démon majeur',type:'Serviteur',fac:'div',atk:8,pdv:8,cost:5,res_ico:'IC00000ARI',res_val:'5',resOu:true,resType:'Aria',fico:'FCT00000RDM.png',kws:['Insensible','Rempart','Rage','Embrasement','Vengeance'],cap:'[Insensible] [Rempart] [Rage] Récupère tous ses points de vie à chacun de vos débuts de tour jusqu\'à sa destruction. Chaque fois qu\'il inflige des dégâts à 1 serviteur, lui applique également [Embrasement] avec 25% de chance. [Vengeance] Inflige le montant de son attaque en dégâts, répartis aléatoirement entre les serviteurs adverses.',lore:'',cond:'Nécessite d’avoir une « Porte démoniaque » de votre côté du terrain.',related:['DIV000001']},
+  'DIV000011':{name:'Démon majeur',type:'Serviteur',fac:'div',atk:8,pdv:8,cost:5,res_ico:'IC00000ARI',res_val:'5',resOu:true,resType:'Aria',fico:'FCT00000RDM.png',kws:['Insensible','Rempart','Rage','Embrasement','Vengeance'],cap:'[Insensible] [Rempart] [Rage] Récupère tous ses points de vie à chacun de vos débuts de tour jusqu\'à sa destruction. Chaque fois qu\'il inflige des dégâts à 1 serviteur, lui applique également [Embrasement] avec 25% de chance. [Vengeance] Inflige le montant de son attaque en dégâts, répartis aléatoirement entre les serviteurs adverses.',lore:'',cond:'Nécessite d’avoir une « Porte démoniaque » de votre côté du terrain.',related:['DIV000001']},
   'GOB000001':{name:'Mageobelin lance-cailloux',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:4,pdv:1,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000GOB.png',kws:['Insensible'],cap:'À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à un serviteur adverse aléatoire. Cette capacité ne peut cibler un serviteur possédant la capacité [Insensible].',lore:''},
   'GOB000002':{name:'Surineur',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:3,pdv:1,cost:1,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture',fico:'FCT00000GOB.png',kws:[],cap:'',lore:'Petits, véloces et bigrement agiles, les gobelins constituent une réelle menace quand ils combattent à deux dagues.'},
-  'H000001':{name:'Larron',type:'Serviteur',fac:'hum',atk:1,pdv:1,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000HUM.png',kws:[],cap:'',lore:'La guerre conduit de nombreuses familles à la ruine. Beaucoup endurent stoïquement, rêvant d\'un retour aux jours heureux. D\'autres empruntent une voie plus sombre…'},
-  'H000004':{name:'Élémentaliste',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:2,res_ico:'IC00000ARI',res_val:'2',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative'],cap:'[Initiative] : Inflige 1 point de dégât à tous les serviteurs adverses, puis encore 1 autre point de dégât au début de votre prochain tour.',lore:''},
+  'H000001':{name:'Larron',type:'Serviteur',fac:'hum',atk:1,pdv:1,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000HUM.png',kws:[],cap:'',lore:'La guerre conduit de nombreuses familles à la ruine. Beaucoup endurent stoïquement, rêvant d\'un retour aux jours heureux. D\'autres empruntent une voie plus sombre”¦'},
+  'H000004':{name:'Élémentaliste',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:2,res_ico:'IC00000ARI',res_val:'2',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative'],cap:'[Initiative] : Inflige 1 point de dégât à tous les serviteurs adverses, puis encore 1 autre point de dégât au début de votre prochain tour.',lore:''},
   'H000005':{name:'Fantassin rouge',type:'Serviteur',fac:'hum',atk:2,pdv:5,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000HUM.png',kws:['Rempart'],cap:'[Rempart] Les grandes familles nobles ont chacune leur armée féodale. Chez les moins puissants, ces armées ressemblent davantage à des hordes paysannes qu\'à des troupes entraînées. Mais les seigneurs les plus importants équipent leurs combattants d\'armures et de lames de grande qualité, aux couleurs de leur maison.',lore:''},
 'H000006':{name:'Pr\u00eatre de guerre',type:'Serviteur',fac:'hum',atk:2,pdv:4,cost:2,res_ico:'IC00000ARI',res2:'IC00000FER',res_val:'2',resType:'Aria+Fer',fico:'FCT00000HUM.png',kws:['Aria'],cap:'Tant que vous avez au moins *1* ressource d\'Aria sur le terrain, rend jusqu\'\u00e0 *2* points de vie chaque tour \u00e0 *1* autre serviteur alli\u00e9 bless\u00e9 al\u00e9atoire. Le montant des soins est doubl\u00e9 sur les serviteurs de la faction des \u00ab humains \u00bb. En revanche, cette capacit\u00e9 ne peut pas soigner de serviteurs \u00ab morts-vivants \u00bb.',lore:''},
   'H000007':{name:'Mage de guerre',type:'Serviteur',fac:'hum',atk:5,pdv:3,cost:3,res_ico:'IC00000ARI',res2:'IC00000FER',res_val:'3',resType:'Aria+Fer',fico:'FCT00000HUM.png',kws:['Aria','Initiative','Coup de glace','Embrasement','Fer'],cap:'[Initiative] Inflige [Coup de glace] pendant 2 tours \u00e0 un serviteur adverse al\u00e9atoire, puis inflige [Embrasement] \u00e0 *1* autre serviteur adverse al\u00e9atoire.',lore:''},
   'H000008':{name:'Patrouilleur du village',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Vigilance'],cap:'[Vigilance]',lore:'',related:['H000011']},
-  'H000010':{name:'Éclaireur',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:1,res_ico:'IC00000BOI',res_val:'1',resType:'Bois',fico:'FCT00000HUM.png',kws:['Vigilance','Initiative'],cap:'[Vigilance] [Initiative] : Vous piochez *1* carte.',lore:''},
+  'H000010':{name:'Éclaireur',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:1,res_ico:'IC00000BOI',res_val:'1',resType:'Bois',fico:'FCT00000HUM.png',kws:['Vigilance','Initiative'],cap:'[Vigilance] [Initiative] : Vous piochez *1* carte.',lore:''},
   'H000018':{name:'Recrue',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',resType:'Fer',fico:'FCT00000HUM.png',kws:[],cap:'',lore:'Recouvertes de cuir clouté des pieds à la tête, les recrues des armées humaines sont mobiles, économiques, mais leur efficacité sur le champ de bataille est toute relative.'},
   'H000019':{name:'Hallebardier',type:'Serviteur',fac:'hum',atk:4,pdv:3,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000HUM.png',kws:[],cap:'Ce serviteur inflige également *1* point de dégât aux serviteurs adjacents à ceux qu\'il attaque.',lore:''},
-  'MV000003':{name:'Gueule du trépas',type:'Serviteur',fac:'mvs',atk:6,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite une ressource Âme permanente pour le propriétaire de la Gueule du trépas. Rend à ce serviteur un montant de points de vie égal à l\'attaque du serviteur détruit.',lore:'',cond:'Toutes les ressources utilisées doivent être de type Âme.'},
-  'MV000004':{name:'Amalgame terrifiant',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, détruit un serviteur adverse avec *9* points de vie ou moins et ajoute ce serviteur à votre approvisionnement d\'Âmes (+1).',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000005','MV000006']},
-  'MV000005':{name:'Amalgame rageur',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, réduit le coût en Âmes de votre prochaine carte de *3*.',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000004','MV000006']},
-  'MV000006':{name:'Amalgame erratique',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, vous piochez instantanément *3* cartes de votre deck.',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000004','MV000005']},
-  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:8,res_ico:'IC00000AME',res_val:'8',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Insensible','Vengeance'],cap:'[Insensible] Chaque fois qu\'un serviteur adverse est détruit alors que le « Jeteur de sorts réanimé » est présent de votre côté du terrain, ajoute *+1* âme à vos ressources. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8* et qui ne dispose pas de la capacité [Insensible].',lore:''},
-  'MV000012':{name:'Géant jamais-sans-tête',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:10,res_ico:'IC00000AME',res_val:'10',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Sang-froid','Rempart'],cap:'[Sang-froid] [Rempart] Chaque fois que le « Géant jamais-sans-tête » détruit un serviteur adverse, votre adversaire choisit *1* carte de sa main qui est envoyée au cimetière (le vôtre, pas celui de l\'adversaire !).',lore:''},
-  'MV000013':{name:'Mort-à-vif',type:'Serviteur',fac:'mvs',atk:6,pdv:3,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Dépecée vivante, puis ramenée d\'entre les morts par le biais de la magie noire, cette créature jadis humaine n\'est plus qu\'un puits sans fond de haine.'},
-  'MV000014':{name:'Momie dérangée',type:'Serviteur',fac:'mvs',atk:3,pdv:4,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur revient automatiquement dans votre deck quand il est détruit alors qu\'il se trouvait sur le terrain. Votre deck est ensuite remélangé.',lore:''},
-  'MV000015':{name:'Banshee hurlante',type:'Serviteur',fac:'mvs',atk:2,pdv:1,cost:1,res_ico:'IC00000AME',res_val:'1',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Initiative','Vengeance'],cap:'[Initiative] Renvoie *1* serviteur adverse ayant une attaque inférieure ou égale à *4* dans le deck de votre adversaire, qui est ensuite remélangé. [Vengeance] Votre adversaire renvoie *1* carte aléatoire de sa main dans son deck, qui est ensuite remélangé.',lore:''},
-'MV000016':{name:'Serviteur de la Lame',type:'Serviteur',fac:'mvs',atk:4,pdv:3,cost:2,res_ico:'IC00000AME',res_val:'2',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Les Lames, créatures d\'acier noires animées par la nécromancie, sont habitées par les esprits brisés de pauvres hères, transformés malgré eux en machines à tuer.',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000017':{name:'Cauchemar de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:8,cost:6,res_ico:'IC00000AME',res_val:'6',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative','Âme'],cap:'[Initiative] Inflige le montant de son attaque à un serviteur adverse aléatoire, ou *4* points de dégâts directement à l\'avatar si celui-ci n\'a pas de serviteur de son côté du terrain.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000018':{name:'Mage de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Initiative','Coup de glace','Gel','Âme'],cap:'[Initiative] Inflige [Coup de glace] à un serviteur adverse aléatoire pendant *1* tour, puis [Gel] à un autre serviteur adverse aléatoire pendant *3* tours. Vous piochez ensuite *1* sort de votre deck.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000019':{name:'Forgeron de la Lame',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:12,res_ico:'IC00000AME',res_val:'12',resType:'Ame',fico:'FCT00000MVS.png',kws:['Insensible','Âme'],cap:'[Insensible] Tous vos gains en Échos sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit. Votre deck est ensuite remélangé.',lore:'',detail:'[Insensible] Tous vos gains en Échos sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit (si coût en ressources du serviteur envoyé au cimetière &lt; à 4, alors le serviteur généré pour vous est un « Serviteur de la Lame » ; si coût est égal à 5, alors le serviteur généré est un « Scorpion de la Lame » ; si coût est égal à 6 ou 7, le serviteur généré est un « Mage de la Lame » ; si coût &gt; 7, alors le serviteur généré est un « Cauchemar de la Lame ». Votre deck est ensuite remélangé.',cond:'« Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doit être sur votre terrain.',related:['AVS000008','MV000016','MV000021','MV000018','MV000017'],bladeGeneration:[{test:'lt',value:4,cardId:'MV000016',cardName:'Serviteur de la Lame'},{test:'eq',value:5,cardId:'MV000021',cardName:'Scorpion de la Lame'},{test:'in',values:[6,7],cardId:'MV000018',cardName:'Mage de la Lame'},{test:'gt',value:7,cardId:'MV000017',cardName:'Cauchemar de la Lame'}]},
+  'MV000003':{name:'Gueule du trépas',type:'Serviteur',fac:'mvs',atk:6,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite une ressource me permanente pour le propriétaire de la Gueule du trépas. Rend à ce serviteur un montant de points de vie égal à l\'attaque du serviteur détruit.',lore:'',cond:'Toutes les ressources utilisées doivent être de type me.'},
+  'MV000004':{name:'Amalgame terrifiant',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, détruit un serviteur adverse avec *9* points de vie ou moins et ajoute ce serviteur à votre approvisionnement d\'mes (+1).',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000005','MV000006']},
+  'MV000005':{name:'Amalgame rageur',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, réduit le coût en Âmes de votre prochaine carte de *3*.',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000004','MV000006']},
+  'MV000006':{name:'Amalgame erratique',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, vous piochez instantanément *3* cartes de votre deck.',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000004','MV000005']},
+  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:8,res_ico:'IC00000AME',res_val:'8',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Insensible','Vengeance'],cap:'[Insensible] Chaque fois qu\'un serviteur adverse est détruit alors que le « Jeteur de sorts réanimé » est présent de votre côté du terrain, ajoute *+1* âme à vos ressources. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8* et qui ne dispose pas de la capacité [Insensible].',lore:''},
+  'MV000012':{name:'Géant jamais-sans-tête',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:10,res_ico:'IC00000AME',res_val:'10',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Sang-froid','Rempart'],cap:'[Sang-froid] [Rempart] Chaque fois que le « Géant jamais-sans-tête » détruit un serviteur adverse, votre adversaire choisit *1* carte de sa main qui est envoyée au cimetière (le vôtre, pas celui de l\'adversaire !).',lore:''},
+  'MV000013':{name:'Mort-à-vif',type:'Serviteur',fac:'mvs',atk:6,pdv:3,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Dépecée vivante, puis ramenée d\'entre les morts par le biais de la magie noire, cette créature jadis humaine n\'est plus qu\'un puits sans fond de haine.'},
+  'MV000014':{name:'Momie dérangée',type:'Serviteur',fac:'mvs',atk:3,pdv:4,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur revient automatiquement dans votre deck quand il est détruit alors qu\'il se trouvait sur le terrain. Votre deck est ensuite remélangé.',lore:''},
+  'MV000015':{name:'Banshee hurlante',type:'Serviteur',fac:'mvs',atk:2,pdv:1,cost:1,res_ico:'IC00000AME',res_val:'1',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Initiative','Vengeance'],cap:'[Initiative] Renvoie *1* serviteur adverse ayant une attaque inférieure ou égale à *4* dans le deck de votre adversaire, qui est ensuite remélangé. [Vengeance] Votre adversaire renvoie *1* carte aléatoire de sa main dans son deck, qui est ensuite remélangé.',lore:''},
+'MV000016':{name:'Serviteur de la Lame',type:'Serviteur',fac:'mvs',atk:4,pdv:3,cost:2,res_ico:'IC00000AME',res_val:'2',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Les Lames, créatures d\'acier noires animées par la nécromancie, sont habitées par les esprits brisés de pauvres hères, transformés malgré eux en machines à tuer.',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000017':{name:'Cauchemar de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:8,cost:6,res_ico:'IC00000AME',res_val:'6',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative','me'],cap:'[Initiative] Inflige le montant de son attaque à un serviteur adverse aléatoire, ou *4* points de dégâts directement à l\'avatar si celui-ci n\'a pas de serviteur de son côté du terrain.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000018':{name:'Mage de la Lame',type:'Serviteur',fac:'mvs',atk:8,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative','Coup de glace','Gel','me'],cap:'[Initiative] Inflige [Coup de glace] à un serviteur adverse aléatoire pendant *1* tour, puis [Gel] à un autre serviteur adverse aléatoire pendant *3* tours. Vous piochez ensuite *1* sort de votre deck.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000019':{name:'Forgeron de la Lame',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:12,res_ico:'IC00000AME',res_val:'12',resType:'Âme',fico:'FCT00000MVS.png',kws:['Insensible','me'],cap:'[Insensible] Tous vos gains en Échos sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit. Votre deck est ensuite remélangé.',lore:'',detail:'[Insensible] Tous vos gains en Échos sont doublés. De plus, tant que le « Forgeron de la Lame » est présent sur le terrain, chaque fois qu\'un serviteur adverse est expédié au cimetière depuis le terrain, ajoute une créature « Lame » à votre deck, dont la puissance dépend du coût du serviteur détruit (si coût en ressources du serviteur envoyé au cimetière &lt; à 4, alors le serviteur généré pour vous est un « Serviteur de la Lame » ; si coût est égal à 5, alors le serviteur généré est un « Scorpion de la Lame » ; si coût est égal à 6 ou 7, le serviteur généré est un « Mage de la Lame » ; si coût &gt; 7, alors le serviteur généré est un « Cauchemar de la Lame ». Votre deck est ensuite remélangé.',cond:'« Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doit être sur votre terrain.',related:['AVS000008','MV000016','MV000021','MV000018','MV000017'],bladeGeneration:[{test:'lt',value:4,cardId:'MV000016',cardName:'Serviteur de la Lame'},{test:'eq',value:5,cardId:'MV000021',cardName:'Scorpion de la Lame'},{test:'in',values:[6,7],cardId:'MV000018',cardName:'Mage de la Lame'},{test:'gt',value:7,cardId:'MV000017',cardName:'Cauchemar de la Lame'}]},
   'MV000020':{name:'Gobelin mort-vivant',type:'Serviteur',fac:'mvs',atk:1,pdv:3,cost:0,fico:'FCT00000MVS.png',kws:[],cap:'Chaque fois que ce serviteur inflige des dégâts, se soigne de *2* points de vie.',lore:''},
-  'MV000021':{name:'Scorpion de la Lame',type:'Serviteur',fac:'mvs',atk:5,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Rage','Initiative'],cap:'[Rage] [Initiative] Inflige le montant de son attaque en dégâts à *1* serviteur adverse aléatoire. Si cette capacité spéciale détruit le serviteur ciblé, ajoute *+1* âme à votre réserve.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
-  'MV000022':{name:'Commandant squelette',type:'Serviteur',fac:'mvs',atk:4,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Chaque fois qu\'il détruit un serviteur, le « Commandant squelette » invoque *1* « Guerrier cendreux » de votre côté du terrain.',lore:'',detail:'Chaque fois qu\'il détruit un serviteur, le « Commandant squelette » invoque *1* « Guerrier cendreux » [ID = MV000001] de votre côté du terrain.',related:['MV000001']},
-  'MV000023':{name:'Terreur ancienne réanimée',type:'Serviteur',fac:'mvs',atk:7,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur récupère la totalité de ses points de vie chaque fois qu\'il en détruit un autre.',lore:''},
-  'N000004':{name:'Naingociant',type:'Serviteur',fac:'nain',assetFolder:'nains',atk:1,pdv:2,cost:1,res_ico:'IC00000FER',res2:'IC00000NRT',resOu:true,res_val:'1',resType:'Fer|Nourriture',fico:'FCT00000NAI.png',kws:['Initiative'],cap:'[Initiative] : Vous piochez une carte approvisionnement de votre deck.',lore:''},
+  'MV000021':{name:'Scorpion de la Lame',type:'Serviteur',fac:'mvs',atk:5,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Rage','Initiative'],cap:'[Rage] [Initiative] Inflige le montant de son attaque en dégâts à *1* serviteur adverse aléatoire. Si cette capacité spéciale détruit le serviteur ciblé, ajoute *+1* âme à votre réserve.',lore:'',cond:'Vous ne pouvez jouer ce serviteur que si le « Forgeron de la Lame » ou le pseudo-avatar « Mage du Cercle — Hokhan Ashir » est présent sur votre terrain.',related:['MV000019','AVS000008']},
+  'MV000022':{name:'Commandant squelette',type:'Serviteur',fac:'mvs',atk:4,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Chaque fois qu\'il détruit un serviteur, le « Commandant squelette » invoque *1* « Guerrier cendreux » de votre côté du terrain.',lore:'',detail:'Chaque fois qu\'il détruit un serviteur, le « Commandant squelette » invoque *1* « Guerrier cendreux » [ID = MV000001] de votre côté du terrain.',related:['MV000001']},
+  'MV000023':{name:'Terreur ancienne réanimée',type:'Serviteur',fac:'mvs',atk:7,pdv:5,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur récupère la totalité de ses points de vie chaque fois qu\'il en détruit un autre.',lore:''},
+  'N000004':{name:'Naingociant',type:'Serviteur',fac:'nain',assetFolder:'nains',atk:1,pdv:2,cost:1,res_ico:'IC00000FER',res2:'IC00000NRT',resOu:true,res_val:'1',resType:'Fer|Nourriture',fico:'FCT00000NAI.png',kws:['Initiative'],cap:'[Initiative] : Vous piochez une carte approvisionnement de votre deck.',lore:''},
   'ORC000007':{name:'Rejeton du chaos',type:'Serviteur',fac:'orc',atk:9,pdv:7,cost:8,res_ico:'IC00000RDM',res_val:'8',resType:'any',fico:'FCT00000ORC.png',kws:['Rempart','Rage','Initiative','Insensible'],cap:'[Rempart] [Rage] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',lore:'',detail:'[Rempart] [Rage] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ». Les capacités d\'Initiative et de fin de tour de cette carte ne peut affecter de serviteurs possédant le mot-clef [Insensible].'},
-  'R000002':{name:'Marché citadin',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000NRT',res_val:'2',resType:'Nourriture',fico:null,kws:['Nourriture'],cap:'Fournit 2 unités de Nourriture au joueur.',lore:'Tout le monde doit se nourrir ! Même si certains préfèrent les cervelles juteuses au pain d\'épices.',badge:'Approvisionnement'},
-  'R000003':{name:'Buissons à baies',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture',fico:null,kws:['Nourriture'],cap:'Fournit 1 unité de Nourriture au joueur.',lore:'Bien que toutes les races en consomment, les elfes des bois raffolent tout particulièrement des baies sauvages, dont ils se nourrissent sous différentes formes, presque à chaque repas.',badge:'Approvisionnement'},
-  'R000021':{name:'Crypte familiale',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000AME',res_val:'3',resType:'Ame',fico:null,kws:['Âme'],cap:'Fournit 3 Âmes au joueur. Le visuel de la carte évolue en fonction du total d’Âmes disponibles (RAME0 à RAME21).',lore:'Une tombe isolée peut protéger des chasseurs de trésors, mais tout nécromancien sait qu\'il n\'y a pas mieux pour exercer tranquillement son art…',badge:'Approvisionnement'},
+  'R000002':{name:'Marché citadin',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000NRT',res_val:'2',resType:'Nourriture',fico:null,kws:['Nourriture'],cap:'Fournit 2 unités de Nourriture au joueur.',lore:'Tout le monde doit se nourrir ! Même si certains préfèrent les cervelles juteuses au pain d\'épices.',badge:'Approvisionnement'},
+  'R000003':{name:'Buissons à baies',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture',fico:null,kws:['Nourriture'],cap:'Fournit 1 unité de Nourriture au joueur.',lore:'Bien que toutes les races en consomment, les elfes des bois raffolent tout particulièrement des baies sauvages, dont ils se nourrissent sous différentes formes, presque à chaque repas.',badge:'Approvisionnement'},
+  'R000021':{name:'Crypte familiale',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:null,kws:['Âme'],cap:'Fournit 3 Âmes au joueur. Le visuel de la carte évolue en fonction du total d’Âmes disponibles (RAME0 à RAME21).',lore:'Une tombe isolée peut protéger des chasseurs de trésors, mais tout nécromancien sait qu\'il n\'y a pas mieux pour exercer tranquillement son art”¦',badge:'Approvisionnement'},
   'S000022':{name:'Galerie des horreurs',type:'Sort',fac:'sort',assetFolder:'sorts',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',res2:'IC00000SLN',res3:'IC00000AME',res4:'IC00000LNY',resOu:true,resType:'Aria|Sélène|Ame|Lenya',fico:null,kws:['Insensible'],cap:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé.',lore:'',badge:'Sort'},
 });
 
-// â•â•â•â•â•â•â•â• Cartes reconnues pour le duel Rohen Vs Yria â•â•â•â•â•â•â•â•
+// ════════ Cartes reconnues pour le duel Rohen Vs Yria ════════
 Object.assign(RES_REQ, {
   'H000011':{type:'plus',parts:[['Bois',1],['Fer',1],['Nourriture',1]]},
   'H000014':{type:'plus',parts:[['Nourriture',1],['Fer',1]]},
@@ -14101,11 +14198,11 @@ Object.assign(RES_REQ, {
 });
 
 Object.assign(CARDS_DATA, {
-  'AVS000001':{name:'Mage du Cercle – Rohen Tahir',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Coup de glace','Insensible'],cap:'[Initiative] Inflige [Coup de glace] à tous les serviteurs adverses présents sur le terrain pendant 4 tours. Inflige [Coup de glace] à tout serviteur qui l\'attaque pendant 2 tours. [Insensible] aux sorts.',lore:'',cond:'Au moins 6 des ressources utilisées pour l\'invocation doivent être de type Aria.',related:['H000008']},
+  'AVS000001':{name:'Mage du Cercle ”“ Rohen Tahir',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Coup de glace','Insensible'],cap:'[Initiative] Inflige [Coup de glace] à tous les serviteurs adverses présents sur le terrain pendant 4 tours. Inflige [Coup de glace] à tout serviteur qui l\'attaque pendant 2 tours. [Insensible] aux sorts.',lore:'',cond:'Au moins 6 des ressources utilisées pour l\'invocation doivent être de type Aria.',related:['H000008']},
   'H000002':{name:'Mage ermite',type:'Serviteur',fac:'hum',atk:6,pdv:2,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
   'H000003':{name:'Mentaliste',type:'Serviteur',fac:'hum',atk:3,pdv:1,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
-  'H000011':{name:'Capitaine des patrouilleurs',type:'Serviteur',fac:'hum',atk:6,pdv:4,cost:4,res_ico:'IC00000BOI',res2:'IC00000FER',res3:'IC00000NRT',res_val:'4',resType:'Bois+Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Bois','Fer','Nourriture','Rempart'],cap:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque.',lore:'',detail:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque. Les invocations ne tiennent pas compte de la limite de cartes jouées par tour. Un emplacement libre de serviteur de votre côté du terrain est nécessaire pour l\'invocation des patrouilleurs.',related:['H000008']},
-  'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','Âme'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1* ressource Âme du terrain adverse.',lore:''},
+  'H000011':{name:'Capitaine des patrouilleurs',type:'Serviteur',fac:'hum',atk:6,pdv:4,cost:4,res_ico:'IC00000BOI',res2:'IC00000FER',res3:'IC00000NRT',res_val:'4',resType:'Bois+Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Bois','Fer','Nourriture','Rempart','Initiative'],cap:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque.',lore:'',detail:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque. Les invocations ne tiennent pas compte de la limite de cartes jouées par tour. Un emplacement libre de serviteur de votre côté du terrain est nécessaire pour l\'invocation des patrouilleurs.',related:['H000008']},
+  'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','me'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1* ressource me du terrain adverse.',lore:''},
   'H000014':{name:'Seigneur-chevalier',type:'Serviteur',fac:'hum',atk:7,pdv:6,cost:6,res_ico:'IC00000NRT',res2:'IC00000FER',res_val:'6',resType:'Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Nourriture','Fer','Rempart','Initiative'],cap:'[Rempart], [Initiative] Détruit un serviteur adverse avec moins de *7* points de vie.',lore:''},
   'H000017':{name:'Arbalétrier',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:3,res_ico:'IC00000BOI',res2:'IC00000NRT',res3:'IC00000FER',res_val:'3',resType:'Bois+Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Bois','Nourriture','Fer'],cap:'Ce serviteur inflige également ses dégâts aux serviteurs adjacents à ceux qu\'il attaque.',lore:''},
   'H000020':{name:'Chevalier-loup',type:'Serviteur',fac:'hum',atk:5,pdv:7,cost:5,res_ico:'IC00000NRT',res_val:'5',resType:'Nourriture',fico:'FCT00000HUM.png',kws:['Vigilance','Nourriture'],cap:'[Vigilance] À la fin de chacun de vos tours, invoque *1* « Griffe » de votre côté du terrain.',lore:'',detail:'[Vigilance] À la fin de chacun de vos tours, invoque *1* « Griffe » de votre côté du terrain si vous avez un emplacement de serviteur disponible.',related:['H000021']},
@@ -14140,16 +14237,16 @@ Object.assign(CARDS_DATA, {
   'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',resType:'Fer',fico:'FCT00000EDN.png',kws:['Vengeance','Fer'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',lore:'',detail:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents. Cette capacité passe outre le mot-clef [Insensible].'},
   'EN000004':{name:'Avatar de destruction',type:'Serviteur',fac:'edn',atk:7,pdv:4,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria',fico:'FCT00000EDN.png',kws:['Aria','Initiative'],cap:'[Initiative] Détruit *1* carte aléatoire de la main de votre adversaire. À la fin de chacun de vos tours, inflige le montant de son attaque à *1* serviteur adverse aléatoire.',lore:''},
   'GOB000001':{name:'Mageobelin lance-cailloux',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:4,pdv:1,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000GOB.png',kws:['Lenya'],cap:'À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à *1* serviteur adverse aléatoire.',lore:''},
-  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:8,res_ico:'IC00000AME',res_val:'8',resType:'Ame',fico:'FCT00000MVS.png',kws:['Âme','Insensible','Vengeance'],cap:'[Insensible] Chaque fois qu\'un serviteur adverse est détruit alors que le « Jeteur de sorts réanimé » est présent de votre côté du terrain, ajoute *+1* âme à vos ressources. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8*.',lore:''},
+  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:8,res_ico:'IC00000AME',res_val:'8',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Insensible','Vengeance'],cap:'[Insensible] Chaque fois qu\'un serviteur adverse est détruit alors que le « Jeteur de sorts réanimé » est présent de votre côté du terrain, ajoute *+1* âme à vos ressources. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8*.',lore:''},
   'ORC000007':{name:'Rejeton du chaos',type:'Serviteur',fac:'orc',atk:9,pdv:7,cost:8,res_ico:'IC00000RDM',res_val:'8',resType:'any',fico:'FCT00000ORC.png',kws:['Rempart','Rage','Initiative'],cap:'[Rempart] [Rage] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',lore:''},
-  'S000022':{name:'Galerie des horreurs',type:'Sort',fac:'sort',assetFolder:'sorts',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',res2:'IC00000SLN',res3:'IC00000AME',res4:'IC00000LNY',resOu:true,resType:'Aria|Sélène|Ame|Lenya',fico:null,kws:['Aria','Sélène','Âme','Lenya'],cap:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé.',lore:'',detail:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé. Les serviteurs ayant la capacité spéciale [Insensible] ne peuvent être sélectionnés par ce sort.',cond:'Le cimetière du joueur adverse doit contenir au minimum *1* serviteur.',badge:'Sort'}
+  'S000022':{name:'Galerie des horreurs',type:'Sort',fac:'sort',assetFolder:'sorts',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',res2:'IC00000SLN',res3:'IC00000AME',res4:'IC00000LNY',resOu:true,resType:'Aria|Sélène|Ame|Lenya',fico:null,kws:['Aria','Sélène','me','Lenya'],cap:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé.',lore:'',detail:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé. Les serviteurs ayant la capacité spéciale [Insensible] ne peuvent être sélectionnés par ce sort.',cond:'Le cimetière du joueur adverse doit contenir au minimum *1* serviteur.',badge:'Sort'}
 });
 
 Object.assign(CARDS_DATA, {
   'R000024':{name:'Campement de pillards',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture|Bois|Fer',fico:null,kws:[],cap:'Fournit *1* Nourriture, *1* Bois et *1* Fer au joueur.',badge:'Approvisionnement',lore:'',max:3},
   'R000025':{name:'Bazar ambulant',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'3',resType:'Variable',fico:null,kws:[],cap:'Quand cette carte est jouée, choisissez *1* ressource. Vous gagnez temporairement *3* unités de cette ressource. À chacun de vos débuts de tour, choisissez une nouvelle ressource différente de celle choisie précédemment. La production est remplacée, non ajoutée. Cette carte ne peut jamais produire d’Âmes.',badge:'Approvisionnement',lore:'',max:2},
   'R000026':{name:'Cache de gros cailloux',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,res_ico:'IC00000PIE',res_val:'3',resType:'Pierre|Fer',fico:null,kws:[],cap:'Fournit *3* Pierre et *2* Fer au joueur.',cond:'Votre deck de départ doit contenir au moins *5* serviteurs distincts de la faction des Trolls.',badge:'Approvisionnement',lore:'',max:1},
-  'S000045':{name:'Jardins botaniques',type:'Sort',fac:'edb',assetFolder:'sorts',atk:null,pdv:null,cost:6,res_ico:'IC00000ARI',res_val:'1',res2:'IC00000LNY',res3:'IC00000NRT',res4:'IC00000BOI',resType:'Aria+Lenya+Nourriture+Bois',fico:null,kws:['Aria','Lenya','Nourriture','Bois'],cap:'Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en deux piles distinctes, libérant des emplacements d’approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s’ajouter à la pile correspondante. Ajoute *1* carte « Herboristerie » et *2* cartes « Buissons à baies » à votre main.',badge:'Sort',lore:'',max:1,related:['R000003','R000004']},
+  'S000045':{name:'Jardins botaniques',type:'Sort',fac:'edb',assetFolder:'sorts',atk:null,pdv:null,cost:6,res_ico:'IC00000ARI',res_val:'1',res2:'IC00000LNY',res3:'IC00000NRT',res4:'IC00000BOI',resType:'Aria+Lenya+Nourriture+Bois',fico:null,kws:['Aria','Lenya','Nourriture','Bois'],cap:'Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en deux piles distinctes, libérant des emplacements d’approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s’ajouter à la pile correspondante. Ajoute *1* carte « Herboristerie » et *2* cartes « Buissons à baies » à votre main.',badge:'Sort',lore:'',max:1,related:['R000003','R000004']},
   'GOB000005':{name:'Chapardeur',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:1,pdv:1,cost:1,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture',fico:'FCT00000GOB.png',kws:['Camouflage','Initiative','Nourriture'],cap:'[Camouflage] [Initiative] Volez *1* carte Approvisionnement du deck adverse avec *75 %* de chance. Si le vol rate, ce serviteur est envoyé au cimetière.',badge:'',lore:'',max:4},
   'GOB000010':{name:'Chercheur de trésor',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:2,pdv:2,cost:2,res_ico:'IC00000NRT',res2:'IC00000FER',resOu:true,res_val:'2',resType:'Nourriture|Fer',fico:'FCT00000GOB.png',kws:['Initiative','Nourriture','Fer'],cap:'[Initiative] Choisissez *1* carte de type Approvisionnement dans votre cimetière et renvoyez-la dans votre main. Mélangez ensuite votre deck.',cond:'Votre cimetière doit contenir au minimum *1* carte Approvisionnement.',badge:'',lore:'',max:4}
 });
@@ -14585,11 +14682,11 @@ Object.assign(CARDS_DATA, {
       "Nourriture",
       "Lenya"
     ],
-    "cap": "[Initiative] Invoque 1 serviteur de la faction « Bête » coûtant 2 ressources ou moins depuis votre deck.",
+    "cap": "[Initiative] Invoque 1 serviteur de la faction « Bête » coûtant 2 ressources ou moins depuis votre deck.",
     "lore": "",
     "max": 3,
     "assetFolder": "gobelins",
-    "detail": "[Initiative] Cherche dans votre deck le premier serviteur de la faction « Bête » dont le coût imprimé est inférieur ou égal à 2 et l'invoque de votre côté du terrain. Mélangez ensuite votre deck.",
+    "detail": "[Initiative] Cherche dans votre deck le premier serviteur de la faction « Bête » dont le coût imprimé est inférieur ou égal à 2 et l'invoque de votre côté du terrain. Mélangez ensuite votre deck.",
     "res_ico": "IC00000LNY",
     "res_val": "3",
     "resType": "lenya"
@@ -14682,7 +14779,7 @@ Object.assign(CARDS_DATA, {
     "lore": "",
     "max": 2,
     "assetFolder": "gobelins",
-    "detail": "[Initiative] Choisissez 1 autre serviteur allié. Le « Faux jumeau » copie son attaque et ses points de vie actuels, ses capacités spéciales et ses mots-clefs (sauf [Serviteur de la rune] et [Insensible]), mais conserve son nom, son propriétaire et sa faction Gobelin. L'effet cesse dès que l'une des deux cartes quitte le terrain.",
+    "detail": "[Initiative] Choisissez 1 autre serviteur allié. Le « Faux jumeau » copie son attaque et ses points de vie actuels, ses capacités spéciales et ses mots-clefs (sauf [Serviteur de la rune] et [Insensible]), mais conserve son nom, son propriétaire et sa faction Gobelin. L'effet cesse dès que l'une des deux cartes quitte le terrain.",
     "res_ico": "IC00000ARI",
     "res_val": "3",
     "resType": "aria|lenya",
@@ -14705,7 +14802,7 @@ Object.assign(CARDS_DATA, {
     "lore": "",
     "max": 3,
     "assetFolder": "gobelins",
-    "detail": "Une fois par tour, lorsqu'un sort ou une capacité spéciale adverse cible directement un autre serviteur allié, vous pouvez faire du « Casse-cou » la nouvelle cible, à condition qu'il soit une cible légale. Si l'effet nécessite plusieurs cibles, seule celle remplacée est modifiée.",
+    "detail": "Une fois par tour, lorsqu'un sort ou une capacité spéciale adverse cible directement un autre serviteur allié, vous pouvez faire du « Casse-cou » la nouvelle cible, à condition qu'il soit une cible légale. Si l'effet nécessite plusieurs cibles, seule celle remplacée est modifiée.",
     "res_ico": "IC00000FER",
     "res_val": "2",
     "resType": "fer|lenya",
@@ -14771,11 +14868,11 @@ Object.assign(CARDS_DATA, {
       "Nourriture",
       "Rempart"
     ],
-    "cap": "Une fois par tour, sacrifiez 1 autre serviteur gobelin allié pour choisir : piochez 2 cartes ; infligez 5 dégâts à 1 serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de +1 ATK/ +3 PDV et lui confère [Rempart].",
+    "cap": "Une fois par tour, sacrifiez 1 autre serviteur gobelin allié pour choisir : piochez 2 cartes ; infligez 5 dégâts à 1 serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de +1 ATK/ +3 PDV et lui confère [Rempart].",
     "lore": "",
     "max": 1,
     "assetFolder": "gobelins",
-    "detail": "Une fois par tour, vous pouvez envoyer 1 autre serviteur de la faction « Gobelin » de votre côté du terrain au cimetière. Choisissez ensuite 1 effet : piochez 2 cartes ; infligez 5 points de dégâts à 1 serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de +1 ATK/ +3 PDV et lui confère [Rempart].",
+    "detail": "Une fois par tour, vous pouvez envoyer 1 autre serviteur de la faction « Gobelin » de votre côté du terrain au cimetière. Choisissez ensuite 1 effet : piochez 2 cartes ; infligez 5 points de dégâts à 1 serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de +1 ATK/ +3 PDV et lui confère [Rempart].",
     "res_ico": "IC00000FER",
     "res_val": "6",
     "resType": "fer"
@@ -14833,13 +14930,13 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Serviteur de la rune",
       "Vengeance",
-      "Âme"
+      "me"
     ],
-    "cap": "[Serviteur de la rune] À chacune de vos fins de tours, invoque aléatoirement et gratuitement 1 « Gobelin mort-vivant », 1 « Faucheur d'âmes » ou 1 « Serviteur de la Lame » de votre côté du terrain. [Vengeance] Détruit les serviteurs invoqués par cette carte et ajoute 3 âmes à vos ressources.",
+    "cap": "[Serviteur de la rune] À chacune de vos fins de tours, invoque aléatoirement et gratuitement 1 « Gobelin mort-vivant », 1 « Faucheur d'âmes » ou 1 « Serviteur de la Lame » de votre côté du terrain. [Vengeance] Détruit les serviteurs invoqués par cette carte et ajoute 3 Âmes à vos ressources.",
     "lore": "",
     "max": 1,
     "assetFolder": "humains",
-    "detail": "[Serviteur de la rune] À chacune de vos fins de tours, invoque aléatoirement et gratuitement 1 « Gobelin mort-vivant » [ID = MV000020], 1 « Faucheur d'âmes » [ID = MV000009] ou 1 « Serviteur de la Lame » [ID = MV000016] de votre côté du terrain. Cette capacité ne peut invoquer qu'un unique exemplaire de chaque serviteur susmentionné, sauf si l'un d'eux est envoyé au cimetière. Alors, le « Mage des ténèbres » peut de nouveau invoquer 1 exemplaire de ce type de serviteur.  [Vengeance] Détruit les serviteurs invoqués par cette carte et ajoute 3 âmes à vos ressources.",
+    "detail": "[Serviteur de la rune] À chacune de vos fins de tours, invoque aléatoirement et gratuitement 1 « Gobelin mort-vivant » [ID = MV000020], 1 « Faucheur d'âmes » [ID = MV000009] ou 1 « Serviteur de la Lame » [ID = MV000016] de votre côté du terrain. Cette capacité ne peut invoquer qu'un unique exemplaire de chaque serviteur susmentionné, sauf si l'un d'eux est envoyé au cimetière. Alors, le « Mage des ténèbres » peut de nouveau invoquer 1 exemplaire de ce type de serviteur.  [Vengeance] Détruit les serviteurs invoqués par cette carte et ajoute 3 Âmes à vos ressources.",
     "res_ico": "IC00000RDM",
     "res_val": "7",
     "resType": "any"
@@ -14858,11 +14955,11 @@ Object.assign(CARDS_DATA, {
       "Embrasement",
       "Vengeance"
     ],
-    "cap": "[Serviteur de la rune] [Initiative] Invoque 2 « Élémentaires de feu » de votre côté du terrain, puis inflige [Embrasement] à tous les serviteurs adverses. Si 2 serviteurs ennemis ou plus sont envoyés au cimetière suite aux dégâts initiaux d'[Embrasement], ajoute 1 « Golem magmatique » à votre main. [Vengeance] Applique [Embrasement] au serviteur qui détruit « Igor le Pyromancien ».",
+    "cap": "[Serviteur de la rune] [Initiative] Invoque 2 « Élémentaires de feu » de votre côté du terrain, puis inflige [Embrasement] à tous les serviteurs adverses. Si 2 serviteurs ennemis ou plus sont envoyés au cimetière suite aux dégâts initiaux d'[Embrasement], ajoute 1 « Golem magmatique » à votre main. [Vengeance] Applique [Embrasement] au serviteur qui détruit « Igor le Pyromancien ».",
     "lore": "",
     "max": 1,
     "assetFolder": "humains",
-    "detail": "[Serviteur de la rune] [Initiative] Invoque 2 « Élémentaires de feu » [ID = DIV000006] de votre côté du terrain, puis inflige [Embrasement] à tous les serviteurs adverses. Si 2 serviteurs ennemis ou plus sont envoyés au cimetière suite aux dégâts initiaux d'[Embrasement], ajoute 1 « Golem magmatique » [ID = DIV000009] à votre main. [Vengeance] Applique [Embrasement] au serviteur qui détruit « Igor le Pyromancien » (si le serviteur était déjà affecté, réinitialise la durée d'[Embrasement]).",
+    "detail": "[Serviteur de la rune] [Initiative] Invoque 2 « Élémentaires de feu » [ID = DIV000006] de votre côté du terrain, puis inflige [Embrasement] à tous les serviteurs adverses. Si 2 serviteurs ennemis ou plus sont envoyés au cimetière suite aux dégâts initiaux d'[Embrasement], ajoute 1 « Golem magmatique » [ID = DIV000009] à votre main. [Vengeance] Applique [Embrasement] au serviteur qui détruit « Igor le Pyromancien » (si le serviteur était déjà affecté, réinitialise la durée d'[Embrasement]).",
     "res_ico": "IC00000RDM",
     "res_val": "6",
     "resType": "any"
@@ -15136,7 +15233,7 @@ Object.assign(CARDS_DATA, {
     "lore": "",
     "max": 3,
     "assetFolder": "orcs",
-    "detail": "[Initiative] Ajoute à votre main 3 serviteurs aléatoires distincts de la faction « Gobelin » dont le coût imprimé est inférieur ou égal à 3. Les cartes sont créées et ne sont pas retirées de votre deck.",
+    "detail": "[Initiative] Ajoute à votre main 3 serviteurs aléatoires distincts de la faction « Gobelin » dont le coût imprimé est inférieur ou égal à 3. Les cartes sont créées et ne sont pas retirées de votre deck.",
     "res_ico": "IC00000FER",
     "res_val": "4",
     "resType": "fer"
@@ -15157,7 +15254,7 @@ Object.assign(CARDS_DATA, {
     "lore": "",
     "max": 2,
     "assetFolder": "orcs",
-    "detail": "Tant que ce serviteur est sur le terrain, vos autres serviteurs des factions « Gobelin » et « Troll » gagnent +1 ATK.",
+    "detail": "Tant que ce serviteur est sur le terrain, vos autres serviteurs des factions « Gobelin » et « Troll » gagnent +1 ATK.",
     "res_ico": "IC00000FER",
     "res_val": "6",
     "resType": "fer"
@@ -15247,7 +15344,7 @@ Object.assign(CARDS_DATA, {
     "lore": "",
     "max": 1,
     "assetFolder": "orcs",
-    "detail": "[Initiative] Tant que le « Maléficieur zêlé » reste sur le terrain, les capacités passives des deux avatars sont désactivées temporairement. À la destruction de cette carte, chaque avatar récupère sa capacité d'origine.",
+    "detail": "[Initiative] Tant que le « Maléficieur zêlé » reste sur le terrain, les capacités passives des deux avatars sont désactivées temporairement. À la destruction de cette carte, chaque avatar récupère sa capacité d'origine.",
     "res_ico": "IC00000FER",
     "res_val": "4",
     "resType": "fer"
@@ -15264,7 +15361,7 @@ Object.assign(CARDS_DATA, {
       "Embrasement",
       "Lenya"
     ],
-    "cap": "À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».",
+    "cap": "À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».",
     "lore": "",
     "max": 4,
     "assetFolder": "orcs",
@@ -15824,7 +15921,7 @@ Object.assign(CARDS_DATA, {
     "lore": "",
     "max": 1,
     "badge": "Approvisionnement",
-    "cond": "Votre deck de départ doit contenir au moins 5 serviteurs distincts de la faction des « Trolls ».",
+    "cond": "Votre deck de départ doit contenir au moins 5 serviteurs distincts de la faction des « Trolls ».",
     "detail": "Fournit 3 ressources de pierre et 2 de Fer.",
     "res_ico": "IC00000RDM",
     "res_val": "0",
@@ -15893,13 +15990,13 @@ Object.assign(CARDS_DATA, {
       "Pierre",
       "Aria"
     ],
-    "cap": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».",
+    "cap": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
     "badge": "Sort",
     "cond": "Un emplacement de serviteur doit être libre sur le terrain adverse.",
-    "detail": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».",
+    "detail": "Place cette carte sur un emplacement de serviteur adverse libre et le bloque : le joueur ne peut plus jouer de serviteur sur cet emplacement jusqu’à ce qu’il pioche le sort « Clef de pierre ». Ajoute le sort « Clef de pierre » au deck de votre adversaire. Chaque clef n’ouvre qu’une unique « Porte infranchissable ».",
     "res_ico": "IC00000PIE",
     "res_val": "3",
     "resType": "pierre|aria",
@@ -16076,7 +16173,7 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Aria",
       "Sélène",
-      "Âme",
+      "me",
       "Lenya",
       "Embrasement"
     ],
@@ -16161,13 +16258,13 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Nourriture"
     ],
-    "cap": "Invoque jusqu'à 3 « Surineurs » de votre côté du terrain.",
+    "cap": "Invoque jusqu'à 3 « Surineurs » de votre côté du terrain.",
     "lore": "",
     "max": 2,
     "assetFolder": "sorts",
     "badge": "Sort",
     "cond": "Un ou plusieurs emplacements de serviteur doivent être libres de votre côté du terrain.",
-    "detail": "Invoque jusqu'à 3 « Surineurs » [ID = GOB000002] de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck.",
+    "detail": "Invoque jusqu'à 3 « Surineurs » [ID = GOB000002] de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck.",
     "res_ico": "IC00000RDM",
     "res_val": "5",
     "resType": "any"
@@ -16181,7 +16278,7 @@ Object.assign(CARDS_DATA, {
       "Aria",
       "Sélène",
       "Lenya",
-      "Âme"
+      "me"
     ],
     "cap": "Abandonnez votre avatar, votre deck, votre cimetière et votre main. Recevez un avatar et un deck de test aléatoires, puis repartez avec une nouvelle main.",
     "lore": "",
@@ -16232,7 +16329,7 @@ Object.assign(CARDS_DATA, {
       "Sang-froid",
       "Rempart"
     ],
-    "cap": "[Serviteur de la rune] [Sang-froid] [Rempart] Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.",
+    "cap": "[Serviteur de la rune] [Sang-froid] [Rempart] Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.",
     "lore": "",
     "max": 1,
     "assetFolder": "trolls",
@@ -16263,9 +16360,9 @@ const STATIC_SYNC_20260622 = {
   },
   'DIV000011': {
     name:'Démon majeur', type:'Serviteur', fac:'div', atk:8, pdv:8, cost:5,
-    resType:'Aria (5) ou Lenya (5) ou Âme (5)',
-    cond:'Nécessite d\'avoir une « Porte démoniaque » [ID = DIV000001] de votre côté du terrain.',
-    kws:['Aria','Lenya','Âme','Sang ardent','Rage','Vengeance','Embrasement','Rempart'],
+    resType:'Aria (5) ou Lenya (5) ou me (5)',
+    cond:'Nécessite d\'avoir une « Porte démoniaque » [ID = DIV000001] de votre côté du terrain.',
+    kws:['Aria','Lenya','me','Sang ardent','Rage','Vengeance','Embrasement','Rempart'],
     cap:'[Sang ardent] [Rempart] [Rage] Récupère tous ses points de vie à chacun de vos débuts de tour jusqu\'à sa destruction. Chaque fois qu\'il inflige des dégâts à 1 serviteur, lui applique également [Embrasement] avec 25% de chance. [Vengeance] Inflige le montant de son attaque en dégâts, répartis aléatoirement entre les serviteurs adverses.',
     detail:'[Sang ardent] [Rempart] [Rage] Récupère tous ses points de vie à chacun de vos débuts de tour jusqu\'à sa destruction. Chaque fois qu\'il inflige des dégâts à 1 serviteur, lui applique également [Embrasement] avec 25% de chance. [Vengeance] Inflige le montant de son attaque en dégâts, répartis aléatoirement entre les serviteurs adverses.',
     maxOwned:2
@@ -16292,24 +16389,24 @@ const STATIC_SYNC_20260622 = {
     maxOwned:1
   },
   'ORC000007': {
-    name:'Rejeton du chaos', type:'Serviteur', fac:'orc', atk:9, pdv:7, cost:8, resType:'Lenya ou Aria ou Nourriture ou Âme',
-    kws:['Rempart','Rage','Initiative','Lenya','Aria','Nourriture','Âme','Sang ardent'],
-    cap:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
-    detail:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
+    name:'Rejeton du chaos', type:'Serviteur', fac:'orc', atk:9, pdv:7, cost:8, resType:'Lenya ou Aria ou Nourriture ou me',
+    kws:['Rempart','Rage','Initiative','Lenya','Aria','Nourriture','me','Sang ardent'],
+    cap:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
+    detail:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
     maxOwned:1
   },
   'ORC000017': {
     name:'Maître du feu', type:'Serviteur', fac:'orc', atk:4, pdv:3, cost:5, resType:'Lenya (5)',
     kws:['Embrasement','Lenya','Sang ardent'],
-    cap:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
-    detail:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
+    cap:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
+    detail:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
     maxOwned:4
   },
   'TRL000020': {
     name:'Ump', type:'Serviteur', fac:'trl', atk:12, pdv:12, cost:11, resType:'/',
     kws:['Serviteur de la rune','Sang-froid','Rempart','Sang ardent'],
-    cap:'[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu\' « Ump » détruit un serviteur adverse, il se soigne d\'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.',
-    detail:'[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu\' « Ump » détruit un serviteur adverse, il se soigne d\'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.',
+    cap:'[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu\' « Ump » détruit un serviteur adverse, il se soigne d\'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.',
+    detail:'[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu\' « Ump » détruit un serviteur adverse, il se soigne d\'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.',
     maxOwned:1
   }
 };
@@ -16470,25 +16567,25 @@ window.auditLot92Mechanics = auditLot92Mechanics;
 window.auditRemainingMechanics = auditLot92Mechanics;
 
 Object.assign(CARDS_DATA, {
-  'S000026':{name:'Serment des anciens',type:'Sort',fac:'sort',atk:null,pdv:null,cost:15,res_ico:'IC00000ARI',res_val:'15',resType:'Aria|Lenya|Nourriture|Bois|Fer',fico:'FCT00000EDG.png',kws:['Aria','Lenya','Nourriture','Bois','Fer'],cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK/ +1 PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`,badge:'Sort',lore:''},
+  'S000026':{name:'Serment des anciens',type:'Sort',fac:'sort',atk:null,pdv:null,cost:15,res_ico:'IC00000ARI',res_val:'15',resType:'Aria|Lenya|Nourriture|Bois|Fer',fico:'FCT00000EDG.png',kws:['Aria','Lenya','Nourriture','Bois','Fer'],cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK/ +1 PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`,badge:'Sort',lore:''},
   'S000027':{name:'Chute de neige',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000LNY',res_val:'8',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya','Coup de glace','Gel'],cap:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent 1 tour de plus.`,badge:'Sort',lore:''},
-  'S000029':{name:'Patrouille glaciale',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,res_ico:'IC00000LNY',res_val:'5',resType:'Lenya|Bois|Nourriture',fico:'FCT00000EDG.png',kws:['Lenya','Bois','Nourriture'],cap:`Piochez jusqu'à 3 serviteurs de la faction « Elfes de glace » de votre deck.`,badge:'Sort',lore:''},
+  'S000029':{name:'Patrouille glaciale',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,res_ico:'IC00000LNY',res_val:'5',resType:'Lenya|Bois|Nourriture',fico:'FCT00000EDG.png',kws:['Lenya','Bois','Nourriture'],cap:`Piochez jusqu'à 3 serviteurs de la faction « Elfes de glace » de votre deck.`,badge:'Sort',lore:''},
   'S000032':{name:'Savoir tribal',type:'Sort',fac:'sort',atk:null,pdv:null,cost:6,res_ico:'IC00000LNY',res_val:'6',resType:'Lenya',fico:'FCT00000ORC.png',kws:['Lenya'],cap:`Inflige 10 points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.`,badge:'Sort',lore:''},
   'S000034':{name:'Secours magique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya'],cap:`La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf 1.`,badge:'Sort',lore:''},
-  'S000035':{name:'Météores',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|Âme|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','Âme','Lenya','Embrasement'],cap:`Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant 3 tours.`,badge:'Sort',lore:''},
-  'S000036':{name:`Crocs de l'Hiver`,type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|Âme|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','Âme','Lenya','Coup de glace','Gel'],cap:`Inflige instantanément 1 à 4 points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant 2 tours à un nombre aléatoire de serviteurs, alliés comme ennemis.`,badge:'Sort',lore:''}
+  'S000035':{name:'Météores',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Embrasement'],cap:`Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant 3 tours.`,badge:'Sort',lore:''},
+  'S000036':{name:`Crocs de l'Hiver`,type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Coup de glace','Gel'],cap:`Inflige instantanément 1 à 4 points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant 2 tours à un nombre aléatoire de serviteurs, alliés comme ennemis.`,badge:'Sort',lore:''}
 });
 
 
 Object.assign(CARDS_DATA, {
   "MV000024":{name:"Morghast L'Os-tentatoire",type:"Serviteur",fac:"mvs",atk:5,pdv:10,cost:9,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria","Rempart","Vengeance","Approvisionnement"],cap:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux », puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux » [ID = MV000001], puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",related:["MV000001"]},
   "MV000026":{name:"Adepte de Bélial",type:"Serviteur",fac:"mvs",atk:1,pdv:4,cost:1,res_ico:"IC00000ARI",res_val:"1",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Génère 1 à 3 échos chaque fois qu'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 5 échos maximum par « Adepte de Bélial » et par tour.",badge:"",lore:"",assetFolder:"morts-vivants",max:3,detail:"Génère 1 à 3 échos chaque fois qu'un serviteur est détruit alors que cette carte est sur le terrain. Le nombre d'échos produit dépend du coût imprimé du serviteur détruit. Production limitée à 5 échos maximum par « Adepte de Bélial » et par tour."},
-  "MV000027":{name:"Sang-lié",type:"Serviteur",fac:"mvs",atk:1,pdv:4,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Initiative","Vengeance","Écho","Approvisionnement"],cap:"[Initiative] Inflige 3 points de dégâts à VOTRE avatar. [Vengeance] Génère 3 échos.",badge:"",lore:"",assetFolder:"morts-vivants",max:4,cond:"Votre avatar doit avoir 4 points de vie ou plus."},
+  "MV000027":{name:"Sang-lié",type:"Serviteur",fac:"mvs",atk:1,pdv:4,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Initiative","Vengeance","Écho","Approvisionnement"],cap:"[Initiative] Inflige 3 points de dégâts à VOTRE avatar. [Vengeance] Génère 3 échos.",badge:"",lore:"",assetFolder:"morts-vivants",max:4,cond:"Votre avatar doit avoir 4 points de vie ou plus."},
   "MV000028":{name:"Âme explosive",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:2,res_ico:"IC00000ARI",res_val:"2",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Vengeance","Écho","Approvisionnement"],cap:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 échos par serviteur détruit via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:3,detail:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 échos par serviteur détruit via cet effet. Ajoute alors la ou les victimes sous votre pile d'approvisionnement [ID = RAME*]."},
   "MV000029":{name:"Gardien du reliquaire",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Initiative","Écho","Approvisionnement"],cap:"[Initiative] Ajoute 3 échos à vos réserves. À chacune de vos fins de tour, si vous n’avez dépensé aucun écho pendant ce tour, fournit 1 écho supplémentaire.",badge:"",lore:"",assetFolder:"morts-vivants",max:3},
   "MV000030":{name:"Mur non-mort",type:"Serviteur",fac:"mvs",atk:0,pdv:30,cost:8,res_ico:"IC00000ARI",res_val:"8",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Rempart","Vengeance","Écho","Approvisionnement"],cap:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » et 2 « Guerriers cendreux » à votre main.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 échos à vos réserves, fonction des dégâts reçus en une fois : de 0 à 4 dommages, génère 1 écho ; de 5 à 8 dommages, 2 échos ; au-delà de 8 points de dégâts, 3 échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » [ID = MV000022] et 2 « Guerriers cendreux » [ID = MV000001] à votre main.",related:["MV000022","MV000001"]},
   "PRST000014":{name:"Faveur de Bélial",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Écho"],cap:"Jusqu'à la fin de la partie, vous gagnez 1 écho supplémentaire de toutes les sources. Chaque fois que les points de vie de votre avatar passent sous la barre des 25, vous pouvez sacrifier jusqu'à 5 échos lors de votre prochain tour pour le régénérer (chaque écho sacrifié rend 5 points de vie).",badge:"Sort",lore:"",assetFolder:"sorts/presents",max:1,cond:"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ."},
-  "R000027":{name:"Nécropole",type:"Approvisionnement",fac:"appro",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Approvisionnement","Écho"],cap:"Au début de chacun de vos tours, ajoutez 2 échos à vos réserves + 1 écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu’à un maximum de 3 échos supplémentaires. Si votre cimetière contient au moins 3 serviteurs appartenant initialement à votre adversaire, ajoutez encore 1 écho. Réinitialisez ensuite son compteur de destructions. La « Nécropole » occupe 2 emplacements de votre section d'approvisionnement. Si la « Nécropole » est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d' « Esprits dérangés » [ID = MV000025].",badge:"Approvisionnement",lore:"Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.",assetFolder:"approvisionnement",max:1,cond:"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».",related:["MV000025"],production:{soul:2}},
+  "R000027":{name:"Nécropole",type:"Approvisionnement",fac:"appro",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Approvisionnement","Écho"],cap:"Au début de chacun de vos tours, ajoutez 2 échos à vos réserves + 1 écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu’à un maximum de 3 échos supplémentaires. Si votre cimetière contient au moins 3 serviteurs appartenant initialement à votre adversaire, ajoutez encore 1 écho. Réinitialisez ensuite son compteur de destructions. La « Nécropole » occupe 2 emplacements de votre section d'approvisionnement. Si la « Nécropole » est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d' « Esprits dérangés » [ID = MV000025].",badge:"Approvisionnement",lore:"Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.",assetFolder:"approvisionnement",max:1,cond:"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».",related:["MV000025"],production:{soul:2}},
   "S000041":{name:"Puissance du sacrifice",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Insensible","Écho","Approvisionnement"],cap:"Pour chaque serviteur actuellement dans votre cimetière, inflige 1 point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit 1 ou plusieurs serviteurs, génère 1 à 3 échos par victime.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Pour chaque serviteur actuellement dans votre cimetière, inflige 1 point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit 1 ou plusieurs serviteurs, génère 1 à 3 échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement [ID = RAME*].",cond:"Nécessite au moins 1 serviteur dans votre cimetière."},
   "S000042":{name:"Éclipse solaire",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria"],cap:"Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de 3 ; accroît l'attaque de tous les serviteurs elfes noirs de 2. Toujours jusqu'à la fin de ce tour, réduit de 3 l'attaque des serviteurs humains ; diminue de 2 l'attaque des serviteurs nains.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
   "S000044":{name:"Recyclage",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000ARI",res_val:"6",resType:"Aria|Écho",fico:"FCT00000MVS.png",kws:["Aria","Écho"],cap:"Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.",badge:"Sort",lore:"",assetFolder:"sorts",max:2},
@@ -16866,11 +16963,553 @@ function auditCollectionBatch02Runtime() {
 
 window.auditCollectionBatch02Runtime = auditCollectionBatch02Runtime;
 
+const collectionBatch03State = {events:[], delayedDamage:[], runeSummons:[], protectedAuras:[]};
+
+function recordCollectionBatch03Event(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch03State.events.push(event);
+  window.__collectionBatch03LastEvent = event;
+  return event;
+}
+
+function batch03EventResult(type, result) {
+  recordCollectionBatch03Event(type, result);
+  return result;
+}
+
+function batch03EnemyServants(player, effectKind='damage') {
+  const p = playerState(player);
+  const candidates = livingServantCardsForPlayer(opponentOf(p));
+  return getAffectableTargets({sourcePlayer:p, targets:candidates, sourceCardId:'COLLECTION_BATCH_03', effectKind, isAbility:true});
+}
+
+function batch03AlliedServants(player) {
+  return livingServantCardsForPlayer(player);
+}
+
+function batch03First(list) {
+  return Array.isArray(list) && list.length ? list[0] : null;
+}
+
+function batch03Pick(list) {
+  if (!Array.isArray(list) || !list.length) return null;
+  return list[Math.floor(gameRandom() * list.length)];
+}
+
+function batch03Shuffle(list) {
+  return [...(list || [])].sort(() => gameRandom() - 0.5);
+}
+
+function batch03UpdateStats(fc, {atk=null, pdv=null, pdvMax=null}={}) {
+  if (!fc) return null;
+  if (atk != null) {
+    const value = Math.max(0, Number(atk) || 0);
+    fc.dataset.atk = String(value);
+    fc.querySelectorAll('.fc-atk-val').forEach(el => { el.textContent = String(value); });
+  }
+  if (pdvMax != null) {
+    const max = Math.max(1, Number(pdvMax) || 1);
+    fc.dataset.pdvMax = String(max);
+  }
+  if (pdv != null) {
+    const max = Math.max(1, Number(fc.dataset.pdvMax || pdv) || 1);
+    const value = Math.max(0, Math.min(max, Number(pdv) || 0));
+    fc.dataset.pdv = String(value);
+    fc.querySelectorAll('.fc-pdv-val').forEach(el => {
+      el.textContent = String(value);
+      el.className = value < max ? 'fc-pdv-val red' : 'fc-pdv-val';
+    });
+  }
+  updateRageState(fc);
+  return targetSummary(fc);
+}
+
+function batch03AdjacentServants(fc) {
+  const row = fc?.parentElement;
+  const children = Array.from(row?.children || []);
+  const index = children.indexOf(fc);
+  if (index < 0) return [];
+  return [children[index - 1], children[index + 1]]
+    .filter(node => node?.classList?.contains('fc') && !node.dataset.dead && node.dataset.type !== 'appro');
+}
+
+async function summonBatch03Servant(player, cardId, {sourceCardId=null, sourceInstanceId=null, triggerInitiativeEffect=true, ready=false}={}) {
+  const p = playerState(player);
+  const slot = qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot');
+  if (!p || !slot || !CARDS_DATA[cardId]) {
+    return batch03EventResult('summon-refused', {success:false, reason:'no-servant-slot', playerId:playerKey(p), cardId, sourceCardId});
+  }
+  const parent = slot.parentElement;
+  const index = Array.from(parent.children).indexOf(slot);
+  slot.outerHTML = buildFC(cardId, p.key);
+  const fc = parent.children[index];
+  fc.dataset.batch03SummonedBy = sourceCardId || '';
+  if (sourceInstanceId) fc.dataset.batch03SourceInstance = sourceInstanceId;
+  if (ready) {
+    delete fc.dataset.new;
+    fc.classList.remove('fc-summoning-sick');
+  }
+  const result = {success:true, cardId, playerId:p.key, instanceId:fc.dataset.instance, sourceCardId, sourceInstanceId};
+  recordCollectionBatch03Event('summon', result);
+  if (triggerInitiativeEffect && shouldTriggerInitiative(cardId, CARDS_DATA[cardId])) {
+    result.initiative = await triggerInitiative(cardId, p, {sourceInstanceId:fc.dataset.instance});
+  }
+  return result;
+}
+
+function batch03RemoveBoardCardToSlot(fc) {
+  if (!fc?.isConnected) return false;
+  const slot = document.createElement('div');
+  slot.className = fc.dataset.type === 'appro' ? 'slot-appro' : 'slot';
+  slot.dataset.player = fc.dataset.player || '';
+  fc.replaceWith(slot);
+  return true;
+}
+
+async function batch03MoveServantToOwnerHandOrGraveyard(fc, {blockNextTurn=false}={}) {
+  const owner = playerState(fc?.dataset?.player);
+  if (!fc || !owner) return {success:false, reason:'invalid-target'};
+  const cardId = fc.dataset.id;
+  const summary = targetSummary(fc);
+  if (!getHandCapacityStatus(owner).full) {
+    batch03RemoveBoardCardToSlot(fc);
+    addCardToHand(owner, cardId, {refresh:true});
+    if (blockNextTurn) {
+      window._blockedCard = cardId;
+      window._blockedCardPlayer = owner.key;
+      window._blockedCardArmed = false;
+    }
+    return {success:true, destination:'hand', cardId, target:summary, blocked:blockNextTurn};
+  }
+  await sendToCemetery(fc);
+  return {success:true, destination:'graveyard', cardId, target:summary, blocked:false};
+}
+
+function applyBatch03OnBoardPlacement(fc, player, cardId) {
+  const p = playerState(player);
+  if (!fc || !p) return null;
+  const buffs = p.batch03HandBuffs || {};
+  const buff = buffs[cardId];
+  if (buff && cardId === 'H000027') {
+    batch03UpdateStats(fc, {
+      atk:(Number(CARDS_DATA[cardId]?.atk || 0) + Number(buff.atk || 0)),
+      pdvMax:(Number(CARDS_DATA[cardId]?.pdv || 0) + Number(buff.pdv || 0)),
+      pdv:(Number(CARDS_DATA[cardId]?.pdv || 0) + Number(buff.pdv || 0))
+    });
+    delete buffs[cardId];
+    recordCollectionBatch03Event('hand-buff-applied', {cardId, playerId:p.key, buff, target:targetSummary(fc)});
+  }
+  return null;
+}
+
+function adjustBatch03IncomingDamage(fc, amount) {
+  if (!fc) return amount;
+  let value = Math.max(0, Number(amount) || 0);
+  if (fc.dataset.id === 'H000024') {
+    value = Math.max(0, value - 1);
+    recordCollectionBatch03Event('damage-reduced', {cardId:'H000024', instanceId:fc.dataset.instance, before:amount, after:value});
+  }
+  return value;
+}
+
+async function triggerBatch03DamageReceivedHooks(fc, context={}) {
+  if (!fc || fc.dataset.dead) return [];
+  const cardId = fc.dataset.id;
+  const player = playerState(fc.dataset.player);
+  const results = [];
+  if (cardId === 'H000026') {
+    results.push(await summonBatch03Servant(opponentOf(player), 'H000001', {sourceCardId:'H000026', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (cardId === 'AVS000004') {
+    results.push(await summonBatch03Servant(player, 'B000006', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    results.push(await summonBatch03Servant(player, 'B000007', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (results.length) recordCollectionBatch03Event('damage-received-hook', {cardId, target:targetSummary(fc), results});
+  return results;
+}
+
+async function triggerBatch03CombatHooks(attacker, targetFC, context={}) {
+  if (!attacker || !targetFC) return [];
+  const aid = attacker.dataset.id;
+  const player = playerState(attacker.dataset.player);
+  const results = [];
+  if ((aid === 'H000017' || aid === 'H000019') && context.phase === 'attack') {
+    const amount = aid === 'H000017' ? (Number(attacker.dataset.atk) || 0) : 1;
+    for (const adjacent of batch03AdjacentServants(targetFC)) {
+      if (adjacent.dataset.player === targetFC.dataset.player) {
+        adjacent._killer = attacker;
+        results.push({type:'adjacent-damage', target:targetSummary(adjacent), died:await applyDamage(adjacent, amount)});
+      }
+    }
+  }
+  if (aid === 'H000011' && context.phase === 'attack') {
+    results.push({type:'patrol-summon-on-attack', summon:await summonBatch03Servant(player, 'H000008', {sourceCardId:'H000011', sourceInstanceId:attacker.dataset.instance, triggerInitiativeEffect:false, ready:true})});
+  }
+  if (aid === 'H000024' && context.phase === 'attack') {
+    const candidates = batch03EnemyServants(player, 'damage').filter(fc => fc !== targetFC);
+    const extraTarget = batch03Pick(candidates);
+    if (extraTarget) {
+      extraTarget._killer = attacker;
+      results.push({type:'legend-enchanter-extra-damage', target:targetSummary(extraTarget), died:await tryApplyAbilityDamage({sourcePlayer:player,targetFC:extraTarget,sourceCardId:'H000024',amount:3})});
+    } else {
+      results.push({type:'legend-enchanter-avatar-damage', result:applyAvatarEffectDamage(opponentOf(player), 3, {sourceCardId:'H000024', sourceInstanceId:attacker.dataset.instance})});
+    }
+  }
+  if (aid === 'H000029' && context.targetDied && context.phase === 'attack') {
+    const opponent = opponentOf(player);
+    const hand = playerHand(opponent);
+    if (hand.length) {
+      const index = Math.floor(gameRandom() * hand.length);
+      const discarded = removeHandCardAt(opponent, index);
+      if (discarded) addEntryToRuntimeZone(opponent, 'graveyard', discarded);
+      refreshRuntimeZone(opponent, 'graveyard');
+      results.push({type:'bronze-colossus-discard', discarded});
+    }
+  }
+  if (player?.batch03BlessedSwordsTurn === turnSequence && context.phase === 'attack' && CARDS_DATA[targetFC.dataset.id]?.fac === 'mvs' && !targetFC.dataset.dead) {
+    targetFC._killer = attacker;
+    results.push({type:'blessed-swords-divine-wrath', died:await tryApplyAbilityDamage({sourcePlayer:player,targetFC,sourceCardId:'S000033',amount:(Number(attacker.dataset.atk)||0)*2,bypassInsensitive:true})});
+  }
+  if (targetFC.dataset.id === 'AVS000001' && context.phase === 'attack' && !attacker.dataset.dead) {
+    tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attacker, sourceCardId:'AVS000001', turns:2, type:'cdg', bypassInsensitive:true});
+    results.push({type:'rohen-counter-cdg', target:targetSummary(attacker)});
+  }
+  if (targetFC.dataset.id === 'H000009' && context.phase === 'attack' && !attacker.dataset.dead) {
+    tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attacker, sourceCardId:'H000009', turns:1, type:'gel'});
+    results.push({type:'lena-counter-freeze', target:targetSummary(attacker)});
+  }
+  if (results.length) recordCollectionBatch03Event('combat-hook', {attacker:targetSummary(attacker), target:targetSummary(targetFC), context, results});
+  return results;
+}
+
+async function resolveBatch03Initiative(cardId, player, context={}) {
+  const p = playerState(player);
+  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : findBoardCard(p, cardId));
+  const result = {handled:true, success:true, cardId, operations:[]};
+  const enemies = () => batch03EnemyServants(p, 'damage');
+  if (!['AVS000001','AVS000002','AVS000004','AVS000007','AVS000014','H000002','H000003','H000004','H000007','H000009','H000011','H000012','H000013','H000014','H000015','H000016','H000027','H000031'].includes(cardId)) {
+    return {handled:false};
+  }
+  if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, reason:'cold-locked', cardId};
+  if (cardId === 'AVS000001') {
+    for (const target of enemies()) {
+      tryApplyGel({sourcePlayer:p,targetFC:target,sourceCardId:cardId,turns:4,type:'cdg'});
+      result.operations.push({type:'cdg', target:targetSummary(target), turns:4});
+    }
+  }
+  if (cardId === 'AVS000002') {
+    const targets = enemies();
+    const damageTarget = batch03First(targets);
+    if (damageTarget) {
+      const died = await tryApplyAbilityDamage({sourcePlayer:p,targetFC:damageTarget,sourceCardId:cardId,amount:13});
+      if (!died && !damageTarget.dataset.dead) damageTarget.dataset.batch03DarkDot = '2';
+      result.operations.push({type:'damage-dot', target:targetSummary(damageTarget), died});
+    }
+    const freezeTarget = targets.find(target => target !== damageTarget && !target.dataset.dead);
+    if (freezeTarget) {
+      tryApplyGel({sourcePlayer:p,targetFC:freezeTarget,sourceCardId:cardId,turns:3,type:'gel'});
+      result.operations.push({type:'freeze', target:targetSummary(freezeTarget), turns:3});
+    }
+  }
+  if (cardId === 'AVS000004') {
+    result.operations.push(await summonBatch03Servant(p, 'B000006', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    result.operations.push(await summonBatch03Servant(p, 'B000007', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (cardId === 'AVS000007') {
+    result.operations.push(await summonBatch03Servant(p, 'DIV000001', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (cardId === 'AVS000014') {
+    const opponent = opponentOf(p);
+    opponent.batch03SkipNextTurn = {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance || null, createdTurnSequence:turnSequence};
+    result.operations.push({type:'skip-next-turn', targetPlayer:opponent.key});
+  }
+  if (cardId === 'H000002' || cardId === 'H000003') {
+    const target = batch03First(batch03EnemyServants(p, 'move'));
+    if (target) result.operations.push({type:'return-to-hand', result:await batch03MoveServantToOwnerHandOrGraveyard(target, {blockNextTurn:cardId === 'H000002'})});
+  }
+  if (cardId === 'H000004') {
+    for (const target of enemies()) {
+      target._killer = sourceFC;
+      result.operations.push({type:'damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:1})});
+    }
+    collectionBatch03State.delayedDamage.push({sourcePlayerId:p.key, targetPlayerId:opponentOf(p).key, sourceCardId:cardId, amount:1, createdTurnSequence:turnSequence});
+  }
+  if (cardId === 'H000007') {
+    const targets = enemies();
+    const cold = batch03First(targets.filter(target => !hasSangFroid(target)));
+    if (cold) {
+      tryApplyGel({sourcePlayer:p,targetFC:cold,sourceCardId:cardId,turns:2,type:'cdg'});
+      result.operations.push({type:'cdg', target:targetSummary(cold)});
+    }
+    const burn = targets.find(target => target !== cold && !hasSangArdent(target));
+    if (burn) result.operations.push({type:'embrasement', result:await applyEmbrasement(burn, {sourcePlayer:p,sourceCardId:cardId,sourceInstanceId:sourceFC?.dataset.instance,reason:'batch03-mage-de-guerre'})});
+  }
+  if (cardId === 'H000009') {
+    for (const target of batch03Shuffle(enemies()).slice(0, 3)) {
+      tryApplyGel({sourcePlayer:p,targetFC:target,sourceCardId:cardId,turns:3,type:'cdg'});
+      result.operations.push({type:'cdg', target:targetSummary(target), turns:3});
+    }
+  }
+  if (cardId === 'H000011') {
+    result.operations.push(await summonBatch03Servant(p, 'H000008', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (cardId === 'H000012') {
+    for (const target of livingServantCardsForPlayer(opponentOf(p)).filter(fc => CARDS_DATA[fc.dataset.id]?.fac === 'mvs')) {
+      target._killer = sourceFC;
+      result.operations.push({type:'divine-wrath', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:99,bypassInsensitive:true})});
+    }
+  }
+  if (cardId === 'H000013') {
+    const target = batch03First(enemies());
+    if (target) result.operations.push({type:'hand-size-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:playerHand(opponentOf(p)).length})});
+    const opponent = opponentOf(p);
+    const hand = playerHand(opponent);
+    if (hand.length && !getHandCapacityStatus(p).full) {
+      const stolen = removeHandCardAt(opponent, Math.floor(gameRandom() * hand.length));
+      if (stolen) addCardToHand(p, stolen, {refresh:true});
+      result.operations.push({type:'steal-hand-card', stolen});
+    }
+  }
+  if (cardId === 'H000014') {
+    const target = batch03First(enemies().filter(fc => Number(fc.dataset.pdv || 0) < 7));
+    if (target) {
+      const summary = targetSummary(target);
+      await sendToCemetery(target);
+      result.operations.push({type:'destroy-low-health', target:summary});
+    }
+  }
+  if (cardId === 'H000015') {
+    if (batch03AlliedServants(p).some(fc => fc.dataset.id === 'H000016')) {
+      const pool = enemies();
+      for (let i = 0; i < 12 && pool.some(fc => !fc.dataset.dead); i++) {
+        const target = batch03Pick(pool.filter(fc => !fc.dataset.dead));
+        if (target) result.operations.push({type:'vengeful-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:1})});
+      }
+    }
+  }
+  if (cardId === 'H000016') {
+    if (batch03AlliedServants(p).some(fc => fc.dataset.id === 'H000015')) {
+      for (const ally of batch03AlliedServants(p)) result.operations.push({type:'paladin-heal', target:targetSummary(ally), heal:applyHeal(ally, 6)});
+    }
+  }
+  if (cardId === 'H000027') {
+    const target = batch03First(enemies());
+    if (target) result.operations.push({type:'arcanist-attack-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:Number(sourceFC?.dataset.atk || CARDS_DATA[cardId]?.atk || 0)})});
+  }
+  if (cardId === 'H000031') {
+    result.operations.push(await summonBatch03Servant(p, 'DIV000006', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    result.operations.push(await summonBatch03Servant(p, 'DIV000006', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    let destroyedByBurn = 0;
+    for (const target of livingServantCardsForPlayer(opponentOf(p))) {
+      const burn = await applyEmbrasement(target, {sourcePlayer:p,sourceCardId:cardId,sourceInstanceId:sourceFC?.dataset.instance,reason:'igor-initiative'});
+      if (burn.targetDestroyed) destroyedByBurn++;
+      result.operations.push({type:'embrasement', result:burn});
+    }
+    if (destroyedByBurn >= 2) {
+      addCardToHand(p, 'DIV000009', {refresh:true});
+      result.operations.push({type:'golem-magmatique-created', cardId:'DIV000009'});
+    }
+  }
+  showNotif((CARDS_DATA[cardId]?.name || cardId) + ' : Initiative resolue.', 1200);
+  return batch03EventResult('initiative', result);
+}
+
+async function applyBatch03StartTurnAbilities(player) {
+  const p = playerState(player);
+  const result = {darkDots:[], delayedDamage:[], ianna:null, priestHeals:[], necraneSummons:[]};
+  if (!p) return result;
+  if (p.batch03SkipNextTurn) {
+    p.turnState.normalDrawResolved = true;
+    cardsPlayedThisTurn = MAX_PLAY;
+    result.skipped = p.batch03SkipNextTurn;
+    delete p.batch03SkipNextTurn;
+    showNotif(playerName(p) + ' passe son tour.', 1500);
+  }
+  for (const target of livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03DarkDot && !fc.dataset.dead)) {
+    target._killer = null;
+    result.darkDots.push({target:targetSummary(target), died:await applyDamage(target, Number(target.dataset.batch03DarkDot || 2))});
+  }
+  const delayed = collectionBatch03State.delayedDamage.filter(effect => effect.sourcePlayerId === p.key && effect.createdTurnSequence !== turnSequence);
+  for (const effect of delayed) {
+    for (const target of livingServantCardsForPlayer(playerState(effect.targetPlayerId))) {
+      result.delayedDamage.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:effect.sourceCardId,amount:effect.amount})});
+    }
+  }
+  collectionBatch03State.delayedDamage = collectionBatch03State.delayedDamage.filter(effect => !(effect.sourcePlayerId === p.key && effect.createdTurnSequence !== turnSequence));
+  const opponent = opponentOf(p);
+  const ianna = livingServantCardsForPlayer(opponent).find(fc => fc.dataset.id === 'AVS000010');
+  if (ianna && gameRandom() < 0.5 && !getHandCapacityStatus(opponent).full) {
+    const stolen = drawCardFromRuntimeDeck(p, {refresh:false, sourceCardId:'AVS000010'});
+    if (stolen.success) {
+      removeHandCardAt(p, playerHand(p).lastIndexOf(stolen.cardId));
+      addCardToHand(opponent, stolen.cardId, {refresh:true});
+      p.turnState.normalDrawResolved = true;
+      result.ianna = {success:true, stolenCardId:stolen.cardId, source:targetSummary(ianna)};
+    }
+  }
+  const hasAria = Number(p.resourceState?.classical?.aria || 0) > 0;
+  for (const priest of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000006' && canResolveServantAbility(fc, {triggerType:'start-turn'}))) {
+    if (!hasAria) continue;
+    const injured = livingServantCardsForPlayer(p).filter(fc => fc !== priest && CARDS_DATA[fc.dataset.id]?.fac !== 'mvs' && Number(fc.dataset.pdv || 0) < Number(fc.dataset.pdvMax || 0));
+    const target = batch03Pick(injured);
+    if (target) {
+      const amount = CARDS_DATA[target.dataset.id]?.fac === 'hum' ? 4 : 2;
+      result.priestHeals.push({source:targetSummary(priest), target:targetSummary(target), heal:applyHeal(target, amount)});
+    }
+  }
+  for (const necrane of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000030')) {
+    const options = ['MV000020','MV000009','MV000016'];
+    const existing = new Set(livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03RuneSource === necrane.dataset.instance).map(fc => fc.dataset.id));
+    const next = options.find(id => !existing.has(id));
+    if (next) {
+      const summon = await summonBatch03Servant(p, next, {sourceCardId:'H000030', sourceInstanceId:necrane.dataset.instance, triggerInitiativeEffect:false, ready:true});
+      const summonedFc = summon.instanceId ? document.querySelector(`.fc[data-instance="${summon.instanceId}"]`) : null;
+      if (summonedFc) summonedFc.dataset.batch03RuneSource = necrane.dataset.instance;
+      result.necraneSummons.push(summon);
+    }
+  }
+  if (Object.values(result).some(value => Array.isArray(value) ? value.length : value)) recordCollectionBatch03Event('start-turn', {playerId:p.key, result});
+  return result;
+}
+
+async function applyBatch03EndTurnAbilities(player) {
+  const p = playerState(player);
+  const result = {wolfSummons:[], arcanistBuffs:[]};
+  if (!p) return result;
+  for (const wolf of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000020' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    result.wolfSummons.push(await summonBatch03Servant(p, 'H000021', {sourceCardId:'H000020', sourceInstanceId:wolf.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (playerHand(p).includes('H000027')) {
+    p.batch03HandBuffs ||= {};
+    const current = p.batch03HandBuffs.H000027 || {atk:0,pdv:0};
+    current.atk += 1;
+    current.pdv += 1;
+    p.batch03HandBuffs.H000027 = current;
+    result.arcanistBuffs.push({...current});
+  }
+  if (result.wolfSummons.length || result.arcanistBuffs.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
+  return result;
+}
+
+function resolveBatch03Targets(cardId, player, context={}) {
+  const audit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || []});
+  if (!audit.allowed) return {audit, targets:[]};
+  const targets = context.selectedTargetIds?.length
+    ? resolveBoardTargetReferences(context.selectedTargetIds)
+    : legalTargetsForRequirement(cardId, player).slice(0, 1);
+  return {audit, targets};
+}
+
+function resolveBatch03HealingHand(player, context={}) {
+  const p = playerState(player);
+  const {audit, targets} = resolveBatch03Targets('S000010', p, context);
+  if (!audit.allowed || !targets.length) return {success:false, reason:audit.code || 'invalid-target', targetAudit:audit};
+  const target = targets[0];
+  const healed = [{target:targetSummary(target), result:applyHeal(target, 6)}];
+  for (const adjacent of batch03AdjacentServants(target).filter(fc => fc.dataset.player === target.dataset.player)) {
+    healed.push({target:targetSummary(adjacent), result:applyHeal(adjacent, 2)});
+  }
+  const diagnostic = {success:true, code:'main-guerisseuse-resolved', cardId:'S000010', healed};
+  recordCollectionBatch03Event('spell', diagnostic);
+  showNotif('Main guérisseuse : soins appliqués.', 1500);
+  return diagnostic;
+}
+
+function resolveBatch03AuraProtection(player, context={}) {
+  const p = playerState(player);
+  const {audit, targets} = resolveBatch03Targets('S000028', p, context);
+  if (!audit.allowed || !targets.length) return {success:false, reason:audit.code || 'invalid-target', targetAudit:audit};
+  const target = targets[0];
+  target.dataset.insensible = '1';
+  target.dataset.batch03AuraProtection = '1';
+  const max = Number(target.dataset.pdvMax || target.dataset.pdv || 1);
+  const cur = Number(target.dataset.pdv || max);
+  batch03UpdateStats(target, {pdvMax:max + 3, pdv:cur + 3});
+  collectionBatch03State.protectedAuras.push({instanceId:target.dataset.instance, sourceCardId:'S000028', turnSequence});
+  const diagnostic = {success:true, code:'aura-protection-resolved', cardId:'S000028', target:targetSummary(target)};
+  recordCollectionBatch03Event('spell', diagnostic);
+  showNotif('Aura de protection : Insensible et +3 PV maximum.', 1600);
+  return diagnostic;
+}
+
+function resolveBatch03BlessedSwords(player, context={}) {
+  const p = playerState(player);
+  p.batch03BlessedSwordsTurn = turnSequence;
+  const diagnostic = {success:true, code:'epees-benies-resolved', cardId:'S000033', playerId:p.key, expiresTurnSequence:turnSequence};
+  recordCollectionBatch03Event('spell', diagnostic);
+  showNotif('Épées bénies : vos serviteurs frappent les morts-vivants avec Colère divine ce tour-ci.', 1700);
+  return diagnostic;
+}
+
+async function handleBatch03SpellResolved(cardId, caster, context={}) {
+  const p = playerState(caster);
+  if (!p || context.spellResolution?.success === false || context.batch03Echo) return {echoed:false};
+  const mirror = livingServantCardsForPlayer(p).find(fc => fc.dataset.id === 'AVS000003' && canResolveServantAbility(fc, {triggerType:'spell-echo'}));
+  if (!mirror || !CARDS_DATA[cardId] || CARDS_DATA[cardId].type !== 'Sort') return {echoed:false};
+  if (cardId === 'S000055') return {echoed:false, reason:'triangle-not-echoed'};
+  const echoedResolution = await triggerSort(cardId, p, {...context, batch03Echo:true});
+  const result = {echoed:true, cardId, source:targetSummary(mirror), echoedResolution};
+  recordCollectionBatch03Event('spell-echo', result);
+  return result;
+}
+
+async function triggerBatch03NecraneVengeance(player, dyingFC) {
+  const p = playerState(player);
+  const sourceInstance = dyingFC?.dataset.instance || '';
+  const linked = livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03RuneSource === sourceInstance);
+  let echoes = 0;
+  for (const fc of linked) {
+    const gain = 1 + Math.floor(gameRandom() * 3);
+    echoes += gain;
+    await sendToCemetery(fc);
+  }
+  if (echoes) addSoulToAppro(p, echoes);
+  const result = {destination:'graveyard', destroyed:linked.map(targetSummary), echoes};
+  recordCollectionBatch03Event('vengeance-necrane', result);
+  showNotif('Vengeance de Necrane : ses serviteurs de rune se dissipent.', 1600);
+  return result;
+}
+
+async function triggerBatch03IgorVengeance(player, dyingFC, killer) {
+  if (killer && !killer.dataset.dead) {
+    const result = await applyEmbrasement(killer, {sourcePlayer:player, sourceCardId:'H000031', sourceInstanceId:dyingFC?.dataset.instance, reason:'igor-vengeance'});
+    recordCollectionBatch03Event('vengeance-igor', result);
+    return {destination:'graveyard', burn:result};
+  }
+  return {destination:'graveyard', burn:null};
+}
+
+function auditCollectionBatch03Runtime() {
+  return {
+    scenarioId:selectedScenarioId(),
+    state:JSON.parse(JSON.stringify(collectionBatch03State)),
+    zones:auditZoneInventories(),
+    board:{
+      player1:livingServantCardsForPlayer(player1).map(targetSummary),
+      player2:livingServantCardsForPlayer(player2).map(targetSummary)
+    },
+    resources:{
+      player1:JSON.parse(JSON.stringify(player1.resourceState || {})),
+      player2:JSON.parse(JSON.stringify(player2.resourceState || {}))
+    },
+    handBuffs:{
+      player1:JSON.parse(JSON.stringify(player1.batch03HandBuffs || {})),
+      player2:JSON.parse(JSON.stringify(player2.batch03HandBuffs || {}))
+    }
+  };
+}
+
+window.auditCollectionBatch03Runtime = auditCollectionBatch03Runtime;
+
 function setupInitialHands() {
   turnSequence = 1;
   servantInstanceSequence = 0;
   ongoingEffects.meteores = [];
   activeSlotLocks.length = 0;
+  collectionBatch03State.events.length = 0;
+  collectionBatch03State.delayedDamage.length = 0;
+  collectionBatch03State.runeSummons.length = 0;
+  collectionBatch03State.protectedAuras.length = 0;
   [player1, player2].forEach(p => {
     resetRuntimeResources(p);
     p.startingDeckCardIds = [...p.deck];
@@ -16884,6 +17523,9 @@ function setupInitialHands() {
     p.startOui.forEach(id => removeOneFromPile(p.drawPile, id));
     p.hand = [...p.startOui];
     p.createdByEnchantress = [];
+    p.batch03HandBuffs = {};
+    delete p.batch03BlessedSwordsTurn;
+    delete p.batch03SkipNextTurn;
     p.firstTurnStarted = false;
     if (isCheatEmbrasementScenario() && activeScenario.cheatRules.secondPlayerDrawsOnFirstTurn && p.key === 'player2') {
       p.firstTurnStarted = true;
@@ -17135,7 +17777,7 @@ function createMusicToggle() {
   // Icône unique cohérente : note = musique active, note barrée = coupée
   const setIcon = () => {
     const playing = musicAudio && !musicAudio.paused && !musicUserMuted;
-    btn.innerHTML = playing ? '\u266B' : '\u266B\u0338'; // ♫ vs ♫ barré
+    btn.innerHTML = playing ? '\u266B' : '\u266B\u0338'; // ♫ vs ♫ barré
     btn.style.opacity = playing ? '1' : '0.45';
   };
   btn.onclick = () => {
@@ -17195,9 +17837,9 @@ document.addEventListener('drop', e => {
       pile.unshift(returnedCard);
       shuffleDeck(pile);
       const cnt = deckCountElement(currentPlayer);
-      if (cnt) cnt.textContent = pile.length + ' cartes';
+      if (cnt) cnt.textContent = pile.length + ' cartes';
       refreshHand(currentPlayer);
-      showNotif('Carte renvoyée dans votre deck !', 1400);
+      showNotif('Carte renvoyée dans votre deck !', 1400);
       dragId = null;
     }
   }

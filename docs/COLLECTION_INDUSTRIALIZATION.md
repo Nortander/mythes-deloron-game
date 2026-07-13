@@ -133,3 +133,13 @@ Interprétations bornées et testées : `H000033` effectue deux tirages aléatoi
 - L'Insensible temporaire de Morghast est visible dans l'aperçu complet de la carte, ne consomme pas le tour d'invocation et expire après trois fins de tour du propriétaire.
 - Gabar affiche un feedback visuel quand il est responsable d'un ajout au deck, d'une pioche, d'une copie de Sort ou d'une invocation de début de tour.
 - Aucun changement n'est apporté à `code/collection.html`, aux decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
+
+## COLLECTION-BATCH-03 - Humains restants
+
+Les 42 cartes Humain canoniques qui n'etaient pas encore FONCTIONNEL_TESTE disposent maintenant d'un comportement runtime et d'un test direct dans `tests/browser/collection-batch-03-humans.spec.mjs`. Le lot couvre les avatars pseudo-serviteurs AVS Humain, les Initiatives de deplacement, degats, invocation, gel et paires de serviteurs, les soins, protections, effets de combat, effets de debut/fin de tour et Vengeances bornees.
+
+Les dependances directes necessaires au fonctionnement sont explicites : `B000006`, `B000007`, `DIV000001`, `DIV000006`, `DIV000009`, `MV000020`, `MV000009` et `MV000016`. Les cartes deja verrouillees par les lots precedents, notamment Batch-02, restent couvertes par leurs tests de non-regression.
+
+Scenarios techniques caches : `collection-batch-03-humans-overview`, `collection-batch-03-humans-triggers`, `collection-batch-03-humans-avatars` et `collection-batch-03-humans-spells`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
