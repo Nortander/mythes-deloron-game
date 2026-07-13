@@ -138,8 +138,19 @@ Interprétations bornées et testées : `H000033` effectue deux tirages aléatoi
 
 Les 42 cartes Humain canoniques qui n'etaient pas encore FONCTIONNEL_TESTE disposent maintenant d'un comportement runtime et d'un test direct dans `tests/browser/collection-batch-03-humans.spec.mjs`. Le lot couvre les avatars pseudo-serviteurs AVS Humain, les Initiatives de deplacement, degats, invocation, gel et paires de serviteurs, les soins, protections, effets de combat, effets de debut/fin de tour et Vengeances bornees.
 
-Les dependances directes necessaires au fonctionnement sont explicites : `B000006`, `B000007`, `DIV000001`, `DIV000006`, `DIV000009`, `MV000020`, `MV000009` et `MV000016`. Les cartes deja verrouillees par les lots precedents, notamment Batch-02, restent couvertes par leurs tests de non-regression.
+Les dependances directes necessaires au fonctionnement sont explicites : `DIV000001`, `DIV000002`, `DIV000003`, `DIV000004`, `DIV000006`, `DIV000009`, `MV000020`, `MV000009` et `MV000016`. Les cartes deja verrouillees par les lots precedents, notamment Batch-02, restent couvertes par leurs tests de non-regression.
 
 Scenarios techniques caches : `collection-batch-03-humans-overview`, `collection-batch-03-humans-triggers`, `collection-batch-03-humans-avatars` et `collection-batch-03-humans-spells`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-03B
+
+- `H000012` applique des marqueurs de `Colere divine` periodiques aux serviteurs morts-vivants adverses : 2, puis 3, puis 4 degats aux debuts de tour concernes, avec retrait d'un Echo adverse si Randall reste en jeu et que la cible meurt sous cet effet.
+- Le mot-clef `Serviteur de la rune` renvoie le serviteur detruit dans la main de son proprietaire, sans doublon terrain/cimetiere.
+- `H000027` affiche ses bonus de main en vert et les conserve visuellement apres invocation.
+- `AVS000004` invoque les Gorgones canoniques `DIV000003` et `DIV000004`.
+- `AVS000011` utilise le nom corrige `miroirs` et redirige 75 % des attaques/ciblages vers un autre serviteur eligible.
+- `AVS000010`, `AVS000007` et `AVS000014` ont ete renforces pour le vol de pioche, la production de `DIV000002` par `DIV000001` et le saut reel du tour adverse.
+- `S000028` et `S000033` exposent leurs statuts dynamiques dans les apercus et `S000033` applique `Colere divine` au combat sans degats directs factices.
+- Les messages publics generiques `Initiative resolue` sont retires au profit d'une impulsion visuelle.

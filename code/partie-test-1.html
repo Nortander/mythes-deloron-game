@@ -598,6 +598,18 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
 .fc-exhausted::after{content:'â¸';position:absolute;top:4px;right:5px;font-size:14px;z-index:16;text-shadow:0 0 6px rgba(0,0,0,1);}
+.hc-blocked-temporary{filter:saturate(.55) brightness(.76);cursor:not-allowed;box-shadow:0 0 0 2px rgba(255,215,96,.95),0 0 18px rgba(255,140,40,.85);}
+.hc-blocked-temporary::after{content:'🔒';position:absolute;top:6px;right:7px;z-index:30;font-size:15px;text-shadow:0 1px 4px #000;color:#ffd760;}
+.hc-blocked-temporary .hc-frame{outline:2px solid rgba(255,215,96,.9);outline-offset:-2px;}
+.hc-sb span.grn{color:#50e870;font-weight:900;text-shadow:0 0 4px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,1);}
+.batch03-divine-wrath-applied{animation:batch03DivineApply .7s ease-out;}
+.batch03-divine-wrath-tick{animation:batch03DivineTick .75s ease-out;}
+.batch03-rune-returning{animation:batch03RuneReturn .8s ease-out;}
+.batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
+@keyframes batch03DivineApply{0%{filter:brightness(1.8) drop-shadow(0 0 12px #ffe680);}100%{filter:none;}}
+@keyframes batch03DivineTick{0%{filter:brightness(2) drop-shadow(0 0 16px #fff2a0);transform:translateY(-2px);}100%{filter:none;transform:none;}}
+@keyframes batch03RuneReturn{0%{filter:brightness(1.8) drop-shadow(0 0 14px #9c5cff);transform:scale(1.04);}100%{filter:none;transform:none;}}
+@keyframes batch03InitiativePulse{0%{filter:brightness(1.65) drop-shadow(0 0 12px var(--card-faction-color));}100%{filter:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
 @keyframes avPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 0 2px rgba(0,0,0,0.85);}50%{box-shadow:0 0 0 4px rgba(255,80,40,1),0 0 20px rgba(255,80,40,0.6);}}
 
@@ -693,7 +705,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc-res-appro img{width:20px;height:20px;object-fit:contain;}
 
 /* ── Chiffres colorés lisibles ── */
-.cost-grn,.fc-pdv-val.red,.fc-atk-val.grn{
+.cost-grn,.fc-pdv-val.red,.fc-atk-val.grn,.fc-pdv-val.grn{
   text-shadow:0 0 3px rgba(255,255,255,0.9),0 0 8px currentColor,0 1px 4px rgba(0,0,0,1) !important;
   font-weight:900 !important;
 }
@@ -2378,7 +2390,7 @@ const CHARACTER_DEFS = {
     startMaybe: START_MAYBE_MAIN_ARGENT,
     avatarCap: 'hum',
     portrait: 'AVP000011.png',
-    tip: `Mage du Cercle - Main d'argent, maître des mirroirs.`
+    tip: `Mage du Cercle - Main d'argent, maître des miroirs.`
   },
   gor: {
     characterId: 'gor',
@@ -6691,8 +6703,15 @@ function buildHC(cardId, player, drawAnim=false) {
   const badge  = d.badge ? `<div class="hc-badge"><span>${d.badge}</span></div>` : '';
   const iconFile = factionIconFile(d);
   const fico   = iconFile  ? `<img class="hc-fico" src="${GH}/icones/${iconFile}" alt="">` : '';
-  const atk_h  = d.atk != null ? `<div class="hc-atk"><div class="hc-sb"><img src="${GH}/icones/IC00000ATK.png"><span>${d.atk}</span></div></div>` : '';
-  const pdv_h  = d.pdv != null ? `<div class="hc-pdv"><div class="hc-sb"><img src="${GH}/icones/IC00000PDV.png"><span>${d.pdv}</span></div></div>` : '';
+  const handBuff = cardId === 'H000027' ? (playerState(player)?.batch03HandBuffs || {}).H000027 : null;
+  const displayAtk = d.atk != null ? Number(d.atk) + Number(handBuff?.atk || 0) : null;
+  const displayPdv = d.pdv != null ? Number(d.pdv) + Number(handBuff?.pdv || 0) : null;
+  const buffClass = handBuff ? ' class="grn"' : '';
+  const atk_h  = displayAtk != null ? `<div class="hc-atk"><div class="hc-sb"><img src="${GH}/icones/IC00000ATK.png"><span${buffClass}>${displayAtk}</span></div></div>` : '';
+  const pdv_h  = displayPdv != null ? `<div class="hc-pdv"><div class="hc-sb"><img src="${GH}/icones/IC00000PDV.png"><span${buffClass}>${displayPdv}</span></div></div>` : '';
+  const blocked = isBatch03HandCardBlocked(cardId, player);
+  const blockedCls = blocked ? ' hc-blocked-temporary' : '';
+  const blockedSource = blocked ? batch03BlockedCardSourceName() : '';
 
   // Zone ressource : chiffre superposé à l'icône, compléments à côté.
   const res_h = renderCostHTML(cardId, player);
@@ -6720,7 +6739,7 @@ function buildHC(cardId, player, drawAnim=false) {
   }
 
   const animCls = drawAnim ? ' drawing' : '';
-  return `<div class="hc ${facClsHC}${animCls}" data-id="${cardId}" data-player="${player}" draggable="true" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
+  return `<div class="hc ${facClsHC}${animCls}${blockedCls}" data-id="${cardId}" data-player="${player}" data-blocked-source="${escapeHtml(blockedSource)}" draggable="true" title="${blocked ? escapeHtml('Carte bloquée par ' + blockedSource + ' pour ce tour.') : ''}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="hc-frame">
       <div class="hc-art-z">
         <img class="hc-art" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
@@ -6885,10 +6904,38 @@ function batch02PreviewCardData(cardId, data, sourceContext={}) {
   return {...data, cap: cap + separator + tempText, detail: String(data.detail || cap || '') + separator + tempText};
 }
 
+function batch03DynamicStatusTexts(fc) {
+  if (!fc?.dataset) return [];
+  const lines = [];
+  const add = line => { if (line && !lines.includes(line)) lines.push(line); };
+  if (fc.dataset.batch03AuraProtection === '1') add('Bénéficie de [Insensible].');
+  const blessed = Number(fc.dataset.batch03BlessedSwordsTurns || 0);
+  if (blessed > 0) add(`Bénéficie temporairement de [Colère divine] : *${blessed}* tour(s) restant(s).`);
+  const divine = Number(fc.dataset.batch03DivineWrathTurns || 0);
+  if (divine > 0) add(`Subit temporairement les effets de [Colère divine] : *${divine}* tour(s) restant(s).`);
+  const cdg = Number(fc.dataset.frozen_cdg || 0);
+  if (cdg > 0) add(`Subit temporairement les effets de [Coup de glace] : *${cdg}* tour(s) restant(s).`);
+  const gel = Number(fc.dataset.frozen || 0);
+  if (gel > 0) add(`Subit temporairement les effets de [Gel] : *${gel}* tour(s) restant(s).`);
+  const burn = Number(fc.dataset.burning || 0);
+  if (burn > 0) add(`Subit temporairement les effets de [Embrasement] : *${burn}* tour(s) restant(s).`);
+  if (fc.dataset.hypno || fc.dataset.hypnosisUntilDamage) add('Paralysé par [Hypnose] jusqu\'à subir des dégâts.');
+  return lines;
+}
+
+function batch03PreviewCardData(cardId, data, sourceContext={}) {
+  const lines = batch03DynamicStatusTexts(sourceContext.sourceElement);
+  if (!lines.length) return data;
+  const cap = String(data.cap || '').trim();
+  const suffix = lines.join(' ');
+  const separator = cap ? ' ' : '';
+  return {...data, cap: cap + separator + suffix, detail: String(data.detail || cap || '') + separator + suffix};
+}
+
 function buildCanonicalCardPreview(cardId, sourceContext={}) {
   let d = CARDS_DATA[cardId];
   if (!d) return '';
-  d = batch02PreviewCardData(cardId, d, sourceContext);
+  d = batch03PreviewCardData(cardId, batch02PreviewCardData(cardId, d, sourceContext), sourceContext);
   const col = facColor(d.fac);
   const folder = d.assetFolder || facFolder(d.fac);
   const cls = facCls(d.fac);
@@ -6930,6 +6977,16 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (cardId === 'MV000024' && sourceContext.sourceElement?.dataset?.insensible === '1' && !keywords.some(item => item.keyword === 'Insensible' || item.title === 'Insensible')) {
     keywords.push({kind:'keyword', keyword:'Insensible', title:'Insensible', body:KDEF.Insensible || 'Ne peut pas \u00eatre la cible de sorts adverses.'});
   }
+  const sourceEl = sourceContext.sourceElement;
+  const ensureKeyword = (keyword, body) => {
+    if (!keywords.some(item => item.keyword === keyword || item.title === keyword)) keywords.push({kind:'keyword', keyword, title:keyword, body});
+  };
+  if (sourceEl?.dataset?.batch03AuraProtection === '1') ensureKeyword('Insensible', KDEF.Insensible || 'Ne peut pas être la cible de sorts adverses.');
+  if (sourceEl?.dataset?.batch03DivineWrathTurns || sourceEl?.dataset?.batch03BlessedSwordsTurns) ensureKeyword('Colère divine', KDEF['Colère divine'] || 'Au début du tour du propriétaire affecté, subit 2, puis 3, puis 4 dégâts avant expiration.');
+  if (sourceEl?.dataset?.frozen_cdg) ensureKeyword('Coup de glace', KDEF['Coup de glace'] || '');
+  if (sourceEl?.dataset?.frozen) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
+  if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
+  if (sourceEl?.dataset?.hypno || sourceEl?.dataset?.hypnosisUntilDamage) ensureKeyword('Hypnose', KDEF.Hypnose || 'Ne peut pas attaquer jusqu\'à subir des dégâts.');
   if (!keywords.length) return '';
   const color = facColor(CARDS_DATA[cardId]?.fac);
   return `<div class="canonical-keyword-tooltips" data-preview-keywords="${cardId}" style="--card-faction-color:${color};--card-kw:${color}">
@@ -7624,7 +7681,7 @@ function resolvePublicCardReferences(rawText) {
 function canonicalKeywordGlossary() {
   const mandatory = {
     'Approvisionnement':'Type de carte fournissant des ressources.',
-    'Serviteur de la rune':'Mot-clef dormant : règle mécanique non activée dans ce lot.',
+    'Serviteur de la rune':'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire.',
     'Sang ardent':KDEF?.['Sang ardent'] || 'Protège contre les effets d’Embrasement.',
     'Embrasement':KDEF?.Embrasement || 'Inflige des dégâts initiaux puis périodiques selon la règle Embrasement.',
     'Gel':KDEF?.Gel || KDEF?.['Gèle'] || 'Empêche temporairement attaque, riposte et capacités.',
@@ -9745,7 +9802,21 @@ function evaluateTargetRequirement(cardId, {player=currentPlayer, selectedTarget
 }
 
 function targetSummary(fc) {
-  return fc ? {id:fc.dataset.id || '', player:fc.dataset.player || '', instance:fc.dataset.instance || fc.dataset.supplyInstance || '', atk:Number(fc.dataset.atk || 0), pdv:Number(fc.dataset.pdv || 0), insensible:fc.dataset.insensible === '1' || (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Insensible'), temporaryInsensibleTurns:fc.dataset.temporaryInsensibleTurns || null} : null;
+  return fc ? {
+    id:fc.dataset.id || '',
+    player:fc.dataset.player || '',
+    instance:fc.dataset.instance || fc.dataset.supplyInstance || '',
+    atk:Number(fc.dataset.atk || 0),
+    pdv:Number(fc.dataset.pdv || 0),
+    pdvMax:Number(fc.dataset.pdvMax || fc.dataset.pdv || 0),
+    insensible:fc.dataset.insensible === '1' || (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Insensible'),
+    temporaryInsensibleTurns:fc.dataset.temporaryInsensibleTurns || null,
+    divineWrathTurns:fc.dataset.batch03DivineWrathTurns || null,
+    divineWrathNextDamage:fc.dataset.batch03DivineWrathNextDamage || null,
+    blessedSwordsTurns:fc.dataset.batch03BlessedSwordsTurns || null,
+    auraProtection:fc.dataset.batch03AuraProtection === '1',
+    runeServant:(CARDS_DATA[fc.dataset.id]?.kws || []).includes('Serviteur de la rune')
+  } : null;
 }
 
 const IMMEDIATE_PLAY_EFFECTS = Object.freeze({
@@ -9968,6 +10039,9 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
     return {valid:false, reason:immediateEffectResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', immediateEffectResult};
   }
   if (cardId === 'S000002' && !playerHand(opponentOf(p)).length) return {valid:false, reason:'no-valid-target'};
+  if (window._blockedCard === cardId && window._blockedCardPlayer === p.key && window._blockedCardArmed) {
+    return {valid:false, reason:'blocked-card', blockedSource:batch03BlockedCardSourceName()};
+  }
   if (cardId === 'S000023' && p.hand.includes('EDG000006')) {
     const servantZone = qs(playerZoneSelector(p, 'servants'));
     if (!servantZone?.querySelector('.slot')) return {valid:false, reason:'no-servant-slot'};
@@ -9992,6 +10066,7 @@ function cardActionError(reason, detail={}) {
   if (reason === 'card-not-in-hand') return `Cette carte n'est plus dans votre main.`;
   if (reason === 'starting-deck-troll-condition') return `Votre deck de depart ne contient pas assez de serviteurs Trolls distincts.`;
   if (reason === 'no-supply-in-graveyard') return `Votre cimetière ne contient aucun Approvisionnement.`;
+  if (reason === 'blocked-card') return `Cette carte est bloquée par ${detail?.blockedSource || batch03BlockedCardSourceName()} pour ce tour.`;
   if (reason === 'pending-decision-choice') return `Une décision est en attente.`;
   if (reason === 'pending-bazar-choice') return `Un choix du Bazar ambulant est en attente.`;
   if (reason === 'pending-assassination-choice') return `Une decision d'Assassinat est en attente.`;
@@ -10148,6 +10223,7 @@ function beginPrecommitSpellChoice(transaction) {
         window._blockedCard = blockedId;
         window._blockedCardPlayer = opponentOf(p)?.key;
         window._blockedCardArmed = false;
+        window._blockedCardSourceName = 'Des yeux dans le noir';
         showNotif('Carte bloquée pour le prochain tour.', 1600);
       }}),
       onCancel: cancel
@@ -10156,10 +10232,6 @@ function beginPrecommitSpellChoice(transaction) {
 }
 
 async function playCard(cardId, slot, options={}) {
-  if (window._blockedCard === cardId && window._blockedCardPlayer === currentPlayer && window._blockedCardArmed) {
-    showErr('Cette carte est <b>bloquée</b> par Des yeux dans le noir pour ce tour\u00a0!');
-    return;
-  }
   const d = CARDS_DATA[cardId];
   if (!d) return;
   const p = playerState(currentPlayer);
@@ -11751,6 +11823,8 @@ function tryAttack(fc) {
 }
 
 async function resolveCombat(attacker, targetFC) {
+  const mirrorRedirect = maybeRedirectBatch03MirrorTarget(attacker, targetFC);
+  if (mirrorRedirect.redirected) targetFC = mirrorRedirect.targetFC;
   updateRageState(attacker);
   updateRageState(targetFC);
   const atkAtk = parseInt(attacker.dataset.atk)  || 0;  // dégâts de l'attaquant
@@ -11980,7 +12054,12 @@ async function sendToCemetery(fc) {
   if ((d.kws||[]).includes('Vengeance')) {
     vengeanceResult = await triggerVengeance(cardId, player, fc, fc._killer || null);
   }
-  const goesToCemetery = vengeanceResult?.destination !== 'deck-bottom';
+  const runeReturnsToHand = shouldBatch03RuneReturnToHand(fc, d, vengeanceResult);
+  if (runeReturnsToHand && fc.isConnected) {
+    fc.classList.add('batch03-rune-returning');
+    await new Promise(resolve => setTimeout(resolve, 260));
+  }
+  const goesToCemetery = vengeanceResult?.destination !== 'deck-bottom' && !runeReturnsToHand;
   if (goesToCemetery && d.type === 'Serviteur') {
     await triggerUramGrantedVengeance(player, fc);
   }
@@ -12002,6 +12081,16 @@ async function sendToCemetery(fc) {
   }
 
   let placedAtDeckBottom = false;
+  if (runeReturnsToHand) {
+    const owner = playerState(player);
+    if (owner && !getHandCapacityStatus(owner).full) {
+      addCardToHand(owner, cardId, {refresh:true});
+      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance});
+      if (d.fac) addHistEntry(cardId, d.fac);
+      return;
+    }
+  }
+
   if (vengeanceResult?.destination === 'deck-bottom') {
     const pile = playerDrawPile(player);
     if (pile) {
@@ -13798,7 +13887,21 @@ async function endTurnRuntime() {
     turnSequence += 1;
     currentPlayer = activePlayer.key;
     cardsPlayedThisTurn = 0;
-    await showNotif(`C’est le tour de ${playerName(activePlayer)} !`);
+    if (activePlayer.batch03SkipNextTurn) {
+      const skippedPlayer = activePlayer;
+      const skipDetail = skippedPlayer.batch03SkipNextTurn;
+      delete skippedPlayer.batch03SkipNextTurn;
+      recordCollectionBatch03Event('turn-skipped', {playerId:skippedPlayer.key, detail:skipDetail});
+      await showNotif(`${playerName(skippedPlayer)} passe son tour.`, 1500);
+      activePlayer = opponentOf(skippedPlayer);
+      turnSequence += 1;
+      currentPlayer = activePlayer.key;
+      cardsPlayedThisTurn = 0;
+      beginTurnState(activePlayer);
+      await showNotif(`C’est encore le tour de ${playerName(activePlayer)} !`);
+    } else {
+      await showNotif(`C’est le tour de ${playerName(activePlayer)} !`);
+    }
     const drawn = await startTurn(activePlayer);
     renderAllHands(drawn ? activePlayer.key : null);
     if (drawn) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
@@ -14127,7 +14230,7 @@ Object.assign(CARDS_DATA, {
 Object.assign(CARDS_DATA, {
   'AVS000002':{name:'Mage du Cercle - Le Sombre',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Gèle','Insensible','Aria'],cap:"[Insensible] [Initiative] Inflige *13* points de dégâts à un serviteur adverse. Si le serviteur ciblé survit, il subit *2* points de dégâts supplémentaires à chaque début de tour jusqu'à sa mort. [Gèle] un autre serviteur adverse pendant *3* tours.",lore:''},
   'AVS000003':{name:'Mage du Cercle - Undergast',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria'],cap:'[Insensible] Tous vos sorts sont lancés une seconde fois.',lore:''},
-  'AVS000004':{name:'Mage du Cercle - Shâr des Îles',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria','Initiative'],cap:'[Insensible] [Initiative] Invoque 2 « Gorgonnes » de votre côté du terrain. Recommence chaque fois que Shâr subit des dégâts.',lore:'',related:['B000006','B000007']},
+  'AVS000004':{name:'Mage du Cercle - Shâr des Îles',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria','Initiative'],cap:'[Insensible] [Initiative] Invoque 1 « Gorgone gardienne » et 1 « Gorgone séductrice » de votre côté du terrain. Recommence chaque fois que Shâr subit des dégâts.',lore:'',related:['DIV000003','DIV000004']},
   'AVS000010':{name:'Mage du Cercle - Ianna la Chanteuse',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria'],cap:'[Insensible] Au début de chacun de ses tours, vous avez *50%* de chance de voler la première carte que pioche votre adversaire.',lore:''},
   'AVS000014':{name:'Mage du Cercle - Le Joueur de flûte',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Aria','Initiative'],cap:'[Insensible] [Initiative] Votre adversaire passe automatiquement son prochain tour.',lore:''},
   'DIV000001':{name:'Porte démoniaque',type:'Serviteur',fac:'div',atk:0,pdv:30,cost:8,res_ico:'IC00000ARI',res2:'IC00000LNY',res3:'IC00000AME',resOu:true,res_val:'8',resType:'Aria|Lenya|Écho',fico:'FCT00000RDM.png',kws:['Rempart','Insensible','Aria','Lenya','Écho'],cap:'[Rempart] [Insensible] Ne peut ni attaquer ni riposter. À chaque fin de tour du propriétaire, invoque 1 « Démon mineur » de votre côté du terrain.',lore:'',related:['DIV000002']},
@@ -14140,7 +14243,7 @@ Object.assign(CARDS_DATA, {
 
 // ════════ Cartes reconnues pour le duel Hokhan Ashir Vs Uram ════════
 Object.assign(CARDS_DATA, {
-  'AVS000007':{name:'Mage du Cercle ”“ Uram le Rouge',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Initiative'],cap:'[Insensible] [Initiative] : Place une « Porte démoniaque » de votre côté du terrain. Tant qu\'Uram reste sur le terrain, tous les serviteurs adverses subissent *2* points de dégât à chaque début de tour de leur propriétaire.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.',related:['DIV000001']},
+  'AVS000007':{name:'Mage du Cercle - Uram le Rouge',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Initiative'],cap:'[Insensible] [Initiative] : Place une « Porte démoniaque » de votre côté du terrain. Tant qu\'Uram reste sur le terrain, tous les serviteurs adverses subissent *2* points de dégât à chaque début de tour de leur propriétaire.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.',related:['DIV000001']},
   'AVS000008':{name:'Mage du Cercle ”“ Hokhan Ashir',type:'Serviteur',fac:'mvs',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000MVS.png',kws:['Insensible','Vengeance'],cap:'[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* unité de ressource me à votre approvisionnement. Ces cartes détruites sont envoyées dans votre cimetière. [Vengeance] : Place cette carte au fond de votre deck.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.'},
   'B000001':{name:'Pisteur Rhaekor',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000BET.png',kws:[],cap:'',lore:'Les Rhaekor, « hommes-bêtes » dans la langue des elfes, vivent en tribus de quelques dizaines d\'individus. Le chef de meute, le plus fort de sa tribu, conduit les siens lors des innombrables pillages qui rythment la vie de ces créatures primitives.'},
   'B000002':{name:'Rhaekor enragé',type:'Serviteur',fac:'bet',atk:5,pdv:3,cost:3,res_ico:'IC00000NRT',res_val:'3',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Initiative'],cap:'[Rage] [Initiative] : Subit *1* point de dégât.',lore:''},
@@ -14202,7 +14305,7 @@ Object.assign(CARDS_DATA, {
   'H000002':{name:'Mage ermite',type:'Serviteur',fac:'hum',atk:6,pdv:2,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
   'H000003':{name:'Mentaliste',type:'Serviteur',fac:'hum',atk:3,pdv:1,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
   'H000011':{name:'Capitaine des patrouilleurs',type:'Serviteur',fac:'hum',atk:6,pdv:4,cost:4,res_ico:'IC00000BOI',res2:'IC00000FER',res3:'IC00000NRT',res_val:'4',resType:'Bois+Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Bois','Fer','Nourriture','Rempart','Initiative'],cap:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque.',lore:'',detail:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque. Les invocations ne tiennent pas compte de la limite de cartes jouées par tour. Un emplacement libre de serviteur de votre côté du terrain est nécessaire pour l\'invocation des patrouilleurs.',related:['H000008']},
-  'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','me'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1* ressource me du terrain adverse.',lore:''},
+  'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','Écho'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1* Écho du terrain adverse.',lore:''},
   'H000014':{name:'Seigneur-chevalier',type:'Serviteur',fac:'hum',atk:7,pdv:6,cost:6,res_ico:'IC00000NRT',res2:'IC00000FER',res_val:'6',resType:'Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Nourriture','Fer','Rempart','Initiative'],cap:'[Rempart], [Initiative] Détruit un serviteur adverse avec moins de *7* points de vie.',lore:''},
   'H000017':{name:'Arbalétrier',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:3,res_ico:'IC00000BOI',res2:'IC00000NRT',res3:'IC00000FER',res_val:'3',resType:'Bois+Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Bois','Nourriture','Fer'],cap:'Ce serviteur inflige également ses dégâts aux serviteurs adjacents à ceux qu\'il attaque.',lore:''},
   'H000020':{name:'Chevalier-loup',type:'Serviteur',fac:'hum',atk:5,pdv:7,cost:5,res_ico:'IC00000NRT',res_val:'5',resType:'Nourriture',fico:'FCT00000HUM.png',kws:['Vigilance','Nourriture'],cap:'[Vigilance] À la fin de chacun de vos tours, invoque *1* « Griffe » de votre côté du terrain.',lore:'',detail:'[Vigilance] À la fin de chacun de vos tours, invoque *1* « Griffe » de votre côté du terrain si vous avez un emplacement de serviteur disponible.',related:['H000021']},
@@ -14276,7 +14379,7 @@ Object.assign(CARDS_DATA, {
     "resType": "lenya"
   },
   "AVS000011": {
-    "name": "Mage du Cercle - Main d'argent, maître des mirroirs",
+    "name": "Mage du Cercle - Main d'argent, maître des miroirs",
     "type": "Serviteur",
     "fac": "hum",
     "atk": 13,
@@ -17000,6 +17103,108 @@ function batch03Shuffle(list) {
   return [...(list || [])].sort(() => gameRandom() - 0.5);
 }
 
+function batch03BlockedCardSourceName() {
+  return String(window._blockedCardSourceName || 'Mage ermite').trim() || 'Mage ermite';
+}
+
+function isBatch03HandCardBlocked(cardId, player) {
+  return !!cardId && window._blockedCard === cardId && window._blockedCardPlayer === playerKey(player) && !!window._blockedCardArmed;
+}
+
+function isBatch03RuneServant(cardId) {
+  return (CARDS_DATA[cardId]?.kws || []).includes('Serviteur de la rune');
+}
+
+function shouldBatch03RuneReturnToHand(fc, cardData={}, vengeanceResult=null) {
+  if (!fc || cardData.type !== 'Serviteur') return false;
+  if (!isBatch03RuneServant(fc.dataset.id)) return false;
+  if (vengeanceResult?.destination === 'deck-bottom') return false;
+  return true;
+}
+
+function isBatch03UndeadServant(fc) {
+  return !!fc && CARDS_DATA[fc.dataset.id]?.type === 'Serviteur' && CARDS_DATA[fc.dataset.id]?.fac === 'mvs';
+}
+
+function applyBatch03DivineWrath(target, sourcePlayer, {sourceCardId='H000012', sourceInstanceId=null, reason='effect'}={}) {
+  const p = playerState(sourcePlayer);
+  if (!target || target.dataset.dead || !isBatch03UndeadServant(target)) {
+    return {success:false, reason:'invalid-divine-wrath-target', target:targetSummary(target)};
+  }
+  target.dataset.batch03DivineWrathTurns = '3';
+  target.dataset.batch03DivineWrathNextDamage = '2';
+  target.dataset.batch03DivineWrathSourcePlayer = p?.key || '';
+  target.dataset.batch03DivineWrathSourceCard = sourceCardId;
+  if (sourceInstanceId) target.dataset.batch03DivineWrathSourceInstance = sourceInstanceId;
+  target.classList.add('batch03-divine-wrath-applied');
+  setTimeout(() => target.classList.remove('batch03-divine-wrath-applied'), 800);
+  const result = {success:true, reason, sourceCardId, sourcePlayerId:p?.key || '', target:targetSummary(target)};
+  recordCollectionBatch03Event('divine-wrath-applied', result);
+  return result;
+}
+
+function clearBatch03BlessedSwordsMarkers(player) {
+  for (const fc of livingServantCardsForPlayer(player)) {
+    delete fc.dataset.batch03BlessedSwordsTurns;
+  }
+}
+
+function applyBatch03BlessedSwordsMarkers(player) {
+  for (const fc of livingServantCardsForPlayer(player)) {
+    fc.dataset.batch03BlessedSwordsTurns = '1';
+  }
+}
+
+async function resolveBatch03DivineWrathStartTurn(player, result) {
+  const p = playerState(player);
+  if (!p) return;
+  for (const target of livingServantCardsForPlayer(p).filter(fc => Number(fc.dataset.batch03DivineWrathTurns || 0) > 0)) {
+    const turnsBefore = Number(target.dataset.batch03DivineWrathTurns || 0);
+    const damage = Number(target.dataset.batch03DivineWrathNextDamage || 2);
+    const sourcePlayer = playerState(target.dataset.batch03DivineWrathSourcePlayer);
+    const sourceCardId = target.dataset.batch03DivineWrathSourceCard || 'H000012';
+    target.classList.add('batch03-divine-wrath-tick');
+    target._killer = sourcePlayer ? findBoardCard(sourcePlayer, sourceCardId) : null;
+    const died = await applyDamage(target, damage);
+    if (died && sourceCardId === 'H000012' && sourcePlayer && findBoardCard(sourcePlayer, 'H000012')) {
+      result.divineWrathEchoDrain ||= [];
+      result.divineWrathEchoDrain.push(consumeSouls(p, 1, 'divine-wrath-randall'));
+    }
+    if (!died && target.isConnected) {
+      const remaining = Math.max(0, turnsBefore - 1);
+      if (remaining > 0) {
+        target.dataset.batch03DivineWrathTurns = String(remaining);
+        target.dataset.batch03DivineWrathNextDamage = String(damage + 1);
+      } else {
+        delete target.dataset.batch03DivineWrathTurns;
+        delete target.dataset.batch03DivineWrathNextDamage;
+        delete target.dataset.batch03DivineWrathSourcePlayer;
+        delete target.dataset.batch03DivineWrathSourceCard;
+        delete target.dataset.batch03DivineWrathSourceInstance;
+      }
+      setTimeout(() => target.classList.remove('batch03-divine-wrath-tick'), 850);
+    }
+    result.divineWrath.push({target:targetSummary(target), damage, turnsBefore, died});
+  }
+}
+
+function maybeRedirectBatch03MirrorTarget(attacker, targetFC) {
+  if (!attacker || !targetFC || targetFC.dataset.id !== 'AVS000011') return {redirected:false, targetFC};
+  if (gameRandom() >= 0.75) {
+    const miss = {redirected:false, source:targetSummary(targetFC), attacker:targetSummary(attacker), chance:0.75};
+    recordCollectionBatch03Event('mirror-redirect', miss);
+    return {redirected:false, targetFC};
+  }
+  const candidates = [player1, player2]
+    .flatMap(p => livingServantCardsForPlayer(p))
+    .filter(fc => fc !== targetFC && fc !== attacker && !fc.dataset.dead);
+  const nextTarget = batch03Pick(candidates);
+  if (!nextTarget) return {redirected:false, targetFC, reason:'no-alternative-target'};
+  const result = {redirected:true, source:targetSummary(targetFC), attacker:targetSummary(attacker), target:targetSummary(nextTarget), chance:0.75};
+  recordCollectionBatch03Event('mirror-redirect', result);
+  return {redirected:true, targetFC:nextTarget, result};
+}
+
 function batch03UpdateStats(fc, {atk=null, pdv=null, pdvMax=null}={}) {
   if (!fc) return null;
   if (atk != null) {
@@ -17078,6 +17283,7 @@ async function batch03MoveServantToOwnerHandOrGraveyard(fc, {blockNextTurn=false
       window._blockedCard = cardId;
       window._blockedCardPlayer = owner.key;
       window._blockedCardArmed = false;
+      window._blockedCardSourceName = 'Mage ermite';
     }
     return {success:true, destination:'hand', cardId, target:summary, blocked:blockNextTurn};
   }
@@ -17096,6 +17302,7 @@ function applyBatch03OnBoardPlacement(fc, player, cardId) {
       pdvMax:(Number(CARDS_DATA[cardId]?.pdv || 0) + Number(buff.pdv || 0)),
       pdv:(Number(CARDS_DATA[cardId]?.pdv || 0) + Number(buff.pdv || 0))
     });
+    fc.querySelectorAll('.fc-atk-val,.fc-pdv-val').forEach(el => el.classList.add('grn'));
     delete buffs[cardId];
     recordCollectionBatch03Event('hand-buff-applied', {cardId, playerId:p.key, buff, target:targetSummary(fc)});
   }
@@ -17121,8 +17328,8 @@ async function triggerBatch03DamageReceivedHooks(fc, context={}) {
     results.push(await summonBatch03Servant(opponentOf(player), 'H000001', {sourceCardId:'H000026', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   if (cardId === 'AVS000004') {
-    results.push(await summonBatch03Servant(player, 'B000006', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
-    results.push(await summonBatch03Servant(player, 'B000007', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    results.push(await summonBatch03Servant(player, 'DIV000003', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    results.push(await summonBatch03Servant(player, 'DIV000004', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   if (results.length) recordCollectionBatch03Event('damage-received-hook', {cardId, target:targetSummary(fc), results});
   return results;
@@ -17166,9 +17373,8 @@ async function triggerBatch03CombatHooks(attacker, targetFC, context={}) {
       results.push({type:'bronze-colossus-discard', discarded});
     }
   }
-  if (player?.batch03BlessedSwordsTurn === turnSequence && context.phase === 'attack' && CARDS_DATA[targetFC.dataset.id]?.fac === 'mvs' && !targetFC.dataset.dead) {
-    targetFC._killer = attacker;
-    results.push({type:'blessed-swords-divine-wrath', died:await tryApplyAbilityDamage({sourcePlayer:player,targetFC,sourceCardId:'S000033',amount:(Number(attacker.dataset.atk)||0)*2,bypassInsensitive:true})});
+  if (player?.batch03BlessedSwordsTurn === turnSequence && context.phase === 'attack' && isBatch03UndeadServant(targetFC) && !targetFC.dataset.dead) {
+    results.push({type:'blessed-swords-divine-wrath', applied:applyBatch03DivineWrath(targetFC, player, {sourceCardId:'S000033', sourceInstanceId:attacker.dataset.instance, reason:'blessed-swords-combat'})});
   }
   if (targetFC.dataset.id === 'AVS000001' && context.phase === 'attack' && !attacker.dataset.dead) {
     tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attacker, sourceCardId:'AVS000001', turns:2, type:'cdg', bypassInsensitive:true});
@@ -17212,8 +17418,8 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
     }
   }
   if (cardId === 'AVS000004') {
-    result.operations.push(await summonBatch03Servant(p, 'B000006', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
-    result.operations.push(await summonBatch03Servant(p, 'B000007', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    result.operations.push(await summonBatch03Servant(p, 'DIV000003', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+    result.operations.push(await summonBatch03Servant(p, 'DIV000004', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   if (cardId === 'AVS000007') {
     result.operations.push(await summonBatch03Servant(p, 'DIV000001', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
@@ -17254,9 +17460,8 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
     result.operations.push(await summonBatch03Servant(p, 'H000008', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   if (cardId === 'H000012') {
-    for (const target of livingServantCardsForPlayer(opponentOf(p)).filter(fc => CARDS_DATA[fc.dataset.id]?.fac === 'mvs')) {
-      target._killer = sourceFC;
-      result.operations.push({type:'divine-wrath', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:99,bypassInsensitive:true})});
+    for (const target of livingServantCardsForPlayer(opponentOf(p)).filter(isBatch03UndeadServant)) {
+      result.operations.push({type:'divine-wrath', applied:applyBatch03DivineWrath(target, p, {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, reason:'randall-initiative'})});
     }
   }
   if (cardId === 'H000013') {
@@ -17310,20 +17515,24 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
       result.operations.push({type:'golem-magmatique-created', cardId:'DIV000009'});
     }
   }
-  showNotif((CARDS_DATA[cardId]?.name || cardId) + ' : Initiative resolue.', 1200);
+  if (sourceFC) {
+    sourceFC.classList.add('batch03-initiative-pulse');
+    setTimeout(() => sourceFC.classList.remove('batch03-initiative-pulse'), 750);
+  }
   return batch03EventResult('initiative', result);
 }
 
 async function applyBatch03StartTurnAbilities(player) {
   const p = playerState(player);
-  const result = {darkDots:[], delayedDamage:[], ianna:null, priestHeals:[], necraneSummons:[]};
+  const result = {divineWrath:[], divineWrathEchoDrain:[], darkDots:[], delayedDamage:[], ianna:null, priestHeals:[], necraneSummons:[], uramPassive:[]};
   if (!p) return result;
-  if (p.batch03SkipNextTurn) {
-    p.turnState.normalDrawResolved = true;
-    cardsPlayedThisTurn = MAX_PLAY;
-    result.skipped = p.batch03SkipNextTurn;
-    delete p.batch03SkipNextTurn;
-    showNotif(playerName(p) + ' passe son tour.', 1500);
+  await resolveBatch03DivineWrathStartTurn(p, result);
+  const enemyUram = livingServantCardsForPlayer(opponentOf(p)).find(fc => fc.dataset.id === 'AVS000007' && canResolveServantAbility(fc, {triggerType:'start-turn'}));
+  if (enemyUram) {
+    for (const target of livingServantCardsForPlayer(p)) {
+      target._killer = enemyUram;
+      result.uramPassive.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:opponentOf(p), targetFC:target, sourceCardId:'AVS000007', amount:2, bypassInsensitive:true})});
+    }
   }
   for (const target of livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03DarkDot && !fc.dataset.dead)) {
     target._killer = null;
@@ -17374,10 +17583,13 @@ async function applyBatch03StartTurnAbilities(player) {
 
 async function applyBatch03EndTurnAbilities(player) {
   const p = playerState(player);
-  const result = {wolfSummons:[], arcanistBuffs:[]};
+  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[]};
   if (!p) return result;
   for (const wolf of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000020' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     result.wolfSummons.push(await summonBatch03Servant(p, 'H000021', {sourceCardId:'H000020', sourceInstanceId:wolf.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  for (const door of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'DIV000001' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    result.demonDoorSummons.push(await summonBatch03Servant(p, 'DIV000002', {sourceCardId:'DIV000001', sourceInstanceId:door.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   if (playerHand(p).includes('H000027')) {
     p.batch03HandBuffs ||= {};
@@ -17387,7 +17599,11 @@ async function applyBatch03EndTurnAbilities(player) {
     p.batch03HandBuffs.H000027 = current;
     result.arcanistBuffs.push({...current});
   }
-  if (result.wolfSummons.length || result.arcanistBuffs.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
+  if (p.batch03BlessedSwordsTurn === turnSequence) {
+    clearBatch03BlessedSwordsMarkers(p);
+    delete p.batch03BlessedSwordsTurn;
+  }
+  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
   return result;
 }
 
@@ -17435,9 +17651,10 @@ function resolveBatch03AuraProtection(player, context={}) {
 function resolveBatch03BlessedSwords(player, context={}) {
   const p = playerState(player);
   p.batch03BlessedSwordsTurn = turnSequence;
-  const diagnostic = {success:true, code:'epees-benies-resolved', cardId:'S000033', playerId:p.key, expiresTurnSequence:turnSequence};
+  applyBatch03BlessedSwordsMarkers(p);
+  const diagnostic = {success:true, code:'epees-benies-resolved', cardId:'S000033', playerId:p.key, expiresTurnSequence:turnSequence, beneficiaries:livingServantCardsForPlayer(p).map(targetSummary)};
   recordCollectionBatch03Event('spell', diagnostic);
-  showNotif('Épées bénies : vos serviteurs frappent les morts-vivants avec Colère divine ce tour-ci.', 1700);
+  showNotif('LES GARDIENS BÉNISSENT VOS TROUPES : JUSQU\'À LA FIN DU TOUR, VOS SERVITEURS INFLIGENT COLÈRE DIVINE À TOUS LES MORTS-VIVANTS QU\'ILS AFFRONTENT !', 2400);
   return diagnostic;
 }
 

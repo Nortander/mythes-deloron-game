@@ -149,7 +149,7 @@ test("Human AVS handlers resolve Insensible, summons, turn skip and spell echo",
   });
   expect(result.avs1.initiative.operations.some(op => op.type === "cdg")).toBe(true);
   expect(result.avs2.initiative.operations.some(op => op.type === "damage-dot")).toBe(true);
-  expect(result.avs4.initiative.operations.map(op => op.cardId)).toEqual(expect.arrayContaining(["B000006", "B000007"]));
+  expect(result.avs4.initiative.operations.map(op => op.cardId)).toEqual(expect.arrayContaining(["DIV000003", "DIV000004"]));
   expect(result.avs7.initiative.operations.map(op => op.cardId)).toContain("DIV000001");
   expect(result.after.state.events.some(event => event.type === "spell-echo" && event.cardId === "S000010")).toBe(true);
   expect(result.after.state.events.some(event => event.type === "initiative" && event.cardId === "AVS000014")).toBe(true);
@@ -183,8 +183,195 @@ test("Human spells heal, protect and apply blessed-sword combat without zone los
   expect(result.aura.spellResolution.success).toBe(true);
   expect(result.auraTarget.insensible).toBe(true);
   expect(result.blessed.spellResolution.success).toBe(true);
-  expect(result.after.state.events.some(event => event.type === "combat-hook" && JSON.stringify(event).includes("blessed-swords-divine-wrath"))).toBe(true);
+  const blessedHook = result.after.state.events.find(event => event.type === "combat-hook" && JSON.stringify(event).includes("blessed-swords-divine-wrath"));
+  expect(blessedHook).toBeTruthy();
+  const undeadAfter = result.after.board.player2.find(card => card.id === "MV000020");
+  expect(undeadAfter?.divineWrathTurns).toBe("3");
   expect(result.after.zones.player1.graveyard).toEqual(expect.arrayContaining(["S000010", "S000028", "S000033"]));
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Randall applies periodic Colère divine instead of lethal placeholder damage", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-triggers");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = player => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length: 5}, () => `<div class="slot" data-player="${player.key}"></div>`).join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    await summonBatch03Servant(player2, "MV000020", {triggerInitiativeEffect:false, ready:true});
+    const undead = livingServantCardsForPlayer(player2)[0];
+    batch03UpdateStats(undead, {pdvMax:3, pdv:3});
+    const randall = await summonBatch03Servant(player1, "H000012", {triggerInitiativeEffect:true, ready:true});
+    const afterApply = auditCollectionBatch03Runtime();
+    player2.resourceState.souls = 3;
+    const tick1 = await applyBatch03StartTurnAbilities(player2);
+    const afterTick1 = auditCollectionBatch03Runtime();
+    const tick2 = await applyBatch03StartTurnAbilities(player2);
+    const afterTick2 = auditCollectionBatch03Runtime();
+    return {randall, afterApply, tick1, afterTick1, tick2, afterTick2, errText:document.querySelector("#errMsg")?.textContent || "", notifText:document.querySelector("#notif")?.textContent || ""};
+  });
+  const targetAfterApply = result.afterApply.board.player2.find(card => card.id === "MV000020");
+  expect(targetAfterApply?.divineWrathTurns).toBe("3");
+  expect(targetAfterApply?.pdv).toBe(3);
+  const targetAfterTick1 = result.afterTick1.board.player2.find(card => card.id === "MV000020");
+  expect(targetAfterTick1?.pdv).toBe(1);
+  expect(targetAfterTick1?.divineWrathTurns).toBe("2");
+  expect(result.afterTick2.zones.player2.graveyard).toContain("MV000020");
+  expect(result.afterTick2.resources.player2.souls).toBe(2);
+  expect(result.afterTick2.state.events.some(event => event.type === "divine-wrath-applied" && event.sourceCardId === "H000012")).toBe(true);
+  expect(result.notifText).not.toMatch(/INITIATIVE R[ÉE]SOLUE|Initiative resolue/i);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Serviteur de la rune returns the destroyed occurrence to its owner's hand", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-triggers");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const zone = document.querySelector(playerZoneSelector(player1, "servants"));
+    zone.innerHTML = Array.from({length: 5}, () => `<div class="slot" data-player="${player1.key}"></div>`).join("");
+    player1.hand = [];
+    refreshHand(player1);
+    const summon = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:false, ready:true});
+    const fc = document.querySelector(`.fc[data-instance="${summon.instanceId}"]`);
+    const before = auditCollectionBatch03Runtime();
+    await applyDamage(fc, 99);
+    const after = auditCollectionBatch03Runtime();
+    return {before, after, summon};
+  });
+  expect(result.after.zones.player1.hand).toContain("H000031");
+  expect(result.after.zones.player1.graveyard).not.toContain("H000031");
+  expect(result.after.board.player1.map(card => card.id)).not.toContain("H000031");
+  expect(result.after.state.events.some(event => event.type === "rune-return-to-hand" && event.cardId === "H000031")).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Mage ermite blocked cards are visible, named and refused without mutation", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-triggers");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = player => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length: 5}, () => `<div class="slot" data-player="${player.key}"></div>`).join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player1, "H000002", {triggerInitiativeEffect:true, ready:true});
+    currentPlayer = player2.key;
+    activePlayer = player2;
+    window._blockedCardArmed = true;
+    refreshHand(player2);
+    const blockedNode = document.querySelector('.hc-blocked-temporary[data-id="H000001"]');
+    const before = auditCollectionBatch03Runtime();
+    const slot = document.querySelector(playerZoneSelector(player2, "servants"))?.querySelector(".slot");
+    await playCard("H000001", slot);
+    const after = auditCollectionBatch03Runtime();
+    return {
+      blockedVisible:!!blockedNode,
+      blockedSource:blockedNode?.dataset.blockedSource || "",
+      message:document.querySelector("#errMsg")?.textContent?.replace(/\s+/g, " ").trim() || "",
+      before,
+      after
+    };
+  });
+  expect(result.blockedVisible).toBe(true);
+  expect(result.blockedSource).toBe("Mage ermite");
+  expect(result.message).toContain("Mage ermite");
+  expect(result.after.zones.player2.hand).toEqual(result.before.zones.player2.hand);
+  expect(result.after.resources.player2).toEqual(result.before.resources.player2);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Arcaniste sans âge shows accumulated hand stats and keeps them green on the board", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-overview");
+  const result = await page.evaluate(async () => {
+    const zone = document.querySelector(playerZoneSelector(player1, "servants"));
+    zone.innerHTML = Array.from({length: 5}, () => `<div class="slot" data-player="${player1.key}"></div>`).join("");
+    player1.hand = ["H000027"];
+    player1.batch03HandBuffs = {};
+    refreshHand(player1);
+    await applyBatch03EndTurnAbilities(player1);
+    refreshHand(player1);
+    const handNode = document.querySelector('.hc[data-id="H000027"]');
+    const handStats = Array.from(handNode?.querySelectorAll(".hc-sb span") || []).map(el => ({text:el.textContent, green:el.classList.contains("grn")}));
+    const slot = document.querySelector(playerZoneSelector(player1, "servants"))?.querySelector(".slot");
+    await playCard("H000027", slot);
+    const board = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000027");
+    const boardStats = {
+      atk:board?.dataset.atk,
+      pdv:board?.dataset.pdv,
+      atkGreen:!!board?.querySelector(".fc-atk-val.grn"),
+      pdvGreen:!!board?.querySelector(".fc-pdv-val.grn")
+    };
+    return {handStats, boardStats};
+  });
+  expect(result.handStats.some(stat => stat.text === "3" && stat.green)).toBe(true);
+  expect(result.boardStats).toEqual({atk:"3", pdv:"3", atkGreen:true, pdvGreen:true});
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Human avatar corrections cover mirror redirect, Ianna steal, Uram door and Flute skip", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-avatars");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length: 5}, () => `<div class="slot" data-player="${player.key}"></div>`).join("");
+    };
+    window.__mythesRandom = () => 0;
+    resetServants(player1);
+    resetServants(player2);
+    await summonBatch03Servant(player1, "AVS000011", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player1, "H000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    const mirror = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "AVS000011");
+    const attacker = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000005");
+    delete attacker.dataset.new;
+    await resolveCombat(attacker, mirror);
+    const afterMirror = auditCollectionBatch03Runtime();
+
+    resetServants(player1);
+    resetServants(player2);
+    await summonBatch03Servant(player1, "AVS000010", {triggerInitiativeEffect:false, ready:true});
+    player2.drawPile = ["H000001", "H000005"];
+    player2.hand = [];
+    player1.hand = [];
+    const iannaSuccess = await applyBatch03StartTurnAbilities(player2);
+    window.__mythesRandom = () => 0.9;
+    player2.drawPile = ["H000018"];
+    const iannaFailure = await applyBatch03StartTurnAbilities(player2);
+
+    window.__mythesRandom = () => 0;
+    resetServants(player1);
+    const uram = await summonBatch03Servant(player1, "AVS000007", {triggerInitiativeEffect:true, ready:true});
+    const doorEnd = await applyBatch03EndTurnAbilities(player1);
+
+    resetServants(player1);
+    resetServants(player2);
+    activePlayer = player1;
+    currentPlayer = player1.key;
+    player1.firstTurnStarted = true;
+    player2.firstTurnStarted = true;
+    await summonBatch03Servant(player1, "AVS000014", {triggerInitiativeEffect:true, ready:true});
+    await endTurnRuntime();
+    const afterSkip = auditCollectionBatch03Runtime();
+    return {afterMirror, iannaSuccess, iannaFailure, uram, doorEnd, afterSkip, activePlayerKey:activePlayer.key};
+  });
+  const redirect = result.afterMirror.state.events.find(event => event.type === "mirror-redirect");
+  expect(redirect?.redirected).toBe(true);
+  expect(result.iannaSuccess.ianna?.success).toBe(true);
+  expect(result.iannaFailure.ianna).toBeNull();
+  expect(result.uram.initiative.operations.map(op => op.cardId)).toContain("DIV000001");
+  expect(result.doorEnd.demonDoorSummons.some(item => item.cardId === "DIV000002" && item.success)).toBe(true);
+  expect(result.afterSkip.state.events.some(event => event.type === "turn-skipped" && event.playerId === "player2")).toBe(true);
+  expect(result.activePlayerKey).toBe("player1");
   await attachDiagnostics(testInfo, diagnostics);
 });
 
