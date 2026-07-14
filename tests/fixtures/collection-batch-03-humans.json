@@ -126,5 +126,30 @@
     "AVS000010",
     "AVS000011",
     "AVS000014"
-  ]
+  ],
+  "batch03cAudits": {
+    "missingHumanCardsClarified": [
+      {
+        "id": "H000028",
+        "name": "Soldat inféodé",
+        "role": "Rempart only; no special runtime handler beyond generic keyword."
+      },
+      {
+        "id": "H000029",
+        "name": "Colosse de bronze",
+        "role": "Combat hook discards one opposing hand card after destroying a servant."
+      },
+      {
+        "id": "H000030",
+        "name": "Nécrâne, Mage des ténèbres",
+        "role": "Start-turn summons undead servants; Vengeance removes linked summons and grants Échos."
+      }
+    ],
+    "divineWrathAnimations": {
+      "apply": "lightning-bolt",
+      "tick": "electric-arcs"
+    },
+    "mirrorChance": 0.75,
+    "iannaChance": 0.5
+  }
 }

@@ -598,17 +598,26 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
 .fc-exhausted::after{content:'â¸';position:absolute;top:4px;right:5px;font-size:14px;z-index:16;text-shadow:0 0 6px rgba(0,0,0,1);}
-.hc-blocked-temporary{filter:saturate(.55) brightness(.76);cursor:not-allowed;box-shadow:0 0 0 2px rgba(255,215,96,.95),0 0 18px rgba(255,140,40,.85);}
-.hc-blocked-temporary::after{content:'🔒';position:absolute;top:6px;right:7px;z-index:30;font-size:15px;text-shadow:0 1px 4px #000;color:#ffd760;}
-.hc-blocked-temporary .hc-frame{outline:2px solid rgba(255,215,96,.9);outline-offset:-2px;}
+.hc-blocked-temporary{filter:saturate(.45) brightness(.58);cursor:not-allowed;box-shadow:0 0 0 2px rgba(255,215,96,.95),0 0 24px rgba(255,140,40,.9);}
+.hc-blocked-temporary::before{content:'';position:absolute;inset:5px;border-radius:10px;background:rgba(0,0,0,.42);z-index:29;pointer-events:none;}
+.hc-blocked-temporary::after{content:'🔒';position:absolute;top:6px;right:7px;z-index:30;font-size:17px;text-shadow:0 1px 4px #000;color:#ffd760;}
+.hc-blocked-temporary .hc-frame{outline:2px solid rgba(255,215,96,.95);outline-offset:-2px;}
+.hc-batch03-returned{animation:batch03HandReturn .95s ease-out;}
 .hc-sb span.grn{color:#50e870;font-weight:900;text-shadow:0 0 4px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,1);}
-.batch03-divine-wrath-applied{animation:batch03DivineApply .7s ease-out;}
-.batch03-divine-wrath-tick{animation:batch03DivineTick .75s ease-out;}
-.batch03-rune-returning{animation:batch03RuneReturn .8s ease-out;}
+.batch03-divine-wrath-applied{animation:batch03DivineApply .9s ease-out;}
+.batch03-divine-wrath-applied::before{content:'';position:absolute;left:43%;top:-18%;width:16%;height:118%;z-index:48;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0),#fff,#f8fbff 48%,rgba(255,255,255,0));clip-path:polygon(45% 0,70% 0,54% 36%,82% 36%,30% 100%,44% 52%,20% 52%);filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 22px #eaf5ff);animation:batch03DivineBolt .9s ease-out;}
+.batch03-divine-wrath-tick{animation:batch03DivineTick .85s ease-out;}
+.batch03-divine-wrath-tick::before,.batch03-divine-wrath-tick::after{content:'';position:absolute;inset:8px;z-index:48;pointer-events:none;border:2px solid rgba(255,255,255,.95);border-left-color:transparent;border-bottom-color:transparent;border-radius:42% 58% 46% 54%;filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 13px #d9f1ff);animation:batch03DivineArc .85s ease-out;}
+.batch03-divine-wrath-tick::after{inset:18px 10px 14px 16px;transform:rotate(28deg);animation-delay:.08s;}
+.batch03-rune-returning{animation:batch03RuneReturn .95s ease-out;}
+.batch03-rune-returning::before{content:'';position:absolute;inset:6px;z-index:48;border-radius:12px;border:2px solid rgba(180,130,255,.95);box-shadow:0 0 18px rgba(160,90,255,.95),inset 0 0 18px rgba(160,90,255,.65);pointer-events:none;}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
-@keyframes batch03DivineApply{0%{filter:brightness(1.8) drop-shadow(0 0 12px #ffe680);}100%{filter:none;}}
-@keyframes batch03DivineTick{0%{filter:brightness(2) drop-shadow(0 0 16px #fff2a0);transform:translateY(-2px);}100%{filter:none;transform:none;}}
-@keyframes batch03RuneReturn{0%{filter:brightness(1.8) drop-shadow(0 0 14px #9c5cff);transform:scale(1.04);}100%{filter:none;transform:none;}}
+@keyframes batch03DivineApply{0%{filter:brightness(2.2) drop-shadow(0 0 20px #fff);transform:translateY(-3px) scale(1.03);}100%{filter:none;transform:none;}}
+@keyframes batch03DivineBolt{0%{opacity:0;transform:translateY(-22px) scaleY(.7);}18%{opacity:1;}72%{opacity:.98;}100%{opacity:0;transform:translateY(10px) scaleY(1.08);}}
+@keyframes batch03DivineTick{0%{filter:brightness(1.9) drop-shadow(0 0 16px #fff);transform:translateY(-1px) rotate(-.8deg);}50%{transform:translateY(1px) rotate(.8deg);}100%{filter:none;transform:none;}}
+@keyframes batch03DivineArc{0%{opacity:0;transform:scale(.72) rotate(-18deg);}35%{opacity:1;}100%{opacity:0;transform:scale(1.08) rotate(22deg);}}
+@keyframes batch03RuneReturn{0%{filter:brightness(1.9) drop-shadow(0 0 18px #9c5cff);transform:translateY(0) scale(1.06);}55%{filter:brightness(2.1) drop-shadow(0 -16px 20px #c8a8ff);transform:translateY(-18px) scale(.94);}100%{filter:none;transform:translateY(-32px) scale(.82);opacity:.22;}}
+@keyframes batch03HandReturn{0%{filter:brightness(2) drop-shadow(0 0 16px #b582ff);transform:translateY(-18px) scale(1.08);}100%{filter:none;transform:none;}}
 @keyframes batch03InitiativePulse{0%{filter:brightness(1.65) drop-shadow(0 0 12px var(--card-faction-color));}100%{filter:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
 @keyframes avPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 0 2px rgba(0,0,0,0.85);}50%{box-shadow:0 0 0 4px rgba(255,80,40,1),0 0 20px rgba(255,80,40,0.6);}}
@@ -1675,6 +1684,7 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview .fz-desc-inner{width:100%;max-height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;background:rgba(18,12,8,.96)}
 .canonical-card-preview .fz-desc-text{line-height:1.34}
 .canonical-card-preview .fc-zoom-cost-z{min-height:42px;display:flex;align-items:center;justify-content:center}
+.canonical-card-preview .fz-name{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.08;font-size:clamp(9px,3.1vw,12px);padding:0 10px;}
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
 .canonical-card-preview.hum-fc{--card-dark:#0f1a3a;--card-border:#26c4ec;--card-faction-color:#002fa7;--card-kw:#002fa7}
@@ -2741,7 +2751,7 @@ SCENARIOS['collection-batch-02-generated-spells'] = {
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','H000008','H000011','H000017','H000018','H000019','H000022','H000023','H000025'], drawPile:['H000008','H000021','H000001','H000013','S000010','S000028','S000033','R000010'], graveyard:[], servants:[{id:'H000006',pdv:3},{id:'H000020'},{id:'H000024',pdv:6},{id:'H000027'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000028','H000029','H000030','H000001','H000005','H000008','H000011','H000017','H000018','H000019','H000022','H000023'], drawPile:['H000008','H000021','H000001','H000013','S000010','S000028','S000033','R000010'], graveyard:[], servants:[{id:'H000006',pdv:3},{id:'H000020'},{id:'H000024',pdv:6},{id:'H000027'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','S000010','S000028','S000033','R000010'], drawPile:['H000001','H000005','H000018','H000021','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'MV000020',pdv:3},{id:'ORC000017',pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -6739,7 +6749,7 @@ function buildHC(cardId, player, drawAnim=false) {
   }
 
   const animCls = drawAnim ? ' drawing' : '';
-  return `<div class="hc ${facClsHC}${animCls}${blockedCls}" data-id="${cardId}" data-player="${player}" data-blocked-source="${escapeHtml(blockedSource)}" draggable="true" title="${blocked ? escapeHtml('Carte bloquée par ' + blockedSource + ' pour ce tour.') : ''}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
+  return `<div class="hc ${facClsHC}${animCls}${blockedCls}" data-id="${cardId}" data-player="${player}" data-blocked-card="${blocked ? '1' : '0'}" data-blocked-source="${escapeHtml(blockedSource)}" aria-disabled="${blocked ? 'true' : 'false'}" draggable="true" title="${blocked ? escapeHtml('Carte bloquée par ' + blockedSource + ' pour ce tour.') : ''}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="hc-frame">
       <div class="hc-art-z">
         <img class="hc-art" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
@@ -10236,8 +10246,38 @@ async function playCard(cardId, slot, options={}) {
   if (!d) return;
   const p = playerState(currentPlayer);
   if (!acquirePaymentLock(p, cardId)) return;
-  const selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
+  let selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
   const zoneSelection = options?.zoneSelection || null;
+  if ((cardId === 'S000010' || cardId === 'S000028') && !selectedTargetIds) {
+    const preAffordability = getCardAffordabilityResult(cardId, p);
+    if (preAffordability && !preAffordability.playable) {
+      releasePaymentLock(p, cardId);
+      recordTestCostDiagnostic(cardId, preAffordability, 'blocked');
+      showErr(describeAffordabilityFailure(preAffordability));
+      return {success:false, reason:'not-affordable', affordability:preAffordability};
+    }
+    const targets = legalTargetsForRequirement(cardId, p);
+    if (!targets.length) {
+      releasePaymentLock(p, cardId);
+      const targetResult = evaluateTargetRequirement(cardId, {player:p, selectedTargetIds:[]});
+      showErr(cardActionError('no-valid-target', {targetResult}));
+      return {success:false, reason:'no-valid-target', targetResult};
+    }
+    const chosen = await chooseBoardTargets({
+      title:cardId === 'S000010' ? 'Main guérisseuse' : 'Aura de protection',
+      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : 'Choisissez le serviteur allié à protéger.',
+      targets,
+      minCount:1,
+      maxCount:1,
+      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel'
+    });
+    if (chosen.length !== 1) {
+      releasePaymentLock(p, cardId);
+      showErr('Cette cible n\'est pas valide.');
+      return {success:false, reason:'invalid-target-count'};
+    }
+    selectedTargetIds = [chosen[0].dataset.instance];
+  }
   const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
@@ -12085,7 +12125,8 @@ async function sendToCemetery(fc) {
     const owner = playerState(player);
     if (owner && !getHandCapacityStatus(owner).full) {
       addCardToHand(owner, cardId, {refresh:true});
-      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance});
+      const handNode = markBatch03HandCardReturned(owner, cardId);
+      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, handAnimation:!!handNode});
       if (d.fac) addHistEntry(cardId, d.fac);
       return;
     }
@@ -13846,6 +13887,7 @@ async function runStartTurnPipeline(player) {
         showErr(`Main de ${p.name} pleine. Defaussez une carte sur votre deck.`);
       }
     }
+    if (drawn) trace.ianna = resolveBatch03IannaDrawSteal(p, drawn, trace.drawResult);
     state.normalDrawResolved = true;
   }
   trace.normalDrawResolved = !!state.normalDrawResolved;
@@ -14305,7 +14347,7 @@ Object.assign(CARDS_DATA, {
   'H000002':{name:'Mage ermite',type:'Serviteur',fac:'hum',atk:6,pdv:2,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
   'H000003':{name:'Mentaliste',type:'Serviteur',fac:'hum',atk:3,pdv:1,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Aria'],cap:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire.',lore:'',detail:'[Initiative] Renvoie *1* serviteur adverse présent sur le terrain dans la main de son propriétaire. Si la main du joueur adverse est déjà pleine, le serviteur ciblé est expédié au cimetière à la place.'},
   'H000011':{name:'Capitaine des patrouilleurs',type:'Serviteur',fac:'hum',atk:6,pdv:4,cost:4,res_ico:'IC00000BOI',res2:'IC00000FER',res3:'IC00000NRT',res_val:'4',resType:'Bois+Fer+Nourriture',fico:'FCT00000HUM.png',kws:['Bois','Fer','Nourriture','Rempart','Initiative'],cap:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque.',lore:'',detail:'[Rempart] [Initiative] Invoque *1* « Patrouilleur du village » de votre côté du plateau, depuis votre deck ou votre main. Invoque *1* Patrouilleur du village supplémentaire chaque fois que ce serviteur attaque. Les invocations ne tiennent pas compte de la limite de cartes jouées par tour. Un emplacement libre de serviteur de votre côté du terrain est nécessaire pour l\'invocation des patrouilleurs.',related:['H000008']},
-  'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','Écho'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1* Écho du terrain adverse.',lore:''},
+  'H000012':{name:'Randall Mainblanche',type:'Serviteur',fac:'hum',atk:6,pdv:6,cost:6,res_ico:'IC00000ARI',res_val:'6',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Colère divine','Aria','Écho'],cap:'[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu\'un serviteur mort-vivant adverse est envoyé au cimetière sous l\'effet de [Colère divine], retire *1 Écho* du terrain adverse.',lore:''},
   'H000014':{name:'Seigneur-chevalier',type:'Serviteur',fac:'hum',atk:7,pdv:6,cost:6,res_ico:'IC00000NRT',res2:'IC00000FER',res_val:'6',resType:'Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Nourriture','Fer','Rempart','Initiative'],cap:'[Rempart], [Initiative] Détruit un serviteur adverse avec moins de *7* points de vie.',lore:''},
   'H000017':{name:'Arbalétrier',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:3,res_ico:'IC00000BOI',res2:'IC00000NRT',res3:'IC00000FER',res_val:'3',resType:'Bois+Nourriture+Fer',fico:'FCT00000HUM.png',kws:['Bois','Nourriture','Fer'],cap:'Ce serviteur inflige également ses dégâts aux serviteurs adjacents à ceux qu\'il attaque.',lore:''},
   'H000020':{name:'Chevalier-loup',type:'Serviteur',fac:'hum',atk:5,pdv:7,cost:5,res_ico:'IC00000NRT',res_val:'5',resType:'Nourriture',fico:'FCT00000HUM.png',kws:['Vigilance','Nourriture'],cap:'[Vigilance] À la fin de chacun de vos tours, invoque *1* « Griffe » de votre côté du terrain.',lore:'',detail:'[Vigilance] À la fin de chacun de vos tours, invoque *1* « Griffe » de votre côté du terrain si vous avez un emplacement de serviteur disponible.',related:['H000021']},
@@ -17136,8 +17178,9 @@ function applyBatch03DivineWrath(target, sourcePlayer, {sourceCardId='H000012', 
   target.dataset.batch03DivineWrathSourcePlayer = p?.key || '';
   target.dataset.batch03DivineWrathSourceCard = sourceCardId;
   if (sourceInstanceId) target.dataset.batch03DivineWrathSourceInstance = sourceInstanceId;
+  target.dataset.batch03DivineWrathApplyAnimation = 'lightning-bolt';
   target.classList.add('batch03-divine-wrath-applied');
-  setTimeout(() => target.classList.remove('batch03-divine-wrath-applied'), 800);
+  setTimeout(() => target.classList.remove('batch03-divine-wrath-applied'), 950);
   const result = {success:true, reason, sourceCardId, sourcePlayerId:p?.key || '', target:targetSummary(target)};
   recordCollectionBatch03Event('divine-wrath-applied', result);
   return result;
@@ -17163,6 +17206,7 @@ async function resolveBatch03DivineWrathStartTurn(player, result) {
     const damage = Number(target.dataset.batch03DivineWrathNextDamage || 2);
     const sourcePlayer = playerState(target.dataset.batch03DivineWrathSourcePlayer);
     const sourceCardId = target.dataset.batch03DivineWrathSourceCard || 'H000012';
+    target.dataset.batch03DivineWrathTickAnimation = 'electric-arcs';
     target.classList.add('batch03-divine-wrath-tick');
     target._killer = sourcePlayer ? findBoardCard(sourcePlayer, sourceCardId) : null;
     const died = await applyDamage(target, damage);
@@ -17182,7 +17226,7 @@ async function resolveBatch03DivineWrathStartTurn(player, result) {
         delete target.dataset.batch03DivineWrathSourceCard;
         delete target.dataset.batch03DivineWrathSourceInstance;
       }
-      setTimeout(() => target.classList.remove('batch03-divine-wrath-tick'), 850);
+      setTimeout(() => target.classList.remove('batch03-divine-wrath-tick'), 900);
     }
     result.divineWrath.push({target:targetSummary(target), damage, turnsBefore, died});
   }
@@ -17190,19 +17234,38 @@ async function resolveBatch03DivineWrathStartTurn(player, result) {
 
 function maybeRedirectBatch03MirrorTarget(attacker, targetFC) {
   if (!attacker || !targetFC || targetFC.dataset.id !== 'AVS000011') return {redirected:false, targetFC};
-  if (gameRandom() >= 0.75) {
-    const miss = {redirected:false, source:targetSummary(targetFC), attacker:targetSummary(attacker), chance:0.75};
+  const roll = gameRandom();
+  if (roll >= 0.75) {
+    const miss = {redirected:false, source:targetSummary(targetFC), attacker:targetSummary(attacker), chance:0.75, roll};
     recordCollectionBatch03Event('mirror-redirect', miss);
-    return {redirected:false, targetFC};
+    return {redirected:false, targetFC, result:miss};
   }
   const candidates = [player1, player2]
     .flatMap(p => livingServantCardsForPlayer(p))
     .filter(fc => fc !== targetFC && fc !== attacker && !fc.dataset.dead);
   const nextTarget = batch03Pick(candidates);
-  if (!nextTarget) return {redirected:false, targetFC, reason:'no-alternative-target'};
-  const result = {redirected:true, source:targetSummary(targetFC), attacker:targetSummary(attacker), target:targetSummary(nextTarget), chance:0.75};
+  if (!nextTarget) {
+    const miss = {redirected:false, source:targetSummary(targetFC), attacker:targetSummary(attacker), chance:0.75, roll, reason:'no-alternative-target'};
+    recordCollectionBatch03Event('mirror-redirect', miss);
+    return {redirected:false, targetFC, result:miss};
+  }
+  const result = {redirected:true, source:targetSummary(targetFC), attacker:targetSummary(attacker), target:targetSummary(nextTarget), chance:0.75, roll};
   recordCollectionBatch03Event('mirror-redirect', result);
   return {redirected:true, targetFC:nextTarget, result};
+}
+
+function markBatch03HandCardReturned(player, cardId) {
+  const p = playerState(player);
+  if (!p || !cardId || p.key !== currentPlayer) return null;
+  const cards = Array.from(qs(playerZoneSelector(p, 'hand'))?.querySelectorAll(`.hc[data-id="${cardId}"]`) || []);
+  const node = cards[cards.length - 1] || null;
+  if (node) {
+    node.dataset.batch03RuneReturned = '1';
+    node.classList.add('hc-batch03-returned');
+    const img = node.querySelector('img.hc-art');
+    if (img) node.dataset.batch03ReturnedImageReady = String(img.complete && img.naturalWidth > 0);
+  }
+  return node;
 }
 
 function batch03UpdateStats(fc, {atk=null, pdv=null, pdvMax=null}={}) {
@@ -17545,17 +17608,6 @@ async function applyBatch03StartTurnAbilities(player) {
     }
   }
   collectionBatch03State.delayedDamage = collectionBatch03State.delayedDamage.filter(effect => !(effect.sourcePlayerId === p.key && effect.createdTurnSequence !== turnSequence));
-  const opponent = opponentOf(p);
-  const ianna = livingServantCardsForPlayer(opponent).find(fc => fc.dataset.id === 'AVS000010');
-  if (ianna && gameRandom() < 0.5 && !getHandCapacityStatus(opponent).full) {
-    const stolen = drawCardFromRuntimeDeck(p, {refresh:false, sourceCardId:'AVS000010'});
-    if (stolen.success) {
-      removeHandCardAt(p, playerHand(p).lastIndexOf(stolen.cardId));
-      addCardToHand(opponent, stolen.cardId, {refresh:true});
-      p.turnState.normalDrawResolved = true;
-      result.ianna = {success:true, stolenCardId:stolen.cardId, source:targetSummary(ianna)};
-    }
-  }
   const hasAria = Number(p.resourceState?.classical?.aria || 0) > 0;
   for (const priest of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000006' && canResolveServantAbility(fc, {triggerType:'start-turn'}))) {
     if (!hasAria) continue;
@@ -17578,6 +17630,39 @@ async function applyBatch03StartTurnAbilities(player) {
     }
   }
   if (Object.values(result).some(value => Array.isArray(value) ? value.length : value)) recordCollectionBatch03Event('start-turn', {playerId:p.key, result});
+  return result;
+}
+
+function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) {
+  const p = playerState(drawer);
+  const thief = opponentOf(p);
+  const ianna = livingServantCardsForPlayer(thief).find(fc => fc.dataset.id === 'AVS000010' && canResolveServantAbility(fc, {triggerType:'draw-steal'}));
+  if (!p || !thief || !drawnCardId || !ianna) return {success:false, reason:ianna ? 'no-drawn-card' : 'no-ianna'};
+  const roll = gameRandom();
+  if (roll >= 0.5) {
+    const miss = {success:false, reason:'rng-miss', roll, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna)};
+    recordCollectionBatch03Event('ianna-draw-steal', miss);
+    return miss;
+  }
+  if (getHandCapacityStatus(thief).full) {
+    const blocked = {success:false, reason:'ianna-owner-hand-full', roll, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna)};
+    recordCollectionBatch03Event('ianna-draw-steal', blocked);
+    return blocked;
+  }
+  const index = playerHand(p).lastIndexOf(drawnCardId);
+  if (index < 0) {
+    const missing = {success:false, reason:'drawn-card-not-in-opponent-hand', roll, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna)};
+    recordCollectionBatch03Event('ianna-draw-steal', missing);
+    return missing;
+  }
+  const removed = removeHandCardAt(p, index);
+  const added = addCardToHand(thief, removed, {refresh:false});
+  renderAllHands();
+  const result = {success:!!added, reason:added ? 'stolen-drawn-card' : 'transfer-failed', roll, stolenCardId:removed, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna), drawResult};
+  ianna.classList.add('batch03-initiative-pulse');
+  setTimeout(() => ianna.classList.remove('batch03-initiative-pulse'), 750);
+  recordCollectionBatch03Event('ianna-draw-steal', result);
+  if (added) showNotif('Ianna vole « ' + (CARDS_DATA[removed]?.name || removed) + ' » juste après sa pioche.', 1700);
   return result;
 }
 

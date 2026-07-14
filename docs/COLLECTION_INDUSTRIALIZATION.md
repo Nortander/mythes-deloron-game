@@ -154,3 +154,16 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `AVS000010`, `AVS000007` et `AVS000014` ont ete renforces pour le vol de pioche, la production de `DIV000002` par `DIV000001` et le saut reel du tour adverse.
 - `S000028` et `S000033` exposent leurs statuts dynamiques dans les apercus et `S000033` applique `Colere divine` au combat sans degats directs factices.
 - Les messages publics generiques `Initiative resolue` sont retires au profit d'une impulsion visuelle.
+
+### Corrections COLLECTION-BATCH-03C
+
+- Renforcement visuel de Colère divine : éclair blanc initial et arcs électriques périodiques distincts, chacun avec classe et état testable.
+- Serviteur de la rune vérifié sur destruction par dégâts directs et par combat, avec retour visible en main et absence de doublon.
+- Randall Mainblanche affiche `1 Écho` comme valeur mécanique Humain en bleu #002fa7 dans le texte principal.
+- Les cartes bloquées en main reçoivent un voile, un cadenas, un contour de blocage et une source publique correcte jusqu'à expiration.
+- Hallebardier est audité sur l'adjacence gauche/droite, la non-adjacence et les bords de ligne.
+- H000028 est confirmé comme Rempart sans capacité spéciale supplémentaire ; H000029 et H000030 restent visibles et testés. L'ID exact de Nécrâne est H000030.
+- Main d'argent est borné à 75 % de redirection avec RNG injectable et aperçu long non croppé.
+- Undergast rejoue chaque sort une seule fois sans boucle.
+- Ianna vole uniquement la vraie carte effectivement piochée par l'adversaire avec 50 % de chance.
+- Main guérisseuse et Aura de protection ouvrent une sélection de cible avant paiement et appliquent leurs effets réels.

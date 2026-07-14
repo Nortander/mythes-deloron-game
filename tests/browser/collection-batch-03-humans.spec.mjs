@@ -9,7 +9,8 @@ async function openScenario(page, scenario) {
   await page.goto("/code/partie-test-1.html?scenario=" + scenario + "&batch03=" + Date.now());
   await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
-  await page.waitForTimeout(300);
+  await page.waitForSelector(".history.vis", {timeout: 20000});
+  await page.waitForTimeout(100);
 }
 
 function diagnosticsFor(page) {
@@ -343,10 +344,17 @@ test("Human avatar corrections cover mirror redirect, Ianna steal, Uram door and
     player2.drawPile = ["H000001", "H000005"];
     player2.hand = [];
     player1.hand = [];
-    const iannaSuccess = await applyBatch03StartTurnAbilities(player2);
+    player2.firstTurnStarted = true;
+    player2.turnState = {turnId:-1};
+    turnSequence += 1;
+    const iannaSuccessDraw = await startTurn(player2);
+    const iannaSuccessTrace = getLastStartTurnTrace();
     window.__mythesRandom = () => 0.9;
     player2.drawPile = ["H000018"];
-    const iannaFailure = await applyBatch03StartTurnAbilities(player2);
+    player2.turnState = {turnId:-1};
+    turnSequence += 1;
+    const iannaFailureDraw = await startTurn(player2);
+    const iannaFailureTrace = getLastStartTurnTrace();
 
     window.__mythesRandom = () => 0;
     resetServants(player1);
@@ -362,16 +370,255 @@ test("Human avatar corrections cover mirror redirect, Ianna steal, Uram door and
     await summonBatch03Servant(player1, "AVS000014", {triggerInitiativeEffect:true, ready:true});
     await endTurnRuntime();
     const afterSkip = auditCollectionBatch03Runtime();
-    return {afterMirror, iannaSuccess, iannaFailure, uram, doorEnd, afterSkip, activePlayerKey:activePlayer.key};
+    return {afterMirror, iannaSuccessDraw, iannaSuccessTrace, iannaFailureDraw, iannaFailureTrace, uram, doorEnd, afterSkip, activePlayerKey:activePlayer.key};
   });
   const redirect = result.afterMirror.state.events.find(event => event.type === "mirror-redirect");
   expect(redirect?.redirected).toBe(true);
-  expect(result.iannaSuccess.ianna?.success).toBe(true);
-  expect(result.iannaFailure.ianna).toBeNull();
+  expect(result.iannaSuccessDraw).toBe("H000005");
+  expect(result.iannaSuccessTrace.ianna?.success).toBe(true);
+  expect(result.iannaFailureDraw).toBe("H000018");
+  expect(result.iannaFailureTrace.ianna?.reason).toBe("rng-miss");
   expect(result.uram.initiative.operations.map(op => op.cardId)).toContain("DIV000001");
   expect(result.doorEnd.demonDoorSummons.some(item => item.cardId === "DIV000002" && item.success)).toBe(true);
   expect(result.afterSkip.state.events.some(event => event.type === "turn-skipped" && event.playerId === "player2")).toBe(true);
   expect(result.activePlayerKey).toBe("player1");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+
+
+test("Batch-03C visual states expose distinct divine wrath, rune and blocked-card feedback", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-triggers");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = player => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = "";
+      for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); }
+    };
+    resetServants(player1); resetServants(player2);
+    await summonBatch03Servant(player2, "MV000020", {triggerInitiativeEffect:false, ready:true});
+    const undead = livingServantCardsForPlayer(player2)[0];
+    batch03UpdateStats(undead, {pdvMax:6, pdv:6});
+    await summonBatch03Servant(player1, "H000012", {triggerInitiativeEffect:true, ready:true});
+    const applyState = {classApplied:undead.classList.contains("batch03-divine-wrath-applied"), animation:undead.dataset.batch03DivineWrathApplyAnimation, turns:undead.dataset.batch03DivineWrathTurns};
+    await applyBatch03StartTurnAbilities(player2);
+    const tickState = {classApplied:undead.classList.contains("batch03-divine-wrath-tick"), animation:undead.dataset.batch03DivineWrathTickAnimation, next:undead.dataset.batch03DivineWrathNextDamage, turns:undead.dataset.batch03DivineWrathTurns};
+    resetServants(player1); player1.hand = []; refreshHand(player1);
+    const summon = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:false, ready:true});
+    await applyDamage(document.querySelector('.fc[data-instance="' + summon.instanceId + '"]'), 99);
+    const handRune = document.querySelector('.hc[data-id="H000031"][data-batch03-rune-returned="1"]');
+    const runeImage = handRune?.querySelector('img.hc-art');
+    if (runeImage && (!runeImage.complete || runeImage.naturalWidth <= 0)) {
+      await new Promise(resolve => {
+        const done = () => resolve();
+        runeImage.addEventListener("load", done, {once:true});
+        runeImage.addEventListener("error", done, {once:true});
+        setTimeout(done, 1000);
+      });
+    }
+    const afterRune = auditCollectionBatch03Runtime();
+    resetServants(player1); resetServants(player2);
+    await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player1, "H000002", {triggerInitiativeEffect:true, ready:true});
+    currentPlayer = player2.key; activePlayer = player2; player1.firstTurnStarted = true; player2.firstTurnStarted = true; window._blockedCardArmed = true; refreshHand(player2);
+    const blocked = document.querySelector('.hc-blocked-temporary[data-id="H000001"]');
+    const blockedBefore = {exists:!!blocked, attr:blocked?.dataset.blockedCard, source:blocked?.dataset.blockedSource, aria:blocked?.getAttribute('aria-disabled')};
+    await endTurnRuntime();
+    await endTurnRuntime();
+    refreshHand(player2);
+    const blockedAfterExpiry = !!document.querySelector('.hc-blocked-temporary[data-id="H000001"]');
+    return {applyState, tickState, afterRune, runeHand:{exists:!!handRune, imageReady:!!runeImage && runeImage.complete && runeImage.naturalWidth > 0}, blockedBefore, blockedAfterExpiry};
+  });
+  expect(result.applyState).toMatchObject({classApplied:true, animation:"lightning-bolt", turns:"3"});
+  expect(result.tickState).toMatchObject({classApplied:true, animation:"electric-arcs", next:"3", turns:"2"});
+  expect(result.applyState.animation).not.toBe(result.tickState.animation);
+  expect(result.afterRune.zones.player1.hand).toContain("H000031");
+  expect(result.afterRune.zones.player1.graveyard).not.toContain("H000031");
+  expect(result.afterRune.board.player1.map(card => card.id)).not.toContain("H000031");
+  expect(result.runeHand).toEqual({exists:true, imageReady:true});
+  expect(result.blockedBefore).toEqual({exists:true, attr:"1", source:"Mage ermite", aria:"true"});
+  expect(result.blockedAfterExpiry).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C rune servants return after combat and direct damage without duplicates", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-triggers");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => { const zone = document.querySelector(playerZoneSelector(player, "servants")); zone.innerHTML = ""; for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); } };
+    resetServants(player1); resetServants(player2); player1.hand = []; refreshHand(player1);
+    const direct = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:false, ready:true});
+    await applyDamage(document.querySelector('.fc[data-instance="' + direct.instanceId + '"]'), 99);
+    const afterDirect = auditCollectionBatch03Runtime();
+    resetServants(player1); resetServants(player2); player1.hand = []; refreshHand(player1);
+    const rune = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:false, ready:true});
+    const attacker = await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    const runeFc = document.querySelector('.fc[data-instance="' + rune.instanceId + '"]');
+    const attackerFc = document.querySelector('.fc[data-instance="' + attacker.instanceId + '"]');
+    batch03UpdateStats(runeFc, {pdvMax:1, pdv:1}); delete attackerFc.dataset.new;
+    await resolveCombat(attackerFc, runeFc);
+    const afterCombat = auditCollectionBatch03Runtime();
+    return {afterDirect, afterCombat};
+  });
+  for (const snapshot of [result.afterDirect, result.afterCombat]) {
+    expect(snapshot.zones.player1.hand.filter(id => id === "H000031")).toHaveLength(1);
+    expect(snapshot.zones.player1.graveyard).not.toContain("H000031");
+    expect(snapshot.board.player1.map(card => card.id)).not.toContain("H000031");
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C Randall highlights 1 Écho and Human main text keeps the dark-blue emphasis", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-triggers");
+  const audit = await page.evaluate(() => {
+    openCardPreview("H000012", {sourceType:"test"});
+    const layer = document.querySelector("#card-preview-layer");
+    const echoNode = Array.from(layer.querySelectorAll("strong.kv,.canonical-keyword-inline,.card-keyword,.card-named-ability")).find(node => /1\s*Écho/.test(node.textContent));
+    const toRgb = cssColor => { const probe = document.createElement("span"); probe.style.color = cssColor; document.body.appendChild(probe); const rgb = getComputedStyle(probe).color; probe.remove(); return rgb; };
+    return {text:layer.textContent.replace(/\s+/g, " "), echoText:echoNode?.textContent || "", echoColor:echoNode ? getComputedStyle(echoNode).color : "", expected:toRgb("#002fa7"), forbidden:toRgb("#26c4ec")};
+  });
+  expect(audit.text).toContain("1 Écho");
+  expect(audit.text).not.toMatch(/ressource me/i);
+  expect(audit.echoText).toMatch(/1\s*Écho/);
+  expect(audit.echoColor).toBe(audit.expected);
+  expect(audit.echoColor).not.toBe(audit.forbidden);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C Hallebardier damages only adjacent servants around the attacked target", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-overview");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => { const zone = document.querySelector(playerZoneSelector(player, "servants")); zone.innerHTML = ""; for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); } };
+    resetServants(player1); resetServants(player2);
+    const halberdier = await summonBatch03Servant(player1, "H000019", {triggerInitiativeEffect:false, ready:true});
+    for (const id of ["H000001", "H000005", "H000018", "H000021"]) await summonBatch03Servant(player2, id, {triggerInitiativeEffect:false, ready:true});
+    for (const card of livingServantCardsForPlayer(player2)) batch03UpdateStats(card, {pdvMax:8, pdv:8});
+    const attacker = document.querySelector('.fc[data-instance="' + halberdier.instanceId + '"]');
+    const targets = livingServantCardsForPlayer(player2);
+    const center = targets[1]; delete attacker.dataset.new;
+    const before = targets.map(card => ({id:card.dataset.id, pdv:Number(card.dataset.pdv)}));
+    await resolveCombat(attacker, center);
+    const after = livingServantCardsForPlayer(player2).map(card => ({id:card.dataset.id, pdv:Number(card.dataset.pdv)}));
+    const hooks = collectionBatch03State.events.filter(event => event.type === "combat-hook");
+    return {before, after, hook:hooks[hooks.length - 1]};
+  });
+  const beforeById = Object.fromEntries(result.before.map(card => [card.id, card.pdv]));
+  const afterById = Object.fromEntries(result.after.map(card => [card.id, card.pdv]));
+  expect(afterById.H000001).toBe(beforeById.H000001 - 1);
+  expect(afterById.H000018).toBe(beforeById.H000018 - 1);
+  expect(afterById.H000021).toBe(beforeById.H000021);
+  const adjacentHits = result.hook.results.filter(item => item.type === "adjacent-damage").map(item => item.target.id);
+  expect(adjacentHits).toEqual(expect.arrayContaining(["H000001", "H000018"]));
+  expect(adjacentHits).not.toContain("H000021");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C H000028, H000029 and Nécrâne are visible and correctly classified", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-overview");
+  const result = await page.evaluate(() => ["H000028", "H000029", "H000030"].map(id => ({id, inHand:!!document.querySelector('.hc[data-id="' + id + '"]'), data:{name:CARDS_DATA[id]?.name, faction:CARDS_DATA[id]?.fac, type:CARDS_DATA[id]?.type, cap:CARDS_DATA[id]?.cap || ""}})));
+  expect(result.find(card => card.id === "H000028")).toMatchObject({inHand:true, data:{name:"Soldat inféodé", faction:"hum", type:"Serviteur", cap:"[Rempart]"}});
+  expect(result.find(card => card.id === "H000029")).toMatchObject({inHand:true, data:{name:"Colosse de bronze", faction:"hum", type:"Serviteur"}});
+  expect(result.find(card => card.id === "H000030")).toMatchObject({inHand:true, data:{name:"Nécrâne, Mage des ténèbres", faction:"hum", type:"Serviteur"}});
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C Main d'argent uses a bounded 75 percent redirect and keeps its long preview readable", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-avatars");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => { const zone = document.querySelector(playerZoneSelector(player, "servants")); zone.innerHTML = ""; for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); } };
+    const setup = async roll => { resetServants(player1); resetServants(player2); let calls = 0; window.__mythesRandom = () => (calls++ === 0 ? roll : 0); const mirror = await summonBatch03Servant(player1, "AVS000011", {triggerInitiativeEffect:false, ready:true}); await summonBatch03Servant(player1, "H000001", {triggerInitiativeEffect:false, ready:true}); const attacker = await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true}); return maybeRedirectBatch03MirrorTarget(document.querySelector('.fc[data-instance="' + attacker.instanceId + '"]'), document.querySelector('.fc[data-instance="' + mirror.instanceId + '"]')).result; };
+    const r010 = await setup(0.10), r074 = await setup(0.74), r075 = await setup(0.75), r090 = await setup(0.90);
+    resetServants(player1); resetServants(player2); window.__mythesRandom = () => 0.1;
+    const mirror = await summonBatch03Servant(player1, "AVS000011", {triggerInitiativeEffect:false, ready:true});
+    const attacker = await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    const noAlt = maybeRedirectBatch03MirrorTarget(document.querySelector('.fc[data-instance="' + attacker.instanceId + '"]'), document.querySelector('.fc[data-instance="' + mirror.instanceId + '"]')).result;
+    openCardPreview("AVS000011", {sourceType:"test"});
+    const layer = document.querySelector("#card-preview-layer"), preview = layer.querySelector(".canonical-card-preview"), title = layer.querySelector(".fz-name");
+    return {r010, r074, r075, r090, noAlt, name:CARDS_DATA.AVS000011.name, titleText:title?.textContent || "", titleRect:title?.getBoundingClientRect().toJSON(), previewRect:preview?.getBoundingClientRect().toJSON(), whiteSpace:getComputedStyle(title).whiteSpace};
+  });
+  expect(result.r010.redirected).toBe(true);
+  expect(result.r074.redirected).toBe(true);
+  expect(result.r075.redirected).toBe(false);
+  expect(result.r090.redirected).toBe(false);
+  expect(result.noAlt.redirected).toBe(false);
+  expect(result.noAlt.reason).toBe("no-alternative-target");
+  expect(result.name).toContain("miroirs");
+  expect(result.name).not.toMatch(/mirroirs/i);
+  expect(result.titleText).toContain("miroirs");
+  expect(result.whiteSpace).not.toBe("nowrap");
+  expect(result.titleRect.right).toBeLessThanOrEqual(result.previewRect.right + 1);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C Undergast echoes targeted spells exactly once", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-avatars");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => { const zone = document.querySelector(playerZoneSelector(player, "servants")); zone.innerHTML = ""; for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); } };
+    const run = async withUndergast => { resetServants(player1); resetServants(player2); player1.hand = ["S000010"]; refreshHand(player1); if (withUndergast) await summonBatch03Servant(player1, "AVS000003", {triggerInitiativeEffect:false, ready:true}); const target = await summonBatch03Servant(player1, "AVS000001", {triggerInitiativeEffect:false, ready:true}); const targetFc = document.querySelector('.fc[data-instance="' + target.instanceId + '"]'); batch03UpdateStats(targetFc, {pdvMax:13, pdv:1}); const before = targetSummary(targetFc); const play = await playCard("S000010", null, {selectedTargetIds:[targetFc.dataset.instance]}); const after = targetSummary(targetFc); return {before, after, play, events:collectionBatch03State.events.slice()}; };
+    return {echoed:await run(true), single:await run(false)};
+  });
+  expect(result.echoed.after.pdv).toBe(13);
+  expect(result.single.after.pdv).toBe(7);
+  expect(result.echoed.play.batch03SpellEcho.echoed).toBe(true);
+  expect(result.echoed.events.filter(event => event.type === "spell-echo" && event.cardId === "S000010")).toHaveLength(1);
+  expect(result.single.play.batch03SpellEcho.echoed).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C Ianna steals only the real drawn card after the opponent draws", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-avatars");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => { const zone = document.querySelector(playerZoneSelector(player, "servants")); zone.innerHTML = ""; for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); } };
+    resetServants(player1); resetServants(player2); await summonBatch03Servant(player1, "AVS000010", {triggerInitiativeEffect:false, ready:true});
+    player1.hand = []; player2.hand = []; player2.drawPile = ["R000010", "H000005"]; player2.firstTurnStarted = true; window.__mythesRandom = () => 0.25;
+    const stolenDraw = await startTurn(player2); const afterSteal = auditCollectionBatch03Runtime();
+    player2.drawPile = ["H000018"]; window.__mythesRandom = () => 0.75; player2.turnState.normalDrawResolved = false;
+    const keptDraw = await startTurn(player2); const afterMiss = auditCollectionBatch03Runtime();
+    resetServants(player1); player2.drawPile = ["H000001"]; player2.hand = []; player1.hand = []; player2.turnState.normalDrawResolved = false; window.__mythesRandom = () => 0.1;
+    const noIannaDraw = await startTurn(player2); const afterNoIanna = auditCollectionBatch03Runtime();
+    return {stolenDraw, afterSteal, keptDraw, afterMiss, noIannaDraw, afterNoIanna, events:collectionBatch03State.events.filter(event => event.type === "ianna-draw-steal")};
+  });
+  expect(result.stolenDraw).toBe("H000005");
+  expect(result.afterSteal.zones.player1.hand).toContain("H000005");
+  expect(result.afterSteal.zones.player2.hand).not.toContain("H000005");
+  expect(result.afterSteal.zones.player1.hand).not.toContain("R000001");
+  expect(result.keptDraw).toBe("H000018");
+  expect(result.afterMiss.zones.player2.hand).toContain("H000018");
+  expect(result.afterNoIanna.zones.player2.hand).toContain("H000001");
+  expect(result.events.some(event => event.success && event.stolenCardId === "H000005" && event.roll === 0.25)).toBe(true);
+  expect(result.events.some(event => event.reason === "rng-miss" && event.roll === 0.75)).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Batch-03C S000010 and S000028 open target selection and resolve real effects", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-spells");
+  await page.evaluate(() => { player1.hand = ["S000010", "S000028"]; refreshHand(player1); const ally = livingServantCardsForPlayer(player1)[0]; batch03UpdateStats(ally, {pdvMax:8, pdv:2}); });
+  await page.evaluate(() => { window.__batch03PendingPlay = playCard("S000010", null); });
+  await expect(page.getByTestId("board-target-choice-list")).toBeVisible();
+  await page.getByTestId("board-target-choice").first().click();
+  await page.getByTestId("board-target-confirm").click();
+  const afterHeal = await page.evaluate(async () => { await window.__batch03PendingPlay; delete window.__batch03PendingPlay; const target = livingServantCardsForPlayer(player1)[0]; return {target:targetSummary(target), graveyard:[...player1.graveyard]}; });
+  expect(afterHeal.target.pdv).toBe(8);
+  expect(afterHeal.graveyard).toContain("S000010");
+  await page.evaluate(() => { window.__batch03PendingPlay = playCard("S000028", null); });
+  await expect(page.getByTestId("board-target-choice-list")).toBeVisible();
+  await page.getByTestId("board-target-choice").first().click();
+  await page.getByTestId("board-target-confirm").click();
+  const afterAura = await page.evaluate(async () => { await window.__batch03PendingPlay; delete window.__batch03PendingPlay; const target = livingServantCardsForPlayer(player1)[0]; openCardPreview(target.dataset.id, {sourceElement:target}); return {target:targetSummary(target), graveyard:[...player1.graveyard], previewText:document.querySelector("#card-preview-layer")?.textContent?.replace(/\s+/g, " ") || ""}; });
+  expect(afterAura.target.insensible).toBe(true);
+  expect(afterAura.target.auraProtection).toBe(true);
+  expect(afterAura.target.pdvMax).toBe(11);
+  expect(afterAura.graveyard).toEqual(expect.arrayContaining(["S000010", "S000028"]));
+  expect(afterAura.previewText).toContain("Insensible");
   await attachDiagnostics(testInfo, diagnostics);
 });
 
