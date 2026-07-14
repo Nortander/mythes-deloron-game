@@ -140,7 +140,7 @@ Les 42 cartes Humain canoniques qui n'etaient pas encore FONCTIONNEL_TESTE dispo
 
 Les dependances directes necessaires au fonctionnement sont explicites : `DIV000001`, `DIV000002`, `DIV000003`, `DIV000004`, `DIV000006`, `DIV000009`, `MV000020`, `MV000009` et `MV000016`. Les cartes deja verrouillees par les lots precedents, notamment Batch-02, restent couvertes par leurs tests de non-regression.
 
-Scenarios techniques caches : `collection-batch-03-humans-overview`, `collection-batch-03-humans-triggers`, `collection-batch-03-humans-avatars` et `collection-batch-03-humans-spells`.
+Scenarios techniques caches : `collection-batch-03-humans-overview`, `collection-batch-03-humans-triggers`, `collection-batch-03-humans-avatars`, `collection-batch-03-humans-ianna` et `collection-batch-03-humans-spells`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
 
@@ -167,3 +167,13 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - Undergast rejoue chaque sort une seule fois sans boucle.
 - Ianna vole uniquement la vraie carte effectivement piochée par l'adversaire avec 50 % de chance.
 - Main guérisseuse et Aura de protection ouvrent une sélection de cible avant paiement et appliquent leurs effets réels.
+
+### Corrections COLLECTION-BATCH-03D
+
+- `H000012` conserve un seul statut dynamique de `Colère divine`, applique les dégâts périodiques 2, 3 puis 4, et n'affecte pas les Avatars.
+- Le retour `Serviteur de la rune` expose une animation terrain vers main avec marqueur technique testable, sans duplication terrain/cimetière/main.
+- `H000002` bloque immédiatement la carte renvoyée en main et le blocage expire à la fin du tour effectif du propriétaire.
+- `H000030` (`Nécrâne, Mage des ténèbres`) se déclenche à la fin du tour de son propriétaire, conformément au texte canonique, et non au début du tour.
+- `AVS000003` (`Undergast`) rejoue le Sort ciblé sans créer de copie en main et sans ajouter un second exemplaire du Sort au cimetière.
+- `AVS000010` (`Ianna la Chanteuse`) dispose d'un scénario technique caché dédié, avec séquence visible de carte piochée puis volée.
+- `S000028` garde les PV en vert uniquement quand le bonus de PV maximum ne laisse pas la cible blessée ; une cible encore blessée reste affichée en rouge.

@@ -611,6 +611,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-divine-wrath-tick::after{inset:18px 10px 14px 16px;transform:rotate(28deg);animation-delay:.08s;}
 .batch03-rune-returning{animation:batch03RuneReturn .95s ease-out;}
 .batch03-rune-returning::before{content:'';position:absolute;inset:6px;z-index:48;border-radius:12px;border:2px solid rgba(180,130,255,.95);box-shadow:0 0 18px rgba(160,90,255,.95),inset 0 0 18px rgba(160,90,255,.65);pointer-events:none;}
+.hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
+.hc-batch03-ianna-stolen{animation:batch03IannaStolen .9s ease-out;box-shadow:0 0 22px rgba(90,190,255,.9),0 0 8px rgba(255,255,255,.8);}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
 @keyframes batch03DivineApply{0%{filter:brightness(2.2) drop-shadow(0 0 20px #fff);transform:translateY(-3px) scale(1.03);}100%{filter:none;transform:none;}}
 @keyframes batch03DivineBolt{0%{opacity:0;transform:translateY(-22px) scaleY(.7);}18%{opacity:1;}72%{opacity:.98;}100%{opacity:0;transform:translateY(10px) scaleY(1.08);}}
@@ -618,6 +620,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch03DivineArc{0%{opacity:0;transform:scale(.72) rotate(-18deg);}35%{opacity:1;}100%{opacity:0;transform:scale(1.08) rotate(22deg);}}
 @keyframes batch03RuneReturn{0%{filter:brightness(1.9) drop-shadow(0 0 18px #9c5cff);transform:translateY(0) scale(1.06);}55%{filter:brightness(2.1) drop-shadow(0 -16px 20px #c8a8ff);transform:translateY(-18px) scale(.94);}100%{filter:none;transform:translateY(-32px) scale(.82);opacity:.22;}}
 @keyframes batch03HandReturn{0%{filter:brightness(2) drop-shadow(0 0 16px #b582ff);transform:translateY(-18px) scale(1.08);}100%{filter:none;transform:none;}}
+@keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
+@keyframes batch03IannaStolen{0%{transform:translateX(38px) scale(.85);filter:brightness(1.9);}70%{transform:translateX(-4px) scale(1.04);filter:brightness(1.25);}100%{transform:none;filter:none;}}
 @keyframes batch03InitiativePulse{0%{filter:brightness(1.65) drop-shadow(0 0 12px var(--card-faction-color));}100%{filter:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
 @keyframes avPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 0 2px rgba(0,0,0,0.85);}50%{box-shadow:0 0 0 4px rgba(255,80,40,1),0 0 20px rgba(255,80,40,0.6);}}
@@ -2767,6 +2771,13 @@ SCENARIOS['collection-batch-03-humans-avatars'] = {
   testSetup: {
     player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['AVS000001','AVS000002','AVS000003','AVS000004','AVS000007','AVS000010','AVS000011','AVS000014','S000010'], drawPile:['B000006','B000007','DIV000001','S000010','R000010'], graveyard:[], servants:[], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','S000033','R000010'], drawPile:['H000001','H000005','H000018','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5},{id:'ORC000017',pdv:6},{id:'MV000020',pdv:3}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-03-humans-ianna'] = {
+  label: 'TEST - COLLECTION BATCH 03 Ianna', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 1, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000010',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:['R000010'], graveyard:[], servants:[{id:'AVS000010'}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:['R000010','H000005'], graveyard:[], servants:[{id:'H000001'}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-03-humans-spells'] = {
@@ -12096,8 +12107,10 @@ async function sendToCemetery(fc) {
   }
   const runeReturnsToHand = shouldBatch03RuneReturnToHand(fc, d, vengeanceResult);
   if (runeReturnsToHand && fc.isConnected) {
+    fc.dataset.effect = 'serviteur-rune-return';
+    fc.dataset.batch03RuneReturnAnimation = 'board-to-hand';
     fc.classList.add('batch03-rune-returning');
-    await new Promise(resolve => setTimeout(resolve, 260));
+    await new Promise(resolve => setTimeout(resolve, 520));
   }
   const goesToCemetery = vengeanceResult?.destination !== 'deck-bottom' && !runeReturnsToHand;
   if (goesToCemetery && d.type === 'Serviteur') {
@@ -12126,7 +12139,7 @@ async function sendToCemetery(fc) {
     if (owner && !getHandCapacityStatus(owner).full) {
       addCardToHand(owner, cardId, {refresh:true});
       const handNode = markBatch03HandCardReturned(owner, cardId);
-      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, handAnimation:!!handNode});
+      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', handAnimation:!!handNode});
       if (d.fac) addHistEntry(cardId, d.fac);
       return;
     }
@@ -13887,12 +13900,17 @@ async function runStartTurnPipeline(player) {
         showErr(`Main de ${p.name} pleine. Defaussez une carte sur votre deck.`);
       }
     }
-    if (drawn) trace.ianna = resolveBatch03IannaDrawSteal(p, drawn, trace.drawResult);
+    if (drawn) trace.ianna = await resolveBatch03IannaDrawSteal(p, drawn, trace.drawResult);
     state.normalDrawResolved = true;
   }
   trace.normalDrawResolved = !!state.normalDrawResolved;
 
   renderAllHands();
+  if (trace.ianna?.success && isBatch03IannaVisualScenario()) {
+    const thief = opponentOf(p);
+    renderPlayerHand(thief, {faceUp:true});
+    markBatch03HandTransfer(thief, trace.ianna.stolenCardId, 'stolen');
+  }
   updateDeckCount(p);
   trace.deckAfter = playerDrawPile(p).length;
   trace.handAfter = playerHand(p).length;
@@ -13925,6 +13943,13 @@ async function endTurnRuntime() {
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
     resolveBatch02OwnerTurnExpiration(activePlayer);
     cleanTurnState(activePlayer);
+    if (window._blockedCardPlayer === activePlayer.key && window._blockedCardArmed) {
+      window._blockedCard = null;
+      window._blockedCardPlayer = null;
+      window._blockedCardArmed = false;
+      window._blockedCardSourceName = null;
+      refreshHand(activePlayer);
+    }
     activePlayer = opponentOf(activePlayer);
     turnSequence += 1;
     currentPlayer = activePlayer.key;
@@ -13950,8 +13975,8 @@ async function endTurnRuntime() {
     await flushPendingDoorKeyDrawVisuals(activePlayer);
     updateCamouflageVFX();
     if (window._blockedCardPlayer === currentPlayer) {
-      if (window._blockedCardArmed) { window._blockedCard=null; window._blockedCardPlayer=null; window._blockedCardArmed=false; }
-      else { window._blockedCardArmed=true; }
+      if (!window._blockedCardArmed) window._blockedCardArmed = true;
+      refreshHand(activePlayer);
     }
     btn.disabled=false;btn.classList.add('pulse');
   } finally {
@@ -17268,6 +17293,23 @@ function markBatch03HandCardReturned(player, cardId) {
   return node;
 }
 
+function markBatch03HandTransfer(player, cardId, marker) {
+  const p = playerState(player);
+  if (!p || !cardId) return null;
+  const cards = Array.from(qs(playerZoneSelector(p, 'hand'))?.querySelectorAll(`.hc[data-id="${cardId}"]`) || []);
+  const node = cards[cards.length - 1] || null;
+  if (node) {
+    node.dataset.batch03IannaTransfer = marker;
+    node.classList.add(marker === 'drawn' ? 'hc-batch03-ianna-drawn' : 'hc-batch03-ianna-stolen');
+  }
+  return node;
+}
+
+function batch03PdvClass(fc, value, max) {
+  if (value < max) return 'fc-pdv-val red';
+  return fc?.dataset?.batch03AuraProtectionPdvBoost === '1' ? 'fc-pdv-val grn' : 'fc-pdv-val';
+}
+
 function batch03UpdateStats(fc, {atk=null, pdv=null, pdvMax=null}={}) {
   if (!fc) return null;
   if (atk != null) {
@@ -17285,7 +17327,7 @@ function batch03UpdateStats(fc, {atk=null, pdv=null, pdvMax=null}={}) {
     fc.dataset.pdv = String(value);
     fc.querySelectorAll('.fc-pdv-val').forEach(el => {
       el.textContent = String(value);
-      el.className = value < max ? 'fc-pdv-val red' : 'fc-pdv-val';
+      el.className = batch03PdvClass(fc, value, max);
     });
   }
   updateRageState(fc);
@@ -17345,8 +17387,9 @@ async function batch03MoveServantToOwnerHandOrGraveyard(fc, {blockNextTurn=false
     if (blockNextTurn) {
       window._blockedCard = cardId;
       window._blockedCardPlayer = owner.key;
-      window._blockedCardArmed = false;
+      window._blockedCardArmed = true;
       window._blockedCardSourceName = 'Mage ermite';
+      refreshHand(owner);
     }
     return {success:true, destination:'hand', cardId, target:summary, blocked:blockNextTurn};
   }
@@ -17618,8 +17661,16 @@ async function applyBatch03StartTurnAbilities(player) {
       result.priestHeals.push({source:targetSummary(priest), target:targetSummary(target), heal:applyHeal(target, amount)});
     }
   }
-  for (const necrane of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000030')) {
-    const options = ['MV000020','MV000009','MV000016'];
+  if (Object.values(result).some(value => Array.isArray(value) ? value.length : value)) recordCollectionBatch03Event('start-turn', {playerId:p.key, result});
+  return result;
+}
+
+async function resolveBatch03NecraneEndTurn(player, result) {
+  const p = playerState(player);
+  if (!p) return;
+  const options = ['MV000020','MV000009','MV000016'];
+  const necranes = livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000030' && canResolveServantAbility(fc, {triggerType:'end-turn'}));
+  for (const necrane of necranes) {
     const existing = new Set(livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03RuneSource === necrane.dataset.instance).map(fc => fc.dataset.id));
     const next = options.find(id => !existing.has(id));
     if (next) {
@@ -17629,11 +17680,13 @@ async function applyBatch03StartTurnAbilities(player) {
       result.necraneSummons.push(summon);
     }
   }
-  if (Object.values(result).some(value => Array.isArray(value) ? value.length : value)) recordCollectionBatch03Event('start-turn', {playerId:p.key, result});
-  return result;
 }
 
-function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) {
+function isBatch03IannaVisualScenario() {
+  return selectedScenarioId && selectedScenarioId() === 'collection-batch-03-humans-ianna';
+}
+
+async function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) {
   const p = playerState(drawer);
   const thief = opponentOf(p);
   const ianna = livingServantCardsForPlayer(thief).find(fc => fc.dataset.id === 'AVS000010' && canResolveServantAbility(fc, {triggerType:'draw-steal'}));
@@ -17655,10 +17708,22 @@ function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) {
     recordCollectionBatch03Event('ianna-draw-steal', missing);
     return missing;
   }
+  const sequence = [];
+  if (isBatch03IannaVisualScenario()) renderPlayerHand(p, {faceUp:true, drawLast:true});
+  else renderAllHands(p.key);
+  const drawnNode = markBatch03HandTransfer(p, drawnCardId, 'drawn');
+  if (drawnNode) sequence.push('drawn-card-highlighted');
+  if (isBatch03IannaVisualScenario()) await new Promise(resolve => setTimeout(resolve, 280));
   const removed = removeHandCardAt(p, index);
   const added = addCardToHand(thief, removed, {refresh:false});
   renderAllHands();
-  const result = {success:!!added, reason:added ? 'stolen-drawn-card' : 'transfer-failed', roll, stolenCardId:removed, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna), drawResult};
+  let stolenNode = null;
+  if (added && isBatch03IannaVisualScenario()) {
+    renderPlayerHand(thief, {faceUp:true});
+    stolenNode = markBatch03HandTransfer(thief, removed, 'stolen');
+  }
+  if (stolenNode) sequence.push('stolen-card-highlighted');
+  const result = {success:!!added, reason:added ? 'stolen-drawn-card' : 'transfer-failed', roll, stolenCardId:removed, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna), drawResult, visualSequence:sequence};
   ianna.classList.add('batch03-initiative-pulse');
   setTimeout(() => ianna.classList.remove('batch03-initiative-pulse'), 750);
   recordCollectionBatch03Event('ianna-draw-steal', result);
@@ -17668,7 +17733,7 @@ function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) {
 
 async function applyBatch03EndTurnAbilities(player) {
   const p = playerState(player);
-  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[]};
+  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[], necraneSummons:[]};
   if (!p) return result;
   for (const wolf of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000020' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     result.wolfSummons.push(await summonBatch03Servant(p, 'H000021', {sourceCardId:'H000020', sourceInstanceId:wolf.dataset.instance, triggerInitiativeEffect:false, ready:true}));
@@ -17688,7 +17753,8 @@ async function applyBatch03EndTurnAbilities(player) {
     clearBatch03BlessedSwordsMarkers(p);
     delete p.batch03BlessedSwordsTurn;
   }
-  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
+  await resolveBatch03NecraneEndTurn(p, result);
+  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length || result.necraneSummons.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
   return result;
 }
 
@@ -17723,6 +17789,7 @@ function resolveBatch03AuraProtection(player, context={}) {
   const target = targets[0];
   target.dataset.insensible = '1';
   target.dataset.batch03AuraProtection = '1';
+  target.dataset.batch03AuraProtectionPdvBoost = '1';
   const max = Number(target.dataset.pdvMax || target.dataset.pdv || 1);
   const cur = Number(target.dataset.pdv || max);
   batch03UpdateStats(target, {pdvMax:max + 3, pdv:cur + 3});
