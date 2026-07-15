@@ -323,6 +323,17 @@ Règles :
 - les messages publics doivent être simples et exacts ;
 - les diagnostics techniques doivent rester dans le mode test.
 
+Règles d'impulsion et de mouvement pour les capacités :
+
+- une capacité ponctuelle réussie doit produire un signal visuel lisible sur sa source avant ou pendant l'effet, en priorité une impulsion colorée selon la faction ;
+- une capacité qui échoue, ne trouve aucune cible légale ou ne se résout pas ne doit pas produire d'impulsion de succès, de révélation centrale ou de mouvement trompeur ;
+- les capacités d'Initiative pulsent après l'arrivée visible de la carte et avant leur effet ;
+- les capacités de Vengeance pulsent avant le départ définitif vers le cimetière si la source est encore visible ;
+- les effets de début et fin de tour se résolvent dans un ordre déterministe, avec une impulsion avant chaque effet, et sans rendre la main au joueur avant la fin de la chaîne ;
+- les passifs continus peuvent utiliser une impulsion discrète ou en boucle, mais sans mouvement de résolution ponctuelle ;
+- les effets qui déplacent une occurrence entre zones doivent montrer un mouvement ou un marqueur clair lorsque la validation humaine doit comprendre le trajet ;
+- les badges textuels génériques comme `INITIATIVE RESOLUE` ne remplacent pas un vrai feedback visuel de capacité.
+
 
 ### Charte couleur Humain
 

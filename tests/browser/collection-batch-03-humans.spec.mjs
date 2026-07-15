@@ -209,29 +209,43 @@ test("Randall applies periodic Colère divine instead of lethal placeholder dama
     const avatarBefore = player2.avatarHp;
     const randall = await summonBatch03Servant(player1, "H000012", {triggerInitiativeEffect:true, ready:true});
     const afterApply = auditCollectionBatch03Runtime();
+    const counterAfterApply = undead.querySelector('[data-batch03-status-counter="divine-wrath"]')?.textContent || "";
     const statusCount = batch03DynamicStatusTexts(undead).filter(text => text.includes("[Colère divine]") && text.startsWith("Subit")).length;
     player2.resourceState.souls = 3;
     const tick1 = await applyBatch03StartTurnAbilities(player2);
+    const tickDamage1 = undead.dataset.batch03DivineWrathTickDamage;
+    const counterAfterTick1 = undead.querySelector('[data-batch03-status-counter="divine-wrath"]')?.textContent || "";
     const afterTick1 = auditCollectionBatch03Runtime();
     const tick2 = await applyBatch03StartTurnAbilities(player2);
+    const tickDamage2 = undead.dataset.batch03DivineWrathTickDamage;
+    const counterAfterTick2 = undead.querySelector('[data-batch03-status-counter="divine-wrath"]')?.textContent || "";
     const afterTick2 = auditCollectionBatch03Runtime();
     const tick3 = await applyBatch03StartTurnAbilities(player2);
+    const tickDamage3 = tick3.divineWrath?.[0]?.damage;
+    const counterAfterTick3 = undead.querySelector('[data-batch03-status-counter="divine-wrath"]')?.textContent || "";
     const afterTick3 = auditCollectionBatch03Runtime();
-    return {randall, afterApply, statusCount, tick1, afterTick1, tick2, afterTick2, tick3, afterTick3, avatarBefore, avatarAfter:player2.avatarHp, errText:document.querySelector("#errMsg")?.textContent || "", notifText:document.querySelector("#notif")?.textContent || ""};
+    return {randall, afterApply, counterAfterApply, statusCount, tick1, tickDamage1, counterAfterTick1, afterTick1, tick2, tickDamage2, counterAfterTick2, afterTick2, tick3, tickDamage3, counterAfterTick3, afterTick3, avatarBefore, avatarAfter:player2.avatarHp, errText:document.querySelector("#errMsg")?.textContent || "", notifText:document.querySelector("#notif")?.textContent || ""};
   });
   const targetAfterApply = result.afterApply.board.player2.find(card => card.id === "MV000020");
   expect(targetAfterApply?.divineWrathTurns).toBe("3");
   expect(targetAfterApply?.pdv).toBe(12);
+  expect(result.counterAfterApply).toBe("3");
   expect(result.statusCount).toBe(1);
   const targetAfterTick1 = result.afterTick1.board.player2.find(card => card.id === "MV000020");
   expect(targetAfterTick1?.pdv).toBe(10);
   expect(targetAfterTick1?.divineWrathTurns).toBe("2");
+  expect(result.tickDamage1).toBe("2");
+  expect(result.counterAfterTick1).toBe("2");
   const targetAfterTick2 = result.afterTick2.board.player2.find(card => card.id === "MV000020");
   expect(targetAfterTick2?.pdv).toBe(7);
   expect(targetAfterTick2?.divineWrathTurns).toBe("1");
+  expect(result.tickDamage2).toBe("3");
+  expect(result.counterAfterTick2).toBe("1");
   const targetAfterTick3 = result.afterTick3.board.player2.find(card => card.id === "MV000020");
   expect(targetAfterTick3?.pdv).toBe(3);
   expect(targetAfterTick3?.divineWrathTurns).toBeNull();
+  expect(result.tickDamage3).toBe(4);
+  expect(result.counterAfterTick3).toBe("");
   expect(result.avatarAfter).toBe(result.avatarBefore);
   expect(result.afterTick2.state.events.some(event => event.type === "divine-wrath-applied" && event.sourceCardId === "H000012")).toBe(true);
   expect(result.notifText).not.toMatch(/INITIATIVE R[ÉE]SOLUE|Initiative resolue/i);
@@ -250,18 +264,25 @@ test("Serviteur de la rune returns the destroyed occurrence to its owner's hand"
     const summon = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:false, ready:true});
     const fc = document.querySelector(`.fc[data-instance="${summon.instanceId}"]`);
     const before = auditCollectionBatch03Runtime();
-    await applyDamage(fc, 99);
+    const pending = applyDamage(fc, 99);
+    await new Promise(resolve => setTimeout(resolve, 980));
+    const flight = document.querySelector('.batch03-rune-flight[data-card-id="H000031"]');
+    const flightVisible = !!flight;
+    const flightAnimation = flight ? getComputedStyle(flight).animationName : "";
+    await pending;
     const after = auditCollectionBatch03Runtime();
-    return {before, after, summon};
+    return {before, after, summon, flightVisible, flightAnimation};
   });
   expect(result.after.zones.player1.hand).toContain("H000031");
   expect(result.after.zones.player1.graveyard).not.toContain("H000031");
   expect(result.after.board.player1.map(card => card.id)).not.toContain("H000031");
   expect(result.after.state.events.some(event => event.type === "rune-return-to-hand" && event.cardId === "H000031")).toBe(true);
+  expect(result.flightVisible).toBe(true);
+  expect(result.flightAnimation).toContain("batch03RuneFlight");
   await attachDiagnostics(testInfo, diagnostics);
 });
 
-test("Mage ermite blocked cards are visible, named and refused without mutation", async ({page}, testInfo) => {
+test("Mage ermite blocks only the exact returned occurrence", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-03-humans-triggers");
   const result = await page.evaluate(async () => {
@@ -272,29 +293,49 @@ test("Mage ermite blocked cards are visible, named and refused without mutation"
     };
     resetServants(player1);
     resetServants(player2);
+    player2.hand = ["H000001"];
+    refreshHand(player2);
     await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
     await summonBatch03Servant(player1, "H000002", {triggerInitiativeEffect:true, ready:true});
     currentPlayer = player2.key;
     activePlayer = player2;
     refreshHand(player2);
     const blockedNode = document.querySelector('.hc-blocked-temporary[data-id="H000001"]');
+    const freeNode = Array.from(document.querySelectorAll('.hc[data-id="H000001"]')).find(node => node !== blockedNode);
     const before = auditCollectionBatch03Runtime();
     const slot = document.querySelector(playerZoneSelector(player2, "servants"))?.querySelector(".slot");
-    await playCard("H000001", slot);
-    const after = auditCollectionBatch03Runtime();
+    const defaultBlockedPlay = await playCard("H000001", slot, {handOccurrenceId:blockedNode?.dataset.handOccurrence});
+    const blockedPlay = await playCard("H000001", slot, {handOccurrenceId:blockedNode?.dataset.handOccurrence, returnActionValidation:true});
+    const afterBlocked = auditCollectionBatch03Runtime();
+    const freePlay = await playCard("H000001", slot, {handOccurrenceId:freeNode?.dataset.handOccurrence});
+    const afterFree = auditCollectionBatch03Runtime();
     return {
       blockedVisible:!!blockedNode,
       blockedSource:blockedNode?.dataset.blockedSource || "",
+      blockedOccurrence:blockedNode?.dataset.handOccurrence || "",
+      freeOccurrence:freeNode?.dataset.handOccurrence || "",
       message:document.querySelector("#errMsg")?.textContent?.replace(/\s+/g, " ").trim() || "",
       before,
-      after
+      defaultBlockedPlay,
+      blockedPlay,
+      afterBlocked,
+      freePlay,
+      afterFree
     };
   });
   expect(result.blockedVisible).toBe(true);
   expect(result.blockedSource).toBe("Mage ermite");
+  expect(result.blockedOccurrence).toBeTruthy();
+  expect(result.freeOccurrence).toBeTruthy();
+  expect(result.blockedOccurrence).not.toBe(result.freeOccurrence);
   expect(result.message).toContain("Mage ermite");
-  expect(result.after.zones.player2.hand).toEqual(result.before.zones.player2.hand);
-  expect(result.after.resources.player2).toEqual(result.before.resources.player2);
+  expect(result.defaultBlockedPlay).toBeUndefined();
+  expect(result.blockedPlay.success).toBe(false);
+  expect(result.afterBlocked.zones.player2.hand).toEqual(result.before.zones.player2.hand);
+  expect(result.afterBlocked.resources.player2).toEqual(result.before.resources.player2);
+  expect(result.freePlay.success).toBe(true);
+  expect(result.afterFree.zones.player2.hand.filter(id => id === "H000001")).toHaveLength(1);
+  expect(result.afterFree.board.player2.map(card => card.id)).toContain("H000001");
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -447,7 +488,7 @@ test("Batch-03C visual states expose distinct divine wrath, rune and blocked-car
   expect(result.afterRune.zones.player1.hand).toContain("H000031");
   expect(result.afterRune.zones.player1.graveyard).not.toContain("H000031");
   expect(result.afterRune.board.player1.map(card => card.id)).not.toContain("H000031");
-  expect(result.runeEvent).toMatchObject({boardAnimation:true, boardEffect:"serviteur-rune-return", handAnimation:true});
+  expect(result.runeEvent).toMatchObject({boardAnimation:true, boardEffect:"serviteur-rune-return", flightAnimation:true, handAnimation:true});
   expect(result.runeHand).toEqual({exists:true, imageReady:true});
   expect(result.blockedBefore).toEqual({exists:true, attr:"1", source:"Mage ermite", aria:"true"});
   expect(result.blockedAfterExpiry).toBe(false);
@@ -586,6 +627,47 @@ test("Batch-03C Undergast echoes targeted spells exactly once", async ({page}, t
   await attachDiagnostics(testInfo, diagnostics);
 });
 
+test("Batch-03E Undergast retargets only when a second legal target exists", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-03-humans-avatars");
+  const result = await page.evaluate(async () => {
+    const resetServants = player => { const zone = document.querySelector(playerZoneSelector(player, "servants")); zone.innerHTML = ""; for (let i = 0; i < 5; i++) { const slot = document.createElement("div"); slot.className = "slot"; slot.dataset.player = player.key; zone.appendChild(slot); } };
+    const run = async secondTarget => {
+      resetServants(player1);
+      resetServants(player2);
+      collectionBatch03State.events.length = 0;
+      player1.hand = ["S000005"];
+      player1.graveyard = [];
+      player2.graveyard = [];
+      refreshHand(player1);
+      await summonBatch03Servant(player1, "AVS000003", {triggerInitiativeEffect:false, ready:true});
+      const first = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+      let second = null;
+      if (secondTarget) second = await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+      const firstFc = document.querySelector('.fc[data-instance="' + first.instanceId + '"]');
+      const before = auditCollectionBatch03Runtime();
+      const play = await playCard("S000005", null, {selectedTargetIds:[firstFc.dataset.instance]});
+      const after = auditCollectionBatch03Runtime();
+      const echo = collectionBatch03State.events.find(event => event.type === "spell-echo" && event.cardId === "S000005") || null;
+      return {before, after, play, echo, firstInstance:first.instanceId, secondInstance:second?.instanceId || null};
+    };
+    return {retarget:await run(true), noAlternative:await run(false)};
+  });
+  expect(result.retarget.play.batch03SpellEcho.echoed).toBe(true);
+  expect(result.retarget.play.batch03SpellEcho.echoContext.context.batch03EchoRetargeted).toBe(true);
+  expect(result.retarget.after.zones.player2.graveyard).toEqual(expect.arrayContaining(["H000001", "H000005"]));
+  expect(result.retarget.after.board.player2.map(card => card.id)).not.toContain("H000001");
+  expect(result.retarget.after.board.player2.map(card => card.id)).not.toContain("H000005");
+  expect(result.retarget.after.zones.player1.hand).not.toContain("S000005");
+  expect(result.retarget.after.zones.player1.graveyard.filter(id => id === "S000005")).toHaveLength(1);
+  expect(result.retarget.echo?.source.id).toBe("AVS000003");
+  expect(result.noAlternative.play.batch03SpellEcho.echoed).toBe(false);
+  expect(result.noAlternative.play.batch03SpellEcho.reason).toBe("no-legal-echo-target");
+  expect(result.noAlternative.after.zones.player2.graveyard).toEqual(expect.arrayContaining(["H000001"]));
+  expect(result.noAlternative.after.zones.player2.graveyard).not.toContain("H000005");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
 test("Batch-03C Ianna steals only the real drawn card after the opponent draws", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-03-humans-ianna");
@@ -609,9 +691,10 @@ test("Batch-03C Ianna steals only the real drawn card after the opponent draws",
   expect(result.afterMiss.zones.player2.hand).toContain("H000018");
   expect(result.afterNoIanna.zones.player2.hand).toContain("H000001");
   expect(result.events.some(event => event.success && event.stolenCardId === "H000005" && event.roll === 0.25)).toBe(true);
-  expect(result.events.find(event => event.success && event.stolenCardId === "H000005")?.visualSequence).toEqual(expect.arrayContaining(["drawn-card-highlighted", "stolen-card-highlighted"]));
+  expect(result.events.find(event => event.success && event.stolenCardId === "H000005")?.visualSequence).toEqual(expect.arrayContaining(["drawn-card-highlighted", "ianna-pulsed", "center-reveal", "stolen-card-highlighted"]));
   expect(result.stolenNodeAfterSteal).toBe(true);
   expect(result.events.some(event => event.reason === "rng-miss" && event.roll === 0.75)).toBe(true);
+  expect(result.events.find(event => event.reason === "rng-miss" && event.roll === 0.75)?.visualSequence || []).toEqual([]);
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -645,7 +728,7 @@ test("Batch-03D Ianna scenario uses a unique drawn sentinel and keeps the transf
   expect(result.after.zones.player1.hand.filter(id => id === "H000005")).toHaveLength(1);
   expect(result.after.zones.player2.hand).not.toContain("H000005");
   expect(result.stolenNode).toBe(true);
-  expect(result.events.find(event => event.success && event.stolenCardId === "H000005")?.visualSequence).toEqual(expect.arrayContaining(["drawn-card-highlighted", "stolen-card-highlighted"]));
+  expect(result.events.find(event => event.success && event.stolenCardId === "H000005")?.visualSequence).toEqual(expect.arrayContaining(["drawn-card-highlighted", "ianna-pulsed", "center-reveal", "stolen-card-highlighted"]));
   await attachDiagnostics(testInfo, diagnostics);
 });
 

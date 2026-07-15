@@ -602,7 +602,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc-blocked-temporary::before{content:'';position:absolute;inset:5px;border-radius:10px;background:rgba(0,0,0,.42);z-index:29;pointer-events:none;}
 .hc-blocked-temporary::after{content:'🔒';position:absolute;top:6px;right:7px;z-index:30;font-size:17px;text-shadow:0 1px 4px #000;color:#ffd760;}
 .hc-blocked-temporary .hc-frame{outline:2px solid rgba(255,215,96,.95);outline-offset:-2px;}
-.hc-batch03-returned{animation:batch03HandReturn .95s ease-out;}
+.hc-batch03-returned{animation:batch03HandReturn 1.25s ease-out;}
+.batch03-rune-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;box-shadow:0 0 22px rgba(180,130,255,.95),0 0 46px rgba(120,70,255,.72);animation:batch03RuneFlight 1.25s cubic-bezier(.22,.95,.32,1) forwards;}
+.batch03-ability-pulse{animation:batch03AbilityPulse .82s ease-out;}
+.batch03-passive-pulse{animation:batch03PassivePulse 2.2s ease-in-out infinite;}
+.batch03-ianna-reveal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4300;width:208px;padding:12px;border:2px solid rgba(38,196,236,.92);border-radius:16px;background:rgba(5,12,34,.94);box-shadow:0 0 28px rgba(38,196,236,.95),0 0 66px rgba(0,47,167,.72);text-align:center;pointer-events:none;animation:batch03IannaReveal 1.45s ease-in-out forwards;}
+.batch03-ianna-reveal img{width:186px;border-radius:10px;display:block;margin:0 auto 8px;}
+.batch03-ianna-reveal span{display:block;color:#eaf8ff;font-family:'Cinzel',serif;font-weight:800;text-shadow:0 1px 5px #000;}
 .hc-sb span.grn{color:#50e870;font-weight:900;text-shadow:0 0 4px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,1);}
 .batch03-divine-wrath-applied{animation:batch03DivineApply .9s ease-out;}
 .batch03-divine-wrath-applied::before{content:'';position:absolute;left:43%;top:-18%;width:16%;height:118%;z-index:48;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0),#fff,#f8fbff 48%,rgba(255,255,255,0));clip-path:polygon(45% 0,70% 0,54% 36%,82% 36%,30% 100%,44% 52%,20% 52%);filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 22px #eaf5ff);animation:batch03DivineBolt .9s ease-out;}
@@ -618,11 +624,15 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch03DivineBolt{0%{opacity:0;transform:translateY(-22px) scaleY(.7);}18%{opacity:1;}72%{opacity:.98;}100%{opacity:0;transform:translateY(10px) scaleY(1.08);}}
 @keyframes batch03DivineTick{0%{filter:brightness(1.9) drop-shadow(0 0 16px #fff);transform:translateY(-1px) rotate(-.8deg);}50%{transform:translateY(1px) rotate(.8deg);}100%{filter:none;transform:none;}}
 @keyframes batch03DivineArc{0%{opacity:0;transform:scale(.72) rotate(-18deg);}35%{opacity:1;}100%{opacity:0;transform:scale(1.08) rotate(22deg);}}
-@keyframes batch03RuneReturn{0%{filter:brightness(1.9) drop-shadow(0 0 18px #9c5cff);transform:translateY(0) scale(1.06);}55%{filter:brightness(2.1) drop-shadow(0 -16px 20px #c8a8ff);transform:translateY(-18px) scale(.94);}100%{filter:none;transform:translateY(-32px) scale(.82);opacity:.22;}}
-@keyframes batch03HandReturn{0%{filter:brightness(2) drop-shadow(0 0 16px #b582ff);transform:translateY(-18px) scale(1.08);}100%{filter:none;transform:none;}}
+@keyframes batch03RuneReturn{0%{filter:brightness(2.1) drop-shadow(0 0 22px #9c5cff);transform:translateY(0) scale(1.08);}45%{filter:brightness(2.35) drop-shadow(0 -22px 28px #c8a8ff);transform:translateY(-28px) scale(.98);}100%{filter:none;transform:translateY(-52px) scale(.72);opacity:.18;}}
+@keyframes batch03RuneFlight{0%{opacity:0;transform:translate(var(--from-x,0),var(--from-y,0)) scale(.8) rotate(-5deg);filter:brightness(2.4);}14%{opacity:1;}72%{opacity:1;transform:translate(calc((var(--from-x,0) + var(--to-x,0))/2),calc((var(--from-y,0) + var(--to-y,0))/2 - 82px)) scale(.94) rotate(4deg);}100%{opacity:0;transform:translate(var(--to-x,0),var(--to-y,0)) scale(.45) rotate(0deg);filter:brightness(1.2);}}
+@keyframes batch03HandReturn{0%{filter:brightness(2.25) drop-shadow(0 0 22px #b582ff);transform:translateY(-24px) scale(1.12);}100%{filter:none;transform:none;}}
+@keyframes batch03AbilityPulse{0%{filter:brightness(2) drop-shadow(0 0 18px var(--card-faction-color,#26c4ec));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.35) drop-shadow(0 0 26px var(--card-faction-color,#26c4ec));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
+@keyframes batch03PassivePulse{0%,100%{filter:drop-shadow(0 0 4px rgba(38,196,236,.35));}50%{filter:brightness(1.18) drop-shadow(0 0 16px var(--card-faction-color,#26c4ec));}}
+@keyframes batch03IannaReveal{0%{opacity:0;transform:translate(-50%,-48%) scale(.72);}16%,78%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-52%) scale(.86);}}
 @keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
 @keyframes batch03IannaStolen{0%{transform:translateX(38px) scale(.85);filter:brightness(1.9);}70%{transform:translateX(-4px) scale(1.04);filter:brightness(1.25);}100%{transform:none;filter:none;}}
-@keyframes batch03InitiativePulse{0%{filter:brightness(1.65) drop-shadow(0 0 12px var(--card-faction-color));}100%{filter:none;}}
+@keyframes batch03InitiativePulse{0%{filter:brightness(1.9) drop-shadow(0 0 18px var(--card-faction-color,#26c4ec));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.28) drop-shadow(0 0 28px var(--card-faction-color,#26c4ec));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
 @keyframes avPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 0 2px rgba(0,0,0,0.85);}50%{box-shadow:0 0 0 4px rgba(255,80,40,1),0 0 20px rgba(255,80,40,0.6);}}
 
@@ -2780,6 +2790,13 @@ SCENARIOS['collection-batch-03-humans-ianna'] = {
     player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:['R000010','H000005'], graveyard:[], servants:[{id:'H000001'}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-03-humans-undergast'] = {
+  label: 'TEST - COLLECTION BATCH 03 Undergast', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000003',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['S000005','S000010'], drawPile:['R000010'], graveyard:[], servants:[{id:'AVS000003'}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['collection-batch-03-humans-spells'] = {
   label: 'TEST - COLLECTION BATCH 03 Sorts humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000010',
   testSetup: {
@@ -3663,6 +3680,7 @@ function removeHandCardAt(player, index) {
   const p = playerState(player);
   if (!p || index < 0 || index >= p.hand.length) return null;
   const removed = p.hand.splice(index, 1)[0];
+  batch03RemoveHandOccurrenceAt(p, index);
   p.createdByEnchantress = (p.createdByEnchantress || [])
     .filter(marker => marker.index !== index)
     .map(marker => marker.index > index ? {...marker, index: marker.index - 1} : marker);
@@ -6730,9 +6748,11 @@ function buildHC(cardId, player, drawAnim=false) {
   const buffClass = handBuff ? ' class="grn"' : '';
   const atk_h  = displayAtk != null ? `<div class="hc-atk"><div class="hc-sb"><img src="${GH}/icones/IC00000ATK.png"><span${buffClass}>${displayAtk}</span></div></div>` : '';
   const pdv_h  = displayPdv != null ? `<div class="hc-pdv"><div class="hc-sb"><img src="${GH}/icones/IC00000PDV.png"><span${buffClass}>${displayPdv}</span></div></div>` : '';
-  const blocked = isBatch03HandCardBlocked(cardId, player);
+  const handIndex = (typeof buildHC.__handIndex === 'number') ? buildHC.__handIndex : null;
+  const blockEntry = batch03BlockedHandEntry(cardId, player, handIndex);
+  const blocked = !!blockEntry;
   const blockedCls = blocked ? ' hc-blocked-temporary' : '';
-  const blockedSource = blocked ? batch03BlockedCardSourceName() : '';
+  const blockedSource = blocked ? batch03BlockedCardSourceName(blockEntry) : '';
 
   // Zone ressource : chiffre superposé à l'icône, compléments à côté.
   const res_h = renderCostHTML(cardId, player);
@@ -10016,14 +10036,16 @@ async function resolveImmediatePlayEffect({player, cardId, sourceFC}) {
   return diagnostic;
 }
 
-function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, zoneSelection=null}) {
+function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, zoneSelection=null, handOccurrenceId=null}) {
   const p = playerState(player);
   const card = CARDS_DATA[cardId];
   if (!p || !card) return {valid:false, reason:'missing-data'};
   if (pendingDecisionModal) return {valid:false, reason:'pending-decision-choice'};
   if (pendingBazarChoice) return {valid:false, reason:'pending-bazar-choice'};
   if (pendingAssassinationDecision) return {valid:false, reason:'pending-assassination-choice'};
-  if (!p.hand.includes(cardId)) return {valid:false, reason:'card-not-in-hand'};
+  const requestedHandOccurrenceId = handOccurrenceId || null;
+  const requestedHandIndex = batch03HandIndexForOccurrence(p, cardId, requestedHandOccurrenceId);
+  if (requestedHandIndex < 0) return {valid:false, reason:'card-not-in-hand'};
   if (playerKey(p) !== currentPlayer) return {valid:false, reason:'wrong-player'};
   if (cardsPlayedThisTurn >= MAX_PLAY) return {valid:false, reason:'turn-limit'};
   if (card.type !== 'Sort') {
@@ -10060,8 +10082,9 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
     return {valid:false, reason:immediateEffectResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', immediateEffectResult};
   }
   if (cardId === 'S000002' && !playerHand(opponentOf(p)).length) return {valid:false, reason:'no-valid-target'};
-  if (window._blockedCard === cardId && window._blockedCardPlayer === p.key && window._blockedCardArmed) {
-    return {valid:false, reason:'blocked-card', blockedSource:batch03BlockedCardSourceName()};
+  const blockedEntry = batch03BlockedHandEntry(cardId, p, requestedHandIndex);
+  if (blockedEntry) {
+    return {valid:false, reason:'blocked-card', blockedSource:batch03BlockedCardSourceName(blockedEntry), blockedOccurrenceId:blockedEntry.occurrenceId};
   }
   if (cardId === 'S000023' && p.hand.includes('EDG000006')) {
     const servantZone = qs(playerZoneSelector(p, 'servants'));
@@ -10120,12 +10143,12 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   transaction.traceId ||= beginCardPlayTrace(cardId, p);
   const traceId = transaction.traceId;
   traceCardPlay(traceId, 'beforeCommit', p, cardId);
-  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection});
+  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection, handOccurrenceId:transaction.handOccurrenceId || null});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
     recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-commit');
     showErr(cardActionError(actionValidation.reason, actionValidation));
-    return {success:false, reason:actionValidation.reason};
+    return transaction.returnActionValidation ? {success:false, reason:actionValidation.reason, actionValidation} : undefined;
   }
   recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'allowed-before-payment');
   const freshAffordability = getCardAffordabilityResult(cardId, p) || affordability;
@@ -10144,13 +10167,20 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     return {success:false, reason:paymentResult.reason, paymentResult};
   }
   traceCardPlay(traceId, 'beforeHandRemoval', p, cardId);
-  const removed = removeFromHand(cardId, p);
+  const removeIndex = batch03HandIndexForOccurrence(p, cardId, transaction.handOccurrenceId || null);
+  const removeOccurrenceId = batch03HandOccurrenceAt(p, removeIndex);
+  const removed = removeIndex >= 0 ? removeHandCardAt(p, removeIndex) : null;
+  const handEl = qs(playerZoneSelector(p, 'hand'));
+  const el = transaction.handOccurrenceId ? handEl?.querySelector('[data-hand-occurrence="' + CSS.escape(transaction.handOccurrenceId) + '"]') : handEl?.querySelector('[data-id="' + cardId + '"]');
+  if (el) el.remove();
+  setTimeout(() => applyArc(handEl, p?.position === 'top'), 30);
   if (!removed) {
     rollbackPayment(p, paymentResult);
     releasePaymentLock(p, cardId);
     showErr(`Cette carte n'est plus dans votre main.`);
     return {success:false, reason:'card-not-in-hand', paymentResult};
   }
+  transaction.removedHandOccurrenceId = removeOccurrenceId;
   traceCardPlay(traceId, 'afterHandRemoval', p, cardId);
   const committedAffordability = freshAffordability || affordability;
   const modifiersConsumed = committedAffordability ? consumeAppliedCostModifiers(p, committedAffordability) : false;
@@ -10259,6 +10289,8 @@ async function playCard(cardId, slot, options={}) {
   if (!acquirePaymentLock(p, cardId)) return;
   let selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
   const zoneSelection = options?.zoneSelection || null;
+  const handOccurrenceId = options?.handOccurrenceId || null;
+  const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
   if ((cardId === 'S000010' || cardId === 'S000028') && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p);
     if (preAffordability && !preAffordability.playable) {
@@ -10294,7 +10326,7 @@ async function playCard(cardId, slot, options={}) {
     releasePaymentLock(p, cardId);
     recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-payment');
     showErr(cardActionError(actionValidation.reason, actionValidation));
-    return;
+    return returnActionValidation ? {success:false, reason:actionValidation.reason, actionValidation} : undefined;
   }
   recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'allowed-before-payment');
   const affordability = getCardAffordabilityResult(cardId, p);
@@ -10305,7 +10337,7 @@ async function playCard(cardId, slot, options={}) {
     showErr(describeAffordabilityFailure(affordability));
     return;
   }
-  const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection};
+  const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection, handOccurrenceId, returnActionValidation};
   if (cardId === 'S000055' && !selectedTargetIds) {
     const targets = legalTargetsForRequirement(cardId, p).filter(target => !target.dataset.insensible);
     const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel'});
@@ -12108,9 +12140,12 @@ async function sendToCemetery(fc) {
   const runeReturnsToHand = shouldBatch03RuneReturnToHand(fc, d, vengeanceResult);
   if (runeReturnsToHand && fc.isConnected) {
     fc.dataset.effect = 'serviteur-rune-return';
-    fc.dataset.batch03RuneReturnAnimation = 'board-to-hand';
+    fc.dataset.batch03RuneReturnAnimation = 'board-to-hand-flight';
+    const owner = playerState(player);
+    const flight = createBatch03RuneReturnFlight(fc, owner);
+    fc.dataset.batch03RuneReturnFlight = flight ? '1' : '0';
     fc.classList.add('batch03-rune-returning');
-    await new Promise(resolve => setTimeout(resolve, 520));
+    await new Promise(resolve => setTimeout(resolve, 900));
   }
   const goesToCemetery = vengeanceResult?.destination !== 'deck-bottom' && !runeReturnsToHand;
   if (goesToCemetery && d.type === 'Serviteur') {
@@ -12137,9 +12172,9 @@ async function sendToCemetery(fc) {
   if (runeReturnsToHand) {
     const owner = playerState(player);
     if (owner && !getHandCapacityStatus(owner).full) {
-      addCardToHand(owner, cardId, {refresh:true});
+      addCardToHand(owner, cardId, {refresh:true, occurrenceId:fc.dataset.instance || null});
       const handNode = markBatch03HandCardReturned(owner, cardId);
-      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', handAnimation:!!handNode});
+      recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', flightAnimation:fc.dataset.batch03RuneReturnFlight === '1', handAnimation:!!handNode});
       if (d.fac) addHistEntry(cardId, d.fac);
       return;
     }
@@ -13087,7 +13122,7 @@ function setupDragDrop() {
     const hc = e.target.closest('.hc[draggable="true"]');
     if (!hc || hc.dataset.player !== currentPlayer) { e.preventDefault(); return; }
     dragId = hc.dataset.id;
-    dragContext = {sourceZone:'hand', ownerId:currentPlayer, cardId:dragId};
+    dragContext = {sourceZone:'hand', ownerId:currentPlayer, cardId:dragId, handOccurrenceId:hc.dataset.handOccurrence || null};
     hc.classList.add('dragging');
     document.body.classList.add('dragging-card');
   });
@@ -13148,7 +13183,7 @@ function setupDragDrop() {
       // Sort : n'importe où sur le terrain. Porte infranchissable garde le slot réellement visé.
       const doorDrop = dragId === 'S000007' ? doorZoneSelectionFromDropTarget(e.target) : null;
       if (doorDrop) {
-        playCard(dragId, doorDrop.slot, {zoneSelection:doorDrop.zoneSelection});
+        playCard(dragId, doorDrop.slot, {zoneSelection:doorDrop.zoneSelection, handOccurrenceId:dragContext?.handOccurrenceId});
       } else {
         const servZone = qs(playerZoneSelector(currentPlayer, 'servants'));
         if (servZone) {
@@ -13156,20 +13191,20 @@ function setupDragDrop() {
           fake.className = 'slot';
           if (servZone.dataset) fake.dataset.player = currentPlayer;
           servZone.appendChild(fake);
-          playCard(dragId, fake);
+          playCard(dragId, fake, {handOccurrenceId:dragContext?.handOccurrenceId});
           if (fake.parentNode) fake.remove();
         }
       }
     } else {
       const stackTarget = e.target.closest('.fc[data-botanical-stack]');
       if (stackTarget && stackTarget.dataset.botanicalCard === dragId && stackTarget.dataset.player === currentPlayer) {
-        playCard(dragId, stackTarget);
+        playCard(dragId, stackTarget, {handOccurrenceId:dragContext?.handOccurrenceId});
         dragId = null;
         dragContext = null;
         return;
       }
       const slot = e.target.closest('.slot,.slot-appro');
-      if (slot) playCard(dragId, slot);
+      if (slot) playCard(dragId, slot, {handOccurrenceId:dragContext?.handOccurrenceId});
     }
     dragId = null;
     dragContext = null;
@@ -13219,10 +13254,13 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
   if (showFace) {
     hand.forEach((id, i) => {
       const el = document.createElement('div');
+      buildHC.__handIndex = i;
       el.innerHTML = buildHC(id, p.key, drawLast && i === hand.length - 1);
+      delete buildHC.__handIndex;
       const hc = el.firstElementChild;
       if (hc) {
         hc.setAttribute('draggable', 'true');
+        hc.dataset.handOccurrence = batch03HandOccurrenceAt(p, i) || '';
         markCanonicalHandNode(hc, p, renderToken, 'face', id);
         handEl.appendChild(hc);
         traceHandMutation(handEl, 'renderPlayerHand:append-face', {cardId:id, renderToken});
@@ -13290,10 +13328,11 @@ function drawSpecificCard(player, cardId) {
   return result.success ? result.cardId : null;
 }
 
-function addCardToHand(player, cardId, {refresh=true}={}) {
+function addCardToHand(player, cardId, {refresh=true, occurrenceId=null}={}) {
   const p = playerState(player);
   if (!p || !cardId || getHandCapacityStatus(p).full) return false;
   p.hand.push(cardId);
+  batch03RegisterHandCard(p, p.hand.length - 1, occurrenceId);
   if (refresh) {
     if (p.key === currentPlayer) refreshHand(p);
     else refreshAdverseHandBacks(opponentOf(p));
@@ -13943,7 +13982,7 @@ async function endTurnRuntime() {
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
     resolveBatch02OwnerTurnExpiration(activePlayer);
     cleanTurnState(activePlayer);
-    if (window._blockedCardPlayer === activePlayer.key && window._blockedCardArmed) {
+    if (batch03ExpireBlockedHandOccurrences(activePlayer) || (window._blockedCardPlayer === activePlayer.key && window._blockedCardArmed)) {
       window._blockedCard = null;
       window._blockedCardPlayer = null;
       window._blockedCardArmed = false;
@@ -13974,7 +14013,7 @@ async function endTurnRuntime() {
     if (drawn) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
     await flushPendingDoorKeyDrawVisuals(activePlayer);
     updateCamouflageVFX();
-    if (window._blockedCardPlayer === currentPlayer) {
+    if (batch03ArmBlockedHandOccurrences(activePlayer) || window._blockedCardPlayer === currentPlayer) {
       if (!window._blockedCardArmed) window._blockedCardArmed = true;
       refreshHand(activePlayer);
     }
@@ -17170,12 +17209,82 @@ function batch03Shuffle(list) {
   return [...(list || [])].sort(() => gameRandom() - 0.5);
 }
 
-function batch03BlockedCardSourceName() {
-  return String(window._blockedCardSourceName || 'Mage ermite').trim() || 'Mage ermite';
+function batch03BlockedCardSourceName(block=null) {
+  return String(block?.sourceName || window._blockedCardSourceName || 'Mage ermite').trim() || 'Mage ermite';
 }
 
-function isBatch03HandCardBlocked(cardId, player) {
-  return !!cardId && window._blockedCard === cardId && window._blockedCardPlayer === playerKey(player) && !!window._blockedCardArmed;
+function ensureBatch03HandOccurrences(player) {
+  const p = playerState(player);
+  if (!p) return [];
+  p.batch03HandOccurrences ||= [];
+  while (p.batch03HandOccurrences.length < p.hand.length) {
+    p.batch03HandOccurrences.push('hand-' + p.key + '-' + (++handProjectionSequence));
+  }
+  if (p.batch03HandOccurrences.length > p.hand.length) p.batch03HandOccurrences.length = p.hand.length;
+  return p.batch03HandOccurrences;
+}
+
+function batch03HandOccurrenceAt(player, index) {
+  return ensureBatch03HandOccurrences(player)[index] || null;
+}
+
+function batch03RegisterHandCard(player, index=null, occurrenceId=null) {
+  const p = playerState(player);
+  if (!p) return null;
+  const list = ensureBatch03HandOccurrences(p);
+  const at = index == null ? Math.max(0, p.hand.length - 1) : Math.max(0, Math.min(Number(index) || 0, p.hand.length - 1));
+  const id = occurrenceId || ('hand-' + p.key + '-' + (++handProjectionSequence));
+  list[at] = id;
+  return id;
+}
+
+function batch03RemoveHandOccurrenceAt(player, index) {
+  const p = playerState(player);
+  if (!p) return null;
+  const list = ensureBatch03HandOccurrences(p);
+  return list.splice(index, 1)[0] || null;
+}
+
+function batch03BlockedHandEntries(player) {
+  const p = playerState(player);
+  const blocks = (p?.batch03BlockedHandOccurrences || []).filter(block => block && block.armed);
+  return blocks;
+}
+
+function batch03ArmBlockedHandOccurrences(player) {
+  const p = playerState(player);
+  if (!p?.batch03BlockedHandOccurrences?.length) return false;
+  for (const block of p.batch03BlockedHandOccurrences) block.armed = true;
+  return true;
+}
+
+function batch03ExpireBlockedHandOccurrences(player) {
+  const p = playerState(player);
+  const had = !!p?.batch03BlockedHandOccurrences?.length;
+  if (p) p.batch03BlockedHandOccurrences = [];
+  return had;
+}
+
+function batch03HandIndexForOccurrence(player, cardId, occurrenceId=null) {
+  const p = playerState(player);
+  if (!p || !cardId) return -1;
+  const occurrences = ensureBatch03HandOccurrences(p);
+  if (occurrenceId) {
+    const exact = occurrences.findIndex((id, index) => id === occurrenceId && p.hand[index] === cardId);
+    if (exact >= 0) return exact;
+  }
+  return p.hand.indexOf(cardId);
+}
+
+function batch03BlockedHandEntry(cardId, player, index=null) {
+  const p = playerState(player);
+  if (!p || !cardId) return null;
+  const occurrenceId = index == null ? null : batch03HandOccurrenceAt(p, index);
+  return batch03BlockedHandEntries(p).find(block => block.cardId === cardId && (!occurrenceId || block.occurrenceId === occurrenceId)) || null;
+}
+
+function isBatch03HandCardBlocked(cardId, player, index=null) {
+  return !!batch03BlockedHandEntry(cardId, player, index);
 }
 
 function isBatch03RuneServant(cardId) {
@@ -17193,6 +17302,40 @@ function isBatch03UndeadServant(fc) {
   return !!fc && CARDS_DATA[fc.dataset.id]?.type === 'Serviteur' && CARDS_DATA[fc.dataset.id]?.fac === 'mvs';
 }
 
+function pulseBatch03Ability(fc, reason='ability', {move=true, passive=false}={}) {
+  if (!fc || !fc.classList) return false;
+  fc.dataset.batch03LastPulseReason = reason;
+  fc.dataset.batch03LastPulseMove = move ? '1' : '0';
+  const cls = passive ? 'batch03-passive-pulse' : 'batch03-ability-pulse';
+  fc.classList.remove(cls);
+  void fc.offsetWidth;
+  fc.classList.add(cls);
+  if (!passive) setTimeout(() => fc.classList.remove(cls), 860);
+  return true;
+}
+
+function createBatch03StatusCounter(fc, key, value, label) {
+  if (!fc) return null;
+  fc.querySelectorAll('[data-batch03-status-counter="' + key + '"]').forEach(node => node.remove());
+  if (!(Number(value) > 0)) return null;
+  const node = document.createElement('div');
+  node.className = 'kw-counter batch03-status-counter';
+  node.dataset.batch03StatusCounter = key;
+  node.dataset.statusName = label;
+  node.textContent = String(value);
+  node.title = label + ' : ' + value + ' tour(s) restant(s).';
+  fc.appendChild(node);
+  return node;
+}
+
+function syncBatch03DivineWrathCounter(target) {
+  return createBatch03StatusCounter(target, 'divine-wrath', Number(target?.dataset?.batch03DivineWrathTurns || 0), 'Colère divine');
+}
+
+function clearBatch03DivineWrathCounter(target) {
+  target?.querySelectorAll?.('[data-batch03-status-counter="divine-wrath"]').forEach(node => node.remove());
+}
+
 function applyBatch03DivineWrath(target, sourcePlayer, {sourceCardId='H000012', sourceInstanceId=null, reason='effect'}={}) {
   const p = playerState(sourcePlayer);
   if (!target || target.dataset.dead || !isBatch03UndeadServant(target)) {
@@ -17204,6 +17347,7 @@ function applyBatch03DivineWrath(target, sourcePlayer, {sourceCardId='H000012', 
   target.dataset.batch03DivineWrathSourceCard = sourceCardId;
   if (sourceInstanceId) target.dataset.batch03DivineWrathSourceInstance = sourceInstanceId;
   target.dataset.batch03DivineWrathApplyAnimation = 'lightning-bolt';
+  syncBatch03DivineWrathCounter(target);
   target.classList.add('batch03-divine-wrath-applied');
   setTimeout(() => target.classList.remove('batch03-divine-wrath-applied'), 950);
   const result = {success:true, reason, sourceCardId, sourcePlayerId:p?.key || '', target:targetSummary(target)};
@@ -17232,6 +17376,7 @@ async function resolveBatch03DivineWrathStartTurn(player, result) {
     const sourcePlayer = playerState(target.dataset.batch03DivineWrathSourcePlayer);
     const sourceCardId = target.dataset.batch03DivineWrathSourceCard || 'H000012';
     target.dataset.batch03DivineWrathTickAnimation = 'electric-arcs';
+    target.dataset.batch03DivineWrathTickDamage = String(damage);
     target.classList.add('batch03-divine-wrath-tick');
     target._killer = sourcePlayer ? findBoardCard(sourcePlayer, sourceCardId) : null;
     const died = await applyDamage(target, damage);
@@ -17244,12 +17389,15 @@ async function resolveBatch03DivineWrathStartTurn(player, result) {
       if (remaining > 0) {
         target.dataset.batch03DivineWrathTurns = String(remaining);
         target.dataset.batch03DivineWrathNextDamage = String(damage + 1);
+        syncBatch03DivineWrathCounter(target);
       } else {
         delete target.dataset.batch03DivineWrathTurns;
         delete target.dataset.batch03DivineWrathNextDamage;
         delete target.dataset.batch03DivineWrathSourcePlayer;
         delete target.dataset.batch03DivineWrathSourceCard;
         delete target.dataset.batch03DivineWrathSourceInstance;
+        delete target.dataset.batch03DivineWrathTickDamage;
+        clearBatch03DivineWrathCounter(target);
       }
       setTimeout(() => target.classList.remove('batch03-divine-wrath-tick'), 900);
     }
@@ -17279,6 +17427,26 @@ function maybeRedirectBatch03MirrorTarget(attacker, targetFC) {
   return {redirected:true, targetFC:nextTarget, result};
 }
 
+function createBatch03RuneReturnFlight(fc, owner) {
+  if (!fc?.isConnected || typeof document === 'undefined') return false;
+  const from = fc.getBoundingClientRect();
+  const hand = qs(playerZoneSelector(owner, 'hand'));
+  const to = hand?.getBoundingClientRect?.();
+  if (!from || !to) return false;
+  const node = document.createElement('div');
+  node.className = 'batch03-rune-flight';
+  node.dataset.testid = 'batch03-rune-flight';
+  node.dataset.cardId = fc.dataset.id || '';
+  node.style.backgroundImage = 'url("' + cardArtworkSrc(fc.dataset.id, CARDS_DATA[fc.dataset.id]?.assetFolder || facFolder(CARDS_DATA[fc.dataset.id]?.fac || 'hum')) + '")';
+  node.style.setProperty('--from-x', from.left + 'px');
+  node.style.setProperty('--from-y', from.top + 'px');
+  node.style.setProperty('--to-x', (to ? to.left + Math.min(120, to.width / 2) : from.left) + 'px');
+  node.style.setProperty('--to-y', (to ? to.top + Math.min(40, to.height / 2) : from.top - 80) + 'px');
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 1350);
+  return true;
+}
+
 function markBatch03HandCardReturned(player, cardId) {
   const p = playerState(player);
   if (!p || !cardId || p.key !== currentPlayer) return null;
@@ -17291,6 +17459,18 @@ function markBatch03HandCardReturned(player, cardId) {
     if (img) node.dataset.batch03ReturnedImageReady = String(img.complete && img.naturalWidth > 0);
   }
   return node;
+}
+
+function showBatch03IannaReveal(cardId) {
+  if (!isBatch03IannaVisualScenario() || !cardId || typeof document === 'undefined') return false;
+  const node = document.createElement('div');
+  node.className = 'batch03-ianna-reveal';
+  node.dataset.testid = 'batch03-ianna-reveal';
+  node.dataset.cardId = cardId;
+  node.innerHTML = '<img src="' + cardArtworkSrc(cardId, CARDS_DATA[cardId]?.assetFolder || facFolder(CARDS_DATA[cardId]?.fac || 'hum')) + '" alt=""><span>' + escapeHtml(CARDS_DATA[cardId]?.name || cardId) + '</span>';
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 1500);
+  return true;
 }
 
 function markBatch03HandTransfer(player, cardId, marker) {
@@ -17383,15 +17563,19 @@ async function batch03MoveServantToOwnerHandOrGraveyard(fc, {blockNextTurn=false
   const summary = targetSummary(fc);
   if (!getHandCapacityStatus(owner).full) {
     batch03RemoveBoardCardToSlot(fc);
-    addCardToHand(owner, cardId, {refresh:true});
+    addCardToHand(owner, cardId, {refresh:true, occurrenceId:fc.dataset.instance || null});
+    let blockedOccurrenceId = null;
     if (blockNextTurn) {
-      window._blockedCard = cardId;
+      owner.batch03BlockedHandOccurrences ||= [];
+      blockedOccurrenceId = batch03HandOccurrenceAt(owner, owner.hand.length - 1);
+      owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:blockedOccurrenceId, sourceName:'Mage ermite', armed:true, createdTurnSequence:turnSequence});
+      window._blockedCard = null;
       window._blockedCardPlayer = owner.key;
-      window._blockedCardArmed = true;
+      window._blockedCardArmed = false;
       window._blockedCardSourceName = 'Mage ermite';
       refreshHand(owner);
     }
-    return {success:true, destination:'hand', cardId, target:summary, blocked:blockNextTurn};
+    return {success:true, destination:'hand', cardId, target:summary, blocked:blockNextTurn, blockedOccurrenceId};
   }
   await sendToCemetery(fc);
   return {success:true, destination:'graveyard', cardId, target:summary, blocked:false};
@@ -17622,6 +17806,7 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
     }
   }
   if (sourceFC) {
+    pulseBatch03Ability(sourceFC, 'initiative');
     sourceFC.classList.add('batch03-initiative-pulse');
     setTimeout(() => sourceFC.classList.remove('batch03-initiative-pulse'), 750);
   }
@@ -17658,6 +17843,7 @@ async function applyBatch03StartTurnAbilities(player) {
     const target = batch03Pick(injured);
     if (target) {
       const amount = CARDS_DATA[target.dataset.id]?.fac === 'hum' ? 4 : 2;
+      pulseBatch03Ability(priest, 'start-turn');
       result.priestHeals.push({source:targetSummary(priest), target:targetSummary(target), heal:applyHeal(target, amount)});
     }
   }
@@ -17674,6 +17860,7 @@ async function resolveBatch03NecraneEndTurn(player, result) {
     const existing = new Set(livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03RuneSource === necrane.dataset.instance).map(fc => fc.dataset.id));
     const next = options.find(id => !existing.has(id));
     if (next) {
+      pulseBatch03Ability(necrane, 'end-turn');
       const summon = await summonBatch03Servant(p, next, {sourceCardId:'H000030', sourceInstanceId:necrane.dataset.instance, triggerInitiativeEffect:false, ready:true});
       const summonedFc = summon.instanceId ? document.querySelector(`.fc[data-instance="${summon.instanceId}"]`) : null;
       if (summonedFc) summonedFc.dataset.batch03RuneSource = necrane.dataset.instance;
@@ -17714,8 +17901,14 @@ async function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) 
   const drawnNode = markBatch03HandTransfer(p, drawnCardId, 'drawn');
   if (drawnNode) sequence.push('drawn-card-highlighted');
   if (isBatch03IannaVisualScenario()) await new Promise(resolve => setTimeout(resolve, 280));
+  const pulse = pulseBatch03Ability(ianna, 'draw-steal');
+  if (pulse) sequence.push('ianna-pulsed');
+  if (isBatch03IannaVisualScenario()) await new Promise(resolve => setTimeout(resolve, 360));
+  if (showBatch03IannaReveal(drawnCardId)) sequence.push('center-reveal');
+  if (isBatch03IannaVisualScenario()) await new Promise(resolve => setTimeout(resolve, 820));
+  const drawnOccurrenceId = batch03HandOccurrenceAt(p, index);
   const removed = removeHandCardAt(p, index);
-  const added = addCardToHand(thief, removed, {refresh:false});
+  const added = addCardToHand(thief, removed, {refresh:false, occurrenceId:drawnOccurrenceId});
   renderAllHands();
   let stolenNode = null;
   if (added && isBatch03IannaVisualScenario()) {
@@ -17724,8 +17917,7 @@ async function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) 
   }
   if (stolenNode) sequence.push('stolen-card-highlighted');
   const result = {success:!!added, reason:added ? 'stolen-drawn-card' : 'transfer-failed', roll, stolenCardId:removed, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna), drawResult, visualSequence:sequence};
-  ianna.classList.add('batch03-initiative-pulse');
-  setTimeout(() => ianna.classList.remove('batch03-initiative-pulse'), 750);
+  if (added) result.stolenOccurrenceId = batch03HandOccurrenceAt(thief, playerHand(thief).lastIndexOf(removed));
   recordCollectionBatch03Event('ianna-draw-steal', result);
   if (added) showNotif('Ianna vole « ' + (CARDS_DATA[removed]?.name || removed) + ' » juste après sa pioche.', 1700);
   return result;
@@ -17736,9 +17928,11 @@ async function applyBatch03EndTurnAbilities(player) {
   const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[], necraneSummons:[]};
   if (!p) return result;
   for (const wolf of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000020' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    pulseBatch03Ability(wolf, 'end-turn');
     result.wolfSummons.push(await summonBatch03Servant(p, 'H000021', {sourceCardId:'H000020', sourceInstanceId:wolf.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   for (const door of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'DIV000001' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    pulseBatch03Ability(door, 'end-turn');
     result.demonDoorSummons.push(await summonBatch03Servant(p, 'DIV000002', {sourceCardId:'DIV000001', sourceInstanceId:door.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
   if (playerHand(p).includes('H000027')) {
@@ -17810,14 +18004,33 @@ function resolveBatch03BlessedSwords(player, context={}) {
   return diagnostic;
 }
 
+function prepareBatch03EchoContext(cardId, player, context={}) {
+  if (!cardTargetRequirement(cardId)) return {allowed:true, context:{}};
+  const selected = resolveBoardTargetReferences(context.selectedTargetIds || []);
+  const stillLegal = selected.filter(target => target?.isConnected && !target.dataset.dead);
+  const legal = legalTargetsForRequirement(cardId, player);
+  if (stillLegal.length && stillLegal.every(target => legal.includes(target))) {
+    return {allowed:true, context:{selectedTargetIds:stillLegal.map(target => target.dataset.instance)}};
+  }
+  if (!legal.length) return {allowed:false, reason:'no-legal-echo-target'};
+  const card = CARDS_DATA[cardId] || {};
+  const negative = /dégât|inflige|détruit|défausse|sacrifie/i.test(card.cap || card.detail || '');
+  const preferred = negative ? legal.filter(target => target.dataset.player !== playerKey(player)) : legal.filter(target => target.dataset.player === playerKey(player));
+  const target = batch03Pick(preferred.length ? preferred : legal);
+  return {allowed:true, context:{selectedTargetIds:[target.dataset.instance], batch03EchoRetargeted:true}};
+}
+
 async function handleBatch03SpellResolved(cardId, caster, context={}) {
   const p = playerState(caster);
   if (!p || context.spellResolution?.success === false || context.batch03Echo) return {echoed:false};
   const mirror = livingServantCardsForPlayer(p).find(fc => fc.dataset.id === 'AVS000003' && canResolveServantAbility(fc, {triggerType:'spell-echo'}));
   if (!mirror || !CARDS_DATA[cardId] || CARDS_DATA[cardId].type !== 'Sort') return {echoed:false};
   if (cardId === 'S000055') return {echoed:false, reason:'triangle-not-echoed'};
-  const echoedResolution = await triggerSort(cardId, p, {...context, batch03Echo:true});
-  const result = {echoed:true, cardId, source:targetSummary(mirror), echoedResolution};
+  const echoContext = prepareBatch03EchoContext(cardId, p, context);
+  if (!echoContext.allowed) return {echoed:false, reason:echoContext.reason, source:targetSummary(mirror)};
+  pulseBatch03Ability(mirror, 'spell-echo');
+  const echoedResolution = await triggerSort(cardId, p, {...context, ...echoContext.context, batch03Echo:true});
+  const result = {echoed:true, cardId, source:targetSummary(mirror), echoedResolution, echoContext};
   recordCollectionBatch03Event('spell-echo', result);
   return result;
 }

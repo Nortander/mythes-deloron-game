@@ -177,3 +177,13 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `AVS000003` (`Undergast`) rejoue le Sort ciblé sans créer de copie en main et sans ajouter un second exemplaire du Sort au cimetière.
 - `AVS000010` (`Ianna la Chanteuse`) dispose d'un scénario technique caché dédié, avec séquence visible de carte piochée puis volée.
 - `S000028` garde les PV en vert uniquement quand le bonus de PV maximum ne laisse pas la cible blessée ; une cible encore blessée reste affichée en rouge.
+
+### Corrections COLLECTION-BATCH-03E
+
+- `H000012` affiche un compteur unique et dynamique de `Colère divine`, synchronisé sur les dégâts restants et les ticks 2, 3 puis 4.
+- `H000002` bloque uniquement l'occurrence runtime renvoyée par le Mage ermite ; une autre copie du même ID reste jouable si elle n'est pas celle qui a été renvoyée.
+- Le retour du `Serviteur de la rune` utilise une animation terrain vers main plus lisible, distincte d'une simple impulsion.
+- `AVS000010` applique une séquence déterministe : pioche visible, impulsion d'Ianna, révélation centrale, puis transfert main adverse vers main d'Ianna ; les échecs ne produisent pas cette séquence.
+- `AVS000003` rejoue réellement le Sort une seconde fois, sans copie en main, sans boucle, avec reciblage uniquement si une autre cible légale existe.
+- Le scénario technique caché `collection-batch-03-humans-undergast` isole les cas de rejeu et de reciblage d'Undergast.
+- Les règles générales d'impulsion, mouvement et non-feedback en cas d'échec sont centralisées dans `docs/CODEX_WORKFLOW_GUARDRAILS.md`.
