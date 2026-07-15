@@ -1,0 +1,42 @@
+{
+  "lotId": "COLLECTION-BATCH-04-POLISH",
+  "scenarios": [
+    "collection-batch-04-status-counters",
+    "collection-batch-04-rune-return",
+    "collection-batch-04-pulses",
+    "collection-batch-04-undergast-cases"
+  ],
+  "statusCounters": {
+    "divineWrath": {
+      "sourceCardId": "H000012",
+      "targetCardId": "MV000020",
+      "initialCounter": "3",
+      "tickCounters": ["2", "1"],
+      "damageByTurn": [2, 3, 4]
+    },
+    "hypnosis": {
+      "sourceCardId": "DIV000004",
+      "targetCardId": "H000001",
+      "indefiniteCounter": "\u221e",
+      "durationCounters": ["2", "1"]
+    }
+  },
+  "runeReturn": {
+    "cardId": "H000031",
+    "destination": "owner-hand"
+  },
+  "pulseColors": {
+    "H000006": "#26c4ec",
+    "ORC000017": "#c8140a80",
+    "MV000020": "#8a3a9a73",
+    "DIV000004": "#78645066",
+    "GOB000001": "#686c1866"
+  },
+  "undergastCases": {
+    "avatarId": "AVS000003",
+    "noTargetSpell": "S000051",
+    "sameTargetSpell": "S000010",
+    "retargetSpell": "S000005",
+    "echoCostSpell": "S000044"
+  }
+}

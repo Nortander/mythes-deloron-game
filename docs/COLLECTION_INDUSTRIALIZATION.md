@@ -187,3 +187,17 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `AVS000003` rejoue réellement le Sort une seconde fois, sans copie en main, sans boucle, avec reciblage uniquement si une autre cible légale existe.
 - Le scénario technique caché `collection-batch-03-humans-undergast` isole les cas de rejeu et de reciblage d'Undergast.
 - Les règles générales d'impulsion, mouvement et non-feedback en cas d'échec sont centralisées dans `docs/CODEX_WORKFLOW_GUARDRAILS.md`.
+
+## COLLECTION-BATCH-04 - Polish statuts, pulsations et scenarios dedies
+
+Ce lot ne cree pas une nouvelle famille de cartes : il renforce les contrats visuels et runtime issus des lots Batch-02 et Batch-03.
+
+- `Colere divine` affiche un compteur unique directement sur la carte, synchronise avec les ticks 2, 3 puis 4 degats.
+- `Hypnose` dispose d'une animation verte en boucle, d'un compteur numerique ou infini, et se retire des qu'une cible subit des degats.
+- Le retour `Serviteur de la rune` expose une trajectoire terrain vers main du proprietaire avec attributs techniques testables.
+- Les pulsations de capacite utilisent une couleur par faction, restent absentes en cas d'echec, et distinguent les passifs immobiles.
+- `AVS000003` (`Undergast`) est renforce sur les cas sans cible, cible encore legale, reciblage et cout en Echos rejoue sans paiement supplementaire.
+
+Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

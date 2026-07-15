@@ -604,6 +604,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc-blocked-temporary .hc-frame{outline:2px solid rgba(255,215,96,.95);outline-offset:-2px;}
 .hc-batch03-returned{animation:batch03HandReturn 1.25s ease-out;}
 .batch03-rune-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;box-shadow:0 0 22px rgba(180,130,255,.95),0 0 46px rgba(120,70,255,.72);animation:batch03RuneFlight 1.25s cubic-bezier(.22,.95,.32,1) forwards;}
+.batch03-rune-flight[data-flight-target="owner-hand"]{outline:2px solid rgba(230,210,255,.95);outline-offset:2px;}
 .batch03-ability-pulse{animation:batch03AbilityPulse .82s ease-out;}
 .batch03-passive-pulse{animation:batch03PassivePulse 2.2s ease-in-out infinite;}
 .batch03-ianna-reveal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4300;width:208px;padding:12px;border:2px solid rgba(38,196,236,.92);border-radius:16px;background:rgba(5,12,34,.94);box-shadow:0 0 28px rgba(38,196,236,.95),0 0 66px rgba(0,47,167,.72);text-align:center;pointer-events:none;animation:batch03IannaReveal 1.45s ease-in-out forwards;}
@@ -615,6 +616,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-divine-wrath-tick{animation:batch03DivineTick .85s ease-out;}
 .batch03-divine-wrath-tick::before,.batch03-divine-wrath-tick::after{content:'';position:absolute;inset:8px;z-index:48;pointer-events:none;border:2px solid rgba(255,255,255,.95);border-left-color:transparent;border-bottom-color:transparent;border-radius:42% 58% 46% 54%;filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 13px #d9f1ff);animation:batch03DivineArc .85s ease-out;}
 .batch03-divine-wrath-tick::after{inset:18px 10px 14px 16px;transform:rotate(28deg);animation-delay:.08s;}
+.batch03-status-counter{position:absolute;right:5px;bottom:32px;z-index:52;display:grid;place-items:center;width:28px;height:28px;font-family:'Cinzel',serif;font-size:14px;font-weight:900;line-height:1;color:#101014;text-shadow:0 1px 4px rgba(255,255,255,.95);pointer-events:none;}
+.batch03-status-counter::before{content:'';position:absolute;inset:0;z-index:-1;filter:drop-shadow(0 0 8px rgba(255,255,255,.95)) drop-shadow(0 0 14px var(--batch03-status-glow,rgba(255,255,255,.75)));}
+.batch03-status-counter[data-batch03-status-counter="divine-wrath"]::before{background:linear-gradient(180deg,#fff,#eaf6ff);clip-path:polygon(49% 0,62% 32%,98% 24%,71% 51%,89% 88%,51% 67%,16% 100%,31% 58%,0 43%,38% 35%);}
+.batch03-status-counter[data-batch03-status-counter="hypnose"]{color:#caff9c;text-shadow:0 0 5px #071807,0 1px 4px #000;}
+.batch03-status-counter[data-batch03-status-counter="hypnose"]::before{background:radial-gradient(circle at 50% 50%,#9dff66 0 25%,#173b18 28% 45%,#071807 48% 62%,transparent 65%);border:2px solid rgba(157,255,102,.95);border-radius:50%;box-shadow:0 0 12px rgba(157,255,102,.8);}
+.batch03-hypnosis-active::before,.batch03-hypnosis-active::after{content:'';position:absolute;left:50%;top:50%;z-index:47;width:18px;height:18px;border:2px solid rgba(157,255,102,.85);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:batch04HypnosisRipple 1.8s ease-out infinite;}
+.batch03-hypnosis-active::after{animation-delay:.58s;}
 .batch03-rune-returning{animation:batch03RuneReturn .95s ease-out;}
 .batch03-rune-returning::before{content:'';position:absolute;inset:6px;z-index:48;border-radius:12px;border:2px solid rgba(180,130,255,.95);box-shadow:0 0 18px rgba(160,90,255,.95),inset 0 0 18px rgba(160,90,255,.65);pointer-events:none;}
 .hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
@@ -625,14 +633,15 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch03DivineTick{0%{filter:brightness(1.9) drop-shadow(0 0 16px #fff);transform:translateY(-1px) rotate(-.8deg);}50%{transform:translateY(1px) rotate(.8deg);}100%{filter:none;transform:none;}}
 @keyframes batch03DivineArc{0%{opacity:0;transform:scale(.72) rotate(-18deg);}35%{opacity:1;}100%{opacity:0;transform:scale(1.08) rotate(22deg);}}
 @keyframes batch03RuneReturn{0%{filter:brightness(2.1) drop-shadow(0 0 22px #9c5cff);transform:translateY(0) scale(1.08);}45%{filter:brightness(2.35) drop-shadow(0 -22px 28px #c8a8ff);transform:translateY(-28px) scale(.98);}100%{filter:none;transform:translateY(-52px) scale(.72);opacity:.18;}}
-@keyframes batch03RuneFlight{0%{opacity:0;transform:translate(var(--from-x,0),var(--from-y,0)) scale(.8) rotate(-5deg);filter:brightness(2.4);}14%{opacity:1;}72%{opacity:1;transform:translate(calc((var(--from-x,0) + var(--to-x,0))/2),calc((var(--from-y,0) + var(--to-y,0))/2 - 82px)) scale(.94) rotate(4deg);}100%{opacity:0;transform:translate(var(--to-x,0),var(--to-y,0)) scale(.45) rotate(0deg);filter:brightness(1.2);}}
+@keyframes batch03RuneFlight{0%{opacity:0;transform:translate(var(--from-x,0),var(--from-y,0)) scale(.8) rotate(-5deg);filter:brightness(2.4);}12%{opacity:1;}64%{opacity:1;transform:translate(calc(var(--from-x,0) + (var(--to-x,0) - var(--from-x,0)) * .62),calc(var(--from-y,0) + (var(--to-y,0) - var(--from-y,0)) * .62 - 34px)) scale(.92) rotate(3deg);}100%{opacity:0;transform:translate(var(--to-x,0),var(--to-y,0)) scale(.45) rotate(0deg);filter:brightness(1.2);}}
 @keyframes batch03HandReturn{0%{filter:brightness(2.25) drop-shadow(0 0 22px #b582ff);transform:translateY(-24px) scale(1.12);}100%{filter:none;transform:none;}}
-@keyframes batch03AbilityPulse{0%{filter:brightness(2) drop-shadow(0 0 18px var(--card-faction-color,#26c4ec));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.35) drop-shadow(0 0 26px var(--card-faction-color,#26c4ec));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
-@keyframes batch03PassivePulse{0%,100%{filter:drop-shadow(0 0 4px rgba(38,196,236,.35));}50%{filter:brightness(1.18) drop-shadow(0 0 16px var(--card-faction-color,#26c4ec));}}
+@keyframes batch03AbilityPulse{0%{filter:brightness(2) drop-shadow(0 0 18px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.35) drop-shadow(0 0 26px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
+@keyframes batch03PassivePulse{0%,100%{filter:drop-shadow(0 0 4px var(--batch04-pulse-color,rgba(38,196,236,.35)));}50%{filter:brightness(1.18) drop-shadow(0 0 16px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));}}
+@keyframes batch04HypnosisRipple{0%{opacity:.95;width:14px;height:14px;box-shadow:0 0 8px rgba(157,255,102,.95),inset 0 0 8px rgba(157,255,102,.55);}72%{opacity:.38;}100%{opacity:0;width:112px;height:112px;box-shadow:0 0 18px rgba(157,255,102,.55),inset 0 0 18px rgba(157,255,102,.25);}}
 @keyframes batch03IannaReveal{0%{opacity:0;transform:translate(-50%,-48%) scale(.72);}16%,78%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-52%) scale(.86);}}
 @keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
 @keyframes batch03IannaStolen{0%{transform:translateX(38px) scale(.85);filter:brightness(1.9);}70%{transform:translateX(-4px) scale(1.04);filter:brightness(1.25);}100%{transform:none;filter:none;}}
-@keyframes batch03InitiativePulse{0%{filter:brightness(1.9) drop-shadow(0 0 18px var(--card-faction-color,#26c4ec));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.28) drop-shadow(0 0 28px var(--card-faction-color,#26c4ec));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
+@keyframes batch03InitiativePulse{0%{filter:brightness(1.9) drop-shadow(0 0 18px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.28) drop-shadow(0 0 28px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
 @keyframes avPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 0 2px rgba(0,0,0,0.85);}50%{box-shadow:0 0 0 4px rgba(255,80,40,1),0 0 20px rgba(255,80,40,0.6);}}
 
@@ -2802,6 +2811,34 @@ SCENARIOS['collection-batch-03-humans-spells'] = {
   testSetup: {
     player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['S000010','S000028','S000033'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001',pdv:2},{id:'H000005',pdv:3},{id:'H000018',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001','H000005','S000010','R000010'], drawPile:['H000001','H000005','R000010'], graveyard:[], servants:[{id:'MV000020',pdv:3},{id:'H000001',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-04-status-counters'] = {
+  label: 'TEST - COLLECTION BATCH 04 Statuts', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000012',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000012','DIV000004'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000012'},{id:'DIV000004'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','R000010'], drawPile:['H000005','R000010'], graveyard:[], servants:[{id:'MV000020',pdv:6},{id:'H000001',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-04-rune-return'] = {
+  label: 'TEST - COLLECTION BATCH 04 Rune', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000031',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000031'], drawPile:['DIV000006','DIV000006','R000010'], graveyard:[], servants:[{id:'H000031'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000010'], graveyard:[], servants:[{id:'MV000020',pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-04-pulses'] = {
+  label: 'TEST - COLLECTION BATCH 04 Pulsations', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000006',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000006','H000031'], drawPile:['DIV000006','DIV000006','R000010'], graveyard:[], servants:[{id:'H000006',pdv:3},{id:'ORC000017',pdv:6},{id:'MV000020',pdv:4},{id:'DIV000004',pdv:5},{id:'GOB000001',pdv:3}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-04-undergast-cases'] = {
+  label: 'TEST - COLLECTION BATCH 04 Undergast', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000003',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['S000005','S000010','S000044','S000051'], drawPile:['R000010','S000017','S000004'], graveyard:['MV000001'], servants:[{id:'AVS000003'},{id:'H000001',pdv:2}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['R000010'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -12037,6 +12074,7 @@ async function applyDamage(fc, amount) {
   fc.dataset.pdv    = displayPdv;
   updateRageState(fc);
   await triggerBatch03DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
+  clearBatch04Hypnosis(fc, 'damage-received');
 
   await new Promise(r => setTimeout(r, 380));
   fc.classList.remove('anim-damage');
@@ -12785,14 +12823,10 @@ async function applyStartTurnServantAbilities(player) {
   if (!zone) return {healed:0};
   for (const target of Array.from(zone.querySelectorAll('.fc[data-hypno]:not([data-dead])'))) {
     const remaining = Math.max(0, Number(target.dataset.hypno || 0) - 1);
-    if (remaining) target.dataset.hypno = String(remaining);
-    else {
-      delete target.dataset.hypno;
-      if (!target.dataset.frozen && !target.dataset.frozen_cdg) {
-        delete target.dataset.exhausted;
-        target.classList.remove('fc-exhausted');
-      }
-    }
+    if (remaining) {
+      target.dataset.hypno = String(remaining);
+      syncBatch04HypnosisVisual(target);
+    } else clearBatch04Hypnosis(target, 'duration-expired');
   }
   let healed = 0;
   for (const demon of Array.from(zone.querySelectorAll('.fc[data-id="DIV000011"]:not([data-dead])'))) {
@@ -17073,7 +17107,7 @@ async function resolveBatch02Initiative(cardId, player) {
     const targets = [...livingServantCardsForPlayer(opponentOf(p))].sort(() => gameRandom() - 0.5).slice(0, 3);
     for (const target of targets) {
       const status = ['hypnose','cdg','embrasement'][Math.floor(gameRandom() * 3)];
-      if (status === 'hypnose') { target.dataset.hypno = '3'; target.classList.add('fc-exhausted'); }
+      if (status === 'hypnose') applyBatch04Hypnosis(target, {turns:3, sourceCardId:cardId});
       if (status === 'cdg') tryApplyGel({sourcePlayer:p,targetFC:target,sourceCardId:cardId,turns:2,type:'cdg'});
       if (status === 'embrasement') await applyEmbrasement(target,{sourcePlayer:p,sourceCardId:cardId,reason:'gabar-devoue'});
       result.affected.push({instanceId:target.dataset.instance,status});
@@ -17302,10 +17336,37 @@ function isBatch03UndeadServant(fc) {
   return !!fc && CARDS_DATA[fc.dataset.id]?.type === 'Serviteur' && CARDS_DATA[fc.dataset.id]?.fac === 'mvs';
 }
 
+const BATCH04_PULSE_COLORS = Object.freeze({
+  edb:'#4dfe3780',
+  hum:'#26c4ec',
+  orc:'#c8140a80',
+  edg:'#5ab8f073',
+  nain:'#a0a8b866',
+  mvs:'#8a3a9a73',
+  edn:'#9040c080',
+  trl:'#b4902073',
+  gob:'#686c1866',
+  div:'#78645066',
+  sort:'#78645066',
+  appro:'#78645066',
+  bet:'#b4783073'
+});
+
+function batch04PulseColorForCard(cardIdOrElement) {
+  const cardId = typeof cardIdOrElement === 'string' ? cardIdOrElement : cardIdOrElement?.dataset?.id;
+  const fac = CARDS_DATA[cardId]?.fac || '';
+  return BATCH04_PULSE_COLORS[fac] || BATCH04_PULSE_COLORS.div;
+}
+
 function pulseBatch03Ability(fc, reason='ability', {move=true, passive=false}={}) {
   if (!fc || !fc.classList) return false;
   fc.dataset.batch03LastPulseReason = reason;
   fc.dataset.batch03LastPulseMove = move ? '1' : '0';
+  fc.dataset.batch03PulseMove = move ? '1' : '0';
+  fc.dataset.batch03PassivePulse = passive ? '1' : '0';
+  const pulseColor = batch04PulseColorForCard(fc);
+  fc.dataset.batch04PulseColor = pulseColor;
+  fc.style.setProperty('--batch04-pulse-color', pulseColor);
   const cls = passive ? 'batch03-passive-pulse' : 'batch03-ability-pulse';
   fc.classList.remove(cls);
   void fc.offsetWidth;
@@ -17317,13 +17378,14 @@ function pulseBatch03Ability(fc, reason='ability', {move=true, passive=false}={}
 function createBatch03StatusCounter(fc, key, value, label) {
   if (!fc) return null;
   fc.querySelectorAll('[data-batch03-status-counter="' + key + '"]').forEach(node => node.remove());
-  if (!(Number(value) > 0)) return null;
+  const displayValue = value === Infinity || value === '∞' || value === 'infinity' ? '∞' : String(value);
+  if (displayValue !== '∞' && !(Number(value) > 0)) return null;
   const node = document.createElement('div');
   node.className = 'kw-counter batch03-status-counter';
   node.dataset.batch03StatusCounter = key;
   node.dataset.statusName = label;
-  node.textContent = String(value);
-  node.title = label + ' : ' + value + ' tour(s) restant(s).';
+  node.textContent = displayValue;
+  node.title = displayValue === '∞' ? label + ' : durée indéfinie.' : label + ' : ' + displayValue + ' tour(s) restant(s).';
   fc.appendChild(node);
   return node;
 }
@@ -17334,6 +17396,47 @@ function syncBatch03DivineWrathCounter(target) {
 
 function clearBatch03DivineWrathCounter(target) {
   target?.querySelectorAll?.('[data-batch03-status-counter="divine-wrath"]').forEach(node => node.remove());
+}
+
+function syncBatch04HypnosisVisual(target) {
+  if (!target) return null;
+  const hasHypnosis = !!(target.dataset.hypno || target.dataset.hypnosisUntilDamage);
+  target.querySelectorAll('[data-batch03-status-counter="hypnose"]').forEach(node => node.remove());
+  if (!hasHypnosis) {
+    target.classList.remove('batch03-hypnosis-active');
+    return null;
+  }
+  target.classList.add('batch03-hypnosis-active','fc-exhausted');
+  const value = target.dataset.hypno ? Number(target.dataset.hypno) : '∞';
+  return createBatch03StatusCounter(target, 'hypnose', value, 'Hypnose');
+}
+
+function applyBatch04Hypnosis(target, {turns=null, untilDamage=true, sourceCardId='COLLECTION_BATCH_04'}={}) {
+  if (!target || target.dataset.dead) return {success:false, reason:'invalid-hypnosis-target', target:targetSummary(target)};
+  if (turns != null && Number(turns) > 0) {
+    target.dataset.hypno = String(Number(turns));
+    delete target.dataset.hypnosisUntilDamage;
+  } else if (untilDamage) {
+    target.dataset.hypnosisUntilDamage = '1';
+    delete target.dataset.hypno;
+  }
+  syncBatch04HypnosisVisual(target);
+  const result = {success:true, sourceCardId, target:targetSummary(target), duration:target.dataset.hypno || 'infinite'};
+  recordCollectionBatch03Event('hypnosis-applied', result);
+  return result;
+}
+
+function clearBatch04Hypnosis(target, reason='cleared') {
+  if (!target || !(target.dataset.hypno || target.dataset.hypnosisUntilDamage)) return false;
+  delete target.dataset.hypno;
+  delete target.dataset.hypnosisUntilDamage;
+  syncBatch04HypnosisVisual(target);
+  if (!target.dataset.frozen && !target.dataset.frozen_cdg) {
+    delete target.dataset.exhausted;
+    target.classList.remove('fc-exhausted');
+  }
+  recordCollectionBatch03Event('hypnosis-cleared', {reason, target:targetSummary(target)});
+  return true;
 }
 
 function applyBatch03DivineWrath(target, sourcePlayer, {sourceCardId='H000012', sourceInstanceId=null, reason='effect'}={}) {
@@ -17437,11 +17540,19 @@ function createBatch03RuneReturnFlight(fc, owner) {
   node.className = 'batch03-rune-flight';
   node.dataset.testid = 'batch03-rune-flight';
   node.dataset.cardId = fc.dataset.id || '';
+  node.dataset.flightTarget = 'owner-hand';
+  node.dataset.ownerId = owner?.key || '';
   node.style.backgroundImage = 'url("' + cardArtworkSrc(fc.dataset.id, CARDS_DATA[fc.dataset.id]?.assetFolder || facFolder(CARDS_DATA[fc.dataset.id]?.fac || 'hum')) + '")';
+  const targetX = to ? (to.left + to.width / 2 - 46) : from.left;
+  const targetY = to ? (to.top + to.height / 2 - 64) : from.top - 80;
   node.style.setProperty('--from-x', from.left + 'px');
   node.style.setProperty('--from-y', from.top + 'px');
-  node.style.setProperty('--to-x', (to ? to.left + Math.min(120, to.width / 2) : from.left) + 'px');
-  node.style.setProperty('--to-y', (to ? to.top + Math.min(40, to.height / 2) : from.top - 80) + 'px');
+  node.style.setProperty('--to-x', targetX + 'px');
+  node.style.setProperty('--to-y', targetY + 'px');
+  node.dataset.fromX = String(Math.round(from.left));
+  node.dataset.fromY = String(Math.round(from.top));
+  node.dataset.toX = String(Math.round(targetX));
+  node.dataset.toY = String(Math.round(targetY));
   document.body.appendChild(node);
   setTimeout(() => node.remove(), 1350);
   return true;
@@ -17545,6 +17656,20 @@ async function summonBatch03Servant(player, cardId, {sourceCardId=null, sourceIn
     result.initiative = await triggerInitiative(cardId, p, {sourceInstanceId:fc.dataset.instance});
   }
   return result;
+}
+
+function batch03OperationDidMutate(operation) {
+  if (!operation) return false;
+  if (Array.isArray(operation)) return operation.some(batch03OperationDidMutate);
+  if (operation.success === false) return false;
+  if (operation.result && operation.result.success === false) return false;
+  if (operation.applied && operation.applied.success === false) return false;
+  return true;
+}
+
+function batch03InitiativeResultHasEffect(result) {
+  if (!result || result.success === false) return false;
+  return Array.isArray(result.operations) && result.operations.some(batch03OperationDidMutate);
 }
 
 function batch03RemoveBoardCardToSlot(fc) {
@@ -17805,7 +17930,7 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
       result.operations.push({type:'golem-magmatique-created', cardId:'DIV000009'});
     }
   }
-  if (sourceFC) {
+  if (sourceFC && batch03InitiativeResultHasEffect(result)) {
     pulseBatch03Ability(sourceFC, 'initiative');
     sourceFC.classList.add('batch03-initiative-pulse');
     setTimeout(() => sourceFC.classList.remove('batch03-initiative-pulse'), 750);
