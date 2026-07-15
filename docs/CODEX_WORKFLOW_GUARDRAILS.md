@@ -120,6 +120,10 @@ Règles générales :
 - lancer le mode headed une seule fois à la fin si demandé ;
 - ne pas relancer une suite en boucle sans diagnostic.
 
+### Tests longs : timeout confortable dès le premier lancement
+
+Les suites Playwright, notamment après les lots `COLLECTION-BATCH-*`, peuvent durer longtemps. Ne pas lancer une suite ciblée, une suite complète ou un test headed avec un délai outil court « pour voir » : utiliser directement un timeout confortable dès le premier lancement. Une interruption par délai outil ne vaut jamais validation. Si une suite dépasse malgré tout le délai, ne pas la compter comme validée, vérifier que les processus sont terminés, confirmer que le port `4173` est libre, relancer une seule fois avec un délai supérieur, puis documenter l’interruption dans le rapport.
+
 Rappels :
 
 - `check-project.cmd` avant ou après lot selon la nature de la commande ;
