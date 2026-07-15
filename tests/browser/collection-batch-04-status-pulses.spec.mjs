@@ -32,6 +32,42 @@ test("Batch-04 scenarios stay hidden but open directly", async ({page}, testInfo
   await attachDiagnostics(testInfo, diagnostics);
 });
 
+test("Batch-04 visual scenarios expose robust enemy boards and resources", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  const audits = {};
+  for (const scenario of fixture.scenarios) {
+    await openScenario(page, scenario);
+    audits[scenario] = await page.evaluate(() => {
+      const enemyServants = livingServantCardsForPlayer(player2).map(card => ({
+        id: card.dataset.id,
+        pdv: Number(card.dataset.pdv || 0),
+        pdvMax: Number(card.dataset.pdvMax || card.dataset.pdv || 0),
+        dead: !!card.dataset.dead
+      }));
+      return {
+        enemyServants,
+        enemyHand: [...player2.hand],
+        enemyDeck: [...player2.drawPile],
+        enemySupply: qs(playerZoneSelector(player2, "appro"))?.querySelector(".fc")?.dataset.id || null,
+        playerSupply: qs(playerZoneSelector(player1, "appro"))?.querySelector(".fc")?.dataset.id || null,
+        playerResources: JSON.parse(JSON.stringify(player1.resourceState || {})),
+        enemyResources: JSON.parse(JSON.stringify(player2.resourceState || {}))
+      };
+    });
+  }
+  for (const [scenario, audit] of Object.entries(audits)) {
+    expect(audit.enemyServants.length, scenario + " enemy servants").toBeGreaterThanOrEqual(fixture.scenarioRobustness.minEnemyServants);
+    expect(audit.enemyServants.every(card => card.pdv > 0 && card.pdvMax >= card.pdv), scenario + " robust hp").toBe(true);
+    expect(audit.enemyHand.length, scenario + " enemy hand").toBeGreaterThanOrEqual(fixture.scenarioRobustness.minEnemyHandCards);
+    expect(audit.enemyDeck.length, scenario + " enemy deck").toBeGreaterThanOrEqual(fixture.scenarioRobustness.minEnemyDeckCards);
+    expect(audit.enemySupply, scenario + " enemy supply").toBe(fixture.scenarioRobustness.requiredSupply);
+    expect(audit.playerSupply, scenario + " player supply").toBe(fixture.scenarioRobustness.requiredSupply);
+    expect(audit.playerResources.souls, scenario + " player souls").toBeGreaterThanOrEqual(40);
+    expect(audit.enemyResources.souls, scenario + " enemy souls").toBeGreaterThanOrEqual(40);
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
 test("Colere divine uses one styled on-card counter and ticks 2, 3, then 4 damage", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-status-counters");
@@ -84,6 +120,29 @@ test("Colere divine uses one styled on-card counter and ticks 2, 3, then 4 damag
   await attachDiagnostics(testInfo, diagnostics);
 });
 
+test("Colere divine refuses non-undead targets without adding counters", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-status-counters");
+  const result = await page.evaluate(() => {
+    const undead = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "MV000020");
+    const human = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    const applied = applyBatch03DivineWrath(undead, player1, {sourceCardId:"H000012", reason:"batch04-positive-control"});
+    const refused = applyBatch03DivineWrath(human, player1, {sourceCardId:"H000012", reason:"batch04-invalid-control"});
+    syncBatch03DivineWrathCounter(human);
+    return {
+      applied,
+      refused,
+      humanCounterCount: human.querySelectorAll('.batch03-status-counter[data-batch03-status-counter="divine-wrath"]').length,
+      humanHasState: !!human.dataset.batch03DivineWrathTurns
+    };
+  });
+  expect(result.applied.success).toBe(true);
+  expect(result.refused).toMatchObject({success:false, reason:"invalid-divine-wrath-target"});
+  expect(result.humanCounterCount).toBe(0);
+  expect(result.humanHasState).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
 test("Hypnose indefinite uses a green ripple, infinity counter and clears on damage", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-status-counters");
@@ -118,6 +177,89 @@ test("Hypnose indefinite uses a green ripple, infinity counter and clears on dam
   expect(result.afterApply.dynamicLines.join(" ")).toContain("Hypnose");
   expect(result.afterDamage).toMatchObject({active:false, exhausted:false, counterCount:0, hasHypno:false});
   expect(result.afterDamage.dynamicLines.join(" ")).not.toContain("Hypnose");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gorgone seductrice applies Hypnose only after attacking a surviving legal servant", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-hypnose");
+  const result = await page.evaluate(async () => {
+    const attacker = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000004");
+    const target = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    const before = {
+      target: targetSummary(target),
+      attacker: targetSummary(attacker),
+      events: collectionBatch03State.events.length
+    };
+    await resolveCombat(attacker, target);
+    const counter = target.querySelector('.batch03-status-counter[data-batch03-status-counter="hypnose"]');
+    const events = collectionBatch03State.events.slice(before.events);
+    return {
+      before,
+      afterTarget: targetSummary(target),
+      targetActive: target.classList.contains("batch03-hypnosis-active"),
+      targetExhausted: target.classList.contains("fc-exhausted"),
+      counterText: (counter?.textContent || "").trim(),
+      attackerPulseColor: attacker.dataset.batch04PulseColor || "",
+      attackerPulseReason: attacker.dataset.batch03LastPulseReason || "",
+      hypnosisEvents: events.filter(event => event.type === "hypnosis-applied"),
+      combatEvents: events.filter(event => event.type === "combat-hook")
+    };
+  });
+  expect(result.before.target.pdv).toBeGreaterThan(result.before.attacker.atk);
+  expect(result.afterTarget.pdv).toBe(result.before.target.pdv - result.before.attacker.atk);
+  expect(result.targetActive).toBe(true);
+  expect(result.targetExhausted).toBe(true);
+  expect(result.counterText).toBe(fixture.statusCounters.hypnosis.indefiniteCounter);
+  expect(result.attackerPulseReason).toBe("combat-hypnosis");
+  expect(result.attackerPulseColor).toBe(fixture.pulseColors.DIV000004);
+  expect(result.hypnosisEvents).toHaveLength(1);
+  expect(result.combatEvents.some(event => event.results?.some(result => result.type === "gorgon-seductress-hypnosis" && result.applied?.success))).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gorgone seductrice does not pulse or hypnotize dead or Insensible targets", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-hypnose");
+  const result = await page.evaluate(async () => {
+    const resetGorgonPulse = (gorgon) => {
+      delete gorgon.dataset.batch04PulseColor;
+      delete gorgon.dataset.batch03LastPulseReason;
+      delete gorgon.dataset.batch03LastPulseMove;
+      delete gorgon.dataset.batch03PulseMove;
+      delete gorgon.dataset.batch03PassivePulse;
+      gorgon.style.removeProperty("--batch04-pulse-color");
+      gorgon.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-passive");
+    };
+    const gorgon = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000004");
+    const lethalTarget = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000005");
+    batch03UpdateStats(lethalTarget, {pdvMax:2, pdv:2});
+    await triggerBatch03CombatHooks(gorgon, lethalTarget, {damageDealt:Number(gorgon.dataset.atk || 0), targetDied:true, phase:"attack"});
+    const afterDead = {
+      hypno: !!(lethalTarget.dataset.hypno || lethalTarget.dataset.hypnosisUntilDamage),
+      pulseReason: gorgon.dataset.batch03LastPulseReason || ""
+    };
+    resetGorgonPulse(gorgon);
+    const insensibleTarget = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "AVS000003");
+    const beforeInsensiblePdv = Number(insensibleTarget.dataset.pdv || 0);
+    const hook = await triggerBatch03CombatHooks(gorgon, insensibleTarget, {damageDealt:Number(gorgon.dataset.atk || 0), targetDied:false, phase:"attack"});
+    return {
+      afterDead,
+      insensible: {
+        beforePdv: beforeInsensiblePdv,
+        afterPdv: Number(insensibleTarget.dataset.pdv || 0),
+        hypno: !!(insensibleTarget.dataset.hypno || insensibleTarget.dataset.hypnosisUntilDamage),
+        pulseReason: gorgon.dataset.batch03LastPulseReason || "",
+        hook
+      }
+    };
+  });
+  expect(result.afterDead.hypno).toBe(false);
+  expect(result.afterDead.pulseReason).toBe("");
+  expect(result.insensible.afterPdv).toBe(result.insensible.beforePdv);
+  expect(result.insensible.hypno).toBe(false);
+  expect(result.insensible.pulseReason).toBe("");
+  expect(result.insensible.hook.some(entry => entry.type === "gorgon-seductress-hypnosis" && entry.applied?.success === false)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
 });
 

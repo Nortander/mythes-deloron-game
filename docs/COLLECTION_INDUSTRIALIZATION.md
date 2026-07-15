@@ -197,7 +197,9 @@ Ce lot ne cree pas une nouvelle famille de cartes : il renforce les contrats vis
 - Le retour `Serviteur de la rune` expose une trajectoire terrain vers main du proprietaire avec attributs techniques testables.
 - Les pulsations de capacite utilisent une couleur par faction, restent absentes en cas d'echec, et distinguent les passifs immobiles.
 - `AVS000003` (`Undergast`) est renforce sur les cas sans cible, cible encore legale, reciblage et cout en Echos rejoue sans paiement supplementaire.
+- `DIV000004` (`Gorgone seductrice`) applique maintenant `Hypnose` apres une attaque contre un serviteur adverse survivant et legalement affectable.
+- Les scenarios techniques Batch-04 exposent des plateaux adverses plus robustes pour rendre `Colere divine`, `Hypnose` et les pulsations verifiables visuellement.
 
-Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
+Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-hypnose`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

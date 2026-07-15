@@ -2816,29 +2816,36 @@ SCENARIOS['collection-batch-03-humans-spells'] = {
 SCENARIOS['collection-batch-04-status-counters'] = {
   label: 'TEST - COLLECTION BATCH 04 Statuts', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000012',
   testSetup: {
-    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000012','DIV000004'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000012'},{id:'DIV000004'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','R000010'], drawPile:['H000005','R000010'], graveyard:[], servants:[{id:'MV000020',pdv:6},{id:'H000001',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000012','DIV000004','S000033'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'H000012',pdvMax:8,pdv:8},{id:'DIV000004',pdvMax:8,pdv:8}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','R000010'], drawPile:['H000005','R000010','MV000020','H000024'], graveyard:[], servants:[{id:'MV000020',pdvMax:12,pdv:12},{id:'H000001',pdvMax:10,pdv:10},{id:'H000005',pdvMax:10,pdv:10},{id:'H000024',pdvMax:12,pdv:12}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-04-hypnose'] = {
+  label: 'TEST - COLLECTION BATCH 04 Hypnose', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'DIV000004',
+  testSetup: {
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['DIV000004','H000012','R000010'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'DIV000004',pdvMax:12,pdv:12,prepared:true},{id:'H000012',pdvMax:8,pdv:8}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','R000010'], drawPile:['H000005','R000010','MV000020','H000024'], graveyard:[], servants:[{id:'H000001',pdvMax:12,pdv:12},{id:'H000005',pdvMax:10,pdv:10},{id:'H000024',pdvMax:14,pdv:14},{id:'AVS000003',pdvMax:13,pdv:13}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-04-rune-return'] = {
   label: 'TEST - COLLECTION BATCH 04 Rune', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000031',
   testSetup: {
-    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000031'], drawPile:['DIV000006','DIV000006','R000010'], graveyard:[], servants:[{id:'H000031'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000010'], graveyard:[], servants:[{id:'MV000020',pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000031','R000010'], drawPile:['DIV000006','DIV000006','R000010','H000001'], graveyard:[], servants:[{id:'H000031',pdvMax:10,pdv:10}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['H000005','R000010','MV000020'], graveyard:[], servants:[{id:'MV000020',pdvMax:12,pdv:12},{id:'H000001',pdvMax:8,pdv:8},{id:'H000005',pdvMax:10,pdv:10}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-04-pulses'] = {
   label: 'TEST - COLLECTION BATCH 04 Pulsations', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000006',
   testSetup: {
-    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000006','H000031'], drawPile:['DIV000006','DIV000006','R000010'], graveyard:[], servants:[{id:'H000006',pdv:3},{id:'ORC000017',pdv:6},{id:'MV000020',pdv:4},{id:'DIV000004',pdv:5},{id:'GOB000001',pdv:3}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000010'], graveyard:[], servants:[{id:'H000001',pdv:4}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000006','H000031','R000010'], drawPile:['DIV000006','DIV000006','R000010'], graveyard:[], servants:[{id:'H000006',pdvMax:8,pdv:8},{id:'ORC000017',pdvMax:12,pdv:12},{id:'MV000020',pdvMax:10,pdv:10},{id:'DIV000004',pdvMax:10,pdv:10},{id:'GOB000001',pdvMax:6,pdv:6}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['H000005','R000010','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:10,pdv:10},{id:'H000005',pdvMax:10,pdv:10},{id:'MV000020',pdvMax:12,pdv:12}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-04-undergast-cases'] = {
   label: 'TEST - COLLECTION BATCH 04 Undergast', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000003',
   testSetup: {
     player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['S000005','S000010','S000044','S000051'], drawPile:['R000010','S000017','S000004'], graveyard:['MV000001'], servants:[{id:'AVS000003'},{id:'H000001',pdv:2}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['R000010'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdv:4},{id:'H000005',pdv:5}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['R000010','H000001','H000005'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdvMax:8,pdv:8},{id:'H000005',pdvMax:10,pdv:10},{id:'MV000020',pdvMax:12,pdv:12}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -17790,6 +17797,16 @@ async function triggerBatch03CombatHooks(attacker, targetFC, context={}) {
   }
   if (player?.batch03BlessedSwordsTurn === turnSequence && context.phase === 'attack' && isBatch03UndeadServant(targetFC) && !targetFC.dataset.dead) {
     results.push({type:'blessed-swords-divine-wrath', applied:applyBatch03DivineWrath(targetFC, player, {sourceCardId:'S000033', sourceInstanceId:attacker.dataset.instance, reason:'blessed-swords-combat'})});
+  }
+  if (aid === 'DIV000004' && context.phase === 'attack') {
+    if (!context.targetDied && !targetFC.dataset.dead && canAffectTarget({sourcePlayer:player, targetFC, sourceCardId:'DIV000004', effectKind:'hypnosis', isAbility:true})) {
+      const applied = applyBatch04Hypnosis(targetFC, {untilDamage:true, sourceCardId:'DIV000004'});
+      if (applied.success) pulseBatch03Ability(attacker, 'combat-hypnosis', {passive:false, move:true});
+      results.push({type:'gorgon-seductress-hypnosis', applied});
+    } else {
+      if (targetFC?.dataset.insensible) showResistVfx(targetFC, 'Insensible');
+      results.push({type:'gorgon-seductress-hypnosis', applied:{success:false, reason:context.targetDied || targetFC?.dataset.dead ? 'target-died' : 'invalid-target', target:targetSummary(targetFC)}});
+    }
   }
   if (targetFC.dataset.id === 'AVS000001' && context.phase === 'attack' && !attacker.dataset.dead) {
     tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attacker, sourceCardId:'AVS000001', turns:2, type:'cdg', bypassInsensitive:true});

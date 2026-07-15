@@ -2,6 +2,7 @@
   "lotId": "COLLECTION-BATCH-04-POLISH",
   "scenarios": [
     "collection-batch-04-status-counters",
+    "collection-batch-04-hypnose",
     "collection-batch-04-rune-return",
     "collection-batch-04-pulses",
     "collection-batch-04-undergast-cases"
@@ -31,6 +32,12 @@
     "MV000020": "#8a3a9a73",
     "DIV000004": "#78645066",
     "GOB000001": "#686c1866"
+  },
+  "scenarioRobustness": {
+    "minEnemyServants": 3,
+    "minEnemyHandCards": 2,
+    "minEnemyDeckCards": 3,
+    "requiredSupply": "R000020"
   },
   "undergastCases": {
     "avatarId": "AVS000003",
