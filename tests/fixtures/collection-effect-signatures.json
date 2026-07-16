@@ -208,16 +208,15 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "draw"
-      ],
-      "missingPrimitives": [
+        "draw",
         "duration-persistent",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:draw",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -3850,9 +3849,9 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:damage",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },

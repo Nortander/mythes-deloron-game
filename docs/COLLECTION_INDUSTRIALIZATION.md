@@ -200,6 +200,14 @@ Ce lot ne cree pas une nouvelle famille de cartes : il renforce les contrats vis
 - `DIV000004` (`Gorgone seductrice`) applique maintenant `Hypnose` apres une attaque contre un serviteur adverse survivant et legalement affectable.
 - Les scenarios techniques Batch-04 exposent des plateaux adverses plus robustes pour rendre `Colere divine`, `Hypnose` et les pulsations verifiables visuellement.
 
+Corrections COLLECTION-BATCH-04C :
+
+- `Hypnose` bloque maintenant réellement l'attaque et la riposte ; l'etat se retire apres degat sans effacer un epuisement preexistant.
+- `GOB000001` (`Mageobelin lance-cailloux`) declenche son effet de fin de tour, inflige son ATK a un serviteur adverse legal et ne pulse pas si aucune cible valide n'existe.
+- `AVS000005` (`Mage du Cercle - Yria de la lumiere`) expose un passif immobile : soins allies doubles dans la limite des PV max et pioche supplementaire au debut du tour du controleur.
+- Le scenario `collection-batch-04-pulses` couvre les couleurs de pulsation des familles `edb`, `hum`, `orc`, `edg`, `nain`, `mvs`, `edn`, `trl`, `gob`, `div` et `bet`.
+- Les scenarios techniques Batch-04 ne contiennent plus d'exemple `R000010`.
+
 Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-hypnose`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

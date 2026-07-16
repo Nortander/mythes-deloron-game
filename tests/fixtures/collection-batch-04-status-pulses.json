@@ -27,11 +27,30 @@
     "destination": "owner-hand"
   },
   "pulseColors": {
+    "AVS000005": "#4dfe3780",
     "H000006": "#26c4ec",
     "ORC000017": "#c8140a80",
+    "EDG000005": "#5ab8f073",
+    "N000004": "#a0a8b866",
     "MV000020": "#8a3a9a73",
+    "EN000004": "#9040c080",
+    "TRL000020": "#b4902073",
+    "GOB000001": "#686c1866",
     "DIV000004": "#78645066",
-    "GOB000001": "#686c1866"
+    "B000002": "#b4783073"
+  },
+  "passives": {
+    "yria": {
+      "cardId": "AVS000005",
+      "healTargetId": "H000006",
+      "healRequested": 2,
+      "healExpectedGain": 4,
+      "extraDrawExpected": 1
+    },
+    "mageobelin": {
+      "cardId": "GOB000001",
+      "damageTargetId": "N000004"
+    }
   },
   "scenarioRobustness": {
     "minEnemyServants": 3,

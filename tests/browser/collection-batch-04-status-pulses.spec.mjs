@@ -68,6 +68,29 @@ test("Batch-04 visual scenarios expose robust enemy boards and resources", async
   await attachDiagnostics(testInfo, diagnostics);
 });
 
+test("Batch-04 scenarios no longer use R000010 examples", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  for (const scenario of fixture.scenarios) {
+    await openScenario(page, scenario);
+    const audit = await page.evaluate(() => {
+      const collect = (player) => ({
+        hand:[...player.hand],
+        deck:[...player.drawPile],
+        graveyard:[...player.graveyard],
+        servants:livingServantCardsForPlayer(player).map(fc => fc.dataset.id)
+      });
+      return {player1:collect(player1), player2:collect(player2)};
+    });
+    for (const playerAudit of [audit.player1, audit.player2]) {
+      expect(playerAudit.hand, scenario + " hand").not.toContain("R000010");
+      expect(playerAudit.deck, scenario + " deck").not.toContain("R000010");
+      expect(playerAudit.graveyard, scenario + " graveyard").not.toContain("R000010");
+      expect(playerAudit.servants, scenario + " servants").not.toContain("R000010");
+    }
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
 test("Colere divine uses one styled on-card counter and ticks 2, 3, then 4 damage", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-status-counters");
@@ -197,6 +220,7 @@ test("Gorgone seductrice applies Hypnose only after attacking a surviving legal 
     return {
       before,
       afterTarget: targetSummary(target),
+      afterAttacker: targetSummary(attacker),
       targetActive: target.classList.contains("batch03-hypnosis-active"),
       targetExhausted: target.classList.contains("fc-exhausted"),
       counterText: (counter?.textContent || "").trim(),
@@ -208,6 +232,7 @@ test("Gorgone seductrice applies Hypnose only after attacking a surviving legal 
   });
   expect(result.before.target.pdv).toBeGreaterThan(result.before.attacker.atk);
   expect(result.afterTarget.pdv).toBe(result.before.target.pdv - result.before.attacker.atk);
+  expect(result.afterAttacker.pdv).toBe(result.before.attacker.pdv);
   expect(result.targetActive).toBe(true);
   expect(result.targetExhausted).toBe(true);
   expect(result.counterText).toBe(fixture.statusCounters.hypnosis.indefiniteCounter);
@@ -215,6 +240,45 @@ test("Gorgone seductrice applies Hypnose only after attacking a surviving legal 
   expect(result.attackerPulseColor).toBe(fixture.pulseColors.DIV000004);
   expect(result.hypnosisEvents).toHaveLength(1);
   expect(result.combatEvents.some(event => event.results?.some(result => result.type === "gorgon-seductress-hypnosis" && result.applied?.success))).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Hypnose prevents attacks and counterattacks until damage wakes the servant", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-hypnose");
+  const result = await page.evaluate(async () => {
+    const gorgon = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000004");
+    const target = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    const gorgonBefore = targetSummary(gorgon);
+    await resolveCombat(gorgon, target);
+    currentPlayer = player2.key;
+    attackingFC = null;
+    tryAttack(target);
+    const refusedWhileHypnotized = {
+      attackingInstance: attackingFC?.dataset?.instance || null,
+      errorText:(document.querySelector("#errMsg")?.textContent || "").trim(),
+      target:targetSummary(target)
+    };
+    await applyDamage(target, 1);
+    attackingFC = null;
+    tryAttack(target);
+    const afterWake = {
+      attackingInstance: attackingFC?.dataset?.instance || null,
+      target:targetSummary(target),
+      classActive:target.classList.contains("batch03-hypnosis-active"),
+      exhausted:target.classList.contains("fc-exhausted")
+    };
+    cancelAttack();
+    return {gorgonBefore, gorgonAfter:targetSummary(gorgon), refusedWhileHypnotized, afterWake};
+  });
+  expect(result.gorgonAfter.pdv).toBe(result.gorgonBefore.pdv);
+  expect(result.refusedWhileHypnotized.attackingInstance).toBeNull();
+  expect(result.refusedWhileHypnotized.errorText).toContain("Hypnose");
+  expect(result.refusedWhileHypnotized.target.hypnotized).toBe(true);
+  expect(result.afterWake.target.hypnotized).toBe(false);
+  expect(result.afterWake.classActive).toBe(false);
+  expect(result.afterWake.exhausted).toBe(false);
+  expect(result.afterWake.attackingInstance).toBe(result.refusedWhileHypnotized.target.instance);
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -332,10 +396,18 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-pulses");
   const result = await page.evaluate(async (expectedColors) => {
+    const zone = document.querySelector(playerZoneSelector(player1, "servants"));
+    zone.innerHTML = "";
+    for (const cardId of Object.keys(expectedColors)) {
+      zone.insertAdjacentHTML("beforeend", buildFC(cardId, player1.key));
+      const fc = zone.lastElementChild;
+      applyScenarioServantState(fc, {pdvMax:20, pdv:20, prepared:true});
+    }
     const colors = {};
     for (const [cardId] of Object.entries(expectedColors)) {
       const fc = livingServantCardsForPlayer(player1).find(card => card.dataset.id === cardId);
-      pulseBatch03Ability(fc, cardId === "DIV000004" ? "passive" : "start-turn", {passive:cardId === "DIV000004", move:cardId !== "DIV000004"});
+      const passivePulse = cardId === "DIV000004" || cardId === "AVS000005";
+      pulseBatch03Ability(fc, passivePulse ? "passive" : "start-turn", {passive:passivePulse, move:!passivePulse});
       colors[cardId] = {
         dataset:fc.dataset.batch04PulseColor,
         css:fc.style.getPropertyValue("--batch04-pulse-color"),
@@ -343,8 +415,8 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
         move:fc.dataset.batch03PulseMove || ""
       };
     }
-    const zone = document.querySelector(playerZoneSelector(player1, "servants"));
-    zone.innerHTML = Array.from({length:5}, () => `<div class="fc" data-id="H000001" data-player="${player1.key}" data-instance="blocking-${Math.random()}"></div>`).join("");
+    const blockingZone = document.querySelector(playerZoneSelector(player1, "servants"));
+    blockingZone.innerHTML = Array.from({length:5}, () => `<div class="fc" data-id="H000001" data-player="${player1.key}" data-instance="blocking-${Math.random()}"></div>`).join("");
     const failed = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:true, ready:true});
     const source = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000031");
     const events = collectionBatch03State.events.slice();
@@ -356,9 +428,100 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
   }
   expect(result.colors.DIV000004.passive).toBe("1");
   expect(result.colors.DIV000004.move).toBe("0");
+  expect(result.colors.AVS000005.passive).toBe("1");
+  expect(result.colors.AVS000005.move).toBe("0");
   expect(result.failed.success).toBe(false);
   expect(result.sourceExists).toBe(false);
   expect(result.initiativeEvents).toHaveLength(0);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Yria passive doubles healing, draws one extra card and keeps an immobile pulse", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (config) => {
+    const yria = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === config.cardId);
+    const target = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === config.healTargetId);
+    const passiveBefore = {
+      reason:yria.dataset.batch03LastPulseReason || "",
+      passive:yria.dataset.batch03PassivePulse || "",
+      move:yria.dataset.batch03PulseMove || "",
+      color:yria.dataset.batch04PulseColor || ""
+    };
+    batch03UpdateStats(target, {pdvMax:10, pdv:2});
+    const heal = applyHeal(target, config.healRequested);
+    player1.firstTurnStarted = true;
+    player1.turnState = {};
+    player1.drawPile = ["H000001", "H000005", "H000024"];
+    player1.hand = [];
+    refreshHand(player1);
+    updateDeckCount(player1);
+    const beforeDraw = {hand:player1.hand.length, deck:player1.drawPile.length};
+    const drawn = await runStartTurnPipeline(player1);
+    const trace = getLastStartTurnTrace();
+    const afterDraw = {hand:player1.hand.length, deck:player1.drawPile.length};
+    return {
+      passiveBefore,
+      heal,
+      target:targetSummary(target),
+      drawn,
+      trace,
+      beforeDraw,
+      afterDraw,
+      yriaPulse:{
+        reason:yria.dataset.batch03LastPulseReason || "",
+        passive:yria.dataset.batch03PassivePulse || "",
+        move:yria.dataset.batch03PulseMove || "",
+        color:yria.dataset.batch04PulseColor || ""
+      }
+    };
+  }, fixture.passives.yria);
+  expect(result.passiveBefore).toMatchObject({passive:"1", move:"0", color:fixture.pulseColors.AVS000005});
+  expect(result.heal.success).toBe(true);
+  expect(result.heal.requested).toBe(fixture.passives.yria.healRequested);
+  expect(result.heal.gained).toBe(fixture.passives.yria.healExpectedGain);
+  expect(result.heal.healModifier.multiplier).toBe(2);
+  expect(result.target.pdv).toBe(2 + fixture.passives.yria.healExpectedGain);
+  expect(result.afterDraw.hand - result.beforeDraw.hand).toBe(2);
+  expect(result.beforeDraw.deck - result.afterDraw.deck).toBe(2);
+  expect(result.trace.drawResult.success).toBe(true);
+  expect(result.trace.yriaExtraDraw.success).toBe(true);
+  expect(result.yriaPulse).toMatchObject({passive:"1", move:"0", color:fixture.pulseColors.AVS000005});
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Mageobelin lance-cailloux damages one valid enemy at end turn and stays silent without targets", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (config) => {
+    const zone = document.querySelector(playerZoneSelector(player2, "servants"));
+    zone.innerHTML = "";
+    zone.insertAdjacentHTML("beforeend", buildFC(config.damageTargetId, player2.key));
+    const target = zone.lastElementChild;
+    applyScenarioServantState(target, {pdvMax:12, pdv:12, prepared:true});
+    const mage = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === config.cardId);
+    const before = {target:targetSummary(target), mage:targetSummary(mage)};
+    const applied = await applyBatch03EndTurnAbilities(player1);
+    const after = {target:targetSummary(target), mage:targetSummary(mage), pulseReason:mage.dataset.batch03LastPulseReason || "", pulseColor:mage.dataset.batch04PulseColor || ""};
+    delete mage.dataset.batch04PulseColor;
+    delete mage.dataset.batch03LastPulseReason;
+    mage.style.removeProperty("--batch04-pulse-color");
+    mage.classList.remove("batch03-ability-pulse", "batch03-passive-pulse");
+    target.dataset.insensible = "1";
+    const refused = await applyBatch03EndTurnAbilities(player1);
+    const refusedAfter = {target:targetSummary(target), pulseReason:mage.dataset.batch03LastPulseReason || "", pulseColor:mage.dataset.batch04PulseColor || ""};
+    return {before, applied, after, refused, refusedAfter};
+  }, fixture.passives.mageobelin);
+  expect(result.applied.mageobelinThrows).toHaveLength(1);
+  expect(result.applied.mageobelinThrows[0]).toMatchObject({success:true, amount:result.before.mage.atk});
+  expect(result.after.target.pdv).toBe(result.before.target.pdv - result.before.mage.atk);
+  expect(result.after.pulseReason).toBe("end-turn");
+  expect(result.after.pulseColor).toBe(fixture.pulseColors.GOB000001);
+  expect(result.refused.mageobelinThrows).toHaveLength(1);
+  expect(result.refused.mageobelinThrows[0]).toMatchObject({success:false, reason:"no-valid-target"});
+  expect(result.refusedAfter.target.pdv).toBe(result.after.target.pdv);
+  expect(result.refusedAfter.pulseReason).toBe("");
+  expect(result.refusedAfter.pulseColor).toBe("");
   await attachDiagnostics(testInfo, diagnostics);
 });
 
