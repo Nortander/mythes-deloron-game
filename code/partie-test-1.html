@@ -606,6 +606,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-rune-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;box-shadow:0 0 22px rgba(180,130,255,.95),0 0 46px rgba(120,70,255,.72);animation:batch03RuneFlight 1.25s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch03-rune-flight[data-flight-target="owner-hand"]{outline:2px solid rgba(230,210,255,.95);outline-offset:2px;}
 .batch03-ability-pulse{animation:batch03AbilityPulse .82s ease-out;}
+.batch03-ability-pulse-move{animation-name:batch03AbilityPulse;}
 .batch03-passive-pulse{animation:batch03PassivePulse 2.2s ease-in-out infinite;}
 .batch03-ianna-reveal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4300;width:208px;padding:12px;border:2px solid rgba(38,196,236,.92);border-radius:16px;background:rgba(5,12,34,.94);box-shadow:0 0 28px rgba(38,196,236,.95),0 0 66px rgba(0,47,167,.72);text-align:center;pointer-events:none;animation:batch03IannaReveal 1.45s ease-in-out forwards;}
 .batch03-ianna-reveal img{width:186px;border-radius:10px;display:block;margin:0 auto 8px;}
@@ -2837,8 +2838,8 @@ SCENARIOS['collection-batch-04-rune-return'] = {
 SCENARIOS['collection-batch-04-pulses'] = {
   label: 'TEST - COLLECTION BATCH 04 Pulsations', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000006',
   testSetup: {
-    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['B000002','H000006','H000031'], drawPile:['DIV000006','DIV000006','H000005'], graveyard:[], servants:[{id:'AVS000005',pdvMax:13,pdv:13,prepared:true},{id:'H000006',pdvMax:8,pdv:8,prepared:true},{id:'ORC000017',pdvMax:12,pdv:12,prepared:true},{id:'EDG000005',pdvMax:8,pdv:8,prepared:true},{id:'GOB000001',pdvMax:6,pdv:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['H000005','H000024','MV000020'], graveyard:[], servants:[{id:'N000004',pdvMax:8,pdv:8,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true},{id:'EN000004',pdvMax:10,pdv:10,prepared:true},{id:'TRL000020',pdvMax:9,pdv:9,prepared:true},{id:'DIV000004',pdvMax:10,pdv:10,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['B000002','H000006','H000031','N000004'], drawPile:['R000020','DIV000006','DIV000006','H000005'], graveyard:[], servants:[{id:'AVS000005',pdvMax:13,pdv:13,prepared:true},{id:'H000006',pdvMax:8,pdv:8,prepared:true},{id:'EDG000005',pdvMax:8,pdv:8,prepared:true},{id:'GOB000001',pdvMax:6,pdv:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['H000005','H000024','MV000020'], graveyard:[], servants:[{id:'ORC000017',pdvMax:12,pdv:12,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true},{id:'EN000004',pdvMax:10,pdv:10,prepared:true},{id:'TRL000020',pdvMax:9,pdv:9,prepared:true},{id:'DIV000004',pdvMax:10,pdv:10,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-04-undergast-cases'] = {
@@ -10555,6 +10556,11 @@ async function triggerInitiative(cardId, player, context={}) {
     const messages = DRAW_INITIATIVE_MESSAGES[cardId] || {};
     if (result.success) showNotif(messages.success || 'Carte piochée\u00a0!', 1400);
     else showNotif(describeDrawInitiativeFailure(cardId, result), 1400);
+    if (sourceFC && result.success) {
+      pulseBatch03Ability(sourceFC, 'initiative');
+      sourceFC.classList.add('batch03-initiative-pulse');
+      setTimeout(() => sourceFC.classList.remove('batch03-initiative-pulse'), 750);
+    }
     return result;
   }
   const immediateEffect = immediatePlayEffectDefinition(cardId);
@@ -11965,6 +11971,7 @@ async function resolveCombat(attacker, targetFC) {
   updateRageState(targetFC);
   const atkAtk = parseInt(attacker.dataset.atk)  || 0;  // dégâts de l'attaquant
   const defAtk = parseInt(targetFC.dataset.atk)  || 0;  // dégâts de la riposte
+  const defenderHypnotizedAtCombatStart = isBatch04Hypnotized(targetFC);
 
   // Direction animation
   const atkIsJ1 = playerState(currentPlayer)?.position === 'bottom';
@@ -11991,7 +11998,7 @@ async function resolveCombat(attacker, targetFC) {
   await triggerBatch03CombatHooks(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
 
   // Riposte immédiate si le défenseur était vivant
-  if (defAlive && defAtk > 0 && !isBatch04Hypnotized(targetFC)) {
+  if (defAlive && defAtk > 0 && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC)) {
     updateRageState(targetFC);
     const counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
     const attackerDied = await applyDamage(attacker, counterAtk);
@@ -17391,11 +17398,16 @@ function pulseBatch03Ability(fc, reason='ability', {move=true, passive=false}={}
   const pulseColor = batch04PulseColorForCard(fc);
   fc.dataset.batch04PulseColor = pulseColor;
   fc.style.setProperty('--batch04-pulse-color', pulseColor);
-  const cls = passive ? 'batch03-passive-pulse' : 'batch03-ability-pulse';
-  fc.classList.remove(cls);
+  if (passive) {
+    fc.classList.remove('batch03-ability-pulse','batch03-ability-pulse-move');
+    fc.classList.add('batch03-passive-pulse');
+    return true;
+  }
+  fc.classList.remove('batch03-passive-pulse','batch03-ability-pulse','batch03-ability-pulse-move');
   void fc.offsetWidth;
-  fc.classList.add(cls);
-  if (!passive) setTimeout(() => fc.classList.remove(cls), 860);
+  fc.classList.add('batch03-ability-pulse');
+  if (move) fc.classList.add('batch03-ability-pulse-move');
+  setTimeout(() => fc.classList.remove('batch03-ability-pulse','batch03-ability-pulse-move'), 860);
   return true;
 }
 

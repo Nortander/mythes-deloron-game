@@ -282,6 +282,31 @@ test("Hypnose prevents attacks and counterattacks until damage wakes the servant
   await attachDiagnostics(testInfo, diagnostics);
 });
 
+test("Hypnose blocks the defender counterattack for the combat that wakes it", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-hypnose");
+  const result = await page.evaluate(async () => {
+    const attacker = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000012");
+    const defender = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    batch03UpdateStats(attacker, {atk:2, pdvMax:14, pdv:14});
+    batch03UpdateStats(defender, {atk:5, pdvMax:12, pdv:12});
+    applyBatch04Hypnosis(defender, {untilDamage:true, sourceCardId:"DIV000004"});
+    const before = {attacker:targetSummary(attacker), defender:targetSummary(defender)};
+    await resolveCombat(attacker, defender);
+    const afterWakeCombat = {attacker:targetSummary(attacker), defender:targetSummary(defender)};
+    await resolveCombat(attacker, defender);
+    const afterNextCombat = {attacker:targetSummary(attacker), defender:targetSummary(defender)};
+    return {before, afterWakeCombat, afterNextCombat};
+  });
+  expect(result.before.defender.hypnotized).toBe(true);
+  expect(result.afterWakeCombat.defender.hypnotized).toBe(false);
+  expect(result.afterWakeCombat.defender.pdv).toBe(result.before.defender.pdv - result.before.attacker.atk);
+  expect(result.afterWakeCombat.attacker.pdv).toBe(result.before.attacker.pdv);
+  expect(result.afterNextCombat.attacker.pdv).toBe(result.afterWakeCombat.attacker.pdv - result.afterWakeCombat.defender.atk);
+  expect(result.afterNextCombat.defender.pdv).toBe(result.afterWakeCombat.defender.pdv - result.before.attacker.atk);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
 test("Gorgone seductrice does not pulse or hypnotize dead or Insensible targets", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-hypnose");
@@ -293,7 +318,7 @@ test("Gorgone seductrice does not pulse or hypnotize dead or Insensible targets"
       delete gorgon.dataset.batch03PulseMove;
       delete gorgon.dataset.batch03PassivePulse;
       gorgon.style.removeProperty("--batch04-pulse-color");
-      gorgon.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-passive");
+      gorgon.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move", "batch03-passive-pulse");
     };
     const gorgon = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000004");
     const lethalTarget = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000005");
@@ -412,7 +437,12 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
         dataset:fc.dataset.batch04PulseColor,
         css:fc.style.getPropertyValue("--batch04-pulse-color"),
         passive:fc.dataset.batch03PassivePulse || "",
-        move:fc.dataset.batch03PulseMove || ""
+        move:fc.dataset.batch03PulseMove || "",
+        classAbility:fc.classList.contains("batch03-ability-pulse"),
+        classMove:fc.classList.contains("batch03-ability-pulse-move"),
+        classPassive:fc.classList.contains("batch03-passive-pulse"),
+        animationName:getComputedStyle(fc).animationName,
+        faction:CARDS_DATA[cardId]?.fac || ""
       };
     }
     const blockingZone = document.querySelector(playerZoneSelector(player1, "servants"));
@@ -428,11 +458,65 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
   }
   expect(result.colors.DIV000004.passive).toBe("1");
   expect(result.colors.DIV000004.move).toBe("0");
+  expect(result.colors.DIV000004.classPassive).toBe(true);
+  expect(result.colors.DIV000004.classMove).toBe(false);
   expect(result.colors.AVS000005.passive).toBe("1");
   expect(result.colors.AVS000005.move).toBe("0");
+  expect(result.colors.AVS000005.classPassive).toBe(true);
+  expect(result.colors.AVS000005.classMove).toBe(false);
+  expect(result.colors.AVS000005.animationName).toContain("batch03PassivePulse");
+  expect(result.colors.TRL000020).toMatchObject({dataset:"#b4902073", faction:"trl", move:"1", classAbility:true, classMove:true});
+  expect(result.colors.N000004).toMatchObject({dataset:"#a0a8b866", faction:"nain", move:"1", classAbility:true, classMove:true});
   expect(result.failed.success).toBe(false);
   expect(result.sourceExists).toBe(false);
   expect(result.initiativeEvents).toHaveLength(0);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Nain pulse representative is played from hand and triggers a real supply Initiative", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (config) => {
+    currentPlayer = player1.key;
+    const before = {
+      hand:[...player1.hand],
+      deck:[...player1.drawPile],
+      board:livingServantCardsForPlayer(player1).map(card => card.dataset.id),
+      freeSlots:document.querySelectorAll(`${playerZoneSelector(player1, "servants")} .slot`).length,
+      runtimeHasReplacement:!!CARDS_DATA[config.replacementCandidateId]
+    };
+    const slot = document.querySelector(`${playerZoneSelector(player1, "servants")} .slot`);
+    const played = await playCard(config.cardId, slot, {returnActionValidation:true});
+    const source = livingServantCardsForPlayer(player1).find(card => card.dataset.id === config.cardId);
+    return {
+      before,
+      played,
+      after:{
+        hand:[...player1.hand],
+        deck:[...player1.drawPile],
+        board:livingServantCardsForPlayer(player1).map(card => card.dataset.id),
+        graveyard:[...player1.graveyard],
+        pulseReason:source?.dataset.batch03LastPulseReason || "",
+        pulseColor:source?.dataset.batch04PulseColor || "",
+        move:source?.dataset.batch03PulseMove || "",
+        classAbility:!!source?.classList.contains("batch03-ability-pulse"),
+        classMove:!!source?.classList.contains("batch03-ability-pulse-move")
+      }
+    };
+  }, fixture.passives.nainRepresentative);
+  expect(result.before.runtimeHasReplacement).toBe(fixture.passives.nainRepresentative.replacementCandidateRuntimeAvailable);
+  expect(result.before.hand).toContain(fixture.passives.nainRepresentative.cardId);
+  expect(result.before.board).not.toContain(fixture.passives.nainRepresentative.cardId);
+  expect(result.before.deck).toContain(fixture.passives.nainRepresentative.drawnSupplyId);
+  expect(result.before.freeSlots).toBeGreaterThan(0);
+  expect(result.played?.success).not.toBe(false);
+  expect(result.after.board).toContain(fixture.passives.nainRepresentative.cardId);
+  expect(result.after.hand).not.toContain(fixture.passives.nainRepresentative.cardId);
+  expect(result.after.hand).toContain(fixture.passives.nainRepresentative.drawnSupplyId);
+  expect(result.after.deck).not.toContain(fixture.passives.nainRepresentative.drawnSupplyId);
+  expect(result.after.pulseReason).toBe("initiative");
+  expect(result.after.pulseColor).toBe(fixture.pulseColors.N000004);
+  expect(result.after).toMatchObject({move:"1", classAbility:true, classMove:true});
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -506,7 +590,7 @@ test("Mageobelin lance-cailloux damages one valid enemy at end turn and stays si
     delete mage.dataset.batch04PulseColor;
     delete mage.dataset.batch03LastPulseReason;
     mage.style.removeProperty("--batch04-pulse-color");
-    mage.classList.remove("batch03-ability-pulse", "batch03-passive-pulse");
+    mage.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move", "batch03-passive-pulse");
     target.dataset.insensible = "1";
     const refused = await applyBatch03EndTurnAbilities(player1);
     const refusedAfter = {target:targetSummary(target), pulseReason:mage.dataset.batch03LastPulseReason || "", pulseColor:mage.dataset.batch04PulseColor || ""};

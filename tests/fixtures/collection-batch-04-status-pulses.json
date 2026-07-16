@@ -40,6 +40,12 @@
     "B000002": "#b4783073"
   },
   "passives": {
+    "nainRepresentative": {
+      "cardId": "N000004",
+      "drawnSupplyId": "R000020",
+      "replacementCandidateId": "N000015",
+      "replacementCandidateRuntimeAvailable": false
+    },
     "yria": {
       "cardId": "AVS000005",
       "healTargetId": "H000006",
