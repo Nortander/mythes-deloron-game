@@ -12,14 +12,24 @@
       "sourceCardId": "H000012",
       "targetCardId": "MV000020",
       "initialCounter": "3",
-      "tickCounters": ["2", "1"],
-      "damageByTurn": [2, 3, 4]
+      "tickCounters": [
+        "2",
+        "1"
+      ],
+      "damageByTurn": [
+        2,
+        3,
+        4
+      ]
     },
     "hypnosis": {
       "sourceCardId": "DIV000004",
       "targetCardId": "H000001",
-      "indefiniteCounter": "\u221e",
-      "durationCounters": ["2", "1"]
+      "indefiniteCounter": "∞",
+      "durationCounters": [
+        "2",
+        "1"
+      ]
     }
   },
   "runeReturn": {
@@ -37,7 +47,9 @@
     "TRL000020": "#b4902073",
     "GOB000001": "#686c1866",
     "DIV000004": "#78645066",
-    "B000002": "#b4783073"
+    "B000002": "#b4783073",
+    "AVS000009": "#9040c080",
+    "AVS000012": "#9040c080"
   },
   "passives": {
     "nainRepresentative": {
@@ -70,5 +82,33 @@
     "sameTargetSpell": "S000010",
     "retargetSpell": "S000005",
     "echoCostSpell": "S000044"
+  },
+  "avatarAudit": {
+    "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-13.xlsx",
+    "avsIds": [
+      "AVS000001",
+      "AVS000002",
+      "AVS000003",
+      "AVS000004",
+      "AVS000005",
+      "AVS000006",
+      "AVS000007",
+      "AVS000008",
+      "AVS000009",
+      "AVS000010",
+      "AVS000011",
+      "AVS000012",
+      "AVS000013",
+      "AVS000014"
+    ],
+    "implementedInThisLot": [
+      "AVS000009",
+      "AVS000012"
+    ],
+    "deferred": {
+      "AVS000006": "Vengeance de transformation Gor reportee avec la chaine de formes.",
+      "AVS000008": "Avatar Hokhan conserve dans le perimetre HUVU, pas recode dans Batch-04E.",
+      "AVS000013": "Choix cimetiere/deck + ajout de mot-clef a une occurrence de serviteur de la rune reportes."
+    }
   }
 }

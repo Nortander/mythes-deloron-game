@@ -207,6 +207,7 @@ Corrections COLLECTION-BATCH-04C :
 - `AVS000005` (`Mage du Cercle - Yria de la lumiere`) expose un passif immobile : soins allies doubles dans la limite des PV max et pioche supplementaire au debut du tour du controleur.
 - Le scenario `collection-batch-04-pulses` couvre les couleurs de pulsation des familles `edb`, `hum`, `orc`, `edg`, `nain`, `mvs`, `edn`, `trl`, `gob`, `div` et `bet`.
 - Les scenarios techniques Batch-04 ne contiennent plus d'exemple `R000010`.
+- Corrections 04E : le halo passif de `AVS000005` est fluide, `TRL000020` utilise le rendu terrain Troll complet, `AVS000009` et `AVS000012` disposent de passifs de debut de tour testes, tandis que `AVS000013` reste reporte pour choix cimetiere/deck et mutation de mot-clef.
 
 Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-hypnose`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
 

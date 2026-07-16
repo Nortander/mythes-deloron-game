@@ -605,9 +605,9 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc-batch03-returned{animation:batch03HandReturn 1.25s ease-out;}
 .batch03-rune-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;box-shadow:0 0 22px rgba(180,130,255,.95),0 0 46px rgba(120,70,255,.72);animation:batch03RuneFlight 1.25s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch03-rune-flight[data-flight-target="owner-hand"]{outline:2px solid rgba(230,210,255,.95);outline-offset:2px;}
-.batch03-ability-pulse{animation:batch03AbilityPulse .82s ease-out;}
+.batch03-ability-pulse{animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);will-change:filter,transform,box-shadow;}
 .batch03-ability-pulse-move{animation-name:batch03AbilityPulse;}
-.batch03-passive-pulse{animation:batch03PassivePulse 2.2s ease-in-out infinite;}
+.batch03-passive-pulse,.batch04-passive-glow{animation:batch04PassiveGlow 2.8s ease-in-out infinite;box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 16px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 74%,transparent);will-change:filter,box-shadow;}
 .batch03-ianna-reveal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4300;width:208px;padding:12px;border:2px solid rgba(38,196,236,.92);border-radius:16px;background:rgba(5,12,34,.94);box-shadow:0 0 28px rgba(38,196,236,.95),0 0 66px rgba(0,47,167,.72);text-align:center;pointer-events:none;animation:batch03IannaReveal 1.45s ease-in-out forwards;}
 .batch03-ianna-reveal img{width:186px;border-radius:10px;display:block;margin:0 auto 8px;}
 .batch03-ianna-reveal span{display:block;color:#eaf8ff;font-family:'Cinzel',serif;font-weight:800;text-shadow:0 1px 5px #000;}
@@ -636,8 +636,9 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch03RuneReturn{0%{filter:brightness(2.1) drop-shadow(0 0 22px #9c5cff);transform:translateY(0) scale(1.08);}45%{filter:brightness(2.35) drop-shadow(0 -22px 28px #c8a8ff);transform:translateY(-28px) scale(.98);}100%{filter:none;transform:translateY(-52px) scale(.72);opacity:.18;}}
 @keyframes batch03RuneFlight{0%{opacity:0;transform:translate(var(--from-x,0),var(--from-y,0)) scale(.8) rotate(-5deg);filter:brightness(2.4);}12%{opacity:1;}64%{opacity:1;transform:translate(calc(var(--from-x,0) + (var(--to-x,0) - var(--from-x,0)) * .62),calc(var(--from-y,0) + (var(--to-y,0) - var(--from-y,0)) * .62 - 34px)) scale(.92) rotate(3deg);}100%{opacity:0;transform:translate(var(--to-x,0),var(--to-y,0)) scale(.45) rotate(0deg);filter:brightness(1.2);}}
 @keyframes batch03HandReturn{0%{filter:brightness(2.25) drop-shadow(0 0 22px #b582ff);transform:translateY(-24px) scale(1.12);}100%{filter:none;transform:none;}}
-@keyframes batch03AbilityPulse{0%{filter:brightness(2) drop-shadow(0 0 18px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.35) drop-shadow(0 0 26px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
+@keyframes batch03AbilityPulse{0%{filter:brightness(1.65) drop-shadow(0 0 14px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec));transform:translateY(0) scale(1);}24%{filter:brightness(2.25) drop-shadow(0 0 28px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 3px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 34px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec));transform:translateY(-7px) scale(1.06);}62%{filter:brightness(1.35) drop-shadow(0 0 24px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 2px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 24px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec));transform:translateY(2px) scale(1.025);}100%{filter:none;box-shadow:none;transform:none;}}
 @keyframes batch03PassivePulse{0%,100%{filter:drop-shadow(0 0 4px var(--batch04-pulse-color,rgba(38,196,236,.35)));}50%{filter:brightness(1.18) drop-shadow(0 0 16px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));}}
+@keyframes batch04PassiveGlow{0%,100%{filter:brightness(1.04) drop-shadow(0 0 7px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 14px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 68%,transparent);}50%{filter:brightness(1.24) drop-shadow(0 0 22px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 2px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 30px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 88%,transparent),0 0 56px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 46%,transparent);}}
 @keyframes batch04HypnosisRipple{0%{opacity:.95;width:14px;height:14px;box-shadow:0 0 8px rgba(157,255,102,.95),inset 0 0 8px rgba(157,255,102,.55);}72%{opacity:.38;}100%{opacity:0;width:112px;height:112px;box-shadow:0 0 18px rgba(157,255,102,.55),inset 0 0 18px rgba(157,255,102,.25);}}
 @keyframes batch03IannaReveal{0%{opacity:0;transform:translate(-50%,-48%) scale(.72);}16%,78%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-52%) scale(.86);}}
 @keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
@@ -1652,7 +1653,8 @@ body.dragging-card .hc.dragging {
 .fc.nain-fc .fz-desc-text em,.fc.nain-fc .fz-desc-text strong.kv{color:#2a3448;}
 .fc.nain-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1e2030,#141620);}
 
-.fc.trl-fc .fi{border-color:#8aa43a;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(138,164,58,0.4);}
+.fc.trl-fc{--card-faction-color:#b49020;--card-border:#8aa43a;background:linear-gradient(180deg,rgba(54,70,18,.78),rgba(18,26,6,.92));border-radius:12px;box-shadow:0 0 0 1px rgba(138,164,58,.52),inset 0 0 18px rgba(138,164,58,.18),0 8px 18px rgba(0,0,0,.34);}
+.fc.trl-fc .fi{border-color:#8aa43a;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 18px rgba(138,164,58,0.62),inset 0 0 18px rgba(138,164,58,.18);}
 .fc.trl-fc .fc-zoom{background:linear-gradient(170deg,#24320a,#101804);}
 .fc.trl-fc .fc-zoom-name-b{background:linear-gradient(180deg,#1e2a08,#121a04 50%,#1e2a08);}
 .fc.trl-fc .fz-desc-inner{background:linear-gradient(155deg,#283610,#182208);}
@@ -3034,6 +3036,8 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'AVS000007': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
   'AVS000008': createCostDefinition(13, ["aria","soul"], [{"kind":"minimum","resource":"aria","amount":5},{"kind":"minimum","resource":"soul","amount":8}], []),
   'AVS000009': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'AVS000012': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":10}], []),
+  'AVS000013': createCostDefinition(13, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"selene","amount":5},{"kind":"minimum","resource":"aria","amount":5}], []),
   'B000001': createCostDefinition(1, ["nourriture"], [], []),
   'B000002': createCostDefinition(3, ["nourriture"], [], []),
   'B000006': createCostDefinition(4, ["nourriture"], [], []),
@@ -12018,6 +12022,7 @@ async function resolveCombat(attacker, targetFC) {
   if (attacker.dataset.id === 'MV000010') combatHealingResults.push({source:'combat-damage-heal', result:applyHeal(attacker, parseInt(attacker.dataset.atk)||1)});
   if (attacker.dataset.id === 'MV000020') combatHealingResults.push({source:'combat-damage-heal', result:applyHeal(attacker, 2)});
   if (combatHealingResults.length) {
+    pulseBatch03Ability(attacker, 'combat-heal');
     recordCombatEffectDiagnostic(attacker.dataset.id, {
       success:true,
       code:'combat-healing-resolved',
@@ -12887,7 +12892,10 @@ async function applyFireMasterEndOfTurn(player) {
     }
     const target = valid[Math.floor(Math.random() * valid.length)];
     const result = await applyEmbrasement(target, {sourcePlayer:p, sourceCardId:'ORC000017', sourceInstanceId:master.dataset.instance, rejectIfAlreadyBurning:true, reason:'maitre-du-feu'});
-    if (result.success) applied++;
+    if (result.success) {
+      applied++;
+      pulseBatch03Ability(master, 'end-turn');
+    }
   }
   return {applied};
 }
@@ -13067,6 +13075,7 @@ function applyEndOfTurnEffects(player) {
     const slots = zone.querySelectorAll('.slot');
     if (slots.length) {
       slots[0].outerHTML = buildFC('DIV000007', player);
+      pulseBatch03Ability(mage, 'end-turn');
       showNotif('Le Mage de glace invoque un Élémentaire de glace\u00a0!', 1500);
     }
   });
@@ -13087,6 +13096,7 @@ function applyEndOfTurnEffects(player) {
     if (validTargets.length) {
       const target = validTargets[Math.floor(Math.random() * validTargets.length)];
       tryApplyAbilityDamage({ sourcePlayer: player, targetFC: target, sourceCardId: 'EN000004', amount: 7 });
+      pulseBatch03Ability(destructeur, 'end-turn');
     } else if (!en000004ResistVfxShown) {
       const blockedTarget = targets.find(target => target.dataset.insensible);
       if (blockedTarget) {
@@ -14548,6 +14558,42 @@ Object.assign(CARDS_DATA, {
     "res_ico": "IC00000LNY",
     "res_val": "13",
     "resType": "lenya"
+  },
+  "AVS000012": {
+    "name": "Mage du Cercle - Zahaar le Serpent",
+    "type": "Serviteur",
+    "fac": "edn",
+    "atk": 13,
+    "pdv": 13,
+    "cost": 13,
+    "fico": "FCT00000EDN.png",
+    "kws": ["Insensible", "Aria"],
+    "cap": "[Insensible] Tant que ce serviteur est sur le terrain, tous les serviteurs adverses subissent 1 point de dégât par tour. Ce montant augmente de +1 à chacun de vos débuts de tour.",
+    "lore": "",
+    "max": 1,
+    "assetFolder": "avatars-pseudo-serviteurs",
+    "detail": "[Insensible] Tant que ce serviteur est sur le terrain, tous les serviteurs adverses subissent 1 point de dégât par tour. Ce montant augmente de +1 à chacun de vos débuts de tour. Les serviteurs adverses joués après cette carte démarrent à 1 point de dégât.",
+    "res_ico": "IC00000ARI",
+    "res_val": "13",
+    "resType": "aria"
+  },
+  "AVS000013": {
+    "name": "Mage du Cercle - Isgrimm le Forgeron",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 13,
+    "pdv": 13,
+    "cost": 13,
+    "fico": "FCT00000NAIN.png",
+    "kws": ["Insensible", "Aria", "Initiative", "Serviteur de la rune"],
+    "cap": "[Insensible] [Initiative] Choisissez un serviteur dans votre cimetière ou celui de votre adversaire et placez-le dans votre deck. Ajoute le mot clef [Serviteur de la rune] à ce serviteur. Puis, mélangez votre deck.",
+    "lore": "",
+    "max": 1,
+    "assetFolder": "avatars-pseudo-serviteurs",
+    "detail": "[Insensible] [Initiative] Choisissez un serviteur dans votre cimetière ou celui de votre adversaire et placez-le dans votre deck. Ajoute le mot clef [Serviteur de la rune] à ce serviteur. Puis, mélangez votre deck.",
+    "res_ico": "IC00000SLN",
+    "res_val": "13",
+    "resType": "selene+aria"
   },
   "AVS000011": {
     "name": "Mage du Cercle - Main d'argent, maître des miroirs",
@@ -17400,14 +17446,25 @@ function pulseBatch03Ability(fc, reason='ability', {move=true, passive=false}={}
   fc.style.setProperty('--batch04-pulse-color', pulseColor);
   if (passive) {
     fc.classList.remove('batch03-ability-pulse','batch03-ability-pulse-move');
-    fc.classList.add('batch03-passive-pulse');
+    fc.classList.add('batch03-passive-pulse','batch04-passive-glow');
+    fc.dataset.batch04PassiveGlow = '1';
     return true;
   }
-  fc.classList.remove('batch03-passive-pulse','batch03-ability-pulse','batch03-ability-pulse-move');
+  fc.classList.remove('batch03-passive-pulse','batch04-passive-glow','batch03-ability-pulse','batch03-ability-pulse-move');
+  delete fc.dataset.batch04PassiveGlow;
   void fc.offsetWidth;
   fc.classList.add('batch03-ability-pulse');
   if (move) fc.classList.add('batch03-ability-pulse-move');
-  setTimeout(() => fc.classList.remove('batch03-ability-pulse','batch03-ability-pulse-move'), 860);
+  setTimeout(() => fc.classList.remove('batch03-ability-pulse','batch03-ability-pulse-move'), 1050);
+  return true;
+}
+
+function clearBatch04PassivePulse(fc) {
+  if (!fc || !fc.classList) return false;
+  fc.classList.remove('batch03-passive-pulse','batch04-passive-glow');
+  delete fc.dataset.batch03PassivePulse;
+  delete fc.dataset.batch04PassiveGlow;
+  if (fc.dataset.batch03LastPulseReason === 'yria-passive') delete fc.dataset.batch03LastPulseReason;
   return true;
 }
 
@@ -17418,7 +17475,11 @@ function batch04ActiveYria(player) {
 }
 
 function syncBatch04YriaPassive(player) {
-  const yria = batch04ActiveYria(player);
+  const p = playerState(player);
+  const yria = batch04ActiveYria(p);
+  for (const candidate of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'AVS000005')) {
+    if (candidate !== yria) clearBatch04PassivePulse(candidate);
+  }
   if (!yria) return null;
   pulseBatch03Ability(yria, 'yria-passive', {passive:true, move:false});
   return yria;
@@ -17830,6 +17891,7 @@ async function triggerBatch03DamageReceivedHooks(fc, context={}) {
     results.push(await summonBatch03Servant(player, 'DIV000003', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
     results.push(await summonBatch03Servant(player, 'DIV000004', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
+  if (results.length) pulseBatch03Ability(fc, 'damage-received');
   if (results.length) recordCollectionBatch03Event('damage-received-hook', {cardId, target:targetSummary(fc), results});
   return results;
 }
@@ -17887,6 +17949,7 @@ async function triggerBatch03CombatHooks(attacker, targetFC, context={}) {
   }
   if (targetFC.dataset.id === 'AVS000001' && context.phase === 'attack' && !attacker.dataset.dead) {
     tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attacker, sourceCardId:'AVS000001', turns:2, type:'cdg', bypassInsensitive:true});
+    pulseBatch03Ability(targetFC, 'counter-freeze');
     results.push({type:'rohen-counter-cdg', target:targetSummary(attacker)});
   }
   if (targetFC.dataset.id === 'H000009' && context.phase === 'attack' && !attacker.dataset.dead) {
@@ -18034,7 +18097,7 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
 
 async function applyBatch03StartTurnAbilities(player) {
   const p = playerState(player);
-  const result = {divineWrath:[], divineWrathEchoDrain:[], darkDots:[], delayedDamage:[], ianna:null, priestHeals:[], necraneSummons:[], uramPassive:[]};
+  const result = {divineWrath:[], divineWrathEchoDrain:[], darkDots:[], delayedDamage:[], ianna:null, priestHeals:[], necraneSummons:[], uramPassive:[], raithPassive:[], zahaarPassive:[]};
   if (!p) return result;
   await resolveBatch03DivineWrathStartTurn(p, result);
   const enemyUram = livingServantCardsForPlayer(opponentOf(p)).find(fc => fc.dataset.id === 'AVS000007' && canResolveServantAbility(fc, {triggerType:'start-turn'}));
@@ -18042,6 +18105,35 @@ async function applyBatch03StartTurnAbilities(player) {
     for (const target of livingServantCardsForPlayer(p)) {
       target._killer = enemyUram;
       result.uramPassive.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:opponentOf(p), targetFC:target, sourceCardId:'AVS000007', amount:2, bypassInsensitive:true})});
+    }
+    if (result.uramPassive.length) pulseBatch03Ability(enemyUram, 'start-turn');
+  }
+  for (const raith of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'AVS000009' && canResolveServantAbility(fc, {triggerType:'start-turn'}))) {
+    const enemyServants = livingServantCardsForPlayer(opponentOf(p)).filter(fc => !fc.dataset.dead);
+    const central = batch03Pick(enemyServants);
+    if (!central) continue;
+    central._killer = raith;
+    const centralSummary = targetSummary(central);
+    const centralDied = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:central, sourceCardId:'AVS000009', amount:10});
+    const adjacentResults = [];
+    for (const adjacent of batch03AdjacentServants(central).filter(fc => fc.dataset.player === central.dataset.player)) {
+      adjacent._killer = raith;
+      adjacentResults.push({target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:adjacent, sourceCardId:'AVS000009', amount:5})});
+    }
+    pulseBatch03Ability(raith, 'start-turn');
+    result.raithPassive.push({source:targetSummary(raith), central:centralSummary, centralDied, adjacent:adjacentResults});
+  }
+  for (const zahaar of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'AVS000012' && canResolveServantAbility(fc, {triggerType:'start-turn'}))) {
+    const amount = Math.max(1, Number(zahaar.dataset.batch04ZahaarDamage || 1));
+    const ticks = [];
+    for (const target of livingServantCardsForPlayer(opponentOf(p)).filter(fc => !fc.dataset.dead)) {
+      target._killer = zahaar;
+      ticks.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:'AVS000012', amount})});
+    }
+    if (ticks.length) {
+      zahaar.dataset.batch04ZahaarDamage = String(amount + 1);
+      pulseBatch03Ability(zahaar, 'start-turn');
+      result.zahaarPassive.push({source:targetSummary(zahaar), amount, nextAmount:Number(zahaar.dataset.batch04ZahaarDamage), targets:ticks});
     }
   }
   for (const target of livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch03DarkDot && !fc.dataset.dead)) {

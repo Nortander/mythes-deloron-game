@@ -383,7 +383,7 @@
       "faction": "Elfe noir",
       "sourceRow": 10,
       "timing": [
-        "static"
+        "turn-start"
       ],
       "operations": [
         "cost-validation",
@@ -408,17 +408,17 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
+        "damage",
         "target-immunity"
       ],
-      "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "missingPrimitives": [],
+      "familyKey": "Serviteur:turn-start:damage",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-04-status-pulses.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -514,6 +514,7 @@
       "faction": "Elfe noir",
       "sourceRow": 13,
       "timing": [
+        "turn-start",
         "persistent"
       ],
       "operations": [
@@ -544,18 +545,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
+        "damage",
         "duration-persistent",
         "target-immunity"
       ],
-      "familyKey": "Serviteur:persistent:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "missingPrimitives": [],
+      "familyKey": "Serviteur:turn-start:progressive-area-damage",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-04-status-pulses.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -616,7 +617,8 @@
       "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
       "confidence": "MOYEN",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "deferralReason": "Runtime data present, but Initiative choice between graveyard/deck plus Serviteur de la rune mutation remains deferred."
     },
     {
       "schemaVersion": 1,

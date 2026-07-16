@@ -433,6 +433,7 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
       const fc = livingServantCardsForPlayer(player1).find(card => card.dataset.id === cardId);
       const passivePulse = cardId === "DIV000004" || cardId === "AVS000005";
       pulseBatch03Ability(fc, passivePulse ? "passive" : "start-turn", {passive:passivePulse, move:!passivePulse});
+      const style = getComputedStyle(fc);
       colors[cardId] = {
         dataset:fc.dataset.batch04PulseColor,
         css:fc.style.getPropertyValue("--batch04-pulse-color"),
@@ -441,12 +442,14 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
         classAbility:fc.classList.contains("batch03-ability-pulse"),
         classMove:fc.classList.contains("batch03-ability-pulse-move"),
         classPassive:fc.classList.contains("batch03-passive-pulse"),
-        animationName:getComputedStyle(fc).animationName,
+        classPassiveGlow:fc.classList.contains("batch04-passive-glow"),
+        animationName:style.animationName,
+        animationDuration:style.animationDuration,
         faction:CARDS_DATA[cardId]?.fac || ""
       };
     }
     const blockingZone = document.querySelector(playerZoneSelector(player1, "servants"));
-    blockingZone.innerHTML = Array.from({length:5}, () => `<div class="fc" data-id="H000001" data-player="${player1.key}" data-instance="blocking-${Math.random()}"></div>`).join("");
+    blockingZone.innerHTML = Array.from({length:5}, () => "<div class=\"fc\" data-id=\"H000001\" data-player=\"" + player1.key + "\" data-instance=\"blocking-" + Math.random() + "\"></div>").join("");
     const failed = await summonBatch03Servant(player1, "H000031", {triggerInitiativeEffect:true, ready:true});
     const source = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000031");
     const events = collectionBatch03State.events.slice();
@@ -459,17 +462,69 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
   expect(result.colors.DIV000004.passive).toBe("1");
   expect(result.colors.DIV000004.move).toBe("0");
   expect(result.colors.DIV000004.classPassive).toBe(true);
+  expect(result.colors.DIV000004.classPassiveGlow).toBe(true);
   expect(result.colors.DIV000004.classMove).toBe(false);
   expect(result.colors.AVS000005.passive).toBe("1");
   expect(result.colors.AVS000005.move).toBe("0");
   expect(result.colors.AVS000005.classPassive).toBe(true);
+  expect(result.colors.AVS000005.classPassiveGlow).toBe(true);
   expect(result.colors.AVS000005.classMove).toBe(false);
-  expect(result.colors.AVS000005.animationName).toContain("batch03PassivePulse");
+  expect(result.colors.AVS000005.animationName).toContain("batch04PassiveGlow");
+  expect(result.colors.AVS000005.animationDuration).toContain("2.8s");
   expect(result.colors.TRL000020).toMatchObject({dataset:"#b4902073", faction:"trl", move:"1", classAbility:true, classMove:true});
   expect(result.colors.N000004).toMatchObject({dataset:"#a0a8b866", faction:"nain", move:"1", classAbility:true, classMove:true});
   expect(result.failed.success).toBe(false);
   expect(result.sourceExists).toBe(false);
   expect(result.initiativeEvents).toHaveLength(0);
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Ump uses full Troll terrain theme and Troll pulse color", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate((expectedColor) => {
+    const source = livingServantCardsForPlayer(player2).find(card => card.dataset.id === "TRL000020");
+    if (!source) return {found:false};
+    pulseBatch03Ability(source, "test-troll-theme", {move:true});
+    const preview = source.cloneNode(true);
+    document.body.appendChild(preview);
+    const sourceStyle = getComputedStyle(source);
+    const imageStyle = getComputedStyle(source.querySelector(".fi"));
+    const previewStyle = getComputedStyle(preview);
+    const audit = {
+      found:true,
+      fac:source.dataset.fac || "",
+      cardFac:CARDS_DATA.TRL000020?.fac || "",
+      hasClass:source.classList.contains("trl-fc"),
+      previewHasClass:preview.classList.contains("trl-fc"),
+      background:sourceStyle.backgroundImage,
+      boxShadow:sourceStyle.boxShadow,
+      factionColor:sourceStyle.getPropertyValue("--card-faction-color").trim(),
+      imageBorderColor:imageStyle.borderColor,
+      imageBoxShadow:imageStyle.boxShadow,
+      previewBackground:previewStyle.backgroundImage,
+      pulseColor:source.dataset.batch04PulseColor || "",
+      pulseMove:source.dataset.batch03PulseMove || "",
+      pulseClass:source.classList.contains("batch03-ability-pulse"),
+      expectedColor
+    };
+    preview.remove();
+    return audit;
+  }, fixture.pulseColors.TRL000020);
+  expect(result.found).toBe(true);
+  expect(result.cardFac).toBe("trl");
+  expect(result.fac).toBe("trl");
+  expect(result.hasClass).toBe(true);
+  expect(result.previewHasClass).toBe(true);
+  expect(result.background).toContain("gradient");
+  expect(result.previewBackground).toContain("gradient");
+  expect(result.boxShadow).not.toBe("none");
+  expect(result.factionColor).toBe("#b49020");
+  expect(result.imageBorderColor).toBe("rgb(138, 164, 58)");
+  expect(result.imageBoxShadow).toContain("138");
+  expect(result.pulseColor).toBe(fixture.pulseColors.TRL000020);
+  expect(result.pulseMove).toBe("1");
+  expect(result.pulseClass).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -526,11 +581,16 @@ test("Yria passive doubles healing, draws one extra card and keeps an immobile p
   const result = await page.evaluate(async (config) => {
     const yria = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === config.cardId);
     const target = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === config.healTargetId);
+    const passiveStyleBefore = getComputedStyle(yria);
     const passiveBefore = {
       reason:yria.dataset.batch03LastPulseReason || "",
       passive:yria.dataset.batch03PassivePulse || "",
       move:yria.dataset.batch03PulseMove || "",
-      color:yria.dataset.batch04PulseColor || ""
+      color:yria.dataset.batch04PulseColor || "",
+      classGlow:yria.classList.contains("batch04-passive-glow"),
+      classPassive:yria.classList.contains("batch03-passive-pulse"),
+      animationName:passiveStyleBefore.animationName,
+      animationDuration:passiveStyleBefore.animationDuration
     };
     batch03UpdateStats(target, {pdvMax:10, pdv:2});
     const heal = applyHeal(target, config.healRequested);
@@ -544,6 +604,7 @@ test("Yria passive doubles healing, draws one extra card and keeps an immobile p
     const drawn = await runStartTurnPipeline(player1);
     const trace = getLastStartTurnTrace();
     const afterDraw = {hand:player1.hand.length, deck:player1.drawPile.length};
+    const pulseStyleAfter = getComputedStyle(yria);
     return {
       passiveBefore,
       heal,
@@ -556,11 +617,17 @@ test("Yria passive doubles healing, draws one extra card and keeps an immobile p
         reason:yria.dataset.batch03LastPulseReason || "",
         passive:yria.dataset.batch03PassivePulse || "",
         move:yria.dataset.batch03PulseMove || "",
-        color:yria.dataset.batch04PulseColor || ""
+        color:yria.dataset.batch04PulseColor || "",
+        classGlow:yria.classList.contains("batch04-passive-glow"),
+        classPassive:yria.classList.contains("batch03-passive-pulse"),
+        animationName:pulseStyleAfter.animationName,
+        animationDuration:pulseStyleAfter.animationDuration
       }
     };
   }, fixture.passives.yria);
-  expect(result.passiveBefore).toMatchObject({passive:"1", move:"0", color:fixture.pulseColors.AVS000005});
+  expect(result.passiveBefore).toMatchObject({passive:"1", move:"0", color:fixture.pulseColors.AVS000005, classGlow:true, classPassive:true});
+  expect(result.passiveBefore.animationName).toContain("batch04PassiveGlow");
+  expect(result.passiveBefore.animationDuration).toContain("2.8s");
   expect(result.heal.success).toBe(true);
   expect(result.heal.requested).toBe(fixture.passives.yria.healRequested);
   expect(result.heal.gained).toBe(fixture.passives.yria.healExpectedGain);
@@ -570,7 +637,95 @@ test("Yria passive doubles healing, draws one extra card and keeps an immobile p
   expect(result.beforeDraw.deck - result.afterDraw.deck).toBe(2);
   expect(result.trace.drawResult.success).toBe(true);
   expect(result.trace.yriaExtraDraw.success).toBe(true);
-  expect(result.yriaPulse).toMatchObject({passive:"1", move:"0", color:fixture.pulseColors.AVS000005});
+  expect(result.yriaPulse).toMatchObject({passive:"1", move:"0", color:fixture.pulseColors.AVS000005, classGlow:true, classPassive:true});
+  expect(result.yriaPulse.animationName).toContain("batch04PassiveGlow");
+  expect(result.yriaPulse.animationDuration).toContain("2.8s");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Remaining AVS audit implements Raith and Zahaar while deferring Isgrimm", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (audit) => {
+    const resetBoard = () => {
+      for (const player of [player1, player2]) {
+        const zone = document.querySelector(playerZoneSelector(player, "servants"));
+        zone.innerHTML = Array.from({length:5}, () => "<div class=\"slot\" data-player=\"" + player.key + "\"></div>").join("");
+        player.hand = [];
+        player.drawPile = [];
+        player.graveyard = [];
+        player.firstTurnStarted = false;
+        player.turnState = {};
+        refreshHand(player);
+        updateDeckCount(player);
+        refreshCemeteryVisual(player);
+      }
+    };
+    const summon = async (player, cardId, pdv=20) => {
+      const result = await summonBatch03Servant(player, cardId, {triggerInitiativeEffect:false, ready:true});
+      const fc = document.querySelector(".fc[data-instance=\"" + result.instanceId + "\"]");
+      if (fc) applyScenarioServantState(fc, {pdvMax:pdv, pdv, prepared:true});
+      return fc;
+    };
+    const runtimeAvs = audit.avsIds.map(id => ({id, present:!!CARDS_DATA[id], name:CARDS_DATA[id]?.name || ""}));
+    resetBoard();
+    const raith = await summon(player1, "AVS000009", 40);
+    const raithTargets = [await summon(player2, "H000005", 20), await summon(player2, "H000005", 20), await summon(player2, "H000005", 20)];
+    window.__mythesRandom = () => 0.4;
+    const raithBefore = raithTargets.map(targetSummary);
+    const raithResult = await applyBatch03StartTurnAbilities(player1);
+    const raithAfter = raithTargets.map(targetSummary);
+    const raithPulse = {reason:raith.dataset.batch03LastPulseReason || "", color:raith.dataset.batch04PulseColor || "", move:raith.dataset.batch03PulseMove || "", classAbility:raith.classList.contains("batch03-ability-pulse")};
+    delete window.__mythesRandom;
+    resetBoard();
+    const zahaar = await summon(player1, "AVS000012", 40);
+    const zahaarTargets = [await summon(player2, "H000005", 20), await summon(player2, "H000005", 20), await summon(player2, "H000005", 20)];
+    const zahaarBefore = zahaarTargets.map(targetSummary);
+    const zahaarFirst = await applyBatch03StartTurnAbilities(player1);
+    const zahaarAfterFirst = zahaarTargets.map(targetSummary);
+    const zahaarSecond = await applyBatch03StartTurnAbilities(player1);
+    const zahaarAfterSecond = zahaarTargets.map(targetSummary);
+    const zahaarPulse = {reason:zahaar.dataset.batch03LastPulseReason || "", color:zahaar.dataset.batch04PulseColor || "", move:zahaar.dataset.batch03PulseMove || "", classAbility:zahaar.classList.contains("batch03-ability-pulse")};
+    const isgrimmInitiative = await resolveBatch03Initiative("AVS000013", player1, {});
+    return {
+      runtimeAvs,
+      raith:{before:raithBefore, after:raithAfter, result:raithResult, pulse:raithPulse},
+      zahaar:{before:zahaarBefore, afterFirst:zahaarAfterFirst, afterSecond:zahaarAfterSecond, first:zahaarFirst, second:zahaarSecond, pulse:zahaarPulse, nextDamage:zahaar.dataset.batch04ZahaarDamage || ""},
+      isgrimm:{present:!!CARDS_DATA.AVS000013, keywords:CARDS_DATA.AVS000013?.kws || [], initiative:isgrimmInitiative},
+      deferred:audit.deferred
+    };
+  }, fixture.avatarAudit);
+  expect(result.runtimeAvs.filter(card => !card.present)).toEqual([]);
+  expect(result.raith.result.raithPassive).toHaveLength(1);
+  const raithEffect = result.raith.result.raithPassive[0];
+  expect(raithEffect.source.id).toBe("AVS000009");
+  const raithBeforeByInstance = new Map(result.raith.before.map(card => [card.instance, card]));
+  const raithAfterByInstance = new Map(result.raith.after.map(card => [card.instance, card]));
+  expect(raithAfterByInstance.get(raithEffect.central.instance).pdv).toBe(raithBeforeByInstance.get(raithEffect.central.instance).pdv - 10);
+  for (const adjacent of raithEffect.adjacent) {
+    expect(raithAfterByInstance.get(adjacent.target.instance).pdv).toBe(raithBeforeByInstance.get(adjacent.target.instance).pdv - 5);
+  }
+  const affectedInstances = new Set([raithEffect.central.instance, ...raithEffect.adjacent.map(item => item.target.instance)]);
+  for (const before of result.raith.before) {
+    if (!affectedInstances.has(before.instance)) expect(raithAfterByInstance.get(before.instance).pdv).toBe(before.pdv);
+  }
+  expect(result.raith.pulse).toMatchObject({reason:"start-turn", color:fixture.pulseColors.AVS000009, move:"1", classAbility:true});
+  expect(result.zahaar.first.zahaarPassive).toHaveLength(1);
+  expect(result.zahaar.first.zahaarPassive[0].source.id).toBe("AVS000012");
+  expect(result.zahaar.first.zahaarPassive[0]).toMatchObject({amount:1, nextAmount:2});
+  expect(result.zahaar.second.zahaarPassive).toHaveLength(1);
+  expect(result.zahaar.second.zahaarPassive[0].source.id).toBe("AVS000012");
+  expect(result.zahaar.second.zahaarPassive[0]).toMatchObject({amount:2, nextAmount:3});
+  for (let index = 0; index < result.zahaar.before.length; index += 1) {
+    expect(result.zahaar.afterFirst[index].pdv).toBe(result.zahaar.before[index].pdv - 1);
+    expect(result.zahaar.afterSecond[index].pdv).toBe(result.zahaar.before[index].pdv - 3);
+  }
+  expect(result.zahaar.nextDamage).toBe("3");
+  expect(result.zahaar.pulse).toMatchObject({reason:"start-turn", color:fixture.pulseColors.AVS000012, move:"1", classAbility:true});
+  expect(result.isgrimm.present).toBe(true);
+  expect(result.isgrimm.keywords).toContain("Serviteur de la rune");
+  expect(result.isgrimm.initiative?.handled).toBe(false);
+  expect(result.deferred.AVS000013).toContain("Choix cimetiere/deck");
   await attachDiagnostics(testInfo, diagnostics);
 });
 
@@ -590,7 +745,7 @@ test("Mageobelin lance-cailloux damages one valid enemy at end turn and stays si
     delete mage.dataset.batch04PulseColor;
     delete mage.dataset.batch03LastPulseReason;
     mage.style.removeProperty("--batch04-pulse-color");
-    mage.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move", "batch03-passive-pulse");
+    mage.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move", "batch03-passive-pulse", "batch04-passive-glow");
     target.dataset.insensible = "1";
     const refused = await applyBatch03EndTurnAbilities(player1);
     const refusedAfter = {target:targetSummary(target), pulseReason:mage.dataset.batch03LastPulseReason || "", pulseColor:mage.dataset.batch04PulseColor || ""};
