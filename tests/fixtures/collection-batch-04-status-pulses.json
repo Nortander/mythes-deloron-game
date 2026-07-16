@@ -49,7 +49,10 @@
     "DIV000004": "#78645066",
     "B000002": "#b4783073",
     "AVS000009": "#9040c080",
-    "AVS000012": "#9040c080"
+    "AVS000012": "#9040c080",
+    "EDG000008": "#5ab8f073",
+    "AVS000003": "#26c4ec",
+    "H000024": "#26c4ec"
   },
   "passives": {
     "nainRepresentative": {
@@ -68,7 +71,47 @@
     "mageobelin": {
       "cardId": "GOB000001",
       "damageTargetId": "N000004"
-    }
+    },
+    "permanentPassiveIds": [
+      "AVS000005",
+      "AVS000003",
+      "H000024",
+      "EDG000008"
+    ],
+    "rempartOnly": {
+      "cardId": "EN000007"
+    },
+    "pointAbilities": {
+      "rhaekor": {
+        "cardId": "B000002",
+        "expectedDamage": 1
+      },
+      "priest": {
+        "cardId": "H000006",
+        "healTargetId": "H000001",
+        "expectedHeal": 4
+      },
+      "undeadGoblin": {
+        "cardId": "MV000020",
+        "targetId": "H000001",
+        "expectedHeal": 2
+      }
+    },
+    "scenarioVisibleCards": [
+      "TRL000020",
+      "AVS000005",
+      "AVS000003",
+      "H000024",
+      "EDG000008",
+      "GOB000001",
+      "B000002",
+      "H000006",
+      "MV000020",
+      "AVS000006",
+      "AVS000009",
+      "AVS000012",
+      "EN000007"
+    ]
   },
   "scenarioRobustness": {
     "minEnemyServants": 3,

@@ -420,7 +420,7 @@ test("Serviteur de la rune flight targets the owner hand and preserves the occur
 test("Ability pulses use faction colors, passive loops stay still and failures do not pulse", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-pulses");
-  const result = await page.evaluate(async (expectedColors) => {
+  const result = await page.evaluate(async ({expectedColors, passiveIds}) => {
     const zone = document.querySelector(playerZoneSelector(player1, "servants"));
     zone.innerHTML = "";
     for (const cardId of Object.keys(expectedColors)) {
@@ -431,7 +431,7 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
     const colors = {};
     for (const [cardId] of Object.entries(expectedColors)) {
       const fc = livingServantCardsForPlayer(player1).find(card => card.dataset.id === cardId);
-      const passivePulse = cardId === "DIV000004" || cardId === "AVS000005";
+      const passivePulse = cardId === "DIV000004" || passiveIds.includes(cardId);
       pulseBatch03Ability(fc, passivePulse ? "passive" : "start-turn", {passive:passivePulse, move:!passivePulse});
       const style = getComputedStyle(fc);
       colors[cardId] = {
@@ -454,7 +454,7 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
     const source = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000031");
     const events = collectionBatch03State.events.slice();
     return {colors, failed, sourceExists:!!source, initiativeEvents:events.filter(event => event.type === "initiative" && event.cardId === "H000031")};
-  }, fixture.pulseColors);
+  }, {expectedColors:fixture.pulseColors, passiveIds:fixture.passives.permanentPassiveIds});
   for (const [cardId, color] of Object.entries(fixture.pulseColors)) {
     expect(result.colors[cardId].dataset, cardId).toBe(color);
     expect(result.colors[cardId].css, cardId).toBe(color);
@@ -469,8 +469,14 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
   expect(result.colors.AVS000005.classPassive).toBe(true);
   expect(result.colors.AVS000005.classPassiveGlow).toBe(true);
   expect(result.colors.AVS000005.classMove).toBe(false);
-  expect(result.colors.AVS000005.animationName).toContain("batch04PassiveGlow");
-  expect(result.colors.AVS000005.animationDuration).toContain("2.8s");
+  for (const cardId of fixture.passives.permanentPassiveIds) {
+    expect(result.colors[cardId].passive, cardId).toBe("1");
+    expect(result.colors[cardId].move, cardId).toBe("0");
+    expect(result.colors[cardId].classPassive, cardId).toBe(true);
+    expect(result.colors[cardId].classPassiveGlow, cardId).toBe(true);
+    expect(result.colors[cardId].animationName, cardId).toContain("batch04PassiveGlow");
+    expect(result.colors[cardId].animationDuration, cardId).toContain("2.8s");
+  }
   expect(result.colors.TRL000020).toMatchObject({dataset:"#b4902073", faction:"trl", move:"1", classAbility:true, classMove:true});
   expect(result.colors.N000004).toMatchObject({dataset:"#a0a8b866", faction:"nain", move:"1", classAbility:true, classMove:true});
   expect(result.failed.success).toBe(false);
@@ -519,9 +525,9 @@ test("Ump uses full Troll terrain theme and Troll pulse color", async ({page}, t
   expect(result.background).toContain("gradient");
   expect(result.previewBackground).toContain("gradient");
   expect(result.boxShadow).not.toBe("none");
-  expect(result.factionColor).toBe("#b49020");
-  expect(result.imageBorderColor).toBe("rgb(138, 164, 58)");
-  expect(result.imageBoxShadow).toContain("138");
+  expect(result.factionColor).toBe("#e0a840");
+  expect(result.imageBorderColor).toBe("rgb(122, 60, 16)");
+  expect(result.imageBoxShadow).toContain("180");
   expect(result.pulseColor).toBe(fixture.pulseColors.TRL000020);
   expect(result.pulseMove).toBe("1");
   expect(result.pulseClass).toBe(true);
@@ -533,6 +539,11 @@ test("Nain pulse representative is played from hand and triggers a real supply I
   await openScenario(page, "collection-batch-04-pulses");
   const result = await page.evaluate(async (config) => {
     currentPlayer = player1.key;
+    const servantZone = document.querySelector(playerZoneSelector(player1, "servants"));
+    const extraSlot = document.createElement("div");
+    extraSlot.className = "slot";
+    extraSlot.dataset.player = player1.key;
+    servantZone.appendChild(extraSlot);
     const before = {
       hand:[...player1.hand],
       deck:[...player1.drawPile],
@@ -741,7 +752,7 @@ test("Mageobelin lance-cailloux damages one valid enemy at end turn and stays si
     const mage = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === config.cardId);
     const before = {target:targetSummary(target), mage:targetSummary(mage)};
     const applied = await applyBatch03EndTurnAbilities(player1);
-    const after = {target:targetSummary(target), mage:targetSummary(mage), pulseReason:mage.dataset.batch03LastPulseReason || "", pulseColor:mage.dataset.batch04PulseColor || ""};
+    const after = {target:targetSummary(target), mage:targetSummary(mage), pulseReason:mage.dataset.batch03LastPulseReason || "", pulseColor:mage.dataset.batch04PulseColor || "", pulseMove:mage.dataset.batch03PulseMove || "", classAbility:mage.classList.contains("batch03-ability-pulse"), classMove:mage.classList.contains("batch03-ability-pulse-move")};
     delete mage.dataset.batch04PulseColor;
     delete mage.dataset.batch03LastPulseReason;
     mage.style.removeProperty("--batch04-pulse-color");
@@ -756,11 +767,130 @@ test("Mageobelin lance-cailloux damages one valid enemy at end turn and stays si
   expect(result.after.target.pdv).toBe(result.before.target.pdv - result.before.mage.atk);
   expect(result.after.pulseReason).toBe("end-turn");
   expect(result.after.pulseColor).toBe(fixture.pulseColors.GOB000001);
+  expect(result.after.pulseMove).toBe("1");
+  expect(result.after.classAbility).toBe(true);
+  expect(result.after.classMove).toBe(true);
   expect(result.refused.mageobelinThrows).toHaveLength(1);
   expect(result.refused.mageobelinThrows[0]).toMatchObject({success:false, reason:"no-valid-target"});
   expect(result.refusedAfter.target.pdv).toBe(result.after.target.pdv);
   expect(result.refusedAfter.pulseReason).toBe("");
   expect(result.refusedAfter.pulseColor).toBe("");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+
+test("Batch-04 pulse scenario exposes remaining avatars and passive cards visually", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate((visibleIds) => {
+    syncBatch04PassivePulses();
+    return visibleIds.map(cardId => {
+      const fc = livingServantCardsForPlayer(player1).concat(livingServantCardsForPlayer(player2)).find(card => card.dataset.id === cardId);
+      const style = fc ? getComputedStyle(fc) : null;
+      return {
+        cardId,
+        found:!!fc,
+        player:fc?.dataset.player || "",
+        passive:fc?.dataset.batch03PassivePulse || "",
+        glow:!!fc?.classList.contains("batch04-passive-glow"),
+        animationName:style?.animationName || ""
+      };
+    });
+  }, fixture.passives.scenarioVisibleCards);
+  const byId = new Map(result.map(entry => [entry.cardId, entry]));
+  for (const cardId of fixture.passives.scenarioVisibleCards) expect(byId.get(cardId)?.found, cardId).toBe(true);
+  for (const cardId of fixture.passives.permanentPassiveIds) {
+    expect(byId.get(cardId)).toMatchObject({passive:"1", glow:true});
+    expect(byId.get(cardId).animationName).toContain("batch04PassiveGlow");
+  }
+  expect(byId.get(fixture.passives.rempartOnly.cardId)).toMatchObject({passive:"", glow:false});
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Point abilities pulse only after real mutations for Rhaekor, priest and undead goblin", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (config) => {
+    const resetBoard = () => {
+      for (const player of [player1, player2]) {
+        const zone = document.querySelector(playerZoneSelector(player, "servants"));
+        zone.innerHTML = Array.from({length:5}, () => "<div class=\"slot\" data-player=\"" + player.key + "\"></div>").join("");
+        player.hand = [];
+        player.drawPile = [];
+        player.graveyard = [];
+        player.turnState = {};
+        refreshHand(player);
+        updateDeckCount(player);
+      }
+    };
+    const summon = async (player, cardId, state={}) => {
+      const summoned = await summonBatch03Servant(player, cardId, {triggerInitiativeEffect:false, ready:true});
+      const fc = document.querySelector(".fc[data-instance=\"" + summoned.instanceId + "\"]");
+      if (fc) applyScenarioServantState(fc, {pdvMax:state.pdvMax || 12, pdv:state.pdv || state.pdvMax || 12, atk:state.atk, prepared:true});
+      return fc;
+    };
+    const clearPulse = (fc) => {
+      delete fc.dataset.batch04PulseColor;
+      delete fc.dataset.batch03LastPulseReason;
+      delete fc.dataset.batch03PulseMove;
+      delete fc.dataset.batch03LastPulseMove;
+      fc.style.removeProperty("--batch04-pulse-color");
+      fc.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move", "batch03-passive-pulse", "batch04-passive-glow");
+    };
+    const pulseAudit = (fc) => ({
+      reason:fc.dataset.batch03LastPulseReason || "",
+      color:fc.dataset.batch04PulseColor || "",
+      move:fc.dataset.batch03PulseMove || "",
+      classAbility:fc.classList.contains("batch03-ability-pulse"),
+      classMove:fc.classList.contains("batch03-ability-pulse-move")
+    });
+
+    resetBoard();
+    const rhaekor = await summon(player1, config.rhaekor.cardId, {pdvMax:8, pdv:8});
+    const rhaekorBefore = targetSummary(rhaekor);
+    const rhaekorEffect = await resolveImmediatePlayEffect({player:player1, cardId:config.rhaekor.cardId, sourceFC:rhaekor});
+    const rhaekorPulse = pulseAudit(rhaekor);
+    const rhaekorAfter = targetSummary(rhaekor);
+
+    resetBoard();
+    const priest = await summon(player1, config.priest.cardId, {pdvMax:8, pdv:8});
+    const wounded = await summon(player1, config.priest.healTargetId, {pdvMax:10, pdv:2});
+    player1.resourceState.classical.aria = 5;
+    const priestResult = await applyBatch03StartTurnAbilities(player1);
+    const priestAfter = {target:targetSummary(wounded), pulse:pulseAudit(priest)};
+    batch03UpdateStats(wounded, {pdvMax:10, pdv:10});
+    clearPulse(priest);
+    const priestRefused = await applyBatch03StartTurnAbilities(player1);
+    const priestNoHeal = pulseAudit(priest);
+
+    resetBoard();
+    currentPlayer = player1.key;
+    const undeadGoblin = await summon(player1, config.undeadGoblin.cardId, {pdvMax:12, pdv:6});
+    const enemy = await summon(player2, config.undeadGoblin.targetId, {pdvMax:20, pdv:20, atk:0});
+    const undeadBefore = targetSummary(undeadGoblin);
+    await resolveCombat(undeadGoblin, enemy);
+    const undeadAfter = {source:targetSummary(undeadGoblin), pulse:pulseAudit(undeadGoblin)};
+    resetBoard();
+    currentPlayer = player1.key;
+    const fullGoblin = await summon(player1, config.undeadGoblin.cardId, {pdvMax:12, pdv:12});
+    const harmlessEnemy = await summon(player2, config.undeadGoblin.targetId, {pdvMax:20, pdv:20, atk:0});
+    await resolveCombat(fullGoblin, harmlessEnemy);
+    const undeadNoHeal = {source:targetSummary(fullGoblin), pulse:pulseAudit(fullGoblin)};
+
+    return {rhaekor:{before:rhaekorBefore, effect:rhaekorEffect, after:rhaekorAfter, pulse:rhaekorPulse}, priest:{result:priestResult, after:priestAfter, refused:priestRefused, noHeal:priestNoHeal}, undead:{before:undeadBefore, after:undeadAfter, noHeal:undeadNoHeal}};
+  }, fixture.passives.pointAbilities);
+  expect(result.rhaekor.effect.success).toBe(true);
+  expect(result.rhaekor.after.pdv).toBe(result.rhaekor.before.pdv - fixture.passives.pointAbilities.rhaekor.expectedDamage);
+  expect(result.rhaekor.pulse).toMatchObject({reason:"initiative", color:fixture.pulseColors.B000002, move:"1", classAbility:true, classMove:true});
+  expect(result.priest.result.priestHeals).toHaveLength(1);
+  expect(result.priest.result.priestHeals[0].heal.gained).toBe(fixture.passives.pointAbilities.priest.expectedHeal);
+  expect(result.priest.after.pulse).toMatchObject({reason:"start-turn", color:fixture.pulseColors.H000006, move:"1", classAbility:true, classMove:true});
+  expect(result.priest.refused.priestHeals).toHaveLength(0);
+  expect(result.priest.noHeal).toMatchObject({reason:"", color:""});
+  expect(result.undead.after.source.pdv).toBe(result.undead.before.pdv + fixture.passives.pointAbilities.undeadGoblin.expectedHeal);
+  expect(result.undead.after.pulse).toMatchObject({reason:"combat-heal", color:fixture.pulseColors.MV000020, move:"1", classAbility:true, classMove:true});
+  expect(result.undead.noHeal.source.pdv).toBe(12);
+  expect(result.undead.noHeal.pulse).toMatchObject({reason:"", color:""});
   await attachDiagnostics(testInfo, diagnostics);
 });
 

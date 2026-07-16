@@ -208,6 +208,7 @@ Corrections COLLECTION-BATCH-04C :
 - Le scenario `collection-batch-04-pulses` couvre les couleurs de pulsation des familles `edb`, `hum`, `orc`, `edg`, `nain`, `mvs`, `edn`, `trl`, `gob`, `div` et `bet`.
 - Les scenarios techniques Batch-04 ne contiennent plus d'exemple `R000010`.
 - Corrections 04E : le halo passif de `AVS000005` est fluide, `TRL000020` utilise le rendu terrain Troll complet, `AVS000009` et `AVS000012` disposent de passifs de debut de tour testes, tandis que `AVS000013` reste reporte pour choix cimetiere/deck et mutation de mot-clef.
+- Corrections COLLECTION-BATCH-04F : le rendu Troll de `TRL000020` reprend la palette brun/or Collection, les halos passifs permanents sont generiques pour `AVS000005`, `AVS000003`, `H000024` et `EDG000008` sans assimiler `Rempart` seul a un passif, et les pulsations de `B000002`, `H000006`, `GOB000001` et `MV000020` ne se declenchent qu'apres une mutation effective. `AVS000006`, `AVS000009` et `AVS000012` sont presents dans le scenario visuel de pulsations.
 
 Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-hypnose`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
 
