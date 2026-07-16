@@ -607,7 +607,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-rune-flight[data-flight-target="owner-hand"]{outline:2px solid rgba(230,210,255,.95);outline-offset:2px;}
 .batch03-ability-pulse{animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);will-change:filter,transform,box-shadow;}
 .batch03-ability-pulse-move{animation-name:batch03AbilityPulse;}
-.batch03-passive-pulse,.batch04-passive-glow{animation:batch04PassiveGlow 2.8s ease-in-out infinite;box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 16px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 74%,transparent);will-change:filter,box-shadow;}
+.batch03-passive-pulse,.batch04-passive-glow{animation:batch04PassiveGlow 2.8s ease-in-out infinite;box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 8px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 78%,transparent);will-change:filter,box-shadow;}
 .batch03-ianna-reveal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4300;width:208px;padding:12px;border:2px solid rgba(38,196,236,.92);border-radius:16px;background:rgba(5,12,34,.94);box-shadow:0 0 28px rgba(38,196,236,.95),0 0 66px rgba(0,47,167,.72);text-align:center;pointer-events:none;animation:batch03IannaReveal 1.45s ease-in-out forwards;}
 .batch03-ianna-reveal img{width:186px;border-radius:10px;display:block;margin:0 auto 8px;}
 .batch03-ianna-reveal span{display:block;color:#eaf8ff;font-family:'Cinzel',serif;font-weight:800;text-shadow:0 1px 5px #000;}
@@ -638,7 +638,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch03HandReturn{0%{filter:brightness(2.25) drop-shadow(0 0 22px #b582ff);transform:translateY(-24px) scale(1.12);}100%{filter:none;transform:none;}}
 @keyframes batch03AbilityPulse{0%{filter:brightness(1.65) drop-shadow(0 0 14px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec));transform:translateY(0) scale(1);}24%{filter:brightness(2.25) drop-shadow(0 0 28px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 3px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 34px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec));transform:translateY(-7px) scale(1.06);}62%{filter:brightness(1.35) drop-shadow(0 0 24px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 2px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 24px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec));transform:translateY(2px) scale(1.025);}100%{filter:none;box-shadow:none;transform:none;}}
 @keyframes batch03PassivePulse{0%,100%{filter:drop-shadow(0 0 4px var(--batch04-pulse-color,rgba(38,196,236,.35)));}50%{filter:brightness(1.18) drop-shadow(0 0 16px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));}}
-@keyframes batch04PassiveGlow{0%,100%{filter:brightness(1.04) drop-shadow(0 0 7px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 14px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 68%,transparent);}50%{filter:brightness(1.24) drop-shadow(0 0 22px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 2px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 30px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 88%,transparent),0 0 56px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 46%,transparent);}}
+@keyframes batch04PassiveGlow{0%,100%{filter:brightness(1.04) drop-shadow(0 0 4px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 1px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 8px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 72%,transparent);}50%{filter:brightness(1.24) drop-shadow(0 0 11px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));box-shadow:0 0 0 2px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)),0 0 16px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 90%,transparent),0 0 28px color-mix(in srgb,var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)) 54%,transparent);}}
 @keyframes batch04HypnosisRipple{0%{opacity:.95;width:14px;height:14px;box-shadow:0 0 8px rgba(157,255,102,.95),inset 0 0 8px rgba(157,255,102,.55);}72%{opacity:.38;}100%{opacity:0;width:112px;height:112px;box-shadow:0 0 18px rgba(157,255,102,.55),inset 0 0 18px rgba(157,255,102,.25);}}
 @keyframes batch03IannaReveal{0%{opacity:0;transform:translate(-50%,-48%) scale(.72);}16%,78%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-52%) scale(.86);}}
 @keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
@@ -12236,10 +12236,22 @@ async function sendToCemetery(fc) {
     const slotCls = fc.dataset.type === 'appro' ? 'slot-appro' : 'slot';
     const parentRow = fc.parentElement;
     if (parentRow) {
-      const newSlot = document.createElement('div');
-      newSlot.className = slotCls;
-      if (parentRow.dataset.player) newSlot.dataset.player = parentRow.dataset.player;
-      fc.replaceWith(newSlot);
+      if (vengeanceResult?.replacementCardId && CARDS_DATA[vengeanceResult.replacementCardId]) {
+        const template = document.createElement('template');
+        template.innerHTML = buildFC(vengeanceResult.replacementCardId, player).trim();
+        const replacement = template.content.firstElementChild;
+        if (replacement) {
+          replacement.dataset.batch03SummonedBy = cardId;
+          if (fc.dataset.instance) replacement.dataset.batch03SourceInstance = fc.dataset.instance;
+          fc.replaceWith(replacement);
+          vengeanceResult.instanceId = replacement.dataset.instance || '';
+        }
+      } else {
+        const newSlot = document.createElement('div');
+        newSlot.className = slotCls;
+        if (parentRow.dataset.player) newSlot.dataset.player = parentRow.dataset.player;
+        fc.replaceWith(newSlot);
+      }
     }
   }
 
@@ -12300,7 +12312,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
   }
@@ -12311,6 +12323,10 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
 
   if (cardId === 'H000031') {
     return triggerBatch03IgorVengeance(player, dyingFC, killer);
+  }
+
+  if (cardId === 'AVS000006') {
+    return triggerBatch04GorVengeance(player, dyingFC);
   }
 
   if (cardId === 'AVS000008') {
@@ -14564,6 +14580,25 @@ Object.assign(CARDS_DATA, {
     "res_ico": "IC00000LNY",
     "res_val": "13",
     "resType": "lenya"
+  },
+  "B000003": {
+    "name": "Gor (forme d'ours)",
+    "type": "Serviteur",
+    "fac": "bet",
+    "atk": 4,
+    "pdv": 4,
+    "cost": 0,
+    "fico": "FCT00000BET.png",
+    "kws": ["Rempart", "Vengeance"],
+    "cap": "[Rempart] [Vengeance] Invoque « Gor (forme d'hydre) » de votre côté du terrain.",
+    "lore": "",
+    "max": 0,
+    "assetFolder": "betes",
+    "detail": "[Rempart] [Vengeance] Invoque « Gor (forme d'hydre) » [ID = B000004] de votre côté du terrain.",
+    "res_ico": "IC00000RDM",
+    "res_val": "0",
+    "resType": "any",
+    "related": ["B000004", "AVS000006"]
   },
   "AVS000012": {
     "name": "Mage du Cercle - Zahaar le Serpent",
@@ -17423,7 +17458,7 @@ const BATCH04_PULSE_COLORS = Object.freeze({
   edb:'#4dfe3780',
   hum:'#26c4ec',
   orc:'#c8140a80',
-  edg:'#5ab8f073',
+  edg:'#d8f7ffcc',
   nain:'#a0a8b866',
   mvs:'#8a3a9a73',
   edn:'#9040c080',
@@ -18384,6 +18419,34 @@ async function handleBatch03SpellResolved(cardId, caster, context={}) {
   const result = {echoed:true, cardId, source:targetSummary(mirror), echoedResolution, echoContext};
   recordCollectionBatch03Event('spell-echo', result);
   return result;
+}
+
+async function triggerBatch04GorVengeance(player, dyingFC) {
+  const p = playerState(player);
+  const bearCardId = 'B000003';
+  if (!p || !dyingFC || !CARDS_DATA[bearCardId]) {
+    return {destination:'graveyard', success:false, reason:'missing-source-or-bear'};
+  }
+  const sourceSlotAvailable = !!dyingFC.parentElement && dyingFC.isConnected;
+  const freeSlotAvailable = !!qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot');
+  if (!sourceSlotAvailable && !freeSlotAvailable) {
+    return {destination:'graveyard', success:false, reason:'no-servant-slot'};
+  }
+  pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+  showNotif('Vengeance de Gor : forme d’ours invoquée !', 1400);
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  let result;
+  if (freeSlotAvailable) {
+    result = await summonBatch03Servant(p, bearCardId, {sourceCardId:'AVS000006', sourceInstanceId:dyingFC.dataset.instance || null, triggerInitiativeEffect:false, ready:false});
+  } else {
+    result = {success:true, cardId:bearCardId, playerId:p.key, sourceCardId:'AVS000006', sourceInstanceId:dyingFC.dataset.instance || null, replacementCardId:bearCardId, replacementSourceSlot:true};
+  }
+  if (result.success) {
+    result.pulse = {reason:dyingFC.dataset.batch03LastPulseReason || '', color:dyingFC.dataset.batch04PulseColor || '', move:dyingFC.dataset.batch03PulseMove || ''};
+    recordCollectionBatch03Event('vengeance-gor', result);
+  }
+  return {destination:'graveyard', ...result};
 }
 
 async function triggerBatch03NecraneVengeance(player, dyingFC) {

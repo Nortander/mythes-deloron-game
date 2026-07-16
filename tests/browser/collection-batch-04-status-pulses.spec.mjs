@@ -477,6 +477,9 @@ test("Ability pulses use faction colors, passive loops stay still and failures d
     expect(result.colors[cardId].animationName, cardId).toContain("batch04PassiveGlow");
     expect(result.colors[cardId].animationDuration, cardId).toContain("2.8s");
   }
+  expect(result.colors.EDG000005).toMatchObject({dataset:fixture.pulseColors.EDG000005, faction:"edg", move:"1", classAbility:true, classMove:true});
+  expect(result.colors.EDG000005.dataset).toBe("#d8f7ffcc");
+  expect(result.colors.EDG000005.dataset).not.toBe("#5ab8f073");
   expect(result.colors.TRL000020).toMatchObject({dataset:"#b4902073", faction:"trl", move:"1", classAbility:true, classMove:true});
   expect(result.colors.N000004).toMatchObject({dataset:"#a0a8b866", faction:"nain", move:"1", classAbility:true, classMove:true});
   expect(result.failed.success).toBe(false);
@@ -804,6 +807,60 @@ test("Batch-04 pulse scenario exposes remaining avatars and passive cards visual
     expect(byId.get(cardId).animationName).toContain("batch04PassiveGlow");
   }
   expect(byId.get(fixture.passives.rempartOnly.cardId)).toMatchObject({passive:"", glow:false});
+  const glowCss = await page.evaluate(() => Array.from(document.styleSheets)
+    .flatMap(sheet => {
+      try { return Array.from(sheet.cssRules || []); } catch { return []; }
+    })
+    .map(rule => rule.cssText || "")
+    .find(text => text.includes("@keyframes batch04PassiveGlow")) || "");
+  expect(glowCss).toContain("drop-shadow(0 0 11px");
+  expect(glowCss).toContain("0 0 28px");
+  expect(glowCss).not.toContain("drop-shadow(0 0 22px");
+  expect(glowCss).not.toContain("0 0 56px");
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gor vengeance invokes bear form and pulses only when it can resolve", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (config) => {
+    const resetPulse = fc => {
+      if (!fc) return;
+      delete fc.dataset.batch04PulseColor;
+      delete fc.dataset.batch03LastPulseReason;
+      delete fc.dataset.batch03PulseMove;
+      fc.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move");
+    };
+    const gor = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.cardId);
+    const before = {
+      gor: targetSummary(gor),
+      player2Board: livingServantCardsForPlayer(player2).map(targetSummary),
+      graveyard:[...player2.graveyard],
+      bearCount: livingServantCardsForPlayer(player2).filter(fc => fc.dataset.id === config.summonedCardId).length
+    };
+    const triggerResult = await triggerVengeance(config.cardId, player2, null, null);
+    const gorAfterFailed = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.cardId);
+    const failed = {triggerResult, pulse: {reason:gorAfterFailed?.dataset.batch03LastPulseReason || "", color:gorAfterFailed?.dataset.batch04PulseColor || ""}};
+    resetPulse(gorAfterFailed);
+    await sendToCemetery(gorAfterFailed);
+    const after = {
+      player2Board: livingServantCardsForPlayer(player2).map(targetSummary),
+      graveyard:[...player2.graveyard],
+      bear: livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.summonedCardId) ? targetSummary(livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.summonedCardId)) : null,
+      events: collectionBatch03State.events.filter(event => event.type === "vengeance-gor")
+    };
+    return {before, failed, after};
+  }, fixture.passives.gorVengeance);
+  expect(result.before.gor.id).toBe(fixture.passives.gorVengeance.cardId);
+  expect(result.before.bearCount).toBe(0);
+  expect(result.failed.triggerResult).toMatchObject({success:false, reason:fixture.passives.gorVengeance.failureReason});
+  expect(result.failed.pulse).toMatchObject({reason:"", color:""});
+  expect(result.after.graveyard).toContain(fixture.passives.gorVengeance.cardId);
+  expect(result.after.bear).toMatchObject({id:fixture.passives.gorVengeance.summonedCardId});
+  expect(result.after.player2Board.some(card => card.id === fixture.passives.gorVengeance.cardId)).toBe(false);
+  expect(result.after.events).toHaveLength(1);
+  expect(result.after.events[0]).toMatchObject({success:true, cardId:fixture.passives.gorVengeance.summonedCardId, sourceCardId:fixture.passives.gorVengeance.cardId});
+  expect(result.after.events[0].pulse).toMatchObject({reason:"vengeance", color:fixture.passives.gorVengeance.expectedPulseColor, move:"1"});
   await attachDiagnostics(testInfo, diagnostics);
 });
 

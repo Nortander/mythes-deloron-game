@@ -40,7 +40,7 @@
     "AVS000005": "#4dfe3780",
     "H000006": "#26c4ec",
     "ORC000017": "#c8140a80",
-    "EDG000005": "#5ab8f073",
+    "EDG000005": "#d8f7ffcc",
     "N000004": "#a0a8b866",
     "MV000020": "#8a3a9a73",
     "EN000004": "#9040c080",
@@ -50,7 +50,7 @@
     "B000002": "#b4783073",
     "AVS000009": "#9040c080",
     "AVS000012": "#9040c080",
-    "EDG000008": "#5ab8f073",
+    "EDG000008": "#d8f7ffcc",
     "AVS000003": "#26c4ec",
     "H000024": "#26c4ec"
   },
@@ -111,7 +111,19 @@
       "AVS000009",
       "AVS000012",
       "EN000007"
-    ]
+    ],
+    "passiveGlow": {
+      "maxDropShadowPx": 11,
+      "maxOuterGlowPx": 28,
+      "previousMaxDropShadowPx": 22,
+      "previousMaxOuterGlowPx": 56
+    },
+    "gorVengeance": {
+      "cardId": "AVS000006",
+      "summonedCardId": "B000003",
+      "expectedPulseColor": "#c8140a80",
+      "failureReason": "missing-source-or-bear"
+    }
   },
   "scenarioRobustness": {
     "minEnemyServants": 3,
@@ -146,10 +158,10 @@
     ],
     "implementedInThisLot": [
       "AVS000009",
-      "AVS000012"
+      "AVS000012",
+      "AVS000006"
     ],
     "deferred": {
-      "AVS000006": "Vengeance de transformation Gor reportee avec la chaine de formes.",
       "AVS000008": "Avatar Hokhan conserve dans le perimetre HUVU, pas recode dans Batch-04E.",
       "AVS000013": "Choix cimetiere/deck + ajout de mot-clef a une occurrence de serviteur de la rune reportes."
     }
