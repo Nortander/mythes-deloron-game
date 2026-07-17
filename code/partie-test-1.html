@@ -12312,7 +12312,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
   }
@@ -12325,8 +12325,8 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
     return triggerBatch03IgorVengeance(player, dyingFC, killer);
   }
 
-  if (cardId === 'AVS000006') {
-    return triggerBatch04GorVengeance(player, dyingFC);
+  if (cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004') {
+    return triggerBatch04GorVengeance(cardId, player, dyingFC);
   }
 
   if (cardId === 'AVS000008') {
@@ -14599,6 +14599,44 @@ Object.assign(CARDS_DATA, {
     "res_val": "0",
     "resType": "any",
     "related": ["B000004", "AVS000006"]
+  },
+  "B000004": {
+    "name": "Gor (forme d'hydre)",
+    "type": "Serviteur",
+    "fac": "bet",
+    "atk": 6,
+    "pdv": 8,
+    "cost": 0,
+    "fico": "FCT00000BET.png",
+    "kws": ["Rempart", "Vengeance"],
+    "cap": "[Rempart] [Vengeance] Invoque « Gor (forme de dragon) » de votre côté du terrain.",
+    "lore": "",
+    "max": 0,
+    "assetFolder": "betes",
+    "detail": "[Rempart] [Vengeance] Invoque « Gor (forme de dragon) » [ID = B000005] de votre côté du terrain.",
+    "res_ico": "IC00000RDM",
+    "res_val": "0",
+    "resType": "any",
+    "related": ["B000005", "B000003"]
+  },
+  "B000005": {
+    "name": "Gor (forme de dragon)",
+    "type": "Serviteur",
+    "fac": "bet",
+    "atk": 12,
+    "pdv": 16,
+    "cost": 0,
+    "fico": "FCT00000BET.png",
+    "kws": ["Rempart"],
+    "cap": "[Rempart]",
+    "lore": "",
+    "max": 0,
+    "assetFolder": "betes",
+    "detail": "[Rempart]",
+    "res_ico": "IC00000RDM",
+    "res_val": "0",
+    "resType": "any",
+    "related": ["B000004"]
   },
   "AVS000012": {
     "name": "Mage du Cercle - Zahaar le Serpent",
@@ -18421,28 +18459,44 @@ async function handleBatch03SpellResolved(cardId, caster, context={}) {
   return result;
 }
 
-async function triggerBatch04GorVengeance(player, dyingFC) {
+const BATCH04_GOR_VENGEANCE_CHAIN = Object.freeze({
+  AVS000006: {nextCardId:'B000003', label:"forme d’ours", chainStep:1},
+  B000003: {nextCardId:'B000004', label:"forme d’hydre", chainStep:2},
+  B000004: {nextCardId:'B000005', label:"forme de dragon", chainStep:3}
+});
+
+async function triggerBatch04GorVengeance(cardId, player, dyingFC) {
   const p = playerState(player);
-  const bearCardId = 'B000003';
-  if (!p || !dyingFC || !CARDS_DATA[bearCardId]) {
-    return {destination:'graveyard', success:false, reason:'missing-source-or-bear'};
+  const chain = BATCH04_GOR_VENGEANCE_CHAIN[cardId];
+  const nextCardId = chain?.nextCardId || null;
+  if (!p || !dyingFC || !chain || !nextCardId || !CARDS_DATA[nextCardId]) {
+    return {destination:'graveyard', success:false, reason:'missing-source-or-next-form', sourceCardId:cardId, nextCardId};
   }
   const sourceSlotAvailable = !!dyingFC.parentElement && dyingFC.isConnected;
   const freeSlotAvailable = !!qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot');
   if (!sourceSlotAvailable && !freeSlotAvailable) {
-    return {destination:'graveyard', success:false, reason:'no-servant-slot'};
+    return {destination:'graveyard', success:false, reason:'no-servant-slot', sourceCardId:cardId, nextCardId};
   }
   pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
-  showNotif('Vengeance de Gor : forme d’ours invoquée !', 1400);
+  showNotif(`Vengeance de Gor : ${chain.label} invoquée !`, 1400);
   await new Promise(resolve => setTimeout(resolve, 500));
 
   let result;
+  const sourceContext = {
+    sourceCardId:cardId,
+    sourceInstanceId:dyingFC.dataset.instance || null,
+    triggerInitiativeEffect:false,
+    ready:false,
+    chainStep:chain.chainStep
+  };
   if (freeSlotAvailable) {
-    result = await summonBatch03Servant(p, bearCardId, {sourceCardId:'AVS000006', sourceInstanceId:dyingFC.dataset.instance || null, triggerInitiativeEffect:false, ready:false});
+    result = await summonBatch03Servant(p, nextCardId, sourceContext);
   } else {
-    result = {success:true, cardId:bearCardId, playerId:p.key, sourceCardId:'AVS000006', sourceInstanceId:dyingFC.dataset.instance || null, replacementCardId:bearCardId, replacementSourceSlot:true};
+    result = {success:true, cardId:nextCardId, playerId:p.key, replacementCardId:nextCardId, replacementSourceSlot:true, ...sourceContext};
   }
   if (result.success) {
+    result.nextCardId = nextCardId;
+    result.chainStep = chain.chainStep;
     result.pulse = {reason:dyingFC.dataset.batch03LastPulseReason || '', color:dyingFC.dataset.batch04PulseColor || '', move:dyingFC.dataset.batch03PulseMove || ''};
     recordCollectionBatch03Event('vengeance-gor', result);
   }

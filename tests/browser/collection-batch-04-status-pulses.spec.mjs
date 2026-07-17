@@ -820,7 +820,7 @@ test("Batch-04 pulse scenario exposes remaining avatars and passive cards visual
   await attachDiagnostics(testInfo, diagnostics);
 });
 
-test("Gor vengeance invokes bear form and pulses only when it can resolve", async ({page}, testInfo) => {
+test("Gor vengeance chains through bear, hydra and dragon with visible pulses", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-pulses");
   const result = await page.evaluate(async (config) => {
@@ -831,36 +831,110 @@ test("Gor vengeance invokes bear form and pulses only when it can resolve", asyn
       delete fc.dataset.batch03PulseMove;
       fc.classList.remove("batch03-ability-pulse", "batch03-ability-pulse-move");
     };
-    const gor = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.cardId);
+    const allGorIds = [config.chain[0].sourceCardId, ...config.chain.map(step => step.summonedCardId)];
+    let current = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.chain[0].sourceCardId);
     const before = {
-      gor: targetSummary(gor),
+      current: targetSummary(current),
       player2Board: livingServantCardsForPlayer(player2).map(targetSummary),
       graveyard:[...player2.graveyard],
-      bearCount: livingServantCardsForPlayer(player2).filter(fc => fc.dataset.id === config.summonedCardId).length
+      formCounts: Object.fromEntries(allGorIds.map(id => [id, livingServantCardsForPlayer(player2).filter(fc => fc.dataset.id === id).length]))
     };
-    const triggerResult = await triggerVengeance(config.cardId, player2, null, null);
-    const gorAfterFailed = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.cardId);
-    const failed = {triggerResult, pulse: {reason:gorAfterFailed?.dataset.batch03LastPulseReason || "", color:gorAfterFailed?.dataset.batch04PulseColor || ""}};
-    resetPulse(gorAfterFailed);
-    await sendToCemetery(gorAfterFailed);
-    const after = {
+    const triggerResult = await triggerVengeance(config.chain[0].sourceCardId, player2, null, null);
+    const currentAfterFailed = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.chain[0].sourceCardId);
+    const failed = {triggerResult, pulse: {reason:currentAfterFailed?.dataset.batch03LastPulseReason || "", color:currentAfterFailed?.dataset.batch04PulseColor || ""}};
+    resetPulse(currentAfterFailed);
+
+    const steps = [];
+    for (const expected of config.chain) {
+      const sourceBefore = targetSummary(current);
+      await sendToCemetery(current);
+      const board = livingServantCardsForPlayer(player2).map(targetSummary);
+      const next = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === expected.summonedCardId);
+      const events = collectionBatch03State.events.filter(event => event.type === "vengeance-gor");
+      steps.push({
+        expected,
+        sourceBefore,
+        board,
+        graveyard:[...player2.graveyard],
+        summoned: next ? targetSummary(next) : null,
+        event: events[events.length - 1] || null,
+        formCounts: Object.fromEntries(allGorIds.map(id => [id, livingServantCardsForPlayer(player2).filter(fc => fc.dataset.id === id).length]))
+      });
+      current = next;
+    }
+
+    const eventCountBeforeFinal = collectionBatch03State.events.filter(event => event.type === "vengeance-gor").length;
+    await sendToCemetery(current);
+    const afterFinal = {
+      eventCountBeforeFinal,
+      eventCountAfterFinal: collectionBatch03State.events.filter(event => event.type === "vengeance-gor").length,
       player2Board: livingServantCardsForPlayer(player2).map(targetSummary),
       graveyard:[...player2.graveyard],
-      bear: livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.summonedCardId) ? targetSummary(livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === config.summonedCardId)) : null,
-      events: collectionBatch03State.events.filter(event => event.type === "vengeance-gor")
+      formCounts: Object.fromEntries(allGorIds.map(id => [id, livingServantCardsForPlayer(player2).filter(fc => fc.dataset.id === id).length]))
     };
-    return {before, failed, after};
+    return {before, failed, steps, afterFinal};
   }, fixture.passives.gorVengeance);
-  expect(result.before.gor.id).toBe(fixture.passives.gorVengeance.cardId);
-  expect(result.before.bearCount).toBe(0);
+
+  const [firstStep, secondStep, thirdStep] = fixture.passives.gorVengeance.chain;
+  expect(result.before.current.id).toBe(firstStep.sourceCardId);
+  expect(result.before.formCounts).toMatchObject({[firstStep.summonedCardId]:0, [secondStep.summonedCardId]:0, [thirdStep.summonedCardId]:0});
   expect(result.failed.triggerResult).toMatchObject({success:false, reason:fixture.passives.gorVengeance.failureReason});
   expect(result.failed.pulse).toMatchObject({reason:"", color:""});
-  expect(result.after.graveyard).toContain(fixture.passives.gorVengeance.cardId);
-  expect(result.after.bear).toMatchObject({id:fixture.passives.gorVengeance.summonedCardId});
-  expect(result.after.player2Board.some(card => card.id === fixture.passives.gorVengeance.cardId)).toBe(false);
-  expect(result.after.events).toHaveLength(1);
-  expect(result.after.events[0]).toMatchObject({success:true, cardId:fixture.passives.gorVengeance.summonedCardId, sourceCardId:fixture.passives.gorVengeance.cardId});
-  expect(result.after.events[0].pulse).toMatchObject({reason:"vengeance", color:fixture.passives.gorVengeance.expectedPulseColor, move:"1"});
+
+  expect(result.steps).toHaveLength(fixture.passives.gorVengeance.chain.length);
+  for (let index = 0; index < fixture.passives.gorVengeance.chain.length; index += 1) {
+    const expected = fixture.passives.gorVengeance.chain[index];
+    const step = result.steps[index];
+    expect(step.sourceBefore.id).toBe(expected.sourceCardId);
+    expect(step.graveyard).toContain(expected.sourceCardId);
+    expect(step.summoned).toMatchObject({id:expected.summonedCardId});
+    expect(step.formCounts[expected.sourceCardId]).toBe(0);
+    expect(step.formCounts[expected.summonedCardId]).toBe(1);
+    expect(step.event).toMatchObject({success:true, cardId:expected.summonedCardId, sourceCardId:expected.sourceCardId, chainStep:index + 1});
+    expect(step.event.pulse).toMatchObject({reason:"vengeance", color:expected.expectedPulseColor, move:"1"});
+  }
+
+  expect(result.afterFinal.eventCountAfterFinal).toBe(result.afterFinal.eventCountBeforeFinal);
+  expect(result.afterFinal.graveyard).toEqual(expect.arrayContaining(fixture.passives.gorVengeance.chain.map(step => step.sourceCardId)));
+  expect(result.afterFinal.graveyard).toContain(fixture.passives.gorVengeance.finalCardId);
+  for (const [id, count] of Object.entries(result.afterFinal.formCounts)) {
+    expect(count, `${id} should not remain on the board after the final form dies`).toBe(0);
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+});
+
+test("Gor generated forms expose runtime data and final dragon has no Vengeance", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-04-pulses");
+  const result = await page.evaluate(async (config) => {
+    const ids = config.chain.map(step => step.summonedCardId);
+    return ids.map(id => {
+      const data = CARDS_DATA[id] || null;
+      return {
+        id,
+        exists: !!data,
+        name: data?.name || "",
+        type: data?.type || "",
+        faction: data?.fac || "",
+        atk: data?.atk ?? null,
+        pdv: data?.pdv ?? null,
+        keywords: data?.kws || [],
+        related: data?.related || [],
+        assetFolder: data?.assetFolder || ""
+      };
+    });
+  }, fixture.passives.gorVengeance);
+  expect(result).toEqual([
+    expect.objectContaining({id:"B000003", exists:true, name:"Gor (forme d'ours)", type:"Serviteur", faction:"bet", atk:4, pdv:4, assetFolder:"betes"}),
+    expect.objectContaining({id:"B000004", exists:true, name:"Gor (forme d'hydre)", type:"Serviteur", faction:"bet", atk:6, pdv:8, assetFolder:"betes"}),
+    expect.objectContaining({id:"B000005", exists:true, name:"Gor (forme de dragon)", type:"Serviteur", faction:"bet", atk:12, pdv:16, assetFolder:"betes"})
+  ]);
+  expect(result[0].keywords).toEqual(expect.arrayContaining(["Rempart", "Vengeance"]));
+  expect(result[1].keywords).toEqual(expect.arrayContaining(["Rempart", "Vengeance"]));
+  expect(result[2].keywords).toEqual(["Rempart"]);
+  expect(result[0].related).toContain("B000004");
+  expect(result[1].related).toContain("B000005");
+  expect(result[2].related).toContain("B000004");
   await attachDiagnostics(testInfo, diagnostics);
 });
 

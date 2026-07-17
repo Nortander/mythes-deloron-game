@@ -214,3 +214,9 @@ Corrections COLLECTION-BATCH-04C :
 Scenarios techniques caches : `collection-batch-04-status-counters`, `collection-batch-04-hypnose`, `collection-batch-04-rune-return`, `collection-batch-04-pulses` et `collection-batch-04-undergast-cases`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+## COLLECTION-BATCH-04H - Chaine de Vengeance de Gor
+
+- `AVS000006` declenche maintenant toute la chaine canonique `B000003 -> B000004 -> B000005` par Vengeance.
+- `B000003` et `B000004` sont des formes generees avec Vengeance fonctionnelle ; `B000005` est la forme finale avec Rempart uniquement.
+- Chaque transformation reussie produit une pulsation de Vengeance avec la couleur de faction de la source et conserve l'inventaire des zones sans duplication fantome.
+- Les donnees Collection ne sont pas modifiees dans ce lot.

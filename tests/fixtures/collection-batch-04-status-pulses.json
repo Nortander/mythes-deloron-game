@@ -119,10 +119,25 @@
       "previousMaxOuterGlowPx": 56
     },
     "gorVengeance": {
-      "cardId": "AVS000006",
-      "summonedCardId": "B000003",
-      "expectedPulseColor": "#c8140a80",
-      "failureReason": "missing-source-or-bear"
+      "failureReason": "missing-source-or-next-form",
+      "finalCardId": "B000005",
+      "chain": [
+        {
+          "sourceCardId": "AVS000006",
+          "summonedCardId": "B000003",
+          "expectedPulseColor": "#c8140a80"
+        },
+        {
+          "sourceCardId": "B000003",
+          "summonedCardId": "B000004",
+          "expectedPulseColor": "#b4783073"
+        },
+        {
+          "sourceCardId": "B000004",
+          "summonedCardId": "B000005",
+          "expectedPulseColor": "#b4783073"
+        }
+      ]
     }
   },
   "scenarioRobustness": {
