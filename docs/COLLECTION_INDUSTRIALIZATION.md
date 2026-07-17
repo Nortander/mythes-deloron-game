@@ -220,3 +220,14 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `B000003` et `B000004` sont des formes generees avec Vengeance fonctionnelle ; `B000005` est la forme finale avec Rempart uniquement.
 - Chaque transformation reussie produit une pulsation de Vengeance avec la couleur de faction de la source et conserve l'inventaire des zones sans duplication fantome.
 - Les donnees Collection ne sont pas modifiees dans ce lot.
+
+
+## COLLECTION-BATCH-05 - Elfes des bois et Elfes de glace
+
+Les cartes canoniques des factions Elfe des bois et Elfe de glace disposent maintenant d'un comportement runtime et d'un test fonctionnel direct dans `tests/browser/collection-batch-05-forest-ice-elves.spec.mjs`.
+
+Le lot couvre les passifs de faction, les Initiatives, les soins, les pioches, les invocations generees, les effets de combat, les Vengeances et les sorts de zone des deux familles. Les cartes sans effet programmable propre restent documentees comme `SANS_EFFET_PROGRAMMABLE` : `EDB000004`, `EDB000006` et `EDG000002`.
+
+Scenarios techniques caches : `collection-batch-05-elfes-des-bois` et `collection-batch-05-elfes-de-glace`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

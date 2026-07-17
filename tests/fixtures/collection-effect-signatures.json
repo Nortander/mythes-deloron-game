@@ -218,7 +218,8 @@
       "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -1966,11 +1967,12 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2007,19 +2009,19 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "ice-hit-status",
+        "initiative-trigger",
         "modify-atk",
         "targeting"
       ],
-      "missingPrimitives": [
-        "ice-hit-status",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:ice-hit-status",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2053,21 +2055,21 @@
         "modify-atk"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "damage",
-        "modify-atk"
-      ],
-      "missingPrimitives": [
         "camouflage",
         "camouflage-lock",
-        "ice-hit-status"
+        "cost-validation",
+        "damage",
+        "ice-hit-status",
+        "modify-atk"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:camouflage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2088,9 +2090,10 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2126,11 +2129,12 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Serviteur:static:modify-pv",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2155,18 +2159,18 @@
         "guard-restriction"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
         "camouflage-lock",
+        "cost-validation",
         "guard-restriction"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:camouflage-lock",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
+      "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2204,19 +2208,19 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "guard-restriction",
+        "ice-hit-status",
         "modify-atk",
         "targeting"
       ],
-      "missingPrimitives": [
-        "guard-restriction",
-        "ice-hit-status"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2258,20 +2262,20 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "ice-hit-status",
+        "initiative-trigger",
         "lethal-damage",
         "move-hand-deck-graveyard",
         "targeting"
       ],
-      "missingPrimitives": [
-        "ice-hit-status",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2319,22 +2323,22 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
+        "guard-restriction",
         "heal",
         "modify-atk",
         "modify-pv",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "guard-restriction",
+        "move-hand-deck-graveyard",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2360,17 +2364,17 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "draw"
-      ],
-      "missingPrimitives": [
+        "draw",
         "initiative-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:draw",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2408,20 +2412,20 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "lethal-damage",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
         "create-card",
         "initiative-trigger",
+        "lethal-damage",
+        "move-hand-deck-graveyard",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2453,20 +2457,20 @@
         "target-immunity"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "create-card",
         "initiative-trigger",
         "summon",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2525,29 +2529,29 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "cold-blood-immunity",
         "damage",
         "draw",
+        "freeze-status",
         "heal",
+        "ice-hit-status",
         "lethal-damage",
         "modify-atk",
         "modify-pv",
         "move-hand-deck-graveyard",
-        "targeting"
-      ],
-      "missingPrimitives": [
-        "cold-blood-immunity",
-        "freeze-status",
-        "ice-hit-status",
         "rune-servant-replacement",
         "summon",
-        "target-immunity"
+        "target-immunity",
+        "targeting"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2605,27 +2609,27 @@
         "target-immunity"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "heal",
-        "modify-pv",
-        "move-hand-deck-graveyard",
-        "play-condition"
-      ],
-      "missingPrimitives": [
         "burn-status",
+        "cost-validation",
         "duration-persistent",
         "freeze-status",
+        "heal",
         "ice-hit-status",
         "initiative-trigger",
+        "modify-pv",
+        "move-hand-deck-graveyard",
+        "play-condition",
         "summon",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:burn-status",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2663,21 +2667,21 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "cold-blood-immunity",
         "cost-validation",
         "damage",
+        "ice-hit-status",
+        "initiative-trigger",
         "targeting"
       ],
-      "missingPrimitives": [
-        "cold-blood-immunity",
-        "ice-hit-status",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2704,9 +2708,10 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2740,18 +2745,18 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "guard-restriction",
+        "ice-hit-status",
         "modify-atk"
       ],
-      "missingPrimitives": [
-        "guard-restriction",
-        "ice-hit-status"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2783,20 +2788,20 @@
         "modify-atk"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "modify-atk"
-      ],
-      "missingPrimitives": [
         "camouflage",
         "camouflage-lock",
-        "ice-hit-status"
+        "cost-validation",
+        "ice-hit-status",
+        "modify-atk"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:camouflage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2819,17 +2824,17 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:summon",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2867,21 +2872,21 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "cold-blood-immunity",
         "cost-validation",
         "damage",
+        "ice-hit-status",
+        "initiative-trigger",
         "targeting"
       ],
-      "missingPrimitives": [
-        "cold-blood-immunity",
-        "ice-hit-status",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2916,18 +2921,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "heal",
         "modify-pv"
       ],
-      "missingPrimitives": [
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -2963,18 +2968,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "heal",
         "modify-pv"
       ],
-      "missingPrimitives": [
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3010,21 +3015,21 @@
         "initiative-trigger"
       ],
       "supportedPrimitives": [
+        "cold-blood-immunity",
         "cost-validation",
         "damage",
-        "draw"
-      ],
-      "missingPrimitives": [
-        "cold-blood-immunity",
+        "draw",
         "ice-hit-status",
         "initiative-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3052,18 +3057,18 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "initiative-trigger",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:initiative-trigger",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3103,6 +3108,7 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "cold-blood-immunity",
         "lethal-damage",
         "modify-atk",
         "modify-pv",
@@ -3110,15 +3116,14 @@
         "play-condition",
         "targeting"
       ],
-      "missingPrimitives": [
-        "cold-blood-immunity"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3230,20 +3235,20 @@
         "modify-atk"
       ],
       "supportedPrimitives": [
+        "camouflage",
+        "camouflage-lock",
         "cost-validation",
         "damage",
         "modify-atk"
       ],
-      "missingPrimitives": [
-        "camouflage",
-        "camouflage-lock"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:camouflage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -10951,11 +10956,12 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:heal",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -11330,21 +11336,21 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "cold-blood-immunity",
         "cost-validation",
+        "ice-hit-status",
         "move-hand-deck-graveyard",
         "send-spell-to-graveyard",
         "targeting"
       ],
-      "missingPrimitives": [
-        "cold-blood-immunity",
-        "ice-hit-status"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -11519,10 +11525,11 @@
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -11644,19 +11651,19 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "modify-atk",
         "modify-pv",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -11903,23 +11910,23 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "create-card",
         "draw",
+        "initiative-trigger",
         "modify-atk",
         "move-hand-deck-graveyard",
         "play-condition",
-        "send-spell-to-graveyard"
-      ],
-      "missingPrimitives": [
-        "create-card",
-        "initiative-trigger",
+        "send-spell-to-graveyard",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12734,10 +12741,11 @@
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
       "implementationStatus": "FONCTIONNEL_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13002,21 +13010,21 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "modify-pv",
-        "move-hand-deck-graveyard",
-        "send-spell-to-graveyard"
-      ],
-      "missingPrimitives": [
         "create-card",
         "duration-persistent",
+        "modify-pv",
+        "move-hand-deck-graveyard",
+        "send-spell-to-graveyard",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,

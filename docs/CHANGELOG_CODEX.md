@@ -133,3 +133,5 @@
 - 2026-07-16 : COLLECTION-BATCH-04F - rendu Troll de `TRL000020`, halos passifs permanents generiques, presence visuelle de Raith/Zahaar/Gor et pulsations ponctuelles uniquement apres mutation reelle ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
 
 - 2026-07-16 : COLLECTION-BATCH-04G - ajustement des halos passifs permanents, couleur Elfe de glace `#d8f7ffcc` et Vengeance de `AVS000006` invoquant `B000003` avec impulsion et mouvement ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
+
+- 2026-07-17 : COLLECTION-BATCH-05 - implementation fonctionnelle des factions Elfe des bois et Elfe de glace ; passifs, Initiatives, soins, pioches, invocations, sorts de zone, effets de combat et Vengeances couverts par tests directs ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.

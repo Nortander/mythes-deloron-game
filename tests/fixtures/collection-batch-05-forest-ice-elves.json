@@ -1,0 +1,68 @@
+{
+  "batchId": "COLLECTION-BATCH-05",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-13.xlsx",
+  "sourceSha256": "89bd0d5f69e158672db7d25f42939e1429f241738c327a49a7063c43d86704f3",
+  "scenarios": [
+    "collection-batch-05-elfes-des-bois",
+    "collection-batch-05-elfes-de-glace"
+  ],
+  "testFile": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs",
+  "forestElfIds": [
+    "AVS000005",
+    "EDB000001",
+    "EDB000002",
+    "EDB000003",
+    "EDB000004",
+    "EDB000005",
+    "EDB000006",
+    "EDB000007",
+    "EDB000008",
+    "EDB000009",
+    "EDB000010",
+    "EDB000011",
+    "EDB000012",
+    "EDB000013",
+    "EDB000014",
+    "S000003",
+    "S000015",
+    "S000018",
+    "S000040",
+    "S000045"
+  ],
+  "iceElfIds": [
+    "EDG000001",
+    "EDG000002",
+    "EDG000003",
+    "EDG000004",
+    "EDG000005",
+    "EDG000006",
+    "EDG000007",
+    "EDG000008",
+    "EDG000009",
+    "EDG000010",
+    "EDG000011",
+    "S000011",
+    "S000023"
+  ],
+  "adjacentIcePluralIds": [
+    "EDG000013"
+  ],
+  "noProgrammableEffectIds": [
+    "EDB000004",
+    "EDB000006",
+    "EDG000002"
+  ],
+  "expectedFunctionalStatus": "FONCTIONNEL_TESTE",
+  "expectedNoEffectStatus": "SANS_EFFET_PROGRAMMABLE",
+  "expectedHiddenScenarioOptionCount": 0,
+  "pixieFillCount": 5,
+  "dryadSummonFallback": {
+    "pixies": 4,
+    "tree": 1
+  },
+  "murDeGlaceCharges": 3,
+  "pacteBuffAmount": 1,
+  "wolvesAfterMother": 5,
+  "pacteDragonId": "EDG000006",
+  "generatedIceElementalId": "DIV000007"
+}
