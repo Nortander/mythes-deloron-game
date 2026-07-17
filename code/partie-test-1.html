@@ -12187,14 +12187,27 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
   });
 }
 
+function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
+  return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004';
+}
+
+async function playDestroyAnimationBeforeCemetery(fc) {
+  if (!fc || !fc.isConnected) return false;
+  fc.classList.add('anim-destroy');
+  await new Promise(r => setTimeout(r, 550));
+  return true;
+}
+
 async function sendToCemetery(fc) {
   if (!fc || !fc.isConnected) return;
   const cardId = fc.dataset.id;
   const player = fc.dataset.player;
   const d = CARDS_DATA[cardId] || {};
+  const delayDestroyForVengeanceFeedback = shouldDelayDestroyAnimationForVengeanceFeedback(cardId);
 
-  fc.classList.add('anim-destroy');
-  await new Promise(r => setTimeout(r, 550));
+  if (!delayDestroyForVengeanceFeedback) {
+    await playDestroyAnimationBeforeCemetery(fc);
+  }
 
   // Vengeance
   // Araignée géante : libérer la carte capturée à la mort
@@ -12211,6 +12224,21 @@ async function sendToCemetery(fc) {
   let vengeanceResult = null;
   if ((d.kws||[]).includes('Vengeance')) {
     vengeanceResult = await triggerVengeance(cardId, player, fc, fc._killer || null);
+  }
+  if (delayDestroyForVengeanceFeedback && fc.isConnected) {
+    if (vengeanceResult?.success) {
+      recordCollectionBatch03Event('vengeance-gor-feedback', {
+        phase:'destroy-start',
+        sourceCardId:cardId,
+        sourceInstanceId:fc.dataset.instance || '',
+        sourceConnected:fc.isConnected,
+        sourceHasPulse:fc.classList.contains('batch03-ability-pulse'),
+        sourceHasMove:fc.classList.contains('batch03-ability-pulse-move'),
+        sourcePulseReason:fc.dataset.batch03LastPulseReason || '',
+        sourcePulseColor:fc.dataset.batch04PulseColor || ''
+      });
+    }
+    await playDestroyAnimationBeforeCemetery(fc);
   }
   const runeReturnsToHand = shouldBatch03RuneReturnToHand(fc, d, vengeanceResult);
   if (runeReturnsToHand && fc.isConnected) {
@@ -18478,8 +18506,31 @@ async function triggerBatch04GorVengeance(cardId, player, dyingFC) {
     return {destination:'graveyard', success:false, reason:'no-servant-slot', sourceCardId:cardId, nextCardId};
   }
   pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+  recordCollectionBatch03Event('vengeance-gor-feedback', {
+    phase:'pulse',
+    sourceCardId:cardId,
+    sourceInstanceId:dyingFC.dataset.instance || '',
+    sourceConnected:dyingFC.isConnected,
+    sourceHasPulse:dyingFC.classList.contains('batch03-ability-pulse'),
+    sourceHasMove:dyingFC.classList.contains('batch03-ability-pulse-move'),
+    sourcePulseReason:dyingFC.dataset.batch03LastPulseReason || '',
+    sourcePulseColor:dyingFC.dataset.batch04PulseColor || '',
+    nextCardId
+  });
+  await new Promise(resolve => setTimeout(resolve, 260));
+  recordCollectionBatch03Event('vengeance-gor-feedback', {
+    phase:'message',
+    sourceCardId:cardId,
+    sourceInstanceId:dyingFC.dataset.instance || '',
+    sourceConnected:dyingFC.isConnected,
+    sourceHasPulse:dyingFC.classList.contains('batch03-ability-pulse'),
+    sourceHasMove:dyingFC.classList.contains('batch03-ability-pulse-move'),
+    sourcePulseReason:dyingFC.dataset.batch03LastPulseReason || '',
+    sourcePulseColor:dyingFC.dataset.batch04PulseColor || '',
+    nextCardId
+  });
   showNotif(`Vengeance de Gor : ${chain.label} invoquée !`, 1400);
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 260));
 
   let result;
   const sourceContext = {
@@ -18489,10 +18540,10 @@ async function triggerBatch04GorVengeance(cardId, player, dyingFC) {
     ready:false,
     chainStep:chain.chainStep
   };
-  if (freeSlotAvailable) {
-    result = await summonBatch03Servant(p, nextCardId, sourceContext);
-  } else {
+  if (sourceSlotAvailable) {
     result = {success:true, cardId:nextCardId, playerId:p.key, replacementCardId:nextCardId, replacementSourceSlot:true, ...sourceContext};
+  } else {
+    result = await summonBatch03Servant(p, nextCardId, sourceContext);
   }
   if (result.success) {
     result.nextCardId = nextCardId;

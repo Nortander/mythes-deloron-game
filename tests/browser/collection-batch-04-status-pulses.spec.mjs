@@ -851,13 +851,16 @@ test("Gor vengeance chains through bear, hydra and dragon with visible pulses", 
       const board = livingServantCardsForPlayer(player2).map(targetSummary);
       const next = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === expected.summonedCardId);
       const events = collectionBatch03State.events.filter(event => event.type === "vengeance-gor");
+      const feedback = collectionBatch03State.events.filter(event => event.type === "vengeance-gor-feedback" && event.sourceCardId === expected.sourceCardId);
       steps.push({
         expected,
         sourceBefore,
         board,
         graveyard:[...player2.graveyard],
         summoned: next ? targetSummary(next) : null,
+        summonedPulse: next ? {reason:next.dataset.batch03LastPulseReason || "", color:next.dataset.batch04PulseColor || "", move:next.dataset.batch03PulseMove || "", hasPulse:next.classList.contains("batch03-ability-pulse"), hasMove:next.classList.contains("batch03-ability-pulse-move")} : null,
         event: events[events.length - 1] || null,
+        feedback,
         formCounts: Object.fromEntries(allGorIds.map(id => [id, livingServantCardsForPlayer(player2).filter(fc => fc.dataset.id === id).length]))
       });
       current = next;
@@ -892,6 +895,11 @@ test("Gor vengeance chains through bear, hydra and dragon with visible pulses", 
     expect(step.formCounts[expected.summonedCardId]).toBe(1);
     expect(step.event).toMatchObject({success:true, cardId:expected.summonedCardId, sourceCardId:expected.sourceCardId, chainStep:index + 1});
     expect(step.event.pulse).toMatchObject({reason:"vengeance", color:expected.expectedPulseColor, move:"1"});
+    expect(step.feedback.map(event => event.phase)).toEqual(fixture.passives.gorVengeance.feedbackPhases);
+    for (const feedbackEvent of step.feedback) {
+      expect(feedbackEvent).toMatchObject({sourceCardId:expected.sourceCardId, sourceConnected:true, sourceHasPulse:true, sourceHasMove:true, sourcePulseReason:"vengeance", sourcePulseColor:expected.expectedPulseColor});
+    }
+    expect(step.summonedPulse).toMatchObject({reason:"", color:"", move:"", hasPulse:false, hasMove:false});
   }
 
   expect(result.afterFinal.eventCountAfterFinal).toBe(result.afterFinal.eventCountBeforeFinal);

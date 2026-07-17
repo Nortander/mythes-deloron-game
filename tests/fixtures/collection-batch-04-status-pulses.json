@@ -121,6 +121,7 @@
     "gorVengeance": {
       "failureReason": "missing-source-or-next-form",
       "finalCardId": "B000005",
+      "feedbackPhases": ["pulse", "message", "destroy-start"],
       "chain": [
         {
           "sourceCardId": "AVS000006",
