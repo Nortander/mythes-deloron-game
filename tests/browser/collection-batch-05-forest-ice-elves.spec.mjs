@@ -275,6 +275,171 @@ test("Elfes de glace end-turn effects, Pacte millenaire and wolf death preserve 
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+
+
+test("Batch-05B visual feedback covers forest elf corrections", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-elfes-des-bois");
+  const result = await page.evaluate(async (expected) => {
+    window.__mythesRandom = () => 0;
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+
+    const kyra = CARDS_DATA.EDB000013;
+    const kyraPreview = buildPreviewKeywordTooltips("EDB000013");
+
+    resetServants(player1);
+    resetServants(player2);
+    const druid = await summonBatch03Servant(player1, "EDB000001", {triggerInitiativeEffect:false, ready:true});
+    const ally = await summonBatch03Servant(player1, "EDB000005", {triggerInitiativeEffect:false, ready:true});
+    const undead = await summonBatch03Servant(player2, "MV000020", {triggerInitiativeEffect:false, ready:true});
+    const druidFc = document.querySelector('.fc[data-instance="' + druid.instanceId + '"]');
+    const allyFc = document.querySelector('.fc[data-instance="' + ally.instanceId + '"]');
+    const undeadFc = document.querySelector('.fc[data-instance="' + undead.instanceId + '"]');
+    batch03UpdateStats(allyFc, {pdvMax:6, pdv:2});
+    batch03UpdateStats(undeadFc, {pdvMax:20, pdv:20});
+    const allyBefore = targetSummary(allyFc);
+    const undeadBefore = targetSummary(undeadFc);
+    await resolveCombat(druidFc, undeadFc);
+    const allyAfter = targetSummary(allyFc);
+    const undeadAfter = targetSummary(undeadFc);
+    const druidEvents = collectionBatch05State.events.filter(event => event.type === "combat-post");
+
+    resetServants(player1);
+    const camo = await summonBatch03Servant(player1, "EDB000003", {triggerInitiativeEffect:false, ready:true});
+    syncBatch05Passives();
+    updateCamouflageVFX();
+    const camoFc = document.querySelector('.fc[data-instance="' + camo.instanceId + '"]');
+    const camoAudit = {vfx:camoFc.dataset.camouflageVfx || "", hover:camoFc.dataset.camouflageHoverVfx || "", hasPassive:camoFc.dataset.batch03PassivePulse === "1", layerSrc:camoFc.querySelector('.vfx-camo')?.getAttribute('src') || ""};
+
+    resetServants(player1);
+    await summonBatch03Servant(player1, "EDB000006", {triggerInitiativeEffect:false, ready:true});
+    syncBatch05Passives();
+    const vigilance = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "EDB000006");
+
+    player1.hand = ["S000045"];
+    player1.drawPile = [];
+    refreshHand(player1);
+    const gardens = await triggerSort("S000045", player1);
+    const approZone = document.querySelector(playerZoneSelector(player1, "appro"));
+    approZone.innerHTML = Array.from({length:5}, () => '<div class="slot-appro" data-player="' + player1.key + '"></div>').join("");
+    ensureBotanicalGardenState(player1).enabled = true;
+    for (let i = 0; i < 3; i++) {
+      const slot = approZone.querySelector('.slot-appro');
+      slot.outerHTML = buildFC("R000003", player1.key);
+      const fc = Array.from(approZone.querySelectorAll('.fc[data-id="R000003"]')).pop();
+      registerSupplyInstance(player1, fc);
+    }
+    const stack = botanicalStackForCard(player1, "R000003");
+    const botanical = {gardens, members:botanicalStackMembers(player1, stack).length, vector:botanicalStackVector(player1, stack)};
+
+    return {kyra:{atk:kyra.atk, pdv:kyra.pdv, cap:kyra.cap, tooltipCount:(kyra.extraTooltips || []).length, tooltipHtml:kyraPreview}, druid:{allyBefore, allyAfter, undeadBefore, undeadAfter, lastEvent:druidEvents[druidEvents.length - 1]}, camoAudit, vigilance:{hasPassive:vigilance?.dataset.batch03PassivePulse === "1"}, botanical, expected};
+  }, fixture);
+  expect(result.kyra.atk).toBe(fixture.expectedKyra.atk);
+  expect(result.kyra.pdv).toBe(fixture.expectedKyra.pdv);
+  expect(result.kyra.tooltipCount).toBe(fixture.expectedKyra.tooltipCount);
+  expect(result.kyra.tooltipHtml).toContain("COMPORTEMENT 4");
+  expect(result.druid.undeadAfter.pdv).toBeLessThanOrEqual(result.druid.undeadBefore.pdv - 6);
+  expect(result.druid.allyAfter.pdv).toBe(result.druid.allyBefore.pdv + 1);
+  expect(result.druid.lastEvent.results.some(entry => entry.type === "druid-heal")).toBe(true);
+  expect(result.camoAudit.vfx).toBe("VFX000010");
+  expect(result.camoAudit.hover).toBe("VFX000012");
+  expect(result.camoAudit.layerSrc).toContain("VFX000010.png");
+  expect(result.camoAudit.hasPassive).toBe(false);
+  expect(result.vigilance.hasPassive).toBe(true);
+  expect(result.botanical.members).toBe(fixture.botanicalBerryStack.copies);
+  expect(result.botanical.vector.nourriture).toBe(fixture.botanicalBerryStack.production.nourriture);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch-05B Tisseur, ancient ice spells and rescue shield resolve as runtime effects", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-anciens-givre");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    player1.hand = ["S000026","S000027","S000029","S000034"];
+    player1.drawPile = ["EDG000001","EDG000003","EDG000004","EDG000006","S000004"];
+    player1.graveyard = ["EDG000001","EDG000003","EDG000006","EDG000008"];
+    refreshHand(player1);
+    await summonBatch03Servant(player1, "EDG000008", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player1, "EDG000007", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    const oath = await triggerSort("S000026", player1);
+    const tisseur = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "EDG000012");
+    const tisseurSummary = targetSummary(tisseur);
+    const afterOath = {board:livingServantCardsForPlayer(player1).map(targetSummary), opponent:livingServantCardsForPlayer(player2).map(targetSummary), graveyard:[...player1.graveyard], hand:[...player1.hand]};
+
+    player1.drawPile = ["EDG000001"];
+    const blockedDraw = drawCardFromRuntimeDeck(player1, {sourceCardId:"S000029"});
+    const lockedSummon = await summonBatch03Servant(player1, "EDG000006", {sourceCardId:"S000029", triggerInitiativeEffect:false, ready:true});
+    const tisseurBeforeDamageCount = livingServantCardsForPlayer(player1).length;
+    await applyDamage(tisseur, 1);
+    const afterTisseurDamage = livingServantCardsForPlayer(player1).map(targetSummary);
+
+    const avatarHpBefore = Number(document.querySelector(playerZoneSelector(player2, 'avatar') + ' .av-stat:nth-child(2) span')?.textContent || 50);
+    await attackAvatar(tisseur, player2);
+    const avatarHpAfter = Number(document.querySelector(playerZoneSelector(player2, 'avatar') + ' .av-stat:nth-child(2) span')?.textContent || 50);
+
+    const snowfall = resolveChuteDeNeige(player1);
+    resetServants(player2);
+    await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    applyEndOfTurnEffects(player1);
+    const coldTargets = livingServantCardsForPlayer(player2).map(fc => ({id:fc.dataset.id, gel:Number(fc.dataset.frozen || 0), cdg:Number(fc.dataset.frozen_cdg || 0)}));
+
+    resetServants(player1);
+    player1.drawPile = ["EDG000001","EDG000003","EDG000004","H000001","S000004"];
+    player1.hand = [];
+    refreshHand(player1);
+    const patrol = resolvePatrouilleGlaciale(player1);
+
+    resetServants(player1);
+    const fragile = await summonBatch03Servant(player1, "EDG000006", {triggerInitiativeEffect:false, ready:true});
+    const fragileFc = document.querySelector('.fc[data-instance="' + fragile.instanceId + '"]');
+    batch03UpdateStats(fragileFc, {pdvMax:6, pdv:2});
+    const rescue = resolveSecoursMagique(player1);
+    const graveyardDragonCountBeforeRescue = player1.graveyard.filter(id => id === "EDG000006").length;
+    const died = await applyDamage(fragileFc, 99);
+    const saved = targetSummary(fragileFc);
+    const graveyardDragonCountAfterRescue = player1.graveyard.filter(id => id === "EDG000006").length;
+
+    return {oath, tisseurSummary, afterOath, blockedDraw, lockedSummon, tisseurBeforeDamageCount, afterTisseurDamage, avatarHpBefore, avatarHpAfter, snowfall, coldTargets, patrol, handAfterPatrol:[...player1.hand], deckAfterPatrol:[...player1.drawPile], rescue, died, saved, graveyard:[...player1.graveyard], graveyardDragonCountBeforeRescue, graveyardDragonCountAfterRescue};
+  });
+  expect(result.oath.success).toBe(true);
+  expect(result.tisseurSummary.id).toBe("EDG000012");
+  expect(result.tisseurSummary.atk).toBeGreaterThan(20);
+  expect(result.afterOath.opponent).toHaveLength(0);
+  expect(result.afterOath.hand).toHaveLength(0);
+  expect(result.blockedDraw.success).toBe(false);
+  expect(result.blockedDraw.reason).toBe("tisseur-draw-lock");
+  expect(result.lockedSummon.success).toBe(false);
+  expect(result.lockedSummon.reason).toBe("tisseur-summon-lock");
+  expect(result.afterTisseurDamage.length).toBe(result.tisseurBeforeDamageCount + 1);
+  expect(result.afterTisseurDamage.some(card => ["DIV000010", "EDG000006"].includes(card.id))).toBe(true);
+  expect(result.avatarHpAfter).toBe(result.avatarHpBefore);
+  expect(result.snowfall.success).toBe(true);
+  expect(result.coldTargets.some(card => card.gel >= 3 || card.cdg >= 2)).toBe(true);
+  expect(result.patrol.success).toBe(true);
+  expect(result.handAfterPatrol).toEqual(expect.arrayContaining(["EDG000001", "EDG000003", "EDG000004"]));
+  expect(result.deckAfterPatrol).toEqual(expect.arrayContaining(["H000001", "S000004"]));
+  expect(result.rescue.success).toBe(true);
+  expect(result.died).toBe(false);
+  expect(result.saved.pdv).toBe(1);
+  expect(result.graveyardDragonCountAfterRescue).toBe(result.graveyardDragonCountBeforeRescue);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("Batch-05 signatures, no-effect cards and deck invariants remain consistent", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-05-elfes-des-bois");

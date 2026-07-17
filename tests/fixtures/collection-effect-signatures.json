@@ -3190,20 +3190,14 @@
         "move-hand-deck-graveyard",
         "play-condition"
       ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "freeze-status",
-        "guard-restriction",
-        "ice-hit-status",
-        "summon",
-        "target-immunity"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "MOYEN",
       "catalogKind": "CARD",
-      "obtainability": "SPECIAL_UNOBTAINABLE"
+      "obtainability": "SPECIAL_UNOBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12077,15 +12071,14 @@
         "send-spell-to-graveyard",
         "targeting"
       ],
-      "missingPrimitives": [
-        "summon"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:lethal-damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "MOYEN",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12121,17 +12114,14 @@
         "cost-validation",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "freeze-status",
-        "ice-hit-status"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "MOYEN",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12227,10 +12217,11 @@
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:draw",
       "implementationStatus": "FONCTIONNEL_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12457,11 +12448,12 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:heal",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
       "confidence": "MOYEN",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,

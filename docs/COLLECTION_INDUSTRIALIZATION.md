@@ -231,3 +231,15 @@ Le lot couvre les passifs de faction, les Initiatives, les soins, les pioches, l
 Scenarios techniques caches : `collection-batch-05-elfes-des-bois` et `collection-batch-05-elfes-de-glace`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-05B
+
+- `EDB000013` (`Kyra`) est realignee sur l'export 2026-07-17 : 6 ATK / 3 PV, texte court en carte et quatre comportements detailles en infobulles techniques.
+- Les halos passifs Batch-05 sont limites aux vrais passifs continus et a `Vigilance` ; les effets de fin de tour, de combat, `Initiative`, `Vengeance`, `Camouflage`, `Rempart` et mots-clefs purs ne creent plus de halo permanent.
+- `Camouflage` utilise les VFX differencies proprietaire/adversaire (`VFX000010` / `VFX000009`, hover `VFX000012` / `VFX000011`) sans halo passif.
+- `R000003` empile sous `S000045` avec la production canonique : trois `Buissons a baies` ou plus produisent 5 Nourriture.
+- `EDB000001` soigne un autre allie non mort-vivant apres avoir inflige des degats et conserve les degats doubles contre les morts-vivants.
+- `EDG000012` (`Le Tisseur de Givre`) dispose de ses donnees runtime, de son invocation par `S000026`, de son verrou de pioche/invocation, de son refus d'attaque avatar, de son invocation defensive et de son effet de fin de tour.
+- `S000026`, `S000027`, `S000029` et `S000034` sont raccordees au runtime et couvertes par tests directs.
+- Nouveaux scenarios caches : `collection-batch-05-druide`, `collection-batch-05-kyra`, `collection-batch-05-dryade-solo`, `collection-batch-05-dryade-cleanse`, `collection-batch-05-pacte-millenaire` et `collection-batch-05-anciens-givre`.
+- Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

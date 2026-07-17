@@ -1,10 +1,16 @@
 {
-  "batchId": "COLLECTION-BATCH-05",
-  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-13.xlsx",
-  "sourceSha256": "89bd0d5f69e158672db7d25f42939e1429f241738c327a49a7063c43d86704f3",
+  "batchId": "COLLECTION-BATCH-05B",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-17.xlsx",
+  "sourceSha256": "33acd79e095935578031c1b3e069b9620344c98b9909a7c53ed5995fceb5e0eb",
   "scenarios": [
     "collection-batch-05-elfes-des-bois",
-    "collection-batch-05-elfes-de-glace"
+    "collection-batch-05-elfes-de-glace",
+    "collection-batch-05-druide",
+    "collection-batch-05-kyra",
+    "collection-batch-05-dryade-solo",
+    "collection-batch-05-dryade-cleanse",
+    "collection-batch-05-pacte-millenaire",
+    "collection-batch-05-anciens-givre"
   ],
   "testFile": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs",
   "forestElfIds": [
@@ -41,12 +47,16 @@
     "EDG000009",
     "EDG000010",
     "EDG000011",
+    "EDG000012",
+    "EDG000013",
     "S000011",
-    "S000023"
+    "S000023",
+    "S000026",
+    "S000027",
+    "S000029",
+    "S000034"
   ],
-  "adjacentIcePluralIds": [
-    "EDG000013"
-  ],
+  "adjacentIcePluralIds": [],
   "noProgrammableEffectIds": [
     "EDB000004",
     "EDB000006",
@@ -64,5 +74,25 @@
   "pacteBuffAmount": 1,
   "wolvesAfterMother": 5,
   "pacteDragonId": "EDG000006",
-  "generatedIceElementalId": "DIV000007"
+  "generatedIceElementalId": "DIV000007",
+  "expectedKyra": {
+    "atk": 6,
+    "pdv": 3,
+    "tooltipCount": 4
+  },
+  "botanicalBerryStack": {
+    "cardId": "R000003",
+    "copies": 3,
+    "production": {
+      "nourriture": 5
+    }
+  },
+  "tisseur": {
+    "id": "EDG000012",
+    "summonOptions": [
+      "DIV000010",
+      "EDG000006"
+    ],
+    "endTurnChance": 0.33
+  }
 }

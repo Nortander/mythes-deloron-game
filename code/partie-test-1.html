@@ -2858,15 +2858,57 @@ SCENARIOS['collection-batch-04-undergast-cases'] = {
 SCENARIOS['collection-batch-05-elfes-des-bois'] = {
   label: 'TEST - COLLECTION BATCH 05 Elfes des bois', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000014',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000001','EDB000002','EDB000003','EDB000005','EDB000007','EDB000008','EDB000010','EDB000011','EDB000012','EDB000013','EDB000014','S000003','S000018','S000040','S000045'], drawPile:['EDB000004','EDB000006','EDB000012','EDB000009','R000004','R000003','R000014','R000017','H000001','S000004'], graveyard:['EDB000012','EDB000012','H000001'], servants:[{id:'EDB000009',pdvMax:7,pdv:5,prepared:true},{id:'EDB000005',pdvMax:3,pdv:1,prepared:true},{id:'H000001',pdvMax:8,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000001','EDB000002','EDB000003','EDB000005','EDB000007','EDB000008','EDB000010','EDB000011','EDB000012','EDB000013','EDB000014','S000003','S000015','S000018','S000040','S000045'], drawPile:['EDB000004','EDB000006','EDB000012','EDB000009','R000004','R000003','R000003','R000003','R000014','R000017','H000001','S000004'], graveyard:['EDB000012','EDB000012','H000001'], servants:[{id:'EDB000009',pdvMax:7,pdv:5,prepared:true},{id:'EDB000005',pdvMax:3,pdv:1,prepared:true},{id:'H000001',pdvMax:8,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','MV000020','R000010'], drawPile:['H000001','H000005','MV000020','R000010'], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true},{id:'H000005',pdvMax:10,pdv:10,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-05-elfes-de-glace'] = {
-  label: 'TEST - COLLECTION BATCH 05 Elfes de glace', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDG000010',
+  label: 'TEST - COLLECTION BATCH 05 Elfes de glace', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDG000012',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDG000001','EDG000003','EDG000004','EDG000005','EDG000006','EDG000007','EDG000008','EDG000009','EDG000010','S000011','S000023'], drawPile:['EDG000006','EDG000006','S000004','R000010'], graveyard:[], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:6,prepared:true},{id:'EDG000011',pdvMax:1,pdv:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['EDG000001','EDG000003','EDG000004','EDG000005','EDG000006','EDG000007','EDG000008','EDG000009','EDG000010','EDG000012','EDG000013','S000011','S000023','S000026','S000027','S000029','S000034'], drawPile:['EDG000006','EDG000006','EDG000003','EDG000004','S000004','R000010'], graveyard:['EDG000001','EDG000003','EDG000006'], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:6,prepared:true},{id:'EDG000011',pdvMax:1,pdv:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','H000018','R000010'], drawPile:['H000001','H000005','H000018','R000010'], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true},{id:'H000005',pdvMax:10,pdv:10,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-druide'] = {
+  label: 'TEST - COLLECTION BATCH 05 Druide', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000001',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['S000018'], drawPile:['EDB000004'], graveyard:[], servants:[{id:'EDB000001',pdvMax:3,pdv:3,prepared:true},{id:'EDB000005',pdvMax:6,pdv:2,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:['MV000020'], graveyard:[], servants:[{id:'MV000020',pdvMax:20,pdv:20,prepared:true},{id:'MV000001',pdvMax:10,pdv:10,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-kyra'] = {
+  label: 'TEST - COLLECTION BATCH 05 Kyra', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000013',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['S000018'], drawPile:['EDB000004','EDB000006'], graveyard:[], servants:[{id:'EDB000013',pdvMax:3,pdv:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[{id:'H000001',pdvMax:20,pdv:20,prepared:true},{id:'MV000020',pdvMax:20,pdv:20,prepared:true},{id:'H000005',pdvMax:20,pdv:20,prepared:true},{id:'MV000024',pdvMax:20,pdv:20,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-dryade-solo'] = {
+  label: 'TEST - COLLECTION BATCH 05 Dryade seule', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000014',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000014'], drawPile:['EDB000004'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-dryade-cleanse'] = {
+  label: 'TEST - COLLECTION BATCH 05 Dryade cleanse', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000014',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000014'], drawPile:['EDB000004'], graveyard:[], servants:[{id:'EDB000001',pdvMax:6,pdv:2,prepared:true},{id:'EDB000005',pdvMax:5,pdv:1,prepared:true},{id:'EDB000006',pdvMax:5,pdv:3,prepared:true},{id:'EDB000007',pdvMax:7,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-pacte-millenaire'] = {
+  label: 'TEST - COLLECTION BATCH 05 Pacte millenaire', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000023',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['S000023'], drawPile:['EDG000006','EDG000006','EDG000006','S000004'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[{id:'MV000020',pdvMax:20,pdv:20,prepared:true},{id:'H000005',pdvMax:20,pdv:20,prepared:true},{id:'H000001',pdvMax:20,pdv:20,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-anciens-givre'] = {
+  label: 'TEST - COLLECTION BATCH 05 Anciens du givre', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000026',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:40, fer:80, bois:80, pierre:40, nourriture:80}, souls:40}, hand:['S000026','S000027','S000029','S000034'], drawPile:['EDG000001','EDG000003','EDG000004','EDG000006','S000004'], graveyard:['EDG000001','EDG000003','EDG000006','EDG000008'], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:2,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true},{id:'H000005',pdvMax:10,pdv:10,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -4140,6 +4182,12 @@ function drawCardFromRuntimeDeck(player, options={}) {
     emitDrawTrace({...baseTrace, result:'failure', reason:result.reason});
     return result;
   }
+  if (batch05TisseurLocksPlayer(p, options.sourceCardId || null)) {
+    const result = {success:false, reason:'tisseur-draw-lock'};
+    emitDrawTrace({...baseTrace, result:'failure', reason:result.reason});
+    recordCollectionBatch05Event('tisseur-draw-lock', {playerId:p.key, sourceCardId:options.sourceCardId || null});
+    return result;
+  }
   const pile = playerDrawPile(p);
   const hand = playerHand(p);
   const deckSizeBefore = pile.length;
@@ -5387,6 +5435,9 @@ function effectiveCost(cardId, player) {
 // ── Ressources disponibles (somme réelle des productions posées) ──
 let supplyInstanceSequence = 0;
 const BOTANICAL_STACKABLE_SUPPLIES = Object.freeze(['R000003', 'R000004']);
+const BOTANICAL_STACK_PRODUCTION_OVERRIDES = Object.freeze({
+  R000003: {threshold:3, vector:{nourriture:5}}
+});
 const BOTANICAL_STACK_PREFIX = 'botanical';
 
 function createBotanicalGardenState() {
@@ -5433,8 +5484,13 @@ function botanicalStackMembers(player, stack) {
 }
 
 function botanicalStackVector(player, stack) {
+  const members = botanicalStackMembers(player, stack);
+  const override = BOTANICAL_STACK_PRODUCTION_OVERRIDES[stack?.cardId];
+  if (override && members.length >= Number(override.threshold || 0)) {
+    return {...createEmptyClassicalResources(), ...(override.vector || {})};
+  }
   const vector = createEmptyClassicalResources();
-  botanicalStackMembers(player, stack).forEach(instance => {
+  members.forEach(instance => {
     RESOURCE_KEYS.forEach(key => { vector[key] += Number(instance.currentProduction?.[key] || 0); });
   });
   return vector;
@@ -6244,11 +6300,26 @@ function costResourceIcon(resourceKey) {
   return RESOURCE_ICONS[resourceKey] || 'IC00000RDM';
 }
 
-function renderCostResourceGroup(resources, amount=1, {showAmount=true, separator=''}={}) {
+function renderCostResourceGroup(resources, amount=1, {showAmount=true, separator='', spanClass=''}={}) {
   return (resources || [])
     .filter(resourceKey => RESOURCE_ICONS[resourceKey])
-    .map(resourceKey => renderResIcon(costResourceIcon(resourceKey), showAmount && amount > 1 ? amount : ''))
+    .map(resourceKey => renderResIcon(costResourceIcon(resourceKey), showAmount && amount > 1 ? amount : '', spanClass))
     .join(separator ? `<span class="res-sep cost-connector">${separator}</span>` : '');
+}
+function batch05RequirementVisualClass(requirement, resolution) {
+  const printedRequirements = resolution?.printedCost?.requirements || [];
+  const normalized = normalizeResourceKey(requirement.resource);
+  const printed = printedRequirements.find(candidate => {
+    if (candidate.kind !== requirement.kind) return false;
+    if (requirement.kind === 'minimum') return normalizeResourceKey(candidate.resource) === normalized;
+    if (requirement.kind === 'groupMinimum') {
+      const a = (candidate.resources || []).map(normalizeResourceKey).sort().join('|');
+      const b = (requirement.resources || []).map(normalizeResourceKey).sort().join('|');
+      return a === b;
+    }
+    return false;
+  });
+  return printed && Number(requirement.amount || 0) < Number(printed.amount || 0) ? 'cost-grn' : '';
 }
 
 function renderStructuredCostHTML(cardId, player, costCls='') {
@@ -6271,9 +6342,9 @@ function renderStructuredCostHTML(cardId, player, costCls='') {
           .filter(Boolean);
         if (renderedOptions.length) pieces.push(renderedOptions.join(`<span class="res-sep cost-connector">OU</span>`));
       } else if (requirement.kind === 'groupMinimum') {
-        pieces.push(renderCostResourceGroup(requirement.resources, requirement.amount, {separator:'OU'}));
+        pieces.push(renderCostResourceGroup(requirement.resources, requirement.amount, {separator:'OU', spanClass:batch05RequirementVisualClass(requirement, resolution)}));
       } else if (requirement.kind === 'minimum' && requirement.resource) {
-        pieces.push(renderCostResourceGroup([requirement.resource], requirement.amount));
+        pieces.push(renderCostResourceGroup([requirement.resource], requirement.amount, {spanClass:batch05RequirementVisualClass(requirement, resolution)}));
       }
     });
     if (total > 0) pieces.push(`<span class="res-sep cost-connector">&ge;\u00a0${total}</span>`);
@@ -7097,6 +7168,7 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.frozen_cdg) ensureKeyword('Coup de glace', KDEF['Coup de glace'] || '');
   if (sourceEl?.dataset?.frozen) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
+  (CARDS_DATA[cardId]?.extraTooltips || []).forEach((tip, index) => keywords.push({kind:'ability', title:tip.title, body:tip.body, order:12 + index}));
   if (sourceEl?.dataset?.hypno || sourceEl?.dataset?.hypnosisUntilDamage) ensureKeyword('Hypnose', KDEF.Hypnose || 'Ne peut pas attaquer jusqu\'à subir des dégâts.');
   if (!keywords.length) return '';
   const color = facColor(CARDS_DATA[cardId]?.fac);
@@ -10155,6 +10227,7 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
   if (!immediateEffectResult.allowed) {
     return {valid:false, reason:immediateEffectResult.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', immediateEffectResult};
   }
+  if (card.type === 'Serviteur' && batch05TisseurLocksPlayer(p, cardId)) return {valid:false, reason:'tisseur-summon-lock'};
   if (cardId === 'S000002' && !playerHand(opponentOf(p)).length) return {valid:false, reason:'no-valid-target'};
   const blockedEntry = batch03BlockedHandEntry(cardId, p, requestedHandIndex);
   if (blockedEntry) {
@@ -10178,6 +10251,7 @@ function cardActionError(reason, detail={}) {
   if (reason === 'wrong-player' || reason === 'wrong-side') return `Vous ne pouvez poser vos cartes que de votre cote du terrain.`;
   if (reason === 'wrong-slot-type') return `Cet emplacement ne correspond pas au type de cette carte.`;
   if (reason === 'no-servant-slot') return `Aucun emplacement de serviteur libre.`;
+  if (reason === 'tisseur-summon-lock') return `Le Tisseur de Givre empêche cette invocation.`;
   if (reason === 'no-valid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Aucune cible valide n’est disponible.`;
   if (reason === 'invalid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Cette cible n'est pas valide.`;
   if (reason === 'zone-play-requirement') return detail?.zoneRequirementResult?.message || `Aucune cible valide n’est disponible.`;
@@ -10546,7 +10620,7 @@ function resolvePacteMillenaireCostEffects(player) {
     duration: 'charges',
     remainingUses: drawn,
     criteria: {cardIds:['EDG000006']},
-    operations: [{type:'adjustTotal', amount:-2}]
+    operations: [{type:'adjustRequirement', amount:-2}, {type:'adjustTotal', amount:-2}]
   });
   updateDeckCount(p);
   renderAllHands();
@@ -10972,8 +11046,14 @@ async function triggerSort(cardId, player, context={}) {
       return resolveClefDePierre(player, context);
     case 'S000015':
       return await resolveApresLaCatastrophe(player, context);
+    case 'S000026':
+      return await resolveSermentDesAnciens(player);
+    case 'S000027':
+      return resolveChuteDeNeige(player);
     case 'S000029':
       return resolvePatrouilleGlaciale(player);
+    case 'S000034':
+      return resolveSecoursMagique(player);
     case 'S000037':
       return resolveCheminsDeLey(player);
     case 'S000040':
@@ -11702,8 +11782,58 @@ function drawMatchingCardsForSpell(player, {cardId, predicate, maxCount=1, until
   return diagnostic;
 }
 
+function resolveChuteDeNeige(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000027'};
+  p.batch05SnowfallBonus = Number(p.batch05SnowfallBonus || 0) + 1;
+  const result = {success:true, cardId:'S000027', playerId:p.key, bonus:p.batch05SnowfallBonus};
+  recordCollectionBatch05Event('snowfall', result);
+  showNotif('Chute de neige prolonge vos effets de Gel et Coup de glace.', 1600);
+  return result;
+}
+
+function batch05ColdDuration(player, turns) {
+  const p = playerState(player);
+  return Math.max(1, Number(turns || 1) + Number(p?.batch05SnowfallBonus || 0));
+}
+
 function resolvePatrouilleGlaciale(player) {
   return drawMatchingCardsForSpell(player, {cardId:'S000029', maxCount:3, predicate:id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'edg', messageLabel:'Patrouille glaciale'});
+}
+
+function resolveSecoursMagique(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000034'};
+  p.batch05RescueShield = Number(p.batch05RescueShield || 0) + 1;
+  const result = {success:true, cardId:'S000034', playerId:p.key, shields:p.batch05RescueShield};
+  recordCollectionBatch05Event('rescue-shield', result);
+  showNotif('Secours magique protègera la prochaine destruction alliée.', 1600);
+  return result;
+}
+
+async function resolveSermentDesAnciens(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000026'};
+  const before = auditZoneInventories();
+  const board = [player1, player2].flatMap(owner => batch05LivingServants(owner));
+  for (const fc of [...board]) {
+    fc._killer = null;
+    await sendToCemetery(fc);
+  }
+  const discarded = [...p.hand];
+  while (p.hand.length) addEntryToRuntimeZone(p, 'graveyard', removeHandCardAt(p, 0));
+  refreshHand(p);
+  const iceInGraveyard = zoneCardEntries(p, 'graveyard').filter(entry => CARDS_DATA[getRuntimeCardId(entry)]?.fac === 'edg' && CARDS_DATA[getRuntimeCardId(entry)]?.type === 'Serviteur').length;
+  const summon = await summonBatch03Servant(p, 'EDG000012', {sourceCardId:'S000026', triggerInitiativeEffect:false, ready:true});
+  const tisseur = summon?.instanceId ? document.querySelector('.fc[data-instance="' + CSS.escape(summon.instanceId) + '"]') : findBoardCard(p, 'EDG000012');
+  if (tisseur) {
+    tisseur.dataset.batch05AncientOathBonus = String(iceInGraveyard);
+    batch05SetStats(tisseur, {atk:Number(CARDS_DATA.EDG000012.atk || 20) + iceInGraveyard, pdvMax:Number(CARDS_DATA.EDG000012.pdv || 20) + iceInGraveyard, preserveDamage:false});
+  }
+  const result = {success:true, cardId:'S000026', playerId:p.key, destroyed:board.map(targetSummary), discarded, iceInGraveyard, summon, before, after:auditZoneInventories()};
+  recordCollectionBatch05Event('ancient-oath', result);
+  showNotif('Serment des anciens invoque le Tisseur de Givre.', 1800);
+  return result;
 }
 
 function resolveCheminsDeLey(player) {
@@ -12048,6 +12178,7 @@ async function resolveCombat(attacker, targetFC) {
       });
     }
     await triggerBatch03CombatHooks(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
+    await resolveBatch05PostAttackEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
   }
 
   // Marquer l'attaquant épuisé
@@ -12074,13 +12205,6 @@ async function resolveCombat(attacker, targetFC) {
     addSoulToAppro(currentPlayer, 1);
     showNotif('Le Faucheur d\'âmes récolte 1 Âme\u00a0!', 1400);
   }
-  // Druide : soin d'un allié après avoir infligé des dégâts
-  if (attacker.dataset.id === 'EDB000001' && !defDied) {
-    const myZoneId = playerZoneSelector(currentPlayer, 'servants');
-    const allies = Array.from(qs(myZoneId)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []).filter(f=>f!==attacker);
-    if (allies.length) applyHeal(allies[Math.floor(Math.random()*allies.length)], 1);
-  }
-
   // ── Effets probabilistes/déterministes appliqués à la cible quand l'attaquant la frappe ──
   if (targetFC && !targetFC.dataset.dead) {
     const aid = attacker.dataset.id;
@@ -12140,10 +12264,15 @@ async function applyDamage(fc, amount) {
   fc.dataset.pdv    = displayPdv;
   updateRageState(fc);
   await triggerBatch03DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
+  await triggerBatch05DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
   clearBatch04Hypnosis(fc, 'damage-received');
 
   await new Promise(r => setTimeout(r, 380));
   fc.classList.remove('anim-damage');
+
+  if (newPdv <= 0 && tryBatch05RescueDestruction(fc, {amount, sourceFC:fc._killer || null})) {
+    return false;
+  }
 
   if (newPdv <= 0) {
     fc.dataset.dead = '1';
@@ -12151,6 +12280,23 @@ async function applyDamage(fc, amount) {
     return true;
   }
   return false;
+}
+
+function tryBatch05RescueDestruction(fc, context={}) {
+  if (!fc || fc.dataset.dead || fc.dataset.type === 'appro') return false;
+  const owner = playerState(fc.dataset.player);
+  if (!owner || Number(owner.batch05RescueShield || 0) <= 0) return false;
+  owner.batch05RescueShield = Math.max(0, Number(owner.batch05RescueShield || 0) - 1);
+  delete fc.dataset.dead;
+  fc.dataset.pdv = '1';
+  const maxPdv = Number(fc.dataset.pdvMax || 1) || 1;
+  fc.querySelectorAll('.fc-pdv-val').forEach(el => { el.textContent = '1'; el.className = maxPdv > 1 ? 'fc-pdv-val red' : 'fc-pdv-val'; });
+  updateRageState(fc);
+  pulseBatch03Ability(fc, 'batch05-rescue');
+  const result = {success:true, cardId:'S000034', playerId:owner.key, target:targetSummary(fc), context, remainingShields:owner.batch05RescueShield};
+  recordCollectionBatch05Event('rescue-prevented-destruction', result);
+  showNotif('Secours magique empêche la destruction.', 1500);
+  return true;
 }
 
 function applyHeal(fc, amount) {
@@ -12531,13 +12677,10 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
 
 // ── VFX Camouflage / Vigilance ──
 function updateCamouflageVFX() {
-  // Un serviteur a [Camouflage] tant qu'il n'a pas attaqué (data-camo-broken absent)
-  // et qu'il possède le mot-clef Camouflage
   [player1, player2].forEach(owner => {
     const zone = qs(playerZoneSelector(owner, 'servants'));
     if (!zone) return;
     const adversaire = opponentOf(owner);
-    // L'adversaire a-t-il un serviteur avec [Vigilance] ?
     const advZone = qs(playerZoneSelector(adversaire, 'servants'));
     const advHasVigilance = advZone && Array.from(advZone.querySelectorAll('.fc:not([data-dead])'))
       .some(fc => { const cd = CARDS_DATA[fc.dataset.id]; return cd && (cd.kws||[]).includes('Vigilance'); });
@@ -12545,29 +12688,23 @@ function updateCamouflageVFX() {
     zone.querySelectorAll('.fc:not([data-dead])').forEach(fc => {
       const cd = CARDS_DATA[fc.dataset.id];
       const hasCamo = cd && (cd.kws||[]).includes('Camouflage');
-      // Retirer tout calque camo existant
       fc.querySelector('.vfx-camo')?.remove();
+      delete fc.dataset.camouflageVfx;
+      delete fc.dataset.camouflageHoverVfx;
       if (!hasCamo || fc.dataset.camoBroken === '1') return;
 
-      // Déterminer quel calque afficher du point de vue du joueur courant
-      const isOwnerView = (currentPlayer === owner.key);
-      let vfxId = null;
-      if (isOwnerView) {
-        // Vue du propriétaire : VFX000010 seulement si l'adversaire a Vigilance
-        if (advHasVigilance) vfxId = 'VFX000010';
-        // sinon : le propriétaire ne voit PAS son propre camouflage (pas de calque)
-      } else {
-        // Vue de l'adversaire : VFX000009 (camouflé) ou VFX000010 si vigilance révèle
-        vfxId = advHasVigilance ? 'VFX000010' : 'VFX000009';
-      }
-      if (vfxId) {
-        const layer = document.createElement('img');
-        layer.className = 'vfx-camo';
-        layer.src = `${GH}/effets-speciaux/${vfxId}.png`;
-        layer.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:4;border-radius:inherit;';
-        fc.style.position = 'relative';
-        fc.appendChild(layer);
-      }
+      const isOwnerView = currentPlayer === owner.key;
+      const vfxId = isOwnerView ? 'VFX000010' : (advHasVigilance ? 'VFX000010' : 'VFX000009');
+      const hoverVfxId = isOwnerView || advHasVigilance ? 'VFX000012' : 'VFX000011';
+      fc.dataset.camouflageVfx = vfxId;
+      fc.dataset.camouflageHoverVfx = hoverVfxId;
+      const layer = document.createElement('img');
+      layer.className = 'vfx-camo';
+      layer.src = `${GH}/effets-speciaux/${vfxId}.png`;
+      layer.alt = '';
+      layer.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:4;border-radius:inherit;opacity:.88;transition:opacity .22s ease;';
+      fc.style.position = 'relative';
+      fc.appendChild(layer);
     });
   });
 }
@@ -12681,6 +12818,12 @@ function setIceBadge(fc, tours) {
 // ── Attaque sur avatar ──
 async function attackAvatar(attacker, adversePlayer) {
   if (gameOver) return;
+  if (attacker?.dataset?.id === 'EDG000012') {
+    showErr('Le Tisseur de Givre ne peut pas attaquer directement un avatar.');
+    recordCollectionBatch05Event('tisseur-avatar-attack-refused', {attacker:targetSummary(attacker), adversePlayerId:playerKey(adversePlayer)});
+    cancelAttack();
+    return;
+  }
   const atkVal = parseInt(attacker.dataset.atk)||0;
   attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant l'avatar
   attacker.classList.add(playerState(currentPlayer)?.position === 'bottom' ? 'anim-attack-up' : 'anim-attack-down');
@@ -12766,7 +12909,7 @@ function applyHealerEffect() {
       const lenyaCount = getClassicalResourceByType(player, 'lenya') || 1;
       const allies = Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])')).filter(fc=>fc!==healer);
       const blesse = allies.find(a => (parseInt(a.dataset.pdv)||0) < (parseInt(a.dataset.pdvMax)||1));
-      if (blesse) applyHeal(blesse, lenyaCount);
+      if (blesse) { const heal = applyHeal(blesse, lenyaCount); if (heal.success) pulseBatch03Ability(healer, 'batch05-end-turn'); }
     });
   });
 }
@@ -13255,10 +13398,29 @@ function applyEndOfTurnEffects(player) {
   // Dryade : soigne vos autres Elfes des bois de 1 en fin de tour.
   zone.querySelectorAll('[data-id="EDB000014"]:not([data-dead])').forEach(dryad => {
     if (!canResolveServantAbility(dryad, {triggerType:'end-turn'})) return;
-    Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'))
+    const dryadHealResults = Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'))
       .filter(fc => fc !== dryad && isBatch05WoodElf(fc))
-      .forEach(fc => applyHeal(fc, 1));
-    pulseBatch03Ability(dryad, 'batch05-end-turn', {passive:true, move:false});
+      .map(fc => applyHeal(fc, 1))
+      .filter(result => result.success);
+    if (dryadHealResults.length) pulseBatch03Ability(dryad, 'batch05-end-turn');
+  });
+  const tisseurs = Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'))
+    .filter(fc => fc.dataset.id === 'EDG000012' && canResolveServantAbility(fc, {triggerType:'end-turn'}));
+  tisseurs.forEach(tisseur => {
+    const owner = playerState(tisseur.dataset.player);
+    const enemy = opponentOf(owner);
+    const affected = [];
+    batch05LivingServants(enemy).forEach(target => {
+      if (gameRandom() >= 0.33) return;
+      const type = gameRandom() < 0.5 ? 'gel' : 'cdg';
+      const turns = type === 'gel' ? 2 : 1;
+      const applied = batch05ApplyGel({sourcePlayer:owner, targetFC:target, sourceCardId:'EDG000012', turns, type, bypassInsensitive:true});
+      if (applied) affected.push({type, target:targetSummary(target), turns:batch05ColdDuration(owner, turns)});
+    });
+    if (affected.length) {
+      pulseBatch03Ability(tisseur, 'batch05-end-turn');
+      recordCollectionBatch05Event('tisseur-end-turn', {source:targetSummary(tisseur), affected});
+    }
   });
   syncBatch05Passives();
 }
@@ -14880,22 +15042,22 @@ Object.assign(CARDS_DATA, {
     "name": "Kyra",
     "type": "Serviteur",
     "fac": "edb",
-    "atk": 8,
-    "pdv": 4,
+    "atk": 6,
+    "pdv": 3,
     "cost": 7,
     "fico": "FCT00000EDB.png",
-    "kws": [
-      "Serviteur de la rune",
-      "Coup de glace",
-      "Gel",
-      "Insensible",
-      "Sang-froid"
-    ],
-    "cap": "[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements. Le même comportement ne peut être choisi deux fois de suite.",
+    "kws": ["Serviteur de la rune", "Coup de glace", "Gel", "Insensible", "Sang-froid"],
+    "cap": "[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements. Le même comportement ne peut être choisi deux fois de suite.",
     "lore": "",
     "max": 1,
     "assetFolder": "elfes-des-bois",
-    "detail": "[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements. Comportement n°1 : inflige également [Coup de glace] à la cible pendant 2 tours. Comportement n°2 : détruit la cible, quels que soient ses points de vie, à moins qu'elle ne possède le mot-clef [Insensible]. Comportement n°3 : inflige 4 points de dégâts à la cible principale (au lieu du montant d'attaque normal de « Kyra ») et la [Gèle] pendant 1 tour, ainsi que 4 points de dégâts à chaque serviteur adjacent à la cible principale. Un emplacement vide entre deux serviteurs interrompt l'adjacence. Comportement n°4 : inflige 2 points de dégâts à tous les serviteurs adverses (au lieu du montant d'attaque normal de « Kyra ») et vous fait piocher 1 carte de votre deck.",
+    "detail": "[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements. Comportement n°1 : inflige également [Coup de glace] à la cible pendant 2 tours. Comportement n°2 : détruit la cible, quels que soient ses points de vie, à moins qu'elle ne possède le mot-clef [Insensible]. Comportement n°3 : inflige 4 points de dégâts à la cible principale et la [Gèle] pendant 1 tour, ainsi que 4 points de dégâts à chaque serviteur adjacent à la cible principale. Comportement n°4 : inflige 2 points de dégâts à tous les serviteurs adverses et vous fait piocher 1 carte de votre deck.",
+    "extraTooltips": [
+      {"title":"COMPORTEMENT 1","body":"Inflige également [Coup de glace] à la cible pendant 2 tours."},
+      {"title":"COMPORTEMENT 2","body":"Détruit la cible, quels que soient ses points de vie, à moins qu'elle ne possède [Insensible]."},
+      {"title":"COMPORTEMENT 3","body":"Inflige 4 points de dégâts à la cible principale et la [Gèle] pendant 1 tour, ainsi que 4 points de dégâts à chaque serviteur adjacent."},
+      {"title":"COMPORTEMENT 4","body":"Inflige 2 points de dégâts à tous les serviteurs adverses et vous fait piocher 1 carte de votre deck."}
+    ],
     "res_ico": "IC00000RDM",
     "res_val": "7",
     "resType": "any"
@@ -14959,6 +15121,25 @@ Object.assign(CARDS_DATA, {
     "assetFolder": "elfes-de-glace",
     "res_ico": "IC00000RDM",
     "res_val": "1",
+    "resType": "generated"
+  },
+  "EDG000012": {
+    "name": "Le Tisseur de Givre",
+    "type": "Serviteur",
+    "fac": "edg",
+    "atk": 20,
+    "pdv": 20,
+    "cost": 0,
+    "fico": "FCT00000EDG.png",
+    "kws": ["Insensible", "Rempart", "Gel", "Coup de glace"],
+    "cap": "[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement 1 « Golem du froid » ou 1 « Jeune dragon des neiges » de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a 33% de chance de subir aléatoirement [Gel] pendant 2 tours ou [Coup de glace] pendant 1 tour. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni n'invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.",
+    "detail": "[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement 1 « Golem du froid » [ID = DIV000010] ou 1 « Jeune dragon des neiges » [ID = EDG000006] de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a 33% de chance de subir aléatoirement [Gel] pendant 2 tours ou [Coup de glace] pendant 1 tour. Cette capacité passe outre [Insensible]. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni n'invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.",
+    "related": ["DIV000010", "EDG000006"],
+    "lore": "",
+    "max": 0,
+    "assetFolder": "elfes-de-glace",
+    "res_ico": "IC00000RDM",
+    "res_val": "0",
     "resType": "generated"
   },
   "EDG000013": {
@@ -17182,17 +17363,22 @@ function batch05SetStats(fc, {atk=null, pdvMax=null, preserveDamage=true}={}) {
   const currentMax = Number(fc.dataset.pdvMax || CARDS_DATA[fc.dataset.id]?.pdv || 1) || 1;
   const currentPdv = Number(fc.dataset.pdv || currentMax) || currentMax;
   const damage = preserveDamage ? Math.max(0, currentMax - currentPdv) : 0;
+  const baseAtk = batch05BaseStat(fc, 'atk');
+  const baseMax = batch05BaseStat(fc, 'pdvMax');
   if (atk != null) {
     const nextAtk = Math.max(0, Number(atk) || 0);
     fc.dataset.atk = String(nextAtk);
-    fc.querySelectorAll('.fc-atk-val').forEach(el => { el.textContent = String(nextAtk); });
+    fc.querySelectorAll('.fc-atk-val').forEach(el => { el.textContent = String(nextAtk); el.className = nextAtk > baseAtk ? 'fc-atk-val grn' : 'fc-atk-val'; });
   }
   if (pdvMax != null) {
     const nextMax = Math.max(1, Number(pdvMax) || 1);
     const nextPdv = Math.max(0, Math.min(nextMax, nextMax - damage));
     fc.dataset.pdvMax = String(nextMax);
     fc.dataset.pdv = String(nextPdv);
-    fc.querySelectorAll('.fc-pdv-val').forEach(el => { el.textContent = String(nextPdv); el.className = batch03PdvClass(fc, nextPdv, nextMax); });
+    fc.querySelectorAll('.fc-pdv-val').forEach(el => {
+      el.textContent = String(nextPdv);
+      el.className = nextPdv < nextMax ? 'fc-pdv-val red' : (nextMax > baseMax ? 'fc-pdv-val grn' : 'fc-pdv-val');
+    });
   }
   updateRageState(fc);
   return targetSummary(fc);
@@ -17208,8 +17394,8 @@ function batch05PassiveBuffFor(fc) {
   if (tree) { pdvMax += 2; sources.push('EDB000009'); }
   const dryad = allies.find(card => card !== fc && card.dataset.id === 'EDB000014' && canResolveServantAbility(card, {triggerType:'passive'}));
   if (dryad && isBatch05WoodElf(fc)) { pdvMax += 2; sources.push('EDB000014'); }
-  const iceDruid = allies.find(card => card !== fc && card.dataset.id === 'EDG000008' && canResolveServantAbility(card, {triggerType:'passive'}));
-  if (iceDruid && isBatch05IceElf(fc)) { pdvMax += 2; sources.push('EDG000008'); }
+  const iceDruidCount = allies.filter(card => card !== fc && card.dataset.id === 'EDG000008' && canResolveServantAbility(card, {triggerType:'passive'})).length;
+  if (iceDruidCount && isBatch05IceElf(fc)) { pdvMax += 2 * iceDruidCount; sources.push('EDG000008'); }
   if (fc.dataset.id === 'EDG000011') {
     const otherWolves = allies.filter(card => card !== fc && card.dataset.id === 'EDG000011').length;
     if (otherWolves) { pdvMax += otherWolves; sources.push('EDG000011'); }
@@ -17225,10 +17411,18 @@ function syncBatch05Passives() {
       const baseMax = batch05BaseStat(fc, 'pdvMax');
       const buff = batch05PassiveBuffFor(fc);
       batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0), pdvMax:baseMax + buff.pdvMax});
+      const hadBatch05PassiveGlow = (fc.dataset.batch05PassiveSources || '').length > 0;
       fc.dataset.batch05PassiveSources = buff.sources.join(',');
-      if (buff.sources.length) pulseBatch03Ability(fc, 'batch05-passive', {passive:true, move:false});
+      if (batch05ShouldShowPassiveGlow(fc)) pulseBatch03Ability(fc, 'batch05-passive', {passive:true, move:false});
+      else if (hadBatch05PassiveGlow && fc.dataset.batch03PassivePulse === '1') clearBatch04PassivePulse(fc);
     }
   }
+}
+function batch05ShouldShowPassiveGlow(fc) {
+  if (!fc || fc.dataset.dead) return false;
+  const kws = CARDS_DATA[fc.dataset.id]?.kws || [];
+  if (kws.includes('Vigilance') && !kws.includes('Camouflage')) return true;
+  return ['EDB000009','EDB000014','EDG000008'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
 }
 function batch05EnemyServants(player, effectKind='damage') {
   const p = playerState(player);
@@ -17236,6 +17430,28 @@ function batch05EnemyServants(player, effectKind='damage') {
   return getAffectableTargets({sourcePlayer:p, targets, sourceCardId:'COLLECTION_BATCH_05', effectKind, isAbility:true});
 }
 function batch05Pick(entries) { return entries[Math.floor(gameRandom() * entries.length)] || null; }
+function batch05TisseurLocksPlayer(player, sourceCardId=null) {
+  const p = playerState(player);
+  if (!p) return false;
+  if (sourceCardId === 'EDG000012') return false;
+  return batch05LivingServants(p).some(fc => fc.dataset.id === 'EDG000012' && canResolveServantAbility(fc, {triggerType:'passive'}));
+}
+function batch05ApplyGel({sourcePlayer, targetFC, sourceCardId, turns, type='gel', bypassInsensitive=false}={}) {
+  return tryApplyGel({sourcePlayer, targetFC, sourceCardId, turns:batch05ColdDuration(sourcePlayer, turns), type, bypassInsensitive});
+}
+async function triggerBatch05DamageReceivedHooks(fc, context={}) {
+  const owner = playerState(fc?.dataset?.player);
+  if (!owner || !fc || fc.dataset.dead) return [];
+  const results = [];
+  if (fc.dataset.id === 'EDG000012' && canResolveServantAbility(fc, {triggerType:'damage-received'})) {
+    const summonId = gameRandom() < 0.5 ? 'DIV000010' : 'EDG000006';
+    const summon = await summonBatch03Servant(owner, summonId, {sourceCardId:'EDG000012', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true});
+    if (summon.success) pulseBatch03Ability(fc, 'batch05-damage-received');
+    results.push({type:'tisseur-damage-summon', summonId, summon});
+  }
+  if (results.length) recordCollectionBatch05Event('damage-received', {source:targetSummary(fc), results});
+  return results;
+}
 function clearBatch05NegativeStatuses(fc) {
   if (!fc) return [];
   const cleared = [];
@@ -17271,7 +17487,7 @@ async function resolveBatch05Initiative(cardId, player, context={}) {
   }
   if (cardId === 'EDG000006') {
     for (const target of batch05EnemyServants(p, 'cdg')) {
-      tryApplyGel({sourcePlayer:p, targetFC:target, sourceCardId:cardId, turns:1, type:'cdg'});
+      batch05ApplyGel({sourcePlayer:p, targetFC:target, sourceCardId:cardId, turns:1, type:'cdg'});
       result.operations.push({type:'cdg-all', target:targetSummary(target), turns:1});
     }
   }
@@ -17353,17 +17569,26 @@ function batch05CurrentCombatPlan(attacker) {
   try { return JSON.parse(attacker?.dataset?.batch05CombatPlan || '{}'); } catch { return {}; }
 }
 async function resolveBatch05PostAttackEffects(attacker, targetFC, context={}) {
-  if (!attacker || !targetFC || context.phase !== 'attack') return [];
+  if (!attacker || !targetFC || !['attack','counter'].includes(context.phase)) return [];
   const id = attacker.dataset.id;
   const p = playerState(attacker.dataset.player);
   const plan = batch05CurrentCombatPlan(attacker);
   const results = [];
   if (id === 'EDB000013') {
-    if (plan.behavior === 'kyra-1' && !targetFC.dataset.dead) { tryApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:2,type:'cdg'}); results.push({type:'kyra-cdg', target:targetSummary(targetFC)}); }
-    if (plan.behavior === 'kyra-3' && !targetFC.dataset.dead) { tryApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'gel'}); for (const adjacent of batch03AdjacentServants(targetFC)) { adjacent._killer = attacker; results.push({type:'kyra-adjacent-damage', target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:adjacent,sourceCardId:id,amount:4})}); } }
+    if (plan.behavior === 'kyra-1' && !targetFC.dataset.dead) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:2,type:'cdg'}); results.push({type:'kyra-cdg', target:targetSummary(targetFC)}); }
+    if (plan.behavior === 'kyra-3' && !targetFC.dataset.dead) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'gel'}); for (const adjacent of batch03AdjacentServants(targetFC)) { adjacent._killer = attacker; results.push({type:'kyra-adjacent-damage', target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:adjacent,sourceCardId:id,amount:4})}); } }
     if (plan.behavior === 'kyra-4') { for (const enemy of batch05EnemyServants(p, 'damage')) { enemy._killer = attacker; results.push({type:'kyra-area-damage', target:targetSummary(enemy), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:enemy,sourceCardId:id,amount:2})}); } const draw = drawCardFromRuntimeDeck(p, {sourceCardId:id, sourceInstanceId:attacker.dataset.instance}); results.push({type:'kyra-draw', result:draw}); }
   }
-  if ((id === 'EDG000001' || id === 'EDG000006') && !targetFC.dataset.dead) { tryApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'ice-damage-cdg', target:targetSummary(targetFC)}); }
+  if ((id === 'EDG000001' || id === 'EDG000006') && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'ice-damage-cdg', target:targetSummary(targetFC), phase:context.phase}); }
+  if (id === 'EDB000001' && Number(context.damageDealt || 0) > 0) {
+    const allies = batch05LivingServants(p).filter(card => card !== attacker && CARDS_DATA[card.dataset.id]?.fac !== 'mvs' && Number(card.dataset.pdv || 0) < Number(card.dataset.pdvMax || 0));
+    const healedTarget = batch05Pick(allies);
+    if (healedTarget) {
+      const heal = applyHeal(healedTarget, 1);
+      if (heal.success) pulseBatch03Ability(attacker, 'batch05-druid-heal');
+      results.push({type:'druid-heal', target:targetSummary(healedTarget), heal});
+    }
+  }
   if (results.length) { pulseBatch03Ability(attacker, 'batch05-combat'); recordCollectionBatch05Event('combat-post', {attacker:targetSummary(attacker), target:targetSummary(targetFC), results}); }
   delete attacker.dataset.batch05CombatPlan;
   return results;
@@ -18255,6 +18480,9 @@ function batch03AdjacentServants(fc) {
 async function summonBatch03Servant(player, cardId, {sourceCardId=null, sourceInstanceId=null, triggerInitiativeEffect=true, ready=false}={}) {
   const p = playerState(player);
   const slot = qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot');
+  if (p && CARDS_DATA[cardId]?.type === 'Serviteur' && batch05TisseurLocksPlayer(p, sourceCardId)) {
+    return batch03EventResult('summon-refused', {success:false, reason:'tisseur-summon-lock', playerId:playerKey(p), cardId, sourceCardId});
+  }
   if (!p || !slot || !CARDS_DATA[cardId]) {
     return batch03EventResult('summon-refused', {success:false, reason:'no-servant-slot', playerId:playerKey(p), cardId, sourceCardId});
   }
