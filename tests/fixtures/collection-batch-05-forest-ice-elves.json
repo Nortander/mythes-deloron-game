@@ -1,5 +1,5 @@
 {
-  "batchId": "COLLECTION-BATCH-05C",
+  "batchId": "COLLECTION-BATCH-05D",
   "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-17.xlsx",
   "sourceSha256": "3e5137569abe42cd1ef354f0bc0d6ffdb28179af919d8b16540840e5d3f5f029",
   "scenarios": [
@@ -82,7 +82,9 @@
     "pdv": 3,
     "tooltipCount": 4,
     "behaviorThreeKeyword": "Gel",
-    "blockedReplay": true
+    "blockedReplay": true,
+    "cap": "[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements.",
+    "blockedMessage": "IMPOSSIBLE D'INVOQUER CE SERVITEUR CE TOUR : LA RUNE SE RECHARGE EN PUISSANCE"
   },
   "botanicalBerryStack": {
     "cardId": "R000003",
@@ -106,8 +108,41 @@
   },
   "coldDurations": {
     "baseGel": 1,
-    "afterSnowfallGel": 2,
+    "afterSnowfallGel": 3,
     "baseCdg": 1,
-    "afterSnowfallCdg": 2
+    "afterSnowfallCdg": 3
+  },
+  "expectedHighlights": {
+    "EDB000001": [
+      "*1 point de vie*"
+    ],
+    "EDB000005": [
+      "*1 point de vie*",
+      "blessé"
+    ],
+    "EDB000009": [
+      "*+2 points de vie*",
+      "*+1 d'attaque*"
+    ],
+    "EDG000010": [
+      "*1 Loup blanc*"
+    ],
+    "EDG000011": [
+      "*+1 PDV*",
+      "*+1 ATK*"
+    ],
+    "EDG000013": [
+      "*50%*"
+    ],
+    "S000023": [
+      "*2*",
+      "*+1 attaque*"
+    ],
+    "S000027": [
+      "*2 tours*"
+    ],
+    "S000029": [
+      "*3 serviteurs*"
+    ]
   }
 }

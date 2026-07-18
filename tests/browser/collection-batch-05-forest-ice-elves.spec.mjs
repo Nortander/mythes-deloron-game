@@ -626,6 +626,125 @@ test("Batch-05C cold duration and ancient oath bonuses survive passive resync", 
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+
+test("Batch-05D Daddy feedback locks timing, status scenarios and highlighted text", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-elfes-des-bois");
+  const textAudit = await page.evaluate((expected) => {
+    player1.hand = ["EDB000004"];
+    refreshHand(player1);
+    const loreEl = document.querySelector('.hc[data-id="EDB000004"] .card-lore-text');
+    const cap = id => CARDS_DATA[id]?.cap || "";
+    const detail = id => CARDS_DATA[id]?.detail || "";
+    return {
+      caps:Object.fromEntries(Object.keys(expected.expectedHighlights).map(id => [id, cap(id)])),
+      kyraCap:cap("EDB000013"),
+      kyraDetail:detail("EDB000013"),
+      kyraMessage:batch03BlockedCardPublicMessage("Serviteur de la rune"),
+      loreColor:getComputedStyle(loreEl).color,
+      loreHtml:loreEl?.outerHTML || ""
+    };
+  }, fixture);
+  for (const [id, snippets] of Object.entries(fixture.expectedHighlights)) {
+    for (const snippet of snippets) expect(textAudit.caps[id], id + " highlight " + snippet).toContain(snippet);
+  }
+  expect(textAudit.kyraCap).toBe(fixture.expectedKyra.cap);
+  expect(textAudit.kyraDetail).toBe(fixture.expectedKyra.cap);
+  expect(textAudit.kyraDetail).not.toContain("Comportement n°1");
+  expect(textAudit.kyraMessage).toBe(fixture.expectedKyra.blockedMessage);
+  expect(textAudit.loreHtml).toContain("card-lore-text");
+  expect(textAudit.loreColor).toBe("rgb(30, 16, 5)");
+
+  await openScenario(page, "collection-batch-05-dryade-cleanse");
+  const dryade = await page.evaluate(async () => {
+    const status = fc => ({id:fc.dataset.id, pdv:Number(fc.dataset.pdv || 0), pdvMax:Number(fc.dataset.pdvMax || 0), burning:Number(fc.dataset.burning || 0), gel:Number(fc.dataset.frozen || 0), cdg:Number(fc.dataset.frozen_cdg || 0), hypnose:Number(fc.dataset.hypno || 0)});
+    const before = livingServantCardsForPlayer(player1).map(status);
+    await summonBatch03Servant(player1, "EDB000014", {triggerInitiativeEffect:true, ready:true});
+    const after = livingServantCardsForPlayer(player1).filter(fc => fc.dataset.id !== "EDB000014").map(status);
+    const feedbackIndex = collectionBatch05State.events.findIndex(event => event.type === "feedback-before-effect" && event.reason === "initiative" && event.cardId === "EDB000014");
+    const initiativeIndex = collectionBatch05State.events.findIndex(event => event.type === "initiative" && event.cardId === "EDB000014");
+    return {before, after, feedbackIndex, initiativeIndex};
+  });
+  expect(dryade.before.some(card => card.burning > 0)).toBe(true);
+  expect(dryade.before.some(card => card.gel > 0)).toBe(true);
+  expect(dryade.before.some(card => card.cdg > 0)).toBe(true);
+  expect(dryade.before.some(card => card.hypnose > 0)).toBe(true);
+  expect(dryade.after.every(card => card.pdv === card.pdvMax)).toBe(true);
+  expect(dryade.after.every(card => card.burning === 0 && card.gel === 0 && card.cdg === 0 && card.hypnose === 0)).toBe(true);
+  expect(dryade.feedbackIndex).toBeGreaterThanOrEqual(0);
+  expect(dryade.initiativeIndex).toBeGreaterThan(dryade.feedbackIndex);
+
+  await openScenario(page, "collection-batch-05-pacte-millenaire");
+  const pacte = await page.evaluate(async () => {
+    const before = {hand:[...player1.hand], deck:[...player1.drawPile], graveyard:[...player1.graveyard], board:livingServantCardsForPlayer(player1).map(targetSummary)};
+    const result = await triggerSort("S000023", player1);
+    syncBatch05Passives();
+    const after = {hand:[...player1.hand], deck:[...player1.drawPile], graveyard:[...player1.graveyard], board:livingServantCardsForPlayer(player1).map(targetSummary)};
+    return {before, result, after};
+  });
+  expect(pacte.before.hand).toEqual(["S000023"]);
+  expect(pacte.before.graveyard.filter(id => id === "EDG000006")).toHaveLength(3);
+  expect(pacte.before.board.some(card => card.id === "EDG000004")).toBe(true);
+  expect(pacte.result).toMatchObject({success:true, mode:"graveyard-atk-buff", amount:1});
+  const pacteTargetBefore = pacte.before.board.find(card => card.id === "EDG000004");
+  const pacteTargetAfter = pacte.after.board.find(card => card.id === "EDG000004");
+  expect(pacteTargetAfter.atk).toBe(pacteTargetBefore.atk + 1);
+
+  await openScenario(page, "collection-batch-05-anciens-givre");
+  const snow = await page.evaluate(() => {
+    const result = resolveChuteDeNeige(player1);
+    const enemy = document.querySelector(playerZoneSelector(player2, "servants") + ' .fc:not([data-dead])');
+    batch05ApplyGel({sourcePlayer:player1, targetFC:enemy, sourceCardId:"S000027", turns:1, type:"gel"});
+    const gel = Number(enemy.dataset.frozen || 0);
+    clearBatch05NegativeStatuses(enemy);
+    batch05ApplyGel({sourcePlayer:player1, targetFC:enemy, sourceCardId:"S000027", turns:1, type:"cdg"});
+    const cdg = Number(enemy.dataset.frozen_cdg || 0);
+    return {result, gel, cdg};
+  });
+  expect(snow.result.bonus).toBe(2);
+  expect(snow.gel).toBe(fixture.coldDurations.afterSnowfallGel);
+  expect(snow.cdg).toBe(fixture.coldDurations.afterSnowfallCdg);
+
+  await openScenario(page, "collection-batch-05-elfes-des-bois");
+  const timing = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    const blade = await summonBatch03Servant(player1, "EDB000007", {triggerInitiativeEffect:false, ready:true});
+    const target = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    const bladeFc = document.querySelector('.fc[data-instance="' + blade.instanceId + '"]');
+    const targetFc = document.querySelector('.fc[data-instance="' + target.instanceId + '"]');
+    batch03UpdateStats(targetFc, {pdvMax:30, pdv:30, atk:0});
+    await resolveCombat(bladeFc, targetFc);
+    const feedbackIndex = collectionBatch05State.events.findIndex(event => event.type === "feedback-before-effect" && event.reason === "lame-sylvestre-cdg");
+    const postIndex = collectionBatch05State.events.findIndex(event => event.type === "combat-post" && event.results?.some(result => result.type === "lame-sylvestre-cdg"));
+    resetServants(player1);
+    resetServants(player2);
+    const tree = await summonBatch03Servant(player1, "EDB000009", {triggerInitiativeEffect:false, ready:true});
+    const worker = await summonBatch03Servant(player1, "EDB000004", {triggerInitiativeEffect:false, ready:true});
+    const treeFc = document.querySelector('.fc[data-instance="' + tree.instanceId + '"]');
+    const workerFc = document.querySelector('.fc[data-instance="' + worker.instanceId + '"]');
+    const treeBefore = targetSummary(treeFc);
+    await applyDamage(workerFc, 99);
+    await new Promise(resolve => setTimeout(resolve, 980));
+    const treeAfter = targetSummary(treeFc);
+    const treeFeedback = collectionBatch05State.events.find(event => event.type === "feedback-before-effect" && event.reason === "tree-atk");
+    return {feedbackIndex, postIndex, target:targetSummary(targetFc), treeBefore, treeAfter, treeFeedback};
+  });
+  expect(timing.feedbackIndex).toBeGreaterThanOrEqual(0);
+  expect(timing.postIndex).toBeGreaterThan(timing.feedbackIndex);
+  expect(timing.target.cdg).toBeGreaterThanOrEqual(1);
+  expect(timing.treeFeedback).toBeTruthy();
+  expect(timing.treeAfter.atk).toBe(timing.treeBefore.atk + 1);
+
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("Batch-05 signatures, no-effect cards and deck invariants remain consistent", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-05-elfes-des-bois");

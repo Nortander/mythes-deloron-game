@@ -325,6 +325,8 @@ Règles :
 - vérifier les états réduits / agrandis des panneaux ;
 - le panneau test réduit ne doit pas cacher les zones interactives ;
 - les scénarios techniques destinés à validation visuelle doivent garder des mains lisibles et non surchargées ; si plus de 7 cartes sont nécessaires, répartir les cartes entre main, deck, cimetière, plateau ou scénarios dédiés ;
+- éviter les scénarios techniques fourre-tout : une carte qui n'est pas immédiatement testée doit être placée dans une zone technique, le deck ou le cimetière plutôt que dans une main déjà dense ;
+- privilégier plusieurs scénarios ciblés et lisibles à un seul scénario exhaustif lorsque la validation humaine doit comprendre le timing, le ciblage ou les déplacements ;
 - les messages publics doivent être simples et exacts ;
 - les diagnostics techniques doivent rester dans le mode test.
 
