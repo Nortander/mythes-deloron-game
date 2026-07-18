@@ -324,6 +324,7 @@ Règles :
 - vérifier la lisibilité des textes publics ;
 - vérifier les états réduits / agrandis des panneaux ;
 - le panneau test réduit ne doit pas cacher les zones interactives ;
+- les scénarios techniques destinés à validation visuelle doivent garder des mains lisibles et non surchargées ; si plus de 7 cartes sont nécessaires, répartir les cartes entre main, deck, cimetière, plateau ou scénarios dédiés ;
 - les messages publics doivent être simples et exacts ;
 - les diagnostics techniques doivent rester dans le mode test.
 

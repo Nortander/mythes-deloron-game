@@ -36,13 +36,15 @@ test("Batch-05 scenarios stay hidden and expose every forest or ice elf card", a
         scenarioId:selectedScenarioId(),
         publicOptionCount:document.querySelectorAll('#scenarioSelect option[value="' + input.scenario + '"]').length,
         cards:input.ids.map(id => ({id, exists:!!CARDS_DATA[id], name:CARDS_DATA[id]?.name || '', type:CARDS_DATA[id]?.type || '', faction:CARDS_DATA[id]?.fac || '', keywords:[...(CARDS_DATA[id]?.kws || [])]})),
-        runtimeAudit:typeof auditCollectionBatch05Runtime === 'function' ? auditCollectionBatch05Runtime() : null
+        runtimeAudit:typeof auditCollectionBatch05Runtime === 'function' ? auditCollectionBatch05Runtime() : null,
+        player1HandSize:player1.hand.length
       };
     }, {scenario, ids:allIds});
     expect(audit.scenarioId).toBe(scenario);
     expect(audit.publicOptionCount).toBe(fixture.expectedHiddenScenarioOptionCount);
     expect(audit.cards.every(card => card.exists), JSON.stringify(audit.cards.filter(card => !card.exists))).toBe(true);
     expect(audit.runtimeAudit).toBeTruthy();
+    expect(audit.player1HandSize, scenario + ' visible test hand size').toBeLessThanOrEqual(fixture.maxVisualHandSize);
   }
   for (const id of allIds) {
     expect(signaturesById.get(id), id + " signature").toBeTruthy();
@@ -341,13 +343,14 @@ test("Batch-05B visual feedback covers forest elf corrections", async ({page}, t
   expect(result.kyra.pdv).toBe(fixture.expectedKyra.pdv);
   expect(result.kyra.tooltipCount).toBe(fixture.expectedKyra.tooltipCount);
   expect(result.kyra.tooltipHtml).toContain("COMPORTEMENT 4");
+  expect(result.kyra.tooltipHtml).toContain(fixture.expectedKyra.behaviorThreeKeyword);
   expect(result.druid.undeadAfter.pdv).toBeLessThanOrEqual(result.druid.undeadBefore.pdv - 6);
   expect(result.druid.allyAfter.pdv).toBe(result.druid.allyBefore.pdv + 1);
   expect(result.druid.lastEvent.results.some(entry => entry.type === "druid-heal")).toBe(true);
   expect(result.camoAudit.vfx).toBe("VFX000010");
   expect(result.camoAudit.hover).toBe("VFX000012");
   expect(result.camoAudit.layerSrc).toContain("VFX000010.png");
-  expect(result.camoAudit.hasPassive).toBe(false);
+  expect(result.camoAudit.hasPassive).toBe(true);
   expect(result.vigilance.hasPassive).toBe(true);
   expect(result.botanical.members).toBe(fixture.botanicalBerryStack.copies);
   expect(result.botanical.vector.nourriture).toBe(fixture.botanicalBerryStack.production.nourriture);
@@ -436,6 +439,189 @@ test("Batch-05B Tisseur, ancient ice spells and rescue shield resolve as runtime
   expect(result.died).toBe(false);
   expect(result.saved.pdv).toBe(1);
   expect(result.graveyardDragonCountAfterRescue).toBe(result.graveyardDragonCountBeforeRescue);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+
+test("Batch-05C Daddy feedback keeps text, lore and scenario readability deterministic", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-elfes-des-bois");
+  const result = await page.evaluate(async () => {
+    const pixie = CARDS_DATA.S000040;
+    const worker = CARDS_DATA.EDB000004;
+    const workerHtml = buildHC("EDB000004", player1.key, 0);
+    const pixieHtml = buildHC("S000040", player1.key, 0);
+    return {
+      pixieCap:pixie.cap || "",
+      pixieTextHasUnaccented:/cimetiere/i.test(pixie.cap || ""),
+      workerLore:worker.lore || "",
+      workerHtml,
+      pixieHtml,
+      forestHandSize:player1.hand.length
+    };
+  });
+  await openScenario(page, "collection-batch-05-elfes-de-glace");
+  result.iceHandSize = await page.evaluate(() => player1.hand.length);
+  expect(result.pixieCap).toContain("cimetière");
+  expect(result.pixieTextHasUnaccented).toBe(false);
+  expect(result.workerLore.length).toBeGreaterThan(20);
+  expect(result.workerHtml).toContain("card-lore-text");
+  expect(result.workerHtml).toContain("<i");
+  expect(result.pixieHtml).not.toContain("card-lore-text");
+  expect(result.forestHandSize).toBeLessThanOrEqual(fixture.maxVisualHandSize);
+  expect(result.iceHandSize).toBeLessThanOrEqual(fixture.maxVisualHandSize);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch-05C combat feedback covers Druide counter, cold retaliation and Kyra rune replay lock", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-druide");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    const druid = await summonBatch03Servant(player1, "EDB000001", {triggerInitiativeEffect:false, ready:true});
+    const undead = await summonBatch03Servant(player2, "MV000020", {triggerInitiativeEffect:false, ready:true});
+    const druidFc = document.querySelector('.fc[data-instance="' + druid.instanceId + '"]');
+    const undeadFc = document.querySelector('.fc[data-instance="' + undead.instanceId + '"]');
+    batch03UpdateStats(druidFc, {pdvMax:20, pdv:20});
+    batch03UpdateStats(undeadFc, {pdvMax:20, pdv:20, atk:1});
+    const beforeCounter = targetSummary(undeadFc);
+    const druidCounterAtk = Number(druidFc.dataset.atk || 0);
+    await resolveCombat(undeadFc, druidFc);
+    const afterCounter = targetSummary(undeadFc);
+
+    resetServants(player1);
+    resetServants(player2);
+    const guard = await summonBatch03Servant(player1, "EDG000003", {triggerInitiativeEffect:false, ready:true});
+    const attacker = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    const guardFc = document.querySelector('.fc[data-instance="' + guard.instanceId + '"]');
+    const attackerFc = document.querySelector('.fc[data-instance="' + attacker.instanceId + '"]');
+    batch03UpdateStats(guardFc, {pdvMax:20, pdv:20, atk:1});
+    batch03UpdateStats(attackerFc, {pdvMax:20, pdv:20, atk:1});
+    await resolveCombat(attackerFc, guardFc);
+    const guardEvent = collectionBatch05State.events.filter(event => event.type === "combat-retaliation-cold").pop();
+
+    resetServants(player1);
+    const kyra = await summonBatch03Servant(player1, "EDB000013", {triggerInitiativeEffect:false, ready:true});
+    const kyraFc = document.querySelector('.fc[data-instance="' + kyra.instanceId + '"]');
+    await applyDamage(kyraFc, 99);
+    const kyraIndex = player1.hand.lastIndexOf("EDB000013");
+    const kyraBlocked = isBatch03HandCardBlocked("EDB000013", player1, kyraIndex);
+    const handHasKyra = player1.hand.includes("EDB000013");
+    return {beforeCounter, afterCounter, druidCounterAtk, guardEvent, kyraIndex, kyraBlocked, handHasKyra};
+  });
+  expect(result.afterCounter.pdv).toBeLessThanOrEqual(result.beforeCounter.pdv - result.druidCounterAtk * 2 + 2);
+  expect(result.guardEvent?.type).toBe("combat-retaliation-cold");
+  expect(result.guardEvent?.coldType).toBe("garde-hivernale");
+  expect(result.kyraIndex).toBeGreaterThanOrEqual(0);
+  expect(result.handHasKyra).toBe(true);
+  expect(result.kyraBlocked).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch-05C dedicated scenarios cover Envoûteuse, Après la catastrophe and Grande-soigneuse tie rules", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-envouteuse");
+  const envouteuse = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    await summonBatch03Servant(player1, "EDB000011", {triggerInitiativeEffect:true, ready:true});
+    const free = {hand:[...player1.hand], event:collectionBatch05State.events.filter(event => event.type === "initiative-generic").pop()};
+    const zone = document.querySelector(playerZoneSelector(player1, "servants"));
+    zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player1.key + '"></div>').join("");
+    player1.hand = Array.from({length:MAX_HAND}, (_, index) => index % 2 === 0 ? "H000001" : "H000005");
+    refreshHand(player1);
+    await summonBatch03Servant(player1, "EDB000011", {triggerInitiativeEffect:true, ready:true});
+    const full = {hand:[...player1.hand], eventCount:collectionBatch05State.events.filter(event => event.type === "initiative-generic" && event.cardId === "EDB000011").length};
+    return {free, full};
+  });
+  expect(envouteuse.free.hand).toEqual(expect.arrayContaining(["R000014", "R000004", "R000017"]));
+  expect(envouteuse.free.event?.cardId).toBe("EDB000011");
+  expect(envouteuse.full.hand).not.toEqual(expect.arrayContaining(["R000014", "R000004", "R000017"]));
+  expect(envouteuse.full.eventCount).toBe(1);
+
+  await openScenario(page, "collection-batch-05-apres-catastrophe");
+  const catastrophe = await page.evaluate(async () => {
+    player1.hand = ["S000015"];
+    refreshHand(player1);
+    const promise = triggerSort("S000015", player1);
+    await new Promise(resolve => setTimeout(resolve, 120));
+    const style = getComputedStyle(document.querySelector('.sort-choice-cards'));
+    const childCount = document.querySelectorAll('.sort-choice-item').length;
+    document.querySelector('.decision-modal-close')?.click?.();
+    return {childCount, flexWrap:style.flexWrap, overflowY:style.overflowY, promiseType:typeof promise};
+  });
+  expect(catastrophe.childCount).toBeGreaterThan(10);
+  expect(catastrophe.flexWrap).toBe("wrap");
+  expect(["auto", "scroll"]).toContain(catastrophe.overflowY);
+
+  await openScenario(page, "collection-batch-05-elfes-de-glace");
+  const healer = await page.evaluate(() => {
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    return (async () => {
+      resetServants(player1);
+      await summonBatch03Servant(player1, "EDG000007", {triggerInitiativeEffect:false, ready:true});
+      const a = await summonBatch03Servant(player1, "EDG000006", {triggerInitiativeEffect:false, ready:true});
+      const b = await summonBatch03Servant(player1, "H000005", {triggerInitiativeEffect:false, ready:true});
+      const afc = document.querySelector('.fc[data-instance="' + a.instanceId + '"]');
+      const bfc = document.querySelector('.fc[data-instance="' + b.instanceId + '"]');
+      batch03UpdateStats(afc, {pdvMax:6, pdv:2});
+      batch03UpdateStats(bfc, {pdvMax:6, pdv:2});
+      applyEndOfTurnEffects(player1);
+      return {a:targetSummary(afc), b:targetSummary(bfc), event:collectionBatch05State.events.filter(event => event.type === "combat-retaliation-cold").length};
+    })();
+  });
+  expect(healer.a.pdv).toBe(5);
+  expect(healer.b.pdv).toBe(5);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch-05C cold duration and ancient oath bonuses survive passive resync", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-anciens-givre");
+  const result = await page.evaluate(async () => {
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    window.__mythesRandom = () => 0;
+    resetServants(player1);
+    resetServants(player2);
+    player1.hand = ["S000026","S000027"];
+    player1.graveyard = ["EDG000001","EDG000003","EDG000006"];
+    refreshHand(player1);
+    await triggerSort("S000026", player1);
+    const tisseur = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "EDG000012");
+    const afterOath = targetSummary(tisseur);
+    syncBatch05Passives();
+    const afterResync = targetSummary(tisseur);
+    resolveChuteDeNeige(player1);
+    const enemy = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    const enemy2 = await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    const enemyFc = document.querySelector('.fc[data-instance="' + enemy.instanceId + '"]');
+    const enemy2Fc = document.querySelector('.fc[data-instance="' + enemy2.instanceId + '"]');
+    batch05ApplyGel({sourcePlayer:player1, targetFC:enemyFc, sourceCardId:"S000027", turns:1, type:"gel"});
+    const gelAfterSnow = Number(enemyFc.dataset.frozen || 0);
+    batch05ApplyGel({sourcePlayer:player1, targetFC:enemy2Fc, sourceCardId:"S000027", turns:1, type:"cdg"});
+    const cdgAfterSnow = Number(enemy2Fc.dataset.frozen_cdg || 0);
+    return {afterOath, afterResync, gelAfterSnow, cdgAfterSnow};
+  });
+  expect(result.afterOath.atk).toBeGreaterThan(20);
+  expect(result.afterResync.atk).toBe(result.afterOath.atk);
+  expect(result.afterResync.pdvMax).toBe(result.afterOath.pdvMax);
+  expect(result.gelAfterSnow).toBe(fixture.coldDurations.afterSnowfallGel);
+  expect(result.cdgAfterSnow).toBe(fixture.coldDurations.afterSnowfallCdg);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

@@ -795,7 +795,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   color:#170d05;background:#d7b46a;border:0;border-radius:999px;padding:7px 12px;cursor:pointer;
 }
 .sort-choice-title{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold-lt);letter-spacing:0.1em;}
-.sort-choice-cards{display:flex;gap:24px;align-items:flex-start;}
+.sort-choice-cards{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;justify-content:center;max-height:430px;overflow-y:auto;padding:6px;scrollbar-width:thin;}
 .sort-choice-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;
   transition:transform 0.2s;}
 .sort-choice-item:hover{transform:translateY(-6px) scale(1.04);}
@@ -1673,6 +1673,7 @@ body.dragging-card .hc.dragging {
 .fc.appro-fc .fi{border-color:#7a7060;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(200,168,75,0.25);}
 
 .fc.edb-fc .fz-lore-text{color:#1e1005 !important;}
+.fc.edb-fc .card-lore-text{color:#1e1005 !important;}
 .fc.edn-fc .fz-lore-text{color:#c8a0e0 !important;}
 .fc.edg-fc .fz-lore-text{color:#0a1e36 !important;}
 .fc.hum-fc .fz-lore-text{color:#080f28 !important;}
@@ -2858,14 +2859,14 @@ SCENARIOS['collection-batch-04-undergast-cases'] = {
 SCENARIOS['collection-batch-05-elfes-des-bois'] = {
   label: 'TEST - COLLECTION BATCH 05 Elfes des bois', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000014',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000001','EDB000002','EDB000003','EDB000005','EDB000007','EDB000008','EDB000010','EDB000011','EDB000012','EDB000013','EDB000014','S000003','S000015','S000018','S000040','S000045'], drawPile:['EDB000004','EDB000006','EDB000012','EDB000009','R000004','R000003','R000003','R000003','R000014','R000017','H000001','S000004'], graveyard:['EDB000012','EDB000012','H000001'], servants:[{id:'EDB000009',pdvMax:7,pdv:5,prepared:true},{id:'EDB000005',pdvMax:3,pdv:1,prepared:true},{id:'H000001',pdvMax:8,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000001','EDB000002','EDB000003','EDB000010','S000003','S000018','S000040'], drawPile:['EDB000004','EDB000005','EDB000006','EDB000007','EDB000008','EDB000009','EDB000011','EDB000012','EDB000013','EDB000014','S000015','S000045','R000004','R000003','R000003','R000003','R000014','R000017','H000001','S000004'], graveyard:['EDB000012','EDB000012','H000001'], servants:[{id:'EDB000009',pdvMax:7,pdv:5,prepared:true},{id:'EDB000005',pdvMax:3,pdv:1,prepared:true},{id:'H000001',pdvMax:8,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','MV000020','R000010'], drawPile:['H000001','H000005','MV000020','R000010'], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true},{id:'H000005',pdvMax:10,pdv:10,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-05-elfes-de-glace'] = {
   label: 'TEST - COLLECTION BATCH 05 Elfes de glace', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDG000012',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['EDG000001','EDG000003','EDG000004','EDG000005','EDG000006','EDG000007','EDG000008','EDG000009','EDG000010','EDG000012','EDG000013','S000011','S000023','S000026','S000027','S000029','S000034'], drawPile:['EDG000006','EDG000006','EDG000003','EDG000004','S000004','R000010'], graveyard:['EDG000001','EDG000003','EDG000006'], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:6,prepared:true},{id:'EDG000011',pdvMax:1,pdv:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['EDG000001','EDG000003','EDG000004','EDG000009','S000011','S000027','S000029'], drawPile:['EDG000005','EDG000006','EDG000006','EDG000007','EDG000008','EDG000010','EDG000012','EDG000013','S000023','S000026','S000034','EDG000003','EDG000004','S000004','R000010'], graveyard:['EDG000001','EDG000003','EDG000006'], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:6,prepared:true},{id:'EDG000011',pdvMax:1,pdv:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','H000018','R000010'], drawPile:['H000001','H000005','H000018','R000010'], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true},{id:'H000005',pdvMax:10,pdv:10,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -2895,6 +2896,20 @@ SCENARIOS['collection-batch-05-dryade-cleanse'] = {
   testSetup: {
     player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000014'], drawPile:['EDB000004'], graveyard:[], servants:[{id:'EDB000001',pdvMax:6,pdv:2,prepared:true},{id:'EDB000005',pdvMax:5,pdv:1,prepared:true},{id:'EDB000006',pdvMax:5,pdv:3,prepared:true},{id:'EDB000007',pdvMax:7,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-apres-catastrophe'] = {
+  label: 'TEST - COLLECTION BATCH 05 Apres la catastrophe', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000015',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['S000015'], drawPile:['EDB000004','EDB000006'], graveyard:['EDB000001','EDB000002','EDB000003','EDB000004','EDB000005','EDB000006','EDB000007','EDB000008','EDB000009','EDB000010','EDB000011','EDB000012','EDB000013','EDB000014'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-05-envouteuse'] = {
+  label: 'TEST - COLLECTION BATCH 05 Envouteuse', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDB000011',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['EDB000011'], drawPile:['EDB000004','EDB000006'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-05-pacte-millenaire'] = {
@@ -10688,27 +10703,32 @@ async function triggerInitiative(cardId, player, context={}) {
     return requirements.every(requiredId => !!myZone?.querySelector(`.fc[data-id="${requiredId}"]:not([data-dead])`));
   };
 
+  const sourceFCForBatch05 = findBoardCard(player, cardId);
+  let batch05InitiativeMutation = false;
+
   switch(cardId) {
     case 'EDB000002': // Mage du froid â†’ Gèle un serviteur adverse
     { const candidates = adverseServants().filter(fc => !fc.dataset.frozen && !fc.dataset.frozen_cdg);
       const ts = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'gel', isAbility: true });
-      if (ts.length) tryApplyGel({ sourcePlayer: player, targetFC: ts[Math.floor(Math.random()*ts.length)], sourceCardId: cardId, turns: 1 });
+      if (ts.length) batch05InitiativeMutation = !!tryApplyGel({ sourcePlayer: player, targetFC: ts[Math.floor(Math.random()*ts.length)], sourceCardId: cardId, turns: 1 });
       else showInsensitiveFailureVfx(candidates);
       break; }
     case 'EDB000008': // Maître-archer â†’ détruit 1 carte main adverse + 5 dégâts + gel 1 tour
     { const adv = playerHand(opponentOf(player));
-      if (adv.length) { const ri = Math.floor(Math.random()*adv.length); removeHandCardAt(opponentOf(player), ri); refreshAdverseHandBacks(player); }
+      if (adv.length) { const ri = Math.floor(Math.random()*adv.length); removeHandCardAt(opponentOf(player), ri); refreshAdverseHandBacks(player); batch05InitiativeMutation = true; }
       const candidates = adverseServants();
       const tt = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'damage', isAbility: true });
       if (tt.length) {
         const t = tt[Math.floor(Math.random()*tt.length)];
-        applyDamage(t,5).then(()=>tryApplyGel({ sourcePlayer: player, targetFC: t, sourceCardId: cardId, turns: 1, type: 'cdg' }));
+        await applyDamage(t, 5);
+        batch05InitiativeMutation = true;
+        tryApplyGel({ sourcePlayer: player, targetFC: t, sourceCardId: cardId, turns: 1, type: 'cdg' });
       } else showInsensitiveFailureVfx(candidates);
       break; }
     case 'EDG000001': // Prêtresse de l'Hiver â†’ Coup de glace 3 tours sur 1 cible
     { const candidates = adverseServants();
       const tt2 = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'cdg', isAbility: true });
-      if (tt2.length) tryApplyGel({ sourcePlayer: player, targetFC: tt2[Math.floor(Math.random()*tt2.length)], sourceCardId: cardId, turns: 3, type: 'cdg' });
+      if (tt2.length) batch05InitiativeMutation = !!tryApplyGel({ sourcePlayer: player, targetFC: tt2[Math.floor(Math.random()*tt2.length)], sourceCardId: cardId, turns: 3, type: 'cdg' });
       else showInsensitiveFailureVfx(candidates);
       break; }
     case 'EN000001': // Ensorceleur â†’ ATK sur 2 serviteurs aléatoires
@@ -10818,7 +10838,7 @@ async function triggerInitiative(cardId, player, context={}) {
     case 'EDB000010': { // Forestier â†’ piochez 1 carte
       const result = drawCardFromRuntimeDeck(player, {sourceCardId:cardId, sourceInstanceId});
       traceCardPlay(traceId, 'afterDrawHelper', player, cardId, sourceInstanceId, {drawResult:result});
-      if (result.success && result.deckSizeAfter === result.deckSizeBefore - 1 && result.handSizeAfter === result.handSizeBefore + 1) showNotif('Le Forestier vous fait piocher 1 carte\u00a0!', 1400);
+      if (result.success && result.deckSizeAfter === result.deckSizeBefore - 1 && result.handSizeAfter === result.handSizeBefore + 1) { batch05InitiativeMutation = true; showNotif('Le Forestier vous fait piocher 1 carte\u00a0!', 1400); }
       else showNotif('Le Forestier ne pioche aucune carte.', 1200);
       break; }
     case 'H000010': {
@@ -10894,6 +10914,7 @@ async function triggerInitiative(cardId, player, context={}) {
       const created = ['R000014', 'R000004', 'R000017']
         .filter(id => addEnchantressCardToHand(player, id, batchId));
       if (created.length) {
+        batch05InitiativeMutation = true;
         renderAllHands();
         showNotif(`L'Envoûteuse ajoute ${created.length}\u00a0carte(s) à votre main\u00a0!`, 1500);
       }
@@ -10942,6 +10963,11 @@ async function triggerInitiative(cardId, player, context={}) {
         t3.title = "Prisonnier — revient à la mort de l’Araignée";
       } else showInsensitiveFailureVfx(candidates);
       break; }
+  }
+  if (batch05InitiativeMutation && sourceFCForBatch05 && (isBatch05WoodElf(sourceFCForBatch05) || isBatch05IceElf(sourceFCForBatch05))) {
+    pulseBatch03Ability(sourceFCForBatch05, 'batch05-initiative');
+    recordCollectionBatch05Event('initiative-generic', {cardId, playerId:playerKey(player), source:targetSummary(sourceFCForBatch05)});
+    syncBatch05Passives();
   }
 }
 
@@ -12168,7 +12194,8 @@ async function resolveCombat(attacker, targetFC) {
   // Riposte immédiate si le défenseur était vivant
   if (defAlive && defAtk > 0 && !batch05Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC)) {
     updateRageState(targetFC);
-    const counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
+    let counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
+    if (targetFC.dataset.id === 'EDB000001' && CARDS_DATA[attacker.dataset.id]?.fac === 'mvs') counterAtk *= 2;
     const attackerDied = await applyDamage(attacker, counterAtk);
     if (!attackerDied) {
       await triggerDamageDealtEmbrasementHooks(targetFC, attacker, {
@@ -12205,28 +12232,22 @@ async function resolveCombat(attacker, targetFC) {
     addSoulToAppro(currentPlayer, 1);
     showNotif('Le Faucheur d\'âmes récolte 1 Âme\u00a0!', 1400);
   }
-  // ── Effets probabilistes/déterministes appliqués à la cible quand l'attaquant la frappe ──
+  // Effets probabilistes/déterministes appliqués à la cible quand l'attaquant la frappe.
   if (targetFC && !targetFC.dataset.dead) {
     const aid = attacker.dataset.id;
-    // Lame sylvestre : 50% [Coup de glace] sur la cible
-    if (aid === 'EDB000007' && gameRandom() < 0.5) tryApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 1, type: 'cdg' });
-    // Archère du vent : 50% [Coup de glace] 1 tour
-    if (aid === 'EDB000003' && gameRandom() < 0.5) tryApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 1, type: 'cdg' });
-    // Maître-archère hivernale : [Coup de glace] 2 tours (déterministe)
-    if (aid === 'EDG000004') tryApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 2, type: 'cdg' });
-    // Élémentaire de glace : 50% [Gèle] 1 tour
-    if (aid === 'DIV000007' && Math.random() < 0.5) tryApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 1, type: 'gel' });
-    // Golem du froid : [Coup de glace] 2 tours (déterministe)
-    if (aid === 'DIV000010') tryApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 2, type: 'cdg' });
-    // Mage du froid : [Coup de glace] 2 tours quand il attaque
-    if (aid === 'EDB000002') tryApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 2, type: 'cdg' });
+    // Élémentaire de glace : 50% [Gel] 1 tour.
+    if (aid === 'DIV000007' && gameRandom() < 0.5) batch05ApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 1, type: 'gel' });
+    // Golem du froid : [Coup de glace] 2 tours (déterministe).
+    if (aid === 'DIV000010') batch05ApplyGel({ sourcePlayer: currentPlayer, targetFC, sourceCardId: aid, turns: 2, type: 'cdg' });
   }
-  // Garde hivernale (EDG000003) : 25% CDG 1 tour à l'attaquant qui la frappe directement
+  // Garde hivernale (EDG000003) : 25% CDG 1 tour à l'attaquant qui la frappe directement.
   if (targetFC && targetFC.dataset.id === 'EDG000003' && !attacker.dataset.dead && gameRandom() < 0.25) {
-    tryApplyGel({ sourcePlayer: targetFC.dataset.player, targetFC: attacker, sourceCardId: targetFC.dataset.id, turns: 1, type: 'cdg' });
+    const applied = batch05ApplyGel({ sourcePlayer: targetFC.dataset.player, targetFC: attacker, sourceCardId: targetFC.dataset.id, turns: 1, type: 'cdg' });
+    if (applied) { pulseBatch03Ability(targetFC, 'batch05-combat'); recordCollectionBatch05Event('combat-retaliation-cold', {source:targetSummary(targetFC), target:targetSummary(attacker), coldType:'garde-hivernale'}); }
   }
   if (targetFC && targetFC.dataset.id === 'EDG000009' && !attacker.dataset.dead) {
-    tryApplyGel({ sourcePlayer: targetFC.dataset.player, targetFC: attacker, sourceCardId: targetFC.dataset.id, turns: 1, type: 'cdg' });
+    const applied = batch05ApplyGel({ sourcePlayer: targetFC.dataset.player, targetFC: attacker, sourceCardId: targetFC.dataset.id, turns: 1, type: 'cdg' });
+    if (applied) { pulseBatch03Ability(targetFC, 'batch05-combat'); recordCollectionBatch05Event('combat-retaliation-cold', {source:targetSummary(targetFC), target:targetSummary(attacker), coldType:'perce-neige'}); }
   }
 
   attacker.dataset.exhausted = '1';
@@ -12467,6 +12488,12 @@ async function sendToCemetery(fc) {
     const owner = playerState(player);
     if (owner && !getHandCapacityStatus(owner).full) {
       addCardToHand(owner, cardId, {refresh:true, occurrenceId:fc.dataset.instance || null});
+      if (cardId === 'EDB000013') {
+        owner.batch03BlockedHandOccurrences ||= [];
+        const blockedOccurrenceId = batch03HandOccurrenceAt(owner, owner.hand.length - 1);
+        owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:blockedOccurrenceId, sourceName:'Kyra', armed:true, createdTurnSequence:turnSequence});
+        refreshHand(owner);
+      }
       const handNode = markBatch03HandCardReturned(owner, cardId);
       recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', flightAnimation:fc.dataset.batch03RuneReturnFlight === '1', handAnimation:!!handNode});
       if (d.fac) addHistEntry(cardId, d.fac);
@@ -13381,18 +13408,23 @@ function applyEndOfTurnEffects(player) {
     const allies = Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'))
       .filter(fc => fc !== healer);
     const blesse = allies.find(a => (parseInt(a.dataset.pdv) || 0) < (parseInt(a.dataset.pdvMax) || 99));
-    if (blesse) applyHeal(blesse, lenyaCount);
+    if (blesse) {
+      const heal = applyHeal(blesse, lenyaCount);
+      if (heal.success) pulseBatch03Ability(healer, 'batch05-end-turn');
+    }
   });
 
   // Grande-soigneuse : soigne entièrement l'allié le plus blessé.
   zone.querySelectorAll('[data-id="EDG000007"]:not([data-dead])').forEach(healer => {
     if (!canResolveServantAbility(healer, {triggerType:'end-turn'})) return;
-    const damaged = Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'))
+    const damaged = Array.from(zone.querySelectorAll('.fc:not([data-type="appro"]:not([data-dead])'))
       .filter(fc => fc !== healer)
-      .map(fc => ({fc, missing:(Number(fc.dataset.pdvMax || 0) || 0) - (Number(fc.dataset.pdv || 0) || 0)}))
-      .filter(item => item.missing > 0)
-      .sort((a,b) => b.missing - a.missing)[0];
-    if (damaged) { applyHeal(damaged.fc, damaged.missing); pulseBatch03Ability(healer, 'batch05-end-turn'); }
+      .map(fc => ({fc, missing:(Number(fc.dataset.pdvMax || 0) || 0) - (Number(fc.dataset.pdv || 0) || 0), max:Number(fc.dataset.pdvMax || 0) || 0}))
+      .filter(item => item.missing > 0);
+    const maxMissing = Math.max(0, ...damaged.map(item => item.missing));
+    const targets = damaged.filter(item => item.missing === maxMissing);
+    const healResults = targets.map(item => targets.length > 1 ? applyHeal(item.fc, Math.ceil(item.max / 2)) : applyHeal(item.fc, item.missing)).filter(result => result.success);
+    if (healResults.length) pulseBatch03Ability(healer, 'batch05-end-turn');
   });
 
   // Dryade : soigne vos autres Elfes des bois de 1 en fin de tour.
@@ -17339,6 +17371,31 @@ const COLLECTION_BATCH_02_EVOLUTION = Object.freeze({
   S000059:{remove:'H000034', create:'H000035', source:'H000034'},
   S000060:{remove:'H000035', create:'H000036', source:'H000035'}
 });
+Object.assign(CARDS_DATA, {
+  EDB000002:{...CARDS_DATA.EDB000002, cap:`[Initiative] Inflige [Gel] pendant *1 tour* à un serviteur adverse aléatoire. Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant *2 tours*.`, detail:`[Initiative] Inflige [Gel] pendant *1 tour* à un serviteur adverse aléatoire. Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant *2 tours*.`},
+  EDB000003:{...CARDS_DATA.EDB000003, cap:`[Camouflage] [Vigilance] Chaque fois que cette servante attaque, elle a *50 %* de chance d'infliger [Coup de glace] pendant *1 tour* à sa cible. Elle a aussi *25 %* de chance d'infliger le double de ses dégâts.`, detail:`[Camouflage] [Vigilance] Chaque fois que cette servante attaque, elle a *50 %* de chance d'infliger [Coup de glace] pendant *1 tour* à sa cible. Elle a aussi *25 %* de chance d'infliger le double de ses dégâts.`},
+  EDB000007:{...CARDS_DATA.EDB000007, cap:`Chaque fois que ce serviteur attaque, il a *50 %* de chance d'infliger [Coup de glace] pendant *1 tour* à sa cible.`, detail:`Chaque fois que ce serviteur attaque, il a *50 %* de chance d'infliger [Coup de glace] pendant *1 tour* à sa cible.`},
+  EDB000008:{...CARDS_DATA.EDB000008, cap:`[Initiative] Détruit *1* carte aléatoire de la main adverse, inflige *5* dégâts à un serviteur adverse aléatoire et lui inflige [Coup de glace] pendant *1 tour*.`, detail:`[Initiative] Détruit *1* carte aléatoire de la main adverse, inflige *5* dégâts à un serviteur adverse aléatoire et lui inflige [Coup de glace] pendant *1 tour*.`},
+  EDB000010:{...CARDS_DATA.EDB000010, cap:`[Initiative] Piochez *1 carte*.`},
+  EDB000013:{...CARDS_DATA.EDB000013, atk:6, pdv:3, cap:`[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements. Le même comportement ne peut être choisi deux fois de suite.`, detail:`[Serviteur de la rune] [Sang-froid] Chaque fois que « Kyra » attaque un serviteur adverse, un choix aléatoire est fait entre 4 comportements. Le même comportement ne peut être choisi deux fois de suite. Comportement n°1 : inflige également [Coup de glace] à la cible pendant *2 tours*. Comportement n°2 : détruit la cible, quels que soient ses points de vie, à moins qu'elle ne possède le mot-clef [Insensible]. Comportement n°3 : inflige *4* points de dégâts à la cible principale et lui inflige [Gel] pendant *1 tour*, ainsi que *4* points de dégâts à chaque serviteur adjacent à la cible principale. Un emplacement vide entre deux serviteurs interrompt l'adjacence. Comportement n°4 : inflige *2* points de dégâts à tous les serviteurs adverses et vous fait piocher *1 carte* de votre deck.`, extraTooltips:[
+    {title:'COMPORTEMENT 1', body:`Inflige également [Coup de glace] à la cible pendant *2 tours*.`},
+    {title:'COMPORTEMENT 2', body:`Détruit la cible, quels que soient ses points de vie, à moins qu'elle ne possède [Insensible].`},
+    {title:'COMPORTEMENT 3', body:`Inflige *4* points de dégâts à la cible principale et lui inflige [Gel] pendant *1 tour*, ainsi que *4* points de dégâts à chaque serviteur adjacent. Un emplacement vide interrompt l'adjacence.`},
+    {title:'COMPORTEMENT 4', body:`Inflige *2* points de dégâts à tous les serviteurs adverses et vous fait piocher *1 carte* de votre deck.`}
+  ]},
+  EDG000001:{...CARDS_DATA.EDG000001, cap:`[Initiative] Inflige [Coup de glace] pendant *3 tours* à un serviteur adverse aléatoire. Chaque fois que ce serviteur attaque, il inflige [Coup de glace] pendant *1 tour* à sa cible.`},
+  EDG000003:{...CARDS_DATA.EDG000003, cap:`Chaque fois que ce serviteur est attaqué directement, il a *25 %* de chance d'infliger [Coup de glace] pendant *1 tour* à son attaquant.`},
+  EDG000004:{...CARDS_DATA.EDG000004, cap:`[Camouflage] [Vigilance] Chaque fois que ce serviteur attaque, il inflige [Coup de glace] pendant *2 tours* à sa cible.`},
+  EDG000005:{...CARDS_DATA.EDG000005, cap:`À la fin de chacun de vos tours, invoque *1 Élémentaire de glace* de votre côté du terrain si possible.`, related:[...new Set([...(CARDS_DATA.EDG000005?.related || []), 'DIV000007'])]},
+  DIV000007:{...CARDS_DATA.DIV000007, kws:[...new Set([...(CARDS_DATA.DIV000007?.kws || []), 'Gel'])], cap:`Chaque fois que cet Élémentaire de glace attaque, il a *50 %* de chance d'infliger [Gel] pendant *1 tour* à sa cible.`, detail:`Chaque fois que cet Élémentaire de glace attaque, il a *50 %* de chance d'infliger [Gel] pendant *1 tour* à sa cible.`},
+  EDG000007:{...CARDS_DATA.EDG000007, kws:['Lenya','Bois','Nourriture'], cap:`À la fin de chacun de vos tours, tant que la « Grande-soigneuse » est sur le terrain, soigne entièrement votre serviteur blessé à qui il manque le plus de points de vie.`, detail:`À la fin de chacun de vos tours, tant que la « Grande-soigneuse » est sur le terrain, soigne entièrement votre serviteur blessé à qui il manque le plus de points de vie. Si plusieurs serviteurs alliés ont une différence maximale entre leurs PVs maxima et actuels strictement égale, les soigne tous d'un montant équivalent à la moitié des PVs maxima de chacun, arrondi au supérieur.`},
+  EDG000009:{...CARDS_DATA.EDG000009, cap:`[Sang-froid] Chaque fois que ce serviteur est attaqué directement, inflige [Coup de glace] à l'attaquant pendant *1 tour*. [Initiative] Vous piochez *2 cartes* (si possible *1 serviteur* + *1 sort*).`},
+  EDG000012:{...CARDS_DATA.EDG000012, cap:`[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement *1 Golem du froid* ou *1 Jeune dragon des neiges* de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a *33 %* de chance de subir aléatoirement [Gel] pendant *2 tours* ou [Coup de glace] pendant *1 tour*. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.`, detail:`[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement *1 Golem du froid* [ID = DIV000010] ou *1 Jeune dragon des neiges* [ID = EDG000006] de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a *33 %* de chance de subir aléatoirement [Gel] pendant *2 tours* ou [Coup de glace] pendant *1 tour*. Cette capacité passe outre [Insensible]. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.`},
+  S000011:{...CARDS_DATA.S000011, cap:`Les *3* prochains serviteurs invoqués par votre adversaire subissent [Coup de glace] pendant *2 tours*.`},
+  S000026:{...CARDS_DATA.S000026, cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK / +1 PV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`},
+  S000027:{...CARDS_DATA.S000027, cap:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.`}
+});
+
 const collectionBatch05State = {events:[], ambiguities:[]};
 function recordCollectionBatch05Event(type, detail={}) {
   const event = {type, turnSequence, ...detail};
@@ -17410,7 +17467,8 @@ function syncBatch05Passives() {
       const baseAtk = batch05BaseStat(fc, 'atk');
       const baseMax = batch05BaseStat(fc, 'pdvMax');
       const buff = batch05PassiveBuffFor(fc);
-      batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0), pdvMax:baseMax + buff.pdvMax});
+      const ancientOathBonus = Number(fc.dataset.batch05AncientOathBonus || 0);
+      batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0) + ancientOathBonus, pdvMax:baseMax + buff.pdvMax + ancientOathBonus});
       const hadBatch05PassiveGlow = (fc.dataset.batch05PassiveSources || '').length > 0;
       fc.dataset.batch05PassiveSources = buff.sources.join(',');
       if (batch05ShouldShowPassiveGlow(fc)) pulseBatch03Ability(fc, 'batch05-passive', {passive:true, move:false});
@@ -17421,7 +17479,7 @@ function syncBatch05Passives() {
 function batch05ShouldShowPassiveGlow(fc) {
   if (!fc || fc.dataset.dead) return false;
   const kws = CARDS_DATA[fc.dataset.id]?.kws || [];
-  if (kws.includes('Vigilance') && !kws.includes('Camouflage')) return true;
+  if (kws.includes('Vigilance')) return true;
   return ['EDB000009','EDB000014','EDG000008'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
 }
 function batch05EnemyServants(player, effectKind='damage') {
@@ -17551,7 +17609,11 @@ function batch05CombatPlan(attacker, targetFC, baseDamage) {
   const plan = {damage:baseDamage, preventCounter:false, behavior:null, post:[]};
   const id = attacker?.dataset?.id;
   if (id === 'EDB000003' && gameRandom() < 0.25) { plan.damage = baseDamage * 2; plan.behavior = 'archere-du-vent-double'; }
-  if (id === 'EDG000013') { if (gameRandom() < 0.5) plan.damage = baseDamage * 2; plan.preventCounter = true; plan.behavior = 'archere-millenaire'; }
+  if (id === 'EDG000013') {
+    plan.preventCounter = true;
+    if (gameRandom() < 0.5) { plan.damage = baseDamage * 2; plan.behavior = 'archere-millenaire-double'; }
+    else plan.behavior = 'archere-millenaire';
+  }
   if (id === 'EDB000013') {
     const previous = Number(attacker.dataset.batch05KyraLastBehavior || 0);
     const options = [1,2,3,4].filter(item => item !== previous);
@@ -17580,6 +17642,12 @@ async function resolveBatch05PostAttackEffects(attacker, targetFC, context={}) {
     if (plan.behavior === 'kyra-4') { for (const enemy of batch05EnemyServants(p, 'damage')) { enemy._killer = attacker; results.push({type:'kyra-area-damage', target:targetSummary(enemy), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:enemy,sourceCardId:id,amount:2})}); } const draw = drawCardFromRuntimeDeck(p, {sourceCardId:id, sourceInstanceId:attacker.dataset.instance}); results.push({type:'kyra-draw', result:draw}); }
   }
   if ((id === 'EDG000001' || id === 'EDG000006') && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'ice-damage-cdg', target:targetSummary(targetFC), phase:context.phase}); }
+  if (id === 'EDB000002' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:2,type:'cdg'}); results.push({type:'mage-froid-cdg', target:targetSummary(targetFC)}); }
+  if (id === 'EDB000003' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead && gameRandom() < 0.5) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'archere-vent-cdg', target:targetSummary(targetFC)}); }
+  if (id === 'EDB000007' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead && gameRandom() < 0.5) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'lame-sylvestre-cdg', target:targetSummary(targetFC)}); }
+  if (id === 'EDG000003' && context.phase === 'counter' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead && gameRandom() < 0.25) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'garde-hivernale-cdg', target:targetSummary(targetFC)}); }
+  if (id === 'EDG000004' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:2,type:'cdg'}); results.push({type:'maitre-archere-cdg', target:targetSummary(targetFC)}); }
+  if (id === 'EDG000013' && plan.behavior === 'archere-millenaire-double') results.push({type:'archere-millenaire-double', target:targetSummary(targetFC), phase:context.phase});
   if (id === 'EDB000001' && Number(context.damageDealt || 0) > 0) {
     const allies = batch05LivingServants(p).filter(card => card !== attacker && CARDS_DATA[card.dataset.id]?.fac !== 'mvs' && Number(card.dataset.pdv || 0) < Number(card.dataset.pdvMax || 0));
     const healedTarget = batch05Pick(allies);
