@@ -1,5 +1,5 @@
 {
-  "batchId": "COLLECTION-BATCH-05E",
+  "batchId": "COLLECTION-BATCH-05F",
   "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-17.xlsx",
   "sourceSha256": "3e5137569abe42cd1ef354f0bc0d6ffdb28179af919d8b16540840e5d3f5f029",
   "scenarios": [
@@ -14,6 +14,17 @@
     "collection-batch-05-apres-catastrophe",
     "collection-batch-05-envouteuse",
     "collection-batch-05-chute-de-neige",
+    "collection-batch-05-jeune-dragon-riposte"
+  ],
+  "visualValidationScenarios": [
+    "collection-batch-05-envouteuse",
+    "collection-batch-05-apres-catastrophe",
+    "collection-batch-05-chute-de-neige"
+  ],
+  "retainedTechnicalScenarios": [
+    "collection-batch-05-elfes-des-bois",
+    "collection-batch-05-dryade-cleanse",
+    "collection-batch-05-elfes-de-glace",
     "collection-batch-05-jeune-dragon-riposte"
   ],
   "testFile": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs",
@@ -135,7 +146,8 @@
       "*+1 ATK*"
     ],
     "EDG000013": [
-      "*50%*"
+      "*50%*",
+      "\u00ab\u00a0Arch\u00e8re mill\u00e9naire\u00a0\u00bb"
     ],
     "S000023": [
       "*2*",

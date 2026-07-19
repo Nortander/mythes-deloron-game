@@ -820,10 +820,12 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .sort-choice-cards::-webkit-scrollbar-track{background:rgba(18,9,4,.85);border-radius:999px;}
 .sort-choice-cards::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#f0dfa0,#c8a84b);border-radius:999px;border:2px solid rgba(18,9,4,.95);}
 .sort-choice-cards{scrollbar-color:#c8a84b rgba(18,9,4,.85);}
-.apres-catastrophe-choice-panel{max-width:720px;max-height:86vh;}
-.apres-catastrophe-choice-panel .decision-modal-header{margin-bottom:2px;}
-.apres-catastrophe-choice-panel .apres-catastrophe-actions-row{display:flex;justify-content:flex-end;align-items:center;margin-bottom:4px;}
-.apres-catastrophe-choice-panel .sort-choice-title{text-align:center;width:100%;margin:0 0 6px;}
+.apres-catastrophe-choice-panel{max-width:720px;max-height:86vh;position:relative;padding-top:34px;}
+.apres-catastrophe-choice-panel .decision-modal-header{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:2px;}
+.apres-catastrophe-choice-panel .decision-modal-spacer{display:none;}
+.apres-catastrophe-choice-panel .decision-modal-actions{order:1;align-self:flex-end;}
+.apres-catastrophe-choice-panel .apres-catastrophe-actions-row{position:absolute;top:12px;right:16px;display:flex;justify-content:flex-end;align-items:center;margin:0;}
+.apres-catastrophe-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
 .sort-choice-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:var(--gold);
   text-align:center;letter-spacing:0.06em;max-width:120px;line-height:1.4;}
 .sort-choice-label span{font-family:'Crimson Pro',serif;font-size:11px;color:var(--text);
@@ -2938,7 +2940,7 @@ SCENARIOS['collection-batch-05-anciens-givre'] = {
 SCENARIOS['collection-batch-05-chute-de-neige'] = {
   label: 'TEST - COLLECTION BATCH 05 Chute de neige', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000027',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:40, fer:80, bois:80, pierre:40, nourriture:80}, souls:40}, hand:['S000027'], drawPile:['EDG000001','EDG000004','EDG000006','EDB000002','EDB000007','S000011','S000029'], graveyard:[], servants:[{id:'EDG000001',pdvMax:4,pdv:4,prepared:true},{id:'EDG000004',pdvMax:4,pdv:4,prepared:true},{id:'EDG000006',pdvMax:8,pdv:8,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:40, fer:80, bois:80, pierre:40, nourriture:80}, souls:40}, hand:['S000027','EDG000001'], drawPile:['EDG000001','EDG000004','EDG000006','EDB000002','EDB000007','S000011','S000029'], graveyard:[], servants:[{id:'EDG000013',pdvMax:4,pdv:4,prepared:true},{id:'EDG000004',pdvMax:4,pdv:4,prepared:true},{id:'EDG000006',pdvMax:8,pdv:8,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['H000001','H000005'], drawPile:['H000018','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:30,pdv:30,atk:0,prepared:true},{id:'H000005',pdvMax:30,pdv:30,atk:0,prepared:true},{id:'MV000020',pdvMax:30,pdv:30,atk:0,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -4916,6 +4918,8 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
   if (typeof document === 'undefined' || !document.body) return Promise.resolve(available.slice(0, maxCount));
   if (!available.length) return Promise.resolve([]);
   return new Promise(resolve => {
+    const normalizedTitle = String(title || '');
+    const isApresCatastrophe = normalizedTitle.toLowerCase().includes('après la catastrophe');
     const selected = new Set();
     const cardsHTML = available.map((candidate, i) => {
       const id = candidate.cardId;
@@ -4927,7 +4931,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
       decisionId:'zone-card-selection',
       title:title || 'Selection de zone',
       compactLabel:`${title || 'Selection'} en attente`,
-      panelClass:'zone-card-choice-panel',
+      panelClass:isApresCatastrophe ? 'zone-card-choice-panel apres-catastrophe-choice-panel' : 'zone-card-choice-panel',
       bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
         <div class="sort-choice-cards" data-testid="zone-card-choice-list">${cardsHTML}</div>
         <button type="button" class="sort-choice-confirm" data-testid="zone-card-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
@@ -5113,7 +5117,7 @@ function tryApplyGel({
     isAbility: true,
     bypassInsensitive
   })) {
-    applyGel(targetFC, turns, type);
+    applyGel(targetFC, batch05ColdDuration(sourcePlayer, turns), type);
     return true;
   }
   if (targetFC?.dataset.insensible && !bypassInsensitive) {
@@ -12418,7 +12422,7 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
 }
 
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
-  return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004';
+  return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
@@ -12608,15 +12612,36 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
       .some(marker => marker.batchId === batchId && p.hand[marker.index] === marker.cardId);
     if (!hasCreatedCards) return;
 
-    await waitBatch05BeforeEffect(dyingFC, 'envouteuse-vengeance', {batchId});
+    pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+    recordCollectionBatch05Event('envouteuse-vengeance-feedback', {
+      phase:'pulse',
+      cardId,
+      batchId,
+      source:targetSummary(dyingFC),
+      sourceConnected:!!dyingFC?.isConnected,
+      sourceHasPulse:!!dyingFC?.classList?.contains('batch03-ability-pulse'),
+      sourceHasMove:!!dyingFC?.classList?.contains('batch03-ability-pulse-move'),
+      sourcePulseReason:dyingFC?.dataset?.batch03LastPulseReason || ''
+    });
+    await new Promise(resolve => setTimeout(resolve, 260));
+    recordCollectionBatch05Event('envouteuse-vengeance-feedback', {
+      phase:'message',
+      cardId,
+      batchId,
+      source:targetSummary(dyingFC),
+      sourceConnected:!!dyingFC?.isConnected,
+      sourceHasPulse:!!dyingFC?.classList?.contains('batch03-ability-pulse'),
+      sourceHasMove:!!dyingFC?.classList?.contains('batch03-ability-pulse-move'),
+      sourcePulseReason:dyingFC?.dataset?.batch03LastPulseReason || ''
+    });
     showNotif('Vengeance\u00a0!', 1200);
     await new Promise(r => setTimeout(r, 500));
     const removed = removeEnchantressBatchFromHand(p, batchId);
     if (removed) {
       renderAllHands();
-      showNotif(`${removed}\u00a0carte(s) créée(s) par l'Envoûteuse sont détruites\u00a0!`, 1500);
+      showNotif(`${removed}\u00a0carte(s) créées par l'Envoûteuse sont détruites\u00a0!`, 1500);
     }
-    return;
+    return {success:true, cardId, batchId, removed, destination:'graveyard'};
   }
 
   if (cardId === 'MV000015') {
@@ -17443,7 +17468,7 @@ Object.assign(CARDS_DATA, {
   S000026:{...CARDS_DATA.S000026, cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK / +1 PV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`},
   S000027:{...CARDS_DATA.S000027, cap:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.`, detail:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.`},
   S000029:{...CARDS_DATA.S000029, cap:`Piochez jusqu'à *3* serviteurs de la faction « Elfes de glace » de votre deck.`, detail:`Piochez jusqu'à *3* serviteurs de la faction « Elfes de glace » de votre deck.`},
-  EDG000013:{...CARDS_DATA.EDG000013, cap:`[Vigilance] [Camouflage] Chaque fois qu'elle attaque, l'« Archère millénaire » a *50%* de chance d'infliger le double de ses dégâts normaux. De plus, les serviteurs que cette carte attaque ne peuvent riposter et ne lui infligent donc aucun dégât en retour.`}
+  EDG000013:{...CARDS_DATA.EDG000013, cap:`[Vigilance] [Camouflage] Chaque fois qu'elle attaque, l'« Archère millénaire » a *50%* de chance d'infliger le double de ses dégâts normaux. De plus, les serviteurs que cette carte attaque ne peuvent riposter et ne lui infligent donc aucun dégât en retour.`, detail:`[Vigilance] [Camouflage] Chaque fois qu'elle attaque, l'« Archère millénaire » a *50%* de chance d'infliger le double de ses dégâts normaux. De plus, les serviteurs que cette carte attaque ne peuvent riposter et ne lui infligent donc aucun dégât en retour.`}
 });
 
 function batch05PluralTours(value) { return value > 1 ? value + ' tours' : value + ' tour'; }
@@ -17568,7 +17593,7 @@ function batch05TisseurLocksPlayer(player, sourceCardId=null) {
   return batch05LivingServants(p).some(fc => fc.dataset.id === 'EDG000012' && canResolveServantAbility(fc, {triggerType:'passive'}));
 }
 function batch05ApplyGel({sourcePlayer, targetFC, sourceCardId, turns, type='gel', bypassInsensitive=false}={}) {
-  return tryApplyGel({sourcePlayer, targetFC, sourceCardId, turns:batch05ColdDuration(sourcePlayer, turns), type, bypassInsensitive});
+  return tryApplyGel({sourcePlayer, targetFC, sourceCardId, turns, type, bypassInsensitive});
 }
 async function triggerBatch05DamageReceivedHooks(fc, context={}) {
   const owner = playerState(fc?.dataset?.player);

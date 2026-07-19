@@ -139,3 +139,4 @@
 - 2026-07-16 : COLLECTION-BATCH-04G - ajustement des halos passifs permanents, couleur Elfe de glace `#d8f7ffcc` et Vengeance de `AVS000006` invoquant `B000003` avec impulsion et mouvement ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
 
 - 2026-07-17 : COLLECTION-BATCH-05 - implementation fonctionnelle des factions Elfe des bois et Elfe de glace ; passifs, Initiatives, soins, pioches, invocations, sorts de zone, effets de combat et Vengeances couverts par tests directs ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
+- 2026-07-19 : COLLECTION-BATCH-05F - corrections finales Elfes bois/glace ; impulsion Vengeance de l'Envoûteuse, modale Après la catastrophe, compteurs réels de Chute de neige et typographie de l'Archère millénaire ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
