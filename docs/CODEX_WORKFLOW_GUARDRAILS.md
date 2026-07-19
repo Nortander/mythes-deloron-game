@@ -327,6 +327,7 @@ Règles :
 - les scénarios techniques destinés à validation visuelle doivent garder des mains lisibles et non surchargées ; si plus de 7 cartes sont nécessaires, répartir les cartes entre main, deck, cimetière, plateau ou scénarios dédiés ;
 - éviter les scénarios techniques fourre-tout : une carte qui n'est pas immédiatement testée doit être placée dans une zone technique, le deck ou le cimetière plutôt que dans une main déjà dense ;
 - privilégier plusieurs scénarios ciblés et lisibles à un seul scénario exhaustif lorsque la validation humaine doit comprendre le timing, le ciblage ou les déplacements ;
+- lorsqu'un scénario technique teste une pioche ou un ajout à la main, conserver au moins 2 à 3 emplacements libres visibles, sauf si le cas testé porte explicitement sur une main pleine ;
 - les messages publics doivent être simples et exacts ;
 - les diagnostics techniques doivent rester dans le mode test.
 

@@ -701,7 +701,8 @@ test("Batch-05D Daddy feedback locks timing, status scenarios and highlighted te
     const cdg = Number(enemy.dataset.frozen_cdg || 0);
     return {result, gel, cdg};
   });
-  expect(snow.result.bonus).toBe(2);
+  expect(snow.result.bonus).toBe(1);
+  expect(snow.result.effectiveBonus).toBe(1);
   expect(snow.gel).toBe(fixture.coldDurations.afterSnowfallGel);
   expect(snow.cdg).toBe(fixture.coldDurations.afterSnowfallCdg);
 
@@ -744,6 +745,140 @@ test("Batch-05D Daddy feedback locks timing, status scenarios and highlighted te
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
+
+
+test("Batch-05E locks snow bonus, exact text highlights and visual effect timing", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-05-chute-de-neige");
+  const snowAudit = await page.evaluate(async () => {
+    const cap = id => CARDS_DATA[id]?.cap || "";
+    const beforeCaps = {
+      EDG000001:cap("EDG000001"),
+      EDG000004:cap("EDG000004"),
+      EDG000006:cap("EDG000006"),
+      EDG000010:cap("EDG000010"),
+      EDG000005:cap("EDG000005"),
+      S000018:cap("S000018"),
+      S000027:cap("S000027"),
+      S000029:cap("S000029")
+    };
+    const first = resolveChuteDeNeige(player1);
+    const second = resolveChuteDeNeige(player1);
+    const enemy = document.querySelector(playerZoneSelector(player2, "servants") + ' .fc[data-id="H000001"]');
+    clearBatch05NegativeStatuses(enemy);
+    batch05ApplyGel({sourcePlayer:player1, targetFC:enemy, sourceCardId:"S000027", turns:1, type:"gel"});
+    const gelOneTurn = Number(enemy.dataset.frozen || 0);
+    clearBatch05NegativeStatuses(enemy);
+    batch05ApplyGel({sourcePlayer:player1, targetFC:enemy, sourceCardId:"S000027", turns:2, type:"cdg"});
+    const cdgTwoTurns = Number(enemy.dataset.frozen_cdg || 0);
+    const afterCaps = {
+      EDG000001:cap("EDG000001"),
+      EDG000004:cap("EDG000004"),
+      EDG000006:cap("EDG000006"),
+      S000011:cap("S000011")
+    };
+    return {beforeCaps, afterCaps, first, second, gelOneTurn, cdgTwoTurns, bonus:player1.batch05SnowfallBonus};
+  });
+  expect(snowAudit.beforeCaps.EDG000005).toContain("*1* « Élémentaire de glace »");
+  expect(snowAudit.beforeCaps.EDG000005).not.toContain("si possible");
+  expect(snowAudit.beforeCaps.EDG000010).toContain("*1* « Loup blanc »");
+  expect(snowAudit.beforeCaps.EDG000010).not.toContain("*1 Loup blanc*");
+  expect(snowAudit.beforeCaps.S000018).toContain("*+1 ATK*");
+  expect(snowAudit.beforeCaps.S000018).toContain("*+2 PDV*");
+  expect((snowAudit.beforeCaps.EDG000006.match(/\*1\*/g) || [])).toHaveLength(2);
+  expect(snowAudit.beforeCaps.S000027).toContain("*1 tour*");
+  expect(snowAudit.beforeCaps.S000029).toContain("*3* serviteurs");
+  expect(snowAudit.beforeCaps.S000029).not.toContain("*3 serviteurs*");
+  expect(snowAudit.beforeCaps.EDG000013 || "").not.toContain("*50 %*");
+  expect(snowAudit.first).toMatchObject({success:true, bonus:1, effectiveBonus:1, alreadyActive:false});
+  expect(snowAudit.second).toMatchObject({success:true, bonus:1, effectiveBonus:1, alreadyActive:true});
+  expect(snowAudit.bonus).toBe(1);
+  expect(snowAudit.gelOneTurn).toBe(2);
+  expect(snowAudit.cdgTwoTurns).toBe(3);
+  expect(snowAudit.afterCaps.EDG000001).toContain("*4* tours");
+  expect(snowAudit.afterCaps.EDG000004).toContain("*3* tours");
+  expect((snowAudit.afterCaps.EDG000006.match(/\*2\*/g) || [])).toHaveLength(2);
+  expect(snowAudit.afterCaps.S000011).toContain("*3* tours");
+
+  await openScenario(page, "collection-batch-05-jeune-dragon-riposte");
+  const dragonAudit = await page.evaluate(async () => {
+    const attacker = document.querySelector(playerZoneSelector(player2, "servants") + ' .fc[data-id="H000001"]');
+    const dragon = document.querySelector(playerZoneSelector(player1, "servants") + ' .fc[data-id="EDG000006"]');
+    batch03UpdateStats(attacker, {pdvMax:30, pdv:30, atk:4});
+    batch03UpdateStats(dragon, {pdvMax:18, pdv:18, atk:6});
+    const before = targetSummary(attacker);
+    await resolveCombat(attacker, dragon);
+    const after = targetSummary(attacker);
+    const feedbackIndex = collectionBatch05State.events.findIndex(event => event.type === "feedback-before-effect" && event.reason === "ice-damage-cdg" && event.phase === "counter");
+    const postIndex = collectionBatch05State.events.findIndex(event => event.type === "combat-post" && event.results?.some(result => result.type === "ice-damage-cdg" && result.phase === "counter"));
+    return {before, after, feedbackIndex, postIndex};
+  });
+  expect(dragonAudit.feedbackIndex).toBeGreaterThanOrEqual(0);
+  expect(dragonAudit.postIndex).toBeGreaterThan(dragonAudit.feedbackIndex);
+  expect(dragonAudit.before.cdg).toBe(0);
+  expect(dragonAudit.after.cdg).toBe(1);
+
+  await openScenario(page, "collection-batch-05-elfes-de-glace");
+  const iceTiming = await page.evaluate(async () => {
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    const apprentice = await summonBatch03Servant(player1, "EDG000001", {triggerInitiativeEffect:false, ready:true});
+    const archer = await summonBatch03Servant(player1, "EDG000004", {triggerInitiativeEffect:false, ready:true});
+    const aTarget = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    const bTarget = await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    const apprenticeFc = document.querySelector('.fc[data-instance="' + apprentice.instanceId + '"]');
+    const archerFc = document.querySelector('.fc[data-instance="' + archer.instanceId + '"]');
+    const aTargetFc = document.querySelector('.fc[data-instance="' + aTarget.instanceId + '"]');
+    const bTargetFc = document.querySelector('.fc[data-instance="' + bTarget.instanceId + '"]');
+    batch03UpdateStats(aTargetFc, {pdvMax:30, pdv:30, atk:0});
+    batch03UpdateStats(bTargetFc, {pdvMax:30, pdv:30, atk:0});
+    await resolveCombat(apprenticeFc, aTargetFc);
+    await resolveCombat(archerFc, bTargetFc);
+    const apprenticeFeedback = collectionBatch05State.events.findIndex(event => event.type === "feedback-before-effect" && event.reason === "ice-damage-cdg" && event.source?.id === "EDG000001");
+    const apprenticePost = collectionBatch05State.events.findIndex(event => event.type === "combat-post" && event.attacker?.id === "EDG000001" && event.results?.some(result => result.type === "ice-damage-cdg"));
+    const archerFeedback = collectionBatch05State.events.findIndex(event => event.type === "feedback-before-effect" && event.reason === "maitre-archere-cdg");
+    const archerPost = collectionBatch05State.events.findIndex(event => event.type === "combat-post" && event.attacker?.id === "EDG000004" && event.results?.some(result => result.type === "maitre-archere-cdg"));
+    return {
+      apprenticeFeedback,
+      apprenticePost,
+      archerFeedback,
+      archerPost,
+      apprenticeTarget:targetSummary(aTargetFc),
+      archerTarget:targetSummary(bTargetFc)
+    };
+  });
+  expect(iceTiming.apprenticeFeedback).toBeGreaterThanOrEqual(0);
+  expect(iceTiming.apprenticePost).toBeGreaterThan(iceTiming.apprenticeFeedback);
+  expect(iceTiming.archerFeedback).toBeGreaterThanOrEqual(0);
+  expect(iceTiming.archerPost).toBeGreaterThan(iceTiming.archerFeedback);
+  expect(iceTiming.apprenticeTarget.cdg).toBe(1);
+  expect(iceTiming.archerTarget.cdg).toBe(2);
+
+  await openScenario(page, "collection-batch-05-dryade-solo");
+  const dryadeDelay = await page.evaluate(async () => {
+    const zone = document.querySelector(playerZoneSelector(player1, "servants"));
+    zone.innerHTML = Array.from({length:6}, () => '<div class="slot" data-player="' + player1.key + '"></div>').join("");
+    const startedAt = performance.now();
+    await summonBatch03Servant(player1, "EDB000014", {triggerInitiativeEffect:true, ready:true});
+    const elapsed = performance.now() - startedAt;
+    const board = livingServantCardsForPlayer(player1).map(targetSummary);
+    const feedbackIndex = collectionBatch05State.events.findIndex(event => event.type === "feedback-before-effect" && event.reason === "initiative" && event.cardId === "EDB000014");
+    const initiativeIndex = collectionBatch05State.events.findIndex(event => event.type === "initiative" && event.cardId === "EDB000014");
+    return {elapsed, board, feedbackIndex, initiativeIndex};
+  });
+  expect(dryadeDelay.feedbackIndex).toBeGreaterThanOrEqual(0);
+  expect(dryadeDelay.initiativeIndex).toBeGreaterThan(dryadeDelay.feedbackIndex);
+  expect(dryadeDelay.board.map(card => card.id)).toEqual(["EDB000014", "EDB000009", "EDB000012", "EDB000012", "EDB000012", "EDB000012"]);
+  expect(dryadeDelay.elapsed).toBeGreaterThanOrEqual(2400);
+
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 
 test("Batch-05 signatures, no-effect cards and deck invariants remain consistent", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
