@@ -36,15 +36,23 @@ test("Batch-06 scenarios stay hidden and expose every dark elf card", async ({pa
     const audit = await page.evaluate((input) => ({
       scenarioId:selectedScenarioId(),
       publicOptionCount:document.querySelectorAll('#scenarioSelect option[value="' + input.scenario + '"]').length,
-      cards:input.ids.map(id => ({id, exists:!!CARDS_DATA[id], name:CARDS_DATA[id]?.name || "", type:CARDS_DATA[id]?.type || "", faction:CARDS_DATA[id]?.fac || "", keywords:[...(CARDS_DATA[id]?.kws || [])]})),
+      cards:input.ids.map(id => ({id, exists:!!CARDS_DATA[id], name:CARDS_DATA[id]?.name || "", type:CARDS_DATA[id]?.type || "", faction:CARDS_DATA[id]?.fac || "", keywords:[...(CARDS_DATA[id]?.kws || [])], text:CARDS_DATA[id]?.cap || ""})),
       runtimeAudit:typeof auditCollectionBatch06Runtime === "function" ? auditCollectionBatch06Runtime() : null,
-      player1HandSize:player1.hand.length
+      player1HandSize:player1.hand.length,
+      pestilenceDefinition:KDEF.Pestilence || null
     }), {scenario, ids:fixture.darkElfIds});
     expect(audit.scenarioId).toBe(scenario);
     expect(audit.publicOptionCount).toBe(fixture.expectedHiddenScenarioOptionCount);
     expect(audit.cards.every(card => card.exists), JSON.stringify(audit.cards.filter(card => !card.exists))).toBe(true);
     expect(audit.runtimeAudit).toBeTruthy();
     expect(audit.player1HandSize, scenario + " visible hand size").toBeLessThanOrEqual(fixture.maxVisualHandSize);
+    expect(audit.pestilenceDefinition).toContain("dégâts");
+    const cardsById = byId(audit.cards);
+    expect(cardsById.get("EN000001").text).toContain("*2*");
+    expect(cardsById.get("EN000005").keywords).toContain("Pestilence");
+    expect(cardsById.get("EN000005").text).toContain("[Pestilence]");
+    expect(cardsById.get("S000049").name).toBe("Machiavélisme");
+    expect(cardsById.get("S000049").text).toContain("*2*");
   }
   for (const id of fixture.darkElfIds) {
     expect(signaturesById.get(id), id + " signature").toBeTruthy();
@@ -127,7 +135,7 @@ test("dark elf Initiative and start-turn passives deal exact damage", async ({pa
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("dark elf end-turn effects summon, damage and keep generated cards coherent", async ({page}, testInfo) => {
+test("dark elf end-turn effects summon with undead colors and Vigilance halos", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-06-elfes-noirs");
   const result = await page.evaluate(async (expected) => {
@@ -136,7 +144,7 @@ test("dark elf end-turn effects summon, damage and keep generated cards coherent
       const zone = document.querySelector(playerZoneSelector(player, "servants"));
       zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
     };
-    const board = player => livingServantCardsForPlayer(player).map(targetSummary);
+    const board = player => livingServantCardsForPlayer(player).map(fc => ({...targetSummary(fc), className:fc.className, passiveGlow:fc.dataset.batch03PassivePulse === "1", keywords:[...(CARDS_DATA[fc.dataset.id]?.kws || [])]}));
 
     resetServants(player1);
     resetServants(player2);
@@ -148,7 +156,7 @@ test("dark elf end-turn effects summon, damage and keep generated cards coherent
     for (const enemy of livingServantCardsForPlayer(player2)) batch03UpdateStats(enemy, {atk:0, pdvMax:30, pdv:30});
     const before = board(player2);
     applyEndOfTurnEffects(player1);
-    await new Promise(resolve => setTimeout(resolve, 900));
+    await new Promise(resolve => setTimeout(resolve, 1200));
     const after = board(player2);
     const ownBoard = board(player1);
     const events = auditCollectionBatch06Runtime().events;
@@ -163,9 +171,14 @@ test("dark elf end-turn effects summon, damage and keep generated cards coherent
 
     return {before, after, ownBoard, events, afterVengeance, expected};
   }, fixture);
-  expect(result.ownBoard.map(card => card.id)).toEqual(expect.arrayContaining(["MV000007", "MV000002"]));
+  const generated = byId(result.ownBoard.filter(card => ["MV000007", "MV000002"].includes(card.id)));
+  expect(generated.get("MV000007").className).toContain("mvs");
+  expect(generated.get("MV000007").passiveGlow).toBe(true);
+  expect(generated.get("MV000002").className).toContain("mvs");
+  expect(generated.get("MV000002").passiveGlow).toBe(true);
   const totalLoss = result.after.reduce((sum, card, index) => sum + (result.before[index].pdv - card.pdv), 0);
   expect(totalLoss).toBeGreaterThanOrEqual(fixture.expectedEndTurnDamage.EN000009 + fixture.expectedEndTurnDamage.EN000010);
+  expect(result.events.some(event => event.type === "necromancien-end-turn" && event.summon?.cardId === "MV000007")).toBe(true);
   expect(result.events.some(event => event.type === "archonte-end-turn")).toBe(true);
   expect(result.events.some(event => event.type === "prince-tueur-end-turn")).toBe(true);
   expect(result.afterVengeance.map(card => card.id)).toContain(fixture.generatedServants.EN000010);
@@ -173,7 +186,7 @@ test("dark elf end-turn effects summon, damage and keep generated cards coherent
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("dark elf combat covers disease, healing, Rempart bypass and extra attack", async ({page}, testInfo) => {
+test("dark elf combat covers Pestilence, healing, Rempart bypass and extra attack", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-06-mobilite-elfique");
   const result = await page.evaluate(async () => {
@@ -220,6 +233,7 @@ test("dark elf combat covers disease, healing, Rempart bypass and extra attack",
     batch03UpdateStats(diseasedFc, {atk:0, pdvMax:20, pdv:20});
     await resolveCombat(diseaseSourceFc, diseasedFc);
     const diseaseAfterHit = Number(diseasedFc.dataset.batch06Disease || 0);
+    const pestilenceVfx = !!diseasedFc.querySelector('.batch06-pestilence-vfx');
     const pdvBeforeTick = Number(diseasedFc.dataset.pdv || 0);
     applyEndOfTurnEffects(player1);
     await new Promise(resolve => setTimeout(resolve, 450));
@@ -229,8 +243,9 @@ test("dark elf combat covers disease, healing, Rempart bypass and extra attack",
     diseasedFc.dataset.batch06Disease = "2";
     diseasedFc.dataset.batch06DiseaseSourcePlayer = player1.key;
     syncBatch06DiseaseCounter(diseasedFc);
-    await triggerVengeance("EN000005", player1, diseaseSourceFc, null);
+    const vengeance = await triggerVengeance("EN000005", player1, diseaseSourceFc, null);
     const diseaseAfterVengeance = Number(diseasedFc.dataset.batch06Disease || 0);
+    const events = auditCollectionBatch06Runtime().events;
 
     resetServants(player1);
     resetServants(player2);
@@ -243,7 +258,19 @@ test("dark elf combat covers disease, healing, Rempart bypass and extra attack",
     await resolveCombat(shadowFc, weakFc);
     const shadowAfterKill = targetSummary(shadowFc);
 
-    return {avatarBypass, vivacite, afterVivacite, afterFirstAttack, afterSecondAttack, diseaseAfterHit, pdvBeforeTick, pdvAfterTick, diseaseAfterHeal, diseaseAfterVengeance, shadowAfterKill};
+    resetServants(player1);
+    resetServants(player2);
+    const defender = await summonBatch03Servant(player1, "EN000008", {triggerInitiativeEffect:false, ready:true});
+    const attacker = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    const defenderFc = document.querySelector('.fc[data-instance="' + defender.instanceId + '"]');
+    const attackerFc = document.querySelector('.fc[data-instance="' + attacker.instanceId + '"]');
+    batch03UpdateStats(defenderFc, {atk:5, pdvMax:10, pdv:2});
+    batch03UpdateStats(attackerFc, {atk:1, pdvMax:1, pdv:1});
+    currentPlayer = player2.key;
+    await resolveCombat(attackerFc, defenderFc);
+    const shadowAfterDefenseKill = targetSummary(defenderFc);
+
+    return {avatarBypass, vivacite, afterVivacite, afterFirstAttack, afterSecondAttack, diseaseAfterHit, pestilenceVfx, pdvBeforeTick, pdvAfterTick, diseaseAfterHeal, vengeance, diseaseAfterVengeance, shadowAfterKill, shadowAfterDefenseKill, events};
   });
   expect(result.avatarBypass).toBe(true);
   expect(result.vivacite.success).toBe(true);
@@ -251,15 +278,20 @@ test("dark elf combat covers disease, healing, Rempart bypass and extra attack",
   expect(result.afterFirstAttack.exhausted).toBeFalsy();
   expect(result.afterSecondAttack.exhausted).toBeTruthy();
   expect(result.diseaseAfterHit).toBe(1);
+  expect(result.pestilenceVfx).toBe(true);
   expect(result.pdvBeforeTick - result.pdvAfterTick).toBe(1);
   expect(result.diseaseAfterHeal).toBe(0);
+  expect(result.vengeance.success).toBe(true);
   expect(result.diseaseAfterVengeance).toBe(4);
+  expect(result.events.some(event => event.type === "pestilence-applied")).toBe(true);
+  expect(result.events.some(event => event.type === "pestilence-vengeance-double")).toBe(true);
   expect(result.shadowAfterKill.pdv).toBeGreaterThanOrEqual(8);
+  expect(result.shadowAfterDefenseKill.pdv).toBeGreaterThanOrEqual(6);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Déplacement instantané rescues the same servant into hand with a zero-cost next play", async ({page}, testInfo) => {
+test("Machiavélisme adds a real damage bonus to a dark elf Vengeance", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-06-mobilite-elfique");
   const result = await page.evaluate(async () => {
@@ -270,21 +302,64 @@ test("Déplacement instantané rescues the same servant into hand with a zero-co
     };
     resetServants(player1);
     resetServants(player2);
-    player1.hand = ["S000056"];
+    const spell = resolveMachiavelisme(player1);
+    const assassin = await summonBatch03Servant(player1, "EN000002", {triggerInitiativeEffect:false, ready:true});
+    const killer = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
+    for (const enemy of livingServantCardsForPlayer(player2)) batch03UpdateStats(enemy, {atk:0, pdvMax:20, pdv:20});
+    const assassinFc = document.querySelector('.fc[data-instance="' + assassin.instanceId + '"]');
+    const killerFc = document.querySelector('.fc[data-instance="' + killer.instanceId + '"]');
+    batch03UpdateStats(killerFc, {atk:5, pdvMax:20, pdv:20});
+    const before = livingServantCardsForPlayer(player2).map(targetSummary);
+    const vengeance = await triggerVengeance("EN000002", player1, assassinFc, killerFc);
+    const after = livingServantCardsForPlayer(player2).map(targetSummary);
+    const events = auditCollectionBatch06Runtime().events;
+    return {spell, vengeance, before, after, events};
+  });
+  expect(result.spell.success).toBe(true);
+  expect(result.events.some(event => event.type === "machiavelisme")).toBe(true);
+  expect(result.events.some(event => event.type === "machiavelisme-vengeance-bonus" && event.damage?.success)).toBe(true);
+  const totalLoss = result.after.reduce((sum, card, index) => sum + (result.before[index].pdv - card.pdv), 0);
+  expect(totalLoss).toBeGreaterThanOrEqual(5);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Déplacement instantané rescues only the marked occurrence with a zero-cost next play", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-06-mobilite-elfique");
+  const result = await page.evaluate(async () => {
+    window.__mythesRandom = () => 0;
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    player1.hand = ["S000056", "EN000002"];
     refreshHand(player1);
     const protectedSummon = await summonBatch03Servant(player1, "EN000002", {triggerInitiativeEffect:false, ready:true});
+    const unprotectedSummon = await summonBatch03Servant(player1, "EN000002", {triggerInitiativeEffect:false, ready:true});
     const killerSummon = await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
     const protectedFc = document.querySelector('.fc[data-instance="' + protectedSummon.instanceId + '"]');
+    const unprotectedFc = document.querySelector('.fc[data-instance="' + unprotectedSummon.instanceId + '"]');
     const killerFc = document.querySelector('.fc[data-instance="' + killerSummon.instanceId + '"]');
     batch03UpdateStats(killerFc, {atk:5, pdvMax:20, pdv:20});
     const selectedId = protectedFc.dataset.instance;
+    const untouchedInstance = unprotectedFc.dataset.instance;
     const mark = resolveDeplacementInstantane(player1, {selectedTargetIds:[selectedId]});
     const before = auditZoneInventories();
     protectedFc._killer = killerFc;
     const died = await applyDamage(protectedFc, 99);
     await new Promise(resolve => setTimeout(resolve, 1200));
     const after = auditZoneInventories();
-    const cost = resolveCardCost({player:player1, cardId:"EN000002"});
+    const handEntries = player1.hand.map((id, index) => {
+      const occurrenceId = batch03HandOccurrenceAt(player1, index);
+      const cost = resolveCardCost({player:player1, cardId:id, context:{handOccurrenceId:occurrenceId}});
+      return {id, occurrenceId, total:cost?.effectiveCost?.total ?? null};
+    });
+    const rescuedEntry = handEntries.find(entry => entry.id === "EN000002" && entry.occurrenceId === selectedId);
+    const unmarkedHandEntry = handEntries.find(entry => entry.id === "EN000002" && entry.occurrenceId !== selectedId);
     const audit = auditCollectionBatch06Runtime();
     return {
       mark,
@@ -292,10 +367,13 @@ test("Déplacement instantané rescues the same servant into hand with a zero-co
       before,
       after,
       hand:[...player1.hand],
+      handEntries,
+      rescuedEntry,
+      unmarkedHandEntry,
       graveyard:[...player1.graveyard],
       board:audit.board.player1,
       events:audit.events,
-      costTotal:cost?.effectiveCost?.total ?? cost?.effectiveCost?.totalCost ?? null,
+      untouchedInstance,
       activeModifiers:[...(player1.costModifierState?.active || [])].map(modifier => ({id:modifier.id, sourceId:modifier.sourceId, duration:modifier.duration, criteria:modifier.criteria}))
     };
   });
@@ -303,10 +381,40 @@ test("Déplacement instantané rescues the same servant into hand with a zero-co
   expect(result.died).toBe(false);
   expect(result.hand).toContain("EN000002");
   expect(result.graveyard).not.toContain("EN000002");
-  expect(result.board.map(card => card.id)).not.toContain("EN000002");
-  expect(result.events.some(event => event.type === "deplacement-rescue" && event.rescuedCardId === "EN000002")).toBe(true);
-  expect(result.activeModifiers.some(modifier => modifier.sourceId === "S000056" && modifier.duration === "nextEligibleCard")).toBe(true);
-  expect(result.costTotal).toBe(0);
+  expect(result.board.map(card => card.instance)).toContain(result.untouchedInstance);
+  expect(result.board.map(card => card.instance)).not.toContain(result.mark.target.instance);
+  expect(result.events.some(event => event.type === "deplacement-rescue" && event.occurrenceId === result.mark.target.instance)).toBe(true);
+  expect(result.activeModifiers.some(modifier => modifier.sourceId === "S000056" && modifier.duration === "nextEligibleCard" && modifier.criteria.handOccurrenceIds.includes(result.mark.target.instance))).toBe(true);
+  expect(result.rescuedEntry.total).toBe(0);
+  expect(result.unmarkedHandEntry.total).toBe(fixture.expectedRescue.unprotectedSameIdKeepsPrintedCost);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Déplacement instantané target modal is readable and not clipped", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-06-mobilite-elfique");
+  await page.evaluate(() => {
+    currentPlayer = player1.key;
+    const card = document.querySelector(playerZoneSelector(player1, "hand") + ' [data-id="S000056"]');
+    void playCard("S000056", card);
+    return true;
+  });
+  const panel = page.locator(".deplacement-instantane-choice-panel");
+  await expect(panel).toBeVisible();
+  await expect(panel.locator(".decision-modal-minimize")).toBeVisible();
+  await expect(panel.locator(".sort-choice-title")).toContainText("Déplacement");
+  const firstTarget = panel.locator(".sort-choice-item").first();
+  await firstTarget.hover();
+  const geometry = await panel.evaluate((node) => {
+    const panelBox = node.getBoundingClientRect();
+    const targetBox = node.querySelector('.sort-choice-item')?.getBoundingClientRect();
+    return {panelTop:panelBox.top, panelBottom:panelBox.bottom, targetTop:targetBox?.top ?? 0, targetBottom:targetBox?.bottom ?? 0, viewportHeight:window.innerHeight};
+  });
+  expect(geometry.panelTop).toBeGreaterThanOrEqual(0);
+  expect(geometry.panelBottom).toBeLessThanOrEqual(geometry.viewportHeight);
+  expect(geometry.targetTop).toBeGreaterThanOrEqual(0);
+  expect(geometry.targetBottom).toBeLessThanOrEqual(geometry.viewportHeight);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

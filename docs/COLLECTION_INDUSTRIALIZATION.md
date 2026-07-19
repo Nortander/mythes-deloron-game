@@ -257,3 +257,13 @@ La carte generee `EN000011` reste documentee comme `SANS_EFFET_PROGRAMMABLE`.
 Scenarios techniques caches : `collection-batch-06-elfes-noirs` et `collection-batch-06-mobilite-elfique`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-06B
+
+- Les textes publics et marquages de variables de `EN000001`, `EN000002`, `EN000005`, `EN000007` et `EN000012` sont alignes sur l'export du 19 juillet et sur les retours visuels.
+- Le mot-clef `Pestilence` est documente et rendu comme etat persistant : `EN000005` marque les serviteurs touches, les degats de debut de tour sont visibles, le soin retire la maladie et la Vengeance double les marqueurs deja presents.
+- `EN000003` et `EN000009` produisent leurs invocations avec le theme mort-vivant et les halos passifs `Vigilance` attendus ; les halos passifs d'autres lots, notamment Yria, sont preserves par le resync.
+- `EN000008` soigne aussi apres destruction d'un attaquant pendant sa defense, avec feedback seulement si le soin modifie reellement les PV.
+- `S000049` est confirme comme la carte canonique `Machiavelisme` ; la mention `S000037 — Machiavelisme` etait une ambiguite de retour visuel, car `S000037` reste `Chemins de Ley`.
+- `S000056` protege uniquement l'occurrence marquee : une autre copie du meme ID conserve son cout imprime et n'est pas sauvee par erreur.
+- Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.

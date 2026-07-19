@@ -1,7 +1,7 @@
 {
   "batchId": "COLLECTION-BATCH-06",
-  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-17.xlsx",
-  "sourceSha256": "3e5137569abe42cd1ef354f0bc0d6ffdb28179af919d8b16540840e5d3f5f029",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-19.xlsx",
+  "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
   "scenarios": [
     "collection-batch-06-elfes-noirs",
     "collection-batch-06-mobilite-elfique"
@@ -22,6 +22,7 @@
     "EN000011",
     "EN000012",
     "S000039",
+    "S000049",
     "S000056"
   ],
   "noProgrammableEffectIds": [
@@ -57,6 +58,17 @@
   },
   "spells": {
     "extraAttack": "S000039",
-    "rescue": "S000056"
+    "rescue": "S000056",
+    "machiavelisme": "S000049"
+  },
+  "expectedPestilence": {
+    "keyword": "Pestilence",
+    "initialStack": 1,
+    "doubledStack": 4,
+    "machiavelismeBonusDamage": 2
+  },
+  "expectedRescue": {
+    "protectedCopyZeroCost": true,
+    "unprotectedSameIdKeepsPrintedCost": 2
   }
 }

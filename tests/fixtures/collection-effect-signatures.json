@@ -13249,11 +13249,12 @@
         "vengeance-trigger"
       ],
       "familyKey": "Sort:on-play:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "SUPPORTED_TESTED",
       "confidence": "MOYEN",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
