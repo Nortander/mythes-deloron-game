@@ -1906,7 +1906,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -2951,6 +2951,20 @@ SCENARIOS['collection-batch-05-jeune-dragon-riposte'] = {
     player2: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:40, fer:80, bois:80, pierre:40, nourriture:80}, souls:40}, hand:['H000001','H000005'], drawPile:['H000018','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:30,pdv:30,atk:4,prepared:true},{id:'H000005',pdvMax:30,pdv:30,atk:5,prepared:true},{id:'MV000020',pdvMax:30,pdv:30,atk:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-06-elfes-noirs'] = {
+  label: 'TEST - COLLECTION BATCH 06 Elfes noirs', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EN000009',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:40, nourriture:80}, souls:40}, hand:['EN000001','EN000004','EN000008','EN000009','EN000010','EN000012'], drawPile:['EN000001','EN000002','EN000003','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000012','R000010'], graveyard:[], servants:[{id:'EN000003',pdvMax:4,pdv:4,prepared:true},{id:'EN000005',pdvMax:6,pdv:6,prepared:true},{id:'EN000006',pdvMax:5,pdv:5,prepared:true},{id:'EN000007',pdvMax:5,pdv:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','S000010'], drawPile:['H000001','H000005','MV000020','R000010'], graveyard:[], servants:[{id:'H000001',pdvMax:18,pdv:18,prepared:true},{id:'H000005',pdvMax:18,pdv:18,prepared:true},{id:'MV000020',pdvMax:18,pdv:18,prepared:true},{id:'ORC000017',pdvMax:18,pdv:18,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-06-mobilite-elfique'] = {
+  label: 'TEST - COLLECTION BATCH 06 Mobilite elfique', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000056',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['S000039','S000056','EDB000004','EDG000002','EN000002'], drawPile:['EN000001','EDB000005','EDG000003','R000010'], graveyard:[], servants:[{id:'EN000002',pdvMax:1,pdv:1,prepared:true},{id:'EDB000001',pdvMax:3,pdv:3,prepared:true},{id:'EDG000004',pdvMax:3,pdv:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['H000018','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:20,pdv:20,atk:4,prepared:true},{id:'H000005',pdvMax:20,pdv:20,atk:5,prepared:true},{id:'MV000020',pdvMax:20,pdv:20,atk:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -3183,6 +3197,10 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'EN000005': createCostDefinition(7, ["aria","selene"], [{"kind":"minimum","resource":"aria","amount":3},{"kind":"minimum","resource":"selene","amount":4}], []),
   'EN000006': createCostDefinition(6, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"selene","amount":3},{"kind":"minimum","resource":"aria","amount":1},{"kind":"minimum","resource":"fer","amount":1}], []),
   'EN000007': createCostDefinition(2, ["fer","aria"], [{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"aria","amount":1}], []),
+  'EN000008': createCostDefinition(8, ["aria","nourriture","soul"], [{"kind":"minimum","resource":"aria","amount":1},{"kind":"groupMinimum","resources":["nourriture","soul"],"amount":1}], []),
+  'EN000009': createCostDefinition(6, ["aria","soul","selene"], [{"kind":"groupMinimum","resources":["aria","soul"],"amount":1},{"kind":"minimum","resource":"selene","amount":1}], []),
+  'EN000010': createCostDefinition(7, ["aria","nourriture"], [{"kind":"minimum","resource":"aria","amount":5},{"kind":"minimum","resource":"nourriture","amount":2}], []),
+  'EN000011': createCostDefinition(0, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], []),
   'GOB000001': createCostDefinition(2, ["lenya","nourriture"], [{"kind":"minimum","resource":"lenya","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
   'GOB000002': createCostDefinition(1, ["nourriture"], [], []),
   'H000001': createCompatiblePoolCostDefinition(1, ["nourriture","selene","fer"], []),
@@ -3292,7 +3310,9 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'S000020': createCostDefinition(8, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":1},{"kind":"minimum","resource":"lenya","amount":1}], []),
   'S000022': createCompatiblePoolCostDefinition(8, ["aria","selene","soul","lenya"], [{"kind":"text","text":"Le cimetière du joueur adverse doit contenir au minimum 1 serviteur.","implemented":false}]),
   'S000023': createCostDefinition(5, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"groupMinimum","resources":["lenya","aria","nourriture"],"amount":3}], [{"kind":"text","text":"Avoir au moins 1 « Jeune dragon des neiges » [ID = EDG000006] dans son deck de départ.","implemented":false}]),
+  'S000039': createCompatiblePoolCostDefinition(6, ["aria","lenya","selene"], []),
   'S000045': createCostDefinition(6, ["aria","bois","fer","lenya","nourriture"], [{"kind":"minimum","resource":"aria","amount":1},{"kind":"minimum","resource":"lenya","amount":1},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"bois","amount":3}], []),
+  'S000056': createCompatiblePoolCostDefinition(4, ["lenya","aria","soul"], []),
   'GOB000005': createCostDefinition(1, ["nourriture"], [], []),
   'GOB000010': createCompatiblePoolCostDefinition(2, ["nourriture","fer"], [{"kind":"graveyardSupplyMinimum","amount":1}]),
 });
@@ -9947,6 +9967,15 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     cardType: 'Serviteur',
     excludeKeywords: ['Insensible'],
     effectKind: 'sacrifice'
+  },
+  S000056: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'self',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'rescue'
   }
 });
 
@@ -10484,7 +10513,7 @@ async function playCard(cardId, slot, options={}) {
   const zoneSelection = options?.zoneSelection || null;
   const handOccurrenceId = options?.handOccurrenceId || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
-  if ((cardId === 'S000010' || cardId === 'S000028') && !selectedTargetIds) {
+  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056') && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
@@ -10500,8 +10529,8 @@ async function playCard(cardId, slot, options={}) {
       return {success:false, reason:'no-valid-target', targetResult};
     }
     const chosen = await chooseBoardTargets({
-      title:cardId === 'S000010' ? 'Main guérisseuse' : 'Aura de protection',
-      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : 'Choisissez le serviteur allié à protéger.',
+      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : 'Aura de protection'),
+      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : 'Choisissez le serviteur allié à protéger.'),
       targets,
       minCount:1,
       maxCount:1,
@@ -10760,16 +10789,26 @@ async function triggerInitiative(cardId, player, context={}) {
       if (tt2.length) { const target = tt2[Math.floor(Math.random()*tt2.length)]; await waitBatch05BeforeEffect(sourceFCForBatch05, 'initiative', {cardId, effect:'cdg', target:targetSummary(target)}); batch05InitiativeMutation = !!tryApplyGel({ sourcePlayer: player, targetFC: target, sourceCardId: cardId, turns: 3, type: 'cdg' }); }
       else showInsensitiveFailureVfx(candidates);
       break; }
-    case 'EN000001': // Ensorceleur â†’ ATK sur 2 serviteurs aléatoires
+    case 'EN000001':
     { const candidates = validTargets();
       const ts2 = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'damage', isAbility: true });
-      ts2.sort(()=>Math.random()-0.5);
-      ts2.slice(0,2).forEach(t => tryApplyAbilityDamage({ sourcePlayer: player, targetFC: t, sourceCardId: cardId, amount: 4 }));
+      ts2.sort(()=>gameRandom()-0.5);
+      const amount = Number(sourceFCForBatch05?.dataset.atk || CARDS_DATA[cardId]?.atk || 3);
+      if (ts2.length) await waitBatch05BeforeEffect(sourceFCForBatch05, 'initiative', {cardId, effect:'damage-two-random', amount, targets:ts2.slice(0,2).map(targetSummary)});
+      for (const t of ts2.slice(0,2)) await tryApplyAbilityDamage({ sourcePlayer: player, targetFC: t, sourceCardId: cardId, amount });
       if (!ts2.length) showInsensitiveFailureVfx(candidates);
+      batch05InitiativeMutation = ts2.length > 0;
+      recordCollectionBatch06Event('ensorceleur-initiative', {source:targetSummary(sourceFCForBatch05), amount, targets:ts2.slice(0,2).map(targetSummary)});
       break; }
-    case 'EN000004': // Avatar de destruction â†’ détruit 1 carte main adverse
+    case 'EN000004':
     { const adv2 = playerHand(opponentOf(player));
-      if (adv2.length) { removeHandCardAt(opponentOf(player), Math.floor(Math.random()*adv2.length)); refreshAdverseHandBacks(player); }
+      if (adv2.length) {
+        await waitBatch05BeforeEffect(sourceFCForBatch05, 'initiative', {cardId, effect:'discard-random'});
+        removeHandCardAt(opponentOf(player), Math.floor(gameRandom()*adv2.length));
+        refreshAdverseHandBacks(player);
+        batch05InitiativeMutation = true;
+        recordCollectionBatch06Event('avatar-destruction-initiative', {source:targetSummary(sourceFCForBatch05), opponentHandAfter:playerHand(opponentOf(player)).length});
+      }
       break; }
     case 'H000009': {
       // Léna : Coup de glace à max 3 serviteurs adverses aléatoires pendant 3 tours
@@ -11095,6 +11134,8 @@ async function triggerSort(cardId, player, context={}) {
       return resolveRituelOcculte(player);
     case 'S000055':
       return resolveTriangleDesTenebres(player, context);
+    case 'S000056':
+      return resolveDeplacementInstantane(player, context);
     case 'S000007':
       return await resolvePorteInfranchissable(player, context);
     case 'S000008':
@@ -11109,6 +11150,8 @@ async function triggerSort(cardId, player, context={}) {
       return resolvePatrouilleGlaciale(player);
     case 'S000034':
       return resolveSecoursMagique(player);
+    case 'S000039':
+      return resolveVivaciteElfique(player);
     case 'S000037':
       return resolveCheminsDeLey(player);
     case 'S000040':
@@ -11869,6 +11912,172 @@ function resolveSecoursMagique(player) {
   return result;
 }
 
+const collectionBatch06State = {events:[], ambiguities:[]};
+
+function recordCollectionBatch06Event(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch06State.events.push(event);
+  window.__collectionBatch06LastEvent = event;
+  return event;
+}
+
+function isBatch06ElfServant(cardOrId) {
+  const cardId = typeof cardOrId === 'string' ? cardOrId : cardOrId?.dataset?.id;
+  const card = CARDS_DATA[cardId];
+  return card?.type === 'Serviteur' && ['edb','edg','edn'].includes(card.fac);
+}
+
+function syncBatch06DeplacementCounter(fc) {
+  if (!fc) return null;
+  fc.querySelectorAll('[data-batch03-status-counter="deplacement-instantane"]').forEach(node => node.remove());
+  if (fc.dataset.batch06DeplacementInstantane === '1') {
+    return createBatch03StatusCounter(fc, 'deplacement-instantane', 1, 'Déplacement instantané');
+  }
+  return null;
+}
+
+function syncBatch06DiseaseCounter(fc) {
+  if (!fc) return null;
+  fc.querySelectorAll('[data-batch03-status-counter="maladie"]').forEach(node => node.remove());
+  const amount = Number(fc.dataset.batch06Disease || 0);
+  if (amount > 0) return createBatch03StatusCounter(fc, 'maladie', amount, 'Maladie');
+  return null;
+}
+
+function clearBatch06Disease(fc, reason='healed') {
+  if (!fc?.dataset?.batch06Disease) return false;
+  const before = Number(fc.dataset.batch06Disease || 0);
+  delete fc.dataset.batch06Disease;
+  delete fc.dataset.batch06DiseaseSourcePlayer;
+  syncBatch06DiseaseCounter(fc);
+  recordCollectionBatch06Event('disease-cleared', {reason, before, target:targetSummary(fc)});
+  return true;
+}
+
+function batch06ApplyAttackExhaustion(attacker) {
+  if (attacker?.dataset?.batch06ExtraAttack === '1' && isBatch06ElfServant(attacker)) {
+    delete attacker.dataset.batch06ExtraAttack;
+    attacker.dataset.batch06ExtraAttackConsumed = '1';
+    attacker.classList.remove('fc-exhausted');
+    delete attacker.dataset.exhausted;
+    recordCollectionBatch06Event('extra-attack-consumed', {attacker:targetSummary(attacker)});
+    return true;
+  }
+  if (attacker) {
+    attacker.dataset.exhausted = '1';
+    attacker.classList.add('fc-exhausted');
+  }
+  return false;
+}
+
+function resolveVivaciteElfique(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000039'};
+  const servants = livingServantCardsForPlayer(p).filter(isBatch06ElfServant);
+  servants.forEach(fc => {
+    fc.dataset.batch06ExtraAttack = '1';
+    delete fc.dataset.exhausted;
+    fc.classList.remove('fc-exhausted');
+    pulseBatch03Ability(fc, 'vivacite-elfique', {passive:false, move:false});
+  });
+  const result = {success:true, cardId:'S000039', playerId:p.key, affected:servants.map(targetSummary)};
+  recordCollectionBatch06Event('vivacite-elfique', result);
+  showNotif(servants.length ? 'Vivacité elfique prépare ' + servants.length + ' serviteur(s) à attaquer une seconde fois.' : 'Vivacité elfique ne trouve aucun serviteur elfe à préparer.', 1700);
+  return result;
+}
+
+function resolveDeplacementInstantane(player, context={}) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000056'};
+  const targetAudit = evaluateTargetRequirement('S000056', {player:p, selectedTargetIds:context.selectedTargetIds || null});
+  if (!targetAudit.allowed) {
+    showErr(cardActionError(targetAudit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:targetAudit}));
+    const refused = {success:false, reason:targetAudit.code, targetAudit};
+    recordCollectionBatch06Event('deplacement-refused', refused);
+    return refused;
+  }
+  const legalInstances = new Set((targetAudit.legalTargets || []).map(target => target.instance));
+  const target = resolveBoardTargetReferences(context.selectedTargetIds || []).find(fc => legalInstances.has(fc.dataset.instance || fc.dataset.supplyInstance || ''));
+  if (!target) {
+    showErr('Cette cible n’est pas valide.');
+    const refused = {success:false, reason:'missing-selected-target', targetAudit};
+    recordCollectionBatch06Event('deplacement-refused', refused);
+    return refused;
+  }
+  target.dataset.batch06DeplacementInstantane = '1';
+  target.dataset.batch06DeplacementSourcePlayer = p.key;
+  syncBatch06DeplacementCounter(target);
+  pulseBatch03Ability(target, 'deplacement-instantane', {passive:false, move:false});
+  const result = {success:true, cardId:'S000056', playerId:p.key, target:targetSummary(target)};
+  recordCollectionBatch06Event('deplacement-instantane', result);
+  showNotif('Déplacement instantané protège ce serviteur de sa prochaine destruction.', 1700);
+  return result;
+}
+
+async function tryBatch06DeplacementRescue(fc, context={}) {
+  if (!fc || fc.dataset.batch06DeplacementInstantane !== '1') return false;
+  const owner = playerState(fc.dataset.player);
+  if (!owner || getHandCapacityStatus(owner).full) {
+    recordCollectionBatch06Event('deplacement-rescue-refused', {reason:'hand-full-or-owner-missing', target:targetSummary(fc)});
+    return false;
+  }
+  const cardId = fc.dataset.id;
+  const occurrenceId = fc.dataset.instance || null;
+  const sourceBefore = targetSummary(fc);
+  delete fc.dataset.batch06DeplacementInstantane;
+  delete fc.dataset.batch06DeplacementSourcePlayer;
+  syncBatch06DeplacementCounter(fc);
+  pulseBatch03Ability(fc, 'deplacement-rescue', {passive:false, move:true});
+  await new Promise(resolve => setTimeout(resolve, 180));
+  if ((CARDS_DATA[cardId]?.kws || []).includes('Vengeance')) {
+    await triggerVengeance(cardId, owner, fc, context.sourceFC || fc._killer || null);
+  }
+  batch03RemoveBoardCardToSlot(fc);
+  addCardToHand(owner, cardId, {refresh:true, occurrenceId});
+  const modifier = registerRuntimeCostModifier(owner, {
+    sourceId:'S000056',
+    priority:300,
+    duration:'nextEligibleCard',
+    criteria:{cardIds:[cardId]},
+    operations:[{type:'replaceCost', cost:createCostDefinition(0, COST_RESOURCE_ORDER, [], [])}]
+  });
+  renderAllHands();
+  const result = {success:true, cardId:'S000056', rescuedCardId:cardId, occurrenceId, sourceBefore, ownerId:owner.key, costModifierId:modifier?.id || null, context};
+  recordCollectionBatch06Event('deplacement-rescue', result);
+  showNotif((CARDS_DATA[cardId]?.name || cardId) + ' revient dans la main avec un coût de 0.', 1700);
+  return true;
+}
+
+function collectionBatch06RandomEnemyServant(player, sourceCardId, effectKind='damage') {
+  const candidates = livingServantCardsForPlayer(opponentOf(player));
+  const valid = getAffectableTargets({sourcePlayer:player, targets:candidates, sourceCardId, effectKind, isAbility:true});
+  return valid.length ? valid[Math.floor(gameRandom() * valid.length)] : null;
+}
+
+function auditCollectionBatch06Runtime() {
+  const summarizeBoard = player => livingServantCardsForPlayer(player).map(fc => ({
+    ...targetSummary(fc),
+    disease:Number(fc.dataset.batch06Disease || 0),
+    diseaseSource:fc.dataset.batch06DiseaseSourcePlayer || null,
+    deplacement:fc.dataset.batch06DeplacementInstantane === '1',
+    extraAttack:fc.dataset.batch06ExtraAttack === '1',
+    extraAttackConsumed:fc.dataset.batch06ExtraAttackConsumed === '1',
+    exhausted:fc.dataset.exhausted === '1'
+  }));
+  return {
+    scenarioId:selectedScenarioId(),
+    currentPlayer,
+    events:[...collectionBatch06State.events],
+    ambiguities:[...collectionBatch06State.ambiguities],
+    inventories:auditZoneInventories(),
+    board:{player1:summarizeBoard(player1), player2:summarizeBoard(player2)},
+    hands:{player1:[...(playerHand(player1) || [])], player2:[...(playerHand(player2) || [])]},
+    decks:{player1:[...(playerDrawPile(player1) || [])], player2:[...(playerDrawPile(player2) || [])]}
+  };
+}
+window.auditCollectionBatch06Runtime = auditCollectionBatch06Runtime;
+
+
 async function resolveSermentDesAnciens(player) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000026'};
@@ -12085,7 +12294,8 @@ function highlightTargets() {
     : [];
 
   // Y a-t-il un Rempart actif ?
-  const hasRempart = adverseServants.some(fc => fc.dataset.rempart === '1' && !fc.dataset.frozen && !fc.dataset.frozen_cdg && !isBatch04Hypnotized(fc));
+  const ignoresRempart = attackingFC?.dataset?.id === 'EN000006';
+  const hasRempart = !ignoresRempart && adverseServants.some(fc => fc.dataset.rempart === '1' && !fc.dataset.frozen && !fc.dataset.frozen_cdg && !isBatch04Hypnotized(fc));
 
   // Le joueur courant a-t-il un serviteur avec [Vigilance] ? (révèle le camouflage adverse)
   const myZoneId = playerZoneSelector(currentPlayer, 'servants');
@@ -12113,7 +12323,7 @@ function highlightTargets() {
 
   // Avatar : ciblable seulement s'il n'y a aucun serviteur (ou Rempart déjà géré)
   const avatarEl = qs(playerZoneSelector(adversePlayer, 'avatar') + ' .av-portrait');
-  if (avatarEl && adverseServants.length === 0) {
+  if (avatarEl && (adverseServants.length === 0 || ignoresRempart)) {
     avatarEl.classList.add('av-valid-target');
   }
 }
@@ -12258,8 +12468,25 @@ async function resolveCombat(attacker, targetFC) {
       healing:combatHealingResults
     });
   }
-  // Sombre-garde : soin après avoir infligé des dégâts
-  if (attacker.dataset.id === 'EN000007') applyHeal(attacker, 2);
+  // Sombre-garde : soin après avoir infligé des dégâts et survécu
+  if (attacker.dataset.id === 'EN000007' && !attacker.dataset.dead && finalAtkDmg > 0) {
+    const heal = applyHeal(attacker, 2);
+    if (heal.success) pulseBatch03Ability(attacker, 'sombre-garde-heal');
+    recordCollectionBatch06Event('sombre-garde-heal', {source:targetSummary(attacker), target:targetSummary(targetFC), heal});
+  }
+  if (attacker.dataset.id === 'EN000005' && !defDied && finalAtkDmg > 0 && !targetFC.dataset.dead) {
+    const disease = Number(targetFC.dataset.batch06Disease || 0) + 1;
+    targetFC.dataset.batch06Disease = String(disease);
+    targetFC.dataset.batch06DiseaseSourcePlayer = playerState(attacker.dataset.player)?.key || attacker.dataset.player || '';
+    syncBatch06DiseaseCounter(targetFC);
+    pulseBatch03Ability(attacker, 'disease');
+    recordCollectionBatch06Event('creature-putride-disease', {source:targetSummary(attacker), target:targetSummary(targetFC), disease});
+  }
+  if (attacker.dataset.id === 'EN000008' && defDied && !attacker.dataset.dead) {
+    const heal = applyHeal(attacker, 5);
+    if (heal.success) pulseBatch03Ability(attacker, 'shadow-kill-heal');
+    recordCollectionBatch06Event('etre-ombres-heal-on-kill', {source:targetSummary(attacker), target:targetSummary(targetFC), heal});
+  }
   // Faucheur d'âmes : quand il détruit un serviteur, +1 âme à l'approvisionnement
   if (attacker.dataset.id === 'MV000009' && defDied) {
     addSoulToAppro(currentPlayer, 1);
@@ -12285,8 +12512,7 @@ async function resolveCombat(attacker, targetFC) {
     if (applied) { recordCollectionBatch05Event('combat-retaliation-cold', {source:targetSummary(targetFC), target:targetSummary(attacker), coldType:'perce-neige'}); }
   }
 
-  attacker.dataset.exhausted = '1';
-  attacker.classList.add('fc-exhausted');
+  batch06ApplyAttackExhaustion(attacker);
 
   cancelAttack(); // Guérisseur déclenché en fin de tour uniquement
 }
@@ -12326,7 +12552,7 @@ async function applyDamage(fc, amount) {
   await new Promise(r => setTimeout(r, 380));
   fc.classList.remove('anim-damage');
 
-  if (newPdv <= 0 && tryBatch05RescueDestruction(fc, {amount, sourceFC:fc._killer || null})) {
+  if (newPdv <= 0 && await tryBatch05RescueDestruction(fc, {amount, sourceFC:fc._killer || null})) {
     return false;
   }
 
@@ -12338,8 +12564,9 @@ async function applyDamage(fc, amount) {
   return false;
 }
 
-function tryBatch05RescueDestruction(fc, context={}) {
+async function tryBatch05RescueDestruction(fc, context={}) {
   if (!fc || fc.dataset.dead || fc.dataset.type === 'appro') return false;
+  if (await tryBatch06DeplacementRescue(fc, context)) return true;
   const owner = playerState(fc.dataset.player);
   if (!owner || Number(owner.batch05RescueShield || 0) <= 0) return false;
   owner.batch05RescueShield = Math.max(0, Number(owner.batch05RescueShield || 0) - 1);
@@ -12371,6 +12598,7 @@ function applyHeal(fc, amount) {
   pdvEl.className   = nv < max ? 'fc-pdv-val red' : 'fc-pdv-val';
   fc.dataset.pdv    = nv;
   updateRageState(fc);
+  if (gained > 0) clearBatch06Disease(fc, 'healed');
   // Lueur verte douce et progressive
   fc.style.position = 'relative';
   const glow = document.createElement('div');
@@ -12422,7 +12650,8 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
 }
 
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
-  return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011';
+  return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011' ||
+    cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
@@ -12582,7 +12811,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
   }
@@ -12603,6 +12832,31 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
     showNotif('Vengeance\u00a0!', 1200);
     await new Promise(r => setTimeout(r, 500));
     return { destination: 'deck-bottom' };
+  }
+
+  if (cardId === 'EN000010') {
+    pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+    await new Promise(resolve => setTimeout(resolve, 260));
+    showNotif('Vengeance !', 1200);
+    await new Promise(r => setTimeout(r, 500));
+    const summon = await summonBatch03Servant(player, 'EN000011', {sourceCardId:'EN000010', sourceInstanceId:dyingFC?.dataset.instance || null, triggerInitiativeEffect:false, ready:true});
+    recordCollectionBatch06Event('EN000010-vengeance', {source:targetSummary(dyingFC), summon});
+    return {success:!!summon?.success, cardId, summon, destination:'graveyard'};
+  }
+
+  if (cardId === 'EN000012') {
+    pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+    await new Promise(resolve => setTimeout(resolve, 260));
+    showNotif('Vengeance !', 1200);
+    await new Promise(r => setTimeout(r, 500));
+    const drawResult = drawCardFromRuntimeDeck(player, {
+      sourceCardId:'EN000012',
+      sourceInstanceId:dyingFC?.dataset.instance || null,
+      refresh:true,
+      predicate: candidateId => CARDS_DATA[candidateId]?.type === 'Serviteur' && CARDS_DATA[candidateId]?.fac === 'edn'
+    });
+    recordCollectionBatch06Event('EN000012-vengeance', {source:targetSummary(dyingFC), drawResult});
+    return {success:!!drawResult?.success, cardId, drawResult, destination:'graveyard'};
   }
 
   if (cardId === 'EDB000011') {
@@ -12665,6 +12919,10 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
   const adverseId = playerZoneSelector(opponentOf(player), 'servants');
   const targets = Array.from(qs(adverseId)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
   if (!targets.length) return;
+  if (cardId === 'EN000002' || cardId === 'EN000005') {
+    pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+    await new Promise(resolve => setTimeout(resolve, 260));
+  }
   showNotif('Vengeance !', 1200);
   await new Promise(r => setTimeout(r, 500));
   // EN000002 : dégâts au serviteur en face et adjacents
@@ -12700,13 +12958,15 @@ async function triggerVengeance(cardId, player, dyingFC, killer) {
       });
     }
   } else if (cardId === 'EN000005') {
-    // Héraut ténébreux : double les dégâts de maladie sur les serviteurs DÉJÀ infectés
+    // Heraut tenebreux : double les degats de maladie sur les serviteurs deja infectes.
     const advZone = qs(playerZoneSelector(opponentOf(player), 'servants'));
     let doubledInfections = 0;
-    advZone?.querySelectorAll('.fc[data-infected]').forEach(fc => {
+    advZone?.querySelectorAll('.fc[data-batch06-disease]').forEach(fc => {
       if (canAffectTarget({ sourcePlayer: player, targetFC: fc, sourceCardId: cardId, effectKind: 'disease', isAbility: true })) {
-        const cur = parseInt(fc.dataset.infected) || 1;
-        fc.dataset.infected = cur * 2;
+        const cur = parseInt(fc.dataset.batch06Disease) || 1;
+        fc.dataset.batch06Disease = String(cur * 2);
+        syncBatch06DiseaseCounter(fc);
+        recordCollectionBatch06Event('creature-putride-vengeance-disease-double', {source:targetSummary(dyingFC), target:targetSummary(fc), before:cur, after:cur * 2});
         doubledInfections++;
       } else {
         showResistVfx(fc, 'Insensible');
@@ -12949,8 +13209,7 @@ async function attackAvatar(attacker, adversePlayer) {
   // Riposte avatar (ATK = 5)
   await applyDamage(attacker, 5);
 
-  attacker.dataset.exhausted = '1';
-  attacker.classList.add('fc-exhausted');
+  batch06ApplyAttackExhaustion(attacker);
   cancelAttack();
 }
 
@@ -13406,8 +13665,9 @@ function applyEndOfTurnEffects(player) {
     }));
     if (validTargets.length) {
       const target = validTargets[Math.floor(Math.random() * validTargets.length)];
-      tryApplyAbilityDamage({ sourcePlayer: player, targetFC: target, sourceCardId: 'EN000004', amount: 7 });
       pulseBatch03Ability(destructeur, 'end-turn');
+      tryApplyAbilityDamage({ sourcePlayer: player, targetFC: target, sourceCardId: 'EN000004', amount: Number(destructeur.dataset.atk || 7) || 7 });
+      recordCollectionBatch06Event('avatar-destruction-end-turn', {source:targetSummary(destructeur), target:targetSummary(target), amount:Number(destructeur.dataset.atk || 7) || 7});
     } else if (!en000004ResistVfxShown) {
       const blockedTarget = targets.find(target => target.dataset.insensible);
       if (blockedTarget) {
@@ -13415,6 +13675,35 @@ function applyEndOfTurnEffects(player) {
         en000004ResistVfxShown = true;
       }
     }
+  });
+
+  livingServantCardsForPlayer(opponentOf(player)).forEach(infected => {
+    const amount = Number(infected.dataset.batch06Disease || 0);
+    if (!amount || infected.dataset.batch06DiseaseSourcePlayer !== playerKey(player)) return;
+    syncBatch06DiseaseCounter(infected);
+    tryApplyAbilityDamage({sourcePlayer:player, targetFC:infected, sourceCardId:'EN000005', amount, effectKind:'disease'});
+    recordCollectionBatch06Event('disease-tick', {sourcePlayerId:playerKey(player), target:targetSummary(infected), amount});
+  });
+
+  zone.querySelectorAll('[data-id="EN000009"]:not([data-dead])').forEach(archonte => {
+    if (!canResolveServantAbility(archonte, {triggerType:'end-turn'})) return;
+    (async () => {
+      await waitBatch05BeforeEffect(archonte, 'end-turn', {cardId:'EN000009', effect:'summon-and-damage'});
+      const summon = await summonBatch03Servant(player, 'MV000002', {sourceCardId:'EN000009', sourceInstanceId:archonte.dataset.instance, triggerInitiativeEffect:false, ready:true});
+      const target = collectionBatch06RandomEnemyServant(player, 'EN000009', 'damage');
+      const damage = target ? await tryApplyAbilityDamage({sourcePlayer:player, targetFC:target, sourceCardId:'EN000009', amount:2}) : null;
+      recordCollectionBatch06Event('archonte-end-turn', {source:targetSummary(archonte), summon, target:targetSummary(target), damage});
+    })();
+  });
+
+  zone.querySelectorAll('[data-id="EN000010"]:not([data-dead])').forEach(prince => {
+    if (!canResolveServantAbility(prince, {triggerType:'end-turn'})) return;
+    (async () => {
+      await waitBatch05BeforeEffect(prince, 'end-turn', {cardId:'EN000010', effect:'damage-random'});
+      const target = collectionBatch06RandomEnemyServant(player, 'EN000010', 'damage');
+      const damage = target ? await tryApplyAbilityDamage({sourcePlayer:player, targetFC:target, sourceCardId:'EN000010', amount:4}) : null;
+      recordCollectionBatch06Event('prince-tueur-end-turn', {source:targetSummary(prince), target:targetSummary(target), damage});
+    })();
   });
 
   // Gel : décrémenter
@@ -13745,6 +14034,10 @@ function cleanTurnState(player) {
   qsa(`${servSel} .fc-new-badge`).forEach(b=>b.remove());
   qsa(`${servSel} [data-new]`).forEach(fc=>{ fc.removeAttribute('data-new'); fc.querySelectorAll('[data-prepares]').forEach(el=>el.remove()); });
   qsa(`${servSel} [data-exhausted]`).forEach(fc=>{fc.removeAttribute('data-exhausted');fc.classList.remove('fc-exhausted');});
+  qsa(servSel + ' [data-batch06-extra-attack],' + servSel + ' [data-batch06-extra-attack-consumed]').forEach(fc=>{
+    delete fc.dataset.batch06ExtraAttack;
+    delete fc.dataset.batch06ExtraAttackConsumed;
+  });
 }
 
 function drawSpecificCard(player, cardId) {
@@ -14883,7 +15176,7 @@ Object.assign(CARDS_DATA, {
   'EDG000009':{name:'Perce-neige',type:'Serviteur',fac:'edg',atk:7,pdv:4,cost:6,res_ico:'IC00000BOI',res2:'IC00000LNY',res_val:'6',resType:'Bois+Lenya',fico:'FCT00000EDG.png',kws:['Bois','Lenya','Sang-froid','Coup de glace','Initiative'],cap:'[Sang-froid] Chaque fois que ce serviteur est attaqué directement, inflige [Coup de glace] à l\'attaquant pendant *1* tour. [Initiative] Vous piochez *2* cartes (si possible *1* serviteur + *1* sort).',lore:''},
   'AVS000001':{name:'Mage du Cercle - Rohen Tahir',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative','Coup de glace','Insensible','Aria'],cap:'[Insensible] [Initiative] Inflige [Coup de glace] à tous les serviteurs adverses présents sur le terrain pendant *4* tours. Inflige [Coup de glace] à tout serviteur qui l\'attaque pendant *2* tours.',lore:'',cond:'Au moins *6* des ressources utilisées pour l\'invocation doivent être de type Aria.'},
   'AVS000009':{name:'Mage du Cercle - Raith le Noir',type:'Serviteur',fac:'edn',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000EDN.png',kws:['Insensible','Aria'],cap:'[Insensible] À chacun de vos débuts de tour, inflige *10* points de dégâts à *1* serviteur adverse aléatoire et *5* points de dégâts aux serviteurs adjacents.',lore:'',detail:'[Insensible] À chacun de vos débuts de tour, inflige *10* points de dégâts à *1* serviteur adverse aléatoire et *5* points de dégâts aux serviteurs adjacents. Si le serviteur central est protégé par [Insensible], les serviteurs adjacents subissent tout de même les dégâts prévus.',cond:'Au moins *6* des ressources utilisées pour l\'invocation doivent être de type Aria.'},
-  'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',resType:'Fer',fico:'FCT00000EDN.png',kws:['Vengeance','Fer'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',lore:'',detail:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents. Cette capacité passe outre le mot-clef [Insensible].'},
+  'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000EDN.png',kws:['Vengeance','Fer'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',lore:'',detail:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents. Cette capacité passe outre le mot-clef [Insensible].'},
   'EN000004':{name:'Avatar de destruction',type:'Serviteur',fac:'edn',atk:7,pdv:4,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria',fico:'FCT00000EDN.png',kws:['Aria','Initiative'],cap:'[Initiative] Détruit *1* carte aléatoire de la main de votre adversaire. À la fin de chacun de vos tours, inflige le montant de son attaque à *1* serviteur adverse aléatoire.',lore:''},
   'GOB000001':{name:'Mageobelin lance-cailloux',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:4,pdv:1,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000GOB.png',kws:['Lenya'],cap:'À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à *1* serviteur adverse aléatoire.',lore:''},
   'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:8,res_ico:'IC00000AME',res_val:'8',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Insensible','Vengeance'],cap:'[Insensible] Chaque fois qu\'un serviteur adverse est détruit alors que le « Jeteur de sorts réanimé » est présent de votre côté du terrain, ajoute *+1* âme à vos ressources. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8*.',lore:''},
@@ -15281,6 +15574,126 @@ Object.assign(CARDS_DATA, {
     "res_ico": "IC00000RDM",
     "res_val": "8",
     "resType": "any"
+  },
+  "EN000008": {
+    "name": "Dame-araignée",
+    "type": "Serviteur",
+    "fac": "edn",
+    "atk": 9,
+    "pdv": 9,
+    "cost": 8,
+    "fico": "FCT00000EDN.png",
+    "kws": ["Aria", "Nourriture", "Écho", "Insensible", "Rage", "Rempart"],
+    "cap": "[Insensible] [Rempart] [Rage] Se soigne de *5* points de vie chaque fois que la « Dame-araignée » détruit un serviteur adverse.",
+    "lore": "",
+    "max": 1,
+    "assetFolder": "elfes-noirs",
+    "res_ico": "IC00000ARI",
+    "res2": "IC00000NRT",
+    "res3": "IC00000AME",
+    "resOu": true,
+    "res_val": "8",
+    "resType": "Aria+Nourriture|Écho"
+  },
+  "EN000009": {
+    "name": "Archonte",
+    "type": "Serviteur",
+    "fac": "edn",
+    "atk": 6,
+    "pdv": 8,
+    "cost": 6,
+    "fico": "FCT00000EDN.png",
+    "kws": ["Aria", "Sélène", "Insensible", "Écho"],
+    "cap": "[Insensible] À la fin de chacun de vos tours, invoque *1* « Spectre hurlant » de votre côté du terrain et inflige *2* points de dégâts à *1* serviteur adverse aléatoire.",
+    "lore": "",
+    "max": 3,
+    "assetFolder": "elfes-noirs",
+    "related": ["MV000002"],
+    "res_ico": "IC00000ARI",
+    "res2": "IC00000SLN",
+    "res3": "IC00000AME",
+    "resOu": true,
+    "res_val": "6",
+    "resType": "Aria|Écho+Sélène"
+  },
+  "EN000010": {
+    "name": "Sorcier",
+    "type": "Serviteur",
+    "fac": "edn",
+    "atk": 8,
+    "pdv": 4,
+    "cost": 7,
+    "fico": "FCT00000EDN.png",
+    "kws": ["Aria", "Nourriture", "Vengeance"],
+    "cap": "À la fin de chacun de vos tours, inflige *4* points de dégâts à *1* serviteur adverse aléatoire. [Vengeance] Invoque *1* « Sorcier réincarné » de votre côté du terrain.",
+    "detail": "À la fin de chacun de vos tours, inflige *4* points de dégâts à *1* serviteur adverse aléatoire. [Vengeance] Invoque *1* « Sorcier réincarné » [ID = EN000011] de votre côté du terrain.",
+    "lore": "",
+    "max": 3,
+    "assetFolder": "elfes-noirs",
+    "related": ["EN000011"],
+    "res_ico": "IC00000ARI",
+    "res2": "IC00000NRT",
+    "res_val": "7",
+    "resType": "Aria+Nourriture"
+  },
+  "EN000011": {
+    "name": "Sorcier réincarné",
+    "type": "Serviteur",
+    "fac": "edn",
+    "atk": 5,
+    "pdv": 5,
+    "cost": 0,
+    "fico": "FCT00000EDN.png",
+    "kws": [],
+    "cap": "",
+    "lore": "À leur mort, les plus puissants sorciers elfes noirs renaissent sous la forme d'araignées géantes, réclamant vengeance.",
+    "max": 0,
+    "assetFolder": "elfes-noirs",
+    "res_ico": "IC00000RDM",
+    "res_val": "0",
+    "resType": "any"
+  },
+  "S000039": {
+    "name": "Vivacité elfique",
+    "type": "Sort",
+    "fac": "sort",
+    "assetFolder": "sorts",
+    "atk": null,
+    "pdv": null,
+    "cost": 6,
+    "res_ico": "IC00000ARI",
+    "res2": "IC00000LNY",
+    "res3": "IC00000SLN",
+    "resOu": true,
+    "res_val": "6",
+    "resType": "Aria|Lenya|Sélène",
+    "fico": null,
+    "kws": ["Aria", "Lenya", "Sélène"],
+    "cap": "Jusqu'à la fin de votre tour, tous vos serviteurs des factions « Elfes des bois », « Elfes de glace » et « Elfes noirs » peuvent attaquer une seconde fois.",
+    "badge": "Sort",
+    "lore": "",
+    "max": 2
+  },
+  "S000056": {
+    "name": "Déplacement instantané",
+    "type": "Sort",
+    "fac": "sort",
+    "assetFolder": "sorts",
+    "atk": null,
+    "pdv": null,
+    "cost": 4,
+    "res_ico": "IC00000LNY",
+    "res2": "IC00000ARI",
+    "res3": "IC00000AME",
+    "resOu": true,
+    "res_val": "4",
+    "resType": "Lenya|Aria|Écho",
+    "fico": null,
+    "kws": ["Lenya", "Aria", "Écho", "Vengeance"],
+    "cap": "Marquez *1* serviteur allié. La première fois qu'il devrait être détruit, renvoyez-le dans votre main et fixez son coût en ressources à *0*. Si le serviteur sauvé possède une capacité spéciale [Vengeance], celle-ci se déclenche comme s'il avait été détruit.",
+    "badge": "Sort",
+    "lore": "",
+    "max": 2
   },
   "GOB000001": {
     "name": "Mageobelin lance-cailloux",
@@ -18787,6 +19200,18 @@ async function triggerBatch03DamageReceivedHooks(fc, context={}) {
     results.push(await summonBatch03Servant(player, 'DIV000003', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
     results.push(await summonBatch03Servant(player, 'DIV000004', {sourceCardId:'AVS000004', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true}));
   }
+  if (cardId === 'EN000012' && Number(fc.dataset.pdv || 0) > 0 && fc.dataset.batch06SharLastTurn !== String(turnSequence)) {
+    fc.dataset.batch06SharLastTurn = String(turnSequence);
+    pulseBatch03Ability(fc, 'shar-survive-damage', {move:true});
+    const heal = applyHeal(fc, 4);
+    const enemies = livingServantCardsForPlayer(opponentOf(player));
+    const damageResults = [];
+    for (const target of enemies) {
+      damageResults.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:player, targetFC:target, sourceCardId:'EN000012', amount:1})});
+    }
+    results.push({type:'shar-survived-damage', heal, damageResults});
+    recordCollectionBatch06Event('shar-survived-damage', {source:targetSummary(fc), heal, damageResults});
+  }
   if (results.length) pulseBatch03Ability(fc, 'damage-received');
   if (results.length) recordCollectionBatch03Event('damage-received-hook', {cardId, target:targetSummary(fc), results});
   return results;
@@ -19010,9 +19435,10 @@ async function applyBatch03StartTurnAbilities(player) {
     if (!central) continue;
     central._killer = raith;
     const centralSummary = targetSummary(central);
+    const adjacents = batch03AdjacentServants(central).filter(fc => fc.dataset.player === central.dataset.player);
     const centralDied = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:central, sourceCardId:'AVS000009', amount:10});
     const adjacentResults = [];
-    for (const adjacent of batch03AdjacentServants(central).filter(fc => fc.dataset.player === central.dataset.player)) {
+    for (const adjacent of adjacents.filter(fc => fc.isConnected && !fc.dataset.dead)) {
       adjacent._killer = raith;
       adjacentResults.push({target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:adjacent, sourceCardId:'AVS000009', amount:5})});
     }

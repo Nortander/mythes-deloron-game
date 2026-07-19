@@ -419,7 +419,7 @@
       "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
-      "directTest": "tests/browser/collection-batch-04-status-pulses.spec.mjs"
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -557,7 +557,7 @@
       "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
-      "directTest": "tests/browser/collection-batch-04-status-pulses.spec.mjs"
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3274,17 +3274,17 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "initiative-trigger",
         "modify-atk"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3324,18 +3324,18 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
-        "modify-atk"
-      ],
-      "missingPrimitives": [
+        "modify-atk",
         "summon",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3362,17 +3362,17 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:summon",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3415,20 +3415,20 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "initiative-trigger",
         "lethal-damage",
         "modify-atk",
         "move-hand-deck-graveyard",
         "targeting"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3478,21 +3478,21 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "guard-restriction",
         "heal",
         "modify-atk",
         "modify-pv",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
-        "guard-restriction",
+        "move-hand-deck-graveyard",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3527,18 +3527,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "guard-restriction",
         "modify-atk",
         "targeting"
       ],
-      "missingPrimitives": [
-        "guard-restriction"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3574,18 +3574,18 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "guard-restriction",
         "heal",
         "modify-pv"
       ],
-      "missingPrimitives": [
-        "guard-restriction"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3624,21 +3624,21 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "guard-restriction",
         "heal",
         "lethal-damage",
-        "modify-pv"
-      ],
-      "missingPrimitives": [
-        "guard-restriction",
+        "modify-pv",
         "rage-stat-buff",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3671,18 +3671,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
+        "damage",
         "summon",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3716,18 +3716,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
+        "damage",
         "summon",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3747,10 +3747,11 @@
       "missingPrimitives": [],
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
-      "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "GENERATED_ONLY"
+      "obtainability": "GENERATED_ONLY",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -3800,19 +3801,19 @@
         "draw",
         "heal",
         "modify-pv",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
+        "move-hand-deck-graveyard",
         "rune-servant-replacement",
         "target-immunity",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12681,18 +12682,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "modify-atk",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13638,17 +13639,17 @@
         "lethal-damage",
         "move-hand-deck-graveyard",
         "send-spell-to-graveyard",
-        "targeting"
-      ],
-      "missingPrimitives": [
+        "targeting",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:lethal-damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-06-dark-elves.spec.mjs"
     },
     {
       "schemaVersion": 1,

@@ -1,0 +1,62 @@
+{
+  "batchId": "COLLECTION-BATCH-06",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-17.xlsx",
+  "sourceSha256": "3e5137569abe42cd1ef354f0bc0d6ffdb28179af919d8b16540840e5d3f5f029",
+  "scenarios": [
+    "collection-batch-06-elfes-noirs",
+    "collection-batch-06-mobilite-elfique"
+  ],
+  "darkElfIds": [
+    "AVS000009",
+    "AVS000012",
+    "EN000001",
+    "EN000002",
+    "EN000003",
+    "EN000004",
+    "EN000005",
+    "EN000006",
+    "EN000007",
+    "EN000008",
+    "EN000009",
+    "EN000010",
+    "EN000011",
+    "EN000012",
+    "S000039",
+    "S000056"
+  ],
+  "noProgrammableEffectIds": [
+    "EN000011"
+  ],
+  "expectedFunctionalStatus": "FONCTIONNEL_TESTE",
+  "expectedNoEffectStatus": "SANS_EFFET_PROGRAMMABLE",
+  "expectedHiddenScenarioOptionCount": 0,
+  "maxVisualHandSize": 7,
+  "expectedInitiativeDamage": {
+    "EN000001": 3,
+    "EN000004Discard": 1
+  },
+  "expectedStartTurnDamage": {
+    "AVS000009": {
+      "central": 10,
+      "adjacent": 5
+    },
+    "AVS000012": {
+      "firstTurn": 1,
+      "secondTurn": 2
+    }
+  },
+  "expectedEndTurnDamage": {
+    "EN000004": 7,
+    "EN000009": 2,
+    "EN000010": 4
+  },
+  "generatedServants": {
+    "EN000003": "MV000007",
+    "EN000009": "MV000002",
+    "EN000010": "EN000011"
+  },
+  "spells": {
+    "extraAttack": "S000039",
+    "rescue": "S000056"
+  }
+}

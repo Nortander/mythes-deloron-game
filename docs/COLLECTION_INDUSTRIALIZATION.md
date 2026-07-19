@@ -243,3 +243,17 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `S000026`, `S000027`, `S000029` et `S000034` sont raccordees au runtime et couvertes par tests directs.
 - Nouveaux scenarios caches : `collection-batch-05-druide`, `collection-batch-05-kyra`, `collection-batch-05-dryade-solo`, `collection-batch-05-dryade-cleanse`, `collection-batch-05-pacte-millenaire` et `collection-batch-05-anciens-givre`.
 - Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+## COLLECTION-BATCH-06 - Elfes noirs
+
+Les cartes canoniques de la faction Elfe noir disposent maintenant d'un comportement runtime et d'un test fonctionnel direct dans `tests/browser/collection-batch-06-dark-elves.spec.mjs`.
+
+Le lot couvre les pseudo-avatars `AVS000009` et `AVS000012`, les Initiatives, les effets de debut et fin de tour, le contournement de `Rempart` par `EN000006`, les soins de combat, la maladie cumulative de `EN000005`, les Vengeances sombres, l'invocation de serviteurs generes et les sorts `S000039` / `S000056`.
+
+`S000039` prepare les serviteurs elfes allies a une seconde attaque pendant le tour courant. `S000056` marque un serviteur allie et, lors de sa prochaine destruction, le renvoie dans la main de son proprietaire avec un cout de 0 pour sa prochaine invocation ; si la carte possede `Vengeance`, cette Vengeance est resolue avant le retour en main.
+
+La carte generee `EN000011` reste documentee comme `SANS_EFFET_PROGRAMMABLE`.
+
+Scenarios techniques caches : `collection-batch-06-elfes-noirs` et `collection-batch-06-mobilite-elfique`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
