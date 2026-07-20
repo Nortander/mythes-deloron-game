@@ -9441,7 +9441,7 @@ function getCardAffordabilityResult(cardId, player, context={}) {
   return evaluateCardAffordability({player, cardId, costDefinition, context});
 }
 
-function validatePaymentPlan(player, paymentPlan, {cardId=null, reevaluate=true}={}) {
+function validatePaymentPlan(player, paymentPlan, {cardId=null, reevaluate=true, context={}}={}) {
   const p = playerState(player);
   if (!p?.resourceState) return {valid:false, reason:'missing-player'};
   if (!paymentPlan || typeof paymentPlan !== 'object') return {valid:false, reason:'missing-plan'};
@@ -9457,7 +9457,7 @@ function validatePaymentPlan(player, paymentPlan, {cardId=null, reevaluate=true}
   if (soulsToConsume > souls) return {valid:false, reason:'insufficient-souls'};
   if (!reevaluate) return {valid:true, reason:null, paymentPlan, evaluation:null};
 
-  const evaluation = getCardAffordabilityResult(resolvedCardId, p, {reason:'payment-validation'});
+  const evaluation = getCardAffordabilityResult(resolvedCardId, p, {reason:'payment-validation', ...(context || {})});
   if (!evaluation?.playable) return {valid:false, reason:'no-longer-affordable', evaluation};
   const freshPlan = evaluation.paymentPlan;
   if (Number(freshPlan.resourceRevision) !== revision || Number(freshPlan.soulsBefore) !== souls) {
@@ -10398,14 +10398,15 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     return transaction.returnActionValidation ? {success:false, reason:actionValidation.reason, actionValidation} : undefined;
   }
   recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'allowed-before-payment');
-  const freshAffordability = getCardAffordabilityResult(cardId, p, transaction.handOccurrenceId ? {handOccurrenceId:transaction.handOccurrenceId} : {}) || affordability;
+  const affordabilityContext = transaction.handOccurrenceId ? {handOccurrenceId:transaction.handOccurrenceId} : {};
+  const freshAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext) || affordability;
   if (freshAffordability && !freshAffordability.playable) {
     releasePaymentLock(p, cardId);
     showErr(describeAffordabilityFailure(freshAffordability));
     return {success:false, reason:'not-affordable', affordability:freshAffordability};
   }
   const paymentResult = freshAffordability
-    ? applyPaymentPlan(p, freshAffordability.paymentPlan, {cardId})
+    ? applyPaymentPlan(p, freshAffordability.paymentPlan, {cardId, context:affordabilityContext})
     : {success:true, reason:null, soulsConsumed:0, soulsRemaining:Number(p.resourceState?.souls || 0)};
   recordTestCostDiagnostic(cardId, freshAffordability, 'paid');
   if (!paymentResult.success) {
@@ -10480,7 +10481,13 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   traceCardPlay(traceId, 'beforeBoardPlacement', p, cardId);
   slot.outerHTML = buildFC(cardId, p.key);
   const placedFC = slotParent && slotIndex >= 0 ? slotParent.children[slotIndex] : null;
-  const sourceInstanceId = placedFC?.dataset?.instance || placedFC?.dataset?.supplyInstance || null;
+  let sourceInstanceId = placedFC?.dataset?.instance || placedFC?.dataset?.supplyInstance || null;
+  const preservesBatch06RescueOccurrence = !!transaction.handOccurrenceId && (committedAffordability?.appliedModifiers || [])
+    .some(modifier => modifier.sourceId === 'S000056' && modifier.duration === 'nextEligibleCard');
+  if (preservesBatch06RescueOccurrence && placedFC?.dataset?.instance) {
+    placedFC.dataset.instance = transaction.handOccurrenceId;
+    sourceInstanceId = placedFC.dataset.instance;
+  }
   traceCardPlay(traceId, 'afterBoardPlacement', p, cardId, sourceInstanceId);
   applyBatch03OnBoardPlacement(placedFC, p, cardId);
   if (placedFC && d.type === 'Serviteur') applyBatch05IceWallToSummon(p, placedFC);
@@ -10538,10 +10545,11 @@ async function playCard(cardId, slot, options={}) {
   if (!acquirePaymentLock(p, cardId)) return;
   let selectedTargetIds = Array.isArray(options?.selectedTargetIds) ? options.selectedTargetIds : (Array.isArray(options?.targetInstanceIds) ? options.targetInstanceIds : null);
   const zoneSelection = options?.zoneSelection || null;
-  const handOccurrenceId = options?.handOccurrenceId || null;
+  const handOccurrenceId = options?.handOccurrenceId || slot?.dataset?.handOccurrence || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
+  const affordabilityContext = handOccurrenceId ? {handOccurrenceId} : {};
   if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056') && !selectedTargetIds) {
-    const preAffordability = getCardAffordabilityResult(cardId, p);
+    const preAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
       recordTestCostDiagnostic(cardId, preAffordability, 'blocked');
@@ -10570,7 +10578,7 @@ async function playCard(cardId, slot, options={}) {
     }
     selectedTargetIds = [chosen[0].dataset.instance];
   }
-  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection});
+  const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection, handOccurrenceId});
   if (!actionValidation.valid) {
     releasePaymentLock(p, cardId);
     recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'blocked-before-payment');
@@ -10578,7 +10586,7 @@ async function playCard(cardId, slot, options={}) {
     return returnActionValidation ? {success:false, reason:actionValidation.reason, actionValidation} : undefined;
   }
   recordTestPlayLegalityDiagnostic(cardId, actionValidation, 'allowed-before-payment');
-  const affordability = getCardAffordabilityResult(cardId, p);
+  const affordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
   const hasResources = affordability ? affordability.playable : checkResources(cardId, p);
   if (!hasResources) {
     releasePaymentLock(p, cardId);
@@ -12875,7 +12883,7 @@ async function sendToCemetery(fc) {
     const owner = playerState(player);
     if (owner && !getHandCapacityStatus(owner).full) {
       addCardToHand(owner, cardId, {refresh:true, occurrenceId:fc.dataset.instance || null});
-      if (cardId === 'EDB000013') {
+      if (cardId === 'EDB000013' || cardId === 'EN000012') {
         owner.batch03BlockedHandOccurrences ||= [];
         const blockedOccurrenceId = batch03HandOccurrenceAt(owner, owner.hand.length - 1);
         owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:blockedOccurrenceId, sourceName:'Serviteur de la rune', armed:true, createdTurnSequence:turnSequence});

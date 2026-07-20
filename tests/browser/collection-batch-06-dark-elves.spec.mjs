@@ -370,9 +370,17 @@ test("Shar Arduin uses canonical text, survives damage once per turn, draws by V
     const handAfterVengeance = [...player1.hand];
     const deckAfterVengeance = [...player1.drawPile];
     const graveyardAfterVengeance = [...player1.graveyard];
+    const returnedIndex = batch03HandIndexForOccurrence(player1, "EN000012", sharBefore.instance);
+    const returnedOccurrenceId = batch03HandOccurrenceAt(player1, returnedIndex);
+    const freeSlot = document.querySelector(playerZoneSelector(player1, "servants") + " .slot");
+    const blockedReplay = await playCard("EN000012", freeSlot, {handOccurrenceId:returnedOccurrenceId, returnActionValidation:true});
+    const blockedReplayMessage = document.querySelector("#errMsg")?.textContent || "";
+    const handAfterBlockedReplay = [...player1.hand];
+    const graveyardAfterBlockedReplay = [...player1.graveyard];
+    const boardAfterBlockedReplay = board(player1);
     const events = auditCollectionBatch06Runtime().events;
     const batch03Events = auditCollectionBatch03Runtime().state.events;
-    return {canonicalText, enemyBefore, sharBefore, sharAfterFirstDamage, enemyAfterFirstDamage, sharAfterSecondDamageSameTurn, enemyAfterSecondDamageSameTurn, handBeforeVengeance, handAfterVengeance, deckBeforeVengeance, deckAfterVengeance, graveyardBeforeVengeance, graveyardAfterVengeance, died, events, batch03Events};
+    return {canonicalText, enemyBefore, sharBefore, sharAfterFirstDamage, enemyAfterFirstDamage, sharAfterSecondDamageSameTurn, enemyAfterSecondDamageSameTurn, handBeforeVengeance, handAfterVengeance, deckBeforeVengeance, deckAfterVengeance, graveyardBeforeVengeance, graveyardAfterVengeance, died, returnedIndex, returnedOccurrenceId, blockedReplay, blockedReplayMessage, handAfterBlockedReplay, graveyardAfterBlockedReplay, boardAfterBlockedReplay, events, batch03Events};
   });
   for (const fragment of fixture.expectedSharArduin.canonicalTextFragments) expect(result.canonicalText).toContain(fragment);
   for (const fragment of fixture.expectedSharArduin.forbiddenTextFragments) expect(result.canonicalText).not.toContain(fragment);
@@ -388,6 +396,14 @@ test("Shar Arduin uses canonical text, survives damage once per turn, draws by V
   expect(result.handAfterVengeance).toContain("EN000007");
   expect(result.deckAfterVengeance).not.toContain("EN000007");
   expect(result.graveyardAfterVengeance).not.toContain("EN000012");
+  expect(result.returnedIndex).toBeGreaterThanOrEqual(0);
+  expect(result.returnedOccurrenceId).toBe(result.sharBefore.instance);
+  expect(result.blockedReplay?.success).toBe(false);
+  expect(result.blockedReplay?.reason).toBe("blocked-card");
+  expect(result.blockedReplayMessage).toContain("IMPOSSIBLE D'INVOQUER CE SERVITEUR CE TOUR : LA RUNE SE RECHARGE EN PUISSANCE");
+  expect(result.handAfterBlockedReplay).toContain("EN000012");
+  expect(result.graveyardAfterBlockedReplay).not.toContain("EN000012");
+  expect(result.boardAfterBlockedReplay.map(card => card.id)).not.toContain("EN000012");
   expect(result.events.some(event => event.type === "shar-survived-damage" && event.damageResults?.length >= 2)).toBe(true);
   expect(result.events.some(event => event.type === "EN000012-vengeance" && event.drawResult?.success)).toBe(true);
   expect(result.batch03Events.some(event => event.type === "rune-return-to-hand" && event.cardId === "EN000012")).toBe(true);
@@ -457,6 +473,11 @@ test("Déplacement instantané rescues only the marked occurrence with a zero-co
     const died = await applyDamage(protectedFc, 99);
     await new Promise(resolve => setTimeout(resolve, 1200));
     const after = auditZoneInventories();
+    player1.resourceState.classical = createEmptyClassicalResources();
+    player1.resourceState.souls = 0;
+    player1.resourceState.revision += 1;
+    projectSoulState(player1);
+    refreshHand(player1);
     const handEntries = player1.hand.map((id, index) => {
       const occurrenceId = batch03HandOccurrenceAt(player1, index);
       const cost = resolveCardCost({player:player1, cardId:id, context:{handOccurrenceId:occurrenceId}});
@@ -464,12 +485,30 @@ test("Déplacement instantané rescues only the marked occurrence with a zero-co
     });
     const rescuedEntry = handEntries.find(entry => entry.id === "EN000002" && entry.occurrenceId === selectedId);
     const unmarkedHandEntry = handEntries.find(entry => entry.id === "EN000002" && entry.occurrenceId !== selectedId);
+    const boardAfterRescue = auditCollectionBatch06Runtime().board.player1;
+    const activeModifiersBeforeReplay = [...(player1.costModifierState?.active || [])].map(modifier => ({id:modifier.id, sourceId:modifier.sourceId, duration:modifier.duration, criteria:modifier.criteria}));
+    const resourcesBeforeReplay = currentResourceSnapshot(player1);
+    const replaySlot = document.querySelector(playerZoneSelector(player1, "servants") + " .slot");
+    const replay = await playCard("EN000002", replaySlot, {handOccurrenceId:selectedId, returnActionValidation:true});
+    await new Promise(resolve => setTimeout(resolve, 300));
+    const resourcesAfterReplay = currentResourceSnapshot(player1);
+    const afterReplay = auditZoneInventories();
+    const afterReplayHandEntries = player1.hand.map((id, index) => ({id, occurrenceId:batch03HandOccurrenceAt(player1, index)}));
     const audit = auditCollectionBatch06Runtime();
+    const replayedBoardCard = audit.board.player1.find(card => card.instance === selectedId);
     return {
       mark,
       died,
       before,
       after,
+      afterReplay,
+      afterReplayHandEntries,
+      replay,
+      replayedBoardCard,
+      boardAfterRescue,
+      activeModifiersBeforeReplay,
+      resourcesBeforeReplay,
+      resourcesAfterReplay,
       hand:[...player1.hand],
       handEntries,
       rescuedEntry,
@@ -485,12 +524,21 @@ test("Déplacement instantané rescues only the marked occurrence with a zero-co
   expect(result.died).toBe(false);
   expect(result.hand).toContain("EN000002");
   expect(result.graveyard).not.toContain("EN000002");
-  expect(result.board.map(card => card.instance)).toContain(result.untouchedInstance);
-  expect(result.board.map(card => card.instance)).not.toContain(result.mark.target.instance);
+  expect(result.boardAfterRescue.map(card => card.instance)).toContain(result.untouchedInstance);
+  expect(result.boardAfterRescue.map(card => card.instance)).not.toContain(result.mark.target.instance);
   expect(result.events.some(event => event.type === "deplacement-rescue" && event.occurrenceId === result.mark.target.instance)).toBe(true);
-  expect(result.activeModifiers.some(modifier => modifier.sourceId === "S000056" && modifier.duration === "nextEligibleCard" && modifier.criteria.handOccurrenceIds.includes(result.mark.target.instance))).toBe(true);
+  expect(result.activeModifiersBeforeReplay.some(modifier => modifier.sourceId === "S000056" && modifier.duration === "nextEligibleCard" && modifier.criteria.handOccurrenceIds.includes(result.mark.target.instance))).toBe(true);
   expect(result.rescuedEntry.total).toBe(0);
   expect(result.unmarkedHandEntry.total).toBe(fixture.expectedRescue.unprotectedSameIdKeepsPrintedCost);
+  expect(result.replay?.success).toBe(true);
+  expect(result.replay?.paymentResult?.soulsConsumed).toBe(0);
+  expect(result.resourcesAfterReplay).toMatchObject(result.resourcesBeforeReplay);
+  expect(result.replayedBoardCard).toMatchObject({id:"EN000002", instance:result.mark.target.instance});
+  expect(result.afterReplayHandEntries.map(entry => entry.occurrenceId)).not.toContain(result.mark.target.instance);
+  expect(result.afterReplay.player1.graveyard).not.toContain("EN000002");
+  expect(result.board.map(card => card.instance)).toContain(result.untouchedInstance);
+  expect(result.board.map(card => card.instance)).toContain(result.mark.target.instance);
+  expect(result.activeModifiers.some(modifier => modifier.sourceId === "S000056" && modifier.duration === "nextEligibleCard")).toBe(false);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
