@@ -4,7 +4,8 @@
   "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
   "scenarios": [
     "collection-batch-06-elfes-noirs",
-    "collection-batch-06-mobilite-elfique"
+    "collection-batch-06-mobilite-elfique",
+    "collection-batch-06-shar-arduin"
   ],
   "darkElfIds": [
     "AVS000009",
@@ -65,10 +66,34 @@
     "keyword": "Pestilence",
     "initialStack": 1,
     "doubledStack": 4,
-    "machiavelismeBonusDamage": 2
+    "machiavelismeBonusDamage": 2,
+    "firstTickDamage": 1,
+    "stackAfterFirstVictimTurn": 2,
+    "doubledTickDamage": 4,
+    "stackAfterDoubledVictimTurn": 5,
+    "publicStatusText": "Subit les effets de Pestilence."
   },
   "expectedRescue": {
     "protectedCopyZeroCost": true,
     "unprotectedSameIdKeepsPrintedCost": 2
+  },
+  "expectedSharArduin": {
+    "scenario": "collection-batch-06-shar-arduin",
+    "healOnSurvive": 4,
+    "areaDamageOnSurvive": 1,
+    "vengeanceDrawCount": 1,
+    "enemyAttackMinimumInScenario": 6,
+    "forbiddenTextFragments": [
+      "moins de",
+      "au moins *4*",
+      "au moins *6*"
+    ],
+    "canonicalTextFragments": [
+      "[Serviteur de la rune]",
+      "[Insensible]",
+      "[Vengeance]",
+      "*4*",
+      "*1*"
+    ]
   }
 }

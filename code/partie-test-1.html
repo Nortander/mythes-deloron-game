@@ -2976,6 +2976,13 @@ SCENARIOS['collection-batch-06-mobilite-elfique'] = {
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005'], drawPile:['H000018','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:20,pdv:20,atk:4,prepared:true},{id:'H000005',pdvMax:20,pdv:20,atk:5,prepared:true},{id:'MV000020',pdvMax:20,pdv:20,atk:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-06-shar-arduin'] = {
+  label: 'TEST - COLLECTION BATCH 06 Shar Arduin', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EN000012',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:40, nourriture:80}, souls:40}, hand:['EN000012'], drawPile:['EN000001','H000001','EN000007','R000010'], graveyard:[], servants:[{id:'EN000012',pdvMax:9,pdv:5,atk:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000018','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:12,pdv:12,atk:6,prepared:true},{id:'H000005',pdvMax:12,pdv:12,atk:7,prepared:true},{id:'ORC000017',pdvMax:12,pdv:12,atk:8,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -6286,6 +6293,7 @@ function isLoreOnlyCard(card) {
   if (!sourceId && typeof CARDS_DATA !== 'undefined') {
     sourceId = Object.entries(CARDS_DATA).find(([, value]) => value === card)?.[0] || '';
   }
+  if (card.batch03DynamicStatusText) return false;
   if (SOURCE_LORE_IDS_20260622.has(sourceId)) return true;
   if (COLLECTION_BATCH_02_MECHANICAL_TEXT_IDS.has(sourceId)) return false;
   if (SOURCE_MECHANICAL_IDS_20260622.has(sourceId) || SOURCE_MECHANICAL_CONTROL_IDS_20260622.has(sourceId)) return false;
@@ -7179,6 +7187,8 @@ function batch03DynamicStatusTexts(fc) {
   if (gel > 0) add(`Subit temporairement les effets de [Gel] : *${gel}* tour(s) restant(s).`);
   const burn = Number(fc.dataset.burning || 0);
   if (burn > 0) add(`Subit temporairement les effets de [Embrasement] : *${burn}* tour(s) restant(s).`);
+  const pestilence = Number(fc.dataset.batch06Disease || 0);
+  if (pestilence > 0) add('Subit les effets de [Pestilence].');
   if (fc.dataset.hypno || fc.dataset.hypnosisUntilDamage) add('Paralysé par [Hypnose] jusqu\'à subir des dégâts.');
   return lines;
 }
@@ -7189,7 +7199,7 @@ function batch03PreviewCardData(cardId, data, sourceContext={}) {
   const cap = String(data.cap || '').trim();
   const suffix = lines.join(' ');
   const separator = cap ? ' ' : '';
-  return {...data, cap: cap + separator + suffix, detail: String(data.detail || cap || '') + separator + suffix};
+  return {...data, cap: cap + separator + suffix, detail: String(data.detail || cap || '') + separator + suffix, batch03DynamicStatusText:true};
 }
 
 function buildCanonicalCardPreview(cardId, sourceContext={}) {
@@ -11965,10 +11975,48 @@ function syncBatch06DiseaseCounter(fc) {
     const vfx = document.createElement('div');
     vfx.className = 'batch06-pestilence-vfx';
     vfx.dataset.batch06PestilenceVfx = '1';
+    vfx.dataset.batch06PestilenceAmount = String(amount);
+    vfx.title = 'Pestilence';
     fc.appendChild(vfx);
-    return createBatch03StatusCounter(fc, 'pestilence', amount, 'Pestilence');
+    return vfx;
   }
   return null;
+}
+
+async function resolveBatch06CombatDamageDealtEffects(sourceFC, targetFC, context={}) {
+  if (!sourceFC || !targetFC || sourceFC.dataset.dead) return [];
+  const damageDealt = Math.max(0, Number(context.damageDealt || 0));
+  if (damageDealt <= 0) return [];
+  const sourcePlayer = playerState(sourceFC.dataset.player);
+  const targetPlayer = playerState(targetFC.dataset.player);
+  const isEnemyTarget = !!sourcePlayer && !!targetPlayer && sourcePlayer.key !== targetPlayer.key;
+  const targetSurvived = !context.targetDied && !targetFC.dataset.dead && targetFC.isConnected;
+  const results = [];
+
+  if (sourceFC.dataset.id === 'EN000007' && isEnemyTarget) {
+    const heal = applyHeal(sourceFC, 2);
+    if (heal.success && Number(heal.gained || 0) > 0) pulseBatch03Ability(sourceFC, 'sombre-garde-heal', {move:true});
+    const result = {type:'sombre-garde-heal', phase:context.phase || 'combat', source:targetSummary(sourceFC), target:targetSummary(targetFC), heal};
+    results.push(result);
+    recordCollectionBatch06Event('sombre-garde-heal', result);
+  }
+
+  if (sourceFC.dataset.id === 'EN000005' && isEnemyTarget && targetSurvived) {
+    const before = Number(targetFC.dataset.batch06Disease || 0);
+    const next = before > 0 ? before : 1;
+    targetFC.dataset.batch06Disease = String(next);
+    targetFC.dataset.batch06DiseaseSourcePlayer = sourcePlayer.key;
+    syncBatch06DiseaseCounter(targetFC);
+    if (before === 0) {
+      pulseBatch03Ability(sourceFC, 'pestilence', {move:true});
+      await new Promise(resolve => setTimeout(resolve, 180));
+    }
+    const result = {type:'pestilence-applied', phase:context.phase || 'combat', source:targetSummary(sourceFC), target:targetSummary(targetFC), before, pestilence:next, newlyApplied:before === 0};
+    results.push(result);
+    recordCollectionBatch06Event('pestilence-applied', result);
+  }
+
+  return results;
 }
 
 function clearBatch06Disease(fc, reason='healed') {
@@ -12511,10 +12559,12 @@ async function resolveCombat(attacker, targetFC) {
 
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
+  let counterDamageDealt = 0;
   if (defAlive && defAtk > 0 && !batch05Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC)) {
     updateRageState(targetFC);
     let counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
     if (targetFC.dataset.id === 'EDB000001' && CARDS_DATA[attacker.dataset.id]?.fac === 'mvs') counterAtk *= 2;
+    counterDamageDealt = counterAtk;
     const attackerDied = await applyDamage(attacker, counterAtk);
     counterAttackerDied = !!attackerDied;
     if (!attackerDied) {
@@ -12545,20 +12595,10 @@ async function resolveCombat(attacker, targetFC) {
       healing:combatHealingResults
     });
   }
-  // Sombre-garde : soin après avoir infligé des dégâts et survécu
-  if (attacker.dataset.id === 'EN000007' && !attacker.dataset.dead && finalAtkDmg > 0) {
-    const heal = applyHeal(attacker, 2);
-    if (heal.success) pulseBatch03Ability(attacker, 'sombre-garde-heal');
-    recordCollectionBatch06Event('sombre-garde-heal', {source:targetSummary(attacker), target:targetSummary(targetFC), heal});
-  }
-  if (attacker.dataset.id === 'EN000005' && !defDied && finalAtkDmg > 0 && !targetFC.dataset.dead) {
-    pulseBatch03Ability(attacker, 'pestilence', {move:true});
-    await new Promise(resolve => setTimeout(resolve, 180));
-    const disease = Number(targetFC.dataset.batch06Disease || 0) + 1;
-    targetFC.dataset.batch06Disease = String(disease);
-    targetFC.dataset.batch06DiseaseSourcePlayer = playerState(attacker.dataset.player)?.key || attacker.dataset.player || '';
-    syncBatch06DiseaseCounter(targetFC);
-    recordCollectionBatch06Event('pestilence-applied', {source:targetSummary(attacker), target:targetSummary(targetFC), pestilence:disease});
+  // Effets d'Elfes noirs apres degats de combat reels, en attaque comme en riposte.
+  await resolveBatch06CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
+  if (counterDamageDealt > 0) {
+    await resolveBatch06CombatDamageDealtEffects(targetFC, attacker, {damageDealt:counterDamageDealt, targetDied:counterAttackerDied, phase:'counter'});
   }
   if (attacker.dataset.id === 'EN000008' && defDied && !attacker.dataset.dead) {
     const heal = applyHeal(attacker, 5);
@@ -13760,12 +13800,20 @@ function applyEndOfTurnEffects(player) {
     }
   });
 
-  livingServantCardsForPlayer(opponentOf(player)).forEach(infected => {
+  livingServantCardsForPlayer(player).forEach(infected => {
     const amount = Number(infected.dataset.batch06Disease || 0);
-    if (!amount || infected.dataset.batch06DiseaseSourcePlayer !== playerKey(player)) return;
+    if (!amount) return;
+    const sourcePlayer = playerState(infected.dataset.batch06DiseaseSourcePlayer) || opponentOf(player) || player;
     syncBatch06DiseaseCounter(infected);
-    tryApplyAbilityDamage({sourcePlayer:player, targetFC:infected, sourceCardId:'EN000005', amount, effectKind:'disease'});
-    recordCollectionBatch06Event('pestilence-tick', {sourcePlayerId:playerKey(player), target:targetSummary(infected), amount});
+    (async () => {
+      const before = targetSummary(infected);
+      const died = await tryApplyAbilityDamage({sourcePlayer, targetFC:infected, sourceCardId:'EN000005', amount, effectKind:'disease'});
+      if (!died && infected.isConnected && !infected.dataset.dead && Number(infected.dataset.batch06Disease || 0) === amount) {
+        infected.dataset.batch06Disease = String(amount + 1);
+        syncBatch06DiseaseCounter(infected);
+      }
+      recordCollectionBatch06Event('pestilence-tick', {victimPlayerId:playerKey(player), sourcePlayerId:playerKey(sourcePlayer), before, target:targetSummary(infected), amount, nextAmount:Number(infected.dataset.batch06Disease || 0), died});
+    })();
   });
 
   zone.querySelectorAll('[data-id="EN000009"]:not([data-dead])').forEach(archonte => {
@@ -17932,7 +17980,7 @@ Object.assign(CARDS_DATA, {
   EN000003:{...CARDS_DATA.EN000003, cap:"À la fin de chacun de vos tours, invoque *1* « Serviteur osseux » de votre côté du terrain.", detail:"À la fin de chacun de vos tours, invoque *1* « Serviteur osseux » de votre côté du terrain."},
   EN000005:{...CARDS_DATA.EN000005, kws:[...new Set([...(CARDS_DATA.EN000005?.kws || []), 'Rempart', 'Vengeance', 'Pestilence'])], cap:"[Rempart] Chaque fois que le « Héraut ténébreux » inflige des dégâts à un serviteur adverse, affecte également ledit serviteur avec [Pestilence]. [Vengeance] Double le montant de dégâts infligés par [Pestilence] à tous les serviteurs adverses déjà malades.", detail:"[Rempart] Chaque fois que le « Héraut ténébreux » inflige des dégâts à un serviteur adverse, affecte également ledit serviteur avec [Pestilence]. [Vengeance] Double le montant de dégâts infligés par [Pestilence] à tous les serviteurs adverses déjà malades."},
   EN000007:{...CARDS_DATA.EN000007, cap:"Chaque fois que ce serviteur inflige des dégâts, il récupère *2* points de vie.", detail:"Chaque fois que ce serviteur inflige des dégâts, il récupère *2* points de vie."},
-  EN000012:{...CARDS_DATA.EN000012, cap:"[Serviteur de la rune] [Vengeance] Piochez *1* serviteur Elfe noir de votre deck. Cette carte ne peut attaquer que les serviteurs ayant au moins *4* d'attaque. Cette carte ne subit aucun dégât des serviteurs ayant au moins *6* d'attaque.", detail:"[Serviteur de la rune] [Vengeance] Piochez *1* serviteur Elfe noir de votre deck. Cette carte ne peut attaquer que les serviteurs ayant au moins *4* d'attaque. Cette carte ne subit aucun dégât des serviteurs ayant au moins *6* d'attaque."},
+  EN000012:{...CARDS_DATA.EN000012, cap:"[Serviteur de la rune] [Insensible] Chaque fois que « Shar Arduin » survit à des dégâts, il se soigne de *4* points de vie et inflige en prime *1* point de dommage à tous les serviteurs adverses sur le terrain. Cet effet ne peut se produire qu'une fois par tour. [Vengeance] Piochez *1* serviteur de la faction « Elfe noir » de votre deck.", detail:"[Serviteur de la rune] [Insensible] Chaque fois que « Shar Arduin » survit à des dégâts, il se soigne de *4* points de vie et inflige en prime *1* point de dommage à tous les serviteurs adverses sur le terrain. Cet effet ne peut se produire qu'une fois par tour. [Vengeance] Piochez *1* serviteur de la faction « Elfe noir » de votre deck."},
   S000049:{name:'Machiavélisme',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000RDM',res_val:'3',resType:'Lenya|Nourriture',fico:'FCT00000GOB.png',kws:['Lenya','Nourriture','Vengeance'],assetFolder:'sorts',max:3,cap:"Jusqu'à la fin de votre tour, chaque capacité [Vengeance] déclenchée par un serviteur allié inflige *2* points de dégâts supplémentaires à *1* serviteur adverse aléatoire. Les capacités [Vengeance] de vos serviteurs gobelins se déclenchent une seconde fois ce tour.",detail:"Jusqu'à la fin de votre tour, chaque capacité [Vengeance] déclenchée par un serviteur allié inflige *2* points de dégâts supplémentaires à *1* serviteur adverse aléatoire. Les capacités [Vengeance] de vos serviteurs gobelins se déclenchent une seconde fois ce tour."}
 });
 
