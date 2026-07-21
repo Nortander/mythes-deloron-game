@@ -1,0 +1,46 @@
+{
+  "batchId": "COLLECTION-BATCH-08",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-19.xlsx",
+  "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
+  "scenarios": [
+    "collection-batch-08-orcs",
+    "collection-batch-08-sorts-orcs",
+    "collection-batch-08-avatar-orc"
+  ],
+  "orcIds": [
+    "AVS000006",
+    "ORC000001",
+    "ORC000002",
+    "ORC000003",
+    "ORC000004",
+    "ORC000005",
+    "ORC000006",
+    "ORC000007",
+    "ORC000008",
+    "ORC000009",
+    "ORC000010",
+    "ORC000011",
+    "ORC000012",
+    "ORC000013",
+    "ORC000014",
+    "ORC000015",
+    "ORC000016",
+    "ORC000017",
+    "ORC000018",
+    "ORC000019",
+    "ORC000020",
+    "S000014",
+    "S000032"
+  ],
+  "staticServants": ["ORC000002", "ORC000005", "ORC000006"],
+  "dependencies": ["B000003", "B000004", "GOB000001", "GOB000002", "GOB000003", "R000010", "R000011", "R000021"],
+  "expectedHiddenScenarioOptionCount": 0,
+  "maxVisualHandSize": 8,
+  "expectedPillagePool": ["ORC000001", "ORC000002", "ORC000004", "ORC000005"],
+  "expectedSavoirTribalHits": ["H000001", "H000005", "H000006"],
+  "expectedAvatarReplacement": "B000003",
+  "expectedMaybeUntouched": {
+    "hokhan": ["R000010"],
+    "uram": ["DIV000002"]
+  }
+}

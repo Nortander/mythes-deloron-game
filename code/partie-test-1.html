@@ -1924,7 +1924,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -2806,6 +2806,27 @@ SCENARIOS['collection-batch-02-generated-spells'] = {
   testSetup: {
     player1: {resources:{classical:{aria:20, lenya:20, nourriture:20}, souls:5}, hand:[], drawPile:['S000060','S000059','S000058','S000057','S000004','R000010'], graveyard:[], servants:[{id:'H000032'},{id:'H000034'},{id:'H000036'}], avatarHp:20},
     player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['S000004','S000005','S000007','S000031','S000055','N000004','N000015','H000011'], drawPile:['S000004','S000055','H000001','ORC000017','B000015','B000016','B000017','R000024'], graveyard:[], servants:[{id:'H000001'},{id:'H000005'},{id:'ORC000017'}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-08-orcs'] = {
+  label: 'TEST - COLLECTION BATCH 08 Orcs', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'ORC000001',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000007','ORC000009','ORC000011','ORC000016','ORC000018'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:2,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-08-sorts-orcs'] = {
+  label: 'TEST - COLLECTION BATCH 08 Sorts orcs', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000014',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['S000014','S000032'], drawPile:['R000010','ORC000002','ORC000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:3,pdvMax:3,prepared:true},{id:'H000005',pdv:4,pdvMax:4,prepared:true},{id:'H000006',pdv:5,pdvMax:5,prepared:true},{id:'MV000020',pdv:9,pdvMax:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-08-avatar-orc'] = {
+  label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['AVS000006','ORC000020','ORC000010','ORC000015','ORC000019'], drawPile:['ORC000002','ORC000005','ORC000006','R000010'], graveyard:[], servants:[{id:'ORC000020',prepared:true},{id:'ORC000010',prepared:true},{id:'ORC000015',prepared:true},{id:'ORC000019',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'B000004',pdv:3,pdvMax:3,prepared:true},{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:6,pdvMax:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-03-humans-overview'] = {
@@ -5129,6 +5150,7 @@ function isColdLocked(instance) {
 
 function canResolveServantAbility(instance, context = {}) {
   if (!instance || instance.dataset?.dead) return false;
+  if (typeof isBatch08AvatarPassiveDisabled === 'function' && isBatch08AvatarPassiveDisabled(instance.dataset?.player) && String(instance.dataset.id || '').startsWith('AVS') && context.triggerType === 'passive') return false;
   if (!isColdLocked(instance)) return true;
   if (context.actionStartedBeforeCold && Number(context.sequenceStep || 1) <= 1) return true;
   return false;
@@ -8942,14 +8964,22 @@ function updateRageState(fc) {
   if (!fc || fc.dataset.dead) return;
   if (fc.dataset.deferRage === '1') return;
   const d = CARDS_DATA[fc.dataset.id];
-  if (!d || !(d.kws || []).includes('Rage')) return;
-  const baseAtk = parseInt(d.atk) || 0;
+  const hasPrintedRage = !!d && (d.kws || []).includes('Rage');
+  const hasGrantedRage = fc.dataset.batch08TotemRage === '1';
+  if (!hasPrintedRage && !hasGrantedRage) {
+    delete fc.dataset.rageActive;
+    return;
+  }
+  if (!fc.dataset.rageBaseAtk) fc.dataset.rageBaseAtk = String(parseInt(fc.dataset.atk || d?.atk || 0) || 0);
+  const baseAtk = parseInt(fc.dataset.rageBaseAtk) || 0;
   const curPdv = parseInt(fc.dataset.pdv) || 0;
   const maxPdv = parseInt(fc.dataset.pdvMax) || curPdv;
-  const effectiveAtk = curPdv > 0 && curPdv < maxPdv ? baseAtk + 2 : baseAtk;
-  fc.dataset.atk = effectiveAtk;
+  const active = curPdv > 0 && curPdv < maxPdv;
+  const effectiveAtk = active ? baseAtk + 2 : baseAtk;
+  fc.dataset.atk = String(effectiveAtk);
+  fc.dataset.rageActive = active ? '1' : '0';
   fc.querySelectorAll('.fc-atk-val').forEach(el => {
-    el.textContent = effectiveAtk;
+    el.textContent = String(effectiveAtk);
     el.classList.toggle('grn', effectiveAtk > baseAtk);
   });
 }
@@ -10055,6 +10085,15 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     zone: 'servants',
     cardType: 'Serviteur',
     effectKind: 'rescue'
+  },
+  S000032: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'opponent',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'damage'
   }
 });
 
@@ -10603,7 +10642,7 @@ async function playCard(cardId, slot, options={}) {
   const handOccurrenceId = options?.handOccurrenceId || slot?.dataset?.handOccurrence || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
   const affordabilityContext = handOccurrenceId ? {handOccurrenceId} : {};
-  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056') && !selectedTargetIds) {
+  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056' || cardId === 'S000032') && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
@@ -10619,12 +10658,12 @@ async function playCard(cardId, slot, options={}) {
       return {success:false, reason:'no-valid-target', targetResult};
     }
     const chosen = await chooseBoardTargets({
-      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : 'Aura de protection'),
-      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : 'Choisissez le serviteur allié à protéger.'),
+      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : (cardId === 'S000032' ? 'Savoir tribal' : 'Aura de protection')),
+      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : (cardId === 'S000032' ? 'Choisissez le premier serviteur à frapper.' : 'Choisissez le serviteur allié à protéger.')),
       targets,
       minCount:1,
       maxCount:1,
-      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : '')
+      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : (cardId === 'S000032' ? ' savoir-tribal-choice-panel' : ''))
     });
     if (chosen.length !== 1) {
       releasePaymentLock(p, cardId);
@@ -10809,6 +10848,8 @@ async function triggerInitiative(cardId, player, context={}) {
   if (batch03Initiative?.handled) return batch03Initiative;
   const batch07Initiative = await resolveBatch07Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch07Initiative?.handled) return batch07Initiative;
+  const batch08Initiative = await resolveBatch08Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
+  if (batch08Initiative?.handled) return batch08Initiative;
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
@@ -11240,6 +11281,10 @@ async function triggerSort(cardId, player, context={}) {
       return await resolveApresLaCatastrophe(player, context);
     case 'S000024':
       return resolveBatch07SecretsForge(player);
+    case 'S000014':
+      return await resolvePillageEnRegle(player);
+    case 'S000032':
+      return await resolveSavoirTribal(player, context);
     case 'S000054':
       return resolveBatch07BouteFlammes(player);
     case 'S000026':
@@ -12449,6 +12494,352 @@ function resetBatch07TurnDamage(player) {
   });
 }
 
+const collectionBatch08State = {events:[], ambiguities:[]};
+
+function recordCollectionBatch08Event(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch08State.events.push(event);
+  window.__collectionBatch08LastEvent = event;
+  return event;
+}
+
+function batch08PlayerKey(player) { return playerKey(player); }
+function batch08Living(player) { return livingServantCardsForPlayer(player).filter(fc => !fc.dataset.dead); }
+function isBatch08OrcServant(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id;
+  return CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'orc';
+}
+function isBatch08OrcFamilyServant(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id;
+  const fac = CARDS_DATA[id]?.fac || '';
+  return CARDS_DATA[id]?.type === 'Serviteur' && ['orc','gob','trl'].includes(fac);
+}
+function isBatch08GoblinOrTroll(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id;
+  return ['gob','trl'].includes(CARDS_DATA[id]?.fac || '');
+}
+function batch08VisibleEnemyServants(player, sourceCardId, effectKind='damage') {
+  const p = playerState(player);
+  const candidates = batch08Living(opponentOf(p));
+  return getAffectableTargets({sourcePlayer:p, targets:candidates, sourceCardId, effectKind, isAbility:true});
+}
+function batch08Pick(entries) { return entries[Math.floor(gameRandom() * entries.length)] || null; }
+function batch08GoblinCreationPool() {
+  return Object.keys(CARDS_DATA).filter(id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob' && Number(CARDS_DATA[id]?.cost || 0) <= 3).sort();
+}
+function batch08FreeSlots(player) {
+  return Array.from(qs(playerZoneSelector(player, 'servants'))?.querySelectorAll('.slot') || []);
+}
+function batch08PassiveBuffFor(fc) {
+  const owner = playerState(fc?.dataset?.player);
+  if (!owner || !fc || fc.dataset.dead) return {atk:0, pdvMax:0, sources:[], grantsRage:false};
+  const sources = [];
+  let atk = 0;
+  let pdvMax = 0;
+  let grantsRage = false;
+  const allies = batch08Living(owner);
+  const slavers = allies.filter(card => card !== fc && card.dataset.id === 'ORC000012' && canResolveServantAbility(card, {triggerType:'passive'})).length;
+  if (slavers && isBatch08GoblinOrTroll(fc)) { atk += slavers; sources.push('ORC000012'); }
+  const totems = allies.filter(card => card !== fc && card.dataset.id === 'ORC000014' && canResolveServantAbility(card, {triggerType:'passive'})).length;
+  if (totems && isBatch08OrcFamilyServant(fc)) { atk += totems; pdvMax += totems; grantsRage = true; sources.push('ORC000014'); }
+  return {atk, pdvMax, sources, grantsRage};
+}
+function syncBatch08DynamicRageFlags() {
+  for (const p of [player1, player2].filter(Boolean)) {
+    for (const fc of batch08Living(p)) {
+      const buff = batch08PassiveBuffFor(fc);
+      if (buff.grantsRage) fc.dataset.batch08TotemRage = '1';
+      else delete fc.dataset.batch08TotemRage;
+      updateRageState(fc);
+    }
+  }
+}
+function isBatch08AvatarPassiveDisabled(player) {
+  const p = playerState(player);
+  if (!p) return false;
+  return [player1, player2].filter(Boolean).some(owner => batch08Living(owner).some(fc => fc.dataset.id === 'ORC000016' && !isColdLocked(fc)));
+}
+function syncBatch08AvatarPassiveLocks() {
+  const disabled = isBatch08AvatarPassiveDisabled(player1) || isBatch08AvatarPassiveDisabled(player2);
+  [player1, player2].filter(Boolean).forEach(p => { p.batch08AvatarPassivesDisabled = disabled; });
+  return disabled;
+}
+function batch08ZoneAudit() {
+  return [player1, player2].filter(Boolean).map(player => ({
+    playerId:player.key,
+    hand:[...playerHand(player)],
+    drawPile:[...playerDrawPile(player)].map(getRuntimeCardId),
+    graveyard:[...(player.graveyard || [])].map(getRuntimeCardId),
+    board:batch08Living(player).map(fc => ({...targetSummary(fc), passiveSources:fc.dataset.batch05PassiveSources || '', totemRage:fc.dataset.batch08TotemRage === '1', rageActive:fc.dataset.rageActive === '1'})),
+    avatarPassivesDisabled:!!player.batch08AvatarPassivesDisabled
+  }));
+}
+function auditCollectionBatch08Runtime() {
+  return {
+    scenarioId:selectedScenarioId(),
+    events:[...collectionBatch08State.events],
+    ambiguities:[...collectionBatch08State.ambiguities],
+    players:batch08ZoneAudit()
+  };
+}
+
+async function resolveBatch08Initiative(cardId, player, context={}) {
+  const p = playerState(player);
+  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector('.fc[data-instance="' + CSS.escape(context.sourceInstanceId) + '"]') : findBoardCard(p, cardId));
+  const handledIds = ['ORC000001','ORC000003','ORC000004','ORC000007','ORC000009','ORC000011','ORC000016','ORC000018'];
+  if (!handledIds.includes(cardId)) return {handled:false};
+  const result = {handled:true, success:true, cardId, playerId:p?.key || null, operations:[]};
+  if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {...result, success:false, reason:'ability-locked'};
+  if (sourceFC) pulseBatch03Ability(sourceFC, 'batch08-initiative', {move:true});
+
+  if (cardId === 'ORC000001') {
+    const wounded = batch08Living(p).filter(fc => fc !== sourceFC && Number(fc.dataset.pdv || 0) < Number(fc.dataset.pdvMax || fc.dataset.pdv || 0));
+    if (wounded.length) {
+      const target = wounded[0];
+      const heal = applyHeal(target, Number(target.dataset.pdvMax || 0));
+      result.operations.push({type:'heal-full', target:targetSummary(target), heal});
+    } else {
+      const targets = batch08VisibleEnemyServants(p, cardId, 'embrasement').slice(0, 2);
+      for (const target of targets) result.operations.push({type:'embrasement', target:targetSummary(target), applied:await applyEmbrasement(target, {sourcePlayer:p, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, rejectIfAlreadyBurning:true})});
+    }
+  }
+  if (cardId === 'ORC000003') {
+    const draw = drawCardFromRuntimeDeck(p, {predicate:id => CARDS_DATA[id]?.type === 'Approvisionnement', refresh:true, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance});
+    result.operations.push({type:'draw-supply', draw});
+  }
+  if (cardId === 'ORC000004') {
+    const target = batch08Pick(batch08VisibleEnemyServants(p, cardId, 'damage'));
+    if (target) result.operations.push({type:'initiative-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:Number(sourceFC?.dataset.atk || 0)})});
+  }
+  if (cardId === 'ORC000007') {
+    const target = batch08Pick(batch08VisibleEnemyServants(p, cardId, 'destroy'));
+    if (target) { const before = targetSummary(target); await sendToCemetery(target); result.operations.push({type:'destroy-random', target:before}); }
+  }
+  if (cardId === 'ORC000009') {
+    const target = batch08Pick(batch08VisibleEnemyServants(p, cardId, 'damage'));
+    if (target) {
+      const before = targetSummary(target);
+      const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:Number(sourceFC?.dataset.atk || 0)});
+      result.operations.push({type:'initiative-damage', target:before, died});
+      if (died && sourceFC?.isConnected && !sourceFC.dataset.dead) result.operations.push({type:'self-damage', died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:sourceFC, sourceCardId:cardId, amount:1, bypassInsensitive:true})});
+    }
+  }
+  if (cardId === 'ORC000011') {
+    const pool = batch08GoblinCreationPool();
+    const created = [];
+    for (const id of pool.slice(0, 3)) {
+      const added = addCardToHand(p, id, {refresh:false});
+      created.push({id, added});
+    }
+    renderAllHands();
+    result.operations.push({type:'create-goblins', created});
+  }
+  if (cardId === 'ORC000016') {
+    const disabled = syncBatch08AvatarPassiveLocks();
+    result.operations.push({type:'avatar-passives-disabled', disabled});
+  }
+  if (cardId === 'ORC000018') {
+    result.operations.push(await resolveBatch08MeleeScramble(p, sourceFC));
+  }
+  syncBatch05Passives();
+  recordCollectionBatch08Event('initiative', result);
+  return result;
+}
+
+async function resolveBatch08MeleeScramble(player, sourceFC=null) {
+  const p = playerState(player);
+  const myCards = batch08Living(p);
+  const enemyCards = batch08Living(opponentOf(p));
+  const pairs = [];
+  const count = Math.min(myCards.length, enemyCards.length);
+  for (let i = 0; i < count; i++) {
+    const attacker = myCards[i];
+    const defender = enemyCards[i];
+    if (!attacker?.isConnected || !defender?.isConnected || attacker.dataset.dead || defender.dataset.dead) continue;
+    const damage = Number(attacker.dataset.atk || 0);
+    const targetDamage = Number(defender.dataset.atk || 0);
+    attacker._killer = defender;
+    defender._killer = attacker;
+    const defenderBefore = targetSummary(defender);
+    const attackerBefore = targetSummary(attacker);
+    const defenderDied = await applyDamage(defender, damage);
+    let attackerDied = false;
+    if (!defenderDied && targetDamage > 0) attackerDied = await applyDamage(attacker, targetDamage);
+    pairs.push({attacker:attackerBefore, defender:defenderBefore, damage, counter:targetDamage, defenderDied, attackerDied});
+  }
+  return {type:'melee-scramble', pairs};
+}
+
+function batch08CombatPlan(attacker, targetFC, baseDamage) {
+  const result = {damage:baseDamage, extraAttackOnKill:false, adjacentTargets:[], firstBoarAttack:false};
+  if (attacker?.dataset?.id === 'ORC000015' && !attacker.dataset.batch08BoarFirstAttackUsed) {
+    result.damage += 2;
+    result.extraAttackOnKill = true;
+    result.firstBoarAttack = true;
+    attacker.dataset.batch08BoarFirstAttackUsed = String(turnSequence);
+  }
+  if (attacker?.dataset?.id === 'ORC000008') result.adjacentTargets = batch03AdjacentServants(targetFC);
+  return result;
+}
+
+function batch08ApplyAttackExhaustion(attacker, context={}) {
+  if (attacker?.dataset?.id === 'ORC000015' && context.firstBoarAttack && context.targetDied && !attacker.dataset.dead) {
+    attacker.dataset.batch08BoarExtraAttack = '1';
+    delete attacker.dataset.exhausted;
+    attacker.classList.remove('fc-exhausted');
+    recordCollectionBatch08Event('boar-extra-attack-ready', {attacker:targetSummary(attacker)});
+    return true;
+  }
+  if (attacker?.dataset?.batch08BoarExtraAttack === '1') delete attacker.dataset.batch08BoarExtraAttack;
+  return false;
+}
+
+async function resolveBatch08CombatDamageDealtEffects(sourceFC, targetFC, context={}) {
+  if (!sourceFC || !targetFC) return [];
+  const p = playerState(sourceFC.dataset.player);
+  const results = [];
+  if (sourceFC.dataset.id === 'ORC000008' && context.phase === 'attack') {
+    for (const adjacent of context.adjacentTargets || []) {
+      if (adjacent?.isConnected && !adjacent.dataset.dead) results.push({type:'lancier-adjacent', target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:adjacent, sourceCardId:'ORC000008', amount:Number(context.damageDealt || 0)})});
+    }
+  }
+  if (context.targetDied && ['ORC000010','ORC000015','ORC000019'].includes(sourceFC.dataset.id)) {
+    results.push(await resolveBatch08KillEffects(sourceFC, targetFC, context));
+  }
+  if (results.length) recordCollectionBatch08Event('combat-damage-dealt', {source:targetSummary(sourceFC), target:targetSummary(targetFC), results});
+  return results;
+}
+
+async function resolveBatch08KillEffects(sourceFC, targetFC, context={}) {
+  const p = playerState(sourceFC.dataset.player);
+  const victimId = targetFC?.dataset?.id || context.targetId || null;
+  if (sourceFC.dataset.id === 'ORC000010') {
+    const draw = drawCardFromRuntimeDeck(p, {predicate:id => CARDS_DATA[id]?.type === 'Serviteur', refresh:false, sourceCardId:'ORC000010', sourceInstanceId:sourceFC.dataset.instance});
+    let summon = null;
+    if (draw.success && CARDS_DATA[draw.cardId]?.fac === 'orc' && Number(CARDS_DATA[draw.cardId]?.cost || 0) < 4) {
+      const handIndex = playerHand(p).lastIndexOf(draw.cardId);
+      if (handIndex >= 0) playerHand(p).splice(handIndex, 1);
+      summon = await summonBatch03Servant(p, draw.cardId, {sourceCardId:'ORC000010', sourceInstanceId:sourceFC.dataset.instance, triggerInitiativeEffect:true, ready:true});
+    }
+    renderAllHands();
+    return {type:'clan-chief-kill-draw', draw, summon};
+  }
+  if (sourceFC.dataset.id === 'ORC000019') {
+    if (sourceFC.dataset.batch08MaraborcCopiedTurn === String(turnSequence)) return {type:'maraborc-copy', skipped:'once-per-turn'};
+    if (!victimId || !CARDS_DATA[victimId]) return {type:'maraborc-copy', skipped:'missing-victim'};
+    sourceFC.dataset.batch08MaraborcCopiedTurn = String(turnSequence);
+    const added = addCardToHand(p, victimId, {refresh:true});
+    return {type:'maraborc-copy', victimId, added, treatedAsOrc:true, costDelta:-1};
+  }
+  return {type:'boar-kill', extraAttack:!!context.firstBoarAttack};
+}
+
+function handleBatch08AlliedServantDeath(player, deadFC, context={}) {
+  const p = playerState(player);
+  if (!p || !deadFC || deadFC.dataset.type === 'appro') return [];
+  const results = [];
+  for (const butcher of batch08Living(p).filter(fc => fc.dataset.id === 'ORC000013' && fc !== deadFC && canResolveServantAbility(fc, {triggerType:'ally-death'}))) {
+    const base = Number(butcher.dataset.atk || 0);
+    butcher.dataset.batch08ButcherBonus = String(Number(butcher.dataset.batch08ButcherBonus || 0) + 1);
+    batch03UpdateStats(butcher, {atk:base + 1});
+    results.push({butcher:targetSummary(butcher), dead:targetSummary(deadFC)});
+    pulseBatch03Ability(butcher, 'ally-death');
+  }
+  if (results.length) recordCollectionBatch08Event('boucher-ally-death', {playerId:p.key, results});
+  return results;
+}
+
+async function resolveBatch08EndTurnEffects(player) {
+  const p = playerState(player);
+  const results = [];
+  for (const poisoner of batch08Living(p).filter(fc => fc.dataset.id === 'ORC000004' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    const targets = batch08VisibleEnemyServants(p, 'ORC000004', 'damage');
+    const damaged = [];
+    for (const target of targets) damaged.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:'ORC000004', amount:1})});
+    if (damaged.length) pulseBatch03Ability(poisoner, 'end-turn');
+    results.push({type:'poisoner-end-turn', source:targetSummary(poisoner), damaged});
+  }
+  for (const chaos of batch08Living(p).filter(fc => fc.dataset.id === 'ORC000007' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    const atk = Number(chaos.dataset.atk || 0);
+    const target = batch08Pick(batch08VisibleEnemyServants(p, 'ORC000007', 'destroy').filter(fc => Number(fc.dataset.pdv || 0) <= atk));
+    if (target) { const before = targetSummary(target); await sendToCemetery(target); pulseBatch03Ability(chaos, 'end-turn'); results.push({type:'chaos-end-turn-destroy', source:targetSummary(chaos), target:before}); }
+  }
+  if (results.length) recordCollectionBatch08Event('end-turn', {playerId:p.key, results});
+  syncBatch05Passives();
+  return {applied:results.length, results};
+}
+
+async function resolveBatch08StartTurnEffects(player) {
+  const active = playerState(player);
+  const opponent = opponentOf(active);
+  const results = [];
+  for (const gultark of batch08Living(opponent).filter(fc => fc.dataset.id === 'ORC000020' && canResolveServantAbility(fc, {triggerType:'opponent-start-turn'}))) {
+    const atk = Number(gultark.dataset.atk || 0);
+    const targets = batch08Living(active).filter(fc => Number(fc.dataset.pdv || 0) <= atk);
+    const destroyed = [];
+    for (const target of targets) { const before = targetSummary(target); await sendToCemetery(target, {suppressVengeance:true, sourceCardId:'ORC000020', sourceInstanceId:gultark.dataset.instance}); destroyed.push(before); }
+    if (destroyed.length) pulseBatch03Ability(gultark, 'opponent-start-turn');
+    results.push({type:'gultark-opponent-start', source:targetSummary(gultark), destroyed});
+  }
+  if (results.length) recordCollectionBatch08Event('start-turn', {playerId:active?.key, results});
+  syncBatch05Passives();
+  return {applied:results.length, results};
+}
+
+async function resolvePillageEnRegle(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000014'};
+  const pool = ['ORC000001','ORC000002','ORC000004','ORC000005'];
+  const summons = [];
+  while (summons.length < 4 && batch08FreeSlots(p).length) {
+    const id = pool[Math.floor(gameRandom() * pool.length)];
+    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:true, ready:true}));
+  }
+  const result = {success:true, cardId:'S000014', playerId:p.key, summons};
+  recordCollectionBatch08Event('pillage-en-regle', result);
+  showNotif('Pillage en règle invoque ' + summons.filter(s => s.success).length + ' serviteur(s) orc(s).', 1600);
+  return result;
+}
+
+async function resolveSavoirTribal(player, context={}) {
+  const p = playerState(player);
+  const audit = evaluateTargetRequirement('S000032', {player:p, selectedTargetIds:context.selectedTargetIds || null});
+  if (!audit.allowed) {
+    showErr(cardActionError(audit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:audit}));
+    const refused = {success:false, reason:audit.code, cardId:'S000032', targetAudit:audit};
+    recordCollectionBatch08Event('savoir-tribal-refused', refused);
+    return refused;
+  }
+  const legal = new Set((audit.legalTargets || []).map(target => target.instance));
+  let target = resolveBoardTargetReferences(context.selectedTargetIds || []).find(fc => legal.has(fc.dataset.instance || ''));
+  if (!target) {
+    const picked = legalTargetsForRequirement('S000032', p);
+    target = picked[0] || null;
+  }
+  if (!target) return {success:false, reason:'missing-target', cardId:'S000032', targetAudit:audit};
+  let overflow = 10;
+  const hits = [];
+  const rowChildren = Array.from(target.parentElement?.children || []);
+  const startIndex = rowChildren.indexOf(target);
+  const chain = rowChildren.slice(Math.max(0, startIndex)).filter(node => node?.classList?.contains('fc') && !node.dataset.dead && node.dataset.player === target.dataset.player).slice(0, 3);
+  for (const current of chain) {
+    if (!current?.isConnected || current.dataset.dead || overflow <= 0) break;
+    const before = targetSummary(current);
+    const currentPdv = Number(current.dataset.pdv || 0);
+    const damage = Math.min(overflow, currentPdv);
+    const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:current, sourceCardId:'S000032', amount:overflow});
+    hits.push({target:before, damage:Math.max(0, damage), died});
+    overflow = Math.max(0, overflow - currentPdv);
+    if (!died) break;
+  }
+  const result = {success:true, cardId:'S000032', playerId:p.key, hits, overflow};
+  recordCollectionBatch08Event('savoir-tribal', result);
+  showNotif('Savoir tribal inflige ' + hits.reduce((sum, hit) => sum + hit.damage, 0) + ' dégât(s).', 1600);
+  return result;
+}
+
+window.auditCollectionBatch08Runtime = auditCollectionBatch08Runtime;
+
 const collectionBatch06State = {events:[], ambiguities:[]};
 
 function recordCollectionBatch06Event(type, detail={}) {
@@ -13050,8 +13441,10 @@ async function resolveCombat(attacker, targetFC) {
 
   // Dégâts sur le défenseur
   const batch05Plan = batch05CombatPlan(attacker, targetFC, (attacker.dataset.id==='EDB000001' && targetFC.dataset.fac==='mvs') ? atkAtk*2 : atkAtk);
-  const finalAtkDmg = batch05Plan.damage;
+  let finalAtkDmg = batch05Plan.damage;
   const batch07GlamrigAdjacentTargets = attacker.dataset.id === 'N000014' ? batch03AdjacentServants(targetFC) : [];
+  const batch08Plan = batch08CombatPlan(attacker, targetFC, finalAtkDmg);
+  finalAtkDmg = batch08Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
@@ -13067,6 +13460,7 @@ async function resolveCombat(attacker, targetFC) {
   await triggerBatch03CombatHooks(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
   await resolveBatch05PostAttackEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
   await resolveBatch07CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch07GlamrigAdjacentTargets});
+  await resolveBatch08CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch08Plan.adjacentTargets, firstBoarAttack:batch08Plan.firstBoarAttack});
 
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
@@ -13087,6 +13481,7 @@ async function resolveCombat(attacker, targetFC) {
     }
     await triggerBatch03CombatHooks(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
     await resolveBatch05PostAttackEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
+    await resolveBatch08CombatDamageDealtEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
   }
 
   // Marquer l'attaquant épuisé
@@ -13146,7 +13541,7 @@ async function resolveCombat(attacker, targetFC) {
     if (applied) { recordCollectionBatch05Event('combat-retaliation-cold', {source:targetSummary(targetFC), target:targetSummary(attacker), coldType:'perce-neige'}); }
   }
 
-  batch06ApplyAttackExhaustion(attacker);
+  if (!batch08ApplyAttackExhaustion(attacker, {targetDied:defDied, firstBoarAttack:batch08Plan.firstBoarAttack})) batch06ApplyAttackExhaustion(attacker);
 
   cancelAttack(); // Guérisseur déclenché en fin de tour uniquement
 }
@@ -13299,7 +13694,7 @@ async function playDestroyAnimationBeforeCemetery(fc) {
   return true;
 }
 
-async function sendToCemetery(fc) {
+async function sendToCemetery(fc, options={}) {
   if (!fc || !fc.isConnected) return;
   const cardId = fc.dataset.id;
   const player = fc.dataset.player;
@@ -13324,8 +13719,8 @@ async function sendToCemetery(fc) {
     }
   }
   let vengeanceResult = null;
-  if ((d.kws||[]).includes('Vengeance')) {
-    vengeanceResult = await triggerVengeance(cardId, player, fc, fc._killer || null);
+  if ((d.kws||[]).includes('Vengeance') && !options.suppressVengeance) {
+    vengeanceResult = await triggerVengeance(cardId, player, fc, fc._killer || null, options);
   }
   if (delayDestroyForVengeanceFeedback && fc.isConnected) {
     if (vengeanceResult?.success) {
@@ -13353,6 +13748,7 @@ async function sendToCemetery(fc) {
     await new Promise(resolve => setTimeout(resolve, 900));
   }
   const goesToCemetery = vengeanceResult?.destination !== 'deck-bottom' && !runeReturnsToHand;
+  if (goesToCemetery) handleBatch08AlliedServantDeath(player, fc, options);
   if (goesToCemetery && d.type === 'Serviteur') {
     await triggerUramGrantedVengeance(player, fc);
   }
@@ -15197,6 +15593,7 @@ async function runStartTurnPipeline(player) {
 
   if (!state.startTurnAbilitiesResolved) {
     await showMeteoresStartTurnMessage(p);
+    await resolveBatch08StartTurnEffects(p);
     await applyStartTurnServantAbilities(p);
     state.startTurnAbilitiesResolved = true;
   }
@@ -15356,6 +15753,7 @@ async function endTurnRuntime() {
     btn.disabled = true; btn.classList.remove('pulse');
     applyEndOfTurnEffects(activePlayer);
     await applyFireMasterEndOfTurn(activePlayer);
+    await resolveBatch08EndTurnEffects(activePlayer);
     await resolveMeteoresEndOfTurn(activePlayer);
     await applyBatch03EndTurnAbilities(activePlayer);
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
@@ -18810,6 +19208,7 @@ function batch05SetStats(fc, {atk=null, pdvMax=null, preserveDamage=true}={}) {
   if (atk != null) {
     const nextAtk = Math.max(0, Number(atk) || 0);
     fc.dataset.atk = String(nextAtk);
+    if ((CARDS_DATA[fc.dataset.id]?.kws || []).includes('Rage') || fc.dataset.batch08TotemRage === '1') fc.dataset.rageBaseAtk = String(nextAtk);
     fc.querySelectorAll('.fc-atk-val').forEach(el => { el.textContent = String(nextAtk); el.className = nextAtk > baseAtk ? 'fc-atk-val grn' : 'fc-atk-val'; });
   }
   if (pdvMax != null) {
@@ -18851,6 +19250,12 @@ function batch05PassiveBuffFor(fc) {
     pdvMax += dwarfBuff.pdvMax;
     sources.push(...dwarfBuff.sources);
   }
+  const orcBuff = batch08PassiveBuffFor(fc);
+  if (orcBuff.sources.length) {
+    atk += orcBuff.atk;
+    pdvMax += orcBuff.pdvMax;
+    sources.push(...orcBuff.sources);
+  }
   return {atk, pdvMax, sources};
 }
 function syncBatch05Passives() {
@@ -18858,19 +19263,23 @@ function syncBatch05Passives() {
     for (const fc of batch05LivingServants(p)) {
       const isWoodOrIce = isBatch05WoodElf(fc) || isBatch05IceElf(fc);
       const isDwarf = isBatch07DwarfServant(fc);
+      const isOrcFamily = isBatch08OrcFamilyServant(fc);
       if (isDwarf) applyBatch07FutureFireResistance(fc);
       const hasVigilance = (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Vigilance');
       const hasDwarfAura = batch05LivingServants(p).some(card => card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
       const hadDwarfAura = String(fc.dataset.batch05PassiveSources || '').split(',').includes('N000003');
-      if (!isWoodOrIce && !hasVigilance && !isDwarf && !hasDwarfAura && !hadDwarfAura) continue;
+      if (!isWoodOrIce && !hasVigilance && !isDwarf && !isOrcFamily && !hasDwarfAura && !hadDwarfAura) continue;
       const hadBatch05PassiveGlow = fc.dataset.batch03PassivePulse === '1' && fc.dataset.batch03LastPulseReason === 'batch05-passive';
-      if (isWoodOrIce || isDwarf || hasDwarfAura || hadDwarfAura) {
+      if (isWoodOrIce || isDwarf || isOrcFamily || hasDwarfAura || hadDwarfAura) {
         const baseAtk = batch05BaseStat(fc, 'atk');
         const baseMax = batch05BaseStat(fc, 'pdvMax');
         const buff = batch05PassiveBuffFor(fc);
         const ancientOathBonus = Number(fc.dataset.batch05AncientOathBonus || 0);
-        batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0) + ancientOathBonus, pdvMax:baseMax + buff.pdvMax + ancientOathBonus});
+        batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0) + Number(fc.dataset.batch08ButcherBonus || 0) + ancientOathBonus, pdvMax:baseMax + buff.pdvMax + ancientOathBonus});
         fc.dataset.batch05PassiveSources = buff.sources.join(',');
+        if (buff.sources.includes('ORC000014')) fc.dataset.batch08TotemRage = '1';
+        else delete fc.dataset.batch08TotemRage;
+        updateRageState(fc);
       } else {
         fc.dataset.batch05PassiveSources = '';
       }
@@ -18883,7 +19292,7 @@ function batch05ShouldShowPassiveGlow(fc) {
   if (!fc || fc.dataset.dead) return false;
   const kws = CARDS_DATA[fc.dataset.id]?.kws || [];
   if (kws.includes('Vigilance')) return true;
-  return ['EDB000009','EDB000014','EDG000008','N000003','N000005'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
+  return ['EDB000009','EDB000014','EDG000008','N000003','N000005','ORC000012','ORC000014','ORC000016','ORC000017'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
 }
 function batch05EnemyServants(player, effectKind='damage') {
   const p = playerState(player);
@@ -20707,6 +21116,7 @@ function setupInitialHands() {
   collectionBatch03State.delayedDamage.length = 0;
   collectionBatch03State.runeSummons.length = 0;
   collectionBatch03State.protectedAuras.length = 0;
+  if (typeof collectionBatch08State !== 'undefined') collectionBatch08State.events.length = 0;
   [player1, player2].forEach(p => {
     resetRuntimeResources(p);
     p.startingDeckCardIds = [...p.deck];
@@ -20731,6 +21141,8 @@ function setupInitialHands() {
   });
   applyCheatInitialState();
   applyScenarioTestSetup();
+  if (typeof syncBatch08AvatarPassiveLocks === 'function') syncBatch08AvatarPassiveLocks();
+  if (typeof syncBatch05Passives === 'function') syncBatch05Passives();
   activePlayer = player1;
   currentPlayer = activePlayer.key;
   beginTurnState(activePlayer);

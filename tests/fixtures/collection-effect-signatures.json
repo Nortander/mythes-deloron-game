@@ -248,20 +248,20 @@
         "vengeance-trigger"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "guard-restriction",
         "summon",
         "target-immunity",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8444,22 +8444,22 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "burn-status",
         "cost-validation",
         "damage",
         "heal",
+        "initiative-trigger",
         "modify-pv",
         "targeting"
       ],
-      "missingPrimitives": [
-        "burn-status",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:burn-status",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8486,9 +8486,10 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8519,17 +8520,17 @@
       ],
       "supportedPrimitives": [
         "draw",
+        "initiative-trigger",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:draw",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8573,18 +8574,18 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "duration-persistent",
+        "initiative-trigger",
         "modify-atk"
       ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8611,9 +8612,10 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8634,9 +8636,10 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8683,24 +8686,24 @@
         "rage-stat-buff"
       ],
       "supportedPrimitives": [
+        "burn-protection",
         "cost-validation",
+        "guard-restriction",
         "heal",
+        "initiative-trigger",
         "lethal-damage",
         "modify-atk",
-        "modify-pv"
-      ],
-      "missingPrimitives": [
-        "burn-protection",
-        "guard-restriction",
-        "initiative-trigger",
+        "modify-pv",
         "rage-stat-buff"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:burn-protection",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8734,11 +8737,12 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8780,23 +8784,23 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "burn-status",
         "cost-validation",
         "damage",
+        "initiative-trigger",
         "lethal-damage",
         "modify-atk",
+        "rage-stat-buff",
         "targeting"
       ],
-      "missingPrimitives": [
-        "burn-status",
-        "initiative-trigger",
-        "rage-stat-buff"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:burn-status",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8839,17 +8843,17 @@
         "cost-validation",
         "draw",
         "lethal-damage",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
+        "move-hand-deck-graveyard",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:draw",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8883,18 +8887,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "create-card",
+        "initiative-trigger",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "create-card",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8928,17 +8932,17 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "modify-atk"
       ],
-      "missingPrimitives": [
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -8978,17 +8982,17 @@
         "cost-validation",
         "modify-atk",
         "move-hand-deck-graveyard",
+        "rage-stat-buff",
         "targeting"
       ],
-      "missingPrimitives": [
-        "rage-stat-buff"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:modify-atk",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9030,21 +9034,21 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "modify-atk",
-        "modify-pv"
-      ],
-      "missingPrimitives": [
         "duration-persistent",
         "guard-restriction",
+        "modify-atk",
+        "modify-pv",
         "rage-stat-buff",
         "target-immunity"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9083,21 +9087,21 @@
         "targeting"
       ],
       "supportedPrimitives": [
+        "camouflage-lock",
         "cost-validation",
         "damage",
         "lethal-damage",
         "modify-atk",
         "targeting"
       ],
-      "missingPrimitives": [
-        "camouflage-lock"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:camouflage-lock",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9135,19 +9139,19 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "heal",
+        "initiative-trigger",
         "lethal-damage"
       ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9186,20 +9190,20 @@
         "duration-persistent"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
         "burn-protection",
         "burn-status",
+        "cost-validation",
+        "damage",
         "duration-persistent"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:burn-protection",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9240,20 +9244,20 @@
       "supportedPrimitives": [
         "cost-validation",
         "damage",
+        "initiative-trigger",
         "lethal-damage",
         "modify-atk",
         "move-hand-deck-graveyard",
         "targeting"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9288,18 +9292,18 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "create-card",
         "lethal-damage",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "create-card"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -9343,18 +9347,18 @@
         "heal",
         "lethal-damage",
         "modify-atk",
-        "modify-pv"
-      ],
-      "missingPrimitives": [
+        "modify-pv",
         "rune-servant-replacement",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:heal",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -11445,17 +11449,17 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "send-spell-to-graveyard"
-      ],
-      "missingPrimitives": [
+        "send-spell-to-graveyard",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:summon",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12340,11 +12344,12 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:damage",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-08-orcs.spec.mjs"
     },
     {
       "schemaVersion": 1,

@@ -291,3 +291,15 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - Les textes publics et le rendu des sorts nains `S000012`, `S000013` et `S000024` sont réalignés ; `N000001` et `N000009` sont présents dans les scénarios visuels.
 - Nouveau scénario caché : `collection-batch-07-boute-flammes`.
 - Aucun changement n'est apporté à `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+## COLLECTION-BATCH-08 - Orcs
+
+Les cartes canoniques de la faction Orc disposent maintenant d'un comportement runtime et d'un test fonctionnel direct dans `tests/browser/collection-batch-08-orcs.spec.mjs`.
+
+Le lot couvre `AVS000006` (Gor le Changeforme), les Initiatives orcs, les passifs de faction, la Rage distribuee par `ORC000014`, les effets de combat, les effets de debut et fin de tour, les Vengeances, les invocations de `S000014` et les degats en chaine de `S000032`.
+
+`ORC000002`, `ORC000005` et `ORC000006` restent documentees comme `SANS_EFFET_PROGRAMMABLE`.
+
+Scenarios techniques caches : `collection-batch-08-orcs`, `collection-batch-08-sorts-orcs` et `collection-batch-08-avatar-orc`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
