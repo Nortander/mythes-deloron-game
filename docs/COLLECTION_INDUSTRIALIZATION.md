@@ -207,7 +207,7 @@ Corrections COLLECTION-BATCH-04C :
 - `AVS000005` (`Mage du Cercle - Yria de la lumiere`) expose un passif immobile : soins allies doubles dans la limite des PV max et pioche supplementaire au debut du tour du controleur.
 - Le scenario `collection-batch-04-pulses` couvre les couleurs de pulsation des familles `edb`, `hum`, `orc`, `edg`, `nain`, `mvs`, `edn`, `trl`, `gob`, `div` et `bet`.
 - Les scenarios techniques Batch-04 ne contiennent plus d'exemple `R000010`.
-- Corrections 04E : le halo passif de `AVS000005` est fluide, `TRL000020` utilise le rendu terrain Troll complet, `AVS000009` et `AVS000012` disposent de passifs de debut de tour testes, tandis que `AVS000013` reste reporte pour choix cimetiere/deck et mutation de mot-clef.
+- Corrections 04E : le halo passif de `AVS000005` est fluide, `TRL000020` utilise le rendu terrain Troll complet, `AVS000009` et `AVS000012` disposent de passifs de debut de tour testes. `AVS000013` etait encore reporte dans Batch-04E, puis a ete implemente dans COLLECTION-BATCH-07.
 - Corrections COLLECTION-BATCH-04F : le rendu Troll de `TRL000020` reprend la palette brun/or Collection, les halos passifs permanents sont generiques pour `AVS000005`, `AVS000003`, `H000024` et `EDG000008` sans assimiler `Rempart` seul a un passif, et les pulsations de `B000002`, `H000006`, `GOB000001` et `MV000020` ne se declenchent qu'apres une mutation effective. `AVS000006`, `AVS000009` et `AVS000012` sont presents dans le scenario visuel de pulsations.
 - Corrections COLLECTION-BATCH-04G : les halos passifs permanents conservent leur boucle fluide mais avec une portee environ divisee par deux, la pulsation Elfe de glace utilise le blanc givre `#d8f7ffcc`, et la Vengeance de `AVS000006` invoque `B000003` avec impulsion et mouvement quand l'effet se resout reellement.
 
@@ -243,6 +243,20 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `S000026`, `S000027`, `S000029` et `S000034` sont raccordees au runtime et couvertes par tests directs.
 - Nouveaux scenarios caches : `collection-batch-05-druide`, `collection-batch-05-kyra`, `collection-batch-05-dryade-solo`, `collection-batch-05-dryade-cleanse`, `collection-batch-05-pacte-millenaire` et `collection-batch-05-anciens-givre`.
 - Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+## COLLECTION-BATCH-07 - Nains
+
+Les cartes canoniques de la faction Nain disposent maintenant d'un comportement runtime et d'un test fonctionnel direct dans `tests/browser/collection-batch-07-dwarves.spec.mjs`.
+
+Le lot couvre `AVS000013` (`Isgrimm`), les Initiatives de degats de zone, pioche, meule, copie de terrain et creation de `S000054`, les passifs nains `N000003` / `N000005`, la reduction de degats et la Vengeance de `N000009`, les soins de combat de `N000011`, les degats adjacents et reduction de cout de `N000014`, ainsi que les sorts `S000012`, `S000013` et `S000024`.
+
+`AVS000013` choisit un serviteur dans un cimetiere, le place dans le deck du lanceur avec le statut dynamique `Serviteur de la rune`, puis le melange. Quand cette occurrence est jouee puis detruite, elle retourne dans la main du proprietaire et ne peut pas etre rejouee.
+
+`N000013` reste documente comme `SANS_EFFET_PROGRAMMABLE`.
+
+Scenarios techniques caches : `collection-batch-07-nains` et `collection-batch-07-isgrimm`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
 
 ## COLLECTION-BATCH-06 - Elfes noirs
 

@@ -1917,7 +1917,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -2983,6 +2983,20 @@ SCENARIOS['collection-batch-06-shar-arduin'] = {
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000018','MV000020'], graveyard:[], servants:[{id:'H000001',pdvMax:12,pdv:12,atk:6,prepared:true},{id:'H000005',pdvMax:12,pdv:12,atk:7,prepared:true},{id:'ORC000017',pdvMax:12,pdv:12,atk:8,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-07-nains'] = {
+  label: 'TEST - COLLECTION BATCH 07 Nains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'N000002',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000002','N000004','N000006','N000010','N000012','N000015','S000012','S000013','S000024'], drawPile:['R000001','N000007','H000001','R000010','N000013'], graveyard:['N000007'], servants:[{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000005',pdvMax:7,pdv:7,atk:7,prepared:true},{id:'N000011',pdvMax:5,pdv:3,atk:1,prepared:true},{id:'N000014',pdvMax:10,pdv:10,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001','H000006'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdvMax:5,pdv:5,atk:1,prepared:true},{id:'H000005',pdvMax:4,pdv:4,atk:1,prepared:true},{id:'H000006',pdvMax:4,pdv:4,atk:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-07-isgrimm'] = {
+  label: 'TEST - COLLECTION BATCH 07 Isgrimm', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000013',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['AVS000013'], drawPile:['S000012','R000001'], graveyard:['N000013'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:['H000001','R000001','H000005'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -3330,6 +3344,7 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'S000023': createCostDefinition(5, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"groupMinimum","resources":["lenya","aria","nourriture"],"amount":3}], [{"kind":"text","text":"Avoir au moins 1 « Jeune dragon des neiges » [ID = EDG000006] dans son deck de départ.","implemented":false}]),
   'S000039': createCompatiblePoolCostDefinition(6, ["aria","lenya","selene"], []),
   'S000049': createCompatiblePoolCostDefinition(3, ["lenya","nourriture"], []),
+  'S000054': createCostDefinition(5, ["pierre","fer","selene"], [{"kind":"minimum","resource":"pierre","amount":1},{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"selene","amount":1}], []),
   'S000045': createCostDefinition(6, ["aria","bois","fer","lenya","nourriture"], [{"kind":"minimum","resource":"aria","amount":1},{"kind":"minimum","resource":"lenya","amount":1},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"bois","amount":3}], []),
   'S000056': createCompatiblePoolCostDefinition(4, ["lenya","aria","soul"], []),
   'GOB000005': createCostDefinition(1, ["nourriture"], [], []),
@@ -3387,8 +3402,21 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "H000030": createCostDefinition(7, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "H000031": createCostDefinition(6, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "H000032": createCompatiblePoolCostDefinition(1, ["aria", "lenya", "nourriture"], []),
+  "N000001": createCostDefinition(2, ["fer"], [], []),
+  "N000002": createCostDefinition(6, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "selene", "amount": 3}, {"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
+  "N000003": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "selene", "amount": 3}, {"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
   "N000004": createCompatiblePoolCostDefinition(1, ["fer", "nourriture"], []),
+  "N000005": createCostDefinition(5, ["fer", "selene"], [{"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "selene", "amount": 4}], []),
+  "N000006": createCostDefinition(4, ["fer", "pierre", "nourriture"], [{"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "pierre", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
+  "N000007": createCostDefinition(2, ["fer"], [], []),
+  "N000008": createCostDefinition(3, ["fer", "nourriture"], [{"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
+  "N000009": createCostDefinition(7, ["selene", "pierre", "aria"], [{"kind": "minimum", "resource": "selene", "amount": 1}, {"kind": "minimum", "resource": "pierre", "amount": 3}, {"kind": "minimum", "resource": "aria", "amount": 1}], []),
+  "N000010": createCostDefinition(6, ["pierre", "aria"], [{"kind": "minimum", "resource": "pierre", "amount": 3}, {"kind": "minimum", "resource": "aria", "amount": 3}], []),
+  "N000011": createCostDefinition(3, ["aria", "selene"], [{"kind": "minimum", "resource": "aria", "amount": 1}, {"kind": "minimum", "resource": "selene", "amount": 2}], []),
+  "N000012": createCostDefinition(4, ["selene", "fer", "nourriture"], [{"kind": "minimum", "resource": "selene", "amount": 1}, {"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
+  "N000013": createCompatiblePoolCostDefinition(2, ["fer", "nourriture"], []),
   "N000014": createCostDefinition(9, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
+  "N000015": createCostDefinition(5, ["selene"], [{"kind": "minimum", "resource": "selene", "amount": 5}], []),
   "ORC000001": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
   "ORC000002": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
   "ORC000003": createCostDefinition(0, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
@@ -3442,11 +3470,14 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "S000007": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "pierre", "amount": 1}, {"kind": "minimum", "resource": "aria", "amount": 1}], []),
   "S000008": createCostDefinition(0, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [], []),
   "S000009": createCostDefinition(3, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "nourriture", "amount": 3}], []),
+  "S000012": createCostDefinition(2, ["nourriture"], [{"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
+  "S000013": createCostDefinition(4, ["fer", "nourriture"], [{"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
   "S000014": createCostDefinition(5, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "nourriture", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "fer", "amount": 1}, {"kind": "minimum", "resource": "bois", "amount": 1}], []),
   "S000016": createCostDefinition(12, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "aria", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "soul", "amount": 1}], []),
   "S000017": createCompatiblePoolCostDefinition(3, ["aria", "lenya"], []),
   "S000019": createCompatiblePoolCostDefinition(3, ["aria", "lenya", "soul"], []),
   "S000020": createCostDefinition(8, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "aria", "amount": 1}, {"kind": "minimum", "resource": "lenya", "amount": 1}], []),
+  "S000024": createCostDefinition(5, ["selene"], [{"kind": "minimum", "resource": "selene", "amount": 5}], []),
   "S000030": createCompatiblePoolCostDefinition(6, ["aria", "selene", "soul", "lenya"], []),
   "S000032": createCostDefinition(6, ["aria", "bois", "fer", "lenya", "nourriture", "pierre", "selene", "soul"], [{"kind": "minimum", "resource": "lenya", "amount": 6}], []),
   "S000035": createCompatiblePoolCostDefinition(8, ["aria", "selene", "soul", "lenya"], []),
@@ -4318,7 +4349,12 @@ function drawCardFromRuntimeDeck(player, options={}) {
   const evolutionRule = COLLECTION_BATCH_02_EVOLUTION?.[cardId] || null;
   const evolutionCanResolve = evolutionRule ? canResolveBatch02Evolution(p, cardId) : false;
   const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDraw(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
-  if (!linkedKeyResolution.handled && !evolutionCanResolve) hand.push(cardId);
+  if (!linkedKeyResolution.handled && !evolutionCanResolve) {
+    hand.push(cardId);
+    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.occurrenceId || null;
+    if (occurrenceId) batch03RegisterHandCard(p, hand.length - 1, occurrenceId);
+    if (selectedEntry?.batch07RuneServant) markBatch07RuneHandOccurrence(p, batch03HandOccurrenceAt(p, hand.length - 1), cardId, selectedEntry.batch07SourceCardId || 'AVS000013');
+  }
   updateDeckCount(p);
   if (options.refresh !== false) {
     if (playerKey(p) === currentPlayer) refreshHand(p);
@@ -10488,6 +10524,9 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     placedFC.dataset.instance = transaction.handOccurrenceId;
     sourceInstanceId = placedFC.dataset.instance;
   }
+  if (placedFC && d.type === 'Serviteur') {
+    applyBatch07BoardRuneFromHandOccurrence(placedFC, p, transaction.removedHandOccurrenceId || transaction.handOccurrenceId || null);
+  }
   traceCardPlay(traceId, 'afterBoardPlacement', p, cardId, sourceInstanceId);
   applyBatch03OnBoardPlacement(placedFC, p, cardId);
   if (placedFC && d.type === 'Serviteur') applyBatch05IceWallToSummon(p, placedFC);
@@ -10752,6 +10791,8 @@ async function triggerInitiative(cardId, player, context={}) {
   }
   const batch03Initiative = await resolveBatch03Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch03Initiative?.handled) return batch03Initiative;
+  const batch07Initiative = await resolveBatch07Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
+  if (batch07Initiative?.handled) return batch07Initiative;
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
@@ -11175,8 +11216,14 @@ async function triggerSort(cardId, player, context={}) {
       return await resolvePorteInfranchissable(player, context);
     case 'S000008':
       return resolveClefDePierre(player, context);
+    case 'S000012':
+      return resolveBatch07FruitsEntrainement(player);
+    case 'S000013':
+      return resolveBatch07ExperienceCombat(player);
     case 'S000015':
       return await resolveApresLaCatastrophe(player, context);
+    case 'S000024':
+      return resolveBatch07SecretsForge(player);
     case 'S000026':
       return await resolveSermentDesAnciens(player);
     case 'S000027':
@@ -11949,6 +11996,405 @@ function resolveSecoursMagique(player) {
   return result;
 }
 
+const collectionBatch07State = {events:[], ambiguities:[]};
+let collectionBatch07RuneSequence = 0;
+
+function recordCollectionBatch07Event(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch07State.events.push(event);
+  window.__collectionBatch07LastEvent = event;
+  return event;
+}
+
+function auditCollectionBatch07Runtime() {
+  return {
+    events:[...collectionBatch07State.events],
+    ambiguities:[...collectionBatch07State.ambiguities],
+    players:[player1, player2].filter(Boolean).map(player => ({
+      playerId:player.key,
+      hand:[...playerHand(player)],
+      handOccurrences:[...ensureBatch03HandOccurrences(player)],
+      runeHandOccurrences:[...(player.batch07RuneHandOccurrences || [])],
+      drawPile:[...playerDrawPile(player)].map(entry => ({cardId:getRuntimeCardId(entry), rune:!!entry?.batch07RuneServant, occurrenceId:entry?.batch07OccurrenceId || entry?.occurrenceId || null})),
+      graveyard:[...(player.graveyard || [])].map(getRuntimeCardId),
+      board:livingServantCardsForPlayer(player).map(fc => ({...targetSummary(fc), rune:fc.dataset.batch07RuneServant === '1', passiveSources:fc.dataset.batch05PassiveSources || ''})),
+      secretsForge:!!player.batch07SecretsForge
+    }))
+  };
+}
+
+function isBatch07DwarfServant(value) {
+  const cardId = typeof value === 'string' ? value : value?.dataset?.id;
+  const card = CARDS_DATA[cardId];
+  return card?.type === 'Serviteur' && card.fac === 'nain';
+}
+
+function batch07RuneDeckEntry(entry, sourceCardId='AVS000013') {
+  const cardId = getRuntimeCardId(entry);
+  if (!cardId) return entry;
+  const base = typeof entry === 'object' && entry ? {...entry} : {cardId};
+  base.cardId = cardId;
+  base.batch07RuneServant = true;
+  base.batch07SourceCardId = sourceCardId;
+  base.batch07OccurrenceId ||= base.occurrenceId || `batch07-rune-${++collectionBatch07RuneSequence}`;
+  return base;
+}
+
+function markBatch07RuneHandOccurrence(player, occurrenceId, cardId, sourceCardId='AVS000013') {
+  const p = playerState(player);
+  if (!p || !occurrenceId || !cardId) return false;
+  p.batch07RuneHandOccurrences ||= [];
+  if (!p.batch07RuneHandOccurrences.some(entry => entry.occurrenceId === occurrenceId)) {
+    p.batch07RuneHandOccurrences.push({cardId, occurrenceId, sourceCardId, createdTurnSequence:turnSequence});
+  }
+  return true;
+}
+
+function isBatch07RuneHandOccurrence(player, occurrenceId, cardId=null) {
+  const p = playerState(player);
+  if (!p || !occurrenceId) return false;
+  return (p.batch07RuneHandOccurrences || []).some(entry => entry.occurrenceId === occurrenceId && (!cardId || entry.cardId === cardId));
+}
+
+function consumeBatch07RuneHandOccurrence(player, occurrenceId, cardId=null) {
+  const p = playerState(player);
+  if (!p || !occurrenceId) return false;
+  const before = (p.batch07RuneHandOccurrences || []).length;
+  p.batch07RuneHandOccurrences = (p.batch07RuneHandOccurrences || []).filter(entry => !(entry.occurrenceId === occurrenceId && (!cardId || entry.cardId === cardId)));
+  return p.batch07RuneHandOccurrences.length !== before;
+}
+
+function syncBatch07RuneVisual(fc) {
+  if (!fc || fc.dataset.batch07RuneServant !== '1') return null;
+  return createBatch03StatusCounter(fc, 'serviteur-rune', 'infinity', 'Serviteur de la rune');
+}
+
+function applyBatch07BoardRuneFromHandOccurrence(fc, player, occurrenceId) {
+  const p = playerState(player);
+  if (!fc || !p || !occurrenceId || !isBatch07RuneHandOccurrence(p, occurrenceId, fc.dataset.id)) return false;
+  fc.dataset.batch07RuneServant = '1';
+  fc.dataset.batch07RuneSource = 'AVS000013';
+  syncBatch07RuneVisual(fc);
+  consumeBatch07RuneHandOccurrence(p, occurrenceId, fc.dataset.id);
+  recordCollectionBatch07Event('rune-servant-played', {playerId:p.key, cardId:fc.dataset.id, occurrenceId, boardInstanceId:fc.dataset.instance || null});
+  return true;
+}
+
+function batch07RuneReturnedToHand(player, cardId, occurrenceId) {
+  if (!markBatch07RuneHandOccurrence(player, occurrenceId, cardId, 'AVS000013')) return false;
+  const p = playerState(player);
+  p.batch03BlockedHandOccurrences ||= [];
+  p.batch03BlockedHandOccurrences.push({cardId, occurrenceId, sourceName:'Serviteur de la rune', armed:true, createdTurnSequence:turnSequence});
+  refreshHand(p);
+  return true;
+}
+
+function batch07DwarfBuffFor(fc) {
+  if (!fc || !isBatch07DwarfServant(fc)) return {atk:0, pdvMax:0, sources:[]};
+  const owner = playerState(fc.dataset.player);
+  if (!owner) return {atk:0, pdvMax:0, sources:[]};
+  const allies = batch05LivingServants(owner);
+  const sources = [];
+  let atk = Number(fc.dataset.batch07TrainingAtkBonus || 0);
+  let pdvMax = Number(fc.dataset.batch07TrainingPdvBonus || 0);
+  if (atk || pdvMax) sources.push('S000012');
+  const venerable = allies.find(card => card !== fc && card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
+  if (venerable) { atk += 2; sources.push('N000003'); }
+  const alfric = allies.find(card => card !== fc && card.dataset.id === 'N000005' && canResolveServantAbility(card, {triggerType:'passive'}));
+  if (alfric) { atk += 1; pdvMax += 1; sources.push('N000005'); }
+  if (owner.batch07SecretsForge) { pdvMax += 1; sources.push('S000024'); }
+  return {atk, pdvMax, sources};
+}
+
+function resolveBatch07FruitsEntrainement(player) {
+  const p = playerState(player);
+  const before = zoneInventorySnapshot(p);
+  const targets = batch05LivingServants(p).filter(isBatch07DwarfServant);
+  targets.forEach(fc => {
+    fc.dataset.batch07TrainingAtkBonus = String(Number(fc.dataset.batch07TrainingAtkBonus || 0) + 2);
+    fc.dataset.batch07TrainingPdvBonus = String(Number(fc.dataset.batch07TrainingPdvBonus || 0) + 1);
+  });
+  syncBatch05Passives();
+  const result = {success:targets.length > 0, cardId:'S000012', targets:targets.map(targetSummary), before, after:zoneInventorySnapshot(p)};
+  recordCollectionBatch07Event('fruits-entrainement', result);
+  showNotif(`Fruits de l'entraÃ®nement renforce ${targets.length} Nain(s).`, 1600);
+  return result;
+}
+
+function batch07ReplaceEntryCardId(entry, replacementId) {
+  if (!entry || typeof entry === 'string') return replacementId;
+  return {...entry, cardId:replacementId, id:entry.id === getRuntimeCardId(entry) ? replacementId : entry.id};
+}
+
+function replaceBatch07WarriorsInRuntimeZone(player, zone) {
+  const arr = zoneArrayForPlayer(player, zone);
+  if (!arr) return 0;
+  let count = 0;
+  for (let i = 0; i < arr.length; i++) {
+    if (getRuntimeCardId(arr[i]) === 'N000007') {
+      arr[i] = batch07ReplaceEntryCardId(arr[i], 'N000008');
+      count++;
+    }
+  }
+  refreshRuntimeZone(player, zone);
+  return count;
+}
+
+function replaceBatch07WarriorOnBoard(fc) {
+  if (!fc?.isConnected || fc.dataset.id !== 'N000007') return null;
+  const parent = fc.parentElement;
+  const index = Array.from(parent.children).indexOf(fc);
+  const wasReady = !fc.dataset.new;
+  const wasRune = fc.dataset.batch07RuneServant === '1';
+  const previousInstance = fc.dataset.instance || null;
+  const template = document.createElement('template');
+  template.innerHTML = buildFC('N000008', fc.dataset.player).trim();
+  const replacement = template.content.firstElementChild;
+  if (!replacement) return null;
+  if (previousInstance) replacement.dataset.instance = previousInstance;
+  if (wasReady) {
+    delete replacement.dataset.new;
+    replacement.classList.remove('fc-summoning-sick');
+  }
+  if (wasRune) {
+    replacement.dataset.batch07RuneServant = '1';
+    replacement.dataset.batch07RuneSource = 'AVS000013';
+  }
+  fc.replaceWith(replacement);
+  const placed = parent.children[index];
+  if (wasRune) syncBatch07RuneVisual(placed);
+  return targetSummary(placed);
+}
+
+function resolveBatch07ExperienceCombat(player) {
+  const p = playerState(player);
+  const before = zoneInventorySnapshot(p);
+  const zones = {
+    deck:replaceBatch07WarriorsInRuntimeZone(p, 'deck'),
+    hand:replaceBatch07WarriorsInRuntimeZone(p, 'hand'),
+    graveyard:replaceBatch07WarriorsInRuntimeZone(p, 'graveyard'),
+    board:[]
+  };
+  batch05LivingServants(p).filter(fc => fc.dataset.id === 'N000007').forEach(fc => {
+    const replaced = replaceBatch07WarriorOnBoard(fc);
+    if (replaced) zones.board.push(replaced);
+  });
+  renderAllHands();
+  syncBatch05Passives();
+  const total = zones.deck + zones.hand + zones.graveyard + zones.board.length;
+  const result = {success:total > 0, cardId:'S000013', replaced:zones, total, before, after:zoneInventorySnapshot(p)};
+  recordCollectionBatch07Event('experience-combat', result);
+  showNotif(`ExpÃ©rience du combat remplace ${total} Guerrier(s).`, 1700);
+  return result;
+}
+
+function resolveBatch07SecretsForge(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000024'};
+  const alreadyActive = !!p.batch07SecretsForge;
+  p.batch07SecretsForge = true;
+  if (!alreadyActive) {
+    registerRuntimeCostModifier(p, {
+      id:`${p.key}-S000024-secrets-forge`,
+      sourceKind:'spell',
+      sourceId:'S000024',
+      priority:180,
+      duration:'permanent',
+      criteria:{cardTypes:['Serviteur'], factions:['nain']},
+      operations:[{type:'adjustTotal', amount:-1}]
+    });
+  }
+  renderAllHands();
+  syncBatch05Passives();
+  const result = {success:true, cardId:'S000024', playerId:p.key, alreadyActive, secretsForge:p.batch07SecretsForge};
+  recordCollectionBatch07Event('secrets-forge', result);
+  showNotif(alreadyActive ? 'Secrets de forge est dÃ©jÃ  actif.' : 'Secrets de forge renforce durablement vos Nains.', 1700);
+  return result;
+}
+
+function batch07MillTopOpponentDeck(player, sourceCardId) {
+  const p = playerState(player);
+  const opponent = opponentOf(p);
+  const pile = playerDrawPile(opponent);
+  const before = opponent ? zoneInventorySnapshot(opponent) : null;
+  if (!opponent || !pile.length) return {success:false, reason:'deck-empty', sourceCardId, before, after:opponent ? zoneInventorySnapshot(opponent) : null};
+  const entry = pile.pop();
+  const cardId = getRuntimeCardId(entry);
+  addEntryToRuntimeZone(opponent, 'graveyard', entry);
+  updateDeckCount(opponent);
+  const result = {success:true, sourceCardId, cardId, before, after:zoneInventorySnapshot(opponent)};
+  recordCollectionBatch07Event('mill-top-card', result);
+  return result;
+}
+
+async function resolveBatch07Initiative(cardId, player, context={}) {
+  const p = playerState(player);
+  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : findBoardCard(p, cardId));
+  if (!p || !sourceFC) return {handled:false};
+  if (!['N000002','N000006','N000010','N000012','N000015'].includes(cardId)) return {handled:false};
+  if (!canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, reason:'cold-locked', cardId};
+  const result = {handled:true, success:true, cardId, operations:[]};
+  await waitBatch05BeforeEffect(sourceFC, 'initiative', {cardId});
+  if (cardId === 'N000002') {
+    let deaths = 0;
+    for (const target of batch05LivingServants(opponentOf(p))) {
+      const before = targetSummary(target);
+      const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:2});
+      if (died) deaths++;
+      result.operations.push({type:'area-damage', before, died});
+    }
+    if (deaths > 0) result.operations.push({type:'draw-on-kill', draw:drawCardFromRuntimeDeck(p, {refresh:true, sourceCardId:cardId})});
+  }
+  if (cardId === 'N000006' || cardId === 'N000012') {
+    result.operations.push({type:'mill-top-card', mill:batch07MillTopOpponentDeck(p, cardId)});
+  }
+  if (cardId === 'N000010') {
+    const freeSlots = Array.from(qs(playerZoneSelector(p, 'servants'))?.querySelectorAll('.slot') || []);
+    for (const slot of freeSlots) {
+      result.operations.push({type:'summon-copy', summon:await summonBatch03Servant(p, 'N000010', {sourceCardId:cardId, sourceInstanceId:sourceFC.dataset.instance, triggerInitiativeEffect:false, ready:true})});
+    }
+  }
+  if (cardId === 'N000015') {
+    const added = addCardToHand(p, 'S000054', {refresh:true});
+    result.operations.push({type:'create-card-in-hand', cardId:'S000054', added});
+  }
+  recordCollectionBatch07Event('initiative', {source:targetSummary(sourceFC), result});
+  return result;
+}
+
+async function resolveBatch07IsgrimmInitiative(player, context={}) {
+  const p = playerState(player);
+  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : findBoardCard(p, 'AVS000013'));
+  if (!p) return {handled:true, success:false, reason:'invalid-player', cardId:'AVS000013'};
+  if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, reason:'cold-locked', cardId:'AVS000013'};
+  const opponent = opponentOf(p);
+  const candidates = [
+    ...zoneCardEntries(p, 'graveyard', {type:'Serviteur'}).map(entry => ({...entry, owner:p})),
+    ...zoneCardEntries(opponent, 'graveyard', {type:'Serviteur'}).map(entry => ({...entry, owner:opponent}))
+  ];
+  const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
+  if (!candidates.length) {
+    const result = {handled:true, success:false, reason:'no-servant-in-graveyards', cardId:'AVS000013', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+    recordCollectionBatch07Event('isgrimm-no-target', result);
+    return result;
+  }
+  const selected = normalizeZoneSelection(context.zoneSelection || {});
+  let candidate = null;
+  if (selected.playerId || selected.slotIndex != null || selected.selectedIndexes.length) {
+    const wantedOwner = selected.playerId ? playerState(selected.playerId) : null;
+    const wantedIndex = selected.selectedIndexes[0] ?? selected.slotIndex;
+    candidate = candidates.find(entry => (!wantedOwner || entry.owner?.key === wantedOwner.key) && entry.index === wantedIndex) || null;
+  }
+  if (!candidate) candidate = candidates[0];
+  if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'initiative', {cardId:'AVS000013', selected:{playerId:candidate.owner.key, index:candidate.index, cardId:candidate.cardId}});
+  const removed = removeZoneEntry(candidate.owner, 'graveyard', candidate.index);
+  const runeEntry = batch07RuneDeckEntry(removed, 'AVS000013');
+  addEntryToRuntimeZone(p, 'deck', runeEntry, {position:'top'});
+  const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'AVS000013', reason:'isgrimm-rune-servant'});
+  const result = {
+    handled:true,
+    success:true,
+    cardId:'AVS000013',
+    selected:{playerId:candidate.owner.key, sourceZone:'graveyard', sourceIndex:candidate.index, cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId},
+    runeEntry:{cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId, rune:!!runeEntry.batch07RuneServant},
+    shuffle,
+    before,
+    after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}
+  };
+  recordCollectionBatch07Event('isgrimm-rune-servant', result);
+  showNotif('Isgrimm grave une rune sur un serviteur et le mÃ©lange dans votre deck.', 1800);
+  return result;
+}
+
+async function triggerBatch07Vengeance(cardId, player, dyingFC) {
+  if (cardId !== 'N000009') return {handled:false};
+  pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+  await new Promise(resolve => setTimeout(resolve, 260));
+  showNotif('Vengeance !', 1200);
+  await new Promise(resolve => setTimeout(resolve, 450));
+  const summon = await summonBatch03Servant(player, 'DIV000008', {sourceCardId:cardId, sourceInstanceId:dyingFC?.dataset.instance || null, triggerInitiativeEffect:false, ready:true});
+  const result = {handled:true, success:!!summon?.success, cardId, summon, destination:'graveyard'};
+  recordCollectionBatch07Event('n000009-vengeance', {source:targetSummary(dyingFC), result});
+  return result;
+}
+
+async function triggerBatch07DamageReceivedHooks(fc, context={}) {
+  if (!fc || fc.dataset.dead || fc.dataset.id !== 'N000011') return [];
+  if (!canResolveServantAbility(fc, {triggerType:'damage-received'})) return [];
+  const amount = Math.max(0, Number(context.damageApplied || context.amount || 0));
+  if (amount <= 0 || Number(fc.dataset.pdv || 0) <= 0) return [];
+  fc.dataset.batch07PriestDamageThisTurn = String(Number(fc.dataset.batch07PriestDamageThisTurn || 0) + amount);
+  const healAmount = Number(fc.dataset.batch07PriestDamageThisTurn || amount);
+  const owner = playerState(fc.dataset.player);
+  const heals = batch05LivingServants(owner)
+    .filter(ally => ally !== fc && Number(ally.dataset.pdv || 0) < Number(ally.dataset.pdvMax || 0))
+    .map(ally => ({target:targetSummary(ally), heal:applyHeal(ally, healAmount)}))
+    .filter(entry => entry.heal.success);
+  if (heals.length) pulseBatch03Ability(fc, 'damage-received');
+  const result = {type:'priest-combatant-heal', source:targetSummary(fc), amount, healAmount, heals};
+  recordCollectionBatch07Event('damage-received', result);
+  return [result];
+}
+
+function adjustBatch07IncomingDamage(fc, amount) {
+  if (!fc || fc.dataset.id !== 'N000009') return {amount, reducedBy:0};
+  const reducedBy = Math.min(2, Math.max(0, Number(amount || 0)));
+  const nextAmount = Math.max(0, Number(amount || 0) - 2);
+  if (reducedBy > 0) recordCollectionBatch07Event('stone-guardian-damage-reduction', {target:targetSummary(fc), before:amount, after:nextAmount, reducedBy});
+  return {amount:nextAmount, reducedBy};
+}
+
+async function resolveBatch07CombatDamageDealtEffects(sourceFC, targetFC, context={}) {
+  if (!sourceFC || sourceFC.dataset.id !== 'N000014' || context.phase !== 'attack') return [];
+  if (!canResolveServantAbility(sourceFC, {triggerType:'combat'})) return [];
+  const adjacents = (context.adjacentTargets || []).filter(fc => fc?.isConnected && !fc.dataset.dead && fc.dataset.player === targetFC?.dataset?.player);
+  const results = [];
+  if (!adjacents.length) return results;
+  pulseBatch03Ability(sourceFC, 'combat-adjacent');
+  for (const adjacent of adjacents) {
+    results.push({target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:playerState(sourceFC.dataset.player), targetFC:adjacent, sourceCardId:'N000014', amount:2})});
+  }
+  recordCollectionBatch07Event('glamrig-adjacent-damage', {source:targetSummary(sourceFC), primary:targetSummary(targetFC), results});
+  return results;
+}
+
+function resolveBatch07EndTurnEffects(player) {
+  const p = playerState(player);
+  const zone = qs(playerZoneSelector(p, 'servants'));
+  if (!p || !zone) return {applied:0, reductions:[]};
+  const reductions = [];
+  zone.querySelectorAll('[data-id="N000014"]:not([data-dead])').forEach(glamrig => {
+    if (!canResolveServantAbility(glamrig, {triggerType:'end-turn'})) return;
+    const candidates = playerHand(p)
+      .map((cardId, index) => ({cardId, index, occurrenceId:batch03HandOccurrenceAt(p, index)}))
+      .filter(entry => isBatch07DwarfServant(entry.cardId));
+    const picked = candidates[Math.floor(gameRandom() * candidates.length)] || null;
+    if (!picked) return;
+    registerRuntimeCostModifier(p, {
+      id:`${p.key}-N000014-${picked.occurrenceId}-${turnSequence}`,
+      sourceKind:'servant',
+      sourceId:'N000014',
+      priority:150,
+      duration:'permanent',
+      criteria:{handOccurrenceIds:[picked.occurrenceId]},
+      operations:[{type:'adjustTotal', amount:-2}]
+    });
+    reductions.push(picked);
+    pulseBatch03Ability(glamrig, 'end-turn');
+  });
+  if (reductions.length) {
+    renderAllHands();
+    recordCollectionBatch07Event('glamrig-end-turn-cost-reduction', {playerId:p.key, reductions});
+  }
+  return {applied:reductions.length, reductions};
+}
+
+function resetBatch07TurnDamage(player) {
+  batch05LivingServants(player).forEach(fc => {
+    delete fc.dataset.batch07PriestDamageThisTurn;
+  });
+}
+
 const collectionBatch06State = {events:[], ambiguities:[]};
 
 function recordCollectionBatch06Event(type, detail={}) {
@@ -12207,6 +12653,7 @@ function auditCollectionBatch06Runtime() {
   };
 }
 window.auditCollectionBatch06Runtime = auditCollectionBatch06Runtime;
+window.auditCollectionBatch07Runtime = auditCollectionBatch07Runtime;
 
 
 async function resolveSermentDesAnciens(player) {
@@ -12425,7 +12872,7 @@ function highlightTargets() {
     : [];
 
   // Y a-t-il un Rempart actif ?
-  const ignoresRempart = attackingFC?.dataset?.id === 'EN000006';
+  const ignoresRempart = ['EN000006','N000006'].includes(attackingFC?.dataset?.id || '');
   const hasRempart = !ignoresRempart && adverseServants.some(fc => fc.dataset.rempart === '1' && !fc.dataset.frozen && !fc.dataset.frozen_cdg && !isBatch04Hypnotized(fc));
 
   // Le joueur courant a-t-il un serviteur avec [Vigilance] ? (révèle le camouflage adverse)
@@ -12550,6 +12997,7 @@ async function resolveCombat(attacker, targetFC) {
   // Dégâts sur le défenseur
   const batch05Plan = batch05CombatPlan(attacker, targetFC, (attacker.dataset.id==='EDB000001' && targetFC.dataset.fac==='mvs') ? atkAtk*2 : atkAtk);
   const finalAtkDmg = batch05Plan.damage;
+  const batch07GlamrigAdjacentTargets = attacker.dataset.id === 'N000014' ? batch03AdjacentServants(targetFC) : [];
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
@@ -12564,6 +13012,7 @@ async function resolveCombat(attacker, targetFC) {
   }
   await triggerBatch03CombatHooks(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
   await resolveBatch05PostAttackEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
+  await resolveBatch07CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch07GlamrigAdjacentTargets});
 
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
@@ -12653,6 +13102,8 @@ async function applyDamage(fc, amount) {
   if (!fc || !amount || amount <= 0) return false;
   if (fc.dataset.dead) return true;
   amount = adjustBatch03IncomingDamage(fc, amount);
+  const batch07DamageAdjustment = adjustBatch07IncomingDamage(fc, amount);
+  amount = batch07DamageAdjustment.amount;
   if (!amount || amount <= 0) return false;
 
   const pdvEl = fc.querySelector('.fc-pdv-val');
@@ -12661,6 +13112,7 @@ async function applyDamage(fc, amount) {
   const curPdv = parseInt(pdvEl.textContent) || 0;
   const maxPdv = parseInt(fc.dataset.pdvMax) || curPdv;
   const newPdv = curPdv - amount;
+  const damageApplied = Math.max(0, Math.min(curPdv, amount));
   if (newPdv <= 0) {
     const atkBeforeDeath = parseInt(fc.dataset.atk);
     fc.dataset.atkBeforeDeath = Number.isFinite(atkBeforeDeath) ? String(atkBeforeDeath) : '0';
@@ -12678,6 +13130,7 @@ async function applyDamage(fc, amount) {
   updateRageState(fc);
   await triggerBatch03DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
   await triggerBatch05DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
+  await triggerBatch07DamageReceivedHooks(fc, {amount, damageApplied, newPdv, sourceFC:fc._killer || null});
   clearBatch04Hypnosis(fc, 'damage-received');
 
   await new Promise(r => setTimeout(r, 380));
@@ -12782,7 +13235,7 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
 
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
   return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011' ||
-    cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012';
+    cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012' || cardId === 'N000009';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
@@ -12889,6 +13342,9 @@ async function sendToCemetery(fc) {
         owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:blockedOccurrenceId, sourceName:'Serviteur de la rune', armed:true, createdTurnSequence:turnSequence});
         refreshHand(owner);
       }
+      if (fc.dataset.batch07RuneServant === '1') {
+        batch07RuneReturnedToHand(owner, cardId, batch03HandOccurrenceAt(owner, owner.hand.length - 1));
+      }
       const handNode = markBatch03HandCardReturned(owner, cardId);
       recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', flightAnimation:fc.dataset.batch03RuneReturnFlight === '1', handAnimation:!!handNode});
       if (d.fac) addHistEntry(cardId, d.fac);
@@ -12942,7 +13398,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
   }
@@ -12953,6 +13409,10 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
 
   if (cardId === 'H000031') {
     return triggerBatch03IgorVengeance(player, dyingFC, killer);
+  }
+
+  if (cardId === 'N000009') {
+    return triggerBatch07Vengeance(cardId, player, dyingFC);
   }
 
   if (cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004') {
@@ -13939,6 +14399,8 @@ function applyEndOfTurnEffects(player) {
       recordCollectionBatch05Event('tisseur-end-turn', {source:targetSummary(tisseur), affected});
     }
   });
+  resolveBatch07EndTurnEffects(player);
+  resetBatch07TurnDamage(player);
   syncBatch05Passives();
 }
 
@@ -15438,7 +15900,7 @@ Object.assign(CARDS_DATA, {
     "atk": 13,
     "pdv": 13,
     "cost": 13,
-    "fico": "FCT00000NAIN.png",
+    "fico": "FCT00000NAI.png",
     "kws": ["Insensible", "Aria", "Initiative", "Serviteur de la rune"],
     "cap": "[Insensible] [Initiative] Choisissez un serviteur dans votre cimetière ou celui de votre adversaire et placez-le dans votre deck. Ajoute le mot clef [Serviteur de la rune] à ce serviteur. Puis, mélangez votre deck.",
     "lore": "",
@@ -16348,15 +16810,18 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Fer",
       "Nourriture",
-      "Approvisionnement"
+      "Approvisionnement",
+      "Initiative"
     ],
     "cap": "[Initiative] Vous piochez 1 carte Approvisionnement de votre deck.",
     "lore": "",
     "max": 6,
     "assetFolder": "nains",
     "res_ico": "IC00000FER",
+    "res2": "IC00000NRT",
+    "resOu": true,
     "res_val": "1",
-    "resType": "fer"
+    "resType": "Fer|Nourriture"
   },
   "N000014": {
     "name": "Glamrig",
@@ -16377,7 +16842,328 @@ Object.assign(CARDS_DATA, {
     "assetFolder": "nains",
     "res_ico": "IC00000RDM",
     "res_val": "9",
-    "resType": "any"
+    "resType": "any",
+    "detail": "[Serviteur de la rune] [Rempart] [Sang-froid] Chaque fois qu'il attaque, Glamrig inflige également 2 points de dégâts aux serviteurs adjacents. À la fin de chacun de vos tours que Glamrig passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de 2."
+  },
+  "N000001": {
+    "name": "Gardien",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 2,
+    "pdv": 4,
+    "cost": 2,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Rempart"],
+    "cap": "[Rempart]",
+    "lore": "Chez les nains, même le guerrier le plus vert est bardé de métal des pieds à la tête. Le gardien, véritable rempart vivant, ne fait pas exception.",
+    "max": 6,
+    "assetFolder": "nains",
+    "res_ico": "IC00000FER",
+    "res_val": "2",
+    "resType": "Fer"
+  },
+  "N000002": {
+    "name": "Cognemarteau d'élite",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 6,
+    "pdv": 7,
+    "cost": 6,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Sélène", "Fer", "Nourriture", "Rempart", "Initiative"],
+    "cap": "[Rempart] [Initiative] Inflige 2 points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez une carte.",
+    "detail": "[Rempart] [Initiative] Inflige 2 points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez une carte. Aucune carte n'est piochée si votre main est déjà pleine.",
+    "lore": "",
+    "max": 2,
+    "assetFolder": "nains",
+    "res_ico": "IC00000SLN",
+    "res2": "IC00000FER",
+    "res3": "IC00000NRT",
+    "res_val": "6",
+    "resType": "Sélène+Fer+Nourriture"
+  },
+  "N000003": {
+    "name": "Vénérable",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 3,
+    "pdv": 8,
+    "cost": 5,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Sélène", "Fer", "Nourriture", "Vigilance"],
+    "cap": "[Vigilance] Tant que ce serviteur est sur le terrain, vos autres serviteurs gagnent un bonus de +2 d'attaque.",
+    "lore": "",
+    "max": 4,
+    "assetFolder": "nains",
+    "res_ico": "IC00000SLN",
+    "res2": "IC00000FER",
+    "res3": "IC00000NRT",
+    "res_val": "5",
+    "resType": "Sélène+Fer+Nourriture"
+  },
+  "N000005": {
+    "name": "Haut-seigneur Alfric Cassebibine",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 7,
+    "pdv": 7,
+    "cost": 5,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Sélène", "Rempart", "Sang ardent", "Sang-froid", "Rage"],
+    "cap": "[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent +1 ATK / +1 PDV.",
+    "lore": "",
+    "max": 1,
+    "assetFolder": "nains",
+    "res_ico": "IC00000SLN",
+    "res2": "IC00000FER",
+    "res_val": "5",
+    "resType": "Sélène+Fer"
+  },
+  "N000006": {
+    "name": "Démolisseur",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 7,
+    "pdv": 2,
+    "cost": 4,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Pierre", "Nourriture", "Initiative"],
+    "cap": "Ignore l'effet du mot-clef [Rempart] chez les adversaires. [Initiative] Envoie la carte du dessus du deck adverse directement au cimetière.",
+    "lore": "",
+    "max": 2,
+    "assetFolder": "nains",
+    "res_ico": "IC00000FER",
+    "res2": "IC00000PIE",
+    "res3": "IC00000NRT",
+    "res_val": "4",
+    "resType": "Fer+Pierre+Nourriture"
+  },
+  "N000007": {
+    "name": "Guerrier",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 2,
+    "pdv": 4,
+    "cost": 2,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Rage"],
+    "cap": "[Rage]",
+    "lore": "",
+    "max": 6,
+    "assetFolder": "nains",
+    "res_ico": "IC00000FER",
+    "res_val": "2",
+    "resType": "Fer"
+  },
+  "N000008": {
+    "name": "Guerrier expérimenté",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 5,
+    "pdv": 5,
+    "cost": 3,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Nourriture", "Rage", "Rempart"],
+    "cap": "[Rage] [Rempart]",
+    "lore": "",
+    "max": 4,
+    "assetFolder": "nains",
+    "res_ico": "IC00000FER",
+    "res2": "IC00000NRT",
+    "res_val": "3",
+    "resType": "Fer+Nourriture"
+  },
+  "N000009": {
+    "name": "Gardien de pierre runelié",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 4,
+    "pdv": 10,
+    "cost": 7,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Sélène", "Pierre", "Aria", "Rempart", "Insensible", "Vengeance"],
+    "cap": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de 2. [Vengeance] Invoque 1 Golem de roche de votre côté du terrain.",
+    "detail": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de 2. [Vengeance] Invoque 1 Golem de roche [ID = DIV000008] de votre côté du terrain.",
+    "related": ["DIV000008"],
+    "lore": "",
+    "max": 1,
+    "assetFolder": "nains",
+    "res_ico": "IC00000PIE",
+    "res2": "IC00000SLN",
+    "res3": "IC00000ARI",
+    "res_val": "7",
+    "resType": "Pierre+Sélène+Aria"
+  },
+  "N000010": {
+    "name": "Bélier de pierre",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 4,
+    "pdv": 3,
+    "cost": 6,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Pierre", "Aria", "Initiative"],
+    "cap": "[Initiative] Invoque des copies de ce serviteur jusqu'à remplir votre côté du terrain.",
+    "lore": "",
+    "max": 3,
+    "assetFolder": "nains",
+    "res_ico": "IC00000PIE",
+    "res2": "IC00000ARI",
+    "res_val": "6",
+    "resType": "Pierre+Aria"
+  },
+  "N000011": {
+    "name": "Prêtre-combattant",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 1,
+    "pdv": 5,
+    "cost": 3,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Aria", "Sélène"],
+    "cap": "Chaque fois qu'il survit à des dégâts, le Prêtre-combattant soigne tous les serviteurs alliés blessés du montant des dommages qu'il a subi ce tour.",
+    "lore": "",
+    "max": 4,
+    "assetFolder": "nains",
+    "res_ico": "IC00000ARI",
+    "res2": "IC00000SLN",
+    "res_val": "3",
+    "resType": "Aria+Sélène"
+  },
+  "N000012": {
+    "name": "Lance-marteaux",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 3,
+    "pdv": 6,
+    "cost": 4,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Sélène", "Fer", "Nourriture", "Initiative"],
+    "cap": "[Initiative] Détruit la carte sur le dessus du deck adverse.",
+    "lore": "",
+    "max": 4,
+    "assetFolder": "nains",
+    "res_ico": "IC00000SLN",
+    "res2": "IC00000FER",
+    "res3": "IC00000NRT",
+    "res_val": "4",
+    "resType": "Sélène+Fer+Nourriture"
+  },
+  "N000013": {
+    "name": "Milicien",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 2,
+    "pdv": 3,
+    "cost": 2,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Nourriture"],
+    "cap": "",
+    "lore": "Ne vous fiez pas à son air débonnaire : ce gentil nain vous fera tâter de sa hache si vous enfreignez la loi sous sa surveillance !",
+    "max": 6,
+    "assetFolder": "nains",
+    "res_ico": "IC00000FER",
+    "res2": "IC00000NRT",
+    "resOu": true,
+    "res_val": "2",
+    "resType": "Fer|Nourriture"
+  },
+  "N000015": {
+    "name": "Windjalf, l'Ancien",
+    "type": "Serviteur",
+    "fac": "nain",
+    "atk": 2,
+    "pdv": 7,
+    "cost": 5,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Sang ardent", "Initiative", "Sélène"],
+    "cap": "[Sang ardent] [Initiative] Ajoute le sort Boute-flammes à votre main.",
+    "detail": "[Sang ardent] [Initiative] Ajoute le sort Boute-flammes [ID = S000054] à votre main.",
+    "related": ["S000054"],
+    "lore": "",
+    "max": 1,
+    "assetFolder": "nains",
+    "res_ico": "IC00000SLN",
+    "res_val": "5",
+    "resType": "Sélène"
+  },
+  "S000012": {
+    "name": "Fruits de l'entraînement",
+    "type": "Sort",
+    "fac": "nain",
+    "assetFolder": "sorts",
+    "atk": null,
+    "pdv": null,
+    "cost": 2,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Nourriture"],
+    "cap": "Donne +2 ATK / +1 PDV à tous vos serviteurs nains sur le terrain.",
+    "lore": "",
+    "badge": "Sort",
+    "max": 3,
+    "res_ico": "IC00000NRT",
+    "res_val": "2",
+    "resType": "Nourriture"
+  },
+  "S000013": {
+    "name": "Expérience du combat",
+    "type": "Sort",
+    "fac": "nain",
+    "assetFolder": "sorts",
+    "atk": null,
+    "pdv": null,
+    "cost": 4,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Fer", "Nourriture"],
+    "cap": "Remplace tous les Guerriers de votre deck, main, cimetière et terrain par autant de Guerriers expérimentés.",
+    "detail": "Remplace tous les Guerriers [ID = N000007] de votre deck, main, cimetière et terrain par autant de Guerriers expérimentés [ID = N000008].",
+    "related": ["N000007", "N000008"],
+    "lore": "",
+    "badge": "Sort",
+    "max": 3,
+    "res_ico": "IC00000FER",
+    "res2": "IC00000NRT",
+    "res_val": "4",
+    "resType": "Fer+Nourriture"
+  },
+  "S000024": {
+    "name": "Secrets de forge",
+    "type": "Sort",
+    "fac": "nain",
+    "assetFolder": "sorts",
+    "atk": null,
+    "pdv": null,
+    "cost": 5,
+    "fico": "FCT00000NAI.png",
+    "kws": ["Sélène"],
+    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Nains coûtent 1 ressource en moins et ajoutent +1 à leur montant de points de vie maximal.",
+    "lore": "",
+    "badge": "Sort",
+    "max": 2,
+    "res_ico": "IC00000SLN",
+    "res_val": "5",
+    "resType": "Sélène"
+  },
+  "S000054": {
+    "name": "Boute-flammes",
+    "type": "Sort",
+    "fac": "sort",
+    "assetFolder": "sorts",
+    "atk": null,
+    "pdv": null,
+    "cost": 5,
+    "fico": null,
+    "kws": ["Pierre", "Fer", "Sélène", "Sang ardent", "Embrasement"],
+    "cap": "Confère [Sang ardent] à tous vos serviteurs nains actuellement sur le terrain. Si certains sont déjà affectés par [Embrasement], supprimez-le. Jusqu'à la fin de la partie, vos autres serviteurs nains ne subissent plus que les dégâts initiaux d'[Embrasement], et plus les dégâts périodiques de l'effet.",
+    "lore": "",
+    "badge": "Sort",
+    "max": 0,
+    "generatedOnly": true,
+    "res_ico": "IC00000PIE",
+    "res2": "IC00000FER",
+    "res3": "IC00000SLN",
+    "res_val": "5",
+    "resType": "Pierre+Fer+Sélène"
   },
   "ORC000001": {
     "name": "Chaman tribal",
@@ -18117,16 +18903,23 @@ function batch05PassiveBuffFor(fc) {
     if (otherWolves) { pdvMax += otherWolves; sources.push('EDG000011'); }
   }
   if (owner.batch05PacteIceAtkBuff && isBatch05IceElf(fc)) { atk += Number(owner.batch05PacteIceAtkBuff || 0); sources.push('S000023'); }
+  const dwarfBuff = batch07DwarfBuffFor(fc);
+  if (dwarfBuff.sources.length) {
+    atk += dwarfBuff.atk;
+    pdvMax += dwarfBuff.pdvMax;
+    sources.push(...dwarfBuff.sources);
+  }
   return {atk, pdvMax, sources};
 }
 function syncBatch05Passives() {
   for (const p of [player1, player2].filter(Boolean)) {
     for (const fc of batch05LivingServants(p)) {
       const isWoodOrIce = isBatch05WoodElf(fc) || isBatch05IceElf(fc);
+      const isDwarf = isBatch07DwarfServant(fc);
       const hasVigilance = (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Vigilance');
-      if (!isWoodOrIce && !hasVigilance) continue;
+      if (!isWoodOrIce && !hasVigilance && !isDwarf) continue;
       const hadBatch05PassiveGlow = fc.dataset.batch03PassivePulse === '1' && fc.dataset.batch03LastPulseReason === 'batch05-passive';
-      if (isWoodOrIce) {
+      if (isWoodOrIce || isDwarf) {
         const baseAtk = batch05BaseStat(fc, 'atk');
         const baseMax = batch05BaseStat(fc, 'pdvMax');
         const buff = batch05PassiveBuffFor(fc);
@@ -18145,7 +18938,7 @@ function batch05ShouldShowPassiveGlow(fc) {
   if (!fc || fc.dataset.dead) return false;
   const kws = CARDS_DATA[fc.dataset.id]?.kws || [];
   if (kws.includes('Vigilance')) return true;
-  return ['EDB000009','EDB000014','EDG000008'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
+  return ['EDB000009','EDB000014','EDG000008','N000003','N000005'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
 }
 function batch05EnemyServants(player, effectKind='damage') {
   const p = playerState(player);
@@ -18847,7 +19640,7 @@ function isBatch03RuneServant(cardId) {
 
 function shouldBatch03RuneReturnToHand(fc, cardData={}, vengeanceResult=null) {
   if (!fc || cardData.type !== 'Serviteur') return false;
-  if (!isBatch03RuneServant(fc.dataset.id)) return false;
+  if (!isBatch03RuneServant(fc.dataset.id) && fc.dataset.batch07RuneServant !== '1') return false;
   if (vengeanceResult?.destination === 'deck-bottom') return false;
   return true;
 }
@@ -19440,7 +20233,7 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
   const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : findBoardCard(p, cardId));
   const result = {handled:true, success:true, cardId, operations:[]};
   const enemies = () => batch03EnemyServants(p, 'damage');
-  if (!['AVS000001','AVS000002','AVS000004','AVS000007','AVS000014','H000002','H000003','H000004','H000007','H000009','H000011','H000012','H000013','H000014','H000015','H000016','H000027','H000031'].includes(cardId)) {
+  if (!['AVS000001','AVS000002','AVS000004','AVS000007','AVS000013','AVS000014','H000002','H000003','H000004','H000007','H000009','H000011','H000012','H000013','H000014','H000015','H000016','H000027','H000031'].includes(cardId)) {
     return {handled:false};
   }
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, reason:'cold-locked', cardId};
@@ -19470,6 +20263,11 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
   }
   if (cardId === 'AVS000007') {
     result.operations.push(await summonBatch03Servant(p, 'DIV000001', {sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  if (cardId === 'AVS000013') {
+    const isgrimm = await resolveBatch07IsgrimmInitiative(p, {...context, sourceFC});
+    result.operations.push(isgrimm);
+    result.success = !!isgrimm.success;
   }
   if (cardId === 'AVS000014') {
     const opponent = opponentOf(p);

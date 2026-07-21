@@ -604,22 +604,20 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "move-hand-deck-graveyard",
-        "targeting"
-      ],
-      "missingPrimitives": [
         "initiative-trigger",
+        "move-hand-deck-graveyard",
         "rune-servant-replacement",
         "summon",
-        "target-immunity"
+        "target-immunity",
+        "targeting"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:initiative-trigger",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE",
-      "deferralReason": "Runtime data present, but Initiative choice between graveyard/deck plus Serviteur de la rune mutation remains deferred."
+      "obtainability": "OBTAINABLE"
     },
     {
       "schemaVersion": 1,
@@ -7783,15 +7781,14 @@
         "guard-restriction"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "guard-restriction"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -7833,16 +7830,15 @@
         "cost-validation",
         "damage",
         "draw",
+        "guard-restriction",
+        "initiative-trigger",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "guard-restriction",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -7879,17 +7875,16 @@
         "modify-atk"
       ],
       "supportedPrimitives": [
+        "camouflage-lock",
         "cost-validation",
+        "duration-persistent",
         "modify-atk"
       ],
-      "missingPrimitives": [
-        "camouflage-lock",
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:camouflage-lock",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -7925,15 +7920,14 @@
       "supportedPrimitives": [
         "cost-validation",
         "draw",
+        "initiative-trigger",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:draw",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -7971,20 +7965,19 @@
         "rage-stat-buff"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "modify-atk",
-        "modify-pv"
-      ],
-      "missingPrimitives": [
         "burn-protection",
         "cold-blood-immunity",
+        "cost-validation",
         "guard-restriction",
+        "modify-atk",
+        "modify-pv",
         "rage-stat-buff"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:burn-protection",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8023,17 +8016,16 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "guard-restriction",
+        "initiative-trigger",
         "move-hand-deck-graveyard",
         "targeting"
       ],
-      "missingPrimitives": [
-        "guard-restriction",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8058,15 +8050,14 @@
         "rage-stat-buff"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "rage-stat-buff"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:rage-stat-buff",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8093,16 +8084,15 @@
         "rage-stat-buff"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "guard-restriction",
         "rage-stat-buff"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:static:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8139,18 +8129,17 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
-        "damage"
-      ],
-      "missingPrimitives": [
+        "damage",
         "guard-restriction",
         "summon",
         "target-immunity",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8182,17 +8171,16 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "cost-validation"
-      ],
-      "missingPrimitives": [
+        "cost-validation",
         "create-card",
         "initiative-trigger",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:create-card",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8236,9 +8224,9 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Serviteur:static:damage",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8273,16 +8261,15 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "initiative-trigger",
         "lethal-damage",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:initiative-trigger",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8311,7 +8298,7 @@
       "familyKey": "Serviteur:static:data-only",
       "implementationStatus": "SANS_EFFET_PROGRAMMABLE",
       "industrialReadiness": "NO_PROGRAMMABLE_EFFECT",
-      "confidence": "MOYEN",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8357,20 +8344,19 @@
         "summon"
       ],
       "supportedPrimitives": [
-        "damage",
-        "modify-atk",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
         "cold-blood-immunity",
+        "damage",
         "guard-restriction",
+        "modify-atk",
+        "move-hand-deck-graveyard",
         "rune-servant-replacement",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:turn-end:cold-blood-immunity",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -8404,18 +8390,17 @@
         "move-hand-deck-graveyard"
       ],
       "supportedPrimitives": [
+        "burn-protection",
         "cost-validation",
+        "create-card",
+        "initiative-trigger",
         "move-hand-deck-graveyard"
       ],
-      "missingPrimitives": [
-        "burn-protection",
-        "create-card",
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:burn-protection",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -11382,9 +11367,9 @@
       ],
       "missingPrimitives": [],
       "familyKey": "Sort:on-play:modify-atk",
-      "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -11422,15 +11407,14 @@
       "supportedPrimitives": [
         "cost-validation",
         "move-hand-deck-graveyard",
-        "send-spell-to-graveyard"
-      ],
-      "missingPrimitives": [
+        "send-spell-to-graveyard",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:move-hand-deck-graveyard",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },
@@ -11958,17 +11942,16 @@
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "duration-persistent",
         "heal",
         "modify-pv",
         "send-spell-to-graveyard"
       ],
-      "missingPrimitives": [
-        "duration-persistent"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
     },

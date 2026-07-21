@@ -59,7 +59,7 @@
       "cardId": "N000004",
       "drawnSupplyId": "R000020",
       "replacementCandidateId": "N000015",
-      "replacementCandidateRuntimeAvailable": false
+      "replacementCandidateRuntimeAvailable": true
     },
     "yria": {
       "cardId": "AVS000005",
@@ -178,8 +178,7 @@
       "AVS000006"
     ],
     "deferred": {
-      "AVS000008": "Avatar Hokhan conserve dans le perimetre HUVU, pas recode dans Batch-04E.",
-      "AVS000013": "Choix cimetiere/deck + ajout de mot-clef a une occurrence de serviteur de la rune reportes."
+      "AVS000008": "Avatar Hokhan conserve dans le perimetre HUVU, pas recode dans Batch-04E."
     }
   }
 }

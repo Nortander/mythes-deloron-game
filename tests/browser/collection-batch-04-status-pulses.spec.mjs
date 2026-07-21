@@ -657,7 +657,7 @@ test("Yria passive doubles healing, draws one extra card and keeps an immobile p
   await attachDiagnostics(testInfo, diagnostics);
 });
 
-test("Remaining AVS audit implements Raith and Zahaar while deferring Isgrimm", async ({page}, testInfo) => {
+test("Remaining AVS audit keeps Raith and Zahaar stable after Isgrimm implementation", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-04-pulses");
   const result = await page.evaluate(async (audit) => {
@@ -700,6 +700,8 @@ test("Remaining AVS audit implements Raith and Zahaar while deferring Isgrimm", 
     const zahaarSecond = await applyBatch03StartTurnAbilities(player1);
     const zahaarAfterSecond = zahaarTargets.map(targetSummary);
     const zahaarPulse = {reason:zahaar.dataset.batch03LastPulseReason || "", color:zahaar.dataset.batch04PulseColor || "", move:zahaar.dataset.batch03PulseMove || "", classAbility:zahaar.classList.contains("batch03-ability-pulse")};
+    player1.graveyard = ["N000013"];
+    refreshCemeteryVisual(player1);
     const isgrimmInitiative = await resolveBatch03Initiative("AVS000013", player1, {});
     return {
       runtimeAvs,
@@ -738,8 +740,8 @@ test("Remaining AVS audit implements Raith and Zahaar while deferring Isgrimm", 
   expect(result.zahaar.pulse).toMatchObject({reason:"start-turn", color:fixture.pulseColors.AVS000012, move:"1", classAbility:true});
   expect(result.isgrimm.present).toBe(true);
   expect(result.isgrimm.keywords).toContain("Serviteur de la rune");
-  expect(result.isgrimm.initiative?.handled).toBe(false);
-  expect(result.deferred.AVS000013).toContain("Choix cimetiere/deck");
+  expect(result.isgrimm.initiative?.handled).toBe(true);
+  expect(result.isgrimm.initiative?.success).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
 });
 

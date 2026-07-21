@@ -1,0 +1,55 @@
+{
+  "batchId": "COLLECTION-BATCH-07",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-19.xlsx",
+  "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
+  "scenarios": [
+    "collection-batch-07-nains",
+    "collection-batch-07-isgrimm"
+  ],
+  "dwarfIds": [
+    "AVS000013",
+    "N000001",
+    "N000002",
+    "N000003",
+    "N000004",
+    "N000005",
+    "N000006",
+    "N000007",
+    "N000008",
+    "N000009",
+    "N000010",
+    "N000011",
+    "N000012",
+    "N000013",
+    "N000014",
+    "N000015",
+    "S000012",
+    "S000013",
+    "S000024"
+  ],
+  "noProgrammableEffectIds": [
+    "N000013"
+  ],
+  "directDependencies": [
+    "DIV000008",
+    "S000054"
+  ],
+  "expectedHiddenScenarioOptionCount": 0,
+  "maxVisualHandSize": 9,
+  "expectedPulseColor": "#a0a8b866",
+  "expectedIsgrimm": {
+    "sourceGraveyard": [
+      "N000013"
+    ],
+    "selectedCardId": "N000013"
+  },
+  "expectedWarriorReplacement": {
+    "from": "N000007",
+    "to": "N000008"
+  },
+  "expectedCombat": {
+    "glamrigAdjacentDamage": 2,
+    "stoneGuardianReduction": 2,
+    "priestHeal": 2
+  }
+}
