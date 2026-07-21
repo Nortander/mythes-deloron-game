@@ -702,7 +702,7 @@ test("Remaining AVS audit keeps Raith and Zahaar stable after Isgrimm implementa
     const zahaarPulse = {reason:zahaar.dataset.batch03LastPulseReason || "", color:zahaar.dataset.batch04PulseColor || "", move:zahaar.dataset.batch03PulseMove || "", classAbility:zahaar.classList.contains("batch03-ability-pulse")};
     player1.graveyard = ["N000013"];
     refreshCemeteryVisual(player1);
-    const isgrimmInitiative = await resolveBatch03Initiative("AVS000013", player1, {});
+    const isgrimmInitiative = await resolveBatch03Initiative("AVS000013", player1, {zoneSelection:{selectedIndex:0}});
     return {
       runtimeAvs,
       raith:{before:raithBefore, after:raithAfter, result:raithResult, pulse:raithPulse},

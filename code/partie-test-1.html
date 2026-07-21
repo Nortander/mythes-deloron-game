@@ -2986,8 +2986,8 @@ SCENARIOS['collection-batch-06-shar-arduin'] = {
 SCENARIOS['collection-batch-07-nains'] = {
   label: 'TEST - COLLECTION BATCH 07 Nains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'N000002',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000002','N000004','N000006','N000010','N000012','N000015','S000012','S000013','S000024'], drawPile:['R000001','N000007','H000001','R000010','N000013'], graveyard:['N000007'], servants:[{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000005',pdvMax:7,pdv:7,atk:7,prepared:true},{id:'N000011',pdvMax:5,pdv:3,atk:1,prepared:true},{id:'N000014',pdvMax:10,pdv:10,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001','H000006'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdvMax:5,pdv:5,atk:1,prepared:true},{id:'H000005',pdvMax:4,pdv:4,atk:1,prepared:true},{id:'H000006',pdvMax:4,pdv:4,atk:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000001','N000002','N000004','N000006','N000010','N000012','S000012','S000013','S000024'], drawPile:['R000001','N000007','H000001','R000010','N000013'], graveyard:['N000007'], servants:[{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000005',pdvMax:7,pdv:7,atk:7,prepared:true},{id:'N000009',pdvMax:8,pdv:8,atk:4,prepared:true},{id:'N000011',pdvMax:5,pdv:3,atk:1,prepared:true},{id:'N000014',pdvMax:10,pdv:10,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001','H000006'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdvMax:12,pdv:12,atk:7,prepared:true},{id:'H000005',pdvMax:12,pdv:12,atk:8,prepared:true},{id:'H000006',pdvMax:12,pdv:12,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-07-isgrimm'] = {
@@ -2995,6 +2995,13 @@ SCENARIOS['collection-batch-07-isgrimm'] = {
   testSetup: {
     player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['AVS000013'], drawPile:['S000012','R000001'], graveyard:['N000013'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:['H000001','R000001','H000005'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-07-boute-flammes'] = {
+  label: 'TEST - COLLECTION BATCH 07 Boute-flammes', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000054',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['S000054','N000015','N000013','S000012'], drawPile:['N000001','N000014','N000003','R000001'], graveyard:[], servants:[{id:'N000001',pdvMax:8,pdv:6,atk:3,prepared:true,burning:2},{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000005',pdvMax:7,pdv:7,atk:7,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'ORC000017',pdvMax:14,pdv:14,atk:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -5103,10 +5110,9 @@ function cardHasKeyword(cardOrId, keyword) {
 }
 
 function hasSangArdent(instanceOrCard) {
-  const cardId = typeof instanceOrCard === 'string'
-    ? instanceOrCard
-    : (instanceOrCard?.dataset?.id || instanceOrCard?.id || instanceOrCard?.cardId || null);
-  return cardHasKeyword(cardId, 'Sang ardent');
+  if (instanceOrCard?.dataset?.batch07SangArdent === '1') return true;
+  const id = typeof instanceOrCard === 'string' ? instanceOrCard : instanceOrCard?.dataset?.id;
+  return (CARDS_DATA[id]?.kws || []).includes('Sang ardent');
 }
 
 function hasSangFroid(instanceOrCard) {
@@ -5303,6 +5309,10 @@ function burningPeriodicDamageFor(fc, state) {
   const hasFireMaster = !!qs(playerZoneSelector(sourcePlayer, 'servants'))
     ?.querySelector('.fc[data-id="ORC000017"]:not([data-dead])');
   const targetFac = String(fc?.dataset?.fac || '').toLowerCase();
+  if (isBatch07DwarfServant(fc)) {
+    const owner = playerState(fc?.dataset?.player);
+    if (fc?.dataset?.batch07FireResistance === '1' || owner?.batch07BouteFlammesFireResistance) return 0;
+  }
   if (hasFireMaster && (targetFac === 'edb' || targetFac === 'edg')) return 2;
   return EMBRASEMENT_PERIODIC_DAMAGE;
 }
@@ -7214,18 +7224,21 @@ function batch03DynamicStatusTexts(fc) {
   const add = line => { if (line && !lines.includes(line)) lines.push(line); };
   if (fc.dataset.batch03AuraProtection === '1') add('Bénéficie de [Insensible].');
   const blessed = Number(fc.dataset.batch03BlessedSwordsTurns || 0);
-  if (blessed > 0) add(`Bénéficie temporairement de [Colère divine] : *${blessed}* tour(s) restant(s).`);
+  if (blessed > 0) add('Bénéficie temporairement de [Colère divine] : *' + blessed + '* tour(s) restant(s).');
   const divine = Number(fc.dataset.batch03DivineWrathTurns || 0);
-  if (divine > 0) add(`Subit temporairement les effets de [Colère divine] : *${divine}* tour(s) restant(s).`);
+  if (divine > 0) add('Subit temporairement les effets de [Colère divine] : *' + divine + '* tour(s) restant(s).');
   const cdg = Number(fc.dataset.frozen_cdg || 0);
-  if (cdg > 0) add(`Subit temporairement les effets de [Coup de glace] : *${cdg}* tour(s) restant(s).`);
+  if (cdg > 0) add('Subit temporairement les effets de [Coup de glace] : *' + cdg + '* tour(s) restant(s).');
   const gel = Number(fc.dataset.frozen || 0);
-  if (gel > 0) add(`Subit temporairement les effets de [Gel] : *${gel}* tour(s) restant(s).`);
+  if (gel > 0) add('Subit temporairement les effets de [Gel] : *' + gel + '* tour(s) restant(s).');
   const burn = Number(fc.dataset.burning || 0);
-  if (burn > 0) add(`Subit temporairement les effets de [Embrasement] : *${burn}* tour(s) restant(s).`);
+  if (burn > 0) add('Subit temporairement les effets de [Embrasement] : *' + burn + '* tour(s) restant(s).');
   const pestilence = Number(fc.dataset.batch06Disease || 0);
   if (pestilence > 0) add('Subit les effets de [Pestilence].');
-  if (fc.dataset.hypno || fc.dataset.hypnosisUntilDamage) add('Paralysé par [Hypnose] jusqu\'à subir des dégâts.');
+  if (fc.dataset.hypno || fc.dataset.hypnosisUntilDamage) add("Paralysé par [Hypnose] jusqu'à subir des dégâts.");
+  if (fc.dataset.batch07RuneServant === '1') add('Bénéficie de Serviteur de la rune.');
+  if (fc.dataset.batch07SangArdent === '1') add('Bénéficie de Sang ardent.');
+  if (fc.dataset.batch07FireResistance === '1') add("Bénéficie d'une plus grande résistance au feu.");
   return lines;
 }
 
@@ -11224,6 +11237,8 @@ async function triggerSort(cardId, player, context={}) {
       return await resolveApresLaCatastrophe(player, context);
     case 'S000024':
       return resolveBatch07SecretsForge(player);
+    case 'S000054':
+      return resolveBatch07BouteFlammes(player);
     case 'S000026':
       return await resolveSermentDesAnciens(player);
     case 'S000027':
@@ -12069,6 +12084,24 @@ function syncBatch07RuneVisual(fc) {
   return createBatch03StatusCounter(fc, 'serviteur-rune', 'infinity', 'Serviteur de la rune');
 }
 
+function grantBatch07SangArdent(fc, sourceCardId='S000054') {
+  if (!fc || !isBatch07DwarfServant(fc) || fc.dataset.dead) return false;
+  fc.dataset.batch07SangArdent = '1';
+  fc.dataset.batch07SangArdentSource = sourceCardId;
+  clearBurnState(fc);
+  createBatch03StatusCounter(fc, 'sang-ardent', '∞', 'Sang ardent');
+  return true;
+}
+
+function applyBatch07FutureFireResistance(fc, sourceCardId='S000054') {
+  if (!fc || !isBatch07DwarfServant(fc) || fc.dataset.dead) return false;
+  const owner = playerState(fc.dataset.player);
+  if (!owner?.batch07BouteFlammesFireResistance || fc.dataset.batch07SangArdent === '1') return false;
+  fc.dataset.batch07FireResistance = '1';
+  fc.dataset.batch07FireResistanceSource = sourceCardId;
+  return true;
+}
+
 function applyBatch07BoardRuneFromHandOccurrence(fc, player, occurrenceId) {
   const p = playerState(player);
   if (!fc || !p || !occurrenceId || !isBatch07RuneHandOccurrence(p, occurrenceId, fc.dataset.id)) return false;
@@ -12093,13 +12126,12 @@ function batch07DwarfBuffFor(fc) {
   if (!fc || !isBatch07DwarfServant(fc)) return {atk:0, pdvMax:0, sources:[]};
   const owner = playerState(fc.dataset.player);
   if (!owner) return {atk:0, pdvMax:0, sources:[]};
+  applyBatch07FutureFireResistance(fc);
   const allies = batch05LivingServants(owner);
   const sources = [];
   let atk = Number(fc.dataset.batch07TrainingAtkBonus || 0);
   let pdvMax = Number(fc.dataset.batch07TrainingPdvBonus || 0);
   if (atk || pdvMax) sources.push('S000012');
-  const venerable = allies.find(card => card !== fc && card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
-  if (venerable) { atk += 2; sources.push('N000003'); }
   const alfric = allies.find(card => card !== fc && card.dataset.id === 'N000005' && canResolveServantAbility(card, {triggerType:'passive'}));
   if (alfric) { atk += 1; pdvMax += 1; sources.push('N000005'); }
   if (owner.batch07SecretsForge) { pdvMax += 1; sources.push('S000024'); }
@@ -12117,7 +12149,7 @@ function resolveBatch07FruitsEntrainement(player) {
   syncBatch05Passives();
   const result = {success:targets.length > 0, cardId:'S000012', targets:targets.map(targetSummary), before, after:zoneInventorySnapshot(p)};
   recordCollectionBatch07Event('fruits-entrainement', result);
-  showNotif(`Fruits de l'entraÃ®nement renforce ${targets.length} Nain(s).`, 1600);
+  showNotif("Fruits de l'entraînement renforce " + targets.length + " Nain(s).", 1600);
   return result;
 }
 
@@ -12184,7 +12216,7 @@ function resolveBatch07ExperienceCombat(player) {
   const total = zones.deck + zones.hand + zones.graveyard + zones.board.length;
   const result = {success:total > 0, cardId:'S000013', replaced:zones, total, before, after:zoneInventorySnapshot(p)};
   recordCollectionBatch07Event('experience-combat', result);
-  showNotif(`ExpÃ©rience du combat remplace ${total} Guerrier(s).`, 1700);
+  showNotif("Expérience du combat remplace " + total + " Guerrier(s).", 1700);
   return result;
 }
 
@@ -12201,14 +12233,14 @@ function resolveBatch07SecretsForge(player) {
       priority:180,
       duration:'permanent',
       criteria:{cardTypes:['Serviteur'], factions:['nain']},
-      operations:[{type:'adjustTotal', amount:-1}]
+      operations:[{type:'adjustRequirement', amount:-1}, {type:'adjustTotal', amount:-1}]
     });
   }
   renderAllHands();
   syncBatch05Passives();
   const result = {success:true, cardId:'S000024', playerId:p.key, alreadyActive, secretsForge:p.batch07SecretsForge};
   recordCollectionBatch07Event('secrets-forge', result);
-  showNotif(alreadyActive ? 'Secrets de forge est dÃ©jÃ  actif.' : 'Secrets de forge renforce durablement vos Nains.', 1700);
+  showNotif(alreadyActive ? 'Secrets de forge est déjà actif.' : 'Secrets de forge renforce durablement vos Nains.', 1700);
   return result;
 }
 
@@ -12264,45 +12296,42 @@ async function resolveBatch07Initiative(cardId, player, context={}) {
 
 async function resolveBatch07IsgrimmInitiative(player, context={}) {
   const p = playerState(player);
-  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : findBoardCard(p, 'AVS000013'));
+  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector('.fc[data-instance="' + context.sourceInstanceId + '"]') : findBoardCard(p, 'AVS000013'));
   if (!p) return {handled:true, success:false, reason:'invalid-player', cardId:'AVS000013'};
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, reason:'cold-locked', cardId:'AVS000013'};
   const opponent = opponentOf(p);
   const candidates = [
-    ...zoneCardEntries(p, 'graveyard', {type:'Serviteur'}).map(entry => ({...entry, owner:p})),
-    ...zoneCardEntries(opponent, 'graveyard', {type:'Serviteur'}).map(entry => ({...entry, owner:opponent}))
-  ];
+    ...zoneCardEntries(p, 'graveyard', {type:'Serviteur'}).map(entry => ({...entry, owner:p, ownerKey:p.key, ownerLabel:'Cimetière allié'})),
+    ...zoneCardEntries(opponent, 'graveyard', {type:'Serviteur'}).map(entry => ({...entry, owner:opponent, ownerKey:opponent?.key, ownerLabel:'Cimetière adverse'}))
+  ].filter(entry => entry.owner && entry.cardId);
   const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
   if (!candidates.length) {
     const result = {handled:true, success:false, reason:'no-servant-in-graveyards', cardId:'AVS000013', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
     recordCollectionBatch07Event('isgrimm-no-target', result);
     return result;
   }
-  const selected = normalizeZoneSelection(context.zoneSelection || {});
   let candidate = null;
-  if (selected.playerId || selected.slotIndex != null || selected.selectedIndexes.length) {
-    const wantedOwner = selected.playerId ? playerState(selected.playerId) : null;
-    const wantedIndex = selected.selectedIndexes[0] ?? selected.slotIndex;
-    candidate = candidates.find(entry => (!wantedOwner || entry.owner?.key === wantedOwner.key) && entry.index === wantedIndex) || null;
+  if (context.zoneSelection) {
+    const selected = selectZoneEntriesFromSelection(candidates, context.zoneSelection, {min:1, max:1});
+    candidate = selected.selected[0] || null;
   }
-  if (!candidate) candidate = candidates[0];
+  if (!candidate) {
+    const chosen = await chooseZoneCards({title:'ISGRIMM, LE FORGERON DES RUNES', prompt:'Choisissez un serviteur dans votre cimetière ou celui de votre adversaire.', candidates, minCount:1, maxCount:1});
+    candidate = chosen[0] || null;
+  }
+  if (!candidate) {
+    const result = {handled:true, success:false, reason:'selection-cancelled', cardId:'AVS000013', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+    recordCollectionBatch07Event('isgrimm-selection-cancelled', result);
+    return result;
+  }
   if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'initiative', {cardId:'AVS000013', selected:{playerId:candidate.owner.key, index:candidate.index, cardId:candidate.cardId}});
   const removed = removeZoneEntry(candidate.owner, 'graveyard', candidate.index);
   const runeEntry = batch07RuneDeckEntry(removed, 'AVS000013');
   addEntryToRuntimeZone(p, 'deck', runeEntry, {position:'top'});
   const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'AVS000013', reason:'isgrimm-rune-servant'});
-  const result = {
-    handled:true,
-    success:true,
-    cardId:'AVS000013',
-    selected:{playerId:candidate.owner.key, sourceZone:'graveyard', sourceIndex:candidate.index, cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId},
-    runeEntry:{cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId, rune:!!runeEntry.batch07RuneServant},
-    shuffle,
-    before,
-    after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}
-  };
+  const result = {handled:true, success:true, cardId:'AVS000013', selected:{playerId:candidate.owner.key, sourceZone:'graveyard', sourceIndex:candidate.index, cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId}, runeEntry:{cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId, rune:!!runeEntry.batch07RuneServant}, shuffle, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
   recordCollectionBatch07Event('isgrimm-rune-servant', result);
-  showNotif('Isgrimm grave une rune sur un serviteur et le mÃ©lange dans votre deck.', 1800);
+  showNotif('Isgrimm grave une rune sur un serviteur et le mélange dans votre deck.', 1800);
   return result;
 }
 
@@ -12326,11 +12355,13 @@ async function triggerBatch07DamageReceivedHooks(fc, context={}) {
   fc.dataset.batch07PriestDamageThisTurn = String(Number(fc.dataset.batch07PriestDamageThisTurn || 0) + amount);
   const healAmount = Number(fc.dataset.batch07PriestDamageThisTurn || amount);
   const owner = playerState(fc.dataset.player);
+  pulseBatch03Ability(fc, 'damage-received', {move:true});
+  await new Promise(resolve => setTimeout(resolve, 520));
   const heals = batch05LivingServants(owner)
     .filter(ally => ally !== fc && Number(ally.dataset.pdv || 0) < Number(ally.dataset.pdvMax || 0))
     .map(ally => ({target:targetSummary(ally), heal:applyHeal(ally, healAmount)}))
     .filter(entry => entry.heal.success);
-  if (heals.length) pulseBatch03Ability(fc, 'damage-received');
+  if (heals.length) showNotif('Prêtre-combattant soigne ' + heals.length + ' allié(s).', 1500);
   const result = {type:'priest-combatant-heal', source:targetSummary(fc), amount, healAmount, heals};
   recordCollectionBatch07Event('damage-received', result);
   return [result];
@@ -12377,7 +12408,7 @@ function resolveBatch07EndTurnEffects(player) {
       priority:150,
       duration:'permanent',
       criteria:{handOccurrenceIds:[picked.occurrenceId]},
-      operations:[{type:'adjustTotal', amount:-2}]
+      operations:[{type:'adjustRequirement', amount:-2}, {type:'adjustTotal', amount:-2}]
     });
     reductions.push(picked);
     pulseBatch03Ability(glamrig, 'end-turn');
@@ -12387,6 +12418,26 @@ function resolveBatch07EndTurnEffects(player) {
     recordCollectionBatch07Event('glamrig-end-turn-cost-reduction', {playerId:p.key, reductions});
   }
   return {applied:reductions.length, reductions};
+}
+
+function resolveBatch07BouteFlammes(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000054'};
+  const before = zoneInventorySnapshot(p);
+  p.batch07BouteFlammesFireResistance = true;
+  const targets = batch05LivingServants(p).filter(isBatch07DwarfServant);
+  const granted = [];
+  for (const fc of targets) {
+    const hadBurn = Number(fc.dataset.burning || 0) > 0;
+    const ok = grantBatch07SangArdent(fc, 'S000054');
+    granted.push({target:targetSummary(fc), granted:ok, clearedEmbrasement:hadBurn});
+  }
+  syncBatch05Passives();
+  renderAllHands();
+  const result = {success:true, cardId:'S000054', playerId:p.key, granted, before, after:zoneInventorySnapshot(p), futureFireResistance:true};
+  recordCollectionBatch07Event('boute-flammes', result);
+  showNotif('LE SECRET DU BOUTE-FLAMMES RENFORCE VOS FIERS NAINS CONTRE LE FEU !', 2200);
+  return result;
 }
 
 function resetBatch07TurnDamage(player) {
@@ -16799,52 +16850,6 @@ Object.assign(CARDS_DATA, {
     "res_val": "6",
     "resType": "any"
   },
-  "N000004": {
-    "name": "Naingociant",
-    "type": "Serviteur",
-    "fac": "nain",
-    "atk": 1,
-    "pdv": 2,
-    "cost": 1,
-    "fico": "FCT00000NAI.png",
-    "kws": [
-      "Fer",
-      "Nourriture",
-      "Approvisionnement",
-      "Initiative"
-    ],
-    "cap": "[Initiative] Vous piochez 1 carte Approvisionnement de votre deck.",
-    "lore": "",
-    "max": 6,
-    "assetFolder": "nains",
-    "res_ico": "IC00000FER",
-    "res2": "IC00000NRT",
-    "resOu": true,
-    "res_val": "1",
-    "resType": "Fer|Nourriture"
-  },
-  "N000014": {
-    "name": "Glamrig",
-    "type": "Serviteur",
-    "fac": "nain",
-    "atk": 9,
-    "pdv": 10,
-    "cost": 9,
-    "fico": "FCT00000NAI.png",
-    "kws": [
-      "Sang-froid",
-      "Serviteur de la rune",
-      "Rempart"
-    ],
-    "cap": "[Serviteur de la rune] [Rempart] [Sang-froid] Chaque fois qu'il attaque, « Glamrig » inflige également 2 points de dégâts aux serviteurs adjacents. Un emplacement vide entre deux serviteurs interrompt l'adjacence. À la fin de chacun de vos tours que « Glamrig » passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de 2.",
-    "lore": "",
-    "max": 1,
-    "assetFolder": "nains",
-    "res_ico": "IC00000RDM",
-    "res_val": "9",
-    "resType": "any",
-    "detail": "[Serviteur de la rune] [Rempart] [Sang-froid] Chaque fois qu'il attaque, Glamrig inflige également 2 points de dégâts aux serviteurs adjacents. À la fin de chacun de vos tours que Glamrig passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de 2."
-  },
   "N000001": {
     "name": "Gardien",
     "type": "Serviteur",
@@ -16871,9 +16876,8 @@ Object.assign(CARDS_DATA, {
     "cost": 6,
     "fico": "FCT00000NAI.png",
     "kws": ["Sélène", "Fer", "Nourriture", "Rempart", "Initiative"],
-    "cap": "[Rempart] [Initiative] Inflige 2 points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez une carte.",
-    "detail": "[Rempart] [Initiative] Inflige 2 points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez une carte. Aucune carte n'est piochée si votre main est déjà pleine.",
-    "lore": "",
+    "cap": "[Rempart] [Initiative] Inflige *2* points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez *1 carte*.",
+    "detail": "[Rempart] [Initiative] Inflige *2* points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez *1 carte*. Aucune carte n'est piochée si votre main est déjà pleine.",
     "max": 2,
     "assetFolder": "nains",
     "res_ico": "IC00000SLN",
@@ -16891,8 +16895,8 @@ Object.assign(CARDS_DATA, {
     "cost": 5,
     "fico": "FCT00000NAI.png",
     "kws": ["Sélène", "Fer", "Nourriture", "Vigilance"],
-    "cap": "[Vigilance] Tant que ce serviteur est sur le terrain, vos autres serviteurs gagnent un bonus de +2 d'attaque.",
-    "lore": "",
+    "cap": "[Vigilance] Tant que ce serviteur est sur le terrain, vos autres serviteurs gagnent un bonus de *+2 ATK*.",
+    "detail": "[Vigilance] Tant que ce serviteur est sur le terrain, vos autres serviteurs gagnent un bonus de *+2 ATK*.",
     "max": 4,
     "assetFolder": "nains",
     "res_ico": "IC00000SLN",
@@ -16901,23 +16905,13 @@ Object.assign(CARDS_DATA, {
     "res_val": "5",
     "resType": "Sélène+Fer+Nourriture"
   },
+  "N000004": {
+    "name": "Naingociant", "type": "Serviteur", "fac": "nain", "atk": 1, "pdv": 4, "cost": 3, "fico": "FCT00000NAI.png", "kws": ["Pierre", "Initiative"],
+    "cap": "[Initiative] Pioche *1* carte *Approvisionnement*.", "lore": "", "max": 4, "assetFolder": "nains", "res_ico": "IC00000PIE", "res_val": "3", "resType": "Pierre"
+  },
   "N000005": {
-    "name": "Haut-seigneur Alfric Cassebibine",
-    "type": "Serviteur",
-    "fac": "nain",
-    "atk": 7,
-    "pdv": 7,
-    "cost": 5,
-    "fico": "FCT00000NAI.png",
-    "kws": ["Fer", "Sélène", "Rempart", "Sang ardent", "Sang-froid", "Rage"],
-    "cap": "[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent +1 ATK / +1 PDV.",
-    "lore": "",
-    "max": 1,
-    "assetFolder": "nains",
-    "res_ico": "IC00000SLN",
-    "res2": "IC00000FER",
-    "res_val": "5",
-    "resType": "Sélène+Fer"
+    "name": "Alfric le Compagnon", "type": "Serviteur", "fac": "nain", "atk": 7, "pdv": 7, "cost": 6, "fico": "FCT00000NAI.png", "kws": ["Pierre", "Fer"],
+    "cap": "Donne *+1 ATK* et *+1 PDV* à vos autres serviteurs nains.", "lore": "", "max": 1, "assetFolder": "nains", "res_ico": "IC00000PIE", "res2": "IC00000FER", "res_val": "6", "resType": "Pierre+Fer"
   },
   "N000006": {
     "name": "Démolisseur",
@@ -17013,22 +17007,8 @@ Object.assign(CARDS_DATA, {
     "resType": "Pierre+Aria"
   },
   "N000011": {
-    "name": "Prêtre-combattant",
-    "type": "Serviteur",
-    "fac": "nain",
-    "atk": 1,
-    "pdv": 5,
-    "cost": 3,
-    "fico": "FCT00000NAI.png",
-    "kws": ["Aria", "Sélène"],
-    "cap": "Chaque fois qu'il survit à des dégâts, le Prêtre-combattant soigne tous les serviteurs alliés blessés du montant des dommages qu'il a subi ce tour.",
-    "lore": "",
-    "max": 4,
-    "assetFolder": "nains",
-    "res_ico": "IC00000ARI",
-    "res2": "IC00000SLN",
-    "res_val": "3",
-    "resType": "Aria+Sélène"
+    "name": "Prêtre-combattant", "type": "Serviteur", "fac": "nain", "atk": 1, "pdv": 5, "cost": 3, "fico": "FCT00000NAI.png", "kws": ["Aria", "Sélène"],
+    "cap": "Chaque fois qu'il survit à des dégâts, le « Prêtre-combattant » soigne tous les serviteurs alliés blessés du montant des dommages qu'il a subi ce tour.", "lore": "", "max": 4, "assetFolder": "nains", "res_ico": "IC00000ARI", "res2": "IC00000SLN", "res_val": "3", "resType": "Aria+Sélène"
   },
   "N000012": {
     "name": "Lance-marteaux",
@@ -17068,81 +17048,38 @@ Object.assign(CARDS_DATA, {
     "res_val": "2",
     "resType": "Fer|Nourriture"
   },
-  "N000015": {
-    "name": "Windjalf, l'Ancien",
+  "N000014": {
+    "name": "Glamrig",
     "type": "Serviteur",
     "fac": "nain",
-    "atk": 2,
-    "pdv": 7,
-    "cost": 5,
+    "atk": 9,
+    "pdv": 10,
+    "cost": 9,
     "fico": "FCT00000NAI.png",
-    "kws": ["Sang ardent", "Initiative", "Sélène"],
-    "cap": "[Sang ardent] [Initiative] Ajoute le sort Boute-flammes à votre main.",
-    "detail": "[Sang ardent] [Initiative] Ajoute le sort Boute-flammes [ID = S000054] à votre main.",
-    "related": ["S000054"],
-    "lore": "",
+    "kws": ["Sang-froid", "Serviteur de la rune", "Rempart"],
+    "cap": "[Serviteur de la rune] [Rempart] [Sang-froid] Chaque fois qu'il attaque, « Glamrig » inflige également *2* points de dégâts aux serviteurs adjacents. Un emplacement vide entre deux serviteurs interrompt l'adjacence. À la fin de chacun de vos tours que « Glamrig » passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de *2*.",
+    "detail": "[Serviteur de la rune] [Rempart] [Sang-froid] Chaque fois qu'il attaque, « Glamrig » inflige également *2* points de dégâts aux serviteurs adjacents. Un emplacement vide entre deux serviteurs interrompt l'adjacence. À la fin de chacun de vos tours que « Glamrig » passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de *2*.",
     "max": 1,
     "assetFolder": "nains",
-    "res_ico": "IC00000SLN",
-    "res_val": "5",
-    "resType": "Sélène"
+    "res_ico": "IC00000RDM",
+    "res_val": "9",
+    "resType": "any"
+  },
+  "N000015": {
+    "name": "Windjalf, l'Ancien", "type": "Serviteur", "fac": "nain", "atk": 2, "pdv": 7, "cost": 5, "fico": "FCT00000NAI.png", "kws": ["Sang ardent", "Initiative", "Sélène"],
+    "cap": "[Sang ardent] [Initiative] Ajoute le sort « Boute-flammes » à votre main.", "detail": "[Sang ardent] [Initiative] Ajoute le sort « Boute-flammes » à votre main.", "related": ["S000054"], "lore": "", "max": 1, "assetFolder": "nains", "res_ico": "IC00000SLN", "res_val": "5", "resType": "Sélène"
   },
   "S000012": {
-    "name": "Fruits de l'entraînement",
-    "type": "Sort",
-    "fac": "nain",
-    "assetFolder": "sorts",
-    "atk": null,
-    "pdv": null,
-    "cost": 2,
-    "fico": "FCT00000NAI.png",
-    "kws": ["Nourriture"],
-    "cap": "Donne +2 ATK / +1 PDV à tous vos serviteurs nains sur le terrain.",
-    "lore": "",
-    "badge": "Sort",
-    "max": 3,
-    "res_ico": "IC00000NRT",
-    "res_val": "2",
-    "resType": "Nourriture"
+    "name": "Fruits de l'entraînement", "type": "Sort", "fac": "sort", "assetFolder": "sorts", "atk": null, "pdv": null, "cost": 2, "fico": null, "kws": ["Nourriture"],
+    "cap": "Donne *+2 ATK* / *+1 PDV* à tous vos serviteurs nains sur le terrain.", "lore": "", "badge": "Sort", "max": 3, "res_ico": "IC00000NRT", "res_val": "2", "resType": "Nourriture"
   },
   "S000013": {
-    "name": "Expérience du combat",
-    "type": "Sort",
-    "fac": "nain",
-    "assetFolder": "sorts",
-    "atk": null,
-    "pdv": null,
-    "cost": 4,
-    "fico": "FCT00000NAI.png",
-    "kws": ["Fer", "Nourriture"],
-    "cap": "Remplace tous les Guerriers de votre deck, main, cimetière et terrain par autant de Guerriers expérimentés.",
-    "detail": "Remplace tous les Guerriers [ID = N000007] de votre deck, main, cimetière et terrain par autant de Guerriers expérimentés [ID = N000008].",
-    "related": ["N000007", "N000008"],
-    "lore": "",
-    "badge": "Sort",
-    "max": 3,
-    "res_ico": "IC00000FER",
-    "res2": "IC00000NRT",
-    "res_val": "4",
-    "resType": "Fer+Nourriture"
+    "name": "Expérience du combat", "type": "Sort", "fac": "sort", "assetFolder": "sorts", "atk": null, "pdv": null, "cost": 4, "fico": null, "kws": ["Fer", "Nourriture"],
+    "cap": "Remplace tous les « Guerriers » de votre deck, main, cimetière et terrain par autant de « Guerriers expérimentés ».", "detail": "Remplace tous les « Guerriers » de votre deck, main, cimetière et terrain par autant de « Guerriers expérimentés ».", "related": ["N000007", "N000008"], "lore": "", "badge": "Sort", "max": 3, "res_ico": "IC00000FER", "res2": "IC00000NRT", "res_val": "4", "resType": "Fer+Nourriture"
   },
   "S000024": {
-    "name": "Secrets de forge",
-    "type": "Sort",
-    "fac": "nain",
-    "assetFolder": "sorts",
-    "atk": null,
-    "pdv": null,
-    "cost": 5,
-    "fico": "FCT00000NAI.png",
-    "kws": ["Sélène"],
-    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Nains coûtent 1 ressource en moins et ajoutent +1 à leur montant de points de vie maximal.",
-    "lore": "",
-    "badge": "Sort",
-    "max": 2,
-    "res_ico": "IC00000SLN",
-    "res_val": "5",
-    "resType": "Sélène"
+    "name": "Secrets de forge", "type": "Sort", "fac": "sort", "assetFolder": "sorts", "atk": null, "pdv": null, "cost": 5, "fico": null, "kws": ["Sélène"],
+    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Nains coûtent *1* ressource en moins et ajoutent *+1* à leur montant de points de vie maximal.", "lore": "", "badge": "Sort", "max": 2, "res_ico": "IC00000SLN", "res_val": "5", "resType": "Sélène"
   },
   "S000054": {
     "name": "Boute-flammes",
@@ -18541,11 +18478,11 @@ const STATIC_SYNC_20260622 = {
     maxOwned:4
   },
   'N000005': {
-    name:'Haut-seigneur Alfric Cassebibine', type:'Serviteur', fac:'nain', atk:7, pdv:7, cost:5, resType:'Fer + Sélène (4)',
-    kws:['Fer','Sélène','Rempart','Sang ardent','Sang-froid','Rage'],
-    cap:'[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu\'il est sur le terrain, vos autres serviteurs nains gagnent +1 ATK/ +1 PDV.',
-    detail:'[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu\'il est sur le terrain, vos autres serviteurs nains gagnent +1 ATK/ +1 PDV.',
-    maxOwned:1
+    name:'Alfric le Compagnon', type:'Serviteur', fac:'nain', atk:7, pdv:7, cost:6, resType:'Pierre+Fer',
+    res_ico:'IC00000PIE', res2:'IC00000FER', res_val:'6', fico:'FCT00000NAI.png', kws:['Pierre','Fer'],
+    cap:'Donne *+1 ATK* et *+1 PDV* à vos autres serviteurs nains.',
+    detail:'Donne *+1 ATK* et *+1 PDV* à vos autres serviteurs nains.',
+    maxOwned:1, assetFolder:'nains'
   },
   'ORC000007': {
     name:'Rejeton du chaos', type:'Serviteur', fac:'orc', atk:9, pdv:7, cost:8, resType:'Lenya ou Aria ou Nourriture ou me',
@@ -18894,6 +18831,8 @@ function batch05PassiveBuffFor(fc) {
   const allies = batch05LivingServants(owner);
   const tree = allies.find(card => card !== fc && card.dataset.id === 'EDB000009' && canResolveServantAbility(card, {triggerType:'passive'}));
   if (tree) { pdvMax += 2; sources.push('EDB000009'); }
+  const venerable = allies.find(card => card !== fc && card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
+  if (venerable) { atk += 2; sources.push('N000003'); }
   const dryad = allies.find(card => card !== fc && card.dataset.id === 'EDB000014' && canResolveServantAbility(card, {triggerType:'passive'}));
   if (dryad && isBatch05WoodElf(fc)) { pdvMax += 2; sources.push('EDB000014'); }
   const iceDruidCount = allies.filter(card => card !== fc && card.dataset.id === 'EDG000008' && canResolveServantAbility(card, {triggerType:'passive'})).length;
@@ -18916,10 +18855,13 @@ function syncBatch05Passives() {
     for (const fc of batch05LivingServants(p)) {
       const isWoodOrIce = isBatch05WoodElf(fc) || isBatch05IceElf(fc);
       const isDwarf = isBatch07DwarfServant(fc);
+      if (isDwarf) applyBatch07FutureFireResistance(fc);
       const hasVigilance = (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Vigilance');
-      if (!isWoodOrIce && !hasVigilance && !isDwarf) continue;
+      const hasDwarfAura = batch05LivingServants(p).some(card => card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
+      const hadDwarfAura = String(fc.dataset.batch05PassiveSources || '').split(',').includes('N000003');
+      if (!isWoodOrIce && !hasVigilance && !isDwarf && !hasDwarfAura && !hadDwarfAura) continue;
       const hadBatch05PassiveGlow = fc.dataset.batch03PassivePulse === '1' && fc.dataset.batch03LastPulseReason === 'batch05-passive';
-      if (isWoodOrIce || isDwarf) {
+      if (isWoodOrIce || isDwarf || hasDwarfAura || hadDwarfAura) {
         const baseAtk = batch05BaseStat(fc, 'atk');
         const baseMax = batch05BaseStat(fc, 'pdvMax');
         const buff = batch05PassiveBuffFor(fc);

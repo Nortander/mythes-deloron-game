@@ -4,7 +4,8 @@
   "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
   "scenarios": [
     "collection-batch-07-nains",
-    "collection-batch-07-isgrimm"
+    "collection-batch-07-isgrimm",
+    "collection-batch-07-boute-flammes"
   ],
   "dwarfIds": [
     "AVS000013",
@@ -41,7 +42,12 @@
     "sourceGraveyard": [
       "N000013"
     ],
-    "selectedCardId": "N000013"
+    "opponentGraveyard": [
+      "H000001",
+      "R000001",
+      "H000005"
+    ],
+    "selectedCardId": "H000001"
   },
   "expectedWarriorReplacement": {
     "from": "N000007",
@@ -51,5 +57,11 @@
     "glamrigAdjacentDamage": 2,
     "stoneGuardianReduction": 2,
     "priestHeal": 2
+  },
+  "expectedBouteFlammes": {
+    "publicMessage": "LE SECRET DU BOUTE-FLAMMES RENFORCE VOS FIERS NAINS CONTRE LE FEU !",
+    "currentDwarfLine": "Bénéficie de Sang ardent.",
+    "futureDwarfLine": "Bénéficie d'une plus grande résistance au feu.",
+    "periodicDamageAfterResistance": 0
   }
 }

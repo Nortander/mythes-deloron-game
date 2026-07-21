@@ -281,3 +281,13 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `S000049` est confirme comme la carte canonique `Machiavelisme` ; la mention `S000037 — Machiavelisme` etait une ambiguite de retour visuel, car `S000037` reste `Chemins de Ley`.
 - `S000056` protege uniquement l'occurrence marquee : une autre copie du meme ID conserve son cout imprime et n'est pas sauvee par erreur.
 - Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-07B
+
+- `AVS000013` ouvre désormais une sélection explicite dans les deux cimetières ; aucune cible n'est choisie automatiquement.
+- `S000054` (`Boute-flammes`) applique réellement `Sang ardent` aux Nains déjà en jeu, retire `Embrasement` et protège les Nains futurs des dégâts périodiques de feu.
+- `N000003` (`Vénérable`) donne son bonus de +2 ATK à tous les autres alliés et le retire proprement quand la source quitte le terrain.
+- `N000014` (`Glamrig`) et `S000024` réduisent à la fois le coût total et les prérequis structurés des serviteurs nains concernés.
+- Les textes publics et le rendu des sorts nains `S000012`, `S000013` et `S000024` sont réalignés ; `N000001` et `N000009` sont présents dans les scénarios visuels.
+- Nouveau scénario caché : `collection-batch-07-boute-flammes`.
+- Aucun changement n'est apporté à `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
