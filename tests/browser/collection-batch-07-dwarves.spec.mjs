@@ -37,6 +37,16 @@ function requirementAmount(cost, resourceKey) {
   return req ? Number(req.amount ?? req.requiredAmount ?? 0) : null;
 }
 
+function normalizeVisibleCardText(text) {
+  return String(text || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/\*/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s*\/\s*/g, "/")
+    .trim();
+}
+
+
 test("Batch-07 scenarios stay hidden and expose dwarf runtime data", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   const signaturesById = byId(signatures.signatures);
@@ -70,33 +80,49 @@ test("Batch-07 scenarios stay hidden and expose dwarf runtime data", async ({pag
 test("dwarf public text and spell rendering reflect Daddy visual feedback", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-07-nains");
-  const data = await page.evaluate(() => {
-    const ids = ["N000002", "N000003", "N000004", "N000005", "N000011", "N000015", "S000012", "S000013", "S000024", "S000054"];
-    return Object.fromEntries(ids.map(id => [id, {name:CARDS_DATA[id]?.name, type:CARDS_DATA[id]?.type, fac:CARDS_DATA[id]?.fac, fico:CARDS_DATA[id]?.fico ?? null, cap:CARDS_DATA[id]?.cap || "", detail:CARDS_DATA[id]?.detail || ""}]));
-  });
-  expect(data.N000002.cap).toContain("*2*");
-  expect(data.N000002.cap).toContain("*1 carte*");
-  expect(data.N000003.cap).toContain("*+2 ATK*");
-  expect(data.N000004.cap).toContain("*1* carte *Approvisionnement*");
-  expect(data.N000005.cap).toContain("*+1 ATK*");
-  expect(data.N000005.cap).toContain("*+1 PDV*");
-  expect(data.N000011.cap).toContain("« Prêtre-combattant »");
-  expect(data.N000015.cap).toContain("« Boute-flammes »");
-  for (const id of ["S000012", "S000013", "S000024", "S000054"]) {
-    expect(data[id].type, id).toBe("Sort");
-    expect(data[id].fac, id).toBe("sort");
-    expect(data[id].fico, id).toBe(null);
+  const data = await page.evaluate((canonical) => {
+    const ids = ["N000002", "N000003", "N000004", "N000005", "N000009", "N000011", "N000015", "S000012", "S000013", "S000024", "S000054"];
+    const runtime = Object.fromEntries(ids.map(id => [id, {name:CARDS_DATA[id]?.name, type:CARDS_DATA[id]?.type, fac:CARDS_DATA[id]?.fac, fico:CARDS_DATA[id]?.fico ?? null, kws:[...(CARDS_DATA[id]?.kws || [])], cap:CARDS_DATA[id]?.cap || "", detail:CARDS_DATA[id]?.detail || ""}]));
+    const textGuardIds = ["N000005", "N000009"];
+    const canonicalComparisons = textGuardIds.map(id => {
+      const expected = canonical[id];
+      return {id, expectedName:expected.name, actualName:CARDS_DATA[id]?.name || "", expectedDescription:expected.description || "", actualDescription:CARDS_DATA[id]?.cap || ""};
+    });
+    return {runtime, canonicalComparisons};
+  }, fixture.canonicalVisibleText);
+  for (const comparison of data.canonicalComparisons) {
+    expect(comparison.actualName, comparison.id + " canonical name").toBe(comparison.expectedName);
+    expect(normalizeVisibleCardText(comparison.actualDescription), comparison.id + " canonical description").toBe(normalizeVisibleCardText(comparison.expectedDescription));
   }
-  expect(data.S000012.cap).toContain("*+2 ATK*");
-  expect(data.S000012.cap).toContain("*+1 PDV*");
-  expect(data.S000013.cap).toContain("« Guerriers »");
-  expect(data.S000013.cap).toContain("« Guerriers expérimentés »");
-  expect(data.S000024.cap).toContain("*1*");
-  expect(data.S000024.cap).toContain("*+1*");
+  const runtime = data.runtime;
+  expect(runtime.N000002.cap).toContain("*2*");
+  expect(runtime.N000002.cap).toContain("*1 carte*");
+  expect(runtime.N000003.cap).toContain("*+2 ATK*");
+  expect(runtime.N000004.cap).toContain("*1* carte *Approvisionnement*");
+  expect(runtime.N000005.name).toBe("Haut-seigneur Alfric Cassebibine");
+  expect(runtime.N000005.cap).toContain("[Rempart] [Rage] [Sang ardent] [Sang-froid]");
+  expect(runtime.N000005.cap).toContain("*+1 ATK*");
+  expect(runtime.N000005.cap).toContain("*+1 PDV*");
+  for (const keyword of ["Rempart", "Rage", "Sang ardent", "Sang-froid"]) expect(runtime.N000005.kws).toContain(keyword);
+  expect(runtime.N000009.cap).toContain("*2*");
+  expect(runtime.N000009.cap).toContain("*1*");
+  expect(runtime.N000009.cap).toContain("« Golem de roche »");
+  expect(runtime.N000011.cap).toContain("« Prêtre-combattant »");
+  expect(runtime.N000015.cap).toContain("« Boute-flammes »");
+  for (const id of ["S000012", "S000013", "S000024", "S000054"]) {
+    expect(runtime[id].type, id).toBe("Sort");
+    expect(runtime[id].fac, id).toBe("sort");
+    expect(runtime[id].fico, id).toBe(null);
+  }
+  expect(runtime.S000012.cap).toContain("*+2 ATK*");
+  expect(runtime.S000012.cap).toContain("*+1 PDV*");
+  expect(runtime.S000013.cap).toContain("« Guerriers »");
+  expect(runtime.S000013.cap).toContain("« Guerriers expérimentés »");
+  expect(runtime.S000024.cap).toContain("*1*");
+  expect(runtime.S000024.cap).toContain("*+1*");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
-
 test("Isgrimm requires an explicit graveyard choice and preserves the Rune occurrence", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-07-isgrimm");
@@ -104,10 +130,28 @@ test("Isgrimm requires an explicit graveyard choice and preserves the Rune occur
     window.__batch07IsgrimmPromise = summonBatch03Servant(player1, "AVS000013", {triggerInitiativeEffect:true, ready:true});
   });
   await expect(page.getByTestId("zone-card-choice")).toHaveCount(3);
+  await expect(page.getByText(fixture.expectedIsgrimm.prompt)).toBeVisible();
+  const modalAudit = await page.evaluate(() => {
+    const panel = document.querySelector('.zone-card-choice-panel');
+    const title = panel?.querySelector('.sort-choice-title');
+    const actions = panel?.querySelector('.decision-modal-actions');
+    const list = panel?.querySelector('[data-testid="zone-card-choice-list"]');
+    const panelStyle = panel ? getComputedStyle(panel) : null;
+    const listStyle = list ? getComputedStyle(list) : null;
+    const titleRect = title?.getBoundingClientRect();
+    const actionsRect = actions?.getBoundingClientRect();
+    return {className:panel?.className || "", panelOverflow:panelStyle?.overflow || "", listOverflow:listStyle?.overflow || "", titleOrder:Number(getComputedStyle(title).order || 0), actionsOrder:Number(getComputedStyle(actions).order || 0), titleTop:titleRect?.top ?? 0, actionsTop:actionsRect?.top ?? 0};
+  });
+  expect(modalAudit.className).toContain("isgrimm-rune-choice-panel");
+  expect(modalAudit.panelOverflow).toBe("visible");
+  expect(modalAudit.listOverflow).toBe("visible");
+  expect(modalAudit.actionsOrder).toBeLessThan(modalAudit.titleOrder);
+  expect(modalAudit.actionsTop).toBeLessThanOrEqual(modalAudit.titleTop);
   await page.locator('[data-testid="zone-card-choice"][data-card-id="H000001"]').click();
   await page.getByTestId("zone-card-confirm").click();
   const result = await page.evaluate(async (expected) => {
     const summon = await window.__batch07IsgrimmPromise;
+    const isgrimmMessage = document.querySelector('#notif')?.textContent || '';
     const runeEntry = player1.drawPile.find(entry => getRuntimeCardId(entry) === expected.selectedCardId && entry.batch07RuneServant);
     const draw = drawCardFromRuntimeDeck(player1, {predicate:id => id === expected.selectedCardId, refresh:true, sourceCardId:"AVS000013"});
     const handIndex = player1.hand.indexOf(expected.selectedCardId);
@@ -119,21 +163,25 @@ test("Isgrimm requires an explicit graveyard choice and preserves the Rune occur
     await new Promise(resolve => setTimeout(resolve, 500));
     const boardCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === expected.selectedCardId && fc.dataset.batch07RuneServant === "1");
     const dynamicLines = boardCard ? batch03DynamicStatusTexts(boardCard) : [];
+    const previewHtml = boardCard ? fmtDesc(batch03DynamicStatusTexts(boardCard).join(" ")) : "";
     const boardSummary = boardCard ? targetSummary(boardCard) : null;
     if (boardCard) await applyDamage(boardCard, 99);
     await new Promise(resolve => setTimeout(resolve, 1200));
     const returnedIndex = batch03HandIndexForOccurrence(player1, expected.selectedCardId, boardSummary?.instance || occurrenceId);
     const returnedOccurrence = returnedIndex >= 0 ? batch03HandOccurrenceAt(player1, returnedIndex) : null;
-    return {summon, runeEntry, draw, markedInHand, play, boardSummary, dynamicLines, returnedIndex, returnedOccurrence, hand:[...player1.hand], graveyard:[...player1.graveyard].map(getRuntimeCardId), events:auditCollectionBatch07Runtime().events};
+    return {summon, isgrimmMessage, runeEntry, draw, markedInHand, play, boardSummary, dynamicLines, previewHtml, returnedIndex, returnedOccurrence, hand:[...player1.hand], graveyard:[...player1.graveyard].map(getRuntimeCardId), events:auditCollectionBatch07Runtime().events};
   }, fixture.expectedIsgrimm);
   expect(result.summon.success).toBe(true);
+  expect(result.isgrimmMessage).toContain(fixture.expectedIsgrimm.message);
   expect(result.runeEntry).toBeTruthy();
   expect(result.runeEntry.batch07RuneServant).toBe(true);
   expect(result.draw.success).toBe(true);
   expect(result.markedInHand).toBe(true);
   expect(result.play.success).toBe(true);
   expect(result.boardSummary?.id).toBe(fixture.expectedIsgrimm.selectedCardId);
-  expect(result.dynamicLines).toContain("Bénéficie de Serviteur de la rune.");
+  expect(result.dynamicLines).toContain(fixture.expectedRuneLine);
+  expect(result.previewHtml).toContain("canonical-keyword-inline");
+  expect(result.previewHtml).toContain("Serviteur de la rune");
   expect(result.returnedIndex).toBeGreaterThanOrEqual(0);
   expect(result.returnedOccurrence).toBe(result.boardSummary.instance);
   expect(result.hand).toContain(fixture.expectedIsgrimm.selectedCardId);
@@ -142,7 +190,6 @@ test("Isgrimm requires an explicit graveyard choice and preserves the Rune occur
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
-
 test("Boute-flammes grants Sang ardent now and fire resistance to future dwarves", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-07-boute-flammes");
@@ -150,8 +197,9 @@ test("Boute-flammes grants Sang ardent now and fire resistance to future dwarves
     currentPlayer = player1.key;
     const play = await playCard("S000054");
     await new Promise(resolve => setTimeout(resolve, 650));
-    const currentDwarves = livingServantCardsForPlayer(player1).filter(isBatch07DwarfServant).map(fc => ({id:fc.dataset.id, burning:Number(fc.dataset.burning || 0), sang:fc.dataset.batch07SangArdent === '1', fire:fc.dataset.batch07FireResistance === '1', lines:batch03DynamicStatusTexts(fc)}));
+    const currentDwarves = livingServantCardsForPlayer(player1).filter(isBatch07DwarfServant).map(fc => ({id:fc.dataset.id, burning:Number(fc.dataset.burning || 0), sang:fc.dataset.batch07SangArdent === '1', fire:fc.dataset.batch07FireResistance === '1', lines:batch03DynamicStatusTexts(fc), preview:fmtDesc(batch03DynamicStatusTexts(fc).join(' '))}));
     const graveyardAfterSpell = [...player1.graveyard].map(getRuntimeCardId);
+    const lastMessage = document.querySelector('#notif')?.textContent || '';
     const futureDraw = drawCardFromRuntimeDeck(player1, {predicate:id => id === 'N000001', refresh:true, sourceCardId:'S000054'});
     const futureSummon = await summonBatch03Servant(player1, 'N000001', {triggerInitiativeEffect:false, ready:true});
     syncBatch05Passives();
@@ -163,14 +211,17 @@ test("Boute-flammes grants Sang ardent now and fire resistance to future dwarves
     await applyStartOfTurnBurning(player1);
     await new Promise(resolve => setTimeout(resolve, 450));
     const afterPeriodic = targetSummary(future);
-    return {play, currentDwarves, graveyardAfterSpell, futureDraw, futureSummon, beforeBurn, emb, periodic, beforePeriodic, afterPeriodic, futureLines:batch03DynamicStatusTexts(future), events:auditCollectionBatch07Runtime().events, lastMessage:document.querySelector('.history.vis .msg:last-child')?.textContent || ''};
+    return {play, currentDwarves, graveyardAfterSpell, lastMessage, futureDraw, futureSummon, beforeBurn, emb, periodic, beforePeriodic, afterPeriodic, futureLines:batch03DynamicStatusTexts(future), events:auditCollectionBatch07Runtime().events};
   });
   expect(result.play.success).toBe(true);
   expect(result.graveyardAfterSpell).toContain("S000054");
+  expect(result.lastMessage).toContain(fixture.expectedBouteFlammes.publicMessage);
+  expect(result.lastMessage).toContain("FEU !");
   expect(result.currentDwarves.length).toBeGreaterThanOrEqual(3);
   expect(result.currentDwarves.every(card => card.sang)).toBe(true);
   expect(result.currentDwarves.every(card => card.burning === 0)).toBe(true);
   expect(result.currentDwarves[0].lines).toContain(fixture.expectedBouteFlammes.currentDwarfLine);
+  expect(result.currentDwarves.some(card => card.preview.includes("canonical-keyword-inline") && card.preview.includes("Sang ardent"))).toBe(true);
   expect(result.futureDraw.success).toBe(true);
   expect(result.futureSummon.success).toBe(true);
   expect(result.emb.success).toBe(true);
@@ -182,6 +233,50 @@ test("Boute-flammes grants Sang ardent now and fire resistance to future dwarves
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+test("Glamrig returns by Serviteur de la rune, is blocked for one turn, then becomes playable", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-07-glamrig-rune");
+  const result = await page.evaluate(async () => {
+    const board = player => livingServantCardsForPlayer(player).map(targetSummary);
+    const glamrig = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "N000014");
+    const before = targetSummary(glamrig);
+    await applyDamage(glamrig, 99);
+    await new Promise(resolve => setTimeout(resolve, 1400));
+    const returnedIndex = batch03HandIndexForOccurrence(player1, "N000014", before.instance);
+    const returnedOccurrence = returnedIndex >= 0 ? batch03HandOccurrenceAt(player1, returnedIndex) : null;
+    const blockEntry = returnedIndex >= 0 ? batch03BlockedHandEntry("N000014", player1, returnedIndex) : null;
+    const freeSlot = document.querySelector(playerZoneSelector(player1, "servants") + " .slot");
+    currentPlayer = player1.key;
+    const blockedReplay = await playCard("N000014", freeSlot, {handOccurrenceId:returnedOccurrence, returnActionValidation:true});
+    const blockedReplayMessage = document.querySelector("#errMsg")?.textContent || "";
+    const handAfterBlockedReplay = [...player1.hand];
+    const graveyardAfterBlockedReplay = [...player1.graveyard].map(getRuntimeCardId);
+    const boardAfterBlockedReplay = board(player1);
+    await endTurnRuntime();
+    await endTurnRuntime();
+    const freeSlotAfterCooldown = document.querySelector(playerZoneSelector(player1, "servants") + " .slot");
+    const replay = await playCard("N000014", freeSlotAfterCooldown, {handOccurrenceId:returnedOccurrence});
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const boardAfterReplay = board(player1);
+    const batch03Events = auditCollectionBatch03Runtime().state.events;
+    return {before, returnedIndex, returnedOccurrence, blockEntry, blockedReplay, blockedReplayMessage, handAfterBlockedReplay, graveyardAfterBlockedReplay, boardAfterBlockedReplay, replay, boardAfterReplay, batch03Events};
+  });
+  expect(result.before.id).toBe("N000014");
+  expect(result.returnedIndex).toBeGreaterThanOrEqual(0);
+  expect(result.returnedOccurrence).toBe(result.before.instance);
+  expect(result.blockEntry).toMatchObject({sourceName:"Serviteur de la rune"});
+  expect(result.blockedReplay?.success).toBe(false);
+  expect(result.blockedReplay?.reason).toBe("blocked-card");
+  expect(result.blockedReplayMessage).toContain("IMPOSSIBLE D'INVOQUER CE SERVITEUR CE TOUR : LA RUNE SE RECHARGE EN PUISSANCE");
+  expect(result.handAfterBlockedReplay).toContain("N000014");
+  expect(result.graveyardAfterBlockedReplay).not.toContain("N000014");
+  expect(result.boardAfterBlockedReplay.map(card => card.id)).not.toContain("N000014");
+  expect(result.replay.success).toBe(true);
+  expect(result.boardAfterReplay.map(card => card.id)).toContain("N000014");
+  expect(result.batch03Events.some(event => event.type === "rune-return-to-hand" && event.cardId === "N000014")).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
 test("dwarf passives and cost reductions update real stats and requirements", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-07-nains");

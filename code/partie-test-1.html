@@ -837,6 +837,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .deplacement-instantane-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
 .deplacement-instantane-choice-panel .sort-choice-cards{overflow:visible;padding:12px 18px 18px;}
 .deplacement-instantane-choice-panel .sort-choice-item:hover{position:relative;z-index:12;}
+.isgrimm-rune-choice-panel{max-width:min(860px,calc(100vw - 36px));max-height:86vh;position:relative;padding-top:34px;overflow:visible;}
+.isgrimm-rune-choice-panel .decision-modal-header{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:2px;}
+.isgrimm-rune-choice-panel .decision-modal-spacer{display:none;}
+.isgrimm-rune-choice-panel .decision-modal-actions{order:1;align-self:flex-end;}
+.isgrimm-rune-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
+.isgrimm-rune-choice-panel .sort-choice-cards{overflow:visible;padding:14px 22px 20px;max-height:none;}
+.isgrimm-rune-choice-panel .sort-choice-item:hover{position:relative;z-index:12;}
 .sort-choice-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:var(--gold);
   text-align:center;letter-spacing:0.06em;max-width:120px;line-height:1.4;}
 .sort-choice-label span{font-family:'Crimson Pro',serif;font-size:11px;color:var(--text);
@@ -3004,6 +3011,13 @@ SCENARIOS['collection-batch-07-boute-flammes'] = {
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'ORC000017',pdvMax:14,pdv:14,atk:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-07-glamrig-rune'] = {
+  label: 'TEST - COLLECTION BATCH 07 Glamrig Rune', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'N000014',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000014','N000013'], drawPile:['R000001','N000015'], graveyard:[], servants:[{id:'N000014',pdvMax:10,pdv:10,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000005',pdvMax:12,pdv:12,atk:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['cheat-embrasement'] = {
   label: 'CHEAT — EMBRASEMENT',
   participants: ['cheatFluteEmbrasement', 'cheatSharEmbrasement'],
@@ -5002,6 +5016,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
   return new Promise(resolve => {
     const normalizedTitle = String(title || '');
     const isApresCatastrophe = normalizedTitle.toLowerCase().includes('après la catastrophe');
+    const isIsgrimmRune = normalizedTitle.toLowerCase().includes('isgrimm');
     const selected = new Set();
     const cardsHTML = available.map((candidate, i) => {
       const id = candidate.cardId;
@@ -5013,7 +5028,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
       decisionId:'zone-card-selection',
       title:title || 'Selection de zone',
       compactLabel:`${title || 'Selection'} en attente`,
-      panelClass:isApresCatastrophe ? 'zone-card-choice-panel apres-catastrophe-choice-panel' : 'zone-card-choice-panel',
+      panelClass:isIsgrimmRune ? 'zone-card-choice-panel isgrimm-rune-choice-panel' : (isApresCatastrophe ? 'zone-card-choice-panel apres-catastrophe-choice-panel' : 'zone-card-choice-panel'),
       bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
         <div class="sort-choice-cards" data-testid="zone-card-choice-list">${cardsHTML}</div>
         <button type="button" class="sort-choice-confirm" data-testid="zone-card-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
@@ -6989,6 +7004,7 @@ const KDEF_UPDATES = {
   'Embrasement': 'Inflige immédiatement 3 dégâts, met fin à [Gèle] et [Coup de glace], puis inflige 1 dégât au début des 3 prochains tours de la cible.',
   'Sang ardent': 'Protège uniquement contre les effets d’[Embrasement] : dégâts initiaux, état persistant, dégâts périodiques, zones et ciblages aléatoires.',
   'Pestilence': 'Marque un serviteur malade. Il subit des dégâts au début du tour de la source jusqu’à sa disparition ou jusqu’à ce qu’il soit soigné.',
+  'Serviteur de la rune': 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.',
 };
 Object.assign(KDEF, KDEF_UPDATES);
 
@@ -7236,8 +7252,8 @@ function batch03DynamicStatusTexts(fc) {
   const pestilence = Number(fc.dataset.batch06Disease || 0);
   if (pestilence > 0) add('Subit les effets de [Pestilence].');
   if (fc.dataset.hypno || fc.dataset.hypnosisUntilDamage) add("Paralysé par [Hypnose] jusqu'à subir des dégâts.");
-  if (fc.dataset.batch07RuneServant === '1') add('Bénéficie de Serviteur de la rune.');
-  if (fc.dataset.batch07SangArdent === '1') add('Bénéficie de Sang ardent.');
+  if (fc.dataset.batch07RuneServant === '1') add('Bénéficie de [Serviteur de la rune].');
+  if (fc.dataset.batch07SangArdent === '1') add('Bénéficie de [Sang ardent].');
   if (fc.dataset.batch07FireResistance === '1') add("Bénéficie d'une plus grande résistance au feu.");
   return lines;
 }
@@ -12316,7 +12332,7 @@ async function resolveBatch07IsgrimmInitiative(player, context={}) {
     candidate = selected.selected[0] || null;
   }
   if (!candidate) {
-    const chosen = await chooseZoneCards({title:'ISGRIMM, LE FORGERON DES RUNES', prompt:'Choisissez un serviteur dans votre cimetière ou celui de votre adversaire.', candidates, minCount:1, maxCount:1});
+    const chosen = await chooseZoneCards({title:'ISGRIMM, LE FORGERON DES RUNES', prompt:'Choisissez un serviteur dans votre cimetière ou celui de votre adversaire à lier à la rune.', candidates, minCount:1, maxCount:1});
     candidate = chosen[0] || null;
   }
   if (!candidate) {
@@ -12331,7 +12347,7 @@ async function resolveBatch07IsgrimmInitiative(player, context={}) {
   const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'AVS000013', reason:'isgrimm-rune-servant'});
   const result = {handled:true, success:true, cardId:'AVS000013', selected:{playerId:candidate.owner.key, sourceZone:'graveyard', sourceIndex:candidate.index, cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId}, runeEntry:{cardId:getRuntimeCardId(runeEntry), occurrenceId:runeEntry.batch07OccurrenceId, rune:!!runeEntry.batch07RuneServant}, shuffle, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
   recordCollectionBatch07Event('isgrimm-rune-servant', result);
-  showNotif('Isgrimm grave une rune sur un serviteur et le mélange dans votre deck.', 1800);
+  showNotif("L'ÂME DE CE SERVITEUR EST DÉSORMAIS LIÉE À LA RUNE ET RETOURNE DANS VOTRE DECK, POUR VOUS SERVIR.", 2200);
   return result;
 }
 
@@ -12436,7 +12452,7 @@ function resolveBatch07BouteFlammes(player) {
   renderAllHands();
   const result = {success:true, cardId:'S000054', playerId:p.key, granted, before, after:zoneInventorySnapshot(p), futureFireResistance:true};
   recordCollectionBatch07Event('boute-flammes', result);
-  showNotif('LE SECRET DU BOUTE-FLAMMES RENFORCE VOS FIERS NAINS CONTRE LE FEU !', 2200);
+  showNotif('LE SECRET DU BOUTE-FLAMMES RENFORCE VOS FIERS NAINS CONTRE LE FEU !', 2200);
   return result;
 }
 
@@ -13387,14 +13403,14 @@ async function sendToCemetery(fc) {
     const owner = playerState(player);
     if (owner && !getHandCapacityStatus(owner).full) {
       addCardToHand(owner, cardId, {refresh:true, occurrenceId:fc.dataset.instance || null});
-      if (cardId === 'EDB000013' || cardId === 'EN000012') {
+      const returnedOccurrenceId = batch03HandOccurrenceAt(owner, owner.hand.length - 1);
+      if (cardId === 'EDB000013' || cardId === 'EN000012' || cardId === 'N000014') {
         owner.batch03BlockedHandOccurrences ||= [];
-        const blockedOccurrenceId = batch03HandOccurrenceAt(owner, owner.hand.length - 1);
-        owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:blockedOccurrenceId, sourceName:'Serviteur de la rune', armed:true, createdTurnSequence:turnSequence});
+        owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:returnedOccurrenceId, sourceName:'Serviteur de la rune', armed:true, createdTurnSequence:turnSequence});
         refreshHand(owner);
       }
       if (fc.dataset.batch07RuneServant === '1') {
-        batch07RuneReturnedToHand(owner, cardId, batch03HandOccurrenceAt(owner, owner.hand.length - 1));
+        batch07RuneReturnedToHand(owner, cardId, returnedOccurrenceId);
       }
       const handNode = markBatch03HandCardReturned(owner, cardId);
       recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', flightAnimation:fc.dataset.batch03RuneReturnFlight === '1', handAnimation:!!handNode});
@@ -16910,8 +16926,8 @@ Object.assign(CARDS_DATA, {
     "cap": "[Initiative] Pioche *1* carte *Approvisionnement*.", "lore": "", "max": 4, "assetFolder": "nains", "res_ico": "IC00000PIE", "res_val": "3", "resType": "Pierre"
   },
   "N000005": {
-    "name": "Alfric le Compagnon", "type": "Serviteur", "fac": "nain", "atk": 7, "pdv": 7, "cost": 6, "fico": "FCT00000NAI.png", "kws": ["Pierre", "Fer"],
-    "cap": "Donne *+1 ATK* et *+1 PDV* à vos autres serviteurs nains.", "lore": "", "max": 1, "assetFolder": "nains", "res_ico": "IC00000PIE", "res2": "IC00000FER", "res_val": "6", "resType": "Pierre+Fer"
+    "name": "Haut-seigneur Alfric Cassebibine", "type": "Serviteur", "fac": "nain", "atk": 7, "pdv": 7, "cost": 5, "fico": "FCT00000NAI.png", "kws": ["Fer", "Sélène", "Rempart", "Sang ardent", "Sang-froid", "Rage"],
+    "cap": "[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent *+1 ATK* / *+1 PDV*.", "detail": "[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent *+1 ATK* / *+1 PDV*.", "lore": "", "max": 1, "assetFolder": "nains", "res_ico": "IC00000FER", "res2": "IC00000SLN", "res_val": "5", "resType": "Fer+Sélène"
   },
   "N000006": {
     "name": "Démolisseur",
@@ -16976,8 +16992,8 @@ Object.assign(CARDS_DATA, {
     "cost": 7,
     "fico": "FCT00000NAI.png",
     "kws": ["Sélène", "Pierre", "Aria", "Rempart", "Insensible", "Vengeance"],
-    "cap": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de 2. [Vengeance] Invoque 1 Golem de roche de votre côté du terrain.",
-    "detail": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de 2. [Vengeance] Invoque 1 Golem de roche [ID = DIV000008] de votre côté du terrain.",
+    "cap": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de *2*. [Vengeance] Invoque *1* « Golem de roche » de votre côté du terrain.",
+    "detail": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de *2*. [Vengeance] Invoque *1* « Golem de roche » [ID = DIV000008] de votre côté du terrain.",
     "related": ["DIV000008"],
     "lore": "",
     "max": 1,
@@ -18478,10 +18494,10 @@ const STATIC_SYNC_20260622 = {
     maxOwned:4
   },
   'N000005': {
-    name:'Alfric le Compagnon', type:'Serviteur', fac:'nain', atk:7, pdv:7, cost:6, resType:'Pierre+Fer',
-    res_ico:'IC00000PIE', res2:'IC00000FER', res_val:'6', fico:'FCT00000NAI.png', kws:['Pierre','Fer'],
-    cap:'Donne *+1 ATK* et *+1 PDV* à vos autres serviteurs nains.',
-    detail:'Donne *+1 ATK* et *+1 PDV* à vos autres serviteurs nains.',
+    name:'Haut-seigneur Alfric Cassebibine', type:'Serviteur', fac:'nain', atk:7, pdv:7, cost:5, resType:'Fer+Sélène',
+    res_ico:'IC00000FER', res2:'IC00000SLN', res_val:'5', fico:'FCT00000NAI.png', kws:['Fer','Sélène','Rempart','Sang ardent','Sang-froid','Rage'],
+    cap:"[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent *+1 ATK* / *+1 PDV*.",
+    detail:"[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent *+1 ATK* / *+1 PDV*.",
     maxOwned:1, assetFolder:'nains'
   },
   'ORC000007': {

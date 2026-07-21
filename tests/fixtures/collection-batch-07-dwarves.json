@@ -5,7 +5,8 @@
   "scenarios": [
     "collection-batch-07-nains",
     "collection-batch-07-isgrimm",
-    "collection-batch-07-boute-flammes"
+    "collection-batch-07-boute-flammes",
+    "collection-batch-07-glamrig-rune"
   ],
   "dwarfIds": [
     "AVS000013",
@@ -26,7 +27,8 @@
     "N000015",
     "S000012",
     "S000013",
-    "S000024"
+    "S000024",
+    "S000054"
   ],
   "noProgrammableEffectIds": [
     "N000013"
@@ -47,7 +49,9 @@
       "R000001",
       "H000005"
     ],
-    "selectedCardId": "H000001"
+    "selectedCardId": "H000001",
+    "prompt": "Choisissez un serviteur dans votre cimetière ou celui de votre adversaire à lier à la rune.",
+    "message": "L'ÂME DE CE SERVITEUR EST DÉSORMAIS LIÉE À LA RUNE ET RETOURNE DANS VOTRE DECK, POUR VOUS SERVIR."
   },
   "expectedWarriorReplacement": {
     "from": "N000007",
@@ -59,9 +63,92 @@
     "priestHeal": 2
   },
   "expectedBouteFlammes": {
-    "publicMessage": "LE SECRET DU BOUTE-FLAMMES RENFORCE VOS FIERS NAINS CONTRE LE FEU !",
-    "currentDwarfLine": "Bénéficie de Sang ardent.",
+    "publicMessage": "LE SECRET DU BOUTE-FLAMMES RENFORCE VOS FIERS NAINS CONTRE LE FEU !",
+    "currentDwarfLine": "Bénéficie de [Sang ardent].",
     "futureDwarfLine": "Bénéficie d'une plus grande résistance au feu.",
     "periodicDamageAfterResistance": 0
+  },
+  "expectedRuneLine": "Bénéficie de [Serviteur de la rune].",
+  "canonicalVisibleText": {
+    "AVS000013": {
+      "name": "Mage du Cercle - Isgrimm le Forgeron",
+      "description": "[Insensible] [Initiative] Choisissez un serviteur dans votre cimetière ou celui de votre adversaire et placez-le dans votre deck. Ajoute le mot clef [Serviteur de la rune] à ce serviteur. Puis, mélangez votre deck."
+    },
+    "N000001": {
+      "name": "Gardien",
+      "description": "[Rempart] Chez les nains, même le guerrier le plus vert est bardé de métal des pieds à la tête. Le gardien, véritable rempart vivant, ne fait pas exception."
+    },
+    "N000002": {
+      "name": "Cognemarteau d'élite",
+      "description": "[Rempart] [Initiative] Inflige 2 points de dégâts à tous les serviteurs adverses. Si l'un d'entre eux meurt sous cet effet, piochez une carte."
+    },
+    "N000003": {
+      "name": "Vénérable",
+      "description": "[Vigilance] Tant que ce serviteur est sur le terrain, vos autres serviteurs gagnent un bonus de +2 d'attaque."
+    },
+    "N000004": {
+      "name": "Naingociant",
+      "description": "[Initiative] Vous piochez 1 carte Approvisionnement de votre deck."
+    },
+    "N000005": {
+      "name": "Haut-seigneur Alfric Cassebibine",
+      "description": "[Rempart] [Rage] [Sang ardent] [Sang-froid] Tant qu'il est sur le terrain, vos autres serviteurs nains gagnent +1 ATK/ +1 PDV."
+    },
+    "N000006": {
+      "name": "Démolisseur",
+      "description": "Ignore l'effet du mot-clef [Rempart] chez les adversaires. [Initiative] Envoie la carte du dessus du deck adverse directement au cimetière."
+    },
+    "N000007": {
+      "name": "Guerrier",
+      "description": "[Rage]"
+    },
+    "N000008": {
+      "name": "Guerrier expérimenté",
+      "description": "[Rage] [Rempart]"
+    },
+    "N000009": {
+      "name": "Gardien de pierre runelié",
+      "description": "[Rempart] [Insensible] Tous les dégâts subis par ce serviteur sont réduits de 2. [Vengeance] Invoque 1 « Golem de roche » de votre côté du terrain."
+    },
+    "N000010": {
+      "name": "Bélier de pierre",
+      "description": "[Initiative] Invoque des copies de ce serviteur jusqu'à remplir votre côté du terrain."
+    },
+    "N000011": {
+      "name": "Prêtre-combattant",
+      "description": "Chaque fois qu'il survit à des dégâts, le « Prêtre-combattant » soigne tous les serviteurs alliés blessés du montant des dommages qu'il a subi ce tour."
+    },
+    "N000012": {
+      "name": "Lance-marteaux",
+      "description": "[Initiative] Détruit la carte sur le dessus du deck adverse."
+    },
+    "N000013": {
+      "name": "Milicien",
+      "description": "Ne vous fiez pas à son air débonnaire : ce gentil nain vous fera tâter de sa hache si vous enfreignez la loi sous sa surveillance !"
+    },
+    "N000014": {
+      "name": "Glamrig",
+      "description": "[Serviteur de la rune] [Rempart] [Sang-froid] Chaque fois qu'il attaque, « Glamrig » inflige également 2 points de dégâts aux serviteurs adjacents. Un emplacement vide entre deux serviteurs interrompt l'adjacence. À la fin de chacun de vos tours que « Glamrig » passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de 2."
+    },
+    "N000015": {
+      "name": "Windjalf, l'Ancien",
+      "description": "[Sang ardent] [Initiative] Ajoute le sort « Boute-flammes » à votre main."
+    },
+    "S000012": {
+      "name": "Fruits de l'entraînement",
+      "description": "Donne +2 ATK/ +1 PDV à tous vos serviteurs nains sur le terrain."
+    },
+    "S000013": {
+      "name": "Expérience du combat",
+      "description": "Remplace tous les « Guerriers » de votre deck, main, cimetière et terrain par autant de « Guerriers expérimentés »."
+    },
+    "S000024": {
+      "name": "Secrets de forge",
+      "description": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des « Nains » coûtent 1 ressource en moins et ajoutent +1 à leur montant de points de vie maximal."
+    },
+    "S000054": {
+      "name": "Boute-flammes",
+      "description": "Confère [Sang ardent] à tous vos serviteurs nains actuellement sur le terrain. Si certains sont déjà affectés par [Embrasement], supprimez-le. Jusqu'à la fin de la partie, vos autres serviteurs nains ne subissent plus que les dégâts initiaux d'[Embrasement], et plus les dégâts périodiques de l'effet."
+    }
   }
 }

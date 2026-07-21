@@ -174,6 +174,7 @@ Règles :
 - produire de l’UTF-8 sans BOM ;
 - ne pas introduire de texte public non accentué ;
 - ne pas utiliser les textes français comme logique runtime ;
+- ne pas réécrire, paraphraser ou renommer les textes visibles des cartes sans instruction explicite : les noms et descriptions runtime doivent rester alignés sur l’export canonique actif ;
 - ne pas insérer d’IDs techniques dans les textes publics ;
 - réserver les IDs, `effectInstanceId`, `linkedOccurrenceId` et diagnostics détaillés au panneau de test ou aux logs techniques.
 
