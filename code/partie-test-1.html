@@ -2993,7 +2993,7 @@ SCENARIOS['collection-batch-06-shar-arduin'] = {
 SCENARIOS['collection-batch-07-nains'] = {
   label: 'TEST - COLLECTION BATCH 07 Nains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'N000002',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000001','N000002','N000004','N000006','N000010','N000012','S000012','S000013','S000024'], drawPile:['R000001','N000007','H000001','R000010','N000013'], graveyard:['N000007'], servants:[{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000005',pdvMax:7,pdv:7,atk:7,prepared:true},{id:'N000009',pdvMax:8,pdv:8,atk:4,prepared:true},{id:'N000011',pdvMax:5,pdv:3,atk:1,prepared:true},{id:'N000014',pdvMax:10,pdv:10,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000001','N000004','N000005','N000006','S000012','S000013','S000024'], drawPile:['R000001','N000007','H000001','R000010','N000013'], graveyard:['N000007'], servants:[{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000001',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000009',pdvMax:8,pdv:8,atk:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001','H000006'], graveyard:['H000001','R000001'], servants:[{id:'H000001',pdvMax:12,pdv:12,atk:7,prepared:true},{id:'H000005',pdvMax:12,pdv:12,atk:8,prepared:true},{id:'H000006',pdvMax:12,pdv:12,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -3002,20 +3002,6 @@ SCENARIOS['collection-batch-07-isgrimm'] = {
   testSetup: {
     player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['AVS000013'], drawPile:['S000012','R000001'], graveyard:['N000013'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:['H000001','R000001','H000005'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
-  }
-};
-SCENARIOS['collection-batch-07-boute-flammes'] = {
-  label: 'TEST - COLLECTION BATCH 07 Boute-flammes', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000054',
-  testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['S000054','N000015','N000013','S000012'], drawPile:['N000001','N000014','N000003','R000001'], graveyard:[], servants:[{id:'N000001',pdvMax:8,pdv:6,atk:3,prepared:true,burning:2},{id:'N000003',pdvMax:8,pdv:8,atk:3,prepared:true},{id:'N000005',pdvMax:7,pdv:7,atk:7,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'ORC000017',pdvMax:14,pdv:14,atk:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
-  }
-};
-SCENARIOS['collection-batch-07-glamrig-rune'] = {
-  label: 'TEST - COLLECTION BATCH 07 Glamrig Rune', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'N000014',
-  testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:40, selene:80, fer:80, bois:40, pierre:80, nourriture:80}, souls:40}, hand:['N000014','N000013'], drawPile:['R000001','N000015'], graveyard:[], servants:[{id:'N000014',pdvMax:10,pdv:10,atk:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000005',pdvMax:12,pdv:12,atk:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['cheat-embrasement'] = {
@@ -7321,6 +7307,7 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.frozen_cdg) ensureKeyword('Coup de glace', KDEF['Coup de glace'] || '');
   if (sourceEl?.dataset?.frozen) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
+  if (sourceEl?.dataset?.batch07RuneServant === '1') ensureKeyword('Serviteur de la rune', KDEF['Serviteur de la rune'] || 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.');
   (CARDS_DATA[cardId]?.extraTooltips || []).forEach((tip, index) => keywords.push({kind:'ability', title:tip.title, body:tip.body, order:12 + index}));
   if (sourceEl?.dataset?.hypno || sourceEl?.dataset?.hypnosisUntilDamage) ensureKeyword('Hypnose', KDEF.Hypnose || 'Ne peut pas attaquer jusqu\'à subir des dégâts.');
   if (!keywords.length) return '';
@@ -18847,8 +18834,8 @@ function batch05PassiveBuffFor(fc) {
   const allies = batch05LivingServants(owner);
   const tree = allies.find(card => card !== fc && card.dataset.id === 'EDB000009' && canResolveServantAbility(card, {triggerType:'passive'}));
   if (tree) { pdvMax += 2; sources.push('EDB000009'); }
-  const venerable = allies.find(card => card !== fc && card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
-  if (venerable) { atk += 2; sources.push('N000003'); }
+  const venerableCount = allies.filter(card => card !== fc && card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'})).length;
+  if (venerableCount) { atk += 2 * venerableCount; sources.push('N000003'); }
   const dryad = allies.find(card => card !== fc && card.dataset.id === 'EDB000014' && canResolveServantAbility(card, {triggerType:'passive'}));
   if (dryad && isBatch05WoodElf(fc)) { pdvMax += 2; sources.push('EDB000014'); }
   const iceDruidCount = allies.filter(card => card !== fc && card.dataset.id === 'EDG000008' && canResolveServantAbility(card, {triggerType:'passive'})).length;

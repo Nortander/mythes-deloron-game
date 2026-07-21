@@ -164,12 +164,13 @@ test("Isgrimm requires an explicit graveyard choice and preserves the Rune occur
     const boardCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === expected.selectedCardId && fc.dataset.batch07RuneServant === "1");
     const dynamicLines = boardCard ? batch03DynamicStatusTexts(boardCard) : [];
     const previewHtml = boardCard ? fmtDesc(batch03DynamicStatusTexts(boardCard).join(" ")) : "";
+    const tooltipHtml = boardCard ? buildPreviewKeywordTooltips(boardCard.dataset.id, {sourceElement:boardCard}) : "";
     const boardSummary = boardCard ? targetSummary(boardCard) : null;
     if (boardCard) await applyDamage(boardCard, 99);
     await new Promise(resolve => setTimeout(resolve, 1200));
     const returnedIndex = batch03HandIndexForOccurrence(player1, expected.selectedCardId, boardSummary?.instance || occurrenceId);
     const returnedOccurrence = returnedIndex >= 0 ? batch03HandOccurrenceAt(player1, returnedIndex) : null;
-    return {summon, isgrimmMessage, runeEntry, draw, markedInHand, play, boardSummary, dynamicLines, previewHtml, returnedIndex, returnedOccurrence, hand:[...player1.hand], graveyard:[...player1.graveyard].map(getRuntimeCardId), events:auditCollectionBatch07Runtime().events};
+    return {summon, isgrimmMessage, runeEntry, draw, markedInHand, play, boardSummary, dynamicLines, previewHtml, tooltipHtml, returnedIndex, returnedOccurrence, hand:[...player1.hand], graveyard:[...player1.graveyard].map(getRuntimeCardId), events:auditCollectionBatch07Runtime().events};
   }, fixture.expectedIsgrimm);
   expect(result.summon.success).toBe(true);
   expect(result.isgrimmMessage).toContain(fixture.expectedIsgrimm.message);
@@ -182,6 +183,8 @@ test("Isgrimm requires an explicit graveyard choice and preserves the Rune occur
   expect(result.dynamicLines).toContain(fixture.expectedRuneLine);
   expect(result.previewHtml).toContain("canonical-keyword-inline");
   expect(result.previewHtml).toContain("Serviteur de la rune");
+  expect(result.tooltipHtml).toContain("canonical-keyword-tooltip");
+  expect(result.tooltipHtml).toContain('data-keyword="Serviteur de la rune"');
   expect(result.returnedIndex).toBeGreaterThanOrEqual(0);
   expect(result.returnedOccurrence).toBe(result.boardSummary.instance);
   expect(result.hand).toContain(fixture.expectedIsgrimm.selectedCardId);
@@ -192,8 +195,23 @@ test("Isgrimm requires an explicit graveyard choice and preserves the Rune occur
 });
 test("Boute-flammes grants Sang ardent now and fire resistance to future dwarves", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
-  await openScenario(page, "collection-batch-07-boute-flammes");
+  await openScenario(page, "collection-batch-07-nains");
   const result = await page.evaluate(async () => {
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
+    resetServants(player1);
+    resetServants(player2);
+    player1.hand = ["S000054", "N000015", "N000013", "S000012"];
+    player1.drawPile = ["N000001", "N000014", "N000003", "R000001"];
+    refreshHand(player1);
+    updateDeckCount(player1);
+    const burnedSummon = await summonBatch03Servant(player1, "N000001", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player1, "N000003", {triggerInitiativeEffect:false, ready:true});
+    await summonBatch03Servant(player1, "N000005", {triggerInitiativeEffect:false, ready:true});
+    const burned = document.querySelector('.fc[data-instance="' + burnedSummon.instanceId + '"]');
+    await applyEmbrasement(burned, {sourcePlayer:player2, sourceCardId:'ORC000017'});
     currentPlayer = player1.key;
     const play = await playCard("S000054");
     await new Promise(resolve => setTimeout(resolve, 650));
@@ -235,9 +253,16 @@ test("Boute-flammes grants Sang ardent now and fire resistance to future dwarves
 
 test("Glamrig returns by Serviteur de la rune, is blocked for one turn, then becomes playable", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
-  await openScenario(page, "collection-batch-07-glamrig-rune");
+  await openScenario(page, "collection-batch-07-nains");
   const result = await page.evaluate(async () => {
+    const resetServants = (player) => {
+      const zone = document.querySelector(playerZoneSelector(player, "servants"));
+      zone.innerHTML = Array.from({length:5}, () => '<div class="slot" data-player="' + player.key + '"></div>').join("");
+    };
     const board = player => livingServantCardsForPlayer(player).map(targetSummary);
+    resetServants(player1);
+    resetServants(player2);
+    await summonBatch03Servant(player1, "N000014", {triggerInitiativeEffect:false, ready:true});
     const glamrig = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "N000014");
     const before = targetSummary(glamrig);
     await applyDamage(glamrig, 99);
@@ -289,10 +314,26 @@ test("dwarf passives and cost reductions update real stats and requirements", as
     const venerableSummon = await summonBatch03Servant(player1, "N000003", {triggerInitiativeEffect:false, ready:true});
     const humanSummon = await summonBatch03Servant(player1, "H000001", {triggerInitiativeEffect:false, ready:true});
     syncBatch05Passives();
+    syncBatch05Passives();
+    const venerableSelf = targetSummary(document.querySelector('.fc[data-instance="' + venerableSummon.instanceId + '"]'));
     const humanBuffed = targetSummary(document.querySelector('.fc[data-instance="' + humanSummon.instanceId + '"]'));
+    const dwarfSummon = await summonBatch03Servant(player1, "N000001", {triggerInitiativeEffect:false, ready:true});
+    syncBatch05Passives();
+    const dwarfAfterArrival = targetSummary(document.querySelector('.fc[data-instance="' + dwarfSummon.instanceId + '"]'));
     document.querySelector('.fc[data-instance="' + venerableSummon.instanceId + '"]').remove();
     syncBatch05Passives();
     const humanAfterRemoval = targetSummary(document.querySelector('.fc[data-instance="' + humanSummon.instanceId + '"]'));
+    const dwarfAfterRemoval = targetSummary(document.querySelector('.fc[data-instance="' + dwarfSummon.instanceId + '"]'));
+
+    resetServants(player1);
+    const venerableOne = await summonBatch03Servant(player1, "N000003", {triggerInitiativeEffect:false, ready:true});
+    const venerableTwo = await summonBatch03Servant(player1, "N000003", {triggerInitiativeEffect:false, ready:true});
+    const humanDoubleSummon = await summonBatch03Servant(player1, "H000001", {triggerInitiativeEffect:false, ready:true});
+    syncBatch05Passives();
+    syncBatch05Passives();
+    const multiVenerableOne = targetSummary(document.querySelector('.fc[data-instance="' + venerableOne.instanceId + '"]'));
+    const multiVenerableTwo = targetSummary(document.querySelector('.fc[data-instance="' + venerableTwo.instanceId + '"]'));
+    const humanDoubleBuffed = targetSummary(document.querySelector('.fc[data-instance="' + humanDoubleSummon.instanceId + '"]'));
 
     player1.hand = ["N000015"];
     refreshHand(player1);
@@ -309,10 +350,16 @@ test("dwarf passives and cost reductions update real stats and requirements", as
     const beforeGlamrig = resolveCardCost({player:player1, cardId:"N000015", context:{handOccurrenceId:glamrigOccurrence}}).effectiveCost;
     const glamrig = resolveBatch07EndTurnEffects(player1);
     const afterGlamrig = resolveCardCost({player:player1, cardId:"N000015", context:{handOccurrenceId:glamrigOccurrence}}).effectiveCost;
-    return {humanBuffed, humanAfterRemoval, beforeForge, afterForge, forge, beforeGlamrig, afterGlamrig, glamrig};
+    return {baseHumanAtk:CARDS_DATA.H000001.atk, baseDwarfAtk:CARDS_DATA.N000001.atk, baseVenerableAtk:CARDS_DATA.N000003.atk, venerableSelf, humanBuffed, dwarfAfterArrival, humanAfterRemoval, dwarfAfterRemoval, multiVenerableOne, multiVenerableTwo, humanDoubleBuffed, beforeForge, afterForge, forge, beforeGlamrig, afterGlamrig, glamrig};
   });
-  expect(result.humanBuffed.atk).toBe(3);
-  expect(result.humanAfterRemoval.atk).toBe(1);
+  expect(result.venerableSelf.atk).toBe(result.baseVenerableAtk);
+  expect(result.humanBuffed.atk).toBe(result.baseHumanAtk + 2);
+  expect(result.dwarfAfterArrival.atk).toBe(result.baseDwarfAtk + 2);
+  expect(result.humanAfterRemoval.atk).toBe(result.baseHumanAtk);
+  expect(result.dwarfAfterRemoval.atk).toBe(result.baseDwarfAtk);
+  expect(result.multiVenerableOne.atk).toBe(result.baseVenerableAtk + 2);
+  expect(result.multiVenerableTwo.atk).toBe(result.baseVenerableAtk + 2);
+  expect(result.humanDoubleBuffed.atk).toBe(result.baseHumanAtk + 4);
   expect(result.afterForge.total).toBe(result.beforeForge.total - 1);
   expect(requirementAmount(result.afterForge, "selene")).toBe(requirementAmount(result.beforeForge, "selene") - 1);
   expect(result.afterGlamrig.total).toBe(result.beforeGlamrig.total - 2);

@@ -4,9 +4,7 @@
   "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
   "scenarios": [
     "collection-batch-07-nains",
-    "collection-batch-07-isgrimm",
-    "collection-batch-07-boute-flammes",
-    "collection-batch-07-glamrig-rune"
+    "collection-batch-07-isgrimm"
   ],
   "dwarfIds": [
     "AVS000013",
@@ -38,7 +36,7 @@
     "S000054"
   ],
   "expectedHiddenScenarioOptionCount": 0,
-  "maxVisualHandSize": 9,
+  "maxVisualHandSize": 7,
   "expectedPulseColor": "#a0a8b866",
   "expectedIsgrimm": {
     "sourceGraveyard": [
