@@ -844,6 +844,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .isgrimm-rune-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
 .isgrimm-rune-choice-panel .sort-choice-cards{overflow:visible;padding:14px 22px 20px;max-height:none;}
 .isgrimm-rune-choice-panel .sort-choice-item:hover{position:relative;z-index:12;}
+.savoir-tribal-choice-panel,.batch08-board-choice-panel,.chaman-tribal-choice-panel{max-width:min(860px,calc(100vw - 36px));max-height:86vh;position:relative;padding-top:34px;overflow:visible;}
+.savoir-tribal-choice-panel .decision-modal-header,.batch08-board-choice-panel .decision-modal-header,.chaman-tribal-choice-panel .decision-modal-header{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:2px;}
+.savoir-tribal-choice-panel .decision-modal-spacer,.batch08-board-choice-panel .decision-modal-spacer,.chaman-tribal-choice-panel .decision-modal-spacer{display:none;}
+.savoir-tribal-choice-panel .decision-modal-actions,.batch08-board-choice-panel .decision-modal-actions,.chaman-tribal-choice-panel .decision-modal-actions{order:1;align-self:flex-end;}
+.savoir-tribal-choice-panel .sort-choice-title,.batch08-board-choice-panel .sort-choice-title,.chaman-tribal-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
+.savoir-tribal-choice-panel .sort-choice-cards,.batch08-board-choice-panel .sort-choice-cards,.chaman-tribal-choice-panel .sort-choice-cards{overflow:visible;padding:14px 22px 20px;max-height:none;}
+.savoir-tribal-choice-panel .sort-choice-item:hover,.batch08-board-choice-panel .sort-choice-item:hover,.chaman-tribal-choice-panel .sort-choice-item:hover{position:relative;z-index:12;}
 .sort-choice-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:var(--gold);
   text-align:center;letter-spacing:0.06em;max-width:120px;line-height:1.4;}
 .sort-choice-label span{font-family:'Crimson Pro',serif;font-size:11px;color:var(--text);
@@ -2811,7 +2818,7 @@ SCENARIOS['collection-batch-02-generated-spells'] = {
 SCENARIOS['collection-batch-08-orcs'] = {
   label: 'TEST - COLLECTION BATCH 08 Orcs', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'ORC000001',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000007','ORC000009','ORC000011','ORC000016','ORC000018'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000007','ORC000009','ORC000011','ORC000016','ORC000018'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true},{id:'ORC000017',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:2,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -2825,7 +2832,7 @@ SCENARIOS['collection-batch-08-sorts-orcs'] = {
 SCENARIOS['collection-batch-08-avatar-orc'] = {
   label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['AVS000006','ORC000020','ORC000010','ORC000015','ORC000019'], drawPile:['ORC000002','ORC000005','ORC000006','R000010'], graveyard:[], servants:[{id:'ORC000020',prepared:true},{id:'ORC000010',prepared:true},{id:'ORC000015',prepared:true},{id:'ORC000019',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['AVS000006','ORC000020','ORC000010','ORC000015','ORC000019','ORC000008'], drawPile:['ORC000002','ORC000005','ORC000006','R000010'], graveyard:[], servants:[{id:'ORC000020',prepared:true},{id:'ORC000010',prepared:true},{id:'ORC000015',prepared:true},{id:'ORC000019',prepared:true},{id:'ORC000008',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'B000004',pdv:3,pdvMax:3,prepared:true},{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:6,pdvMax:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -5442,7 +5449,7 @@ async function triggerDamageDealtEmbrasementHooks(sourceFC, targetFC, {sourcePla
   if (sourceId === 'DIV000011' && Math.random() < 0.25) {
     return applyEmbrasement(targetFC, {sourcePlayer:controller, sourceCardId:sourceId, sourceInstanceId:sourceFC.dataset.instance, reason:'demon-majeur'});
   }
-  if (sourceId === 'ORC000009' && Math.random() < 0.25) {
+  if (sourceId === 'ORC000009' && sourceFC !== targetFC && gameRandom() < 0.25) {
     return applyEmbrasement(targetFC, {sourcePlayer:controller, sourceCardId:sourceId, sourceInstanceId:sourceFC.dataset.instance, rejectIfAlreadyBurning:true, reason:'berserker'});
   }
   return {success:false, reason:'chance-failed'};
@@ -7020,14 +7027,15 @@ const RES_KWS = ['Pierre','Aria','Lenya','Fer','Nourriture','Sélène','me','Boi
 
 function buildHC(cardId, player, drawAnim=false) {
   player = playerKey(player);
-  const d = CARDS_DATA[cardId];
-  if (!d) return '';
-  d.id ||= cardId;
+  const printed = CARDS_DATA[cardId];
+  if (!printed) return '';
+  printed.id ||= cardId;
+  const handIndexForCost = (typeof buildHC.__handIndex === 'number') ? buildHC.__handIndex : null;
+  const handOccurrenceForCost = batch03HandOccurrenceAt(player, handIndexForCost);
+  const d = batch08HandCardData(cardId, printed, player, handOccurrenceForCost);
   const col   = facColor(d.fac);
   const folder= d.assetFolder || facFolder(d.fac);
   const facClsHC = {edb:'edb',edn:'edn',edg:'edg',mvs:'mvs',hum:'hum',sort:'sort',appro:'appro',orc:'orc',bet:'bet',div:'div',gob:'gob',nain:'nain',trl:'trl'}[d.fac]||'edn';
-  const handIndexForCost = (typeof buildHC.__handIndex === 'number') ? buildHC.__handIndex : null;
-  const handOccurrenceForCost = batch03HandOccurrenceAt(player, handIndexForCost);
   const costContext = handOccurrenceForCost ? {handOccurrenceId:handOccurrenceForCost} : {};
   const effC  = effectiveCost(cardId, player, costContext);
   const printedCost = resolveCardCost({player, cardId, context:costContext})?.printedCost?.total ?? Number(d.cost || 0);
@@ -7261,6 +7269,7 @@ function batch03DynamicStatusTexts(fc) {
   if (pestilence > 0) add('Subit les effets de [Pestilence].');
   if (fc.dataset.hypno || fc.dataset.hypnosisUntilDamage) add("Paralysé par [Hypnose] jusqu'à subir des dégâts.");
   if (fc.dataset.batch07RuneServant === '1') add('Bénéficie de [Serviteur de la rune].');
+  if (fc.dataset.batch08TotemRage === '1') add('Bénéficie temporairement de [Rage].');
   if (fc.dataset.batch07SangArdent === '1') add('Bénéficie de [Sang ardent].');
   if (fc.dataset.batch07FireResistance === '1') add("Bénéficie d'une plus grande résistance au feu.");
   return lines;
@@ -7330,6 +7339,7 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.frozen) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
   if (sourceEl?.dataset?.batch07RuneServant === '1') ensureKeyword('Serviteur de la rune', KDEF['Serviteur de la rune'] || 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.');
+  if (sourceEl?.dataset?.batch08TotemRage === '1') ensureKeyword('Rage', KDEF.Rage || 'Gagne +2 d’attaque tant que ses points de vie sont inférieurs à leur maximum.');
   (CARDS_DATA[cardId]?.extraTooltips || []).forEach((tip, index) => keywords.push({kind:'ability', title:tip.title, body:tip.body, order:12 + index}));
   if (sourceEl?.dataset?.hypno || sourceEl?.dataset?.hypnosisUntilDamage) ensureKeyword('Hypnose', KDEF.Hypnose || 'Ne peut pas attaquer jusqu\'à subir des dégâts.');
   if (!keywords.length) return '';
@@ -12530,6 +12540,58 @@ function batch08GoblinCreationPool() {
 function batch08FreeSlots(player) {
   return Array.from(qs(playerZoneSelector(player, 'servants'))?.querySelectorAll('.slot') || []);
 }
+function batch08PulseBeforeMutation(sourceFC, reason, detail={}) {
+  if (!sourceFC?.isConnected || sourceFC.dataset.dead) return false;
+  pulseBatch03Ability(sourceFC, reason, {move:true});
+  recordCollectionBatch08Event('ability-feedback', {reason, source:targetSummary(sourceFC), detail});
+  return true;
+}
+function batch08HandCardData(cardId, printed, player, occurrenceId=null) {
+  const p = playerState(player);
+  const meta = (p?.batch08MaraborcCopies || []).find(entry => entry.cardId === cardId && (!entry.occurrenceId || entry.occurrenceId === occurrenceId));
+  if (!meta) return printed;
+  return {...printed, fac:'orc', fico:'FCT00000ORC.png', batch08MaraborcCopy:true, originalFac:printed.fac};
+}
+function batch08NextOccurrenceId(prefix='batch08') {
+  collectionBatch08State.occurrenceSeq = Number(collectionBatch08State.occurrenceSeq || 0) + 1;
+  return prefix + '-' + collectionBatch08State.occurrenceSeq;
+}
+function batch08ShuffleNodes(nodes) {
+  const shuffled = [...nodes];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(gameRandom() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+function batch08ShuffleServantRow(player) {
+  const zone = qs(playerZoneSelector(player, 'servants'));
+  if (!zone) return {before:[], after:[]};
+  const children = Array.from(zone.children);
+  const servants = children.filter(node => node?.classList?.contains('fc') && !node.dataset.dead);
+  const before = servants.map(targetSummary);
+  const shuffled = batch08ShuffleNodes(servants);
+  let index = 0;
+  const newOrder = children.map(node => {
+    if (node?.classList?.contains('fc') && !node.dataset.dead) return shuffled[index++] || node;
+    return node;
+  });
+  newOrder.forEach(node => zone.appendChild(node));
+  return {before, after:batch08Living(player).map(targetSummary)};
+}
+function batch08ContiguousRightChain(target, maxCount=3) {
+  const row = target?.parentElement;
+  const children = Array.from(row?.children || []);
+  const startIndex = children.indexOf(target);
+  const chain = [];
+  if (startIndex < 0) return chain;
+  for (let i = startIndex; i < children.length && chain.length < maxCount; i++) {
+    const node = children[i];
+    if (!node?.classList?.contains('fc') || node.dataset.dead || node.dataset.player !== target.dataset.player) break;
+    chain.push(node);
+  }
+  return chain;
+}
 function batch08PassiveBuffFor(fc) {
   const owner = playerState(fc?.dataset?.player);
   if (!owner || !fc || fc.dataset.dead) return {atk:0, pdvMax:0, sources:[], grantsRage:false};
@@ -12571,6 +12633,7 @@ function batch08ZoneAudit() {
     drawPile:[...playerDrawPile(player)].map(getRuntimeCardId),
     graveyard:[...(player.graveyard || [])].map(getRuntimeCardId),
     board:batch08Living(player).map(fc => ({...targetSummary(fc), passiveSources:fc.dataset.batch05PassiveSources || '', totemRage:fc.dataset.batch08TotemRage === '1', rageActive:fc.dataset.rageActive === '1'})),
+    maraborcCopies:[...(player.batch08MaraborcCopies || [])],
     avatarPassivesDisabled:!!player.batch08AvatarPassivesDisabled
   }));
 }
@@ -12583,6 +12646,38 @@ function auditCollectionBatch08Runtime() {
   };
 }
 
+async function chooseBatch08ChamanOption({canHeal, canBurn}={}) {
+  if (typeof window !== 'undefined' && window.__batch08ChamanOption) {
+    const value = window.__batch08ChamanOption;
+    window.__batch08ChamanOption = null;
+    return value;
+  }
+  if (typeof document === 'undefined' || !document.body) return canHeal ? 'heal' : (canBurn ? 'burn' : null);
+  return new Promise(resolve => {
+    const choices = [
+      {mode:'heal', title:'SOIGNER', text:'Rend tous ses points de vie à un autre serviteur allié.', disabled:!canHeal},
+      {mode:'burn', title:'EMBRASER', text:'Inflige Embrasement à jusqu’à deux serviteurs adverses.', disabled:!canBurn}
+    ];
+    const bodyHtml = `<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Choisissez l’effet d’Initiative du Chaman tribal.</div>
+      <div class="sort-choice-cards" data-testid="batch08-chaman-option-list">${choices.map(choice => `
+        <button type="button" class="sort-choice-item batch08-chaman-option" data-testid="batch08-chaman-option" data-mode="${choice.mode}" ${choice.disabled ? 'disabled aria-disabled="true"' : ''} style="min-width:180px;padding:14px;border-radius:12px;border:1px solid rgba(214,174,86,.65);background:rgba(24,11,5,.96);color:#f4deb0;cursor:${choice.disabled ? 'not-allowed' : 'pointer'}">
+          <strong style="display:block;font-family:Cinzel,serif;font-size:13px;color:#f2d58a;margin-bottom:8px">${choice.title}</strong>
+          <span style="font-family:'Crimson Pro',serif;font-size:13px;line-height:1.25">${choice.text}</span>
+        </button>`).join('')}</div>`;
+    const modal = createMinimizableDecisionModal({decisionId:'batch08-chaman-option', title:'CHAMAN TRIBAL', compactLabel:'CHAMAN TRIBAL en attente', panelClass:'chaman-tribal-choice-panel', bodyHtml, canCancel:true, onCancel:() => resolve(null)});
+    modal.onRender = () => {
+      modal.overlay?.querySelectorAll('[data-testid="batch08-chaman-option"]:not([disabled])').forEach(button => {
+        button.addEventListener('click', () => {
+          const mode = button.dataset.mode || null;
+          modal.close({mode});
+          resolve(mode);
+        });
+      });
+    };
+    modal.onRender();
+  });
+}
+
 async function resolveBatch08Initiative(cardId, player, context={}) {
   const p = playerState(player);
   const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector('.fc[data-instance="' + CSS.escape(context.sourceInstanceId) + '"]') : findBoardCard(p, cardId));
@@ -12590,35 +12685,71 @@ async function resolveBatch08Initiative(cardId, player, context={}) {
   if (!handledIds.includes(cardId)) return {handled:false};
   const result = {handled:true, success:true, cardId, playerId:p?.key || null, operations:[]};
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {...result, success:false, reason:'ability-locked'};
-  if (sourceFC) pulseBatch03Ability(sourceFC, 'batch08-initiative', {move:true});
 
   if (cardId === 'ORC000001') {
     const wounded = batch08Living(p).filter(fc => fc !== sourceFC && Number(fc.dataset.pdv || 0) < Number(fc.dataset.pdvMax || fc.dataset.pdv || 0));
-    if (wounded.length) {
-      const target = wounded[0];
-      const heal = applyHeal(target, Number(target.dataset.pdvMax || 0));
-      result.operations.push({type:'heal-full', target:targetSummary(target), heal});
-    } else {
-      const targets = batch08VisibleEnemyServants(p, cardId, 'embrasement').slice(0, 2);
+    const burnTargets = batch08VisibleEnemyServants(p, cardId, 'embrasement');
+    let forcedMode = context.chamanMode || context.mode || null;
+    if (!forcedMode && typeof window !== 'undefined' && window.__batch08ChamanOption) {
+      forcedMode = window.__batch08ChamanOption;
+      window.__batch08ChamanOption = null;
+    }
+    const mode = forcedMode || await chooseBatch08ChamanOption({canHeal:wounded.length > 0, canBurn:burnTargets.length > 0});
+    result.mode = mode;
+    if (mode === 'heal') {
+      const forced = resolveBoardTargetReferences(context.selectedTargetIds || []);
+      let target = forced.find(fc => wounded.includes(fc));
+      if (!target && forcedMode) target = wounded[0] || null;
+      if (!target && wounded.length) {
+        const chosen = await chooseBoardTargets({title:'CHAMAN TRIBAL', prompt:'Choisissez un autre serviteur allié blessé à soigner.', targets:wounded, maxCount:1, minCount:1, panelClass:'board-target-choice-panel batch08-board-choice-panel'});
+        target = chosen[0] || null;
+      }
+      if (target) {
+        batch08PulseBeforeMutation(sourceFC, 'chaman-heal', {target:targetSummary(target)});
+        const heal = applyHeal(target, Number(target.dataset.pdvMax || 0));
+        result.operations.push({type:'heal-full', target:targetSummary(target), heal});
+      } else {
+        result.operations.push({type:'heal-full', skipped:'no-target'});
+      }
+    } else if (mode === 'burn') {
+      const forced = resolveBoardTargetReferences(context.selectedTargetIds || []).filter(fc => burnTargets.includes(fc)).slice(0, 2);
+      let targets = forced;
+      if (!targets.length && forcedMode) targets = burnTargets.slice(0, 2);
+      if (!targets.length && burnTargets.length) targets = await chooseBoardTargets({title:'CHAMAN TRIBAL', prompt:'Choisissez jusqu’à 2 serviteurs adverses à embraser.', targets:burnTargets, maxCount:2, minCount:1, panelClass:'board-target-choice-panel batch08-board-choice-panel'});
+      if (targets.length) batch08PulseBeforeMutation(sourceFC, 'chaman-embrasement', {targets:targets.map(targetSummary)});
       for (const target of targets) result.operations.push({type:'embrasement', target:targetSummary(target), applied:await applyEmbrasement(target, {sourcePlayer:p, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, rejectIfAlreadyBurning:true})});
+    } else {
+      result.success = false;
+      result.reason = 'cancelled';
     }
   }
   if (cardId === 'ORC000003') {
+    const hasSupply = playerDrawPile(p).some(entry => CARDS_DATA[getRuntimeCardId(entry)]?.type === 'Approvisionnement');
+    if (hasSupply) batch08PulseBeforeMutation(sourceFC, 'amasseur-draw-supply');
     const draw = drawCardFromRuntimeDeck(p, {predicate:id => CARDS_DATA[id]?.type === 'Approvisionnement', refresh:true, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance});
     result.operations.push({type:'draw-supply', draw});
   }
   if (cardId === 'ORC000004') {
     const target = batch08Pick(batch08VisibleEnemyServants(p, cardId, 'damage'));
-    if (target) result.operations.push({type:'initiative-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:Number(sourceFC?.dataset.atk || 0)})});
+    if (target) {
+      batch08PulseBeforeMutation(sourceFC, 'poisoner-initiative-damage', {target:targetSummary(target)});
+      result.operations.push({type:'initiative-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:Number(sourceFC?.dataset.atk || 0)})});
+    }
   }
   if (cardId === 'ORC000007') {
     const target = batch08Pick(batch08VisibleEnemyServants(p, cardId, 'destroy'));
-    if (target) { const before = targetSummary(target); await sendToCemetery(target); result.operations.push({type:'destroy-random', target:before}); }
+    if (target) {
+      const before = targetSummary(target);
+      batch08PulseBeforeMutation(sourceFC, 'chaos-initiative-destroy', {target:before});
+      await sendToCemetery(target);
+      result.operations.push({type:'destroy-random', target:before});
+    }
   }
   if (cardId === 'ORC000009') {
     const target = batch08Pick(batch08VisibleEnemyServants(p, cardId, 'damage'));
     if (target) {
       const before = targetSummary(target);
+      batch08PulseBeforeMutation(sourceFC, 'berserker-initiative-damage', {target:before});
       const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:Number(sourceFC?.dataset.atk || 0)});
       result.operations.push({type:'initiative-damage', target:before, died});
       if (died && sourceFC?.isConnected && !sourceFC.dataset.dead) result.operations.push({type:'self-damage', died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:sourceFC, sourceCardId:cardId, amount:1, bypassInsensitive:true})});
@@ -12626,17 +12757,28 @@ async function resolveBatch08Initiative(cardId, player, context={}) {
   }
   if (cardId === 'ORC000011') {
     const pool = batch08GoblinCreationPool();
-    const created = [];
-    for (const id of pool.slice(0, 3)) {
-      const added = addCardToHand(p, id, {refresh:false});
-      created.push({id, added});
+    const selected = pool.slice(0, 3);
+    const capacity = getHandCapacityStatus(p);
+    if (selected.length < 3) {
+      result.operations.push({type:'create-goblins', skipped:'insufficient-distinct-pool', pool:selected});
+    } else if (capacity.available < selected.length) {
+      result.success = false;
+      result.reason = 'hand-capacity-insufficient';
+      result.operations.push({type:'create-goblins', skipped:'hand-full', capacity, selected});
+      showErr('Votre main ne peut pas accueillir les 3 serviteurs gobelins.');
+    } else {
+      batch08PulseBeforeMutation(sourceFC, 'goblin-trainer-create', {selected});
+      const created = selected.map(id => ({id, added:addCardToHand(p, id, {refresh:false})}));
+      renderAllHands();
+      result.operations.push({type:'create-goblins', created});
     }
-    renderAllHands();
-    result.operations.push({type:'create-goblins', created});
   }
   if (cardId === 'ORC000016') {
+    const before = [player1, player2].filter(Boolean).map(owner => ({playerId:owner.key, disabled:!!owner.batch08AvatarPassivesDisabled}));
+    batch08PulseBeforeMutation(sourceFC, 'avatar-passive-lock');
     const disabled = syncBatch08AvatarPassiveLocks();
-    result.operations.push({type:'avatar-passives-disabled', disabled});
+    const after = [player1, player2].filter(Boolean).map(owner => ({playerId:owner.key, disabled:!!owner.batch08AvatarPassivesDisabled}));
+    result.operations.push({type:'avatar-passives-disabled', disabled, before, after});
   }
   if (cardId === 'ORC000018') {
     result.operations.push(await resolveBatch08MeleeScramble(p, sourceFC));
@@ -12648,6 +12790,9 @@ async function resolveBatch08Initiative(cardId, player, context={}) {
 
 async function resolveBatch08MeleeScramble(player, sourceFC=null) {
   const p = playerState(player);
+  batch08PulseBeforeMutation(sourceFC, 'melee-scramble');
+  const ownShuffle = batch08ShuffleServantRow(p);
+  const enemyShuffle = batch08ShuffleServantRow(opponentOf(p));
   const myCards = batch08Living(p);
   const enemyCards = batch08Living(opponentOf(p));
   const pairs = [];
@@ -12667,11 +12812,11 @@ async function resolveBatch08MeleeScramble(player, sourceFC=null) {
     if (!defenderDied && targetDamage > 0) attackerDied = await applyDamage(attacker, targetDamage);
     pairs.push({attacker:attackerBefore, defender:defenderBefore, damage, counter:targetDamage, defenderDied, attackerDied});
   }
-  return {type:'melee-scramble', pairs};
+  return {type:'melee-scramble', ownShuffle, enemyShuffle, pairs};
 }
 
 function batch08CombatPlan(attacker, targetFC, baseDamage) {
-  const result = {damage:baseDamage, extraAttackOnKill:false, adjacentTargets:[], firstBoarAttack:false};
+  const result = {damage:baseDamage, extraAttackOnKill:false, adjacentTargets:[], firstBoarAttack:false, boarExtraAttack:attacker?.dataset?.batch08BoarExtraAttack === '1'};
   if (attacker?.dataset?.id === 'ORC000015' && !attacker.dataset.batch08BoarFirstAttackUsed) {
     result.damage += 2;
     result.extraAttackOnKill = true;
@@ -12699,8 +12844,10 @@ async function resolveBatch08CombatDamageDealtEffects(sourceFC, targetFC, contex
   const p = playerState(sourceFC.dataset.player);
   const results = [];
   if (sourceFC.dataset.id === 'ORC000008' && context.phase === 'attack') {
-    for (const adjacent of context.adjacentTargets || []) {
-      if (adjacent?.isConnected && !adjacent.dataset.dead) results.push({type:'lancier-adjacent', target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:adjacent, sourceCardId:'ORC000008', amount:Number(context.damageDealt || 0)})});
+    const livingAdjacent = (context.adjacentTargets || []).filter(adjacent => adjacent?.isConnected && !adjacent.dataset.dead);
+    if (livingAdjacent.length) batch08PulseBeforeMutation(sourceFC, 'lancier-adjacent-damage', {targets:livingAdjacent.map(targetSummary)});
+    for (const adjacent of livingAdjacent) {
+      results.push({type:'lancier-adjacent', target:targetSummary(adjacent), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:adjacent, sourceCardId:'ORC000008', amount:Number(context.damageDealt || 0)})});
     }
   }
   if (context.targetDied && ['ORC000010','ORC000015','ORC000019'].includes(sourceFC.dataset.id)) {
@@ -12714,6 +12861,8 @@ async function resolveBatch08KillEffects(sourceFC, targetFC, context={}) {
   const p = playerState(sourceFC.dataset.player);
   const victimId = targetFC?.dataset?.id || context.targetId || null;
   if (sourceFC.dataset.id === 'ORC000010') {
+    const hasServant = playerDrawPile(p).some(entry => CARDS_DATA[getRuntimeCardId(entry)]?.type === 'Serviteur');
+    if (hasServant) batch08PulseBeforeMutation(sourceFC, 'clan-chief-kill-draw');
     const draw = drawCardFromRuntimeDeck(p, {predicate:id => CARDS_DATA[id]?.type === 'Serviteur', refresh:false, sourceCardId:'ORC000010', sourceInstanceId:sourceFC.dataset.instance});
     let summon = null;
     if (draw.success && CARDS_DATA[draw.cardId]?.fac === 'orc' && Number(CARDS_DATA[draw.cardId]?.cost || 0) < 4) {
@@ -12727,9 +12876,22 @@ async function resolveBatch08KillEffects(sourceFC, targetFC, context={}) {
   if (sourceFC.dataset.id === 'ORC000019') {
     if (sourceFC.dataset.batch08MaraborcCopiedTurn === String(turnSequence)) return {type:'maraborc-copy', skipped:'once-per-turn'};
     if (!victimId || !CARDS_DATA[victimId]) return {type:'maraborc-copy', skipped:'missing-victim'};
+    const capacity = getHandCapacityStatus(p);
+    if (capacity.full) return {type:'maraborc-copy', victimId, skipped:'hand-full', capacity};
     sourceFC.dataset.batch08MaraborcCopiedTurn = String(turnSequence);
-    const added = addCardToHand(p, victimId, {refresh:true});
-    return {type:'maraborc-copy', victimId, added, treatedAsOrc:true, costDelta:-1};
+    const occurrenceId = batch08NextOccurrenceId('batch08-maraborc');
+    batch08PulseBeforeMutation(sourceFC, 'maraborc-copy', {victimId, occurrenceId});
+    p.batch08MaraborcCopies ||= [];
+    p.batch08MaraborcCopies.push({cardId:victimId, occurrenceId, originalFaction:CARDS_DATA[victimId]?.fac || null, treatedAsOrc:true, costDelta:-1, turnSequence});
+    const modifier = registerRuntimeCostModifier(p, {
+      sourceId:'ORC000019',
+      priority:260,
+      duration:'nextEligibleCard',
+      criteria:{cardIds:[victimId], handOccurrenceIds:[occurrenceId]},
+      operations:[{type:'adjustTotal', amount:-1},{type:'adjustRequirement', amount:-1}]
+    });
+    const added = addCardToHand(p, victimId, {refresh:true, occurrenceId});
+    return {type:'maraborc-copy', victimId, occurrenceId, modifierId:modifier?.id || null, added, treatedAsOrc:true, costDelta:-1};
   }
   return {type:'boar-kill', extraAttack:!!context.firstBoarAttack};
 }
@@ -12740,10 +12902,10 @@ function handleBatch08AlliedServantDeath(player, deadFC, context={}) {
   const results = [];
   for (const butcher of batch08Living(p).filter(fc => fc.dataset.id === 'ORC000013' && fc !== deadFC && canResolveServantAbility(fc, {triggerType:'ally-death'}))) {
     const base = Number(butcher.dataset.atk || 0);
+    batch08PulseBeforeMutation(butcher, 'ally-death', {dead:targetSummary(deadFC)});
     butcher.dataset.batch08ButcherBonus = String(Number(butcher.dataset.batch08ButcherBonus || 0) + 1);
     batch03UpdateStats(butcher, {atk:base + 1});
     results.push({butcher:targetSummary(butcher), dead:targetSummary(deadFC)});
-    pulseBatch03Ability(butcher, 'ally-death');
   }
   if (results.length) recordCollectionBatch08Event('boucher-ally-death', {playerId:p.key, results});
   return results;
@@ -12755,14 +12917,14 @@ async function resolveBatch08EndTurnEffects(player) {
   for (const poisoner of batch08Living(p).filter(fc => fc.dataset.id === 'ORC000004' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     const targets = batch08VisibleEnemyServants(p, 'ORC000004', 'damage');
     const damaged = [];
+    if (targets.length) batch08PulseBeforeMutation(poisoner, 'poisoner-end-turn', {targets:targets.map(targetSummary)});
     for (const target of targets) damaged.push({target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:'ORC000004', amount:1})});
-    if (damaged.length) pulseBatch03Ability(poisoner, 'end-turn');
     results.push({type:'poisoner-end-turn', source:targetSummary(poisoner), damaged});
   }
   for (const chaos of batch08Living(p).filter(fc => fc.dataset.id === 'ORC000007' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     const atk = Number(chaos.dataset.atk || 0);
     const target = batch08Pick(batch08VisibleEnemyServants(p, 'ORC000007', 'destroy').filter(fc => Number(fc.dataset.pdv || 0) <= atk));
-    if (target) { const before = targetSummary(target); await sendToCemetery(target); pulseBatch03Ability(chaos, 'end-turn'); results.push({type:'chaos-end-turn-destroy', source:targetSummary(chaos), target:before}); }
+    if (target) { const before = targetSummary(target); batch08PulseBeforeMutation(chaos, 'chaos-end-turn-destroy', {target:before}); await sendToCemetery(target); results.push({type:'chaos-end-turn-destroy', source:targetSummary(chaos), target:before}); }
   }
   if (results.length) recordCollectionBatch08Event('end-turn', {playerId:p.key, results});
   syncBatch05Passives();
@@ -12777,8 +12939,8 @@ async function resolveBatch08StartTurnEffects(player) {
     const atk = Number(gultark.dataset.atk || 0);
     const targets = batch08Living(active).filter(fc => Number(fc.dataset.pdv || 0) <= atk);
     const destroyed = [];
+    if (targets.length) batch08PulseBeforeMutation(gultark, 'gultark-opponent-start', {targets:targets.map(targetSummary)});
     for (const target of targets) { const before = targetSummary(target); await sendToCemetery(target, {suppressVengeance:true, sourceCardId:'ORC000020', sourceInstanceId:gultark.dataset.instance}); destroyed.push(before); }
-    if (destroyed.length) pulseBatch03Ability(gultark, 'opponent-start-turn');
     results.push({type:'gultark-opponent-start', source:targetSummary(gultark), destroyed});
   }
   if (results.length) recordCollectionBatch08Event('start-turn', {playerId:active?.key, results});
@@ -12793,7 +12955,7 @@ async function resolvePillageEnRegle(player) {
   const summons = [];
   while (summons.length < 4 && batch08FreeSlots(p).length) {
     const id = pool[Math.floor(gameRandom() * pool.length)];
-    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:true, ready:true}));
+    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:false, ready:true}));
   }
   const result = {success:true, cardId:'S000014', playerId:p.key, summons};
   recordCollectionBatch08Event('pillage-en-regle', result);
@@ -12819,15 +12981,14 @@ async function resolveSavoirTribal(player, context={}) {
   if (!target) return {success:false, reason:'missing-target', cardId:'S000032', targetAudit:audit};
   let overflow = 10;
   const hits = [];
-  const rowChildren = Array.from(target.parentElement?.children || []);
-  const startIndex = rowChildren.indexOf(target);
-  const chain = rowChildren.slice(Math.max(0, startIndex)).filter(node => node?.classList?.contains('fc') && !node.dataset.dead && node.dataset.player === target.dataset.player).slice(0, 3);
+  const chain = batch08ContiguousRightChain(target, 3);
+  if (chain.length) batch08PulseBeforeMutation(target, 'savoir-tribal-chain', {chain:chain.map(targetSummary)});
   for (const current of chain) {
     if (!current?.isConnected || current.dataset.dead || overflow <= 0) break;
     const before = targetSummary(current);
     const currentPdv = Number(current.dataset.pdv || 0);
     const damage = Math.min(overflow, currentPdv);
-    const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:current, sourceCardId:'S000032', amount:overflow});
+    const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:current, sourceCardId:'S000032', amount:damage});
     hits.push({target:before, damage:Math.max(0, damage), died});
     overflow = Math.max(0, overflow - currentPdv);
     if (!died) break;
@@ -13446,6 +13607,8 @@ async function resolveCombat(attacker, targetFC) {
   const batch08Plan = batch08CombatPlan(attacker, targetFC, finalAtkDmg);
   finalAtkDmg = batch08Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
+  if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
+  if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
   if (attacker) attacker._killer = targetFC; // pour la riposte
@@ -13787,13 +13950,13 @@ async function sendToCemetery(fc, options={}) {
     if (owner && !getHandCapacityStatus(owner).full) {
       addCardToHand(owner, cardId, {refresh:true, occurrenceId:fc.dataset.instance || null});
       const returnedOccurrenceId = batch03HandOccurrenceAt(owner, owner.hand.length - 1);
-      if (cardId === 'EDB000013' || cardId === 'EN000012' || cardId === 'N000014') {
+      if (isBatch03RuneServant(cardId) || fc.dataset.batch07RuneServant === '1') {
         owner.batch03BlockedHandOccurrences ||= [];
         owner.batch03BlockedHandOccurrences.push({cardId, occurrenceId:returnedOccurrenceId, sourceName:'Serviteur de la rune', armed:true, createdTurnSequence:turnSequence});
         refreshHand(owner);
       }
       if (fc.dataset.batch07RuneServant === '1') {
-        batch07RuneReturnedToHand(owner, cardId, returnedOccurrenceId);
+        markBatch07RuneHandOccurrence(owner, returnedOccurrenceId, cardId, 'AVS000013');
       }
       const handNode = markBatch03HandCardReturned(owner, cardId);
       recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', flightAnimation:fc.dataset.batch03RuneReturnFlight === '1', handAnimation:!!handNode});
@@ -14501,11 +14664,12 @@ async function applyFireMasterEndOfTurn(player) {
       if (candidates.length) showInsensitiveFailureVfx(candidates);
       continue;
     }
-    const target = valid[Math.floor(Math.random() * valid.length)];
+    const target = valid[Math.floor(gameRandom() * valid.length)];
+    pulseBatch03Ability(master, 'end-turn', {move:true});
     const result = await applyEmbrasement(target, {sourcePlayer:p, sourceCardId:'ORC000017', sourceInstanceId:master.dataset.instance, rejectIfAlreadyBurning:true, reason:'maitre-du-feu'});
     if (result.success) {
       applied++;
-      pulseBatch03Ability(master, 'end-turn');
+      recordCollectionBatch08Event('fire-master-end-turn', {source:targetSummary(master), target:targetSummary(target), result});
     }
   }
   return {applied};
@@ -17517,7 +17681,7 @@ Object.assign(CARDS_DATA, {
       "Nourriture",
       "Embrasement"
     ],
-    "cap": "[Initiative] Vous pouvez choisir de rendre à un autre serviteur allié l'intégralité de ses points de vie ou d'infliger [Embrasement] à 2 serviteurs adverses.",
+    "cap": "[Initiative] Vous pouvez choisir de rendre à *1* autre serviteur allié l'intégralité de ses points de vie ou d'infliger [Embrasement] à *2* serviteurs adverses.",
     "lore": "",
     "max": 4,
     "assetFolder": "orcs",
@@ -17556,7 +17720,7 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Initiative"
     ],
-    "cap": "[Initiative] Vous piochez 1 carte Approvisionnement de votre deck.",
+    "cap": "[Initiative] Vous piochez *1* carte [Approvisionnement] de votre deck.",
     "lore": "",
     "max": 6,
     "assetFolder": "orcs",
@@ -17576,7 +17740,7 @@ Object.assign(CARDS_DATA, {
       "Lenya",
       "Initiative"
     ],
-    "cap": "[Initiative] Inflige le montant de son attaque à un serviteur adverse. Tant que cette carte est sur le terrain, tous les serviteurs adverses subissent 1 point de dégât à la fin de vos tours.",
+    "cap": "[Initiative] Inflige le montant de son attaque à *1* serviteur adverse. Tant que cette carte est sur le terrain, tous les serviteurs adverses subissent *1* point de dégât à la fin de vos tours.",
     "lore": "",
     "max": 4,
     "assetFolder": "orcs",
@@ -17634,7 +17798,8 @@ Object.assign(CARDS_DATA, {
       "Rage",
       "Initiative"
     ],
-    "cap": "[Rempart] [Rage] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l'attaque actuelle du « Rejeton du chaos ».",
+    "cap": "[Rempart] [Rage] [Sang ardent] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l'attaque actuelle du « Rejeton du chaos ».",
+    "detail": "[Rempart] [Rage] [Sang ardent] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l'attaque actuelle du « Rejeton du chaos ».",
     "lore": "",
     "max": 1,
     "assetFolder": "orcs",
@@ -17680,11 +17845,11 @@ Object.assign(CARDS_DATA, {
       "Initiative",
       "Embrasement"
     ],
-    "cap": "[Rage] [Initiative] Inflige le montant de son attaque à 1 serviteur adverse aléatoire. Si le serviteur atteint est détruit sous l'effet de cette capacité spéciale, le « Berserker » s'inflige 1 point de dégât. Chaque fois que le « Berserker » inflige des dégâts, il a 25% d'infliger également [Embrasement] à la cible.",
+    "cap": "[Rage] [Initiative] Inflige le montant de son attaque à *1* serviteur adverse aléatoire. Si le serviteur atteint est détruit sous l'effet de cette capacité spéciale, le « Berserker » s'inflige *1* point de dégât. Chaque fois que le « Berserker » inflige des dégâts, il a *25%* d'infliger également [Embrasement] à la cible, sauf si celle-ci est déjà affectée par [Embrasement].",
     "lore": "",
     "max": 2,
     "assetFolder": "orcs",
-    "detail": "[Rage] [Initiative] Inflige le montant de son attaque à 1 serviteur adverse aléatoire. Si le serviteur atteint est détruit sous l'effet de cette capacité spéciale, le « Berserker » s'inflige 1 point de dégât. Chaque fois que le « Berserker » inflige des dégâts, il a 25% d'infliger également [Embrasement] à la cible, sauf si celle-ci est déjà affectée par [Embrasement].",
+    "detail": "[Rage] [Initiative] Inflige le montant de son attaque à *1* serviteur adverse aléatoire. Si le serviteur atteint est détruit sous l'effet de cette capacité spéciale, le « Berserker » s'inflige *1* point de dégât. Chaque fois que le « Berserker » inflige des dégâts, il a *25%* d'infliger également [Embrasement] à la cible, sauf si celle-ci est déjà affectée par [Embrasement].",
     "res_ico": "IC00000FER",
     "res_val": "6",
     "resType": "fer|lenya",
@@ -17703,7 +17868,7 @@ Object.assign(CARDS_DATA, {
       "Fer",
       "Lenya"
     ],
-    "cap": "Chaque fois qu'il détruit 1 serviteur adverse, vous piochez 1 serviteur de votre deck. Si le serviteur pioché est un Orc et coûte moins de 4 en ressources, vous l'invoquez aussitôt.",
+    "cap": "Chaque fois qu'il détruit *1* serviteur adverse, vous piochez *1* serviteur de votre deck. Si le serviteur pioché est un Orc et coûte moins de *4* en ressources, vous l'invoquez aussitôt.",
     "lore": "",
     "max": 1,
     "assetFolder": "orcs",
@@ -17726,11 +17891,11 @@ Object.assign(CARDS_DATA, {
       "Nourriture",
       "Fer"
     ],
-    "cap": "[Initiative] Ajoute 3 serviteurs gobelins aléatoires coûtant 3 ressources ou moins à votre main.",
+    "cap": "[Initiative] Ajoute *3* serviteurs gobelins aléatoires coûtant *3* ressources ou moins à votre main.",
     "lore": "",
     "max": 3,
     "assetFolder": "orcs",
-    "detail": "[Initiative] Ajoute à votre main 3 serviteurs aléatoires distincts de la faction « Gobelin » dont le coût imprimé est inférieur ou égal à 3. Les cartes sont créées et ne sont pas retirées de votre deck.",
+    "detail": "[Initiative] Ajoute à votre main *3* serviteurs aléatoires distincts de la faction « Gobelin » dont le coût imprimé est inférieur ou égal à *3*. Les cartes sont créées et ne sont pas retirées de votre deck.",
     "res_ico": "IC00000FER",
     "res_val": "4",
     "resType": "fer"
@@ -17747,11 +17912,11 @@ Object.assign(CARDS_DATA, {
       "Fer",
       "Nourriture"
     ],
-    "cap": "Tant que ce serviteur est sur le terrain, vos serviteurs gobelins et trolls gagnent +1 ATK.",
+    "cap": "Tant que ce serviteur est sur le terrain, vos serviteurs gobelins et trolls gagnent *+1 ATK*.",
     "lore": "",
     "max": 2,
     "assetFolder": "orcs",
-    "detail": "Tant que ce serviteur est sur le terrain, vos autres serviteurs des factions « Gobelin » et « Troll » gagnent +1 ATK.",
+    "detail": "Tant que ce serviteur est sur le terrain, vos autres serviteurs des factions « Gobelin » et « Troll » gagnent *+1 ATK*.",
     "res_ico": "IC00000FER",
     "res_val": "6",
     "resType": "fer"
@@ -17769,11 +17934,11 @@ Object.assign(CARDS_DATA, {
       "Fer",
       "Rage"
     ],
-    "cap": "[Rage] Chaque fois qu'un autre serviteur allié est envoyé au cimetière depuis le terrain, gagne +1 ATK.",
+    "cap": "[Rage] Chaque fois qu'un autre serviteur allié est envoyé au cimetière depuis le terrain, gagne *+1 ATK*.",
     "lore": "",
     "max": 3,
     "assetFolder": "orcs",
-    "detail": "[Rage] Chaque fois qu'un autre serviteur allié est envoyé au cimetière depuis votre côté du terrain, ce serviteur gagne définitivement +1 ATK tant qu'il reste sur le terrain.",
+    "detail": "[Rage] Chaque fois qu'un autre serviteur allié est envoyé au cimetière depuis votre côté du terrain, ce serviteur gagne définitivement *+1 ATK* tant qu'il reste sur le terrain.",
     "res_ico": "IC00000FER",
     "res_val": "4",
     "resType": "fer"
@@ -17793,7 +17958,7 @@ Object.assign(CARDS_DATA, {
       "Insensible",
       "Rage"
     ],
-    "cap": "[Insensible] [Rempart] Tant que ce serviteur est sur le terrain, vos autres serviteurs orcs, gobelins et trolls gagnent +1 ATK/ +1 PDV maximal ainsi que le mot-clef [Rage].",
+    "cap": "[Insensible] [Rempart] Tant que ce serviteur est sur le terrain, vos autres serviteurs orcs, gobelins et trolls gagnent *+1 ATK*, *+1 PDV* maximal ainsi que le mot-clef [Rage].",
     "lore": "",
     "max": 2,
     "assetFolder": "orcs",
@@ -17816,7 +17981,7 @@ Object.assign(CARDS_DATA, {
       "Fer",
       "Vigilance"
     ],
-    "cap": "[Vigilance] La première fois que ce serviteur attaque pendant votre tour, il inflige 2 points de dégâts supplémentaires. Si cette première attaque détruit la cible, le « Chevaucheur de sanglier » peut attaquer une seconde fois ce tour. Ce serviteur passe outre [Rempart].",
+    "cap": "[Vigilance] La première fois que ce serviteur attaque pendant votre tour, il inflige *2* points de dégâts supplémentaires. Si cette première attaque détruit la cible, le « Chevaucheur de sanglier » peut attaquer une seconde fois ce tour. Ce serviteur passe outre [Rempart].",
     "lore": "",
     "max": 3,
     "assetFolder": "orcs",
@@ -17900,11 +18065,11 @@ Object.assign(CARDS_DATA, {
       "Lenya",
       "Nourriture"
     ],
-    "cap": "Quand ce serviteur détruit un ennemi, ajoute à votre main 1 copie de la victime, devenue Orc et coûtant 1 ressource en moins. Cet effet ne peut se produire qu'une fois par tour.",
+    "cap": "Quand ce serviteur détruit un ennemi, ajoute à votre main *1* copie de la victime, devenue Orc et coûtant *1* ressource en moins. Cet effet ne peut se produire qu'une fois par tour.",
     "lore": "",
     "max": 2,
     "assetFolder": "orcs",
-    "detail": "Quand ce serviteur détruit un ennemi, ajoute à votre main 1 copie de la victime, devenue Orc et coûtant 1 ressource en moins. Elle ne compte pas comme une carte retirée du cimetière adverse.  Cet effet ne peut se produire qu'une fois par tour.",
+    "detail": "Quand ce serviteur détruit un ennemi, ajoute à votre main *1* copie de la victime, devenue Orc et coûtant *1* ressource en moins. Elle ne compte pas comme une carte retirée du cimetière adverse. Cet effet ne peut se produire qu'une fois par tour.",
     "res_ico": "IC00000LNY",
     "res_val": "6",
     "resType": "lenya"
@@ -18535,7 +18700,7 @@ Object.assign(CARDS_DATA, {
     "max": 3,
     "assetFolder": "sorts",
     "badge": "Sort",
-    "detail": "Invoque jusqu'à 4 serviteurs orcs aléatoires de votre côté du terrain [parmi la sélection suivante : ID = ORC000001, ou ID = ORC000002, ou ID = ORC000004 ou ID = ORC000005].",
+    "detail": "Invoque jusqu'à 4 serviteurs orcs aléatoires de votre côté du terrain (parmi la sélection suivante : « Chaman tribal », « Guerrier », « Sorcier venimeux » et « Pillard »).",
     "res_ico": "IC00000LNY",
     "res_val": "5",
     "resType": "lenya|fer|bois",
@@ -18888,8 +19053,8 @@ const STATIC_SYNC_20260622 = {
   'ORC000007': {
     name:'Rejeton du chaos', type:'Serviteur', fac:'orc', atk:9, pdv:7, cost:8, resType:'Lenya ou Aria ou Nourriture ou me',
     kws:['Rempart','Rage','Initiative','Lenya','Aria','Nourriture','me','Sang ardent'],
-    cap:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
-    detail:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit 1 serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit 1 autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
+    cap:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
+    detail:'[Rempart] [Rage] [Sang ardent] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',
     maxOwned:1
   },
   'ORC000017': {

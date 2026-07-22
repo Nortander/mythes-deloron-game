@@ -302,4 +302,14 @@ Le lot couvre `AVS000006` (Gor le Changeforme), les Initiatives orcs, les passif
 
 Scenarios techniques caches : `collection-batch-08-orcs`, `collection-batch-08-sorts-orcs` et `collection-batch-08-avatar-orc`.
 
+Retours visuels Batch-08B :
+
+- `ORC000001` ouvre un choix explicite entre soin allié et Embrasement adverse, puis une sélection de cible légale.
+- `ORC000008` et `ORC000017` sont visibles dans les scénarios techniques Orcs.
+- `ORC000018` mélange effectivement les positions des deux lignes avant les attaques face à face.
+- `ORC000019` crée une occurrence en main rendue comme Orc et jouée avec un coût réduit d'une ressource.
+- `ORC000020` applique le blocage de rejeu des Serviteurs de la rune après son retour en main.
+- `S000032` arrête sa chaîne au premier emplacement vide à droite et ne saute plus les trous.
+- Les textes publics Orcs renforcent les valeurs importantes et retirent les identifiants techniques de `S000014`.
+
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
