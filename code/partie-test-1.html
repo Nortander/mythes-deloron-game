@@ -2818,8 +2818,8 @@ SCENARIOS['collection-batch-02-generated-spells'] = {
 SCENARIOS['collection-batch-08-orcs'] = {
   label: 'TEST - COLLECTION BATCH 08 Orcs', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'ORC000001',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000007','ORC000009','ORC000011','ORC000016','ORC000018'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true},{id:'ORC000017',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:2,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000009','ORC000016','ORC000018'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true},{id:'ORC000017',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'AVS000005',pdv:5,pdvMax:5,prepared:true},{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:2,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-08-sorts-orcs'] = {
@@ -5449,7 +5449,8 @@ async function triggerDamageDealtEmbrasementHooks(sourceFC, targetFC, {sourcePla
   if (sourceId === 'DIV000011' && Math.random() < 0.25) {
     return applyEmbrasement(targetFC, {sourcePlayer:controller, sourceCardId:sourceId, sourceInstanceId:sourceFC.dataset.instance, reason:'demon-majeur'});
   }
-  if (sourceId === 'ORC000009' && sourceFC !== targetFC && gameRandom() < 0.25) {
+  if (sourceId === 'ORC000009' && sourceFC !== targetFC && !burnState(targetFC) && canAffectTarget({sourcePlayer:controller, targetFC, sourceCardId:sourceId, effectKind:'embrasement', isAbility:true}) && gameRandom() < 0.25) {
+    batch08PulseBeforeMutation(sourceFC, 'berserker-embrasement', {target:targetSummary(targetFC)});
     return applyEmbrasement(targetFC, {sourcePlayer:controller, sourceCardId:sourceId, sourceInstanceId:sourceFC.dataset.instance, rejectIfAlreadyBurning:true, reason:'berserker'});
   }
   return {success:false, reason:'chance-failed'};
@@ -7035,6 +7036,7 @@ function buildHC(cardId, player, drawAnim=false) {
   const d = batch08HandCardData(cardId, printed, player, handOccurrenceForCost);
   const col   = facColor(d.fac);
   const folder= d.assetFolder || facFolder(d.fac);
+  const artworkSrc = d.batch08MaraborcCopy ? `../assets/${d.originalAssetFolder || folder}/${cardId}.png` : cardArtworkSrc(cardId, folder);
   const facClsHC = {edb:'edb',edn:'edn',edg:'edg',mvs:'mvs',hum:'hum',sort:'sort',appro:'appro',orc:'orc',bet:'bet',div:'div',gob:'gob',nain:'nain',trl:'trl'}[d.fac]||'edn';
   const costContext = handOccurrenceForCost ? {handOccurrenceId:handOccurrenceForCost} : {};
   const effC  = effectiveCost(cardId, player, costContext);
@@ -7088,7 +7090,7 @@ function buildHC(cardId, player, drawAnim=false) {
   return `<div class="hc ${facClsHC}${animCls}${blockedCls}" data-id="${cardId}" data-player="${player}" data-blocked-card="${blocked ? '1' : '0'}" data-blocked-source="${escapeHtml(blockedSource)}" aria-disabled="${blocked ? 'true' : 'false'}" draggable="true" title="${blocked ? escapeHtml('Carte bloquée par ' + blockedSource + ' pour ce tour.') : ''}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="hc-frame">
       <div class="hc-art-z">
-        <img class="hc-art" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
+        <img class="hc-art" src="${artworkSrc}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
         ${fico}${badge}${atk_h}${pdv_h}
       </div>
       <div class="hc-name-b"><span class="hc-name">${d.name}</span></div>
@@ -12550,7 +12552,7 @@ function batch08HandCardData(cardId, printed, player, occurrenceId=null) {
   const p = playerState(player);
   const meta = (p?.batch08MaraborcCopies || []).find(entry => entry.cardId === cardId && (!entry.occurrenceId || entry.occurrenceId === occurrenceId));
   if (!meta) return printed;
-  return {...printed, fac:'orc', fico:'FCT00000ORC.png', batch08MaraborcCopy:true, originalFac:printed.fac};
+  return {...printed, fac:'orc', fico:'FCT00000ORC.png', batch08MaraborcCopy:true, originalFac:printed.fac, originalAssetFolder:printed.assetFolder || facFolder(printed.fac)};
 }
 function batch08NextOccurrenceId(prefix='batch08') {
   collectionBatch08State.occurrenceSeq = Number(collectionBatch08State.occurrenceSeq || 0) + 1;
@@ -15833,6 +15835,7 @@ async function runStartTurnPipeline(player) {
 
   if (!state.startTurnAbilitiesResolved) {
     await showMeteoresStartTurnMessage(p);
+    await resolveBatch08StartTurnEffects(p);
     await applyStartTurnServantAbilities(p);
     state.startTurnAbilitiesResolved = true;
   }
@@ -17720,7 +17723,7 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Initiative"
     ],
-    "cap": "[Initiative] Vous piochez *1* carte [Approvisionnement] de votre deck.",
+    "cap": "[Initiative] Vous piochez *1* carte Approvisionnement de votre deck.",
     "lore": "",
     "max": 6,
     "assetFolder": "orcs",
@@ -18687,7 +18690,7 @@ Object.assign(CARDS_DATA, {
   "S000014": {
     "name": "Pillage en règle",
     "type": "Sort",
-    "fac": "orc",
+    "fac": "sort",
     "cost": 5,
     "kws": [
       "Nourriture",
@@ -18695,12 +18698,18 @@ Object.assign(CARDS_DATA, {
       "Fer",
       "Bois"
     ],
-    "cap": "Invoque jusqu'à 4 serviteurs orcs aléatoires de votre côté du terrain.",
+    "cap": "Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
     "badge": "Sort",
-    "detail": "Invoque jusqu'à 4 serviteurs orcs aléatoires de votre côté du terrain (parmi la sélection suivante : « Chaman tribal », « Guerrier », « Sorcier venimeux » et « Pillard »).",
+    "detail": "Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.",
+    "extraTooltips": [
+      {
+        "title": "Sélection",
+        "body": "Peut invoquer « Chaman tribal », « Guerrier », « Sorcier venimeux » ou « Pillard »."
+      }
+    ],
     "res_ico": "IC00000LNY",
     "res_val": "5",
     "resType": "lenya|fer|bois",
@@ -18813,12 +18822,12 @@ Object.assign(CARDS_DATA, {
   "S000032": {
     "name": "Savoir tribal",
     "type": "Sort",
-    "fac": "orc",
+    "fac": "sort",
     "cost": 6,
     "kws": [
       "Lenya"
     ],
-    "cap": "Inflige 10 points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.",
+    "cap": "Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
@@ -19060,8 +19069,8 @@ const STATIC_SYNC_20260622 = {
   'ORC000017': {
     name:'Maître du feu', type:'Serviteur', fac:'orc', atk:4, pdv:3, cost:5, resType:'Lenya (5)',
     kws:['Embrasement','Lenya','Sang ardent'],
-    cap:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
-    detail:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à 1 serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
+    cap:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à *1* serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
+    detail:'[Sang ardent] À chacune de vos fins de tour, inflige [Embrasement] à *1* serviteur adverse aléatoire ne subissant pas encore cet effet. Tant que le « Maître du feu » est sur le terrain, les dégâts périodiques d\'embrasement sont doublés contre les serviteurs des factions « Elfes de bois » et « Elfes de glace ».',
     maxOwned:4
   },
   'TRL000020': {
@@ -19232,7 +19241,8 @@ Object.assign(CARDS_DATA, {
   'S000026':{name:'Serment des anciens',type:'Sort',fac:'sort',atk:null,pdv:null,cost:15,res_ico:'IC00000ARI',res_val:'15',resType:'Aria|Lenya|Nourriture|Bois|Fer',fico:'FCT00000EDG.png',kws:['Aria','Lenya','Nourriture','Bois','Fer'],cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK/ +1 PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`,badge:'Sort',lore:''},
   'S000027':{name:'Chute de neige',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000LNY',res_val:'8',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya','Coup de glace','Gel'],cap:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent 1 tour de plus.`,badge:'Sort',lore:''},
   'S000029':{name:'Patrouille glaciale',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,res_ico:'IC00000LNY',res_val:'5',resType:'Lenya|Bois|Nourriture',fico:'FCT00000EDG.png',kws:['Lenya','Bois','Nourriture'],cap:`Piochez jusqu'à 3 serviteurs de la faction « Elfes de glace » de votre deck.`,badge:'Sort',lore:''},
-  'S000032':{name:'Savoir tribal',type:'Sort',fac:'sort',atk:null,pdv:null,cost:6,res_ico:'IC00000LNY',res_val:'6',resType:'Lenya',fico:'FCT00000ORC.png',kws:['Lenya'],cap:`Inflige 10 points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.`,badge:'Sort',lore:''},
+  'S000014':{...CARDS_DATA.S000014, fac:'sort', cap:`Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.`, detail:`Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.`, extraTooltips:[{title:'Sélection', body:'Peut invoquer « Chaman tribal », « Guerrier », « Sorcier venimeux » ou « Pillard ».'}]},
+  'S000032':{name:'Savoir tribal',type:'Sort',fac:'sort',atk:null,pdv:null,cost:6,res_ico:'IC00000LNY',res_val:'6',resType:'Lenya',fico:'FCT00000ORC.png',kws:['Lenya'],cap:`Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.`,badge:'Sort',lore:''},
   'S000034':{name:'Secours magique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya'],cap:`La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf 1.`,badge:'Sort',lore:''},
   'S000035':{name:'Météores',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Embrasement'],cap:`Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant 3 tours.`,badge:'Sort',lore:''},
   'S000036':{name:`Crocs de l'Hiver`,type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Coup de glace','Gel'],cap:`Inflige instantanément 1 à 4 points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant 2 tours à un nombre aléatoire de serviteurs, alliés comme ennemis.`,badge:'Sort',lore:''}

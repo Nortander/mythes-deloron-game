@@ -45,9 +45,14 @@ test("Batch-08 scenarios stay hidden and expose all Orc runtime cards", async ({
         amasseur:CARDS_DATA.ORC000003?.cap || "",
         berserker:CARDS_DATA.ORC000009?.cap || "",
         chef:CARDS_DATA.ORC000010?.cap || "",
+        fireMaster:CARDS_DATA.ORC000017?.cap || "",
         totem:CARDS_DATA.ORC000014?.cap || "",
         pillageCap:CARDS_DATA.S000014?.cap || "",
-        pillageDetail:CARDS_DATA.S000014?.detail || ""
+        pillageDetail:CARDS_DATA.S000014?.detail || "",
+        pillageFaction:CARDS_DATA.S000014?.fac || "",
+        pillageTooltips:(CARDS_DATA.S000014?.extraTooltips || []).map(tip => tip.body || "").join(" "),
+        savoirCap:CARDS_DATA.S000032?.cap || "",
+        savoirFaction:CARDS_DATA.S000032?.fac || ""
       },
       imageProbe:Array.from(document.querySelectorAll('.fc img')).filter(img => (img.getAttribute('src') || '').includes('../assets/')).slice(0, 6).map(img => ({src:img.getAttribute('src') || '', width:img.naturalWidth}))
     }), {scenario, ids:fixture.orcIds, dependencies:fixture.dependencies});
@@ -59,14 +64,22 @@ test("Batch-08 scenarios stay hidden and expose all Orc runtime cards", async ({
     expect(audit.player1HandSize, scenario + " visible hand size").toBeLessThanOrEqual(fixture.maxVisualHandSize);
     expect(audit.textChecks.chaman).toContain("*1*");
     expect(audit.textChecks.chaman).toContain("*2*");
-    expect(audit.textChecks.amasseur).toContain("[Approvisionnement]");
+    expect(audit.textChecks.amasseur).toContain("Approvisionnement");
+    expect(audit.textChecks.amasseur).not.toContain("[Approvisionnement]");
+    expect(audit.textChecks.amasseur).not.toContain("APPROVISIONNEMENT");
     expect(audit.textChecks.berserker).toContain("*25%*");
     expect(audit.textChecks.berserker).toContain("déjà affectée par [Embrasement]");
     expect(audit.textChecks.chef).toContain("*4*");
+    expect(audit.textChecks.fireMaster).toContain("*1*");
     expect(audit.textChecks.totem).toContain("*+1 ATK*");
+    expect(audit.textChecks.pillageFaction).toBe("sort");
+    expect(audit.textChecks.savoirFaction).toBe("sort");
     expect(audit.textChecks.pillageCap).not.toMatch(/ORC000|S000014|ID =/);
     expect(audit.textChecks.pillageDetail).not.toMatch(/ORC000|S000014|ID =/);
-    expect(audit.textChecks.pillageDetail).toContain("Chaman tribal");
+    expect(audit.textChecks.pillageDetail).not.toContain("Chaman tribal");
+    expect(audit.textChecks.pillageCap).toContain("*4*");
+    expect(audit.textChecks.pillageTooltips).toContain("Chaman tribal");
+    expect(audit.textChecks.savoirCap).toContain("*10*");
     for (const probe of audit.imageProbe) expect(probe.width, probe.src).toBeGreaterThan(0);
   }
   for (const id of fixture.orcIds) expect(signaturesById.get(id), id + " signature").toBeTruthy();
@@ -89,29 +102,35 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
     const beforeWoundAtk = Number(goblin.dataset.atk || 0);
     await tryApplyAbilityDamage({sourcePlayer:player2, targetFC:goblin, sourceCardId:"H000001", amount:1, bypassInsensitive:true});
     const afterWound = {atk:Number(goblin.dataset.atk || 0), rageActive:goblin.dataset.rageActive === "1", pdv:Number(goblin.dataset.pdv || 0)};
+    const testedAvatar = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "AVS000005");
+    const avatarBeforeLock = {id:testedAvatar?.dataset.id || null, canPassive:canResolveServantAbility(testedAvatar, {triggerType:"passive"})};
     await summonBatch03Servant(player1, "ORC000016", {triggerInitiativeEffect:true, ready:true});
-    const avatarLock = {p1:!!player1.batch08AvatarPassivesDisabled, p2:!!player2.batch08AvatarPassivesDisabled, canPassive:canResolveServantAbility(document.querySelector('.fc[data-id="AVS000006"]'), {triggerType:"passive"})};
+    const avatarLock = {p1:!!player1.batch08AvatarPassivesDisabled, p2:!!player2.batch08AvatarPassivesDisabled, canPassive:canResolveServantAbility(testedAvatar, {triggerType:"passive"})};
     const maleficieur = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "ORC000016");
     await sendToCemetery(maleficieur);
     syncBatch08AvatarPassiveLocks();
-    const avatarUnlock = {p1:!!player1.batch08AvatarPassivesDisabled, p2:!!player2.batch08AvatarPassivesDisabled};
+    const avatarUnlock = {p1:!!player1.batch08AvatarPassivesDisabled, p2:!!player2.batch08AvatarPassivesDisabled, canPassive:canResolveServantAbility(testedAvatar, {triggerType:"passive"})};
     const deathTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "ORC000012");
     const beforeButcherAtk = Number(butcher.dataset.atk || 0);
     await sendToCemetery(deathTarget);
     const afterButcher = {atk:Number(butcher.dataset.atk || 0), bonus:Number(butcher.dataset.batch08ButcherBonus || 0)};
     const previewHtml = buildCanonicalCardPreview("GOB000001", {sourceElement:goblin, player:player1.key});
     const tooltipsHtml = buildPreviewKeywordTooltips("GOB000001", {sourceElement:goblin, player:player1.key});
-    return {afterPassive, beforeWoundAtk, afterWound, avatarLock, avatarUnlock, beforeButcherAtk, afterButcher, previewHtml, tooltipsHtml, events:auditCollectionBatch08Runtime().events};
+    return {afterPassive, beforeWoundAtk, afterWound, avatarBeforeLock, avatarLock, avatarUnlock, beforeButcherAtk, afterButcher, previewHtml, tooltipsHtml, events:auditCollectionBatch08Runtime().events};
   });
   expect(result.afterPassive.goblinSources).toContain("ORC000012");
   expect(result.afterPassive.goblinSources).toContain("ORC000014");
   expect(result.afterPassive.goblinTotemRage).toBe(true);
   expect(result.afterWound.rageActive).toBe(true);
   expect(result.afterWound.atk).toBe(result.beforeWoundAtk + 2);
+  expect(result.avatarBeforeLock.id).toBe("AVS000005");
+  expect(result.avatarBeforeLock.canPassive).toBe(true);
   expect(result.avatarLock.p1).toBe(true);
   expect(result.avatarLock.p2).toBe(true);
+  expect(result.avatarLock.canPassive).toBe(false);
   expect(result.avatarUnlock.p1).toBe(false);
   expect(result.avatarUnlock.p2).toBe(false);
+  expect(result.avatarUnlock.canPassive).toBe(true);
   expect(result.previewHtml).toContain("Bénéficie temporairement");
   expect(result.tooltipsHtml).toContain("Rage");
   expect(result.afterButcher.atk).toBe(result.beforeButcherAtk + 1);
@@ -171,10 +190,24 @@ test("Orc Initiative effects heal, burn, draw, damage, destroy, create, and scra
 
     resetServants(player1); resetServants(player2);
     await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
+    batch03UpdateStats(livingServantCardsForPlayer(player2)[0], {pdvMax:10, pdv:10});
+    const berserkerBurn = await summonBatch03Servant(player1, "ORC000009", {triggerInitiativeEffect:true, ready:true});
+    const berserkerBurnCard = document.querySelector('.fc[data-instance="' + berserkerBurn.instanceId + '"]');
+    const berserkerBurnTarget = livingServantCardsForPlayer(player2)[0];
+    const berserkerBurnAfter = {
+      source:targetSummary(berserkerBurnCard),
+      target:targetSummary(berserkerBurnTarget),
+      targetBurning:!!berserkerBurnTarget?.dataset.burning,
+      sourceBurning:!!berserkerBurnCard?.dataset.burning,
+      feedback:auditCollectionBatch08Runtime().events.filter(event => event.type === "ability-feedback" && event.reason === "berserker-embrasement")
+    };
+
+    resetServants(player1); resetServants(player2);
+    await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
     batch03UpdateStats(livingServantCardsForPlayer(player2)[0], {pdvMax:3, pdv:3});
     const berserker = await summonBatch03Servant(player1, "ORC000009", {triggerInitiativeEffect:true, ready:true});
     const berserkerCard = document.querySelector('.fc[data-instance="' + berserker.instanceId + '"]');
-    const berserkerAfter = targetSummary(berserkerCard);
+    const berserkerAfter = {...targetSummary(berserkerCard), burning:!!berserkerCard?.dataset.burning};
 
     const handBeforeGoblins = [...player1.hand];
     await summonBatch03Servant(player1, "ORC000011", {triggerInitiativeEffect:true, ready:true});
@@ -187,10 +220,12 @@ test("Orc Initiative effects heal, burn, draw, damage, destroy, create, and scra
     await summonBatch03Servant(player2, "H000005", {triggerInitiativeEffect:false, ready:true});
     for (const enemy of livingServantCardsForPlayer(player2)) batch03UpdateStats(enemy, {pdvMax:20, pdv:20});
     const meleeBefore = {p1:board(player1), p2:board(player2)};
+    const meleeRandom = [0, 0.99];
+    window.__mythesRandom = () => meleeRandom.length ? meleeRandom.shift() : 0;
     const melee = await resolveBatch08Initiative("ORC000018", player1);
     const meleeAfter = {p1:board(player1), p2:board(player2)};
 
-    return {healResult, burnTargets, supplyDraw, poisonAfterInit, poisonAfterEnd, chaosAfterInit, chaosAfterEnd, berserkerAfter, goblinCreated, meleeBefore, melee, meleeAfter, events:auditCollectionBatch08Runtime().events};
+    return {healResult, burnTargets, supplyDraw, poisonAfterInit, poisonAfterEnd, chaosAfterInit, chaosAfterEnd, berserkerBurnAfter, berserkerAfter, goblinCreated, meleeBefore, melee, meleeAfter, events:auditCollectionBatch08Runtime().events};
   });
   expect(result.healResult.pdv).toBe(result.healResult.pdvMax);
   expect(result.burnTargets.filter(card => card.id && card.pdv > 0)).toHaveLength(2);
@@ -200,11 +235,19 @@ test("Orc Initiative effects heal, burn, draw, damage, destroy, create, and scra
   expect(result.poisonAfterEnd.pdv).toBe(result.poisonAfterInit.pdv - 1);
   expect(result.chaosAfterInit.length).toBe(1);
   expect(result.chaosAfterEnd.length).toBe(0);
+  expect(result.berserkerBurnAfter.target.pdv).toBeLessThan(result.berserkerBurnAfter.target.pdvMax);
+  expect(result.berserkerBurnAfter.targetBurning).toBe(true);
+  expect(result.berserkerBurnAfter.sourceBurning).toBe(false);
+  expect(result.berserkerBurnAfter.feedback.length).toBeGreaterThanOrEqual(1);
   expect(result.berserkerAfter.pdv).toBeLessThan(result.berserkerAfter.pdvMax);
+  expect(result.berserkerAfter.burning).toBe(false);
   expect(result.goblinCreated).toHaveLength(3);
   expect(new Set(result.goblinCreated).size).toBe(3);
   expect(result.goblinCreated.every(id => id.startsWith("GOB"))).toBe(true);
   expect(result.melee.operations[0].pairs.length).toBeGreaterThanOrEqual(1);
+  expect(result.melee.operations[0].ownShuffle.after.map(card => card.id)).not.toEqual(result.melee.operations[0].ownShuffle.before.map(card => card.id));
+  expect(result.melee.operations[0].enemyShuffle.after.map(card => card.id)).toEqual(result.melee.operations[0].enemyShuffle.before.map(card => card.id));
+  expect(result.melee.operations[0].pairs.map(pair => [pair.attacker.id, pair.defender.id])).toEqual([["ORC000002", "H000001"], ["ORC000018", "H000005"]]);
   expect(result.meleeAfter.p2.some((card, index) => card.pdv < result.meleeBefore.p2[index]?.pdv)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -240,7 +283,14 @@ test("Orc combat effects resolve adjacency, kill draws, copy, boar charge, fire,
     await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
     batch03UpdateStats(livingServantCardsForPlayer(player2)[0], {pdvMax:2, pdv:2});
     await resolveCombat(livingServantCardsForPlayer(player1)[0], livingServantCardsForPlayer(player2)[0]);
-    const chief = {hand:[...player1.hand], deck:[...player1.drawPile].map(getRuntimeCardId), board:board(player1)};
+    const chiefEvents = auditCollectionBatch08Runtime().events;
+    const chief = {
+      hand:[...player1.hand],
+      deck:[...player1.drawPile].map(getRuntimeCardId),
+      board:board(player1),
+      feedbackIndex:chiefEvents.findIndex(event => event.type === "ability-feedback" && event.reason === "clan-chief-kill-draw"),
+      combatIndex:chiefEvents.findIndex(event => event.type === "combat-damage-dealt" && JSON.stringify(event).includes("clan-chief-kill-draw"))
+    };
 
     resetServants(player1); resetServants(player2);
     await summonBatch03Servant(player1, "ORC000019", {triggerInitiativeEffect:false, ready:true});
@@ -257,6 +307,8 @@ test("Orc combat effects resolve adjacency, kill draws, copy, boar charge, fire,
       effectiveCost:effectiveCost("H000005", player1, {handOccurrenceId:maraborcOccurrence}),
       printedCost:resolveCardCost({player:player1, cardId:"H000005", context:{handOccurrenceId:maraborcOccurrence}})?.printedCost?.total ?? null,
       renderedAsOrc:maraborcHandCard?.classList.contains("orc") || false,
+      imageSrc:maraborcHandCard?.querySelector(".hc-art")?.getAttribute("src") || "",
+      imageWidth:maraborcHandCard?.querySelector(".hc-art")?.naturalWidth || 0,
       meta:(player1.batch08MaraborcCopies || []).find(entry => entry.occurrenceId === maraborcOccurrence) || null,
       events:auditCollectionBatch08Runtime().events.filter(event => JSON.stringify(event).includes('maraborc-copy'))
     };
@@ -290,7 +342,9 @@ test("Orc combat effects resolve adjacency, kill draws, copy, boar charge, fire,
     await summonBatch03Servant(player2, "H000001", {triggerInitiativeEffect:false, ready:true});
     for (const enemy of livingServantCardsForPlayer(player2)) batch03UpdateStats(enemy, {pdvMax:3, pdv:3});
     const beforeGultark = {p2:board(player2), p2Graveyard:[...player2.graveyard].map(getRuntimeCardId)};
-    await resolveBatch08StartTurnEffects(player2);
+    player2.firstTurnStarted = true;
+    player2.turnState = null;
+    await startTurn(player2);
     const gultarkCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "ORC000020");
     await sendToCemetery(gultarkCard);
     const gultarkHandIndex = player1.hand.lastIndexOf("ORC000020");
@@ -299,7 +353,8 @@ test("Orc combat effects resolve adjacency, kill draws, copy, boar charge, fire,
       p2Graveyard:[...player2.graveyard].map(getRuntimeCardId),
       returnedToHand:gultarkHandIndex >= 0,
       blocked:!!batch03BlockedHandEntry("ORC000020", player1, gultarkHandIndex),
-      events:auditCollectionBatch08Runtime().events
+      events:auditCollectionBatch08Runtime().events,
+      startTrace:typeof getLastStartTurnTrace === "function" ? getLastStartTurnTrace() : null
     };
 
     resetServants(player1); resetServants(player2);
@@ -315,8 +370,12 @@ test("Orc combat effects resolve adjacency, kill draws, copy, boar charge, fire,
   expect(lanceLosses.filter(loss => loss > 0).length).toBeGreaterThanOrEqual(2);
   expect(result.chief.board.map(card => card.id)).toContain("ORC000002");
   expect(result.chief.hand).not.toContain("ORC000002");
+  expect(result.chief.feedbackIndex).toBeGreaterThanOrEqual(0);
+  expect(result.chief.combatIndex).toBeGreaterThan(result.chief.feedbackIndex);
   expect(result.maraborc.hand).toContain("H000005");
   expect(result.maraborc.renderedAsOrc).toBe(true);
+  expect(result.maraborc.imageSrc).toContain("../assets/humains/H000005.png");
+  expect(result.maraborc.imageWidth).toBeGreaterThan(0);
   expect(result.maraborc.meta?.treatedAsOrc).toBe(true);
   expect(result.maraborc.effectiveCost).toBeLessThan(result.maraborc.printedCost);
   expect(result.maraborc.events.length).toBeGreaterThanOrEqual(1);
@@ -326,6 +385,7 @@ test("Orc combat effects resolve adjacency, kill draws, copy, boar charge, fire,
   expect(result.fireRetarget.filter(card => card.burning)).toHaveLength(2);
   expect(result.afterGultark.p2).toHaveLength(0);
   expect(result.afterGultark.p2Graveyard).toEqual(expect.arrayContaining(["B000004", "H000001"]));
+  expect(result.afterGultark.startTrace?.abilitiesResolved).toBe(true);
   expect(result.afterGultark.returnedToHand).toBe(true);
   expect(result.afterGultark.blocked).toBe(true);
   expect(result.afterGultark.events.some(event => event.type === "start-turn" && JSON.stringify(event).includes("gultark-opponent-start"))).toBe(true);
@@ -380,7 +440,14 @@ test("Orc spells summon canonical pool and overflow damage to the right", async 
     await new Promise(resolve => setTimeout(resolve, 500));
     const afterHole = {board:livingServantCardsForPlayer(player2).map(targetSummary), graveyard:[...player2.graveyard].map(getRuntimeCardId), hits:savoirHole.spellResolution?.hits || []};
 
-    return {beforePillage, pillage, afterPillage, beforeSavoir, savoir, afterSavoir, beforeHole, savoirHole, afterHole};
+    const renderedTexts = {
+      pillagePreview:buildCanonicalCardPreview("S000014"),
+      pillageTooltips:buildPreviewKeywordTooltips("S000014"),
+      savoirPreview:buildCanonicalCardPreview("S000032"),
+      fireMasterPreview:buildCanonicalCardPreview("ORC000017")
+    };
+
+    return {beforePillage, pillage, afterPillage, beforeSavoir, savoir, afterSavoir, beforeHole, savoirHole, afterHole, renderedTexts};
   }, fixture);
   expect(result.pillage.success).toBe(true);
   expect(result.afterPillage.board).toHaveLength(4);
@@ -396,6 +463,14 @@ test("Orc spells summon canonical pool and overflow damage to the right", async 
   expect(result.afterHole.graveyard).toContain("H000001");
   expect(result.afterHole.board.map(card => card.id)).toContain("H000006");
   expect(result.afterHole.board.find(card => card.id === "H000006")?.pdv).toBe(3);
+  expect(result.renderedTexts.pillagePreview).toContain("sort-fc");
+  expect(result.renderedTexts.pillagePreview).not.toContain("orc-fc");
+  expect(result.renderedTexts.pillagePreview).not.toContain("Chaman tribal");
+  expect(result.renderedTexts.pillagePreview).toMatch(/<strong[^>]*>4<\/strong>/);
+  expect(result.renderedTexts.pillageTooltips).toContain("Chaman tribal");
+  expect(result.renderedTexts.pillageTooltips).not.toMatch(/ORC000|ID =/);
+  expect(result.renderedTexts.savoirPreview).toMatch(/<strong[^>]*>10<\/strong>/);
+  expect(result.renderedTexts.fireMasterPreview).toMatch(/<strong[^>]*>1<\/strong>/);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
