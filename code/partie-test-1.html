@@ -73,9 +73,22 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   width:138px;height:138px;border-radius:50%;overflow:hidden;
   border:3px solid var(--gold);
   box-shadow:0 0 0 2px rgba(0,0,0,0.85),0 0 20px rgba(200,168,75,0.35);
-  flex-shrink:0;cursor:pointer;
+  flex-shrink:0;cursor:pointer;position:relative;
 }
 .av-portrait img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.batch08-avatar-lock-badge{
+  position:absolute;right:6px;bottom:6px;width:32px;height:32px;border-radius:50%;
+  border:2px solid rgba(255,220,150,0.92);background:rgba(24,7,2,0.92);
+  box-shadow:0 0 0 1px rgba(0,0,0,0.85),0 0 12px rgba(255,95,40,0.72);
+  overflow:hidden;pointer-events:none;z-index:3;
+}
+.batch08-avatar-lock-badge img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.av-zone.batch08-avatar-lock-active .av-tip p{
+  text-decoration:line-through;
+  text-decoration-thickness:2px;
+  text-decoration-color:rgba(255,95,40,0.95);
+  color:#d8c8a8;
+}
 .av-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .av-stat{
   display:flex;align-items:center;gap:3px;
@@ -2830,10 +2843,10 @@ SCENARIOS['collection-batch-08-sorts-orcs'] = {
   }
 };
 SCENARIOS['collection-batch-08-avatar-orc'] = {
-  label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['rohen', 'yriaRohen'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
+  label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['gor', 'rohen'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['AVS000006','ORC000020','ORC000010','ORC000015','ORC000019','ORC000008','ORC000016'], drawPile:['ORC000002','ORC000005','ORC000006','R000010'], graveyard:[], servants:[{id:'ORC000020',prepared:true},{id:'ORC000010',prepared:true},{id:'ORC000015',prepared:true},{id:'ORC000019',prepared:true},{id:'ORC000008',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'B000004',pdv:3,pdvMax:3,prepared:true},{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:6,pdvMax:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:12, lenya:12, selene:12, fer:12, bois:12, pierre:12, nourriture:12}, souls:12}, hand:['ORC000016','ORC000020','ORC000008'], drawPile:['ORC000002','ORC000005','R000010'], graveyard:[], servants:[{id:'ORC000010',prepared:true},{id:'ORC000019',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:12, lenya:12, selene:12, fer:12, bois:12, pierre:12, nourriture:12}, souls:12}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-03-humans-overview'] = {
@@ -5487,6 +5500,7 @@ function renderAvatar(zoneSelector, data) {
   if (atk) atk.textContent = '5';
   if (hp) hp.textContent = '50';
   if (hpBar) { hpBar.style.width = '100%'; hpBar.classList.remove('hp-mid','hp-low'); hpBar.classList.add('hp-hi'); }
+  if (typeof updateBatch08AvatarLockFeedback === 'function') updateBatch08AvatarLockFeedback();
 }
 
 function setAvatarHitPoints(player, value) {
@@ -12692,6 +12706,26 @@ function isBatch08AvatarPassiveDisabled(player) {
   if (!p) return false;
   return [player1, player2].filter(Boolean).some(owner => batch08Living(owner).some(fc => fc.dataset.id === 'ORC000016' && !isColdLocked(fc)));
 }
+function updateBatch08AvatarLockFeedback() {
+  [player1, player2].filter(Boolean).forEach(p => {
+    const zone = qs(playerZoneSelector(p, 'avatar'));
+    if (!zone) return;
+    const portrait = zone.querySelector('.av-portrait');
+    if (!portrait) return;
+    const active = !!p.batch08AvatarPassivesDisabled;
+    zone.classList.toggle('batch08-avatar-lock-active', active);
+    let badge = portrait.querySelector('.batch08-avatar-lock-badge');
+    if (active && !badge) {
+      badge = document.createElement('span');
+      badge.className = 'batch08-avatar-lock-badge';
+      badge.setAttribute('aria-hidden', 'true');
+      badge.innerHTML = `<img src="${cardArtworkSrc('ORC000016', 'orcs')}" alt="">`;
+      portrait.appendChild(badge);
+    } else if (!active && badge) {
+      badge.remove();
+    }
+  });
+}
 function syncBatch08AvatarPassiveLocks({refresh=false}={}) {
   const disabled = isBatch08AvatarPassiveDisabled(player1) || isBatch08AvatarPassiveDisabled(player2);
   let changed = false;
@@ -12701,6 +12735,7 @@ function syncBatch08AvatarPassiveLocks({refresh=false}={}) {
     if (before !== disabled) changed = true;
   });
   if (refresh && changed) renderAllHands();
+  updateBatch08AvatarLockFeedback();
   return disabled;
 }
 function batch08ZoneAudit() {
