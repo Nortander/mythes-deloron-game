@@ -1,0 +1,1124 @@
+{
+  "lotId": "COLLECTION-BATCH-09",
+  "sourceExport": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-19.xlsx",
+  "sourceSha256": "4ef710ccf64881e422ceac24e6dab61077b8cf43c7c45be8a2cfe34302bf5b4d",
+  "cardIds": [
+    "PRST000004",
+    "PRST000005",
+    "R000026",
+    "S000046",
+    "S000048",
+    "TRL000001",
+    "TRL000002",
+    "TRL000003",
+    "TRL000004",
+    "TRL000005",
+    "TRL000006",
+    "TRL000007",
+    "TRL000008",
+    "TRL000009",
+    "TRL000010",
+    "TRL000011",
+    "TRL000012",
+    "TRL000013",
+    "TRL000014",
+    "TRL000015",
+    "TRL000016",
+    "TRL000017",
+    "TRL000018",
+    "TRL000019",
+    "TRL000020"
+  ],
+  "cards": [
+    {
+      "id": "PRST000004",
+      "name": "Faveur de Zarrach",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
+      "displayText": "Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, 1 serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main.",
+      "detailedEffect": "Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, 1 serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main. Ce serviteur est choisi de façon aléatoire.",
+      "keywords": [],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 207,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "PRST000005",
+      "name": "Faveur de Mugwa",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
+      "displayText": "Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à 3. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus.",
+      "detailedEffect": "Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à 3. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus.",
+      "keywords": [],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 208,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "R000026",
+      "name": "Cache de gros cailloux",
+      "type": "Approvisionnement",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 0,
+      "mandatoryResources": [],
+      "playCondition": "Votre deck de départ doit contenir au moins 5 serviteurs distincts de la faction des « Trolls ».",
+      "displayText": "Il est difficile de « cacher » des monolithes de cette envergure, mais les trolls ont une vision du monde bien à eux.",
+      "detailedEffect": "Fournit 3 ressources de pierre et 2 de Fer.",
+      "keywords": [
+        "Approvisionnement",
+        "Pierre",
+        "Fer"
+      ],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 243,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "S000046",
+      "name": "Ça passe ou ça casse",
+      "type": "Sort",
+      "faction": "Troll",
+      "attack": null,
+      "health": null,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "Vous devez contrôler au moins 1 serviteur troll. Votre adversaire doit avoir au moins 1 serviteur de son côté du terrain.",
+      "displayText": "Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 4 points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",
+      "detailedEffect": "Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 4 points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",
+      "keywords": [
+        "Nourriture",
+        "Pierre"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 290,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "S000048",
+      "name": "Grande horde",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 6,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "Fer",
+          "key": "fer",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "Aria",
+          "key": "aria",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Jusqu'à la fin de la partie, vos serviteurs orcs gagnent +1 ATK et vos serviteurs trolls et gobelins gagnent +1 PDV. Si votre deck contient également au moins 1 serviteur humain, piochez 2 cartes.",
+      "detailedEffect": "Jusqu'à la fin de la partie, vos serviteurs orcs gagnent +1 ATK et vos serviteurs trolls et gobelins gagnent +1 PDV. Si votre deck contient également au moins 1 serviteur humain, piochez 2 cartes.",
+      "keywords": [
+        "Lenya",
+        "Nourriture",
+        "Fer",
+        "Aria"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 292,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000001",
+      "name": "Caillasseur",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 5,
+      "health": 3,
+      "costTotal": 3,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Quand un enfant jette un caillou, ça fait mal.\nQuand un troll jette un caillou, ça fait de la purée.",
+      "detailedEffect": "",
+      "keywords": [
+        "Pierre",
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 6,
+      "generatedOnly": false,
+      "sourceRow": 300,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000002",
+      "name": "Écrabouilleur d'élite",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 8,
+      "health": 10,
+      "costTotal": 7,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Fer",
+          "key": "fer",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Rempart]",
+      "detailedEffect": "[Rempart]",
+      "keywords": [
+        "Fer",
+        "Nourriture",
+        "Rempart"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 301,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000003",
+      "name": "Brute très épaisse",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 4,
+      "health": 5,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Pas de grâce, aucune élégance, mais une efficacité redoutable !",
+      "detailedEffect": "",
+      "keywords": [
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 6,
+      "generatedOnly": false,
+      "sourceRow": 302,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000004",
+      "name": "Troll de siège",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 9,
+      "health": 3,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "Bois",
+          "key": "bois",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Initiative] Détruit 1 serviteur adverse aléatoire. A 50% de chance d'en détruire un 2ème, 25% de chance d'en détruire un 3ème.",
+      "detailedEffect": "[Initiative] Détruit 1 serviteur adverse aléatoire. A 50% de chance d'en détruire un 2ème, 25% de chance d'en détruire un 3ème.",
+      "keywords": [
+        "Pierre",
+        "Bois",
+        "Nourriture",
+        "Initiative"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 303,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000005",
+      "name": "Troll peau-de-pierre",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 3,
+      "health": 5,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Initiative] Gagne aléatoirement +1 ATK ou +1 PDV pour chaque unité de Pierre de votre côté du terrain.",
+      "detailedEffect": "[Initiative] Gagne aléatoirement +1 ATK ou +1 PDV pour chaque unité de Pierre de votre côté du terrain.",
+      "keywords": [
+        "Pierre",
+        "Nourriture",
+        "Initiative"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 304,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000006",
+      "name": "Balayeur massif",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 6,
+      "health": 5,
+      "costTotal": 5,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Bois",
+          "key": "bois",
+          "amount": 2,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 2,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Chaque fois qu'il attaque, inflige également 2 points de dégâts aux serviteurs adjacents à sa cible.",
+      "detailedEffect": "Chaque fois qu'il attaque un serviteur, inflige également 2 points de dégâts aux serviteurs directement adjacents à la cible. Un emplacement vide interrompt l'adjacence.",
+      "keywords": [
+        "Bois",
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 305,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000007",
+      "name": "Sorcier des ossements",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 2,
+      "health": 8,
+      "costTotal": 5,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 5,
+          "explicit": true
+        },
+        {
+          "op": "ou",
+          "resource": "Écho",
+          "key": "soul",
+          "amount": 5,
+          "explicit": true
+        },
+        {
+          "op": "ou",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 5,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "À la fin de chacun de vos tours, ce serviteur récupère 3 points de vie. Vos serviteurs alliés adjacents récupèrent également 1 point de vie chacun. Si les serviteurs soignés avaient déjà tous leurs points de vie, augmente à la place leur montant maximal de points de vie de 1.",
+      "detailedEffect": "À la fin de chacun de vos tours, ce serviteur récupère 3 points de vie. Vos serviteurs alliés adjacents récupèrent également 1 point de vie chacun. Si les serviteurs soignés avaient déjà tous leurs points de vie, augmente à la place leur montant maximal de points de vie de 1. Un emplacement vide interrompt l'adjacence.",
+      "keywords": [
+        "Lenya",
+        "Nourriture",
+        "Écho"
+      ],
+      "related": [],
+      "maxOwned": 3,
+      "generatedOnly": false,
+      "sourceRow": 306,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000008",
+      "name": "Lance-gobelin",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 5,
+      "health": 5,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 4,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Initiative] Invoque 1 serviteur gobelin aléatoire coûtant 2 ressources ou moins de votre côté du terrain.",
+      "detailedEffect": "[Initiative] Invoque 1 serviteur gobelin aléatoire coûtant 2 ressources ou moins de votre côté du terrain, à condition d'avoir 1 emplacement de serviteur libre pour l'y accueillir.",
+      "keywords": [
+        "Initiative",
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 3,
+      "generatedOnly": false,
+      "sourceRow": 307,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000009",
+      "name": "Troll dévore-magie",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 4,
+      "health": 7,
+      "costTotal": 6,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 3,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 3,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Chaque fois qu'un sort ou une capacité spéciale adverse cible ce serviteur sans le détruire, il récupère 4 points de vie. Ajoute ensuite 1 marqueur à ce serviteur. À 3 marqueurs, l'avaleur de sorts perd sa capacité spéciale mais devient [Insensible] et son attaque est augmentée de +3.",
+      "detailedEffect": "Chaque fois qu'un sort adverse cible directement ce serviteur et que celui-ci survit à la résolution du sort, il récupère jusqu'à 4 points de vie. Les dégâts périodiques ne déclenchent pas cet effet, uniquement les dégâts initiaux. Ajoute ensuite 1 marqueur à ce serviteur. À 3 marqueurs, l'avaleur de sorts perd sa capacité spéciale mais devient [Insensible] et son attaque est augmentée de +3.",
+      "keywords": [
+        "Lenya",
+        "Nourriture",
+        "Insensible"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 308,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000010",
+      "name": "Protectroll",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 4,
+      "health": 12,
+      "costTotal": 7,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 7,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Sang-froid] [Rage] [Rempart] Les dégâts infligés à votre avatar sont réduits de 1 tant que ce serviteur est sur le terrain.",
+      "detailedEffect": "[Sang-froid] [Rage] [Rempart] Les dégâts infligés à votre avatar sont réduits de 1 tant que ce serviteur est sur le terrain.",
+      "keywords": [
+        "Pierre",
+        "Rempart",
+        "Rage",
+        "Sang-froid"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 309,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000011",
+      "name": "Brise-rempart",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 8,
+      "health": 6,
+      "costTotal": 8,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Fer",
+          "key": "fer",
+          "amount": 4,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 2,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 2,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Ignore le mot-clef [Rempart] chez les serviteurs adverses. Inflige 2 points de dégâts supplémentaires aux serviteurs possédant [Rempart].",
+      "detailedEffect": "Ce serviteur peut attaquer une cible sans tenir compte de [Rempart]. Lorsqu'il inflige des dégâts à un serviteur possédant [Rempart], ajoute 2 points de dégâts.",
+      "keywords": [
+        "Fer",
+        "Pierre",
+        "Nourriture",
+        "Rempart"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 310,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000012",
+      "name": "Troll à deux têtes",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 12,
+      "health": 9,
+      "costTotal": 8,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 5,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 3,
+          "explicit": true
+        },
+        {
+          "op": "ou",
+          "resource": "Écho",
+          "key": "soul",
+          "amount": 3,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Chaque fois qu'il attaque, choisit aléatoirement 1 serviteurs adjacent et inflige à ce serviteur et à sa cible pricipale chacun la moitié de son attaque, arrondie au supérieur. En revanche, si aucun serviteur n'est adjacent à la cible principale, alors celle-ci subit seulement la moitié des dégâts normaux du combat, arrondis à l'inférieur.",
+      "detailedEffect": "Chaque fois qu'il attaque un serviteur, choisit aléatoirement 1 serviteur adjacent. La cible principale et le serviteur adjacent choisit subissent tous deux un montant de dégâts égal à la moitié de l'attaque actuelle de cette carte, arrondie au supérieur. En revanche, si aucun serviteur n'est adjacent à la cible principale, alors celle-ci subit seulement la moitié des dégâts normaux du combat, arrondis à l'inférieur.",
+      "keywords": [
+        "Nourriture",
+        "Lenya",
+        "Écho"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 311,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000013",
+      "name": "Rejeton de Mugwa",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 7,
+      "health": 7,
+      "costTotal": 10,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "+",
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Insensible] [Rage] [Rempart] [Vengeance] Rend 10 points de vie à votre avatar, puis inflige 5 points de dégâts à 1 serviteur adverse aléatoire.",
+      "detailedEffect": "[Insensible] [Rage] [Rempart] [Vengeance] Rend 10 points de vie à votre avatar, puis inflige 5 points de dégâts à 1 serviteur adverse aléatoire.",
+      "keywords": [
+        "Nourriture",
+        "Pierre",
+        "Rage",
+        "Vengeance",
+        "Insensible",
+        "Rempart"
+      ],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 312,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000014",
+      "name": "Troll premier-né",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 10,
+      "health": 12,
+      "costTotal": 10,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 5,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 5,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Insensible] [Rempart] [Vengeance] Invoque 1 « Caillasseur » et 1 « Brute très épaisse » de votre côté du terrain.",
+      "detailedEffect": "[Insensible] [Rempart] [Vengeance] Invoque 1 « Caillasseur » [ID = TRL000001] et 1 « Brute très épaisse » [ID = TRL000003] de votre côté du terrain, dans la limite des emplacements disponibles.",
+      "keywords": [
+        "Pierre",
+        "Nourriture",
+        "Insensible",
+        "Rempart",
+        "Vengeance"
+      ],
+      "related": [
+        "TRL000001",
+        "TRL000003"
+      ],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 313,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000015",
+      "name": "Troll-nain",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 2,
+      "health": 2,
+      "costTotal": 2,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Vous pouvez attacher cette carte à 1 serviteur allié au lieu de l'invoquer. Le serviteur gagne +2 ATK/+2 PDV. Quand il quitte le terrain, renvoyez le « Troll-nain » dans votre main.",
+      "detailedEffect": "Lorsque vous jouez cette carte, vous pouvez l'attacher à 1 serviteur allié au lieu d'occuper un emplacement. Le serviteur attaché gagne +2 ATK et +2 points de vie maximaux et actuels. Si le serviteur attaché quitte le terrain, renvoyez le « Troll-nain » dans votre main. Cette carte n'est alors pas considérée comme présente sur le terrain.",
+      "keywords": [
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 314,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000016",
+      "name": "Troll Sang-furieux",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 4,
+      "health": 10,
+      "costTotal": 5,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 2,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 3,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "À chacun de vos débuts de tour, gagne +3 ATK. Au troisième déclenchement, attaque immédiatement le serviteur adverse ayant le plus de points de vie, puis est détruit.",
+      "detailedEffect": "Placez un compteur sur cette carte à chacun de vos débuts de tour et augmentez son attaque de +3. Lorsque le troisième compteur est placé, cette carte attaque immédiatement le serviteur adverse ayant le plus de points de vie actuels. En cas d'égalité, la cible est choisie aléatoirement. S'il n'existe aucun serviteur adverse, elle attaque l'avatar. Après le combat, envoyez cette carte au cimetière.",
+      "keywords": [
+        "Pierre",
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 315,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000017",
+      "name": "Troll instable",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 2,
+      "health": 6,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 2,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 2,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Au début de chacun de vos tours, cette carte adopte aléatoirement 1 comportement jusqu'à la fin du tour.",
+      "detailedEffect": "Au début de chacun de vos tours, choisissez aléatoirement 1 comportement : gagne +5 ATK ; gagne +5 points de vie maximaux et actuels ; obtient [Rempart] mais ne peut pas attaquer ; ou inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte. L'ancien comportement prend fin avant le nouveau tirage.",
+      "keywords": [
+        "Nourriture",
+        "Pierre",
+        "Rempart"
+      ],
+      "related": [],
+      "maxOwned": 2,
+      "generatedOnly": false,
+      "sourceRow": 316,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000018",
+      "name": "Amasseur de cadavres",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 2,
+      "health": 4,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 4,
+          "explicit": true
+        },
+        {
+          "op": "ou",
+          "resource": "Écho",
+          "key": "soul",
+          "amount": 4,
+          "explicit": true
+        }
+      ],
+      "playCondition": "Au moins 1 cimetière doit contenir 1 carte.",
+      "displayText": "[Initiative] Placez jusqu'à 3 cartes de n'importe quel cimetière sous ce serviteur. Il gagne +1 ATK/+1 PDV par carte. À sa destruction, les cartes retournent dans les decks de leurs propriétaires.",
+      "detailedEffect": "[Initiative] Prenez jusqu'à 3 cartes aléatoires de l'un ou l'autre cimetière et placez-les sous cette carte (le cimetière du joueur adverse est privilégié, le vôtre n'étant utilisé que s'il n'y a pas suffisamment de cartes). L' « Amasseur de cadavres » gagne +1 ATK et +1 point de vie maximal et actuel pour chaque carte. Quand il quitte le terrain, renvoyez chaque carte placée sous lui dans le deck de son propriétaire, puis mélangez les decks concernés.",
+      "keywords": [
+        "Initiative",
+        "Nourriture",
+        "Écho"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 317,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000019",
+      "name": "Progéniture de géant",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 12,
+      "health": 14,
+      "costTotal": 12,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Pierre",
+          "key": "pierre",
+          "amount": 6,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "N",
+          "key": "n",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "rriture",
+          "key": "rriture",
+          "amount": 6,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Rempart] Tant que cette carte est dans votre main, réduisez son coût de 1 chaque fois qu'un serviteur troll allié survit à des dégâts, jusqu'à un minimum de 3.",
+      "detailedEffect": "[Rempart] Tant que cette carte se trouve dans votre main, chaque fois qu'un serviteur de la faction « Troll » allié survit à une source de dégâts, réduisez définitivement le coût total de cette instance de 1, jusqu'à un minimum de 3. Plusieurs dégâts issus d'un même effet ne réduisent le coût qu'une seule fois.",
+      "keywords": [
+        "Pierre",
+        "Nourriture",
+        "Rempart"
+      ],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 318,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "TRL000020",
+      "name": "Ump",
+      "type": "Serviteur",
+      "faction": "Troll",
+      "attack": 12,
+      "health": 12,
+      "costTotal": 11,
+      "mandatoryResources": [],
+      "playCondition": "",
+      "displayText": "[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.",
+      "detailedEffect": "[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.",
+      "keywords": [
+        "Serviteur de la rune",
+        "Sang-froid",
+        "Rempart",
+        "Sang ardent"
+      ],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 319,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    }
+  ]
+}

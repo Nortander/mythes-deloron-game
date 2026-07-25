@@ -144,6 +144,18 @@ Scenarios techniques caches : `collection-batch-03-humans-overview`, `collection
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
 
+## COLLECTION-BATCH-09 - Trolls
+
+Les cartes canoniques de la faction Troll disposent maintenant d'un comportement runtime et d'un test fonctionnel direct dans `tests/browser/collection-batch-09-trolls.spec.mjs`.
+
+Le lot couvre les Faveurs `PRST000004` / `PRST000005`, l'Approvisionnement `R000026`, les sorts `S000046`, `S000048` et `S000055`, les Initiatives trolls, les effets de combat, les effets de debut et fin de tour, les Vengeances de `TRL000013` / `TRL000014`, la reduction de degats de `TRL000010`, la reduction progressive de cout de `TRL000019`, et le mode attachement de `TRL000015`.
+
+`TRL000001` et `TRL000003` restent des serviteurs sans effet programmable propre au-dela des regles generiques, mais sont invoques par la Vengeance de `TRL000014`.
+
+Scenarios techniques caches : `collection-batch-09-trolls`, `collection-batch-09-vengeance` et `collection-batch-09-tempo`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
 ### Corrections COLLECTION-BATCH-03B
 
 - `H000012` applique des marqueurs de `Colere divine` periodiques aux serviteurs morts-vivants adverses : 2, puis 3, puis 4 degats aux debuts de tour concernes, avec retrait d'un Echo adverse si Randall reste en jeu et que la cible meurt sous cet effet.

@@ -1944,7 +1944,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -2849,6 +2849,27 @@ SCENARIOS['collection-batch-08-avatar-orc'] = {
     player2: {resources:{classical:{aria:12, lenya:12, selene:12, fer:12, bois:12, pierre:12, nourriture:12}, souls:12}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-09-trolls'] = {
+  label: 'TEST - COLLECTION BATCH 09 Trolls', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000004',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:40}, hand:['R000026','PRST000004','PRST000005','S000046','S000048','S000055','TRL000015'], drawPile:['TRL000019','TRL000008','GOB000001','GOB000002','GOB000005','H000001','R000010'], graveyard:['MV000001','H000005'], servants:[{id:'TRL000004',prepared:true},{id:'TRL000005',prepared:true},{id:'TRL000006',prepared:true},{id:'TRL000007',pdv:4,pdvMax:8,prepared:true},{id:'TRL000009',pdv:3,pdvMax:7,prepared:true},{id:'TRL000018',prepared:true},{id:'GOB000001',prepared:true},{id:'ORC000001',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:['H000001','R000001','H000005'], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-09-vengeance'] = {
+  label: 'TEST - COLLECTION BATCH 09 Vengeance trolls', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000013',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:40}, hand:[], drawPile:['R000010'], graveyard:[], servants:[{id:'TRL000013',pdv:1,pdvMax:7,prepared:true},{id:'TRL000014',pdv:1,pdvMax:12,prepared:true}], avatarHp:10, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',pdv:5,pdvMax:5,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-09-tempo'] = {
+  label: 'TEST - COLLECTION BATCH 09 Tempo trolls', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000016',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:40}, hand:['TRL000019'], drawPile:['H000001','R000010'], graveyard:['MV000001'], servants:[{id:'TRL000016',prepared:true},{id:'TRL000017',prepared:true},{id:'TRL000010',prepared:true},{id:'TRL000012',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:15},
+    player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001'], drawPile:['H000005'], graveyard:['H000001','R000001','H000005'], servants:[{id:'H000001',pdv:8,pdvMax:8,prepared:true},{id:'H000005',pdv:10,pdvMax:10,prepared:true},{id:'H000006',pdv:12,pdvMax:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
   testSetup: {
@@ -3555,6 +3576,34 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "S000044": createCompatiblePoolCostDefinition(6, ["aria","soul"], []),
   "S000051": createCostDefinition(5, ["aria"], [{"kind":"minimum","resource":"aria","amount":5}], []),
   "S000052": createCostDefinition(3, ["aria"], [{"kind":"minimum","resource":"aria","amount":3}], [])
+});
+
+Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
+  "PRST000004": createCostDefinition(0, COST_RESOURCE_ORDER, [], [{"kind":"text","text":"Carte jouee des qu'elle est piochee. Ne peut figurer dans la main de depart.","implemented":true}]),
+  "PRST000005": createCostDefinition(0, COST_RESOURCE_ORDER, [], [{"kind":"text","text":"Carte jouee des qu'elle est piochee. Ne peut figurer dans la main de depart.","implemented":true}]),
+  "R000026": createCostDefinition(0, COST_RESOURCE_ORDER, [], [{"kind":"text","text":"Votre deck de depart doit contenir au moins 5 serviteurs distincts de la faction Troll.","implemented":true}]),
+  "S000046": createCompatiblePoolCostDefinition(4, ["nourriture","pierre"], []),
+  "S000048": createCostDefinition(6, ["lenya","nourriture","fer","aria"], [{"kind":"minimum","resource":"lenya","amount":1},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"aria","amount":1}], []),
+  "TRL000001": createCostDefinition(3, ["pierre","nourriture"], [{"kind":"minimum","resource":"pierre","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
+  "TRL000002": createCostDefinition(7, ["fer","nourriture"], [{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
+  "TRL000003": createCostDefinition(4, ["nourriture"], [{"kind":"minimum","resource":"nourriture","amount":4}], []),
+  "TRL000004": createCostDefinition(4, ["pierre","bois","nourriture"], [{"kind":"minimum","resource":"pierre","amount":1},{"kind":"minimum","resource":"bois","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
+  "TRL000005": createCostDefinition(4, ["pierre","nourriture"], [{"kind":"minimum","resource":"pierre","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
+  "TRL000006": createCostDefinition(5, ["bois","nourriture"], [{"kind":"minimum","resource":"bois","amount":2},{"kind":"minimum","resource":"nourriture","amount":2}], []),
+  "TRL000007": createCostDefinition(5, ["lenya","soul","nourriture"], [{"kind":"oneOf","amount":5,"options":[{"resource":"lenya","amount":5},{"resource":"soul","amount":5},{"resource":"nourriture","amount":5}]}], []),
+  "TRL000008": createCostDefinition(4, ["nourriture"], [{"kind":"minimum","resource":"nourriture","amount":4}], []),
+  "TRL000009": createCostDefinition(6, ["lenya","nourriture"], [{"kind":"minimum","resource":"lenya","amount":3},{"kind":"minimum","resource":"nourriture","amount":3}], []),
+  "TRL000010": createCostDefinition(7, ["pierre"], [{"kind":"minimum","resource":"pierre","amount":7}], []),
+  "TRL000011": createCostDefinition(8, ["fer","pierre","nourriture"], [{"kind":"minimum","resource":"fer","amount":4},{"kind":"minimum","resource":"pierre","amount":2},{"kind":"minimum","resource":"nourriture","amount":2}], []),
+  "TRL000012": createCostDefinition(8, ["nourriture","lenya","soul"], [{"kind":"minimum","resource":"nourriture","amount":5},{"kind":"oneOf","amount":3,"options":[{"resource":"lenya","amount":3},{"resource":"soul","amount":3}]}], []),
+  "TRL000013": createCostDefinition(10, ["nourriture","pierre"], [{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"pierre","amount":1}], []),
+  "TRL000014": createCostDefinition(10, ["pierre","nourriture"], [{"kind":"minimum","resource":"pierre","amount":5},{"kind":"minimum","resource":"nourriture","amount":5}], []),
+  "TRL000015": createCostDefinition(2, ["nourriture"], [{"kind":"minimum","resource":"nourriture","amount":2}], []),
+  "TRL000016": createCostDefinition(5, ["pierre","nourriture"], [{"kind":"minimum","resource":"pierre","amount":2},{"kind":"minimum","resource":"nourriture","amount":3}], []),
+  "TRL000017": createCostDefinition(4, ["nourriture","pierre"], [{"kind":"minimum","resource":"nourriture","amount":2},{"kind":"minimum","resource":"pierre","amount":2}], []),
+  "TRL000018": createCostDefinition(4, ["nourriture","soul"], [{"kind":"oneOf","amount":4,"options":[{"resource":"nourriture","amount":4},{"resource":"soul","amount":4}]}], [{"kind":"text","text":"Au moins 1 cimetiere doit contenir 1 carte.","implemented":true}]),
+  "TRL000019": createCostDefinition(12, ["pierre","nourriture"], [{"kind":"minimum","resource":"pierre","amount":6},{"kind":"minimum","resource":"nourriture","amount":6}], []),
+  "TRL000020": createCostDefinition(11, COST_RESOURCE_ORDER, [], [])
 });
 
 function assertNoRandomResourceInCosts() {
@@ -10141,6 +10190,25 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     zone: 'servants',
     cardType: 'Serviteur',
     effectKind: 'damage'
+  },
+  S000046: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'self',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    faction: 'trl',
+    effectKind: 'buff'
+  },
+  TRL000015: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'self',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'attachment'
   }
 });
 
@@ -10173,6 +10241,9 @@ function legalTargetsForRequirement(cardId, player, requirement=cardTargetRequir
   if (requirement.cardType) {
     candidates = candidates.filter(fc => (CARDS_DATA[fc.dataset.id]?.type || fc.dataset.type || '') === requirement.cardType);
   }
+  if (requirement.faction) {
+    candidates = candidates.filter(fc => CARDS_DATA[fc.dataset.id]?.fac === requirement.faction);
+  }
   if (Number.isFinite(Number(requirement.atkLessThan))) {
     const limit = Number(requirement.atkLessThan);
     candidates = candidates.filter(fc => (parseInt(fc.dataset.atk) || 0) < limit);
@@ -10199,6 +10270,7 @@ function legalTargetsForRequirement(cardId, player, requirement=cardTargetRequir
 function evaluateTargetRequirement(cardId, {player=currentPlayer, selectedTargetIds=null}={}) {
   const requirement = cardTargetRequirement(cardId);
   if (!requirement) return {cardId, allowed:true, code:'no-target-required', legalTargets:[], selectedTargets:[]};
+  if (cardId === 'TRL000015' && !selectedTargetIds) return {cardId, allowed:true, code:'optional-attachment-target-not-selected', legalTargets:[], selectedTargets:[], requirement};
   const p = playerState(player);
   const legalTargets = legalTargetsForRequirement(cardId, p, requirement);
   const min = Math.max(0, Number(requirement.min ?? (requirement.required ? 1 : 0)) || 0);
@@ -10363,10 +10435,11 @@ function effectAmountValue(amount, sourceFC) {
 function applyAvatarEffectDamage(player, amount, {sourceCardId='', sourceInstanceId=''}={}) {
   const p = playerState(player);
   const before = avatarHitPoints(p);
-  const applied = Math.max(0, Number(amount) || 0);
+  const protectedAmount = batch09ProtectrollReduction(p, amount);
+  const applied = Math.max(0, Number(protectedAmount.amount) || 0);
   const after = Math.max(0, before - applied);
   setAvatarHitPoints(p, after);
-  return {targetType:'avatar', targetPlayer:p?.key || '', sourceCardId, sourceInstanceId, amount:applied, before, after};
+  return {targetType:'avatar', targetPlayer:p?.key || '', sourceCardId, sourceInstanceId, amount:applied, reduction:protectedAmount.reduction, before, after};
 }
 
 async function applyImmediateServantDamage({sourcePlayer, sourceFC, targetFC, sourceCardId, amount}) {
@@ -10431,7 +10504,8 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
   if (requestedHandIndex < 0) return {valid:false, reason:'card-not-in-hand'};
   if (playerKey(p) !== currentPlayer) return {valid:false, reason:'wrong-player'};
   if (cardsPlayedThisTurn >= MAX_PLAY) return {valid:false, reason:'turn-limit'};
-  if (card.type !== 'Sort') {
+  const isBatch09TrollNainAttachment = cardId === 'TRL000015' && Array.isArray(selectedTargetIds) && selectedTargetIds.length > 0;
+  if (card.type !== 'Sort' && !isBatch09TrollNainAttachment) {
     const botanicalStackTarget = card.type === 'Approvisionnement' &&
       isBotanicalStackableSupply(cardId) &&
       ensureBotanicalGardenState(p).enabled &&
@@ -10477,6 +10551,12 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
   if (cardId === 'R000026' && countDistinctStartingDeckServantsByFaction(p, 'trl') < 5) {
     return {valid:false, reason:'starting-deck-troll-condition'};
   }
+  if (cardId === 'TRL000018' && !((p?.graveyard || []).length || (opponentOf(p)?.graveyard || []).length)) {
+    return {valid:false, reason:'no-cemetery-card'};
+  }
+  if (cardId === 'S000046' && !batch09EnemyServants(p).length) {
+    return {valid:false, reason:'no-valid-target'};
+  }
   if (cardId === 'GOB000010' && graveyardSupplyEntries(p).length < 1) {
     return {valid:false, reason:'no-supply-in-graveyard'};
   }
@@ -10494,6 +10574,7 @@ function cardActionError(reason, detail={}) {
   if (reason === 'zone-play-requirement') return detail?.zoneRequirementResult?.message || `Aucune cible valide n’est disponible.`;
   if (reason === 'card-not-in-hand') return `Cette carte n'est plus dans votre main.`;
   if (reason === 'starting-deck-troll-condition') return `Votre deck de depart ne contient pas assez de serviteurs Trolls distincts.`;
+  if (reason === 'no-cemetery-card') return `Aucun cimetière ne contient de carte.`;
   if (reason === 'no-supply-in-graveyard') return `Votre cimetière ne contient aucun Approvisionnement.`;
   if (reason === 'blocked-card') return batch03BlockedCardPublicMessage(detail?.blockedSource || batch03BlockedCardSourceName());
   if (reason === 'pending-decision-choice') return `Une décision est en attente.`;
@@ -10572,6 +10653,22 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   const modifiersConsumed = committedAffordability ? consumeAppliedCostModifiers(p, committedAffordability) : false;
   cardsPlayedThisTurn++;
   releasePaymentLock(p, cardId);
+
+  if (cardId === 'TRL000015' && Array.isArray(selectedTargetIds) && selectedTargetIds.length) {
+    const attachmentResolution = resolveBatch09AttachTrollNain(p, {selectedTargetIds, occurrenceId:removeOccurrenceId, handOccurrenceId:transaction.handOccurrenceId || null});
+    if (!attachmentResolution.success) {
+      rollbackPayment(p, paymentResult);
+      cardsPlayedThisTurn = Math.max(0, cardsPlayedThisTurn - 1);
+      addCardToHand(p, cardId, {refresh:true, occurrenceId:removeOccurrenceId});
+      showErr(cardActionError('invalid-target'));
+      return {success:false, reason:attachmentResolution.reason || 'invalid-target', attachmentResolution};
+    }
+    addHistEntry(cardId, d.fac);
+    updateCamouflageVFX();
+    if (modifiersConsumed) renderAllHands();
+    traceCardPlay(traceId, 'commitResolved', p, cardId);
+    return {success:true, cardId, paymentPlan:committedAffordability?.paymentPlan || null, paymentResult, modifiersConsumed, attachmentResolution};
+  }
 
   if (d.type === 'Sort') {
     let spellResolution = null;
@@ -10690,7 +10787,7 @@ async function playCard(cardId, slot, options={}) {
   const handOccurrenceId = options?.handOccurrenceId || slot?.dataset?.handOccurrence || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
   const affordabilityContext = handOccurrenceId ? {handOccurrenceId} : {};
-  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056' || cardId === 'S000032') && !selectedTargetIds) {
+  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
@@ -10706,8 +10803,8 @@ async function playCard(cardId, slot, options={}) {
       return {success:false, reason:'no-valid-target', targetResult};
     }
     const chosen = await chooseBoardTargets({
-      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : (cardId === 'S000032' ? 'Savoir tribal' : 'Aura de protection')),
-      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : (cardId === 'S000032' ? 'Choisissez le premier serviteur à frapper.' : 'Choisissez le serviteur allié à protéger.')),
+      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : (cardId === 'S000032' ? 'Savoir tribal' : (cardId === 'S000046' ? 'Ça passe ou ça casse' : (cardId === 'TRL000015' ? 'Troll-nain' : 'Aura de protection')))),
+      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : (cardId === 'S000032' ? 'Choisissez le premier serviteur à frapper.' : (cardId === 'S000046' ? 'Choisissez le Troll allié qui enchaîne les attaques.' : (cardId === 'TRL000015' ? 'Choisissez le serviteur allié à renforcer.' : 'Choisissez le serviteur allié à protéger.')))),
       targets,
       minCount:1,
       maxCount:1,
@@ -10898,6 +10995,8 @@ async function triggerInitiative(cardId, player, context={}) {
   if (batch07Initiative?.handled) return batch07Initiative;
   const batch08Initiative = await resolveBatch08Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch08Initiative?.handled) return batch08Initiative;
+  const batch09Initiative = await resolveBatch09Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
+  if (batch09Initiative?.handled) return batch09Initiative;
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
@@ -11317,6 +11416,14 @@ async function triggerSort(cardId, player, context={}) {
       return resolveTriangleDesTenebres(player, context);
     case 'S000056':
       return resolveDeplacementInstantane(player, context);
+    case 'PRST000004':
+      return activateBatch09Zarrach(player);
+    case 'PRST000005':
+      return activateBatch09Mugwa(player);
+    case 'S000046':
+      return await resolveBatch09CaPasseOuCaCasse(player, context);
+    case 'S000048':
+      return activateBatch09GrandeHorde(player);
     case 'S000007':
       return await resolvePorteInfranchissable(player, context);
     case 'S000008':
@@ -13599,7 +13706,7 @@ function highlightTargets() {
     : [];
 
   // Y a-t-il un Rempart actif ?
-  const ignoresRempart = ['EN000006','N000006'].includes(attackingFC?.dataset?.id || '');
+  const ignoresRempart = ['EN000006','N000006','TRL000011'].includes(attackingFC?.dataset?.id || '');
   const hasRempart = !ignoresRempart && adverseServants.some(fc => fc.dataset.rempart === '1' && !fc.dataset.frozen && !fc.dataset.frozen_cdg && !isBatch04Hypnotized(fc));
 
   // Le joueur courant a-t-il un serviteur avec [Vigilance] ? (révèle le camouflage adverse)
@@ -13687,6 +13794,7 @@ document.addEventListener('click', e => {
 
 
 function tryAttack(fc) {
+  if (fc.dataset.batch09InstableNoAttack === '1') { showErr('Le Troll instable ne peut pas attaquer avec ce comportement.'); return; }
   if (isBatch04Hypnotized(fc)) { showErr('Ce serviteur est sous <b>Hypnose</b> et ne peut pas attaquer.'); return; }
   if (fc.dataset.new)       { showErr('Ce serviteur <b>se prépare</b> et ne peut pas attaquer ce tour.'); return; }
   if (fc.dataset.exhausted) { showErr('Ce serviteur a déjà attaqué ce tour.'); return; }
@@ -13727,6 +13835,8 @@ async function resolveCombat(attacker, targetFC) {
   const batch07GlamrigAdjacentTargets = attacker.dataset.id === 'N000014' ? batch03AdjacentServants(targetFC) : [];
   const batch08Plan = batch08CombatPlan(attacker, targetFC, finalAtkDmg);
   finalAtkDmg = batch08Plan.damage;
+  const batch09Plan = batch09CombatPlan(attacker, targetFC, finalAtkDmg);
+  finalAtkDmg = batch09Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
   if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
   if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
@@ -13745,6 +13855,7 @@ async function resolveCombat(attacker, targetFC) {
   await resolveBatch05PostAttackEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
   await resolveBatch07CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch07GlamrigAdjacentTargets});
   await resolveBatch08CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch08Plan.adjacentTargets, firstBoarAttack:batch08Plan.firstBoarAttack});
+  await resolveBatch09CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch09Plan.adjacentTargets});
 
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
@@ -13766,6 +13877,7 @@ async function resolveCombat(attacker, targetFC) {
     await triggerBatch03CombatHooks(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
     await resolveBatch05PostAttackEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
     await resolveBatch08CombatDamageDealtEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
+    await resolveBatch09CombatDamageDealtEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
   }
 
   // Marquer l'attaquant épuisé
@@ -13864,6 +13976,7 @@ async function applyDamage(fc, amount) {
   await triggerBatch03DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
   await triggerBatch05DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
   await triggerBatch07DamageReceivedHooks(fc, {amount, damageApplied, newPdv, sourceFC:fc._killer || null});
+  await triggerBatch09DamageReceivedHooks(fc, {amount, damageApplied, newPdv, sourceFC:fc._killer || null});
   clearBatch04Hypnosis(fc, 'damage-received');
 
   await new Promise(r => setTimeout(r, 380));
@@ -13968,7 +14081,8 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
 
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
   return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011' ||
-    cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012' || cardId === 'N000009';
+    cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012' || cardId === 'N000009' ||
+    cardId === 'TRL000013' || cardId === 'TRL000014';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
@@ -13985,6 +14099,8 @@ async function sendToCemetery(fc, options={}) {
   const d = CARDS_DATA[cardId] || {};
   const delayDestroyForVengeanceFeedback = shouldDelayDestroyAnimationForVengeanceFeedback(cardId);
   handleBatch05ServantBeforeCemetery(player, fc);
+  releaseBatch09TrollNainAttachment(fc);
+  releaseBatch09CadaverStash(fc);
 
   if (!delayDestroyForVengeanceFeedback) {
     await playDestroyAnimationBeforeCemetery(fc);
@@ -14032,7 +14148,10 @@ async function sendToCemetery(fc, options={}) {
     await new Promise(resolve => setTimeout(resolve, 900));
   }
   const goesToCemetery = vengeanceResult?.destination !== 'deck-bottom' && !runeReturnsToHand;
-  if (goesToCemetery) handleBatch08AlliedServantDeath(player, fc, options);
+  if (goesToCemetery) {
+    handleBatch08AlliedServantDeath(player, fc, options);
+    handleBatch09AlliedServantDeath(player, fc, options);
+  }
   if (goesToCemetery && d.type === 'Serviteur') {
     await triggerUramGrantedVengeance(player, fc);
   }
@@ -14150,7 +14269,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009' && cardId !== 'TRL000013' && cardId !== 'TRL000014') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
   }
@@ -14165,6 +14284,10 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
 
   if (cardId === 'N000009') {
     return triggerBatch07Vengeance(cardId, player, dyingFC);
+  }
+
+  if (cardId === 'TRL000013' || cardId === 'TRL000014') {
+    return triggerBatch09Vengeance(cardId, player, dyingFC, killer, context);
   }
 
   if (cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004') {
@@ -14511,7 +14634,9 @@ async function attackAvatar(attacker, adversePlayer) {
     cancelAttack();
     return;
   }
-  const atkVal = parseInt(attacker.dataset.atk)||0;
+  const rawAtkVal = parseInt(attacker.dataset.atk)||0;
+  const avatarDamageAdjustment = batch09ProtectrollReduction(adversePlayer, rawAtkVal);
+  const atkVal = avatarDamageAdjustment.amount;
   attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant l'avatar
   attacker.classList.add(playerState(currentPlayer)?.position === 'bottom' ? 'anim-attack-up' : 'anim-attack-down');
   await new Promise(r => setTimeout(r, 320));
@@ -15897,6 +16022,7 @@ async function runStartTurnPipeline(player) {
   if (!state.startTurnAbilitiesResolved) {
     await showMeteoresStartTurnMessage(p);
     await resolveBatch08StartTurnEffects(p);
+    await resolveBatch09StartTurnEffects(p);
     await applyStartTurnServantAbilities(p);
     state.startTurnAbilitiesResolved = true;
   }
@@ -15973,6 +16099,7 @@ async function runStartTurnPipeline(player) {
   if (!state.startTurnAbilitiesResolved) {
     await showMeteoresStartTurnMessage(p);
     await resolveBatch08StartTurnEffects(p);
+    await resolveBatch09StartTurnEffects(p);
     await applyStartTurnServantAbilities(p);
     state.startTurnAbilitiesResolved = true;
   }
@@ -16058,6 +16185,7 @@ async function endTurnRuntime() {
     applyEndOfTurnEffects(activePlayer);
     await applyFireMasterEndOfTurn(activePlayer);
     await resolveBatch08EndTurnEffects(activePlayer);
+    await resolveBatch09EndTurnEffects(activePlayer);
     await resolveMeteoresEndOfTurn(activePlayer);
     await applyBatch03EndTurnAbilities(activePlayer);
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
@@ -19491,6 +19619,483 @@ function refreshBatch05SnowfallDynamicTexts() {
 }
 refreshBatch05SnowfallDynamicTexts();
 
+// COLLECTION BATCH 09 canonical runtime cards
+Object.assign(CARDS_DATA, {
+  "PRST000004": {"name":"Faveur de Zarrach","type":"Sort","fac":"sort","atk":null,"pdv":null,"cost":0,"res_ico":"IC00000RDM","res_val":"0","resType":"any","fico":null,"kws":[],"cap":"Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, 1 serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main.","detail":"Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, 1 serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main. Ce serviteur est choisi de façon aléatoire.","badge":"Sort","lore":"","assetFolder":"sorts/presents","max":1,"related":[],"cond":"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ."},
+  "PRST000005": {"name":"Faveur de Mugwa","type":"Sort","fac":"sort","atk":null,"pdv":null,"cost":0,"res_ico":"IC00000RDM","res_val":"0","resType":"any","fico":null,"kws":[],"cap":"Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à 3. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus.","detail":"Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à 3. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus.","badge":"Sort","lore":"","assetFolder":"sorts/presents","max":1,"related":[],"cond":"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ."},
+  "R000026": {"name":"Cache de gros cailloux","type":"Approvisionnement","fac":"appro","atk":null,"pdv":null,"cost":0,"res_ico":"IC00000PIE","res_val":"0","resType":"Pierre|Fer","res2":"IC00000FER","fico":null,"kws":["Approvisionnement","Pierre","Fer"],"cap":"Il est difficile de « cacher » des monolithes de cette envergure, mais les trolls ont une vision du monde bien à eux.","detail":"Fournit 3 ressources de pierre et 2 de Fer.","badge":"Approvisionnement","lore":"","assetFolder":"approvisionnement","max":1,"related":[],"cond":"Votre deck de départ doit contenir au moins 5 serviteurs distincts de la faction des « Trolls »."},
+  "S000046": {"name":"Ça passe ou ça casse","type":"Sort","fac":"sort","atk":null,"pdv":null,"cost":4,"res_ico":"IC00000NRT","res_val":"4","resType":"Nourriture|Pierre","res2":"IC00000PIE","fico":"FCT00000TRL.png","kws":["Nourriture","Pierre"],"cap":"Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 4 points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.","detail":"Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 4 points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.","badge":"Sort","lore":"","assetFolder":"sorts","max":2,"related":[],"cond":"Vous devez contrôler au moins 1 serviteur troll. Votre adversaire doit avoir au moins 1 serviteur de son côté du terrain."},
+  "S000048": {"name":"Grande horde","type":"Sort","fac":"sort","atk":null,"pdv":null,"cost":6,"res_ico":"IC00000LNY","res_val":"6","resType":"Lenya|Nourriture|Fer|Aria","res2":"IC00000NRT","res3":"IC00000FER","res4":"IC00000ARI","fico":null,"kws":["Lenya","Nourriture","Fer","Aria"],"cap":"Jusqu'à la fin de la partie, vos serviteurs orcs gagnent +1 ATK et vos serviteurs trolls et gobelins gagnent +1 PDV. Si votre deck contient également au moins 1 serviteur humain, piochez 2 cartes.","detail":"Jusqu'à la fin de la partie, vos serviteurs orcs gagnent +1 ATK et vos serviteurs trolls et gobelins gagnent +1 PDV. Si votre deck contient également au moins 1 serviteur humain, piochez 2 cartes.","badge":"Sort","lore":"","assetFolder":"sorts","max":2,"related":[]},
+  "TRL000001": {"name":"Caillasseur","type":"Serviteur","fac":"trl","atk":5,"pdv":3,"cost":3,"res_ico":"IC00000PIE","res_val":"3","resType":"Pierre|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Pierre","Nourriture"],"cap":"Quand un enfant jette un caillou, ça fait mal.\nQuand un troll jette un caillou, ça fait de la purée.","detail":"Quand un enfant jette un caillou, ça fait mal.\nQuand un troll jette un caillou, ça fait de la purée.","badge":"","lore":"Quand un enfant jette un caillou, ça fait mal.\nQuand un troll jette un caillou, ça fait de la purée.","assetFolder":"trolls","max":6,"related":[]},
+  "TRL000002": {"name":"Écrabouilleur d'élite","type":"Serviteur","fac":"trl","atk":8,"pdv":10,"cost":7,"res_ico":"IC00000FER","res_val":"7","resType":"Fer|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Fer","Nourriture","Rempart"],"cap":"[Rempart]","detail":"[Rempart]","badge":"","lore":"","assetFolder":"trolls","max":4,"related":[]},
+  "TRL000003": {"name":"Brute très épaisse","type":"Serviteur","fac":"trl","atk":4,"pdv":5,"cost":4,"res_ico":"IC00000NRT","res_val":"4","resType":"Nourriture","fico":"FCT00000TRL.png","kws":["Nourriture"],"cap":"Pas de grâce, aucune élégance, mais une efficacité redoutable !","detail":"Pas de grâce, aucune élégance, mais une efficacité redoutable !","badge":"","lore":"Pas de grâce, aucune élégance, mais une efficacité redoutable !","assetFolder":"trolls","max":6,"related":[]},
+  "TRL000004": {"name":"Troll de siège","type":"Serviteur","fac":"trl","atk":9,"pdv":3,"cost":4,"res_ico":"IC00000PIE","res_val":"4","resType":"Pierre|Bois|Nourriture","res2":"IC00000BOI","res3":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Pierre","Bois","Nourriture","Initiative"],"cap":"[Initiative] Détruit 1 serviteur adverse aléatoire. A 50% de chance d'en détruire un 2ème, 25% de chance d'en détruire un 3ème.","detail":"[Initiative] Détruit 1 serviteur adverse aléatoire. A 50% de chance d'en détruire un 2ème, 25% de chance d'en détruire un 3ème.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000005": {"name":"Troll peau-de-pierre","type":"Serviteur","fac":"trl","atk":3,"pdv":5,"cost":4,"res_ico":"IC00000PIE","res_val":"4","resType":"Pierre|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Pierre","Nourriture","Initiative"],"cap":"[Initiative] Gagne aléatoirement +1 ATK ou +1 PDV pour chaque unité de Pierre de votre côté du terrain.","detail":"[Initiative] Gagne aléatoirement +1 ATK ou +1 PDV pour chaque unité de Pierre de votre côté du terrain.","badge":"","lore":"","assetFolder":"trolls","max":4,"related":[]},
+  "TRL000006": {"name":"Balayeur massif","type":"Serviteur","fac":"trl","atk":6,"pdv":5,"cost":5,"res_ico":"IC00000BOI","res_val":"5","resType":"Bois|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Bois","Nourriture"],"cap":"Chaque fois qu'il attaque, inflige également 2 points de dégâts aux serviteurs adjacents à sa cible.","detail":"Chaque fois qu'il attaque un serviteur, inflige également 2 points de dégâts aux serviteurs directement adjacents à la cible. Un emplacement vide interrompt l'adjacence.","badge":"","lore":"","assetFolder":"trolls","max":4,"related":[]},
+  "TRL000007": {"name":"Sorcier des ossements","type":"Serviteur","fac":"trl","atk":2,"pdv":8,"cost":5,"res_ico":"IC00000LNY","res_val":"5","resType":"Lenya|Nourriture|Écho","res2":"IC00000NRT","res3":"IC00000AME","fico":"FCT00000TRL.png","kws":["Lenya","Nourriture","Écho"],"cap":"À la fin de chacun de vos tours, ce serviteur récupère 3 points de vie. Vos serviteurs alliés adjacents récupèrent également 1 point de vie chacun. Si les serviteurs soignés avaient déjà tous leurs points de vie, augmente à la place leur montant maximal de points de vie de 1.","detail":"À la fin de chacun de vos tours, ce serviteur récupère 3 points de vie. Vos serviteurs alliés adjacents récupèrent également 1 point de vie chacun. Si les serviteurs soignés avaient déjà tous leurs points de vie, augmente à la place leur montant maximal de points de vie de 1. Un emplacement vide interrompt l'adjacence.","badge":"","lore":"","assetFolder":"trolls","max":3,"related":[]},
+  "TRL000008": {"name":"Lance-gobelin","type":"Serviteur","fac":"trl","atk":5,"pdv":5,"cost":4,"res_ico":"IC00000NRT","res_val":"4","resType":"Nourriture","fico":"FCT00000TRL.png","kws":["Initiative","Nourriture"],"cap":"[Initiative] Invoque 1 serviteur gobelin aléatoire coûtant 2 ressources ou moins de votre côté du terrain.","detail":"[Initiative] Invoque 1 serviteur gobelin aléatoire coûtant 2 ressources ou moins de votre côté du terrain, à condition d'avoir 1 emplacement de serviteur libre pour l'y accueillir.","badge":"","lore":"","assetFolder":"trolls","max":3,"related":[]},
+  "TRL000009": {"name":"Troll dévore-magie","type":"Serviteur","fac":"trl","atk":4,"pdv":7,"cost":6,"res_ico":"IC00000LNY","res_val":"6","resType":"Lenya|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Lenya","Nourriture","Insensible"],"cap":"Chaque fois qu'un sort ou une capacité spéciale adverse cible ce serviteur sans le détruire, il récupère 4 points de vie. Ajoute ensuite 1 marqueur à ce serviteur. À 3 marqueurs, l'avaleur de sorts perd sa capacité spéciale mais devient [Insensible] et son attaque est augmentée de +3.","detail":"Chaque fois qu'un sort adverse cible directement ce serviteur et que celui-ci survit à la résolution du sort, il récupère jusqu'à 4 points de vie. Les dégâts périodiques ne déclenchent pas cet effet, uniquement les dégâts initiaux. Ajoute ensuite 1 marqueur à ce serviteur. À 3 marqueurs, l'avaleur de sorts perd sa capacité spéciale mais devient [Insensible] et son attaque est augmentée de +3.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000010": {"name":"Protectroll","type":"Serviteur","fac":"trl","atk":4,"pdv":12,"cost":7,"res_ico":"IC00000PIE","res_val":"7","resType":"Pierre","fico":"FCT00000TRL.png","kws":["Pierre","Rempart","Rage","Sang-froid"],"cap":"[Sang-froid] [Rage] [Rempart] Les dégâts infligés à votre avatar sont réduits de 1 tant que ce serviteur est sur le terrain.","detail":"[Sang-froid] [Rage] [Rempart] Les dégâts infligés à votre avatar sont réduits de 1 tant que ce serviteur est sur le terrain.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000011": {"name":"Brise-rempart","type":"Serviteur","fac":"trl","atk":8,"pdv":6,"cost":8,"res_ico":"IC00000FER","res_val":"8","resType":"Fer|Pierre|Nourriture","res2":"IC00000PIE","res3":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Fer","Pierre","Nourriture","Rempart"],"cap":"Ignore le mot-clef [Rempart] chez les serviteurs adverses. Inflige 2 points de dégâts supplémentaires aux serviteurs possédant [Rempart].","detail":"Ce serviteur peut attaquer une cible sans tenir compte de [Rempart]. Lorsqu'il inflige des dégâts à un serviteur possédant [Rempart], ajoute 2 points de dégâts.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000012": {"name":"Troll à deux têtes","type":"Serviteur","fac":"trl","atk":12,"pdv":9,"cost":8,"res_ico":"IC00000NRT","res_val":"8","resType":"Nourriture|Lenya|Écho","res2":"IC00000LNY","res3":"IC00000AME","fico":"FCT00000TRL.png","kws":["Nourriture","Lenya","Écho"],"cap":"Chaque fois qu'il attaque, choisit aléatoirement 1 serviteurs adjacent et inflige à ce serviteur et à sa cible pricipale chacun la moitié de son attaque, arrondie au supérieur. En revanche, si aucun serviteur n'est adjacent à la cible principale, alors celle-ci subit seulement la moitié des dégâts normaux du combat, arrondis à l'inférieur.","detail":"Chaque fois qu'il attaque un serviteur, choisit aléatoirement 1 serviteur adjacent. La cible principale et le serviteur adjacent choisit subissent tous deux un montant de dégâts égal à la moitié de l'attaque actuelle de cette carte, arrondie au supérieur. En revanche, si aucun serviteur n'est adjacent à la cible principale, alors celle-ci subit seulement la moitié des dégâts normaux du combat, arrondis à l'inférieur.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000013": {"name":"Rejeton de Mugwa","type":"Serviteur","fac":"trl","atk":7,"pdv":7,"cost":10,"res_ico":"IC00000NRT","res_val":"10","resType":"Nourriture|Pierre","res2":"IC00000PIE","fico":"FCT00000TRL.png","kws":["Nourriture","Pierre","Rage","Vengeance","Insensible","Rempart"],"cap":"[Insensible] [Rage] [Rempart] [Vengeance] Rend 10 points de vie à votre avatar, puis inflige 5 points de dégâts à 1 serviteur adverse aléatoire.","detail":"[Insensible] [Rage] [Rempart] [Vengeance] Rend 10 points de vie à votre avatar, puis inflige 5 points de dégâts à 1 serviteur adverse aléatoire.","badge":"","lore":"","assetFolder":"trolls","max":1,"related":[]},
+  "TRL000014": {"name":"Troll premier-né","type":"Serviteur","fac":"trl","atk":10,"pdv":12,"cost":10,"res_ico":"IC00000PIE","res_val":"10","resType":"Pierre|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Pierre","Nourriture","Insensible","Rempart","Vengeance"],"cap":"[Insensible] [Rempart] [Vengeance] Invoque 1 « Caillasseur » et 1 « Brute très épaisse » de votre côté du terrain.","detail":"[Insensible] [Rempart] [Vengeance] Invoque 1 « Caillasseur » [ID = TRL000001] et 1 « Brute très épaisse » [ID = TRL000003] de votre côté du terrain, dans la limite des emplacements disponibles.","badge":"","lore":"","assetFolder":"trolls","max":1,"related":["TRL000001","TRL000003"]},
+  "TRL000015": {"name":"Troll-nain","type":"Serviteur","fac":"trl","atk":2,"pdv":2,"cost":2,"res_ico":"IC00000NRT","res_val":"2","resType":"Nourriture","fico":"FCT00000TRL.png","kws":["Nourriture"],"cap":"Vous pouvez attacher cette carte à 1 serviteur allié au lieu de l'invoquer. Le serviteur gagne +2 ATK/+2 PDV. Quand il quitte le terrain, renvoyez le « Troll-nain » dans votre main.","detail":"Lorsque vous jouez cette carte, vous pouvez l'attacher à 1 serviteur allié au lieu d'occuper un emplacement. Le serviteur attaché gagne +2 ATK et +2 points de vie maximaux et actuels. Si le serviteur attaché quitte le terrain, renvoyez le « Troll-nain » dans votre main. Cette carte n'est alors pas considérée comme présente sur le terrain.","badge":"","lore":"","assetFolder":"trolls","max":4,"related":[]},
+  "TRL000016": {"name":"Troll Sang-furieux","type":"Serviteur","fac":"trl","atk":4,"pdv":10,"cost":5,"res_ico":"IC00000PIE","res_val":"5","resType":"Pierre|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Pierre","Nourriture"],"cap":"À chacun de vos débuts de tour, gagne +3 ATK. Au troisième déclenchement, attaque immédiatement le serviteur adverse ayant le plus de points de vie, puis est détruit.","detail":"Placez un compteur sur cette carte à chacun de vos débuts de tour et augmentez son attaque de +3. Lorsque le troisième compteur est placé, cette carte attaque immédiatement le serviteur adverse ayant le plus de points de vie actuels. En cas d'égalité, la cible est choisie aléatoirement. S'il n'existe aucun serviteur adverse, elle attaque l'avatar. Après le combat, envoyez cette carte au cimetière.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000017": {"name":"Troll instable","type":"Serviteur","fac":"trl","atk":2,"pdv":6,"cost":4,"res_ico":"IC00000NRT","res_val":"4","resType":"Nourriture|Pierre","res2":"IC00000PIE","fico":"FCT00000TRL.png","kws":["Nourriture","Pierre","Rempart"],"cap":"Au début de chacun de vos tours, cette carte adopte aléatoirement 1 comportement jusqu'à la fin du tour.","detail":"Au début de chacun de vos tours, choisissez aléatoirement 1 comportement : gagne +5 ATK ; gagne +5 points de vie maximaux et actuels ; obtient [Rempart] mais ne peut pas attaquer ; ou inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte. L'ancien comportement prend fin avant le nouveau tirage.","badge":"","lore":"","assetFolder":"trolls","max":2,"related":[]},
+  "TRL000018": {"name":"Amasseur de cadavres","type":"Serviteur","fac":"trl","atk":2,"pdv":4,"cost":4,"res_ico":"IC00000NRT","res_val":"4","resType":"Nourriture|Écho","res2":"IC00000AME","fico":"FCT00000TRL.png","kws":["Initiative","Nourriture","Écho"],"cap":"[Initiative] Placez jusqu'à 3 cartes de n'importe quel cimetière sous ce serviteur. Il gagne +1 ATK/+1 PDV par carte. À sa destruction, les cartes retournent dans les decks de leurs propriétaires.","detail":"[Initiative] Prenez jusqu'à 3 cartes aléatoires de l'un ou l'autre cimetière et placez-les sous cette carte (le cimetière du joueur adverse est privilégié, le vôtre n'étant utilisé que s'il n'y a pas suffisamment de cartes). L' « Amasseur de cadavres » gagne +1 ATK et +1 point de vie maximal et actuel pour chaque carte. Quand il quitte le terrain, renvoyez chaque carte placée sous lui dans le deck de son propriétaire, puis mélangez les decks concernés.","badge":"","lore":"","assetFolder":"trolls","max":4,"related":[],"cond":"Au moins 1 cimetière doit contenir 1 carte."},
+  "TRL000019": {"name":"Progéniture de géant","type":"Serviteur","fac":"trl","atk":12,"pdv":14,"cost":12,"res_ico":"IC00000PIE","res_val":"12","resType":"Pierre|Nourriture","res2":"IC00000NRT","fico":"FCT00000TRL.png","kws":["Pierre","Nourriture","Rempart"],"cap":"[Rempart] Tant que cette carte est dans votre main, réduisez son coût de 1 chaque fois qu'un serviteur troll allié survit à des dégâts, jusqu'à un minimum de 3.","detail":"[Rempart] Tant que cette carte se trouve dans votre main, chaque fois qu'un serviteur de la faction « Troll » allié survit à une source de dégâts, réduisez définitivement le coût total de cette instance de 1, jusqu'à un minimum de 3. Plusieurs dégâts issus d'un même effet ne réduisent le coût qu'une seule fois.","badge":"","lore":"","assetFolder":"trolls","max":1,"related":[]},
+  "TRL000020": {"name":"Ump","type":"Serviteur","fac":"trl","atk":12,"pdv":12,"cost":11,"res_ico":"IC00000RDM","res_val":"11","resType":"any","fico":"FCT00000TRL.png","kws":["Serviteur de la rune","Sang-froid","Rempart","Sang ardent"],"cap":"[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.","detail":"[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de 1 à 4 PDV inclus.","badge":"","lore":"","assetFolder":"trolls","max":1,"related":[]}
+});
+
+applySupplyProductionDefinitions();
+
+const collectionBatch09State = {events:[], stashes:{}, randomQueue:[]};
+function recordCollectionBatch09Event(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch09State.events.push(event);
+  window.__collectionBatch09LastEvent = event;
+  return event;
+}
+function batch09Random() {
+  const queue = window.__collectionBatch09RandomQueue || collectionBatch09State.randomQueue;
+  if (Array.isArray(queue) && queue.length) return Number(queue.shift()) || 0;
+  return gameRandom();
+}
+function batch09Pick(items) {
+  const list = Array.from(items || []);
+  if (!list.length) return null;
+  return list[Math.min(list.length - 1, Math.floor(batch09Random() * list.length))];
+}
+function batch09Living(player) {
+  return batch05LivingServants(player);
+}
+function isBatch09TrollServant(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id || '';
+  return CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'trl';
+}
+function isBatch09GoblinServant(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id || '';
+  return CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob';
+}
+function isBatch09OrcServant(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id || '';
+  return CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'orc';
+}
+function batch09FreeServantSlots(player) {
+  return Array.from(qs(playerZoneSelector(player, 'servants'))?.querySelectorAll('.slot') || []);
+}
+function batch09EnemyServants(player) {
+  return batch09Living(opponentOf(player));
+}
+function batch09Shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.min(i, Math.floor(batch09Random() * (i + 1)));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+function batch09AvatarHp(player) {
+  const p = playerState(player);
+  const span = p ? qs(playerZoneSelector(p, 'avatar'))?.querySelectorAll('.av-stat span')?.[1] : null;
+  return Number(span?.textContent || 0);
+}
+function batch09HealAvatar(player, amount) {
+  const p = playerState(player);
+  if (!p) return {success:false, gained:0};
+  const before = batch09AvatarHp(p);
+  const after = Math.min(50, before + Math.max(0, Number(amount) || 0));
+  setAvatarHitPoints(p, after);
+  return {success:after > before, before, after, gained:after - before};
+}
+function batch09ProtectrollReduction(player, amount) {
+  const protectedPlayer = playerState(player);
+  const reduction = protectedPlayer && batch09Living(protectedPlayer).some(fc => fc.dataset.id === 'TRL000010' && canResolveServantAbility(fc, {triggerType:'passive'})) ? 1 : 0;
+  return {amount:Math.max(0, Number(amount || 0) - reduction), reduction};
+}
+function batch09PassiveBuffFor(fc) {
+  const owner = playerState(fc?.dataset?.player);
+  if (!owner || !fc || fc.dataset.dead || !owner.batch09GrandeHorde) return {atk:0, pdvMax:0, sources:[]};
+  if (isBatch09OrcServant(fc)) return {atk:1, pdvMax:0, sources:['S000048']};
+  if (isBatch09TrollServant(fc) || isBatch09GoblinServant(fc)) return {atk:0, pdvMax:1, sources:['S000048']};
+  return {atk:0, pdvMax:0, sources:[]};
+}
+function batch09SameCostWarbandPool(cost) {
+  return Object.entries(CARDS_DATA)
+    .filter(([, card]) => card?.type === 'Serviteur' && ['orc','gob','trl'].includes(card.fac) && Number(card.cost || 0) === Number(cost || 0))
+    .map(([id]) => id)
+    .sort();
+}
+function activateBatch09Zarrach(player) {
+  const p = playerState(player);
+  if (!p) return {success:false};
+  p.batch09ZarrachFavor = true;
+  recordCollectionBatch09Event('zarrach-activated', {playerId:p.key});
+  showNotif('Faveur de Zarrach active jusqu’à la fin de la partie.', 1500);
+  return {success:true, playerId:p.key};
+}
+function activateBatch09Mugwa(player) {
+  const p = playerState(player);
+  if (!p) return {success:false};
+  p.batch09MugwaFavor = true;
+  removeRuntimeCostModifier(p, `${p.key}-batch09-mugwa`);
+  registerRuntimeCostModifier(p, {
+    id:`${p.key}-batch09-mugwa`,
+    sourceKind:'spell',
+    sourceId:'PRST000005',
+    priority:15,
+    duration:'permanent',
+    criteria:{cardTypes:['Serviteur'], factions:['trl']},
+    operations:[{type:'replaceCost', cost:createCostDefinition(3, COST_RESOURCE_ORDER, [], [])}]
+  });
+  renderAllHands();
+  recordCollectionBatch09Event('mugwa-activated', {playerId:p.key});
+  showNotif('Faveur de Mugwa fixe le coût de vos Trolls à 3.', 1500);
+  return {success:true, playerId:p.key};
+}
+function activateBatch09GrandeHorde(player) {
+  const p = playerState(player);
+  if (!p) return {success:false};
+  p.batch09GrandeHorde = true;
+  syncBatch05Passives();
+  let drawn = 0;
+  const hasHuman = playerDrawPile(p).some(id => CARDS_DATA[getRuntimeCardId(id)]?.type === 'Serviteur' && CARDS_DATA[getRuntimeCardId(id)]?.fac === 'hum');
+  if (hasHuman) {
+    for (let i = 0; i < 2; i++) {
+      const result = drawCardFromRuntimeDeck(p, {sourceCardId:'S000048', refresh:false});
+      if (result.success) drawn++;
+    }
+    renderAllHands();
+    updateDeckCount(p);
+  }
+  recordCollectionBatch09Event('grande-horde-activated', {playerId:p.key, drawn});
+  showNotif(`Grande horde active. ${drawn} carte(s) piochée(s).`, 1600);
+  return {success:true, playerId:p.key, drawn};
+}
+
+function resolveBatch09AttachTrollNain(player, context={}) {
+  const p = playerState(player);
+  const target = resolveBoardTargetReferences(context.selectedTargetIds || [])[0];
+  if (!p || !target || target.dataset.player !== p.key || target.dataset.dead || CARDS_DATA[target.dataset.id]?.type !== 'Serviteur') {
+    return {success:false, reason:'invalid-target'};
+  }
+  const before = targetSummary(target);
+  const occurrenceId = context.occurrenceId || context.handOccurrenceId || null;
+  target.dataset.batch09TrollNainAttached = '1';
+  if (occurrenceId) target.dataset.batch09TrollNainOccurrence = occurrenceId;
+  batch03UpdateStats(target, {
+    atk:Number(target.dataset.atk || 0) + 2,
+    pdv:Number(target.dataset.pdv || 0) + 2,
+    pdvMax:Number(target.dataset.pdvMax || target.dataset.pdv || 1) + 2
+  });
+  pulseBatch03Ability(target, 'batch09-troll-nain-attach');
+  recordCollectionBatch09Event('troll-nain-attached', {playerId:p.key, targetBefore:before, targetAfter:targetSummary(target), occurrenceId});
+  showNotif('Troll-nain renforce un serviteur allié.', 1500);
+  return {success:true, target:targetSummary(target), occurrenceId};
+}
+function releaseBatch09TrollNainAttachment(fc) {
+  if (!fc || fc.dataset.batch09TrollNainAttached !== '1') return false;
+  const owner = playerState(fc.dataset.player);
+  const occurrenceId = fc.dataset.batch09TrollNainOccurrence || null;
+  if (!owner || getHandCapacityStatus(owner).full) return false;
+  const added = addCardToHand(owner, 'TRL000015', {refresh:true, occurrenceId});
+  if (added) {
+    recordCollectionBatch09Event('troll-nain-returned', {playerId:owner.key, source:targetSummary(fc), occurrenceId});
+    showNotif('Troll-nain revient dans la main.', 1400);
+  }
+  return added;
+}
+
+async function resolveBatch09CaPasseOuCaCasse(player, context={}) {
+  const p = playerState(player);
+  const audit = evaluateTargetRequirement('S000046', {player:p, selectedTargetIds:context.selectedTargetIds || []});
+  if (!audit.allowed) return {success:false, reason:audit.code, audit};
+  const troll = resolveBoardTargetReferences(context.selectedTargetIds || [])[0];
+  if (!troll || troll.dataset.dead || !isBatch09TrollServant(troll)) return {success:false, reason:'invalid-target'};
+  let rounds = 0;
+  const attacked = [];
+  while (!troll.dataset.dead) {
+    const target = batch09Pick(batch09EnemyServants(p));
+    if (!target) break;
+    rounds++;
+    attacked.push(targetSummary(target));
+    const counter = Number(target.dataset.atk || 0);
+    target._killer = troll;
+    const targetDied = await applyDamage(target, Number(troll.dataset.atk || 0));
+    if (!targetDied && counter > 0 && !troll.dataset.dead) {
+      troll._killer = target;
+      await applyDamage(troll, counter);
+    }
+    if (!troll.dataset.dead) applyHeal(troll, 4);
+    if (rounds > 12) break;
+  }
+  recordCollectionBatch09Event('ca-passe-ou-ca-casse', {playerId:p.key, troll:targetSummary(troll), rounds, attacked});
+  showNotif(`Ça passe ou ça casse : ${rounds} attaque(s) résolue(s).`, 1600);
+  return {success:true, rounds, attacked};
+}
+async function resolveBatch09Initiative(cardId, player, context={}) {
+  const p = playerState(player);
+  const sourceFC = context.sourceFC || findBoardCard(p, cardId);
+  if (!sourceFC || !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:false};
+  if (cardId === 'TRL000004') {
+    const destroyed = [];
+    const chances = [1, 0.5, 0.25];
+    for (const chance of chances) {
+      const target = batch09Pick(batch09EnemyServants(p));
+      if (!target || batch09Random() > chance) break;
+      pulseBatch03Ability(sourceFC, 'batch09-siege');
+      target._killer = sourceFC;
+      await sendToCemetery(target);
+      destroyed.push(targetSummary(target));
+    }
+    recordCollectionBatch09Event('siege-troll-initiative', {destroyed});
+    return {handled:true, success:true, destroyed};
+  }
+  if (cardId === 'TRL000005') {
+    const pierre = getClassicalResourceByType(p, 'pierre');
+    let atk = Number(sourceFC.dataset.atk || 0), pdv = Number(sourceFC.dataset.pdv || 0), max = Number(sourceFC.dataset.pdvMax || pdv || 1);
+    let atkGain = 0, pdvGain = 0;
+    for (let i = 0; i < pierre; i++) {
+      if (batch09Random() < 0.5) { atk++; atkGain++; } else { pdv++; max++; pdvGain++; }
+    }
+    batch03UpdateStats(sourceFC, {atk, pdv, pdvMax:max});
+    pulseBatch03Ability(sourceFC, 'batch09-stone-skin');
+    recordCollectionBatch09Event('stone-skin-initiative', {pierre, atkGain, pdvGain, source:targetSummary(sourceFC)});
+    return {handled:true, success:true, pierre, atkGain, pdvGain};
+  }
+  if (cardId === 'TRL000008') {
+    const pool = Object.entries(CARDS_DATA).filter(([, card]) => card?.type === 'Serviteur' && card.fac === 'gob' && Number(card.cost || 0) <= 2).map(([id]) => id).sort();
+    const summonId = batch09Pick(pool);
+    const summon = summonId ? await summonBatch03Servant(p, summonId, {sourceCardId:cardId, sourceInstanceId:sourceFC.dataset.instance || null, triggerInitiativeEffect:false, ready:true}) : {success:false, reason:'empty-pool'};
+    recordCollectionBatch09Event('lance-gobelin-initiative', {summonId, summon});
+    return {handled:true, success:!!summon?.success, summonId, summon};
+  }
+  if (cardId === 'TRL000018') {
+    const stored = [];
+    const sources = [opponentOf(p), p].filter(Boolean);
+    for (const owner of sources) {
+      while (stored.length < 3 && owner.graveyard?.length) {
+        const entry = owner.graveyard.pop();
+        stored.push({ownerKey:owner.key, entry, cardId:getRuntimeCardId(entry) || entry});
+      }
+      refreshCemeteryVisual(owner);
+      if (stored.length >= 3) break;
+    }
+    collectionBatch09State.stashes[sourceFC.dataset.instance || ensureServantInstanceId(sourceFC)] = stored;
+    sourceFC.dataset.batch09CadaverStashCount = String(stored.length);
+    const atk = Number(sourceFC.dataset.atk || 0) + stored.length;
+    const pdv = Number(sourceFC.dataset.pdv || 0) + stored.length;
+    const max = Number(sourceFC.dataset.pdvMax || sourceFC.dataset.pdv || 1) + stored.length;
+    batch03UpdateStats(sourceFC, {atk, pdv, pdvMax:max});
+    pulseBatch03Ability(sourceFC, 'batch09-cadaver-stash');
+    recordCollectionBatch09Event('cadaver-hoarder-initiative', {stored, source:targetSummary(sourceFC)});
+    return {handled:true, success:true, stored};
+  }
+  return {handled:false};
+}
+async function resolveBatch09EndTurnEffects(player) {
+  const p = playerState(player);
+  const results = [];
+  for (const fc of batch09Living(p).filter(card => card.dataset.id === 'TRL000007' && canResolveServantAbility(card, {triggerType:'end-turn'}))) {
+    const targets = [fc, ...batch03AdjacentServants(fc).filter(target => target.dataset.player === p.key)];
+    for (const target of targets) {
+      const amount = target === fc ? 3 : 1;
+      const healed = applyHeal(target, amount);
+      if (!healed.success && healed.reason === 'already-at-maximum') {
+        const max = Number(target.dataset.pdvMax || target.dataset.pdv || 1) + 1;
+        batch03UpdateStats(target, {pdvMax:max, pdv:max});
+      }
+      pulseBatch03Ability(target, 'batch09-bone-heal');
+    }
+    results.push({source:targetSummary(fc), targets:targets.map(targetSummary)});
+  }
+  if (results.length) recordCollectionBatch09Event('bone-sorcerer-end-turn', {playerId:p.key, results});
+  return results;
+}
+async function resolveBatch09StartTurnEffects(player) {
+  const p = playerState(player);
+  const results = [];
+  for (const fc of batch09Living(p)) {
+    if (fc.dataset.id === 'TRL000016' && canResolveServantAbility(fc, {triggerType:'start-turn'})) {
+      const count = Number(fc.dataset.batch09FuryCount || 0) + 1;
+      fc.dataset.batch09FuryCount = String(count);
+      batch03UpdateStats(fc, {atk:Number(fc.dataset.atk || 0) + 3});
+      pulseBatch03Ability(fc, 'batch09-fury');
+      let forcedAttack = null;
+      if (count >= 3) {
+        const enemies = batch09EnemyServants(p).sort((a, b) => Number(b.dataset.pdv || 0) - Number(a.dataset.pdv || 0));
+        const top = enemies.filter(enemy => Number(enemy.dataset.pdv || 0) === Number(enemies[0]?.dataset.pdv || -1));
+        const target = batch09Pick(top);
+        if (target) {
+          target._killer = fc;
+          forcedAttack = {target:targetSummary(target), died:await applyDamage(target, Number(fc.dataset.atk || 0))};
+        }
+        if (!fc.dataset.dead) await sendToCemetery(fc, {suppressVengeance:true});
+      }
+      results.push({cardId:'TRL000016', count, forcedAttack});
+    }
+    if (fc.dataset.id === 'TRL000017' && canResolveServantAbility(fc, {triggerType:'start-turn'})) {
+      const baseAtk = batch05BaseStat(fc, 'atk');
+      const baseMax = batch05BaseStat(fc, 'pdvMax');
+      delete fc.dataset.batch09InstableNoAttack;
+      delete fc.dataset.batch09InstableRempart;
+      if (!runtimeCardKeywords(fc.dataset.id).includes('rempart')) delete fc.dataset.rempart;
+      const damaged = baseMax - Number(fc.dataset.pdv || baseMax);
+      batch03UpdateStats(fc, {atk:baseAtk, pdvMax:baseMax, pdv:Math.max(1, baseMax - damaged)});
+      const roll = Math.min(3, Math.floor(batch09Random() * 4));
+      if (roll === 0) batch03UpdateStats(fc, {atk:Number(fc.dataset.atk || 0) + 5});
+      if (roll === 1) batch03UpdateStats(fc, {pdvMax:Number(fc.dataset.pdvMax || 0) + 5, pdv:Number(fc.dataset.pdv || 0) + 5});
+      if (roll === 2) { fc.dataset.rempart = '1'; fc.dataset.batch09InstableRempart = '1'; fc.dataset.batch09InstableNoAttack = '1'; }
+      if (roll === 3) {
+        const ally = batch09Pick(batch09Living(p).filter(target => target !== fc));
+        if (ally) await tryApplyAbilityDamage({sourcePlayer:p, sourceCardId:'TRL000017', targetFC:ally, amount:3, bypassInsensitive:true});
+        drawCardFromRuntimeDeck(p, {sourceCardId:'TRL000017', refresh:false});
+        renderAllHands();
+      }
+      pulseBatch03Ability(fc, 'batch09-instability');
+      results.push({cardId:'TRL000017', roll, source:targetSummary(fc)});
+    }
+  }
+  if (results.length) recordCollectionBatch09Event('troll-start-turn', {playerId:p.key, results});
+  return results;
+}
+function batch09CombatPlan(attacker, targetFC, damage) {
+  if (!attacker || !targetFC) return {damage, adjacentTargets:[], halfSplit:false};
+  if (attacker.dataset.id === 'TRL000011' && targetFC.dataset.rempart === '1') return {damage:damage + 2, adjacentTargets:[], rempartBonus:true};
+  if (attacker.dataset.id === 'TRL000012') {
+    const adjacent = batch03AdjacentServants(targetFC);
+    if (adjacent.length) return {damage:Math.ceil(damage / 2), adjacentTargets:[batch09Pick(adjacent)], halfSplit:true};
+    return {damage:Math.floor(damage / 2), adjacentTargets:[], halfSplit:true};
+  }
+  return {damage, adjacentTargets:[]};
+}
+async function resolveBatch09CombatDamageDealtEffects(sourceFC, targetFC, context={}) {
+  if (!sourceFC || sourceFC.dataset.dead) return null;
+  const results = [];
+  if (sourceFC.dataset.id === 'TRL000006' && context.phase === 'attack') {
+    for (const adjacent of batch03AdjacentServants(targetFC)) {
+      adjacent._killer = sourceFC;
+      results.push({type:'balayeur-adjacent', target:targetSummary(adjacent), died:await applyDamage(adjacent, 2)});
+    }
+  }
+  if (sourceFC.dataset.id === 'TRL000012' && context.phase === 'attack') {
+    for (const adjacent of context.adjacentTargets || []) {
+      adjacent._killer = sourceFC;
+      results.push({type:'two-head-adjacent', target:targetSummary(adjacent), died:await applyDamage(adjacent, Math.ceil(Number(sourceFC.dataset.atk || 0) / 2))});
+    }
+  }
+  if (sourceFC.dataset.id === 'TRL000020' && context.targetDied && !sourceFC.dataset.dead) {
+    const amount = 1 + Math.floor(batch09Random() * 4);
+    results.push({type:'ump-heal', amount, heal:applyHeal(sourceFC, amount)});
+  }
+  if (results.length) recordCollectionBatch09Event('combat-effects', {source:targetSummary(sourceFC), results});
+  return results;
+}
+async function triggerBatch09DamageReceivedHooks(fc, context={}) {
+  if (!fc || fc.dataset.dead) return null;
+  const owner = playerState(fc.dataset.player);
+  const sourceOwner = playerState(context.sourceFC?.dataset?.player);
+  const results = [];
+  if (isBatch09TrollServant(fc)) {
+    const handHasGiant = playerHand(owner).includes('TRL000019');
+    if (handHasGiant) {
+      owner.batch09GiantCostReduction = Math.min(9, Number(owner.batch09GiantCostReduction || 0) + 1);
+      removeRuntimeCostModifier(owner, `${owner.key}-batch09-giant-reduction`);
+      registerRuntimeCostModifier(owner, {
+        id:`${owner.key}-batch09-giant-reduction`,
+        sourceKind:'servant',
+        sourceId:'TRL000019',
+        priority:50,
+        duration:'permanent',
+        criteria:{cardIds:['TRL000019']},
+        operations:[{type:'replaceCost', cost:createCostDefinition(Math.max(3, 12 - owner.batch09GiantCostReduction), COST_RESOURCE_ORDER, [], [])}]
+      });
+      renderAllHands();
+      results.push({type:'giant-cost-reduction', value:owner.batch09GiantCostReduction});
+    }
+  }
+  if (fc.dataset.id === 'TRL000009' && sourceOwner && sourceOwner.key !== owner.key && !fc.dataset.batch09DevoreMagicSpent) {
+    const markers = Number(fc.dataset.batch09DevoreMagicMarkers || 0) + 1;
+    fc.dataset.batch09DevoreMagicMarkers = String(markers);
+    const heal = applyHeal(fc, 4);
+    if (markers >= 3) {
+      fc.dataset.batch09DevoreMagicSpent = '1';
+      fc.dataset.insensible = '1';
+      batch03UpdateStats(fc, {atk:Number(fc.dataset.atk || 0) + 3});
+    }
+    pulseBatch03Ability(fc, 'batch09-devore-magic');
+    results.push({type:'devore-magic', markers, heal, source:targetSummary(context.sourceFC)});
+  }
+  if (results.length) recordCollectionBatch09Event('damage-received-hooks', {target:targetSummary(fc), results});
+  return results;
+}
+function handleBatch09AlliedServantDeath(player, fc) {
+  const p = playerState(player);
+  if (!p || !fc || !p.batch09ZarrachFavor) return null;
+  const pool = batch09SameCostWarbandPool(CARDS_DATA[fc.dataset.id]?.cost || 0);
+  const chosen = batch09Pick(pool);
+  const added = chosen ? addCardToHand(p, chosen, {refresh:true}) : false;
+  const result = {source:targetSummary(fc), chosen, added};
+  recordCollectionBatch09Event('zarrach-death-trigger', result);
+  return result;
+}
+function releaseBatch09CadaverStash(fc) {
+  const instance = fc?.dataset?.instance || '';
+  const stored = collectionBatch09State.stashes[instance] || [];
+  if (!stored.length) return null;
+  const touched = new Set();
+  stored.forEach(item => {
+    const owner = [player1, player2].find(p => p?.key === item.ownerKey);
+    if (!owner) return;
+    owner.drawPile.push(item.entry);
+    touched.add(owner.key);
+  });
+  touched.forEach(key => {
+    const owner = [player1, player2].find(p => p?.key === key);
+    if (owner) { batch09Shuffle(owner.drawPile); updateDeckCount(owner); }
+  });
+  delete collectionBatch09State.stashes[instance];
+  const result = {source:targetSummary(fc), returned:stored.map(item => ({ownerKey:item.ownerKey, cardId:item.cardId})), touched:[...touched]};
+  recordCollectionBatch09Event('cadaver-stash-returned', result);
+  return result;
+}
+async function triggerBatch09Vengeance(cardId, player, dyingFC, killer, context={}) {
+  const p = playerState(player);
+  if (cardId === 'TRL000013') {
+    pulseBatch03Ability(dyingFC, 'batch09-vengeance', {move:true});
+    const heal = batch09HealAvatar(p, 10);
+    const target = batch09Pick(batch09EnemyServants(p));
+    const damage = target ? await tryApplyAbilityDamage({sourcePlayer:p, sourceCardId:cardId, targetFC:target, amount:5, bypassInsensitive:true}) : null;
+    const result = {success:true, destination:'graveyard', heal, target:targetSummary(target), damage};
+    recordCollectionBatch09Event('mugwa-spawn-vengeance', result);
+    return result;
+  }
+  if (cardId === 'TRL000014') {
+    pulseBatch03Ability(dyingFC, 'batch09-vengeance', {move:true});
+    const summons = [];
+    for (const summonId of ['TRL000001','TRL000003']) {
+      summons.push(await summonBatch03Servant(p, summonId, {sourceCardId:cardId, sourceInstanceId:dyingFC?.dataset.instance || null, triggerInitiativeEffect:false, ready:true}));
+    }
+    const result = {success:summons.some(s => s?.success), destination:'graveyard', summons};
+    recordCollectionBatch09Event('first-born-vengeance', result);
+    return result;
+  }
+  return null;
+}
+function auditCollectionBatch09Runtime() {
+  const summarizePlayer = p => ({
+    playerId:p?.key || null,
+    hand:[...(p?.hand || [])],
+    deck:[...(p?.drawPile || [])].map(entry => getRuntimeCardId(entry) || entry),
+    graveyard:[...(p?.graveyard || [])].map(entry => getRuntimeCardId(entry) || entry),
+    servants:batch09Living(p).map(targetSummary),
+    costModifiers:(p?.costModifierState?.active || []).filter(mod => String(mod.id || '').includes('batch09')).map(publicCostModifier),
+    flags:{zarrach:!!p?.batch09ZarrachFavor, mugwa:!!p?.batch09MugwaFavor, grandeHorde:!!p?.batch09GrandeHorde, giantReduction:Number(p?.batch09GiantCostReduction || 0)}
+  });
+  return {scenarioId:selectedScenarioId(), state:JSON.parse(JSON.stringify(collectionBatch09State)), players:[summarizePlayer(player1), summarizePlayer(player2)]};
+}
+window.auditCollectionBatch09Runtime = auditCollectionBatch09Runtime;
+
 const collectionBatch05State = {events:[], ambiguities:[]};
 function recordCollectionBatch05Event(type, detail={}) {
   const event = {type, turnSequence, ...detail};
@@ -19568,6 +20173,12 @@ function batch05PassiveBuffFor(fc) {
     pdvMax += orcBuff.pdvMax;
     sources.push(...orcBuff.sources);
   }
+  const trollBuff = batch09PassiveBuffFor(fc);
+  if (trollBuff.sources.length) {
+    atk += trollBuff.atk;
+    pdvMax += trollBuff.pdvMax;
+    sources.push(...trollBuff.sources);
+  }
   return {atk, pdvMax, sources};
 }
 function syncBatch05Passives() {
@@ -19576,13 +20187,14 @@ function syncBatch05Passives() {
       const isWoodOrIce = isBatch05WoodElf(fc) || isBatch05IceElf(fc);
       const isDwarf = isBatch07DwarfServant(fc);
       const isOrcFamily = isBatch08OrcFamilyServant(fc);
+      const isTrollFamily = isBatch09TrollServant(fc) || isBatch09GoblinServant(fc);
       if (isDwarf) applyBatch07FutureFireResistance(fc);
       const hasVigilance = (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Vigilance');
       const hasDwarfAura = batch05LivingServants(p).some(card => card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
       const hadDwarfAura = String(fc.dataset.batch05PassiveSources || '').split(',').includes('N000003');
-      if (!isWoodOrIce && !hasVigilance && !isDwarf && !isOrcFamily && !hasDwarfAura && !hadDwarfAura) continue;
+      if (!isWoodOrIce && !hasVigilance && !isDwarf && !isOrcFamily && !isTrollFamily && !hasDwarfAura && !hadDwarfAura) continue;
       const hadBatch05PassiveGlow = fc.dataset.batch03PassivePulse === '1' && fc.dataset.batch03LastPulseReason === 'batch05-passive';
-      if (isWoodOrIce || isDwarf || isOrcFamily || hasDwarfAura || hadDwarfAura) {
+      if (isWoodOrIce || isDwarf || isOrcFamily || isTrollFamily || hasDwarfAura || hadDwarfAura) {
         const baseAtk = batch05BaseStat(fc, 'atk');
         const baseMax = batch05BaseStat(fc, 'pdvMax');
         const buff = batch05PassiveBuffFor(fc);
