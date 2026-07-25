@@ -70,17 +70,17 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .av-j2{top:4%;left:9vw;}
 .av-j1{bottom:4%;left:9vw;}
 .av-portrait{
-  width:138px;height:138px;border-radius:50%;overflow:hidden;
+  width:138px;height:138px;border-radius:50%;overflow:visible;
   border:3px solid var(--gold);
   box-shadow:0 0 0 2px rgba(0,0,0,0.85),0 0 20px rgba(200,168,75,0.35);
   flex-shrink:0;cursor:pointer;position:relative;
 }
-.av-portrait img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.av-portrait img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:50%;}
 .batch08-avatar-lock-badge{
-  position:absolute;right:6px;bottom:6px;width:32px;height:32px;border-radius:50%;
+  position:absolute;right:-2px;bottom:-2px;width:34px;height:34px;border-radius:50%;
   border:2px solid rgba(255,220,150,0.92);background:rgba(24,7,2,0.92);
   box-shadow:0 0 0 1px rgba(0,0,0,0.85),0 0 12px rgba(255,95,40,0.72);
-  overflow:hidden;pointer-events:none;z-index:3;
+  overflow:hidden;pointer-events:none;z-index:8;
 }
 .batch08-avatar-lock-badge img{width:100%;height:100%;object-fit:cover;object-position:top;}
 .av-zone.batch08-avatar-lock-active .av-tip p{
@@ -6528,7 +6528,7 @@ function renderStructuredCostHTML(cardId, player, costCls='', context={}) {
         pieces.push(renderCostResourceGroup([requirement.resource], requirement.amount, {spanClass:batch05RequirementVisualClass(requirement, resolution)}));
       }
     });
-    if (total > 0) pieces.push(`<span class="res-sep cost-connector">&ge;\u00a0${total}</span>`);
+    if (total > 0 || costCls) pieces.push(`<span class="res-sep cost-connector ${costCls}">&ge;\u00a0${total}</span>`);
     return `<div class="cost-resource-flow">${pieces.join('')}</div>`;
   }
 
@@ -9070,6 +9070,15 @@ const AVATAR_COST_MODIFIERS = Object.freeze({
     priority: 100,
     duration: 'permanent',
     criteria: {cardTypes:['Serviteur'], factions:['edn']},
+    operations: [{type:'adjustTotal', amount:-1}]
+  }),
+  gor: Object.freeze({
+    id: 'avatar-gor-orc-beast-servants',
+    sourceKind: 'avatar',
+    sourceId: 'AVP000006',
+    priority: 100,
+    duration: 'permanent',
+    criteria: {cardTypes:['Serviteur'], factions:['orc','bet']},
     operations: [{type:'adjustTotal', amount:-1}]
   })
 });

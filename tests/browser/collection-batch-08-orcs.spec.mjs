@@ -147,6 +147,11 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
       player1TipDecoration:getComputedStyle(document.querySelector('.av-j1 .av-tip p')).textDecorationLine,
       player2TipDecoration:getComputedStyle(document.querySelector('.av-j2 .av-tip p')).textDecorationLine,
       badgeHasPreview:!!document.querySelector('.batch08-avatar-lock-badge .fc-zoom, .batch08-avatar-lock-badge .hc-tip'),
+      badgeBox:document.querySelector('.av-j1 .batch08-avatar-lock-badge')?.getBoundingClientRect().toJSON?.() || null,
+      portraitBox:document.querySelector('.av-j1 .av-portrait')?.getBoundingClientRect().toJSON?.() || null,
+      p1OrcCostGreen:renderCostHTML("ORC000001", player1).includes("cost-grn"),
+      p1BeastCostGreen:renderCostHTML("B000007", player1).includes("cost-grn"),
+      p2HumanCostGreen:renderCostHTML("H000001", player2).includes("cost-grn"),
       p1Hand:[...player1.hand]
     });
     const avatarSources = {
@@ -188,20 +193,29 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
   expect(avatarResult.before.visuals.player1Portrait).toBe("AVP000006.png");
   expect(avatarResult.before.visuals.player2Portrait).toBe("AVP000001.png");
   expect(avatarResult.before.visuals.p1Hand).toContain("ORC000016");
-  expect(avatarResult.avatarSources.player1).toBe(null);
+  expect(avatarResult.avatarSources.player1).toBe("AVP000006");
   expect(avatarResult.avatarSources.player2).toBe("AVP000001");
   expect(avatarResult.before.p1Disabled).toBe(false);
   expect(avatarResult.before.p2Disabled).toBe(false);
+  expect(avatarResult.before.p1OrcCost).toBeLessThan(avatarResult.afterLock.p1OrcCost);
+  expect(avatarResult.before.visuals.p1OrcCostGreen).toBe(true);
+  expect(avatarResult.before.visuals.p1BeastCostGreen).toBe(true);
+  expect(avatarResult.before.visuals.p2HumanCostGreen).toBe(true);
   expect(avatarResult.before.visuals.player1Badge).toBe(false);
   expect(avatarResult.before.visuals.player2Badge).toBe(false);
   expect(avatarResult.before.visuals.player1TipDecoration).not.toContain("line-through");
   expect(avatarResult.before.visuals.player2TipDecoration).not.toContain("line-through");
   expect(avatarResult.afterLock.p1Disabled).toBe(true);
   expect(avatarResult.afterLock.p2Disabled).toBe(true);
-  expect(avatarResult.afterLock.p1OrcCost).toBe(avatarResult.before.p1OrcCost);
+  expect(avatarResult.afterLock.p1OrcCost).toBe(avatarResult.before.p1OrcCost + 1);
   expect(avatarResult.afterLock.p2HumanCost).toBe(avatarResult.before.p2HumanCost + 1);
+  expect(avatarResult.afterLock.visuals.p1OrcCostGreen).toBe(false);
+  expect(avatarResult.afterLock.visuals.p1BeastCostGreen).toBe(false);
+  expect(avatarResult.afterLock.visuals.p2HumanCostGreen).toBe(false);
   expect(avatarResult.afterLock.visuals.player1Badge).toBe(true);
   expect(avatarResult.afterLock.visuals.player2Badge).toBe(true);
+  expect(avatarResult.afterLock.visuals.badgeBox.right).toBeGreaterThan(avatarResult.afterLock.visuals.portraitBox.right - 4);
+  expect(avatarResult.afterLock.visuals.badgeBox.bottom).toBeGreaterThan(avatarResult.afterLock.visuals.portraitBox.bottom - 4);
   expect(avatarResult.afterLock.visuals.player1TipDecoration).toContain("line-through");
   expect(avatarResult.afterLock.visuals.player2TipDecoration).toContain("line-through");
   expect(avatarResult.afterLock.visuals.badgeHasPreview).toBe(false);
@@ -209,6 +223,9 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
   expect(avatarResult.afterUnlock.p2Disabled).toBe(false);
   expect(avatarResult.afterUnlock.p1OrcCost).toBe(avatarResult.before.p1OrcCost);
   expect(avatarResult.afterUnlock.p2HumanCost).toBe(avatarResult.before.p2HumanCost);
+  expect(avatarResult.afterUnlock.visuals.p1OrcCostGreen).toBe(true);
+  expect(avatarResult.afterUnlock.visuals.p1BeastCostGreen).toBe(true);
+  expect(avatarResult.afterUnlock.visuals.p2HumanCostGreen).toBe(true);
   expect(avatarResult.afterUnlock.visuals.player1Badge).toBe(false);
   expect(avatarResult.afterUnlock.visuals.player2Badge).toBe(false);
   expect(avatarResult.afterUnlock.visuals.player1TipDecoration).not.toContain("line-through");
