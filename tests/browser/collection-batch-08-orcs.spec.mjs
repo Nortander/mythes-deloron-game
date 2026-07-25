@@ -142,6 +142,7 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
       player2CharacterId:player2.characterId,
       player1Portrait:player1.portrait,
       player2Portrait:player2.portrait,
+      player1Tip:document.querySelector('.av-j1 .av-tip p')?.textContent || "",
       player1Badge:!!document.querySelector('.av-j1 .batch08-avatar-lock-badge img[src*="ORC000016"]'),
       player2Badge:!!document.querySelector('.av-j2 .batch08-avatar-lock-badge img[src*="ORC000016"]'),
       player1TipDecoration:getComputedStyle(document.querySelector('.av-j1 .av-tip p')).textDecorationLine,
@@ -151,6 +152,7 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
       portraitBox:document.querySelector('.av-j1 .av-portrait')?.getBoundingClientRect().toJSON?.() || null,
       p1OrcCostGreen:renderCostHTML("ORC000001", player1).includes("cost-grn"),
       p1BeastCostGreen:renderCostHTML("B000007", player1).includes("cost-grn"),
+      p1BeastVisible:!!document.querySelector('.hc[data-id="B000007"]'),
       p2HumanCostGreen:renderCostHTML("H000001", player2).includes("cost-grn"),
       p1Hand:[...player1.hand]
     });
@@ -193,6 +195,9 @@ test("Orc passives buff family servants, grant dynamic Rage, and lock avatar pas
   expect(avatarResult.before.visuals.player1Portrait).toBe("AVP000006.png");
   expect(avatarResult.before.visuals.player2Portrait).toBe("AVP000001.png");
   expect(avatarResult.before.visuals.p1Hand).toContain("ORC000016");
+  expect(avatarResult.before.visuals.p1Hand).toContain("B000007");
+  expect(avatarResult.before.visuals.player1Tip).toContain("vos serviteurs orcs et bêtes coûtent 1 unité de ressource en moins");
+  expect(avatarResult.before.visuals.p1BeastVisible).toBe(true);
   expect(avatarResult.avatarSources.player1).toBe("AVP000006");
   expect(avatarResult.avatarSources.player2).toBe("AVP000001");
   expect(avatarResult.before.p1Disabled).toBe(false);

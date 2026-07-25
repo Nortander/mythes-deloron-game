@@ -2490,7 +2490,7 @@ const CHARACTER_DEFS = {
     startMaybe: START_MAYBE_GOR,
     avatarCap: 'orc',
     portrait: 'AVP000006.png',
-    tip: `Mage du Cercle - Gor le Changeforme.`
+    tip: 'Pendant toute la partie, vos serviteurs orcs et bêtes coûtent <strong class="kv">1</strong> unité de ressource en moins.'
   },
   hokhan: {
     characterId: 'hokhan',
@@ -2845,7 +2845,7 @@ SCENARIOS['collection-batch-08-sorts-orcs'] = {
 SCENARIOS['collection-batch-08-avatar-orc'] = {
   label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['gor', 'rohen'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
   testSetup: {
-    player1: {resources:{classical:{aria:12, lenya:12, selene:12, fer:12, bois:12, pierre:12, nourriture:12}, souls:12}, hand:['ORC000016','ORC000020','ORC000008'], drawPile:['ORC000002','ORC000005','R000010'], graveyard:[], servants:[{id:'ORC000010',prepared:true},{id:'ORC000019',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {resources:{classical:{aria:12, lenya:12, selene:12, fer:12, bois:12, pierre:12, nourriture:12}, souls:12}, hand:['ORC000016','ORC000020','ORC000008','B000007'], drawPile:['ORC000002','ORC000005','R000010'], graveyard:[], servants:[{id:'ORC000010',prepared:true},{id:'ORC000019',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:12, lenya:12, selene:12, fer:12, bois:12, pierre:12, nourriture:12}, souls:12}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
