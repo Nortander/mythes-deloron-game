@@ -2818,8 +2818,8 @@ SCENARIOS['collection-batch-02-generated-spells'] = {
 SCENARIOS['collection-batch-08-orcs'] = {
   label: 'TEST - COLLECTION BATCH 08 Orcs', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'ORC000001',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000009','ORC000016','ORC000018'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true},{id:'ORC000017',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'AVS000005',pdv:5,pdvMax:5,prepared:true},{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:2,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['ORC000001','ORC000003','ORC000004','ORC000009','ORC000010','ORC000016','ORC000018','ORC000019'], drawPile:['R000010','R000011','R000021','ORC000002','ORC000005','ORC000006'], graveyard:[], servants:[{id:'ORC000012',prepared:true},{id:'ORC000014',prepared:true},{id:'GOB000001',pdv:1,pdvMax:3,prepared:true},{id:'ORC000013',prepared:true},{id:'ORC000017',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'H000004',pdv:5,pdvMax:5,prepared:true},{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:2,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-08-sorts-orcs'] = {
@@ -2830,9 +2830,9 @@ SCENARIOS['collection-batch-08-sorts-orcs'] = {
   }
 };
 SCENARIOS['collection-batch-08-avatar-orc'] = {
-  label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
+  label: 'TEST - COLLECTION BATCH 08 Gor', participants: ['rohen', 'yriaRohen'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'AVS000006',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['AVS000006','ORC000020','ORC000010','ORC000015','ORC000019','ORC000008'], drawPile:['ORC000002','ORC000005','ORC000006','R000010'], graveyard:[], servants:[{id:'ORC000020',prepared:true},{id:'ORC000010',prepared:true},{id:'ORC000015',prepared:true},{id:'ORC000019',prepared:true},{id:'ORC000008',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['AVS000006','ORC000020','ORC000010','ORC000015','ORC000019','ORC000008','ORC000016'], drawPile:['ORC000002','ORC000005','ORC000006','R000010'], graveyard:[], servants:[{id:'ORC000020',prepared:true},{id:'ORC000010',prepared:true},{id:'ORC000015',prepared:true},{id:'ORC000019',prepared:true},{id:'ORC000008',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000005','R000001'], graveyard:[], servants:[{id:'B000004',pdv:3,pdvMax:3,prepared:true},{id:'H000001',pdv:2,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:6,pdvMax:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -6317,6 +6317,14 @@ function fmtLore(text) {
   return formatFrenchTypography(text);
 }
 
+function batch08DisplayCardText(card, rawText) {
+  const text = String(rawText || '');
+  if (card?.name === 'Amasseur' && card?.fac === 'orc') {
+    return text.replace(/\bApprovisionnement\b/g, '*Approvisionnement*');
+  }
+  return text;
+}
+
 function formatKnownKeywordMarkersForDisplay(text, kwColor=null) {
   return String(text || '').replace(/\[([^\]]+)\]/g, (match, kw) => {
     const label = String(kw || '').trim();
@@ -6417,7 +6425,7 @@ function renderZoomDescription(card, kwColor) {
     return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>`;
   }
   const mechanicalText = !isEmptyCardText(card.detail) ? card.detail : card.cap;
-  const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(mechanicalText), descColor)}</p>` : '';
+  const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(batch08DisplayCardText(card, mechanicalText)), descColor)}</p>` : '';
   const lore = !isEmptyCardText(card.lore) ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(card.lore))}</em></p>` : '';
   return cap + lore;
 }
@@ -7067,7 +7075,7 @@ function buildHC(cardId, player, drawAnim=false) {
   // Description : pour un appro à simple production, afficher SEULEMENT le lore.
   // Pour les autres cartes : capacité (formatée) + lore en italique.
   const approResourceOnly = d.type === 'Approvisionnement' && d.cap && /^Fournit|^Conf[èe]re/i.test(d.cap.trim());
-  const capFmt  = approResourceOnly ? '' : fmtDesc(formatPlayerFacingCardText(d.cap), humanDescriptionAccentColor(d, col));
+  const capFmt  = approResourceOnly ? '' : fmtDesc(formatPlayerFacingCardText(batch08DisplayCardText(d, d.cap)), humanDescriptionAccentColor(d, col));
   const loreFmt = d.lore ? `<i class="card-lore-text" style="color:inherit;opacity:0.75">${fmtLore(formatPlayerFacingCardText(d.lore))}</i>` : '';
   const descContent = isLoreOnlyCard(d)
     ? `<em class="card-lore-text" style="color:inherit;opacity:0.75">${fmtLore(formatPlayerFacingCardText(!isEmptyCardText(d.lore) ? d.lore : d.cap))}</em>`
@@ -7289,7 +7297,7 @@ function batch03PreviewCardData(cardId, data, sourceContext={}) {
 function buildCanonicalCardPreview(cardId, sourceContext={}) {
   let d = CARDS_DATA[cardId];
   if (!d) return '';
-  d = batch03PreviewCardData(cardId, batch02PreviewCardData(cardId, d, sourceContext), sourceContext);
+  d = batch08PreviewCardData(cardId, batch03PreviewCardData(cardId, batch02PreviewCardData(cardId, d, sourceContext), sourceContext), sourceContext);
   const col = facColor(d.fac);
   const folder = d.assetFolder || facFolder(d.fac);
   const cls = facCls(d.fac);
@@ -7299,11 +7307,15 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
   const pdvH = d.pdv != null ? `<div class="fc-zoom-pdv"><div class="fz-sb"><img src="${GH}/icones/IC00000PDV.png" alt=""><span class="fc-pdv-val-z">${d.pdv}</span></div></div>` : '';
   const typeH = `<p class="fz-desc-text" style="opacity:.78;text-align:center;letter-spacing:.08em">${d.type || ''}</p>`;
   const player = sourceContext.playerId || sourceContext.player || currentPlayer;
-  const costH = d.type === 'Avatar' ? '' : `<div class="fc-zoom-cost-z">${renderCostHTML(cardId, player)}</div>`;
+  const costContext = d.batch08MaraborcCopy && sourceContext.sourceElement?.dataset?.handOccurrence
+    ? {handOccurrenceId:sourceContext.sourceElement.dataset.handOccurrence}
+    : {};
+  const costH = d.type === 'Avatar' ? '' : `<div class="fc-zoom-cost-z">${renderCostHTML(cardId, player, costContext)}</div>`;
+  const artworkSrc = d.batch08MaraborcCopy ? `../assets/${d.originalAssetFolder || folder}/${cardId}.png` : cardArtworkSrc(cardId, folder);
   return `<div class="canonical-card-preview fc ${cls}" data-preview-card-id="${cardId}" data-source-context="${sourceContext.sourceType || 'unknown'}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="fc-zoom ${cls}">
       <div class="fc-zoom-art">
-        <img class="fz-img" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
+        <img class="fz-img" src="${artworkSrc}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
         ${ficoH}${atkH}${pdvH}
       </div>
       <div class="fc-zoom-name-b"><span class="fz-name">${d.name}</span></div>
@@ -9203,7 +9215,7 @@ function getActiveCostModifiers({player, opponent=null, cardId, card=null, conte
   const printedCost = getCanonicalCostDefinition(cardId);
   const modifierContext = {player:p, opponent:playerState(opponent) || opponentOf(p), cardId, card:card || CARDS_DATA[cardId], printedCost, ...context};
   const modifiers = [];
-  const avatarModifier = AVATAR_COST_MODIFIERS[p?.characterId];
+  const avatarModifier = p?.batch08AvatarPassivesDisabled ? null : AVATAR_COST_MODIFIERS[p?.characterId];
   if (avatarModifier && modifierAppliesTo(avatarModifier, modifierContext)) modifiers.push(avatarModifier);
   (p?.costModifierState?.active || []).forEach(modifier => {
     if (modifierAppliesTo(modifier, modifierContext)) modifiers.push(modifier);
@@ -10593,6 +10605,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   }
   if (placedFC && d.type === 'Serviteur') {
     applyBatch07BoardRuneFromHandOccurrence(placedFC, p, transaction.removedHandOccurrenceId || transaction.handOccurrenceId || null);
+    applyBatch08MaraborcBoardOccurrence(placedFC, p, cardId, transaction.removedHandOccurrenceId || transaction.handOccurrenceId || null);
   }
   traceCardPlay(traceId, 'afterBoardPlacement', p, cardId, sourceInstanceId);
   applyBatch03OnBoardPlacement(placedFC, p, cardId);
@@ -12548,11 +12561,67 @@ function batch08PulseBeforeMutation(sourceFC, reason, detail={}) {
   recordCollectionBatch08Event('ability-feedback', {reason, source:targetSummary(sourceFC), detail});
   return true;
 }
+function batch08WaitForFeedback(ms=260) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+function batch08MaraborcCopyData(cardId, printed, meta={}) {
+  if (!printed) return printed;
+  return {
+    ...printed,
+    fac:'orc',
+    fico:'FCT00000ORC.png',
+    batch08MaraborcCopy:true,
+    batch08MaraborcOccurrenceId:meta.occurrenceId || null,
+    originalFac:meta.originalFaction || printed.fac,
+    originalAssetFolder:meta.originalAssetFolder || printed.assetFolder || facFolder(printed.fac)
+  };
+}
 function batch08HandCardData(cardId, printed, player, occurrenceId=null) {
   const p = playerState(player);
   const meta = (p?.batch08MaraborcCopies || []).find(entry => entry.cardId === cardId && (!entry.occurrenceId || entry.occurrenceId === occurrenceId));
   if (!meta) return printed;
-  return {...printed, fac:'orc', fico:'FCT00000ORC.png', batch08MaraborcCopy:true, originalFac:printed.fac, originalAssetFolder:printed.assetFolder || facFolder(printed.fac)};
+  return batch08MaraborcCopyData(cardId, printed, meta);
+}
+function batch08MaraborcMetaForOccurrence(player, cardId, occurrenceId=null) {
+  const p = playerState(player);
+  if (!p || !cardId || !occurrenceId) return null;
+  return (p.batch08MaraborcCopies || []).find(entry => entry.cardId === cardId && entry.occurrenceId === occurrenceId) || null;
+}
+function applyBatch08MaraborcBoardOccurrence(fc, player, cardId, occurrenceId=null) {
+  const p = playerState(player);
+  const meta = batch08MaraborcMetaForOccurrence(p, cardId, occurrenceId);
+  if (!fc || !meta) return null;
+  const printed = CARDS_DATA[cardId];
+  const model = batch08MaraborcCopyData(cardId, printed, meta);
+  fc.dataset.fac = 'orc';
+  fc.dataset.batch08MaraborcCopy = '1';
+  fc.dataset.batch08MaraborcOccurrence = meta.occurrenceId || occurrenceId || '';
+  fc.dataset.batch08MaraborcOriginalFaction = meta.originalFaction || printed?.fac || '';
+  fc.dataset.batch08MaraborcOriginalAssetFolder = meta.originalAssetFolder || printed?.assetFolder || facFolder(printed?.fac);
+  fc.classList.remove(facCls(printed?.fac || ''));
+  fc.classList.add(facCls('orc'));
+  fc.style.setProperty('--card-faction-color', facColor('orc'));
+  fc.style.setProperty('--card-kw', facColor('orc'));
+  fc.style.setProperty('--card-border', facColor('orc'));
+  return model;
+}
+function batch08PreviewCardData(cardId, data, sourceContext={}) {
+  const sourceEl = sourceContext.sourceElement || null;
+  const occurrenceId = sourceEl?.dataset?.handOccurrence || sourceEl?.dataset?.batch08MaraborcOccurrence || sourceContext.handOccurrenceId || null;
+  const owner = playerState(sourceEl?.dataset?.player || sourceContext.player || sourceContext.playerId || currentPlayer);
+  const meta = batch08MaraborcMetaForOccurrence(owner, cardId, occurrenceId);
+  if (!meta && sourceEl?.dataset?.batch08MaraborcCopy !== '1') return data;
+  return batch08MaraborcCopyData(cardId, data, meta || {
+    occurrenceId,
+    originalFaction:sourceEl?.dataset?.batch08MaraborcOriginalFaction,
+    originalAssetFolder:sourceEl?.dataset?.batch08MaraborcOriginalAssetFolder
+  });
+}
+function batch08RuntimeCardData(entry, fallbackData=null) {
+  const cardId = getRuntimeCardId(entry);
+  const printed = fallbackData || CARDS_DATA[cardId];
+  if (!entry || typeof entry === 'string' || !entry.batch08MaraborcCopy) return printed;
+  return batch08MaraborcCopyData(cardId, printed, entry);
 }
 function batch08NextOccurrenceId(prefix='batch08') {
   collectionBatch08State.occurrenceSeq = Number(collectionBatch08State.occurrenceSeq || 0) + 1;
@@ -12623,9 +12692,15 @@ function isBatch08AvatarPassiveDisabled(player) {
   if (!p) return false;
   return [player1, player2].filter(Boolean).some(owner => batch08Living(owner).some(fc => fc.dataset.id === 'ORC000016' && !isColdLocked(fc)));
 }
-function syncBatch08AvatarPassiveLocks() {
+function syncBatch08AvatarPassiveLocks({refresh=false}={}) {
   const disabled = isBatch08AvatarPassiveDisabled(player1) || isBatch08AvatarPassiveDisabled(player2);
-  [player1, player2].filter(Boolean).forEach(p => { p.batch08AvatarPassivesDisabled = disabled; });
+  let changed = false;
+  [player1, player2].filter(Boolean).forEach(p => {
+    const before = !!p.batch08AvatarPassivesDisabled;
+    p.batch08AvatarPassivesDisabled = disabled;
+    if (before !== disabled) changed = true;
+  });
+  if (refresh && changed) renderAllHands();
   return disabled;
 }
 function batch08ZoneAudit() {
@@ -12778,7 +12853,7 @@ async function resolveBatch08Initiative(cardId, player, context={}) {
   if (cardId === 'ORC000016') {
     const before = [player1, player2].filter(Boolean).map(owner => ({playerId:owner.key, disabled:!!owner.batch08AvatarPassivesDisabled}));
     batch08PulseBeforeMutation(sourceFC, 'avatar-passive-lock');
-    const disabled = syncBatch08AvatarPassiveLocks();
+    const disabled = syncBatch08AvatarPassiveLocks({refresh:true});
     const after = [player1, player2].filter(Boolean).map(owner => ({playerId:owner.key, disabled:!!owner.batch08AvatarPassivesDisabled}));
     result.operations.push({type:'avatar-passives-disabled', disabled, before, after});
   }
@@ -12864,7 +12939,7 @@ async function resolveBatch08KillEffects(sourceFC, targetFC, context={}) {
   const victimId = targetFC?.dataset?.id || context.targetId || null;
   if (sourceFC.dataset.id === 'ORC000010') {
     const hasServant = playerDrawPile(p).some(entry => CARDS_DATA[getRuntimeCardId(entry)]?.type === 'Serviteur');
-    if (hasServant) batch08PulseBeforeMutation(sourceFC, 'clan-chief-kill-draw');
+    if (hasServant && batch08PulseBeforeMutation(sourceFC, 'clan-chief-kill-draw')) await batch08WaitForFeedback();
     const draw = drawCardFromRuntimeDeck(p, {predicate:id => CARDS_DATA[id]?.type === 'Serviteur', refresh:false, sourceCardId:'ORC000010', sourceInstanceId:sourceFC.dataset.instance});
     let summon = null;
     if (draw.success && CARDS_DATA[draw.cardId]?.fac === 'orc' && Number(CARDS_DATA[draw.cardId]?.cost || 0) < 4) {
@@ -12884,7 +12959,7 @@ async function resolveBatch08KillEffects(sourceFC, targetFC, context={}) {
     const occurrenceId = batch08NextOccurrenceId('batch08-maraborc');
     batch08PulseBeforeMutation(sourceFC, 'maraborc-copy', {victimId, occurrenceId});
     p.batch08MaraborcCopies ||= [];
-    p.batch08MaraborcCopies.push({cardId:victimId, occurrenceId, originalFaction:CARDS_DATA[victimId]?.fac || null, treatedAsOrc:true, costDelta:-1, turnSequence});
+    p.batch08MaraborcCopies.push({cardId:victimId, occurrenceId, originalFaction:CARDS_DATA[victimId]?.fac || null, originalAssetFolder:CARDS_DATA[victimId]?.assetFolder || facFolder(CARDS_DATA[victimId]?.fac), treatedAsOrc:true, costDelta:-1, turnSequence});
     const modifier = registerRuntimeCostModifier(p, {
       sourceId:'ORC000019',
       priority:260,
@@ -13980,18 +14055,32 @@ async function sendToCemetery(fc, options={}) {
     if (d.type === 'Serviteur' && player) {
       const graveyardOwner = playerState(player);
       if (graveyardOwner && fc.dataset.cemeteryRecorded !== '1') {
-        graveyardOwner.graveyard.push(cardId);
+        const maraborcEntry = fc.dataset.batch08MaraborcCopy === '1'
+          ? {
+              cardId,
+              batch08MaraborcCopy:true,
+              occurrenceId:fc.dataset.batch08MaraborcOccurrence || fc.dataset.instance || null,
+              originalFaction:fc.dataset.batch08MaraborcOriginalFaction || d.fac || null,
+              originalAssetFolder:fc.dataset.batch08MaraborcOriginalAssetFolder || d.assetFolder || facFolder(d.fac)
+            }
+          : null;
+        graveyardOwner.graveyard.push(maraborcEntry || cardId);
         fc.dataset.cemeteryRecorded = '1';
       }
     }
-    addToCemetery(cardId, player, d.fac||'edn');
+    addToCemetery(cardId, player, fc.dataset.batch08MaraborcCopy === '1' ? 'orc' : (d.fac||'edn'), fc.dataset.batch08MaraborcCopy === '1' ? batch08MaraborcCopyData(cardId, d, {
+      occurrenceId:fc.dataset.batch08MaraborcOccurrence || fc.dataset.instance || null,
+      originalFaction:fc.dataset.batch08MaraborcOriginalFaction || d.fac || null,
+      originalAssetFolder:fc.dataset.batch08MaraborcOriginalAssetFolder || d.assetFolder || facFolder(d.fac)
+    }) : null);
   }
   if (goesToCemetery && d.type === 'Serviteur') handleBatch02AlliedServantDeath(player, cardId);
+  if (typeof syncBatch08AvatarPassiveLocks === 'function') syncBatch08AvatarPassiveLocks({refresh:true});
   syncBatch05Passives();
   if (d.fac) addHistEntry(cardId, d.fac);
 }
 
-function addToCemetery(cardId, player, fac) {
+function addToCemetery(cardId, player, fac, cardData=null) {
   const cemSel = playerZoneSelector(player, 'cemetery');
   const cem = qs(cemSel);
   if (!cem) return false;
@@ -13999,7 +14088,10 @@ function addToCemetery(cardId, player, fac) {
     cem.innerHTML = '<div class="cem-empty">Vide</div>';
     return true;
   }
-  const folder = CARDS_DATA[cardId]?.assetFolder || facFolder(fac);
+  const data = cardData || CARDS_DATA[cardId] || {};
+  const folder = data.batch08MaraborcCopy
+    ? (data.originalAssetFolder || data.assetFolder || facFolder(data.originalFac || fac))
+    : (data.assetFolder || facFolder(fac));
   cem.innerHTML = `<div class="cem-card"><img src="${cardArtworkSrc(cardId, folder)}" alt=""></div>`;
   return true;
 }
@@ -14009,7 +14101,8 @@ function refreshCemeteryVisual(player) {
   const last = p?.graveyard?.[p.graveyard.length - 1] || null;
   const cardId = getRuntimeCardId(last);
   if (!cardId) return addToCemetery('', p, 'appro');
-  return addToCemetery(cardId, p, CARDS_DATA[cardId]?.fac || 'appro');
+  const data = batch08RuntimeCardData(last, CARDS_DATA[cardId]);
+  return addToCemetery(cardId, p, data?.fac || CARDS_DATA[cardId]?.fac || 'appro', data);
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
