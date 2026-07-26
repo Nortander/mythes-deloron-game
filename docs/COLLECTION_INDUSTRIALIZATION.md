@@ -160,6 +160,14 @@ Scenarios techniques caches : `collection-batch-09-trolls`, `collection-batch-09
 - Les corrections fonctionnelles couvrent notamment Devore-magie limite aux sorts directs, Protectroll sur les degats d'avatar, les buffs persistants de Sang-furieux/Peau-de-pierre/Amasseur, l'attachement de Troll-nain, le delai de Vengeance du Troll premier-ne et Faveur de Mugwa qui fixe reellement le cout des Trolls a 1.
 - `PRST000005` conserve son cout de lancement canonique a 3 selon l'export 2026-07-19 ; la valeur 1 concerne son effet permanent sur les Trolls allies.
 
+### Corrections COLLECTION-BATCH-09C
+
+- Les retours visuels Batch09B sont limites au perimetre Trolls et associes ; l'ancien classeur contenant des feuilles Elfes est ignore.
+- Les textes publics de `S000046`, `S000048`, `TRL000005`, `TRL000015`, `TRL000017`, `TRL000018` et `TRL000020` mettent en valeur les valeurs variables attendues sans exposer de donnees techniques.
+- `PRST000005` fixe maintenant le cout des serviteurs Trolls a 3 ressources tout en preservant les prerequis non-Nourriture pertinents ; le message public de Mugwa et celui de `PRST000004` sont exacts.
+- Les bonus Trolls persistants ou temporaires utilisent le rendu de statistiques vertes et les compteurs visuels structures pour Sang-furieux et Devore-magie.
+- Les scenarios techniques Batch09 rendent verifiables les pulsations, deplacements, soins d'avatar, retours Rune, Clef de pierre liee, effets de combat, modalite de `S000046` et reduction de cout de Mugwa.
+
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
 

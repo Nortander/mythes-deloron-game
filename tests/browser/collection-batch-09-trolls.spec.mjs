@@ -83,17 +83,31 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
     instableTooltips:CARDS_DATA.TRL000017.extraTooltips,
     zarrach:CARDS_DATA.PRST000004.cap,
     mugwa:CARDS_DATA.PRST000005.cap,
-    formatted:formatPlayerFacingCardText(CARDS_DATA.S000046.cap)
+    caCasseFormatted:formatPlayerFacingCardText(CARDS_DATA.S000046.cap),
+    hordeFormatted:formatPlayerFacingCardText(CARDS_DATA.S000048.cap),
+    trollNainFormatted:formatPlayerFacingCardText(CARDS_DATA.TRL000015.cap),
+    umpFormatted:formatPlayerFacingCardText(CARDS_DATA.TRL000020.cap)
   }));
   expect(result.devoreKeywords).not.toContain("Insensible");
   expect(result.twoHeads).toContain("serviteur adjacent choisi");
   expect(result.twoHeads).not.toContain("pricipale");
   expect(result.firstBorn).not.toMatch(/ID\s*=|TRL000001|TRL000003/);
-  expect(result.instableCap).toBe("Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à la fin du tour.");
+  expect(result.instableCap).toBe("Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à votre prochain tour.");
   expect(result.instableTooltips.map(t => t.title)).toEqual(["COMPÉTENCE 1","COMPÉTENCE 2","COMPÉTENCE 3","COMPÉTENCE 4"]);
+  expect(result.instableTooltips.map(t => t.text)).toEqual([
+    "Gagne +5 ATK jusqu'à votre prochain tour.",
+    "Gagne +5 PDV jusqu'à votre prochain tour.",
+    "Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'à votre prochain tour.",
+    "Inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte."
+  ]);
   expect(result.zarrach).toContain("*1* serviteur");
   expect(result.mugwa).toContain("*3*");
-  expect(result.formatted).toContain('class="kv"');
+  expect(result.caCasseFormatted).toContain('<strong class="kv">4 PDV</strong>');
+  expect(result.hordeFormatted).toContain('<strong class="kv">+1 ATK</strong>');
+  expect(result.hordeFormatted).toContain('<strong class="kv">+1 PDV</strong>');
+  expect(result.trollNainFormatted).toContain('<strong class="kv">+2 ATK</strong>');
+  expect(result.trollNainFormatted).toContain('<strong class="kv">+2 PDV</strong>');
+  expect(result.umpFormatted).toContain('<strong class="kv">4 PDV</strong>');
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -105,34 +119,58 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
     const costTotal = id => resolveCardCost({player:player1, cardId:id})?.effectiveCost?.total ?? null;
     const before = {giant:costTotal("TRL000019"), twelve:costTotal("TRL000012"), cache:supplyDefinition("R000026")?.production?.vector || {}, hand:player1.hand.length, deck:player1.drawPile.length};
     const mugwa = await triggerSort("PRST000005", player1);
-    const afterMugwa = {giant:costTotal("TRL000019"), twelve:costTotal("TRL000012"), foodRequirement:(resolveCardCost({player:player1, cardId:"TRL000012"})?.effectiveCost?.requirements || []).filter(req => req.resource === "nourriture").length};
+    const giantCost = resolveCardCost({player:player1, cardId:"TRL000019"})?.effectiveCost;
+    const twelveCost = resolveCardCost({player:player1, cardId:"TRL000012"})?.effectiveCost;
+    const afterMugwa = {
+      giant:costTotal("TRL000019"),
+      twelve:costTotal("TRL000012"),
+      giantRequirements:giantCost?.requirements || [],
+      twelveRequirements:twelveCost?.requirements || [],
+      foodRequirement:(twelveCost?.requirements || []).filter(req => req.resource === "nourriture").length,
+      message:document.querySelector("#notif")?.textContent || ""
+    };
     const horde = await triggerSort("S000048", player1);
+    const hordeMessage = document.querySelector("#notif")?.textContent || "";
     const troll = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000006");
     const gob = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000001");
     const orc = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "ORC000001");
-    const afterHorde = {hand:player1.hand.length, deck:player1.drawPile.length, troll:targetSummary(troll), gob:targetSummary(gob), orc:targetSummary(orc), sources:{troll:troll.dataset.batch05PassiveSources || "", gob:gob.dataset.batch05PassiveSources || "", orc:orc.dataset.batch05PassiveSources || ""}};
+    const statClass = fc => ({atk:fc.querySelector(".fc-atk-val")?.className || "", pdv:fc.querySelector(".fc-pdv-val")?.className || ""});
+    const afterHorde = {hand:player1.hand.length, deck:player1.drawPile.length, troll:targetSummary(troll), gob:targetSummary(gob), orc:targetSummary(orc), classes:{troll:statClass(troll), gob:statClass(gob), orc:statClass(orc)}, sources:{troll:troll.dataset.batch05PassiveSources || "", gob:gob.dataset.batch05PassiveSources || "", orc:orc.dataset.batch05PassiveSources || ""}};
     await triggerSort("PRST000004", player1);
     const handBeforeDeath = player1.hand.length;
     await sendToCemetery(troll);
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const handAfterDeath = player1.hand.length;
+    const zarrachAnimated = Array.from(document.querySelectorAll('.hc[data-batch09-hand-animation="batch09-zarrach-hand-added"]')).map(card => card.dataset.id);
     const casseTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000011");
     const enemiesBefore = livingServantCardsForPlayer(player2).length;
     const casse = await triggerSort("S000046", player1, {selectedTargetIds:[casseTarget.dataset.instance]});
     const lastPublicMessage = document.querySelector("#notif")?.textContent || document.body.textContent;
-    return {before, mugwa, afterMugwa, horde, afterHorde, handBeforeDeath, handAfterDeath, casse, enemiesBefore, enemiesAfter:livingServantCardsForPlayer(player2).length, lastPublicMessage, events:auditCollectionBatch09Runtime().state.events};
+    return {before, mugwa, afterMugwa, horde, hordeMessage, afterHorde, handBeforeDeath, handAfterDeath, zarrachAnimated, casse, enemiesBefore, enemiesAfter:livingServantCardsForPlayer(player2).length, lastPublicMessage, events:auditCollectionBatch09Runtime().state.events};
   });
   expect(result.before.cache.pierre).toBe(3);
   expect(result.before.cache.fer).toBe(2);
   expect(result.afterMugwa.giant).toBe(3);
   expect(result.afterMugwa.twelve).toBe(3);
   expect(result.afterMugwa.foodRequirement).toBe(0);
+  expect(result.afterMugwa.message).toContain("Mugwa remplit le ventre de ses enfants ! Trolls, plus faim !");
+  expect(result.afterMugwa.giantRequirements).toEqual(expect.arrayContaining([expect.objectContaining({resource:"pierre", amount:3})]));
+  expect(result.afterMugwa.twelveRequirements).toEqual(expect.arrayContaining([expect.objectContaining({
+    kind:"oneOf",
+    options:expect.arrayContaining([expect.objectContaining({resource:"lenya", amount:3})])
+  })]));
   expect(result.horde.drawn).toBe(2);
+  expect(result.hordeMessage).toContain("Vos serviteurs trolls, orcs et gobelins se battent sous la bannière de la horde !");
   expect(result.afterHorde.hand).toBe(result.before.hand + 2);
   expect(result.afterHorde.deck).toBe(result.before.deck - 2);
   expect(result.afterHorde.troll.pdvMax).toBeGreaterThan(5);
   expect(result.afterHorde.gob.pdvMax).toBeGreaterThan(0);
   expect(result.afterHorde.orc.atk).toBeGreaterThan(0);
+  expect(result.afterHorde.classes.troll.pdv).toContain("grn");
+  expect(result.afterHorde.classes.gob.pdv).toContain("grn");
+  expect(result.afterHorde.classes.orc.atk).toContain("grn");
   expect(result.handAfterDeath).toBe(result.handBeforeDeath + 1);
+  expect(result.zarrachAnimated.length).toBeGreaterThan(0);
   expect(result.events.some(event => event.type === "zarrach-death-trigger")).toBe(true);
   expect(result.casse.success).toBe(true);
   expect(result.casse.rounds).toBeGreaterThan(0);
@@ -157,7 +195,9 @@ test("Troll initiatives are played from hand and mutate board, stats, summons an
     const stoneFc = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000005");
     cardsPlayedThisTurn = 0;
     const lance = await play("TRL000008");
-    return {before, siege, stone, stoneFc:targetSummary(stoneFc), lance, goblins:livingServantCardsForPlayer(player1).filter(fc => CARDS_DATA[fc.dataset.id]?.fac === "gob").map(targetSummary), hoarder, hoarderFc:targetSummary(hoarderFc), hand:[...player1.hand], enemy:livingServantCardsForPlayer(player2).length, p1Grave:player1.graveyard.length, p2Grave:player2.graveyard.length, events:auditCollectionBatch09Runtime().state.events};
+    const stoneClasses = {atk:stoneFc.querySelector(".fc-atk-val")?.className || "", pdv:stoneFc.querySelector(".fc-pdv-val")?.className || ""};
+    const hoarderClasses = {atk:hoarderFc.querySelector(".fc-atk-val")?.className || "", pdv:hoarderFc.querySelector(".fc-pdv-val")?.className || ""};
+    return {before, siege, stone, stoneFc:targetSummary(stoneFc), stoneClasses, lance, goblins:livingServantCardsForPlayer(player1).filter(fc => CARDS_DATA[fc.dataset.id]?.fac === "gob").map(targetSummary), hoarder, hoarderFc:targetSummary(hoarderFc), hoarderClasses, hand:[...player1.hand], enemy:livingServantCardsForPlayer(player2).length, p1Grave:player1.graveyard.length, p2Grave:player2.graveyard.length, events:auditCollectionBatch09Runtime().state.events};
   });
   expect(result.hand).not.toContain("TRL000004");
   expect(result.hand).not.toContain("TRL000005");
@@ -165,8 +205,11 @@ test("Troll initiatives are played from hand and mutate board, stats, summons an
   expect(result.hand).not.toContain("TRL000018");
   expect(result.enemy).toBeLessThan(result.before.enemy);
   expect(result.stoneFc.atk + result.stoneFc.pdvMax).toBeGreaterThan(8);
+  expect(result.stoneClasses.atk + result.stoneClasses.pdv).toContain("grn");
   expect(result.goblins.length).toBeGreaterThan(0);
   expect(result.hoarderFc.atk).toBeGreaterThan(2);
+  expect(result.hoarderClasses.atk).toContain("grn");
+  expect(result.hoarderClasses.pdv).toContain("grn");
   expect(result.hoarder.initiativeResult.stored).toHaveLength(3);
   for (const type of ["siege-troll-initiative","stone-skin-initiative","lance-gobelin-initiative","cadaver-hoarder-initiative"]) expect(result.events.some(event => event.type === type), type).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
@@ -198,6 +241,8 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
     const beforeAttach = targetSummary(attachTarget);
     const attach = await playCard("TRL000015", null, {selectedTargetIds:[attachTarget.dataset.instance], returnValidation:true});
     const afterAttach = targetSummary(attachTarget);
+    const attachClasses = {atk:attachTarget.querySelector(".fc-atk-val")?.className || "", pdv:attachTarget.querySelector(".fc-pdv-val")?.className || ""};
+    const attachPreview = batch03PreviewCardData(attachTarget.dataset.id, CARDS_DATA[attachTarget.dataset.id], {sourceElement:attachTarget}).cap;
     await sendToCemetery(attachTarget);
     const afterDeath = snapshot();
     window.__mythesRandom = () => 0;
@@ -205,7 +250,13 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
     if (weak) batch03UpdateStats(weak, {pdv:1, pdvMax:Number(weak.dataset.pdvMax || 1)});
     const umpBefore = targetSummary(ump);
     if (weak) { weak._killer = ump; const died = await applyDamage(weak, Number(ump.dataset.atk || 0)); await resolveBatch09CombatDamageDealtEffects(ump, weak, {phase:"attack", targetDied:died}); }
-    return {beforeBalayeur, afterBalayeur, brisePlan, attach, beforeAttach, afterAttach, afterDeath, umpBefore, umpAfter:targetSummary(ump), events:auditCollectionBatch09Runtime().state.events};
+    const umpAfterKill = targetSummary(ump);
+    const handBeforeRune = [...player1.hand];
+    ump._killer = livingServantCardsForPlayer(player2)[0] || null;
+    const umpReturned = await applyDamage(ump, 99);
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const runeBlock = (player1.batch03BlockedHandOccurrences || []).find(entry => entry.cardId === "TRL000020") || null;
+    return {beforeBalayeur, afterBalayeur, brisePlan, attach, beforeAttach, afterAttach, attachClasses, attachPreview, afterDeath, umpBefore, umpAfter:umpAfterKill, handBeforeRune, umpReturned, runeHand:[...player1.hand], runeBlock, events:auditCollectionBatch09Runtime().state.events};
   });
   expect(result.afterBalayeur.enemies.some(after => {
     const before = result.beforeBalayeur.enemies.find(card => card.instance === after.instance);
@@ -216,14 +267,23 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   expect(result.attach.success).toBe(true);
   expect(result.afterAttach.atk).toBe(result.beforeAttach.atk + 2);
   expect(result.afterAttach.pdvMax).toBe(result.beforeAttach.pdvMax + 2);
+  expect(result.attachClasses.atk).toContain("grn");
+  expect(result.attachClasses.pdv).toContain("grn");
+  expect(result.attachPreview).toContain("Bénéficie du renforcement d'un Troll-nain, petit mais costaud !");
   expect(result.afterDeath.hand).toContain("TRL000015");
   expect(result.umpAfter.pdv).toBeGreaterThanOrEqual(result.umpBefore.pdv);
+  expect(result.umpBefore.pdvMax).toBe(9);
+  expect(result.umpReturned).toBe(true);
+  expect(result.runeHand).toContain("TRL000020");
+  expect(result.runeHand.length).toBe(result.handBeforeRune.length + 1);
+  expect(result.runeBlock).toEqual(expect.objectContaining({cardId:"TRL000020", sourceName:"Serviteur de la rune", armed:true}));
   expect(result.events.some(event => event.type === "combat-effects")).toBe(true);
+  expect(result.events.some(event => event.type === "combat-effects" && event.results?.some(item => item.type === "brise-rempart-bonus"))).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Devore-magie only reacts to direct enemy spell damage and then becomes Insensible", async ({page}, testInfo) => {
+test("Devore-magie reacts only to direct magical damage and then becomes Insensible", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-09-magic");
   const result = await page.evaluate(async () => {
@@ -233,18 +293,21 @@ test("Devore-magie only reacts to direct enemy spell damage and then becomes Ins
     const afterNonSpell = targetSummary(devore);
     applyHeal(devore, 1);
     const snapshots = [];
-    for (let i = 0; i < 3; i++) {
+    await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"H000001", targetFC:devore, amount:1, bypassInsensitive:true, directSpecialAbilityDamage:true});
+    snapshots.push(targetSummary(devore));
+    for (let i = 0; i < 2; i++) {
       await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"S000032", targetFC:devore, amount:1, bypassInsensitive:true, directSpellDamage:true});
       snapshots.push(targetSummary(devore));
     }
     const previewData = batch03PreviewCardData("TRL000009", CARDS_DATA.TRL000009, {sourceElement:devore});
-    return {before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent})), events:auditCollectionBatch09Runtime().state.events};
+    return {before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className})), events:auditCollectionBatch09Runtime().state.events};
   });
   expect(result.afterNonSpell.batch09DevoreMagicMarkers).toBe(0);
   expect(result.snapshots.map(card => card.batch09DevoreMagicMarkers)).toEqual([1,2,3]);
   expect(result.final.batch09DevoreMagicSpent).toBe(true);
   expect(result.final.insensible).toBe(true);
   expect(result.final.atk).toBe(result.before.atk + 3);
+  expect(result.statClass).toContain("grn");
   expect(result.previewText).toBe("[Insensible]");
   expect(result.counters.some(counter => counter.key === "devore-magie" && counter.text === "3")).toBe(true);
   expect(result.events.filter(event => event.type === "damage-received-hooks").some(event => event.results?.some(result => result.type === "devore-magic"))).toBe(true);
@@ -256,12 +319,16 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-09-protectroll");
   const protectroll = await page.evaluate(async () => {
+    syncBatch05Passives();
+    const protectrollCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000010");
     const beforeAvatar = avatarHitPoints(player1);
     const result = applyAvatarEffectDamage(player1, 4, {sourceCardId:"TEST"});
-    return {beforeAvatar, afterAvatar:avatarHitPoints(player1), result};
+    return {beforeAvatar, afterAvatar:avatarHitPoints(player1), result, passivePulse:protectrollCard?.dataset?.batch03PassivePulse === "1", pulseReason:protectrollCard?.dataset?.batch03LastPulseReason || ""};
   });
   expect(protectroll.result.reduction).toBe(1);
   expect(protectroll.afterAvatar).toBe(protectroll.beforeAvatar - 3);
+  expect(protectroll.passivePulse).toBe(true);
+  expect(protectroll.pulseReason).toBe("batch05-passive");
 
   await openScenario(page, "collection-batch-09-tempo");
   const tempo = await page.evaluate(async () => {
@@ -274,15 +341,23 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
     window.__mythesRandom = () => 0.5;
     await resolveBatch09StartTurnEffects(player1);
     const previewData = batch03PreviewCardData("TRL000017", CARDS_DATA.TRL000017, {sourceElement:instable});
-    return {furyBefore, afterOne, afterTwo:targetSummary(fury), instable:targetSummary(instable), previewText:previewData.cap, counters:Array.from(fury.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent}))};
+    const afterTwo = targetSummary(fury);
+    const furyClasses = {atk:fury.querySelector(".fc-atk-val")?.className || "", counter:Array.from(fury.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className}))};
+    window.__mythesRandom = () => 0;
+    await resolveBatch09StartTurnEffects(player1);
+    const previewAtk = batch03PreviewCardData("TRL000017", CARDS_DATA.TRL000017, {sourceElement:instable});
+    return {furyBefore, afterOne, afterTwo, instable:targetSummary(instable), instableAtkClass:instable.querySelector(".fc-atk-val")?.className || "", previewText:previewData.cap, previewAtkText:previewAtk.cap, furyClasses};
   });
   expect(tempo.afterOne.atk).toBe(tempo.furyBefore.atk + 3);
   expect(tempo.afterTwo.atk).toBe(tempo.furyBefore.atk + 6);
   expect(tempo.afterTwo.batch09FuryAtkBonus).toBe(6);
-  expect(tempo.counters.some(counter => counter.key === "sang-furieux" && counter.text === "2")).toBe(true);
-  expect(tempo.instable.batch09InstableRempart).toBe(true);
-  expect(tempo.instable.batch09InstableNoAttack).toBe(true);
+  expect(tempo.furyClasses.atk).toContain("grn");
+  expect(tempo.furyClasses.counter.some(counter => counter.key === "sang-furieux" && counter.text === "2")).toBe(true);
+  expect(tempo.furyClasses.counter.some(counter => counter.key === "sang-furieux" && counter.className.includes("batch03-status-counter"))).toBe(true);
   expect(tempo.previewText).toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
+  expect(tempo.instable.batch09InstableAtkBonus).toBe(5);
+  expect(tempo.instableAtkClass).toContain("grn");
+  expect(tempo.previewAtkText).toContain("Bénéficie temporairement d'un bonus d'attaque.");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
