@@ -152,7 +152,14 @@ Le lot couvre les Faveurs `PRST000004` / `PRST000005`, l'Approvisionnement `R000
 
 `TRL000001` et `TRL000003` restent des serviteurs sans effet programmable propre au-dela des regles generiques, mais sont invoques par la Vengeance de `TRL000014`.
 
-Scenarios techniques caches : `collection-batch-09-trolls`, `collection-batch-09-vengeance` et `collection-batch-09-tempo`.
+Scenarios techniques caches : `collection-batch-09-trolls`, `collection-batch-09-initiatives`, `collection-batch-09-combat`, `collection-batch-09-magic`, `collection-batch-09-protectroll`, `collection-batch-09-tempo`, `collection-batch-09-vengeance` et `collection-batch-09-faveurs-sorts`.
+### Corrections COLLECTION-BATCH-09B
+
+- Les scenarios Batch09 sont repartis par mecanisme pour rendre toutes les cartes Trolls testables sans terrain plein : cartes simples, Initiatives, combat, magie directe, Protectroll, tempo, Vengeance et Faveurs/sorts.
+- Les descriptions publiques des cartes Trolls touchees renforcent les donnees numeriques importantes, sans exposer d'identifiants techniques.
+- Les corrections fonctionnelles couvrent notamment Devore-magie limite aux sorts directs, Protectroll sur les degats d'avatar, les buffs persistants de Sang-furieux/Peau-de-pierre/Amasseur, l'attachement de Troll-nain, le delai de Vengeance du Troll premier-ne et Faveur de Mugwa qui fixe reellement le cout des Trolls a 1.
+- `PRST000005` conserve son cout de lancement canonique a 3 selon l'export 2026-07-19 ; la valeur 1 concerne son effet permanent sur les Trolls allies.
+
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
 

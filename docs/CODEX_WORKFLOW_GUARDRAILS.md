@@ -175,6 +175,7 @@ Règles :
 - ne pas introduire de texte public non accentué ;
 - ne pas utiliser les textes français comme logique runtime ;
 - ne pas réécrire, paraphraser ou renommer les textes visibles des cartes sans instruction explicite : les noms et descriptions runtime doivent rester alignés sur l’export canonique actif ;
+- dans les lots Collection, toute donnée numérique écrite en chiffres dans la description principale, les lignes dynamiques ou les infobulles d’une carte touchée doit être rendue avec la mise en valeur mécanique appropriée à sa faction ou à son type ; ne pas attendre un rappel carte par carte pour les valeurs comme `1`, `2`, `3`, `4`, `5`, `10`, `25%`, `50%`, `+1 ATK`, `+1 PDV`, `+2 ATK`, `+3` ou `+5 ATK` ;
 - ne pas insérer d’IDs techniques dans les textes publics ;
 - réserver les IDs, `effectInstanceId`, `linkedOccurrenceId` et diagnostics détaillés au panneau de test ou aux logs techniques.
 
@@ -328,6 +329,7 @@ Règles :
 - les scénarios techniques destinés à validation visuelle doivent garder des mains lisibles et non surchargées ; si plus de 7 cartes sont nécessaires, répartir les cartes entre main, deck, cimetière, plateau ou scénarios dédiés ;
 - éviter les scénarios techniques fourre-tout : une carte qui n'est pas immédiatement testée doit être placée dans une zone technique, le deck ou le cimetière plutôt que dans une main déjà dense ;
 - privilégier plusieurs scénarios ciblés et lisibles à un seul scénario exhaustif lorsque la validation humaine doit comprendre le timing, le ciblage ou les déplacements ;
+- un scénario de test Collection ne doit pas démarrer avec un terrain plein ou presque plein, sauf si le cas testé porte explicitement sur un terrain plein ; chaque carte à valider doit rester visuellement déclenchable, quitte à répartir le lot entre plusieurs scénarios ciblés ;
 - lorsqu'un scénario technique teste une pioche ou un ajout à la main, conserver au moins 2 à 3 emplacements libres visibles, sauf si le cas testé porte explicitement sur une main pleine ;
 - les messages publics doivent être simples et exacts ;
 - les diagnostics techniques doivent rester dans le mode test.
