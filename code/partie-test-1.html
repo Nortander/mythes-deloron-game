@@ -630,18 +630,16 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-divine-wrath-tick{animation:batch03DivineTick .85s ease-out;}
 .batch03-divine-wrath-tick::before,.batch03-divine-wrath-tick::after{content:'';position:absolute;inset:8px;z-index:48;pointer-events:none;border:2px solid rgba(255,255,255,.95);border-left-color:transparent;border-bottom-color:transparent;border-radius:42% 58% 46% 54%;filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 13px #d9f1ff);animation:batch03DivineArc .85s ease-out;}
 .batch03-divine-wrath-tick::after{inset:18px 10px 14px 16px;transform:rotate(28deg);animation-delay:.08s;}
-.batch03-status-counter{position:absolute;right:5px;bottom:32px;z-index:52;display:grid;place-items:center;width:28px;height:28px;font-family:'Cinzel',serif;font-size:14px;font-weight:900;line-height:1;color:#101014;text-shadow:0 1px 4px rgba(255,255,255,.95);pointer-events:none;}
+.batch03-status-counter{position:absolute;right:var(--status-counter-right,5px);bottom:var(--status-counter-bottom,32px);z-index:52;display:grid;place-items:center;width:28px;height:28px;font-family:'Cinzel',serif;font-size:14px;font-weight:900;line-height:1;color:#101014;text-shadow:0 1px 4px rgba(255,255,255,.95);pointer-events:none;}
 .batch03-status-counter::before{content:'';position:absolute;inset:0;z-index:-1;filter:drop-shadow(0 0 8px rgba(255,255,255,.95)) drop-shadow(0 0 14px var(--batch03-status-glow,rgba(255,255,255,.75)));}
 .batch03-status-counter[data-batch03-status-counter="divine-wrath"]::before{background:linear-gradient(180deg,#fff,#eaf6ff);clip-path:polygon(49% 0,62% 32%,98% 24%,71% 51%,89% 88%,51% 67%,16% 100%,31% 58%,0 43%,38% 35%);}
 .batch03-status-counter[data-batch03-status-counter="hypnose"]{color:#caff9c;text-shadow:0 0 5px #071807,0 1px 4px #000;}
 .batch03-status-counter[data-batch03-status-counter="hypnose"]::before{background:radial-gradient(circle at 50% 50%,#9dff66 0 25%,#173b18 28% 45%,#071807 48% 62%,transparent 65%);border:2px solid rgba(157,255,102,.95);border-radius:50%;box-shadow:0 0 12px rgba(157,255,102,.8);}
 .batch03-status-counter[data-batch03-status-counter="sang-furieux"]{color:#ffe9cc;text-shadow:0 0 5px #2b0500,0 1px 4px #000;}
 .batch03-status-counter[data-batch03-status-counter="sang-furieux"]::before{background:linear-gradient(180deg,#ffead2 0 13%,#c22518 19% 55%,#3b0704 76%);clip-path:polygon(50% 0,61% 25%,86% 9%,75% 38%,100% 47%,73% 59%,89% 91%,56% 75%,50% 100%,42% 75%,9% 91%,27% 59%,0 47%,25% 38%,14% 9%,39% 25%);filter:drop-shadow(0 0 8px rgba(255,64,26,.95)) drop-shadow(0 0 15px rgba(255,185,74,.85));}
-.batch03-status-counter[data-batch03-status-counter="devore-magie"],.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]{width:34px;height:22px;border-radius:999px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.95);font-size:13px;line-height:1;}
-.batch03-status-counter[data-batch03-status-counter="devore-magie"]{right:5px;bottom:32px;}
-.batch03-status-counter[data-batch03-status-counter="devore-magie"]::before{inset:0;background:linear-gradient(180deg,#a85bed,#5f2198);border-radius:999px;filter:drop-shadow(0 0 9px rgba(188,89,255,.88)) drop-shadow(0 0 16px rgba(116,36,180,.62));}
-.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]{right:43px;bottom:32px;}
-.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]::before{inset:0;background:linear-gradient(180deg,#c9fbff,#42c6f1);border-radius:999px;filter:drop-shadow(0 0 8px rgba(255,255,255,.96)) drop-shadow(0 0 16px rgba(126,225,255,.7));}
+.batch03-status-counter[data-batch03-status-counter="devore-magie"],.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]{width:26px;height:20px;padding:0 5px;border-radius:11px;border:1.5px solid rgba(255,204,120,.94);box-sizing:border-box;color:#fff;text-shadow:0 1px 2px #120018,0 0 6px rgba(255,255,255,.5);font-size:12px;line-height:1;}
+.batch03-status-counter[data-batch03-status-counter="devore-magie"]::before{inset:0;background:linear-gradient(135deg,rgba(104,24,150,.97),rgba(186,82,255,.88));border-radius:11px;filter:drop-shadow(0 0 10px rgba(188,89,255,.88)) drop-shadow(0 0 16px rgba(116,36,180,.56));}
+.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]::before{inset:0;background:linear-gradient(135deg,rgba(190,250,255,.96),rgba(58,190,236,.9));border-radius:11px;filter:drop-shadow(0 0 10px rgba(255,255,255,.96)) drop-shadow(0 0 16px rgba(126,225,255,.66));}
 .fc-batch09-ice-shield{box-shadow:0 0 18px rgba(126,225,255,.74), inset 0 0 20px rgba(160,240,255,.2);}
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
@@ -884,12 +882,12 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .savoir-tribal-choice-panel .sort-choice-title,.batch08-board-choice-panel .sort-choice-title,.chaman-tribal-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
 .savoir-tribal-choice-panel .sort-choice-cards,.batch08-board-choice-panel .sort-choice-cards,.chaman-tribal-choice-panel .sort-choice-cards{overflow:visible;padding:14px 22px 20px;max-height:none;}
 .savoir-tribal-choice-panel .sort-choice-item:hover,.batch08-board-choice-panel .sort-choice-item:hover,.chaman-tribal-choice-panel .sort-choice-item:hover{position:relative;z-index:12;}
-.batch09-magic-choice-panel{max-width:min(860px,calc(100vw - 36px));max-height:86vh;position:relative;padding-top:34px;overflow:visible;}
+.batch09-magic-choice-panel{max-width:min(940px,calc(100vw - 36px));max-height:86vh;position:relative;padding-top:46px;overflow:visible;}
 .batch09-magic-choice-panel .decision-modal-header{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:2px;}
 .batch09-magic-choice-panel .decision-modal-spacer{display:none;}
-.batch09-magic-choice-panel .decision-modal-actions{order:1;align-self:flex-end;}
+.batch09-magic-choice-panel .decision-modal-actions{position:absolute;top:12px;right:16px;display:flex;justify-content:flex-end;align-items:center;margin:0;}
 .batch09-magic-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
-.batch09-magic-choice-panel .sort-choice-cards{overflow:visible;padding:14px 26px 24px;max-height:none;}
+.batch09-magic-choice-panel .sort-choice-cards{overflow:visible;padding:22px 38px 34px;max-height:none;}
 .batch09-magic-choice-panel .sort-choice-item{position:relative;z-index:1;}
 .batch09-magic-choice-panel .sort-choice-item:hover{position:relative;z-index:20;}
 .sort-choice-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;color:var(--gold);
@@ -1644,8 +1642,8 @@ body.dragging-card .hc.dragging {
   line-height:1;
 }
 .fc-burn-badge {
-  position:absolute; right:3px; bottom:28px; z-index:7;
-  min-width:26px; height:20px; padding:0 5px; display:flex; align-items:center; justify-content:center; gap:2px;
+  position:absolute; right:var(--status-counter-right,3px); bottom:var(--status-counter-bottom,28px); z-index:52;
+  min-width:26px; height:20px; padding:0 5px; box-sizing:border-box; display:flex; align-items:center; justify-content:center;
   background:linear-gradient(135deg, rgba(120,28,4,0.96), rgba(255,116,24,0.88));
   border:1.5px solid rgba(255,204,120,0.94); border-radius:11px;
   box-shadow:0 0 10px rgba(255,86,16,0.88), inset 0 1px 3px rgba(255,235,170,0.42);
@@ -1653,12 +1651,7 @@ body.dragging-card .hc.dragging {
   text-shadow:0 1px 2px #200, 0 0 6px rgba(255,80,0,0.9);
   pointer-events:none;
 }
-.fc-burn-badge::before {
-  content:''; width:8px; height:12px; flex:0 0 auto;
-  background:radial-gradient(circle at 50% 75%, #ffd56c 0 20%, #ff7a18 42%, #c01805 70%, transparent 72%);
-  border-radius:50% 50% 45% 45%;
-  clip-path:polygon(50% 0, 82% 38%, 72% 100%, 28% 100%, 18% 38%);
-}
+.fc-burn-badge::before { content:none; }
 .fc-burning .fi { filter:drop-shadow(0 0 7px rgba(255,90,18,0.85)); }
 .fc-burn-flash { animation: burnFlash .7s ease-out; }
 @keyframes burnFlash {
@@ -5467,11 +5460,15 @@ function projectBurnState(fc) {
   if (!badge) {
     badge = document.createElement('div');
     badge.className = 'fc-burn-badge';
+    badge.dataset.statusCounterKind = 'embrasement';
     fc.appendChild(badge);
   }
   badge.textContent = String(remaining);
-  badge.title = `EMBRASEMENT\n3 dégâts ont été infligés lors de l'application.\n1 dégât sera infligé au début des ${remaining} prochains tours.`;
+  badge.title = `EMBRASEMENT
+3 dégâts ont été infligés lors de l'application.
+1 dégât sera infligé au début des ${remaining} prochains tours.`;
   fc.classList.add('fc-burning');
+  layoutStatusCountersForCard(fc);
 }
 
 function clearColdEffectsForBurn(fc) {
@@ -7517,7 +7514,7 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.batch03AuraProtection === '1') ensureKeyword('Insensible', KDEF.Insensible || 'Ne peut pas être la cible de sorts adverses.');
   if (sourceEl?.dataset?.batch03DivineWrathTurns || sourceEl?.dataset?.batch03BlessedSwordsTurns) ensureKeyword('Colère divine', KDEF['Colère divine'] || 'Au début du tour du propriétaire affecté, subit 2, puis 3, puis 4 dégâts avant expiration.');
   if (sourceEl?.dataset?.frozen_cdg) ensureKeyword('Coup de glace', KDEF['Coup de glace'] || '');
-  if (sourceEl?.dataset?.frozen) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
+  if (sourceEl?.dataset?.frozen || Number(sourceEl?.dataset?.batch09IceShieldCharges || 0) > 0) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
   if (sourceEl?.dataset?.batch07RuneServant === '1') ensureKeyword('Serviteur de la rune', KDEF['Serviteur de la rune'] || 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.');
   if (sourceEl?.dataset?.batch08TotemRage === '1') ensureKeyword('Rage', KDEF.Rage || 'Gagne +2 d’attaque tant que ses points de vie sont inférieurs à leur maximum.');
@@ -21500,11 +21497,54 @@ async function resolveBatch04YriaExtraDraw(player, trace={}) {
   return result;
 }
 
+function statusCounterNodesForCard(fc) {
+  if (!fc) return [];
+  return Array.from(fc.querySelectorAll('.fc-burn-badge,[data-batch03-status-counter]'));
+}
+
+function layoutStatusCountersForCard(fc) {
+  const nodes = statusCounterNodesForCard(fc).filter(node => node.isConnected);
+  if (!nodes.length) return [];
+  const positions = [
+    {right:3, bottom:28},
+    {right:3, bottom:52},
+    {right:3, bottom:76}
+  ];
+  const cycling = nodes.length > positions.length;
+  nodes.forEach((node, index) => {
+    node.classList.toggle('status-counter-cycling', cycling);
+    node.style.setProperty('--status-counter-right', positions[Math.min(index, positions.length - 1)].right + 'px');
+    node.style.setProperty('--status-counter-bottom', (cycling ? positions[0].bottom : positions[index].bottom) + 'px');
+    node.dataset.statusCounterLayoutIndex = String(index);
+    node.dataset.statusCounterCycling = cycling ? '1' : '0';
+    node.hidden = cycling && index !== (Number(fc.dataset.statusCounterCycleIndex || 0) % nodes.length);
+  });
+  return nodes;
+}
+
+function tickStatusCounterCycle() {
+  document.querySelectorAll('.fc').forEach(fc => {
+    const nodes = statusCounterNodesForCard(fc);
+    if (nodes.length <= 3) {
+      nodes.forEach(node => { node.hidden = false; node.dataset.statusCounterCycling = '0'; });
+      return layoutStatusCountersForCard(fc);
+    }
+    fc.dataset.statusCounterCycleIndex = String((Number(fc.dataset.statusCounterCycleIndex || 0) + 1) % nodes.length);
+    layoutStatusCountersForCard(fc);
+  });
+}
+if (typeof window !== 'undefined' && !window.__mythesStatusCounterCycleTimer) {
+  window.__mythesStatusCounterCycleTimer = setInterval(tickStatusCounterCycle, 1000);
+}
+
 function createBatch03StatusCounter(fc, key, value, label) {
   if (!fc) return null;
   fc.querySelectorAll('[data-batch03-status-counter="' + key + '"]').forEach(node => node.remove());
   const displayValue = value === Infinity || value === '∞' || value === 'infinity' ? '∞' : String(value);
-  if (displayValue !== '∞' && !(Number(value) > 0)) return null;
+  if (displayValue !== '∞' && !(Number(value) > 0)) {
+    layoutStatusCountersForCard(fc);
+    return null;
+  }
   const node = document.createElement('div');
   node.className = 'kw-counter batch03-status-counter';
   node.dataset.batch03StatusCounter = key;
@@ -21512,6 +21552,7 @@ function createBatch03StatusCounter(fc, key, value, label) {
   node.textContent = displayValue;
   node.title = displayValue === '∞' ? label + ' : durée indéfinie.' : label + ' : ' + displayValue + ' tour(s) restant(s).';
   fc.appendChild(node);
+  layoutStatusCountersForCard(fc);
   return node;
 }
 

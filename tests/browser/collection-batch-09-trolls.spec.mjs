@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import {expect, test} from "@playwright/test";
 import {attachDiagnostics, attachPageDiagnostics} from "./helpers/eloron-ui.mjs";
 
@@ -96,13 +96,13 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
   expect(result.twoHeads).toContain("serviteur adjacent choisi");
   expect(result.twoHeads).not.toContain("pricipale");
   expect(result.firstBorn).not.toMatch(/ID\s*=|TRL000001|TRL000003/);
-  expect(result.instableCap).toBe("Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à la fin du tour.");
-  expect(result.instableTooltips.map(t => t.title)).toEqual(["COMPÉTENCE 1","COMPÉTENCE 2","COMPÉTENCE 3","COMPÉTENCE 4"]);
+  expect(result.instableCap).toBe("Au dÃ©but de chacun de vos tours, cette carte adopte alÃ©atoirement *1* comportement jusqu'Ã  la fin du tour.");
+  expect(result.instableTooltips.map(t => t.title)).toEqual(["COMPÃ‰TENCE 1","COMPÃ‰TENCE 2","COMPÃ‰TENCE 3","COMPÃ‰TENCE 4"]);
   expect(result.instableTooltips.map(t => t.text)).toEqual([
-    "Gagne +5 ATK jusqu'à votre prochain tour.",
-    "Gagne +5 PDV jusqu'à votre prochain tour.",
-    "Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'à votre prochain tour.",
-    "Inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte."
+    "Gagne +5 ATK jusqu'Ã  votre prochain tour.",
+    "Gagne +5 PDV jusqu'Ã  votre prochain tour.",
+    "Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'Ã  votre prochain tour.",
+    "Inflige 3 points de dÃ©gÃ¢ts Ã  1 autre serviteur alliÃ© alÃ©atoire puis vous fait piocher 1 carte."
   ]);
   expect(result.zarrach).toContain("*1* serviteur");
   expect(result.mugwa).toContain("*3*");
@@ -174,7 +174,7 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
     options:expect.arrayContaining([expect.objectContaining({resource:"lenya", amount:3})])
   })]));
   expect(result.horde.drawn).toBe(2);
-  expect(result.hordeMessage).toContain("Vos serviteurs trolls, orcs et gobelins se battent sous la bannière de la horde !");
+  expect(result.hordeMessage).toContain("Vos serviteurs trolls, orcs et gobelins se battent sous la banniÃ¨re de la horde !");
   expect(result.afterHorde.hand).toBe(result.before.hand + 2);
   expect(result.afterHorde.deck).toBe(result.before.deck - 2);
   expect(result.afterHorde.troll.pdvMax).toBeGreaterThan(5);
@@ -191,7 +191,7 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
   expect(result.casse.roundResults.some(round => (round.followUps || []).some(item => item.type === "balayeur-adjacent"))).toBe(true);
   expect(result.casse.roundResults.filter(round => round.heal).every(round => round.heal.amount >= 1 && round.heal.amount <= 4)).toBe(true);
   expect(result.enemiesAfter).toBeLessThanOrEqual(result.enemiesBefore);
-  expect(result.lastPublicMessage).not.toMatch(/attaque\(s\) résolue\(s\)/i);
+  expect(result.lastPublicMessage).not.toMatch(/attaque\(s\) rÃ©solue\(s\)/i);
   expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.forcedBy === "S000046")).toBe(true);
   expect(result.phaseEvents.some(event => event.phase === "feedback-before-attack")).toBe(true);
   expect(result.phaseEvents.some(event => event.phase === "attack-damage")).toBe(true);
@@ -326,7 +326,7 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   expect(result.afterAttach.pdvMax).toBe(result.beforeAttach.pdvMax + 2);
   expect(result.attachClasses.atk).toContain("grn");
   expect(result.attachClasses.pdv).toContain("grn");
-  expect(result.attachPreview).toContain("Bénéficie du renforcement d'un Troll-nain, petit mais costaud !");
+  expect(result.attachPreview).toContain("BÃ©nÃ©ficie du renforcement d'un Troll-nain, petit mais costaud !");
   expect(result.afterDeath.hand).toContain("TRL000015");
   expect(result.umpAfter.pdv).toBeGreaterThanOrEqual(result.umpBefore.pdv);
   expect(result.umpBefore.pdvMax).toBe(9);
@@ -355,11 +355,38 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
       resType:CARDS_DATA[id]?.resType,
       cap:CARDS_DATA[id]?.cap,
       formatted:formatPlayerFacingCardText(CARDS_DATA[id]?.cap || ""),
-      message:{S000061:"Le pouvoir de l'Hiver protège ce serviteur contre les attaques.",S000062:"Trois langues de feu calcinent le champ de bataille !",S000063:"Choc mental brise l'esprit d'un serviteur adverse !"}[id]
+      message:{S000061:"Le pouvoir de l'Hiver protÃ¨ge ce serviteur contre les attaques.",S000062:"Trois langues de feu calcinent le champ de bataille !",S000063:"Choc mental brise l'esprit d'un serviteur adverse !"}[id]
     }]));
     const devore = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000009");
     const healer = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "EDB000005");
     const enemy = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    function auditVisibleStatusCounters(fc) {
+      return Array.from(fc.querySelectorAll('.fc-burn-badge,[data-batch03-status-counter]')).map(node => {
+        const rect = node.getBoundingClientRect();
+        const style = getComputedStyle(node);
+        const before = getComputedStyle(node, '::before');
+        return {
+          key:node.dataset.batch03StatusCounter || node.dataset.statusCounterKind || (node.classList.contains('fc-burn-badge') ? 'embrasement' : ''),
+          text:node.textContent,
+          left:rect.left,
+          right:rect.right,
+          top:rect.top,
+          bottom:rect.bottom,
+          width:rect.width,
+          height:rect.height,
+          color:style.color,
+          borderRadius:style.borderRadius,
+          borderColor:style.borderColor,
+          hidden:node.hidden,
+          cycling:node.dataset.statusCounterCycling || '0',
+          layoutIndex:node.dataset.statusCounterLayoutIndex || '',
+          beforeBackground:before.backgroundImage,
+          beforeBorderStyle:before.borderStyle,
+          beforeBoxShadow:before.boxShadow,
+          beforeFilter:before.filter
+        };
+      });
+    }
     async function auditBatch09MagicModal(title, prompt, targets) {
       const choice = chooseBoardTargets({title, prompt, targets, maxCount:1, minCount:1, panelClass:'board-target-choice-panel batch03-spell-target-choice-panel batch09-magic-choice-panel'});
       await new Promise(requestAnimationFrame);
@@ -384,6 +411,8 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
         cardsOverflow:listStyle?.overflow || listStyle?.overflowX || '',
         cardsPadding:listStyle?.padding || '',
         itemInsidePanel:!!(beforeItemRect && panelRect && beforeItemRect.left >= panelRect.left && beforeItemRect.right <= panelRect.right),
+        actionTopRight:!!(actionRect && panelRect && actionRect.top >= panelRect.top + 6 && actionRect.top <= panelRect.top + 28 && Math.abs(actionRect.right - (panelRect.right - 16)) < 12),
+        itemHoverZIndex:item ? getComputedStyle(item).zIndex : '',
         panelClass:panel?.className || ''
       };
       item?.dispatchEvent(new MouseEvent('click', {bubbles:true}));
@@ -392,9 +421,9 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
       return audit;
     }
     const modalAudits = [
-      await auditBatch09MagicModal('Bouclier de glace', 'Choisissez le serviteur allié à protéger.', [devore]),
-      await auditBatch09MagicModal('Déferlante de flammes', 'Choisissez le serviteur adverse à embraser.', [enemy]),
-      await auditBatch09MagicModal('Choc mental', 'Choisissez le serviteur adverse à frapper.', [enemy])
+      await auditBatch09MagicModal('Bouclier de glace', 'Choisissez le serviteur alliÃ© Ã  protÃ©ger.', [devore]),
+      await auditBatch09MagicModal('DÃ©ferlante de flammes', 'Choisissez le serviteur adverse Ã  embraser.', [enemy]),
+      await auditBatch09MagicModal('Choc mental', 'Choisissez le serviteur adverse Ã  frapper.', [enemy])
     ];
     const scenario = {
       currentPlayer,
@@ -408,17 +437,17 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
     const before = targetSummary(devore);
     const shieldPlay = await playCard("S000061", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
     const afterShield = targetSummary(devore);
+    const shieldTooltipTitles = Array.from(buildPreviewKeywordTooltips("TRL000009", {sourceElement:devore}).matchAll(/<strong[^>]*>([^<]+)<\/strong>/g)).map(match => match[1].trim());
     currentPlayer = player2.key;
     refreshHand(player2);
     cardsPlayedThisTurn = 0;
     const flame1 = await playCard("S000062", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
     const afterFlame1 = targetSummary(devore);
-    const counterNodesAfterFlame1 = Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => {
-      const rect = node.getBoundingClientRect();
-      const style = getComputedStyle(node);
-      const before = getComputedStyle(node, '::before');
-      return {key:node.dataset.batch03StatusCounter, text:node.textContent, left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom, width:rect.width, height:rect.height, color:style.color, beforeBackground:before.backgroundImage, beforeBorderStyle:before.borderStyle, beforeBoxShadow:before.boxShadow, beforeFilter:before.filter};
-    });
+    const counterNodesAfterFlame1 = auditVisibleStatusCounters(devore);
+    createBatch03StatusCounter(devore, 'test-extra-counter', 1, 'Compteur technique');
+    const cycleNodes = auditVisibleStatusCounters(devore);
+    devore.querySelectorAll('[data-batch03-status-counter="test-extra-counter"]').forEach(node => node.remove());
+    layoutStatusCountersForCard(devore);
     const afterAdjacentFlame = targetSummary(healer);
     const burningMarkersBeforeTick = afterFlame1.batch09DevoreMagicMarkers;
     turnSequence += 1;
@@ -443,7 +472,7 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
     const previewData = batch03PreviewCardData("TRL000009", CARDS_DATA.TRL000009, {sourceElement:devore});
     const counters = Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className}));
     const events = auditCollectionBatch09Runtime().state.events;
-    return {spellData, scenario, modalAudits, before, shieldPlay, afterShield, flame1, afterFlame1, counterNodesAfterFlame1, afterAdjacentFlame, burningMarkersBeforeTick, burnTick, afterBurnTick, mental1, afterMental1, mental2, afterMental2, afterTransformBeforeMental, mentalAfterInsensible, afterMentalInsensible, attackBefore, attackerBefore, attackAfter, attackerAfter, previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters, events, finalHands:{player1:[...player1.hand], player2:[...player2.hand]}, graves:{player1:player1.graveyard.map(getRuntimeCardId), player2:player2.graveyard.map(getRuntimeCardId)}};
+    return {spellData, scenario, modalAudits, before, shieldPlay, afterShield, shieldTooltipTitles, flame1, afterFlame1, counterNodesAfterFlame1, cycleNodes, afterAdjacentFlame, burningMarkersBeforeTick, burnTick, afterBurnTick, mental1, afterMental1, mental2, afterMental2, afterTransformBeforeMental, mentalAfterInsensible, afterMentalInsensible, attackBefore, attackerBefore, attackAfter, attackerAfter, previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters, events, finalHands:{player1:[...player1.hand], player2:[...player2.hand]}, graves:{player1:player1.graveyard.map(getRuntimeCardId), player2:player2.graveyard.map(getRuntimeCardId)}};
   });
   expect(result.spellData.S000061).toEqual(expect.objectContaining({name:"Bouclier de glace", type:"Sort", fac:"sort", cost:1, resType:"Lenya|Aria"}));
   expect(result.spellData.S000062).toEqual(expect.objectContaining({name:"Déferlante de flammes", type:"Sort", fac:"sort", cost:3, resType:"Lenya|Aria|Sélène|me"}));
@@ -459,6 +488,7 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
     expect(audit.hasPanel, audit.title).toBe(true);
     expect(audit.actionAboveTitle, audit.title).toBe(true);
     expect(audit.titleCentered, audit.title).toBe(true);
+    expect(audit.actionTopRight, audit.title).toBe(true);
     expect(audit.panelOverflow, audit.title).toBe('visible');
     expect(audit.cardsOverflow, audit.title).toBe('visible');
     expect(audit.itemInsidePanel, audit.title).toBe(true);
@@ -472,6 +502,7 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
   expect(result.shieldPlay.success).toBe(true);
   expect(result.afterShield.batch09IceShieldCharges).toBe(3);
   expect(result.afterShield.batch09DevoreMagicMarkers).toBe(0);
+  expect(result.shieldTooltipTitles.filter(title => title === "Gel")).toHaveLength(1);
   expect(result.flame1.success).toBe(true);
   expect(result.afterFlame1.batch09DevoreMagicMarkers).toBe(1);
   expect(result.afterFlame1.pdv).toBe(result.before.pdvMax);
@@ -479,13 +510,27 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
   expect(result.afterAdjacentFlame.pdv).toBeLessThan(20);
   const devoreCounter = result.counterNodesAfterFlame1.find(counter => counter.key === "devore-magie");
   const shieldCounter = result.counterNodesAfterFlame1.find(counter => counter.key === "bouclier-glace");
+  const burnCounter = result.counterNodesAfterFlame1.find(counter => counter.key === "embrasement");
   expect(devoreCounter).toEqual(expect.objectContaining({text:"1", beforeBorderStyle:"none"}));
   expect(shieldCounter).toEqual(expect.objectContaining({text:"3", beforeBorderStyle:"none"}));
-  expect(devoreCounter.width).toBeGreaterThan(devoreCounter.height);
-  expect(shieldCounter.width).toBeGreaterThan(shieldCounter.height);
-  expect(Math.max(devoreCounter.left, shieldCounter.left)).toBeGreaterThanOrEqual(Math.min(devoreCounter.right, shieldCounter.right));
+  expect(burnCounter).toEqual(expect.objectContaining({text:"3"}));
+  for (const counter of [devoreCounter, shieldCounter, burnCounter]) {
+    expect(counter.width).toBeGreaterThan(counter.height);
+    expect(Math.abs(counter.width - burnCounter.width)).toBeLessThanOrEqual(2);
+    expect(Math.abs(counter.height - burnCounter.height)).toBeLessThanOrEqual(2);
+  }
+  for (const left of result.counterNodesAfterFlame1) {
+    for (const right of result.counterNodesAfterFlame1) {
+      if (left === right) continue;
+      const separated = left.right <= right.left || right.right <= left.left || left.bottom <= right.top || right.bottom <= left.top;
+      expect(separated, left.key + " overlaps " + right.key).toBe(true);
+    }
+  }
   expect(devoreCounter.beforeBackground).toContain("linear-gradient");
   expect(shieldCounter.beforeBackground).toContain("linear-gradient");
+  expect(result.cycleNodes).toHaveLength(4);
+  expect(result.cycleNodes.every(counter => counter.cycling === "1")).toBe(true);
+  expect(result.cycleNodes.filter(counter => !counter.hidden)).toHaveLength(1);
   expect(result.burningMarkersBeforeTick).toBe(1);
   expect(result.burnTick.triggered).toBeGreaterThanOrEqual(1);
   expect(result.afterBurnTick.batch09DevoreMagicMarkers).toBe(1);
@@ -571,10 +616,10 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
   expect(["", "none", "normal", "\"\""]).toContain(tempo.furyCounterAfter);
   expect(tempo.furyGrave).toContain("TRL000016");
   expect(tempo.enemyAfterThird.length < tempo.enemyCountBeforeThird || tempo.enemyAfterThird.some(enemy => enemy.pdv < enemy.pdvMax)).toBe(true);
-  expect(tempo.previewText).toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
+  expect(tempo.previewText).toContain("BÃ©nÃ©ficie temporairement de [Rempart]. Ne peut pas attaquer.");
   expect(tempo.instable.batch09InstableAtkBonus).toBe(5);
   expect(tempo.instableAtkClass).toContain("grn");
-  expect(tempo.previewAtkText).toContain("Bénéficie temporairement d'un bonus d'attaque.");
+  expect(tempo.previewAtkText).toContain("BÃ©nÃ©ficie temporairement d'un bonus d'attaque.");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -640,7 +685,7 @@ test("Troll instable exposes four behaviors, replaces previous state, and blocks
   expect(result.drawDamageRoll.instable.batch09InstableNoAttack).toBe(false);
   expect(result.drawDamageRoll.ally.pdv).toBeLessThan(result.allyBefore.pdv);
   expect(result.drawDamageRoll.hand).toBe(result.drawDamageRoll.handBeforeDraw + 1);
-  expect(result.preview).not.toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
+  expect(result.preview).not.toContain("BÃ©nÃ©ficie temporairement de [Rempart]. Ne peut pas attaquer.");
   expect(result.events.filter(event => event.type === "troll-start-turn").length).toBeGreaterThanOrEqual(4);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
