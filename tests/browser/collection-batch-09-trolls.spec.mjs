@@ -70,7 +70,7 @@ test("Batch-09 technical scenarios stay hidden, focused, and expose Troll runtim
     for (const probe of audit.images) expect(probe.width, probe.src).toBeGreaterThan(0);
   }
   for (const id of fixture.cardIds) expect(signaturesById.get(id), id + " signature").toBeTruthy();
-  for (const id of ["TRL000001","TRL000002","TRL000003","TRL000004","TRL000005","TRL000006","TRL000007","TRL000008","TRL000009","TRL000010","TRL000011","TRL000012","TRL000013","TRL000014","TRL000015","TRL000016","TRL000017","TRL000018","TRL000019","TRL000020","PRST000004","PRST000005","R000026","S000046","S000048"]) expect(seen.has(id), id + " visible in at least one technical scenario").toBe(true);
+  for (const id of ["TRL000001","TRL000002","TRL000003","TRL000004","TRL000005","TRL000006","TRL000007","TRL000008","TRL000009","TRL000010","TRL000011","TRL000012","TRL000013","TRL000014","TRL000015","TRL000016","TRL000017","TRL000018","TRL000019","TRL000020","PRST000004","PRST000005","R000026","S000046","S000048","S000061","S000062","S000063"]) expect(seen.has(id), id + " visible in at least one technical scenario").toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -343,36 +343,116 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Devore-magie exposes S000056 scenario cards and reacts only to direct magical hits", async ({page}, testInfo) => {
+test("Devore-magie is validated by real opposing spells and the three Batch-09F spells", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-09-magic");
   const result = await page.evaluate(async () => {
-    const devore = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "TRL000009");
-    const ownerHandIds = [...player2.hand];
-    const opponentHandIds = [...player1.hand];
+    const spellData = Object.fromEntries(["S000061","S000062","S000063"].map(id => [id, {
+      name:CARDS_DATA[id]?.name,
+      type:CARDS_DATA[id]?.type,
+      fac:CARDS_DATA[id]?.fac,
+      cost:CARDS_DATA[id]?.cost,
+      resType:CARDS_DATA[id]?.resType,
+      cap:CARDS_DATA[id]?.cap,
+      formatted:formatPlayerFacingCardText(CARDS_DATA[id]?.cap || ""),
+      message:{S000061:"Le pouvoir de l'Hiver protège ce serviteur contre les attaques.",S000062:"Trois langues de feu calcinent le champ de bataille !",S000063:"Choc mental brise l'esprit d'un serviteur adverse !"}[id]
+    }]));
+    const devore = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000009");
+    const healer = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "EDB000005");
+    const enemy = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    const scenario = {
+      currentPlayer,
+      player1Hand:[...player1.hand],
+      player2Hand:[...player2.hand],
+      player1Board:livingServantCardsForPlayer(player1).map(targetSummary),
+      player2Board:livingServantCardsForPlayer(player2).map(targetSummary)
+    };
+    currentPlayer = player1.key;
+    refreshHand(player1);
     const before = targetSummary(devore);
-    await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"H000001", targetFC:devore, amount:1, bypassInsensitive:true});
-    const afterNonSpell = targetSummary(devore);
-    applyHeal(devore, 1);
-    const snapshots = [];
-    for (let i = 0; i < 3; i++) {
-      await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"S000056", targetFC:devore, amount:1, bypassInsensitive:true, directSpellDamage:true});
-      snapshots.push(targetSummary(devore));
-    }
+    const shieldPlay = await playCard("S000061", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
+    const afterShield = targetSummary(devore);
+    currentPlayer = player2.key;
+    refreshHand(player2);
+    cardsPlayedThisTurn = 0;
+    const flame1 = await playCard("S000062", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
+    const afterFlame1 = targetSummary(devore);
+    const afterAdjacentFlame = targetSummary(healer);
+    const burningMarkersBeforeTick = afterFlame1.batch09DevoreMagicMarkers;
+    turnSequence += 1;
+    const burnTick = await applyStartOfTurnBurning(player1);
+    const afterBurnTick = targetSummary(devore);
+    window.__mythesRandom = () => 0;
+    const mental1 = await playCard("S000063", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
+    const afterMental1 = targetSummary(devore);
+    window.__mythesRandom = () => 0;
+    const mental2 = await playCard("S000063", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
+    const afterMental2 = targetSummary(devore);
+    window.__mythesRandom = () => 0;
+    const afterTransformBeforeMental = targetSummary(devore);
+    const mentalAfterInsensible = await triggerSort("S000063", player2, {selectedTargetIds:[devore.dataset.instance]});
+    const afterMentalInsensible = targetSummary(devore);
+    const attackBefore = targetSummary(devore);
+    const attackerBefore = targetSummary(enemy);
+    currentPlayer = player2.key;
+    await resolveCombat(enemy, devore);
+    const attackAfter = targetSummary(devore);
+    const attackerAfter = targetSummary(enemy);
     const previewData = batch03PreviewCardData("TRL000009", CARDS_DATA.TRL000009, {sourceElement:devore});
-    return {ownerHandIds, opponentHandIds, before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className})), events:auditCollectionBatch09Runtime().state.events};
+    const counters = Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className}));
+    const events = auditCollectionBatch09Runtime().state.events;
+    return {spellData, scenario, before, shieldPlay, afterShield, flame1, afterFlame1, afterAdjacentFlame, burningMarkersBeforeTick, burnTick, afterBurnTick, mental1, afterMental1, mental2, afterMental2, afterTransformBeforeMental, mentalAfterInsensible, afterMentalInsensible, attackBefore, attackerBefore, attackAfter, attackerAfter, previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters, events, finalHands:{player1:[...player1.hand], player2:[...player2.hand]}, graves:{player1:player1.graveyard.map(getRuntimeCardId), player2:player2.graveyard.map(getRuntimeCardId)}};
   });
-  expect(result.ownerHandIds.filter(id => id === "S000056")).toHaveLength(3);
-  expect(result.opponentHandIds.filter(id => id === "S000056")).toHaveLength(0);
-  expect(result.afterNonSpell.batch09DevoreMagicMarkers).toBe(0);
-  expect(result.snapshots.map(card => card.batch09DevoreMagicMarkers)).toEqual([1,2,3]);
-  expect(result.final.batch09DevoreMagicSpent).toBe(true);
-  expect(result.final.insensible).toBe(true);
-  expect(result.final.atk).toBe(result.before.atk + 3);
+  expect(result.spellData.S000061).toEqual(expect.objectContaining({name:"Bouclier de glace", type:"Sort", fac:"sort", cost:1, resType:"Lenya|Aria"}));
+  expect(result.spellData.S000062).toEqual(expect.objectContaining({name:"Déferlante de flammes", type:"Sort", fac:"sort", cost:3, resType:"Lenya|Aria|Sélène|me"}));
+  expect(result.spellData.S000063).toEqual(expect.objectContaining({name:"Choc mental", type:"Sort", fac:"sort", cost:2, resType:"Lenya|Aria|Sélène"}));
+  expect(result.spellData.S000061.cap).toContain("Les dégâts des *3* prochaines attaques");
+  expect(result.spellData.S000062.cap).toContain("[Embrasement]");
+  expect(result.spellData.S000063.cap).toContain("*2* à *6* points de dégâts");
+  expect(result.spellData.S000061.formatted).toContain('<strong class="kv">3</strong>');
+  expect(result.spellData.S000062.formatted).toContain("Embrasement");
+  expect(result.spellData.S000063.formatted).toContain('<strong class="kv">6</strong>');
+  expect(result.scenario.player1Hand).toEqual(["S000061"]);
+  expect(result.scenario.player2Hand).toEqual(["S000062","S000062","S000063","S000063"]);
+  expect(result.scenario.player1Board.map(card => card.id)).toEqual(["TRL000009","EDB000005"]);
+  expect(result.scenario.player1Board.find(card => card.id === "EDB000005").pdvMax).toBe(20);
+  expect(result.scenario.player2Board).toHaveLength(1);
+  expect(result.shieldPlay.success).toBe(true);
+  expect(result.afterShield.batch09IceShieldCharges).toBe(3);
+  expect(result.afterShield.batch09DevoreMagicMarkers).toBe(0);
+  expect(result.flame1.success).toBe(true);
+  expect(result.afterFlame1.batch09DevoreMagicMarkers).toBe(1);
+  expect(result.afterFlame1.pdv).toBe(result.before.pdvMax);
+  expect(result.afterAdjacentFlame.id).toBe("EDB000005");
+  expect(result.afterAdjacentFlame.pdv).toBeLessThan(20);
+  expect(result.burningMarkersBeforeTick).toBe(1);
+  expect(result.burnTick.triggered).toBeGreaterThanOrEqual(1);
+  expect(result.afterBurnTick.batch09DevoreMagicMarkers).toBe(1);
+  expect(result.mental1.success).toBe(true);
+  expect(result.afterMental1.batch09DevoreMagicMarkers).toBe(2);
+  expect(result.mental2.success).toBe(true);
+  expect(result.afterMental2.batch09DevoreMagicMarkers).toBe(3);
+  expect(result.afterMental2.batch09DevoreMagicSpent).toBe(true);
+  expect(result.afterMental2.insensible).toBe(true);
+  expect(result.afterMental2.atk).toBe(result.before.atk + 3);
+  expect(result.mentalAfterInsensible.success).toBe(true);
+  expect(result.afterMentalInsensible.pdv).toBeLessThan(result.afterTransformBeforeMental.pdv);
+  expect(result.afterMentalInsensible.batch09DevoreMagicMarkers).toBe(3);
+  expect(result.attackAfter.batch09IceShieldCharges).toBe(2);
+  expect(result.attackBefore.pdv - result.attackAfter.pdv).toBe(Math.max(0, result.attackerBefore.atk - 2));
+  expect(result.attackerAfter.hypnotized || result.attackerAfter.cdg > 0 || result.events.some(event => event.type === "ice-shield-triggered" && event.gelApplied)).toBeTruthy();
+  expect(result.previewText).toContain("[Insensible]");
+  expect(result.previewText).toContain("+3");
   expect(result.statClass).toContain("grn");
-  expect(result.previewText).toBe("[Insensible]");
-  expect(result.counters.some(counter => counter.key === "devore-magie" && counter.text === "3")).toBe(true);
-  expect(result.events.filter(event => event.type === "damage-received-hooks").some(event => event.results?.some(result => result.type === "devore-magic"))).toBe(true);
+  expect(result.counters.some(counter => counter.key === "devore-magie")).toBe(false);
+  expect(result.counters.some(counter => counter.key === "bouclier-glace" && counter.text === "2")).toBe(true);
+  expect(result.graves.player1).toContain("S000061");
+  expect(result.graves.player2).toEqual(expect.arrayContaining(["S000062","S000063"]));
+  const devoreEvents = result.events.filter(event => event.type === "damage-received-hooks").flatMap(event => event.results || []).filter(item => item.type === "devore-magic");
+  expect(devoreEvents.map(event => event.markers)).toEqual([1,2,3]);
+  expect(result.events.some(event => event.type === "deferlante-flammes" && event.adjacent.length === 1)).toBe(true);
+  expect(result.events.some(event => event.type === "choc-mental" && event.amount >= 2 && event.amount <= 6)).toBe(true);
+  expect(result.events.some(event => event.type === "ice-shield-triggered" && event.reduction === Math.min(2, result.attackerBefore.atk))).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

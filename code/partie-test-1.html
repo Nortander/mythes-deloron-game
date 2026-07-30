@@ -639,6 +639,9 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-status-counter[data-batch03-status-counter="sang-furieux"]::before{background:linear-gradient(180deg,#ffead2 0 13%,#c22518 19% 55%,#3b0704 76%);clip-path:polygon(50% 0,61% 25%,86% 9%,75% 38%,100% 47%,73% 59%,89% 91%,56% 75%,50% 100%,42% 75%,9% 91%,27% 59%,0 47%,25% 38%,14% 9%,39% 25%);filter:drop-shadow(0 0 8px rgba(255,64,26,.95)) drop-shadow(0 0 15px rgba(255,185,74,.85));}
 .batch03-status-counter[data-batch03-status-counter="devore-magie"]{color:#f5ddff;text-shadow:0 0 5px #1f052a,0 1px 4px #000;}
 .batch03-status-counter[data-batch03-status-counter="devore-magie"]::before{background:radial-gradient(circle at 50% 43%,#f5ddff 0 18%,#8d3cc1 22% 48%,#180622 52% 69%,transparent 72%);border:2px solid rgba(211,126,255,.95);border-radius:50%;box-shadow:0 0 13px rgba(180,80,255,.9),inset 0 0 8px rgba(255,255,255,.35);}
+.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]{color:#dbfbff;text-shadow:0 0 6px #034d6c,0 1px 4px #000;}
+.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]::before{background:radial-gradient(circle at 50% 43%,#f8ffff 0 18%,#74ddff 23% 48%,#0b5d8a 53% 70%,transparent 73%);border:2px solid rgba(185,245,255,.96);border-radius:50%;box-shadow:0 0 14px rgba(105,220,255,.86),inset 0 0 8px rgba(255,255,255,.35);}
+.fc-batch09-ice-shield{box-shadow:0 0 18px rgba(126,225,255,.74), inset 0 0 20px rgba(160,240,255,.2);}
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
 .batch03-hypnosis-active::before,.batch03-hypnosis-active::after{content:'';position:absolute;left:50%;top:50%;z-index:47;width:18px;height:18px;border:2px solid rgba(157,255,102,.85);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:batch04HypnosisRipple 1.8s ease-out infinite;}
@@ -1960,7 +1963,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -2887,10 +2890,10 @@ SCENARIOS['collection-batch-09-combat'] = {
   }
 };
 SCENARIOS['collection-batch-09-magic'] = {
-  label: 'TEST - COLLECTION BATCH 09 Devore-magie', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 1, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000009',
+  label: 'TEST - COLLECTION BATCH 09 Devore-magie', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000009',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:30}, hand:['S000056','S000056','S000056'], drawPile:['H000005'], graveyard:[], servants:[{id:'TRL000009',pdv:3,pdvMax:7,prepared:true},{id:'TRL000006',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10}
+    player1: {resources:{classical:{aria:60, lenya:60, selene:60, fer:60, bois:60, pierre:60, nourriture:60}, souls:30}, hand:['S000061'], drawPile:['H000001'], graveyard:[], servants:[{id:'TRL000009',pdv:7,pdvMax:7,prepared:true},{id:'EDB000005',pdv:20,pdvMax:20,prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10},
+    player2: {resources:{classical:{aria:60, lenya:60, selene:60, fer:60, bois:60, pierre:60, nourriture:60}, souls:30}, hand:['S000062','S000062','S000063','S000063'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-09-protectroll'] = {
@@ -3656,6 +3659,9 @@ Object.assign(EXTRA_CARD_COST_DEFINITIONS, {
   "R000026": createCostDefinition(0, COST_RESOURCE_ORDER, [], [{"kind":"text","text":"Votre deck de depart doit contenir au moins 5 serviteurs distincts de la faction Troll.","implemented":true}]),
   "S000046": createCompatiblePoolCostDefinition(4, ["nourriture","pierre"], []),
   "S000048": createCostDefinition(6, ["lenya","nourriture","fer","aria"], [{"kind":"minimum","resource":"lenya","amount":1},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"aria","amount":1}], []),
+  "S000061": createCompatiblePoolCostDefinition(1, ["lenya","aria"], []),
+  "S000062": createCompatiblePoolCostDefinition(3, ["lenya","aria","selene","soul"], []),
+  "S000063": createCompatiblePoolCostDefinition(2, ["lenya","aria","selene"], []),
   "TRL000001": createCostDefinition(3, ["pierre","nourriture"], [{"kind":"minimum","resource":"pierre","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
   "TRL000002": createCostDefinition(7, ["fer","nourriture"], [{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
   "TRL000003": createCostDefinition(4, ["nourriture"], [{"kind":"minimum","resource":"nourriture","amount":4}], []),
@@ -7431,14 +7437,15 @@ function batch03DynamicStatusTexts(fc) {
   if (Number(fc.dataset.batch09InstableAtkBonus || 0) > 0) add("Bénéficie temporairement d'un bonus d'attaque.");
   if (Number(fc.dataset.batch09InstablePdvBonus || 0) > 0) add("Bénéficie temporairement d'un bonus de points de vie.");
   if (fc.dataset.batch09InstableRempart === '1') add('Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.');
-  if (fc.dataset.batch09DevoreMagicSpent === '1') return ['[Insensible]'];
+  if (Number(fc.dataset.batch09IceShieldCharges || 0) > 0) add('Protégé par [Gel] : *' + Number(fc.dataset.batch09IceShieldCharges || 0) + '* attaque(s) restante(s), dégâts réduits de *2*.');
+  if (fc.dataset.batch09DevoreMagicSpent === '1') return ['[Insensible] Attaque augmentée de *+3*.'];
   return lines;
 }
 
 function batch03PreviewCardData(cardId, data, sourceContext={}) {
   const lines = batch03DynamicStatusTexts(sourceContext.sourceElement);
   if (!lines.length) return data;
-  if (lines.length === 1 && lines[0] === '[Insensible]') return {...data, cap:'[Insensible]', detail:'[Insensible]', batch03DynamicStatusText:true};
+  if (lines.length === 1 && lines[0].startsWith('[Insensible]')) return {...data, cap:lines[0], detail:lines[0], batch03DynamicStatusText:true};
   const cap = String(data.cap || '').trim();
   const suffix = lines.join(' ');
   const separator = cap ? ' ' : '';
@@ -10273,6 +10280,34 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     cardType: 'Serviteur',
     effectKind: 'rescue'
   },
+  S000061: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'self',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'buff'
+  },
+  S000062: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'opponent',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'embrasement'
+  },
+  S000063: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'opponent',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'damage',
+    bypassInsensitive: true
+  },
   S000032: {
     required: true,
     min: 1,
@@ -10353,7 +10388,7 @@ function legalTargetsForRequirement(cardId, player, requirement=cardTargetRequir
     candidates = candidates.filter(fc => fc.dataset.player !== p?.key);
   }
   if (requirement.effectKind) {
-    candidates = getAffectableTargets({sourcePlayer:p, targets:candidates, sourceCardId:cardId, effectKind:requirement.effectKind, isSpell:true});
+    candidates = getAffectableTargets({sourcePlayer:p, targets:candidates, sourceCardId:cardId, effectKind:requirement.effectKind, isSpell:true, bypassInsensitive:requirement.bypassInsensitive === true});
   }
   return candidates;
 }
@@ -10411,6 +10446,7 @@ function targetSummary(fc) {
     batch09CadaverStashCount:Number(fc.dataset.batch09CadaverStashCount || 0),
     batch09TrollNainAttached:fc.dataset.batch09TrollNainAttached === '1',
     batch09DevoreMagicAtkBonus:Number(fc.dataset.batch09DevoreMagicAtkBonus || 0),
+    batch09IceShieldCharges:Number(fc.dataset.batch09IceShieldCharges || 0),
     batch09BonePdvBonus:Number(fc.dataset.batch09BonePdvBonus || 0),
     batch09InstableAtkBonus:Number(fc.dataset.batch09InstableAtkBonus || 0),
     batch09InstablePdvBonus:Number(fc.dataset.batch09InstablePdvBonus || 0),
@@ -10892,7 +10928,7 @@ async function playCard(cardId, slot, options={}) {
   const handOccurrenceId = options?.handOccurrenceId || slot?.dataset?.handOccurrence || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
   const affordabilityContext = handOccurrenceId ? {handOccurrenceId} : {};
-  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
+  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
@@ -10908,8 +10944,8 @@ async function playCard(cardId, slot, options={}) {
       return {success:false, reason:'no-valid-target', targetResult};
     }
     const chosen = await chooseBoardTargets({
-      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : (cardId === 'S000032' ? 'Savoir tribal' : (cardId === 'S000046' ? 'Envoyer un troll tout casser !' : (cardId === 'TRL000015' ? 'Troll-nain' : 'Aura de protection')))),
-      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : (cardId === 'S000032' ? 'Choisissez le premier serviteur à frapper.' : (cardId === 'S000046' ? 'Envoyer un troll tout casser !' : (cardId === 'TRL000015' ? 'Choisissez le serviteur allié à renforcer.' : 'Choisissez le serviteur allié à protéger.')))),
+      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : (cardId === 'S000061' ? 'Bouclier de glace' : (cardId === 'S000062' ? 'Déferlante de flammes' : (cardId === 'S000063' ? 'Choc mental' : (cardId === 'S000032' ? 'Savoir tribal' : (cardId === 'S000046' ? 'Envoyer un troll tout casser !' : (cardId === 'TRL000015' ? 'Troll-nain' : 'Aura de protection'))))))),
+      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : (cardId === 'S000061' ? 'Choisissez le serviteur allié à protéger.' : (cardId === 'S000062' ? 'Choisissez le serviteur adverse à embraser.' : (cardId === 'S000063' ? 'Choisissez le serviteur adverse à frapper.' : (cardId === 'S000032' ? 'Choisissez le premier serviteur à frapper.' : (cardId === 'S000046' ? 'Envoyer un troll tout casser !' : (cardId === 'TRL000015' ? 'Choisissez le serviteur allié à renforcer.' : 'Choisissez le serviteur allié à protéger.'))))))),
       targets,
       minCount:1,
       maxCount:1,
@@ -11529,6 +11565,12 @@ async function triggerSort(cardId, player, context={}) {
       return await resolveBatch09CaPasseOuCaCasse(player, context);
     case 'S000048':
       return activateBatch09GrandeHorde(player);
+    case 'S000061':
+      return resolveBatch09BouclierDeGlace(player, context);
+    case 'S000062':
+      return await resolveBatch09DeferlanteDeFlammes(player, context);
+    case 'S000063':
+      return await resolveBatch09ChocMental(player, context);
     case 'S000007':
       return await resolvePorteInfranchissable(player, context);
     case 'S000008':
@@ -13945,6 +13987,8 @@ async function resolveCombat(attacker, targetFC) {
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
   if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
   if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
+  const batch09IceShieldAttack = consumeBatch09IceShield(targetFC, attacker, finalAtkDmg);
+  finalAtkDmg = batch09IceShieldAttack.damage;
   await prepareBatch09CombatFeedback(attacker, targetFC, {phase:'attack', damage:finalAtkDmg, adjacentTargets:batch09Plan.adjacentTargets, rempartBonus:batch09Plan.rempartBonus});
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
@@ -13970,8 +14014,10 @@ async function resolveCombat(attacker, targetFC) {
     updateRageState(targetFC);
     let counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
     if (targetFC.dataset.id === 'EDB000001' && CARDS_DATA[attacker.dataset.id]?.fac === 'mvs') counterAtk *= 2;
+    const batch09IceShieldCounter = consumeBatch09IceShield(attacker, targetFC, counterAtk);
+    counterAtk = batch09IceShieldCounter.damage;
     counterDamageDealt = counterAtk;
-    const attackerDied = await applyDamage(attacker, counterAtk);
+    const attackerDied = counterAtk > 0 ? await applyDamage(attacker, counterAtk) : false;
     counterAttackerDied = !!attackerDied;
     if (!attackerDied) {
       await triggerDamageDealtEmbrasementHooks(targetFC, attacker, {
@@ -19628,7 +19674,10 @@ Object.assign(CARDS_DATA, {
   'S000032':{name:'Savoir tribal',type:'Sort',fac:'sort',atk:null,pdv:null,cost:6,res_ico:'IC00000LNY',res_val:'6',resType:'Lenya',fico:'FCT00000ORC.png',kws:['Lenya'],cap:`Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.`,badge:'Sort',lore:''},
   'S000034':{name:'Secours magique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya'],cap:`La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf 1.`,badge:'Sort',lore:''},
   'S000035':{name:'Météores',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Embrasement'],cap:`Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant 3 tours.`,badge:'Sort',lore:''},
-  'S000036':{name:`Crocs de l'Hiver`,type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Coup de glace','Gel'],cap:`Inflige instantanément 1 à 4 points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant 2 tours à un nombre aléatoire de serviteurs, alliés comme ennemis.`,badge:'Sort',lore:''}
+  'S000036':{name:`Crocs de l'Hiver`,type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Coup de glace','Gel'],cap:`Inflige instantanément 1 à 4 points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant 2 tours à un nombre aléatoire de serviteurs, alliés comme ennemis.`,badge:'Sort',lore:''},
+  'S000061':{name:'Bouclier de glace',type:'Sort',fac:'sort',atk:null,pdv:null,cost:1,res_ico:'IC00000LNY',res_val:'1',resType:'Lenya|Aria',res2:'IC00000ARI',fico:null,kws:['Gel','Lenya','Aria'],assetFolder:'sorts',max:3,cap:`Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce sont réduits de serviteur de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. ».`,detail:`Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce sont réduits de serviteur de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. ».`,badge:'Sort',lore:''},
+  'S000062':{name:'Déferlante de flammes',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000LNY',res_val:'3',resType:'Lenya|Aria|Sélène|me',res2:'IC00000ARI',res3:'IC00000SEL',res4:'IC00000AME',fico:null,kws:['Lenya','Aria','Sélène','Écho','Embrasement'],assetFolder:'sorts',max:3,cap:`Choisissez *1* serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].`,detail:`Choisissez *1* serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].`,badge:'Sort',lore:''},
+  'S000063':{name:'Choc mental',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya|Aria|Sélène',res2:'IC00000ARI',res3:'IC00000SEL',fico:null,kws:['Lenya','Aria','Sélène','Insensible'],assetFolder:'sorts',max:3,cap:`Choisissez *1* serviteur adverse et infligez-lui *2* à *6* points de dégâts. Passe outre [Insensible].`,detail:`Choisissez *1* serviteur adverse et infligez-lui *2* à *6* points de dégâts. Passe outre [Insensible].`,badge:'Sort',lore:''}
 });
 
 
@@ -19773,6 +19822,9 @@ const COLLECTION_BATCH_09B_CARD_TEXT_OVERRIDES = {
   R000026:{cap:"Il est difficile de « cacher » des monolithes de cette envergure, mais les trolls ont une vision du monde bien à eux.",detail:"Fournit *3* ressources de Pierre et *2* ressources de Fer."},
   S000046:{cap:"Choisissez *1* serviteur troll allié : il attaque immédiatement *1* serviteur adverse aléatoire. S'il survit, il récupère de *1* à *4 PDV*. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",detail:"Choisissez *1* serviteur troll allié : il attaque immédiatement *1* serviteur adverse aléatoire. S'il survit, il récupère de *1* à *4 PDV*. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau."},
   S000048:{cap:"Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes.",detail:"Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes."},
+  S000061:{cap:"Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce sont réduits de serviteur de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. ».",detail:"Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce sont réduits de serviteur de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. »."},
+  S000062:{cap:"Choisissez *1* serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",detail:"Choisissez *1* serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement]."},
+  S000063:{cap:"Choisissez *1* serviteur adverse et infligez-lui *2* à *6* points de dégâts. Passe outre [Insensible].",detail:"Choisissez *1* serviteur adverse et infligez-lui *2* à *6* points de dégâts. Passe outre [Insensible]."},
   TRL000004:{cap:"[Initiative] Détruit *1* serviteur adverse aléatoire. A *50%* de chance d'en détruire un *2ème*, *25%* de chance d'en détruire un *3ème*.",detail:"[Initiative] Détruit *1* serviteur adverse aléatoire. A *50%* de chance d'en détruire un *2ème*, *25%* de chance d'en détruire un *3ème*."},
   TRL000005:{cap:"[Initiative] Gagne aléatoirement *+1 ATK* ou *+1 PDV* pour chaque unité de Pierre de votre côté du terrain.",detail:"[Initiative] Gagne aléatoirement *+1 ATK* ou *+1 PDV* pour chaque unité de Pierre de votre côté du terrain."},
   TRL000006:{cap:"Chaque fois qu'il attaque, inflige également *2* points de dégâts aux serviteurs adjacents à sa cible.",detail:"Chaque fois qu'il attaque un serviteur, inflige également *2* points de dégâts aux serviteurs directement adjacents à la cible. Un emplacement vide interrompt l'adjacence."},
@@ -20266,6 +20318,90 @@ async function resolveBatch09CombatDamageDealtEffects(sourceFC, targetFC, contex
   if (results.length) recordCollectionBatch09Event('combat-effects', {source:targetSummary(sourceFC), results});
   return results;
 }
+function recordBatch09SpellEvent(type, detail={}) {
+  recordCollectionBatch09Event(type, detail);
+  return detail;
+}
+function resolveBatch09SingleTarget(cardId, player, context={}) {
+  const audit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || []});
+  if (!audit.allowed || audit.selectedTargets.length !== 1) {
+    showErr(cardActionError(audit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:audit}));
+    return {success:false, reason:audit.code || 'invalid-target', targetAudit:audit};
+  }
+  const target = resolveBoardTargetReferences(context.selectedTargetIds || []).find(fc => fc?.isConnected && !fc.dataset.dead);
+  if (!target) return {success:false, reason:'invalid-target-after-selection', targetAudit:audit};
+  return {success:true, target, targetAudit:audit};
+}
+function applyBatch09IceShield(targetFC, sourcePlayer, sourceCardId='S000061') {
+  if (!targetFC || targetFC.dataset.dead) return {success:false, reason:'invalid-target'};
+  targetFC.dataset.batch09IceShieldCharges = '3';
+  targetFC.classList.add('fc-batch09-ice-shield');
+  createBatch03StatusCounter(targetFC, 'bouclier-glace', 3, 'Bouclier de glace');
+  const result = {success:true, sourceCardId, playerId:playerKey(sourcePlayer), target:targetSummary(targetFC), charges:3};
+  recordBatch09SpellEvent('ice-shield-applied', result);
+  showNotif("Le pouvoir de l'Hiver protège ce serviteur contre les attaques.", 1800);
+  return result;
+}
+function consumeBatch09IceShield(targetFC, attackerFC, damage) {
+  const charges = Number(targetFC?.dataset?.batch09IceShieldCharges || 0);
+  const value = Number(damage || 0);
+  if (!targetFC || !attackerFC || charges <= 0 || value <= 0 || targetFC.dataset.dead) return {active:false, damage:value};
+  const reduced = Math.max(0, value - 2);
+  const remaining = Math.max(0, charges - 1);
+  if (remaining > 0) {
+    targetFC.dataset.batch09IceShieldCharges = String(remaining);
+    createBatch03StatusCounter(targetFC, 'bouclier-glace', remaining, 'Bouclier de glace');
+  } else {
+    delete targetFC.dataset.batch09IceShieldCharges;
+    targetFC.classList.remove('fc-batch09-ice-shield');
+    targetFC.querySelector('[data-batch03-status-counter="bouclier-glace"]')?.remove();
+  }
+  const gelApplied = tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attackerFC, sourceCardId:'S000061', turns:1, type:'gel'});
+  const result = {active:true, before:value, damage:reduced, reduction:value - reduced, remaining, gelApplied, target:targetSummary(targetFC), attacker:targetSummary(attackerFC)};
+  recordBatch09SpellEvent('ice-shield-triggered', result);
+  return result;
+}
+async function resolveBatch09BouclierDeGlace(player, context={}) {
+  const targetResult = resolveBatch09SingleTarget('S000061', player, context);
+  if (!targetResult.success) return targetResult;
+  pulseBatch03Ability(targetResult.target, 'batch09-ice-shield', {move:true});
+  await batch05VisualDelay(180);
+  const shield = applyBatch09IceShield(targetResult.target, player, 'S000061');
+  return {success:true, reason:'ice-shield-applied', target:targetSummary(targetResult.target), shield};
+}
+async function resolveBatch09DeferlanteDeFlammes(player, context={}) {
+  const targetResult = resolveBatch09SingleTarget('S000062', player, context);
+  if (!targetResult.success) return targetResult;
+  const target = targetResult.target;
+  const adjacent = batch03AdjacentServants(target).filter(fc => fc.dataset.player === target.dataset.player && !fc.dataset.dead);
+  const affected = [target, ...adjacent];
+  const results = [];
+  for (const fc of affected) {
+    if (fc === target) {
+      fc._batch09DamageContext = {sourcePlayerKey:playerKey(player), sourceCardId:'S000062', isDirectSpellDamage:true};
+    }
+    try {
+      results.push({target:targetSummary(fc), direct:fc === target, embrasement:await applyEmbrasement(fc, {sourcePlayer:player, sourceCardId:'S000062', reason:'deferlante-de-flammes'})});
+    } finally {
+      if (fc === target) delete fc._batch09DamageContext;
+    }
+  }
+  recordBatch09SpellEvent('deferlante-flammes', {caster:playerKey(player), directTarget:targetSummary(target), adjacent:adjacent.map(targetSummary), results});
+  showNotif('Trois langues de feu calcinent le champ de bataille !', 1800);
+  return {success:true, reason:'deferlante-resolved', target:targetSummary(target), adjacent:adjacent.map(targetSummary), results};
+}
+async function resolveBatch09ChocMental(player, context={}) {
+  const targetResult = resolveBatch09SingleTarget('S000063', player, context);
+  if (!targetResult.success) return targetResult;
+  const target = targetResult.target;
+  const amount = 2 + Math.floor(gameRandom() * 5);
+  const before = targetSummary(target);
+  const died = await tryApplyAbilityDamage({sourcePlayer:player, sourceCardId:'S000063', targetFC:target, amount, bypassInsensitive:true, directSpellDamage:true});
+  const result = {success:true, reason:'choc-mental-resolved', amount, before, after:targetSummary(target), died};
+  recordBatch09SpellEvent('choc-mental', {caster:playerKey(player), ...result});
+  showNotif("Choc mental brise l'esprit d'un serviteur adverse !", 1800);
+  return result;
+}
 async function triggerBatch09DamageReceivedHooks(fc, context={}) {
   if (!fc || fc.dataset.dead) return null;
   const owner = playerState(fc.dataset.player);
@@ -20301,9 +20437,11 @@ async function triggerBatch09DamageReceivedHooks(fc, context={}) {
       fc.dataset.insensible = '1';
       fc.dataset.batch09DevoreMagicAtkBonus = '3';
       syncBatch05Passives();
+      fc.querySelector('[data-batch03-status-counter="devore-magie"]')?.remove();
+    } else {
+      createBatch03StatusCounter(fc, 'devore-magie', markers, 'Dévore-magie');
     }
-    createBatch03StatusCounter(fc, 'devore-magie', markers, 'Dévore-magie');
-    results.push({type:'devore-magic', markers, heal, source:targetSummary(context.sourceFC)});
+    results.push({type:'devore-magic', markers, heal, transformed:markers >= 3, source:targetSummary(context.sourceFC)});
   }
   if (results.length) recordCollectionBatch09Event('damage-received-hooks', {target:targetSummary(fc), results});
   return results;
