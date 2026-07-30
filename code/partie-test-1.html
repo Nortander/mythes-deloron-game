@@ -2882,22 +2882,22 @@ SCENARIOS['collection-batch-09-initiatives'] = {
 SCENARIOS['collection-batch-09-combat'] = {
   label: 'TEST - COLLECTION BATCH 09 Combat trolls', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000006',
   testSetup: {
-    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:30}, hand:['TRL000015'], drawPile:['TRL000019'], graveyard:[], servants:[{id:'TRL000006',prepared:true},{id:'TRL000011',prepared:true},{id:'TRL000012',prepared:true},{id:'TRL000020',pdv:5,pdvMax:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10},
+    player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:30}, hand:['S000046','TRL000015'], drawPile:['TRL000019'], graveyard:[], servants:[{id:'TRL000006',prepared:true},{id:'TRL000011',prepared:true},{id:'TRL000012',prepared:true},{id:'TRL000020',pdv:5,pdvMax:9,prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10},
     player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',pdv:7,pdvMax:7,prepared:true},{id:'H000005',pdv:7,pdvMax:7,prepared:true},{id:'H000006',pdv:9,pdvMax:9,prepared:true,rempart:true},{id:'MV000020',pdv:6,pdvMax:6,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-09-magic'] = {
   label: 'TEST - COLLECTION BATCH 09 Devore-magie', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 1, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000009',
   testSetup: {
-    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['S000056','S000056','S000056'], drawPile:['H000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10},
-    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:30}, hand:['TRL000019'], drawPile:['H000005'], graveyard:[], servants:[{id:'TRL000009',pdv:3,pdvMax:7,prepared:true},{id:'TRL000006',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10}
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['H000001'], drawPile:['H000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10},
+    player2: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:30}, hand:['S000056','S000056','S000056'], drawPile:['H000005'], graveyard:[], servants:[{id:'TRL000009',pdv:3,pdvMax:7,prepared:true},{id:'TRL000006',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-09-protectroll'] = {
   label: 'TEST - COLLECTION BATCH 09 Protectroll', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000010',
   testSetup: {
     player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:30}, hand:['TRL000019'], drawPile:['H000001'], graveyard:[], servants:[{id:'TRL000010',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10},
-    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'EN000006',pdv:5,pdvMax:5,prepared:true},{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-09-tempo'] = {
@@ -2925,7 +2925,7 @@ SCENARIOS['collection-batch-09-amasseur'] = {
   label: 'TEST - COLLECTION BATCH 09 Amasseur', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'TRL000018',
   testSetup: {
     player1: {resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:30}, hand:['TRL000018'], drawPile:['TRL000019'], graveyard:['MV000001'], servants:[], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10},
-    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:['H000001','R000001','H000005'], servants:[{id:'H000006',pdv:3,pdvMax:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+    player2: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:['H000001','R000001'], servants:[{id:'H000006',pdv:3,pdvMax:3,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-09-vengeance'] = {
@@ -7505,7 +7505,7 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
   if (sourceEl?.dataset?.batch07RuneServant === '1') ensureKeyword('Serviteur de la rune', KDEF['Serviteur de la rune'] || 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.');
   if (sourceEl?.dataset?.batch08TotemRage === '1') ensureKeyword('Rage', KDEF.Rage || 'Gagne +2 d’attaque tant que ses points de vie sont inférieurs à leur maximum.');
-  (CARDS_DATA[cardId]?.extraTooltips || []).forEach((tip, index) => keywords.push({kind:'ability', title:tip.title, body:tip.body, order:12 + index}));
+  (CARDS_DATA[cardId]?.extraTooltips || []).forEach((tip, index) => keywords.push({kind:'ability', title:tip.title, body:tip.body || tip.text || '', order:12 + index}));
   if (sourceEl?.dataset?.hypno || sourceEl?.dataset?.hypnosisUntilDamage) ensureKeyword('Hypnose', KDEF.Hypnose || 'Ne peut pas attaquer jusqu\'à subir des dégâts.');
   if (!keywords.length) return '';
   const color = facColor(CARDS_DATA[cardId]?.fac);
@@ -19786,7 +19786,7 @@ const COLLECTION_BATCH_09B_CARD_TEXT_OVERRIDES = {
   TRL000014:{cap:"[Insensible] [Rempart] [Vengeance] Invoque *1* « Caillasseur » et *1* « Brute très épaisse » de votre côté du terrain.",detail:"[Insensible] [Rempart] [Vengeance] Invoque *1* « Caillasseur » et *1* « Brute très épaisse » de votre côté du terrain, dans la limite des emplacements disponibles."},
   TRL000015:{cap:"Vous pouvez attacher cette carte à *1* serviteur allié au lieu de l'invoquer. Le serviteur gagne *+2 ATK*/*+2 PDV*. Quand il quitte le terrain, renvoyez le « Troll-nain » dans votre main.",detail:"Lorsque vous jouez cette carte, vous pouvez l'attacher à *1* serviteur allié au lieu d'occuper un emplacement. Le serviteur attaché gagne *+2 ATK* et *+2 PDV* maximaux et actuels. Si le serviteur attaché quitte le terrain, renvoyez le « Troll-nain » dans votre main. Cette carte n'est alors pas considérée comme présente sur le terrain."},
   TRL000016:{cap:"À chacun de vos débuts de tour, gagne *+3* ATK. Au *troisième* déclenchement, attaque immédiatement le serviteur adverse ayant le plus de points de vie, puis est détruit.",detail:"Placez un compteur sur cette carte à chacun de vos débuts de tour et augmentez son attaque de *+3*. Lorsque le *troisième* compteur est placé, cette carte attaque immédiatement le serviteur adverse ayant le plus de points de vie actuels. En cas d'égalité, la cible est choisie aléatoirement. S'il n'existe aucun serviteur adverse, elle attaque l'avatar. Après le combat, envoyez cette carte au cimetière."},
-  TRL000017:{cap:"Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à la fin du tour.",detail:"Au début de chacun de vos tours, choisissez aléatoirement *1* comportement : gagne *+5 ATK* ; gagne *+5 PDV* ; obtient temporairement [Rempart] mais ne peut plus attaquer ; ou inflige *3* points de dégâts à *1* autre serviteur allié aléatoire puis vous fait piocher *1* carte. L'ancien comportement prend fin avant le nouveau tirage.",extraTooltips:[{title:'COMPÉTENCE 1',text:"Gagne +5 ATK jusqu'à votre prochain tour."},{title:'COMPÉTENCE 2',text:"Gagne +5 PDV jusqu'à votre prochain tour."},{title:'COMPÉTENCE 3',text:"Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'à votre prochain tour."},{title:'COMPÉTENCE 4',text:'Inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte.'}]},
+  TRL000017:{cap:"Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à la fin du tour.",detail:"Au début de chacun de vos tours, choisissez aléatoirement *1* comportement : gagne *+5 ATK* ; gagne *+5 PDV* ; obtient temporairement [Rempart] mais ne peut plus attaquer ; ou inflige *3* points de dégâts à *1* autre serviteur allié aléatoire puis vous fait piocher *1* carte. L'ancien comportement prend fin avant le nouveau tirage.",extraTooltips:[{title:'COMPÉTENCE 1',text:"Gagne +5 ATK jusqu'à votre prochain tour.",body:"Gagne *+5 ATK* jusqu'à votre prochain tour."},{title:'COMPÉTENCE 2',text:"Gagne +5 PDV jusqu'à votre prochain tour.",body:"Gagne *+5 PDV* jusqu'à votre prochain tour."},{title:'COMPÉTENCE 3',text:"Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'à votre prochain tour.",body:"Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'à votre prochain tour."},{title:'COMPÉTENCE 4',text:'Inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte.',body:'Inflige *3* points de dégâts à *1* autre serviteur allié aléatoire puis vous fait piocher *1* carte.'}]},
   TRL000018:{cap:"[Initiative] Placez jusqu'à *3* cartes de n'importe quel cimetière sous ce serviteur. Il gagne *+1 ATK*/*+1 PDV* par carte. À sa destruction, les cartes retournent dans les decks de leurs propriétaires.",detail:"[Initiative] Prenez jusqu'à *3* cartes aléatoires de l'un ou l'autre cimetière et placez-les sous cette carte. L'« Amasseur de cadavres » gagne *+1 ATK* et *+1 PDV* maximal et actuel pour chaque carte. Quand il quitte le terrain, renvoyez chaque carte placée sous lui dans le deck de son propriétaire, puis mélangez les decks concernés."},
   TRL000019:{cap:"[Rempart] Tant que cette carte est dans votre main, réduisez son coût de *1* chaque fois qu'un serviteur troll allié survit à des dégâts, jusqu'à un minimum de *3*.",detail:"[Rempart] Tant que cette carte se trouve dans votre main, chaque fois qu'un serviteur de la faction « Troll » allié survit à une source de dégâts, réduisez définitivement le coût total de cette instance de *1*, jusqu'à un minimum de *3*. Plusieurs dégâts issus d'un même effet ne réduisent le coût qu'une seule fois."},
   TRL000020:{cap:"[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu'« Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de *1* à *4 PDV* inclus.",detail:"[Serviteur de la rune] [Sang-froid] [Sang ardent] [Rempart] Chaque fois qu'« Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de *1* à *4 PDV* inclus."}
@@ -19812,7 +19812,7 @@ function batch09Pick(items) {
   if (!list.length) return null;
   return list[Math.min(list.length - 1, Math.floor(batch09Random() * list.length))];
 }
-function showBatch09CadaverFlight(cardId, fromElement, toElement, reason='stash') {
+function showBatch09CadaverFlight(cardId, fromElement, toElement, reason='stash', stashToken=null) {
   if (!cardId || !fromElement || !toElement) return false;
   const fromRect = fromElement.getBoundingClientRect();
   const toRect = toElement.getBoundingClientRect();
@@ -19823,13 +19823,14 @@ function showBatch09CadaverFlight(cardId, fromElement, toElement, reason='stash'
   el.className = 'batch09-cadaver-flight';
   el.dataset.flightReason = reason;
   el.dataset.cardId = cardId;
+  if (stashToken) el.dataset.stashToken = stashToken;
   el.style.backgroundImage = `url("${cardArtworkSrc(cardId, folder)}")`;
   el.style.setProperty('--from-x', `${fromRect.left + fromRect.width / 2 - 46}px`);
   el.style.setProperty('--from-y', `${fromRect.top + fromRect.height / 2 - 64}px`);
   el.style.setProperty('--to-x', `${toRect.left + toRect.width / 2 - 46}px`);
   el.style.setProperty('--to-y', `${toRect.top + toRect.height / 2 - 64}px`);
   document.body.appendChild(el);
-  recordCollectionBatch09Event('cadaver-flight', {cardId, reason, from:{left:fromRect.left, top:fromRect.top}, to:{left:toRect.left, top:toRect.top}});
+  recordCollectionBatch09Event('cadaver-flight', {cardId, reason, stashToken, from:{left:fromRect.left, top:fromRect.top}, to:{left:toRect.left, top:toRect.top}});
   setTimeout(() => el.remove(), 1200);
   return true;
 }
@@ -20038,22 +20039,27 @@ async function resolveBatch09CaPasseOuCaCasse(player, context={}) {
     rounds++;
     attacked.push(targetSummary(target));
     const plan = batch09CombatPlan(troll, target, Number(troll.dataset.atk || 0));
+    recordCollectionBatch09Event('ca-casse-round-phase', {round:rounds, phase:'feedback-before-attack', troll:targetSummary(troll), target:targetSummary(target)});
     await prepareBatch09CombatFeedback(troll, target, {phase:'attack', forcedBy:'S000046', damage:plan.damage, adjacentTargets:plan.adjacentTargets, rempartBonus:plan.rempartBonus});
+    await batch05VisualDelay(360);
     const counter = Number(target.dataset.atk || 0);
     target._killer = troll;
+    recordCollectionBatch09Event('ca-casse-round-phase', {round:rounds, phase:'attack-damage', troll:targetSummary(troll), target:targetSummary(target), damage:plan.damage});
     const targetDied = await applyDamage(target, plan.damage);
     const followUps = await resolveBatch09CombatDamageDealtEffects(troll, target, {damageDealt:plan.damage, targetDied, phase:'attack', adjacentTargets:plan.adjacentTargets, rempartBonus:plan.rempartBonus, forcedBy:'S000046'});
-    await batch05VisualDelay(220);
+    await batch05VisualDelay(560);
     if (!targetDied && counter > 0 && !troll.dataset.dead) {
       troll._killer = target;
+      recordCollectionBatch09Event('ca-casse-round-phase', {round:rounds, phase:'counter-damage', troll:targetSummary(troll), target:targetSummary(target), damage:counter});
       await applyDamage(troll, counter);
-      await batch05VisualDelay(260);
+      await batch05VisualDelay(680);
     }
     let heal = null;
     if (!troll.dataset.dead) {
       const healAmount = 1 + Math.floor(batch09Random() * 4);
+      recordCollectionBatch09Event('ca-casse-round-phase', {round:rounds, phase:'heal-before-next-attack', troll:targetSummary(troll), amount:healAmount});
       heal = {amount:healAmount, result:applyHeal(troll, healAmount)};
-      if (heal.result?.success) await batch05VisualDelay(520);
+      if (heal.result?.success) await batch05VisualDelay(840);
     }
     roundResults.push({target:targetSummary(target), targetDied, followUps, heal});
     if (rounds > 12) break;
@@ -20111,8 +20117,10 @@ async function resolveBatch09Initiative(cardId, player, context={}) {
       while (stored.length < 3 && owner.graveyard?.length) {
         const cemeteryEl = qs(playerZoneSelector(owner, 'cemetery'));
         const entry = owner.graveyard.pop();
-        showBatch09CadaverFlight(getRuntimeCardId(entry) || entry, cemeteryEl, sourceFC, 'stash');
-        stored.push({ownerKey:owner.key, entry, cardId:getRuntimeCardId(entry) || entry});
+        const cardId = getRuntimeCardId(entry) || entry;
+        const stashToken = `${sourceFC.dataset.instance || ensureServantInstanceId(sourceFC)}:stash:${stored.length}:${owner.key}:${cardId}`;
+        showBatch09CadaverFlight(cardId, cemeteryEl, sourceFC, 'stash', stashToken);
+        stored.push({ownerKey:owner.key, entry, cardId, stashToken});
         await batch05VisualDelay(190);
       }
       refreshCemeteryVisual(owner);
@@ -20216,8 +20224,9 @@ async function prepareBatch09CombatFeedback(sourceFC, targetFC, context={}) {
     results.push({type:'balayeur-before-attack', adjacentCount:adjacentTargets.length, target:targetSummary(targetFC)});
     pulseBatch03Ability(sourceFC, 'batch09-balayeur', {move:true});
   }
-  if (sourceFC.dataset.id === 'TRL000011' && (context.rempartBonus || targetFC?.dataset?.rempart === '1')) {
-    results.push({type:'brise-rempart-before-attack', target:targetSummary(targetFC), damageBonus:2});
+  if (sourceFC.dataset.id === 'TRL000011') {
+    const hasRempartBonus = !!(context.rempartBonus || targetFC?.dataset?.rempart === '1');
+    results.push({type:'brise-rempart-before-attack', target:targetSummary(targetFC), damageBonus:hasRempartBonus ? 2 : 0, rempartBonus:hasRempartBonus});
     pulseBatch03Ability(sourceFC, 'batch09-brise-rempart', {move:true});
   }
   if (sourceFC.dataset.id === 'TRL000012') {
@@ -20334,8 +20343,9 @@ async function releaseBatch09CadaverStash(fc) {
   stored.forEach(item => {
     const owner = [player1, player2].find(p => p?.key === item.ownerKey);
     if (!owner) return;
-    showBatch09CadaverFlight(item.cardId, fc, qs(playerSelectors(owner).deckBack), 'release');
+    showBatch09CadaverFlight(item.cardId, fc, qs(playerSelectors(owner).deckBack), 'release', item.stashToken || null);
     owner.drawPile.push(item.entry);
+    updateDeckCount(owner);
     touched.add(owner.key);
   });
   if (touched.size) await batch05VisualDelay(520);
@@ -20343,8 +20353,9 @@ async function releaseBatch09CadaverStash(fc) {
     const owner = [player1, player2].find(p => p?.key === key);
     if (owner) { batch09Shuffle(owner.drawPile); updateDeckCount(owner); }
   });
+  renderDeckBacks();
   delete collectionBatch09State.stashes[instance];
-  const result = {source:targetSummary(fc), returned:stored.map(item => ({ownerKey:item.ownerKey, cardId:item.cardId})), touched:[...touched]};
+  const result = {source:targetSummary(fc), returned:stored.map(item => ({ownerKey:item.ownerKey, cardId:item.cardId, stashToken:item.stashToken || null})), touched:[...touched]};
   recordCollectionBatch09Event('cadaver-stash-returned', result);
   return result;
 }

@@ -89,7 +89,8 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
     caCasseFormatted:formatPlayerFacingCardText(CARDS_DATA.S000046.cap),
     hordeFormatted:formatPlayerFacingCardText(CARDS_DATA.S000048.cap),
     trollNainFormatted:formatPlayerFacingCardText(CARDS_DATA.TRL000015.cap),
-    umpFormatted:formatPlayerFacingCardText(CARDS_DATA.TRL000020.cap)
+    umpFormatted:formatPlayerFacingCardText(CARDS_DATA.TRL000020.cap),
+    instableTooltipHtml:buildPreviewKeywordTooltips("TRL000017")
   }));
   expect(result.devoreKeywords).not.toContain("Insensible");
   expect(result.twoHeads).toContain("serviteur adjacent choisi");
@@ -112,6 +113,12 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
   expect(result.trollNainFormatted).toContain('<strong class="kv">+2 ATK</strong>');
   expect(result.trollNainFormatted).toContain('<strong class="kv">+2 PDV</strong>');
   expect(result.umpFormatted).toContain('<strong class="kv">4 PDV</strong>');
+  expect(result.instableTooltipHtml).toContain("Gagne <strong");
+  expect(result.instableTooltipHtml).toContain("+5 ATK");
+  expect(result.instableTooltipHtml).toContain("+5 PDV");
+  expect(result.instableTooltipHtml).toContain("Inflige <strong");
+  expect(result.instableTooltipHtml).toContain("piocher <strong");
+  expect(result.instableTooltipHtml).not.toMatch(/<div class="tooltip-body">\s*<\/div>/);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -151,7 +158,9 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
     window.__collectionBatch09RandomQueue = [0, 0, 0.75, 0, 0.25, 0, 0.5, 0, 0.99];
     const casse = await triggerSort("S000046", player1, {selectedTargetIds:[casseTarget.dataset.instance]});
     const lastPublicMessage = document.querySelector("#notif")?.textContent || document.body.textContent;
-    return {before, mugwa, afterMugwa, horde, hordeMessage, afterHorde, handBeforeDeath, handAfterDeath, zarrachAnimated, casse, enemiesBefore, enemiesAfter:livingServantCardsForPlayer(player2).length, lastPublicMessage, events:auditCollectionBatch09Runtime().state.events};
+    const events = auditCollectionBatch09Runtime().state.events;
+    const phaseEvents = events.filter(event => event.type === "ca-casse-round-phase").map((event, index) => ({index, round:event.round, phase:event.phase, amount:event.amount || null}));
+    return {before, mugwa, afterMugwa, horde, hordeMessage, afterHorde, handBeforeDeath, handAfterDeath, zarrachAnimated, casse, enemiesBefore, enemiesAfter:livingServantCardsForPlayer(player2).length, lastPublicMessage, phaseEvents, events};
   });
   expect(result.before.cache.pierre).toBe(3);
   expect(result.before.cache.fer).toBe(2);
@@ -184,6 +193,36 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
   expect(result.enemiesAfter).toBeLessThanOrEqual(result.enemiesBefore);
   expect(result.lastPublicMessage).not.toMatch(/attaque\(s\) résolue\(s\)/i);
   expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.forcedBy === "S000046")).toBe(true);
+  expect(result.phaseEvents.some(event => event.phase === "feedback-before-attack")).toBe(true);
+  expect(result.phaseEvents.some(event => event.phase === "attack-damage")).toBe(true);
+  expect(result.phaseEvents.some(event => event.phase === "heal-before-next-attack" && event.amount >= 1 && event.amount <= 4)).toBe(true);
+  const firstHeal = result.phaseEvents.find(event => event.phase === "heal-before-next-attack");
+  const nextRoundFeedback = result.phaseEvents.find(event => event.phase === "feedback-before-attack" && event.round > firstHeal.round);
+  if (nextRoundFeedback) expect(firstHeal.index).toBeLessThan(nextRoundFeedback.index);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000046 readable combat timing shows counter damage and healing before the next forced attack", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-09-combat");
+  const result = await page.evaluate(async () => {
+    const casseTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000006");
+    window.__collectionBatch09RandomQueue = [0.55, 0, 0.55, 0.5, 0.55, 0.99];
+    const play = await triggerSort("S000046", player1, {selectedTargetIds:[casseTarget.dataset.instance]});
+    const phases = auditCollectionBatch09Runtime().state.events
+      .filter(event => event.type === "ca-casse-round-phase")
+      .map((event, index) => ({index, round:event.round, phase:event.phase, amount:event.amount || null}));
+    return {play, phases};
+  });
+  expect(result.play.success).toBe(true);
+  expect(result.phases.some(event => event.phase === "feedback-before-attack")).toBe(true);
+  expect(result.phases.some(event => event.phase === "attack-damage")).toBe(true);
+  expect(result.phases.some(event => event.phase === "counter-damage")).toBe(true);
+  expect(result.phases.some(event => event.phase === "heal-before-next-attack" && event.amount >= 1 && event.amount <= 4)).toBe(true);
+  const firstHeal = result.phases.find(event => event.phase === "heal-before-next-attack");
+  const nextFeedback = result.phases.find(event => event.phase === "feedback-before-attack" && event.round > firstHeal.round);
+  if (nextFeedback) expect(firstHeal.index).toBeLessThan(nextFeedback.index);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -247,6 +286,12 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
     rempartTarget._killer = brise;
     const briseDied = await applyDamage(rempartTarget, brisePlan.damage);
     await resolveBatch09CombatDamageDealtEffects(brise, rempartTarget, {phase:"attack", targetDied:briseDied, adjacentTargets:brisePlan.adjacentTargets});
+    const nonRempartTarget = livingServantCardsForPlayer(player2).find(fc => fc.dataset.rempart !== "1");
+    const brisePlainPlan = batch09CombatPlan(brise, nonRempartTarget, Number(brise.dataset.atk || 0));
+    await prepareBatch09CombatFeedback(brise, nonRempartTarget, {phase:"attack", damage:brisePlainPlan.damage, adjacentTargets:brisePlainPlan.adjacentTargets, rempartBonus:brisePlainPlan.rempartBonus});
+    nonRempartTarget._killer = brise;
+    const brisePlainDied = await applyDamage(nonRempartTarget, brisePlainPlan.damage);
+    await resolveBatch09CombatDamageDealtEffects(brise, nonRempartTarget, {phase:"attack", targetDied:brisePlainDied, adjacentTargets:brisePlainPlan.adjacentTargets});
     const attachTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000012");
     const beforeAttach = targetSummary(attachTarget);
     const attach = await playCard("TRL000015", null, {selectedTargetIds:[attachTarget.dataset.instance], returnValidation:true});
@@ -266,7 +311,7 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
     const umpReturned = await applyDamage(ump, 99);
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const runeBlock = (player1.batch03BlockedHandOccurrences || []).find(entry => entry.cardId === "TRL000020") || null;
-    return {beforeBalayeur, afterBalayeur, brisePlan, attach, beforeAttach, afterAttach, attachClasses, attachPreview, afterDeath, umpBefore, umpAfter:umpAfterKill, handBeforeRune, umpReturned, runeHand:[...player1.hand], runeBlock, events:auditCollectionBatch09Runtime().state.events};
+    return {beforeBalayeur, afterBalayeur, brisePlan, brisePlainPlan, attach, beforeAttach, afterAttach, attachClasses, attachPreview, afterDeath, umpBefore, umpAfter:umpAfterKill, handBeforeRune, umpReturned, runeHand:[...player1.hand], runeBlock, events:auditCollectionBatch09Runtime().state.events};
   });
   expect(result.afterBalayeur.enemies.some(after => {
     const before = result.beforeBalayeur.enemies.find(card => card.instance === after.instance);
@@ -274,6 +319,8 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   })).toBe(true);
   expect(result.brisePlan.rempartBonus).toBe(true);
   expect(result.brisePlan.damage).toBe(10);
+  expect(result.brisePlainPlan.rempartBonus).toBeFalsy();
+  expect(result.brisePlainPlan.damage).toBe(8);
   expect(result.attach.success).toBe(true);
   expect(result.afterAttach.atk).toBe(result.beforeAttach.atk + 2);
   expect(result.afterAttach.pdvMax).toBe(result.beforeAttach.pdvMax + 2);
@@ -289,6 +336,7 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   expect(result.runeBlock).toEqual(expect.objectContaining({cardId:"TRL000020", sourceName:"Serviteur de la rune", armed:true}));
   expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.results?.some(item => item.type === "balayeur-before-attack"))).toBe(true);
   expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.results?.some(item => item.type === "brise-rempart-before-attack"))).toBe(true);
+  expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.results?.some(item => item.type === "brise-rempart-before-attack" && item.rempartBonus === false && item.damageBonus === 0))).toBe(true);
   expect(result.events.some(event => event.type === "combat-effects")).toBe(true);
   expect(result.events.some(event => event.type === "combat-effects" && event.results?.some(item => item.type === "brise-rempart-bonus"))).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
@@ -300,7 +348,8 @@ test("Devore-magie exposes S000056 scenario cards and reacts only to direct magi
   await openScenario(page, "collection-batch-09-magic");
   const result = await page.evaluate(async () => {
     const devore = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "TRL000009");
-    const handIds = [...player1.hand];
+    const ownerHandIds = [...player2.hand];
+    const opponentHandIds = [...player1.hand];
     const before = targetSummary(devore);
     await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"H000001", targetFC:devore, amount:1, bypassInsensitive:true});
     const afterNonSpell = targetSummary(devore);
@@ -311,9 +360,10 @@ test("Devore-magie exposes S000056 scenario cards and reacts only to direct magi
       snapshots.push(targetSummary(devore));
     }
     const previewData = batch03PreviewCardData("TRL000009", CARDS_DATA.TRL000009, {sourceElement:devore});
-    return {handIds, before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className})), events:auditCollectionBatch09Runtime().state.events};
+    return {ownerHandIds, opponentHandIds, before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className})), events:auditCollectionBatch09Runtime().state.events};
   });
-  expect(result.handIds.filter(id => id === "S000056")).toHaveLength(3);
+  expect(result.ownerHandIds.filter(id => id === "S000056")).toHaveLength(3);
+  expect(result.opponentHandIds.filter(id => id === "S000056")).toHaveLength(0);
   expect(result.afterNonSpell.batch09DevoreMagicMarkers).toBe(0);
   expect(result.snapshots.map(card => card.batch09DevoreMagicMarkers)).toEqual([1,2,3]);
   expect(result.final.batch09DevoreMagicSpent).toBe(true);
@@ -333,12 +383,20 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
   const protectroll = await page.evaluate(async () => {
     syncBatch05Passives();
     const protectrollCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000010");
+    const warMaster = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "EN000006");
     const beforeAvatar = avatarHitPoints(player1);
     const result = applyAvatarEffectDamage(player1, 4, {sourceCardId:"TEST"});
-    return {beforeAvatar, afterAvatar:avatarHitPoints(player1), result, passivePulse:protectrollCard?.dataset?.batch03PassivePulse === "1", pulseReason:protectrollCard?.dataset?.batch03LastPulseReason || ""};
+    const afterProtected = avatarHitPoints(player1);
+    await sendToCemetery(protectrollCard);
+    const beforeUnprotected = avatarHitPoints(player1);
+    const unprotected = applyAvatarEffectDamage(player1, 4, {sourceCardId:"TEST"});
+    return {beforeAvatar, afterAvatar:afterProtected, result, warMaster:targetSummary(warMaster), beforeUnprotected, afterUnprotected:avatarHitPoints(player1), unprotected, passivePulse:protectrollCard?.dataset?.batch03PassivePulse === "1", pulseReason:protectrollCard?.dataset?.batch03LastPulseReason || ""};
   });
+  expect(protectroll.warMaster.id).toBe("EN000006");
   expect(protectroll.result.reduction).toBe(1);
   expect(protectroll.afterAvatar).toBe(protectroll.beforeAvatar - 3);
+  expect(protectroll.unprotected.reduction).toBe(0);
+  expect(protectroll.afterUnprotected).toBe(protectroll.beforeUnprotected - 4);
   expect(protectroll.passivePulse).toBe(true);
   expect(protectroll.pulseReason).toBe("batch05-passive");
 
@@ -356,11 +414,12 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
     const afterTwo = targetSummary(fury);
     const furyClasses = {atk:fury.querySelector(".fc-atk-val")?.className || "", counter:Array.from(fury.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className}))};
     window.__mythesRandom = () => 0;
+    const enemyCountBeforeThird = livingServantCardsForPlayer(player2).length;
     await resolveBatch09StartTurnEffects(player1);
     const previewAtk = batch03PreviewCardData("TRL000017", CARDS_DATA.TRL000017, {sourceElement:instable});
     const furyCounter = fury.querySelector('[data-batch03-status-counter="sang-furieux"]');
     const furyCounterAfter = furyCounter ? getComputedStyle(furyCounter, "::after").content : "";
-    return {furyBefore, afterOne, afterTwo, instable:targetSummary(instable), instableAtkClass:instable.querySelector(".fc-atk-val")?.className || "", previewText:previewData.cap, previewAtkText:previewAtk.cap, furyClasses, furyCounterAfter};
+    return {furyBefore, afterOne, afterTwo, instable:targetSummary(instable), instableAtkClass:instable.querySelector(".fc-atk-val")?.className || "", previewText:previewData.cap, previewAtkText:previewAtk.cap, furyClasses, furyCounterAfter, furyGrave:player1.graveyard.map(getRuntimeCardId), enemyCountBeforeThird, enemyAfterThird:livingServantCardsForPlayer(player2).map(targetSummary)};
   });
   expect(tempo.afterOne.atk).toBe(tempo.furyBefore.atk + 3);
   expect(tempo.afterTwo.atk).toBe(tempo.furyBefore.atk + 6);
@@ -369,6 +428,8 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
   expect(tempo.furyClasses.counter.some(counter => counter.key === "sang-furieux" && counter.text === "2")).toBe(true);
   expect(tempo.furyClasses.counter.some(counter => counter.key === "sang-furieux" && counter.className.includes("batch03-status-counter"))).toBe(true);
   expect(["", "none", "normal", "\"\""]).toContain(tempo.furyCounterAfter);
+  expect(tempo.furyGrave).toContain("TRL000016");
+  expect(tempo.enemyAfterThird.length < tempo.enemyCountBeforeThird || tempo.enemyAfterThird.some(enemy => enemy.pdv < enemy.pdvMax)).toBe(true);
   expect(tempo.previewText).toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
   expect(tempo.instable.batch09InstableAtkBonus).toBe(5);
   expect(tempo.instableAtkClass).toContain("grn");
@@ -455,20 +516,29 @@ test("Amasseur de cadavres moves stored cemetery cards back to owner decks witho
     const afterStash = {summary:targetSummary(hoarder), p1Deck:player1.drawPile.map(getRuntimeCardId), p2Deck:player2.drawPile.map(getRuntimeCardId), p1Grave:player1.graveyard.map(getRuntimeCardId), p2Grave:player2.graveyard.map(getRuntimeCardId), dynamic:batch03PreviewCardData("TRL000018", CARDS_DATA.TRL000018, {sourceElement:hoarder}).cap};
     await sendToCemetery(hoarder);
     const afterRelease = {p1Deck:player1.drawPile.map(getRuntimeCardId), p2Deck:player2.drawPile.map(getRuntimeCardId), p1Grave:player1.graveyard.map(getRuntimeCardId), p2Grave:player2.graveyard.map(getRuntimeCardId), stashes:Object.keys(auditCollectionBatch09Runtime().state.stashes)};
-    return {before, play, afterStash, afterRelease, events:auditCollectionBatch09Runtime().state.events};
+    const events = auditCollectionBatch09Runtime().state.events;
+    const stashFlights = events.filter(event => event.type === "cadaver-flight" && event.reason === "stash").map(event => ({cardId:event.cardId, stashToken:event.stashToken}));
+    const releaseFlights = events.filter(event => event.type === "cadaver-flight" && event.reason === "release").map(event => ({cardId:event.cardId, stashToken:event.stashToken}));
+    const returned = events.find(event => event.type === "cadaver-stash-returned")?.returned || [];
+    return {before, play, afterStash, afterRelease, stashFlights, releaseFlights, returned, events};
   });
   expect(result.play.success).toBe(true);
   expect(result.afterStash.summary.batch09CadaverStashCount).toBe(3);
   expect(result.afterStash.summary.atk).toBeGreaterThan(2);
   expect(result.afterStash.summary.pdvMax).toBeGreaterThan(4);
   expect(result.afterStash.p2Grave).toEqual([]);
+  expect(result.afterStash.p1Grave).toEqual([]);
   expect(result.afterStash.dynamic).toContain("Conserve");
+  expect(result.afterRelease.p1Deck).toEqual(expect.arrayContaining(result.before.p1Grave));
   expect(result.afterRelease.p2Deck).toEqual(expect.arrayContaining(result.before.p2Grave));
+  expect(result.afterRelease.p1Deck).toHaveLength(result.before.p1Deck.length + result.before.p1Grave.length);
   expect(result.afterRelease.p2Deck).toHaveLength(result.before.p2Deck.length + result.before.p2Grave.length);
   expect(result.afterRelease.p1Grave).toContain("TRL000018");
   expect(result.afterRelease.stashes).toEqual([]);
-  expect(result.events.filter(event => event.type === "cadaver-flight" && event.reason === "stash")).toHaveLength(3);
-  expect(result.events.filter(event => event.type === "cadaver-flight" && event.reason === "release")).toHaveLength(3);
+  expect(result.stashFlights).toHaveLength(3);
+  expect(result.releaseFlights).toHaveLength(3);
+  expect(result.releaseFlights.map(item => item.stashToken).sort()).toEqual(result.stashFlights.map(item => item.stashToken).sort());
+  expect(result.returned.map(item => item.stashToken).sort()).toEqual(result.stashFlights.map(item => item.stashToken).sort());
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
