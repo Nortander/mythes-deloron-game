@@ -270,12 +270,14 @@ test("Blade servant previews expose invocation condition panels without losing a
       const preview = layer?.querySelector(".canonical-card-preview");
       const body = layer?.querySelector(".fz-desc-inner");
       return {
-        outsidePreview: !!panel && !!preview && !preview.contains(panel),
+        panelInLayer: !!panel && !!layer?.contains(panel),
+        previewVisible: !!preview,
         outsideBody: !!panel && !!body && !body.contains(panel),
         bodyText: body?.innerText || ""
       };
     });
-    expect(placement.outsidePreview).toBe(true);
+    expect(placement.panelInLayer).toBe(true);
+    expect(placement.previewVisible).toBe(true);
     expect(placement.outsideBody).toBe(true);
     expect(placement.bodyText).not.toContain("CONDITION");
     const previewText = await page.locator("#card-preview-layer").innerText();

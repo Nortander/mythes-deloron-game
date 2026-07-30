@@ -49,10 +49,15 @@ async function openTechnicalScenario(page, scenario) {
 async function hoverVisiblePartCard(page, cardId) {
   const card = page.locator(`.hc[data-id="${cardId}"], .fc[data-id="${cardId}"]`).first();
   await expect(card, `Partie card ${cardId}`).toBeVisible();
+  await card.scrollIntoViewIfNeeded();
   await expect.poll(() => card.evaluate((element) => element.querySelector("img")?.naturalWidth || 0), {
     message: `${cardId} image naturalWidth`,
     timeout: 5000
   }).toBeGreaterThan(0);
+  await expect.poll(async () => !!(await card.boundingBox()), {
+    message: `${cardId} measurable bounding box`,
+    timeout: 5000
+  }).toBe(true);
   const box = await card.boundingBox();
   if (!box) throw new Error(`Card ${cardId} has no bounding box`);
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);

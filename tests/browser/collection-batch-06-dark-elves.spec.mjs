@@ -57,7 +57,7 @@ test("Batch-06 scenarios stay hidden and expose every dark elf card", async ({pa
     expect(cardsById.get("EN000005").keywords).toContain("Pestilence");
     expect(cardsById.get("EN000005").text).toContain("[Pestilence]");
     expect(cardsById.get("S000049").name).toBe("Machiavélisme");
-    expect(cardsById.get("S000049").text).toContain("*2*");
+    expect(cardsById.get("S000049").text).toContain("*+2*");
   }
   for (const id of fixture.darkElfIds) {
     expect(signaturesById.get(id), id + " signature").toBeTruthy();

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "batchId": "COLLECTION-BATCH-10-GOBELINS",
+  "export": {
+    "sourceFile": "data/Jeu de cartes fantasy \u00ab Mythes d'Eloron \u00bb - export 2026-07-30.xlsx",
+    "sha256": "590dbdf654ac775f566925a651abe77f259708038ffd409dd101243c6952d36c",
+    "sheet": "Cartes et description"
+  },
+  "scenarios": [
+    "collection-batch-10-gobelins",
+    "collection-batch-10-combat",
+    "collection-batch-10-sorts",
+    "collection-batch-10-special"
+  ],
+  "cardIds": [
+    "GOB000001",
+    "GOB000002",
+    "GOB000003",
+    "GOB000004",
+    "GOB000005",
+    "GOB000006",
+    "GOB000007",
+    "GOB000008",
+    "GOB000009",
+    "GOB000010",
+    "GOB000011",
+    "GOB000012",
+    "GOB000013",
+    "GOB000014",
+    "GOB000015",
+    "GOB000016",
+    "GOB000017",
+    "GOB000018",
+    "GOB000019",
+    "GOB000020",
+    "S000009",
+    "S000037",
+    "S000038",
+    "S000047",
+    "S000049"
+  ],
+  "servantIds": [
+    "GOB000001",
+    "GOB000002",
+    "GOB000003",
+    "GOB000004",
+    "GOB000005",
+    "GOB000006",
+    "GOB000007",
+    "GOB000008",
+    "GOB000009",
+    "GOB000010",
+    "GOB000011",
+    "GOB000012",
+    "GOB000013",
+    "GOB000014",
+    "GOB000015",
+    "GOB000016",
+    "GOB000017",
+    "GOB000018",
+    "GOB000019",
+    "GOB000020"
+  ],
+  "spellIds": [
+    "S000009",
+    "S000037",
+    "S000038",
+    "S000047",
+    "S000049"
+  ],
+  "noProgrammableEffect": [
+    "GOB000002",
+    "GOB000004"
+  ],
+  "expectedHiddenScenarioOptionCount": 0,
+  "maxVisualHandSize": 10,
+  "pulseColor": "#686c1866"
+}

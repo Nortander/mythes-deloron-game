@@ -227,6 +227,18 @@ Ce lot ne cree pas une nouvelle famille de cartes : il renforce les contrats vis
 - `DIV000004` (`Gorgone seductrice`) applique maintenant `Hypnose` apres une attaque contre un serviteur adverse survivant et legalement affectable.
 - Les scenarios techniques Batch-04 exposent des plateaux adverses plus robustes pour rendre `Colere divine`, `Hypnose` et les pulsations verifiables visuellement.
 
+## COLLECTION-BATCH-10 - Gobelins
+
+Les cartes canoniques de la faction Gobelin disposent maintenant d'un comportement runtime et d'un test fonctionnel direct dans `tests/browser/collection-batch-10-goblins.spec.mjs`.
+
+Le lot couvre les Initiatives gobelines, les effets de fin de tour, la Vengeance, les passifs de plateau, les copies et transferts de mots-clefs, les manipulations de deck/main/cimetiere, la redirection de `Casse-cou`, les attaques speciales de `Gitzo`, ainsi que les sorts `S000009`, `S000037`, `S000038`, `S000047` et `S000049`.
+
+`GOB000002` (`Surineur`) et `GOB000004` (`Globeminator`) restent documentees comme `SANS_EFFET_PROGRAMMABLE`.
+
+Scenarios techniques caches : `collection-batch-10-gobelins`, `collection-batch-10-combat`, `collection-batch-10-sorts` et `collection-batch-10-special`.
+
+Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
 Corrections COLLECTION-BATCH-04C :
 
 - `Hypnose` bloque maintenant réellement l'attaque et la riposte ; l'etat se retire apres degat sans effacer un epuisement preexistant.

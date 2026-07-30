@@ -1965,7 +1965,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -2945,6 +2945,34 @@ SCENARIOS['collection-batch-09-faveurs-sorts'] = {
   testSetup: {
     player1: {resources:{classical:{aria:60, lenya:60, selene:60, fer:60, bois:60, pierre:60, nourriture:60}, souls:30}, hand:['PRST000004','PRST000005','S000046','S000048','S000055'], drawPile:['TRL000019','TRL000008','GOB000001','GOB000002','GOB000005','H000001','R000010'], graveyard:['MV000001'], servants:[{id:'TRL000006',prepared:true},{id:'TRL000011',prepared:true},{id:'GOB000001',prepared:true},{id:'ORC000001',prepared:true}], avatarHp:20, initialSupplyCardId:'R000026', initialSupplyMultiplier:10},
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:['H000001','R000001','H000005'], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+  }
+};
+SCENARIOS['collection-batch-10-gobelins'] = {
+  label: 'TEST - COLLECTION BATCH 10 Gobelins', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'GOB000014',
+  testSetup: {
+    player1: {allowOverflowServants:true, resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:40, pierre:40, nourriture:80}, souls:20}, hand:['GOB000004','GOB000005','GOB000010','GOB000011','GOB000014','GOB000015','GOB000017','GOB000018','GOB000019'], drawPile:['B000001','B000007','GOB000001','GOB000002','GOB000006','GOB000008','GOB000012','GOB000016','S000009','S000037','S000038','S000047','S000049'], graveyard:['R000010','GOB000002','GOB000006'], servants:[{id:'GOB000001',prepared:true},{id:'GOB000009',prepared:true},{id:'GOB000013',prepared:true},{id:'GOB000007',pdv:1,pdvMax:3,prepared:true}], avatarHp:30, initialSupplyCardId:'R000010', initialSupplyMultiplier:10},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001'], drawPile:['H000001','R000001','H000005','H000006','H000007'], graveyard:['H000001'], servants:[{id:'MV000020',pdv:5,pdvMax:5,prepared:true},{id:'H000001',pdv:3,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+  }
+};
+SCENARIOS['collection-batch-10-combat'] = {
+  label: 'TEST - COLLECTION BATCH 10 Combat gobelin', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'GOB000020',
+  testSetup: {
+    player1: {resources:{classical:{aria:60, lenya:60, selene:60, fer:60, bois:20, pierre:20, nourriture:60}, souls:20}, hand:['S000049'], drawPile:['GOB000001','GOB000002','GOB000005','R000010'], graveyard:[], servants:[{id:'GOB000003',prepared:true},{id:'GOB000006',pdv:1,pdvMax:2,prepared:true},{id:'GOB000012',pdv:1,pdvMax:2,prepared:true},{id:'GOB000013',prepared:true},{id:'GOB000020',prepared:true}], avatarHp:30, initialSupplyCardId:'R000010', initialSupplyMultiplier:10},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'MV000020',pdv:5,pdvMax:5,prepared:true},{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:1,pdvMax:5,prepared:true},{id:'H000006',pdv:2,pdvMax:3,prepared:true}], avatarHp:22, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+  }
+};
+SCENARIOS['collection-batch-10-sorts'] = {
+  label: 'TEST - COLLECTION BATCH 10 Sorts gobelins', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000009',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:40, pierre:40, nourriture:80}, souls:20}, hand:['S000009','S000037','S000038','S000047','S000049','GOB000001','GOB000002'], drawPile:['GOB000005','GOB000006','GOB000008','GOB000012','H000001','GOB000016','GOB000018','GOB000020'], graveyard:[], servants:[{id:'GOB000009',prepared:true}], avatarHp:30, initialSupplyCardId:'R000010', initialSupplyMultiplier:10},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001'], drawPile:['H000001'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+  }
+};
+SCENARIOS['collection-batch-10-special'] = {
+  label: 'TEST - COLLECTION BATCH 10 Spécial gobelin', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'GOB000019',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:40, pierre:40, nourriture:80}, souls:20}, hand:['GOB000015','GOB000017','GOB000018','GOB000019'], drawPile:['H000001','GOB000001','GOB000002','GOB000003'], graveyard:['GOB000002'], servants:[{id:'GOB000002',prepared:true},{id:'GOB000013',prepared:true},{id:'GOB000016',prepared:true}], avatarHp:30, initialSupplyCardId:'R000010', initialSupplyMultiplier:10},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001'], drawPile:['H000001','H000005','R000001','MV000020','H000006'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true},{id:'TRL000010',pdv:7,pdvMax:7,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-03-humans-overview'] = {
@@ -5397,6 +5425,8 @@ async function tryApplyAbilityDamage({
     isAbility: true,
     bypassInsensitive
   })) {
+    const batch10Redirect = maybeRedirectBatch10CasseCouTarget({sourcePlayer, targetFC, sourceCardId, amount, bypassInsensitive, directSpellDamage, directSpecialAbilityDamage});
+    if (batch10Redirect?.redirected) targetFC = batch10Redirect.targetFC;
     const sourceFC = sourceCardId ? findBoardCard(sourcePlayer, sourceCardId) : null;
     if (sourceFC) targetFC._killer = sourceFC;
     targetFC._batch09DamageContext = {sourcePlayerKey:playerKey(sourcePlayer), sourceCardId, isDirectSpellDamage:!!directSpellDamage, isDirectSpecialAbilityDamage:!!directSpecialAbilityDamage};
@@ -7518,6 +7548,8 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
   if (sourceEl?.dataset?.batch07RuneServant === '1') ensureKeyword('Serviteur de la rune', KDEF['Serviteur de la rune'] || 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.');
   if (sourceEl?.dataset?.batch08TotemRage === '1') ensureKeyword('Rage', KDEF.Rage || 'Gagne +2 d’attaque tant que ses points de vie sont inférieurs à leur maximum.');
+  if (sourceEl?.dataset?.batch10GrantedKeywords) String(sourceEl.dataset.batch10GrantedKeywords).split('|').filter(Boolean).forEach(keyword => ensureKeyword(keyword, KDEF[keyword] || 'Mot-clef temporairement copié.'));
+  if (sourceEl?.dataset?.batch10StolenKeywords) String(sourceEl.dataset.batch10StolenKeywords).split('|').filter(Boolean).forEach(keyword => ensureKeyword(keyword, KDEF[keyword] || 'Mot-clef temporairement transféré.'));
   (CARDS_DATA[cardId]?.extraTooltips || []).forEach((tip, index) => keywords.push({kind:'ability', title:tip.title, body:tip.body || tip.text || '', order:12 + index}));
   if (sourceEl?.dataset?.hypno || sourceEl?.dataset?.hypnosisUntilDamage) ensureKeyword('Hypnose', KDEF.Hypnose || 'Ne peut pas attaquer jusqu\'à subir des dégâts.');
   if (!keywords.length) return '';
@@ -10707,6 +10739,9 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
   if (cardId === 'GOB000010' && graveyardSupplyEntries(p).length < 1) {
     return {valid:false, reason:'no-supply-in-graveyard'};
   }
+  if ((cardId === 'S000009' || cardId === 'S000047') && !batch09FreeServantSlots(p).length) {
+    return {valid:false, reason:'no-servant-slot'};
+  }
   return {valid:true, reason:null};
 }
 
@@ -11144,6 +11179,8 @@ async function triggerInitiative(cardId, player, context={}) {
   if (batch08Initiative?.handled) return batch08Initiative;
   const batch09Initiative = await resolveBatch09Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch09Initiative?.handled) return batch09Initiative;
+  const batch10Initiative = await resolveBatch10Initiative(cardId, player, {...context, sourceFC, sourceInstanceId, traceId});
+  if (batch10Initiative?.handled) return batch10Initiative;
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
@@ -11613,6 +11650,12 @@ async function triggerSort(cardId, player, context={}) {
       return resolvePixiemanie(player);
     case 'S000043':
       return resolveTaureauParLesCornes(player);
+    case 'S000009':
+      return await resolveBatch10ReunionAuSommet(player, context);
+    case 'S000038':
+      return resolveBatch10CodeCouleurs(player, context);
+    case 'S000047':
+      return await resolveBatch10VoleeDeGobelins(player, context);
     case 'S000005': // Assassinat
     { const targetAudit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || null});
       if (!targetAudit.allowed) {
@@ -13990,12 +14033,15 @@ async function resolveCombat(attacker, targetFC) {
   finalAtkDmg = batch08Plan.damage;
   const batch09Plan = batch09CombatPlan(attacker, targetFC, finalAtkDmg);
   finalAtkDmg = batch09Plan.damage;
+  const batch10Plan = batch10CombatPlan(attacker, targetFC, finalAtkDmg);
+  finalAtkDmg = batch10Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
   if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
   if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
   const batch09IceShieldAttack = consumeBatch09IceShield(targetFC, attacker, finalAtkDmg);
   finalAtkDmg = batch09IceShieldAttack.damage;
   await prepareBatch09CombatFeedback(attacker, targetFC, {phase:'attack', damage:finalAtkDmg, adjacentTargets:batch09Plan.adjacentTargets, rempartBonus:batch09Plan.rempartBonus});
+  await prepareBatch10CombatFeedback(attacker, targetFC, {phase:'attack', damage:finalAtkDmg, undeadBonus:batch10Plan.undeadBonus, preventCounter:batch10Plan.preventCounter});
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
   if (attacker) attacker._killer = targetFC; // pour la riposte
@@ -14012,11 +14058,12 @@ async function resolveCombat(attacker, targetFC) {
   await resolveBatch07CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch07GlamrigAdjacentTargets});
   await resolveBatch08CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch08Plan.adjacentTargets, firstBoarAttack:batch08Plan.firstBoarAttack});
   await resolveBatch09CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch09Plan.adjacentTargets, rempartBonus:batch09Plan.rempartBonus});
+  await resolveBatch10CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', undeadBonus:batch10Plan.undeadBonus, preventCounter:batch10Plan.preventCounter});
 
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
   let counterDamageDealt = 0;
-  if (defAlive && defAtk > 0 && !batch05Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC)) {
+  if (defAlive && defAtk > 0 && !batch05Plan.preventCounter && !batch10Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC)) {
     updateRageState(targetFC);
     let counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
     if (targetFC.dataset.id === 'EDB000001' && CARDS_DATA[attacker.dataset.id]?.fac === 'mvs') counterAtk *= 2;
@@ -14096,6 +14143,7 @@ async function resolveCombat(attacker, targetFC) {
   }
 
   if (!batch08ApplyAttackExhaustion(attacker, {targetDied:defDied, firstBoarAttack:batch08Plan.firstBoarAttack})) batch06ApplyAttackExhaustion(attacker);
+  batch10ApplyAttackExhaustion(attacker, {targetDied:defDied});
 
   cancelAttack(); // Guérisseur déclenché en fin de tour uniquement
 }
@@ -14107,6 +14155,8 @@ async function applyDamage(fc, amount) {
   amount = adjustBatch03IncomingDamage(fc, amount);
   const batch07DamageAdjustment = adjustBatch07IncomingDamage(fc, amount);
   amount = batch07DamageAdjustment.amount;
+  const batch10DamageAdjustment = adjustBatch10IncomingDamage(fc, amount);
+  amount = batch10DamageAdjustment.amount;
   if (!amount || amount <= 0) return false;
 
   const pdvEl = fc.querySelector('.fc-pdv-val');
@@ -14241,7 +14291,7 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
   return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011' ||
     cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012' || cardId === 'N000009' ||
-    cardId === 'TRL000013' || cardId === 'TRL000014';
+    cardId === 'TRL000013' || cardId === 'TRL000014' || cardId === 'GOB000006' || cardId === 'GOB000012';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
@@ -14260,6 +14310,7 @@ async function sendToCemetery(fc, options={}) {
   handleBatch05ServantBeforeCemetery(player, fc);
   releaseBatch09TrollNainAttachment(fc);
   await releaseBatch09CadaverStash(fc);
+  releaseBatch10LinkedEffects(fc);
 
   if (!delayDestroyForVengeanceFeedback) {
     await playDestroyAnimationBeforeCemetery(fc);
@@ -14428,7 +14479,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009' && cardId !== 'TRL000013' && cardId !== 'TRL000014') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009' && cardId !== 'TRL000013' && cardId !== 'TRL000014' && cardId !== 'GOB000006' && cardId !== 'GOB000012') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
   }
@@ -14447,6 +14498,10 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
 
   if (cardId === 'TRL000013' || cardId === 'TRL000014') {
     return triggerBatch09Vengeance(cardId, player, dyingFC, killer, context);
+  }
+
+  if (cardId === 'GOB000006' || cardId === 'GOB000012') {
+    return triggerBatch10Vengeance(cardId, player, dyingFC, killer, context);
   }
 
   if (cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004') {
@@ -14833,8 +14888,8 @@ async function attackAvatar(attacker, adversePlayer) {
     checkGameOver();
     return;
   }
-  // Riposte avatar (ATK = 5)
-  await applyDamage(attacker, 5);
+  // Riposte avatar (ATK = 5), sauf effet explicite de Gitzo.
+  if (attacker.dataset.id !== 'GOB000020') await applyDamage(attacker, 5);
 
   batch06ApplyAttackExhaustion(attacker);
   cancelAttack();
@@ -19851,6 +19906,35 @@ const COLLECTION_BATCH_09B_CARD_TEXT_OVERRIDES = {
 };
 Object.entries(COLLECTION_BATCH_09B_CARD_TEXT_OVERRIDES).forEach(([id, patch]) => { if (CARDS_DATA[id]) Object.assign(CARDS_DATA[id], patch); });
 
+const COLLECTION_BATCH_10_CARD_TEXT_OVERRIDES = {
+  GOB000001:{kws:['Lenya','Nourriture'],cap:"À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à *1* serviteur adverse aléatoire.",detail:"À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à *1* serviteur adverse aléatoire."},
+  GOB000002:{cap:'',lore:"Petits, véloces et bigrement agiles, les gobelins constituent une réelle menace quand ils combattent à deux dagues."},
+  GOB000003:{cap:"Les dégâts de ce serviteur sont triplés contre les morts-vivants. Chaque attaque contre un serviteur mort-vivant applique également [Colère divine] à ce dernier.",detail:"Les dégâts de ce serviteur sont triplés contre les morts-vivants. Chaque attaque contre un serviteur mort-vivant applique également [Colère divine] à ce dernier."},
+  GOB000004:{cap:'',lore:"Sa maman lui a fait manger de la soupe d'os depuis qu'il est tout petit. Elle disait que cela le rendrait grand et fort, mais le résultat a dépassé toutes ses espérances."},
+  GOB000005:{cap:"[Camouflage] [Initiative] Tente de voler *1* carte Approvisionnement dans le deck adverse avec *75%* de chances de succès. En cas d'échec, cette carte est envoyée au cimetière.",detail:"[Camouflage] [Initiative] Tente de voler *1* carte Approvisionnement dans le deck adverse avec *75%* de chances de succès. En cas d'échec, cette carte est envoyée au cimetière."},
+  GOB000006:{kws:['Sang ardent','Vengeance','Fer','Nourriture'],cap:"[Sang ardent] [Vengeance] Inflige *2* points de dégâts à *1* serviteur adverse aléatoire.",detail:"[Sang ardent] [Vengeance] Inflige *2* points de dégâts à *1* serviteur adverse aléatoire."},
+  GOB000007:{cap:"À la fin de chacun de vos tours, soigne *2* points de vie à *1* autre serviteur gobelin allié blessé. Soigne *+1* serviteur gobelin allié supplémentaire pour chaque unité de Lenya de votre côté du terrain.",detail:"À la fin de chacun de vos tours, soigne *2* points de vie à *1* autre serviteur de la faction « Gobelin » blessé de votre côté du terrain. Soigne *+1* serviteur gobelin allié supplémentaire pour chaque unité de Lenya de votre côté du terrain."},
+  GOB000008:{cap:"[Initiative] Inflige *2* points de dégâts à *1* serviteur adverse aléatoire.",detail:"[Initiative] Inflige *2* points de dégâts à *1* serviteur adverse aléatoire."},
+  GOB000009:{cap:"Tant que cette carte est sur le terrain, les autres serviteurs gobelins alliés coûtant *2* ressources ou moins gagnent *+1 ATK*.",detail:"Tant que cette carte est sur le terrain, les autres serviteurs de la faction « Gobelin » de votre côté du terrain coûtant *2* ressources ou moins gagnent *+1 ATK*."},
+  GOB000010:{cap:"Condition : votre cimetière doit contenir au moins *1* Approvisionnement. [Initiative] Choisissez *1* Approvisionnement dans votre cimetière et ajoutez-le à votre main, puis mélangez votre deck.",detail:"Condition : votre cimetière doit contenir au moins *1* Approvisionnement. [Initiative] Choisissez *1* Approvisionnement dans votre cimetière et ajoutez-le à votre main, puis mélangez votre deck."},
+  GOB000011:{cap:"[Initiative] Invoque le *1er* serviteur Bête de votre deck coûtant *2* ressources ou moins, puis mélange votre deck.",detail:"[Initiative] Invoque le *1er* serviteur de la faction « Bête » de votre deck coûtant *2* ressources ou moins de votre côté du terrain, puis mélange votre deck."},
+  GOB000012:{cap:"[Camouflage] [Initiative] Inflige *1* point de dégâts à l'avatar adverse et *1* point de dégâts à *1* serviteur adverse aléatoire. [Vengeance] Répète cet effet.",detail:"[Camouflage] [Initiative] Inflige *1* point de dégâts à l'avatar adverse et *1* point de dégâts à *1* serviteur adverse aléatoire. [Vengeance] Répète cet effet."},
+  GOB000013:{cap:"[Rempart] Tant que cette carte est sur le terrain, tous vos serviteurs gobelins subissent *1* point de dégâts de moins de toutes les sources. Cet effet est cumulable.",detail:"[Rempart] Tant que cette carte est sur le terrain, tous vos serviteurs de la faction « Gobelin » subissent *1* point de dégâts de moins de toutes les sources. Cet effet est cumulable."},
+  GOB000014:{cap:"[Vigilance] [Initiative] Piochez jusqu'à *2* serviteurs gobelins coûtant *2* ressources ou moins depuis votre cimetière ou votre deck. Si vous avez des emplacements de serviteurs libres, jouez gratuitement les serviteurs ainsi piochés.",detail:"[Vigilance] [Initiative] Piochez jusqu'à *2* serviteurs gobelins coûtant *2* ressources ou moins depuis votre cimetière ou votre deck, en priorisant le cimetière. Mélangez ensuite votre deck. Si vous avez des emplacements de serviteurs libres, jouez gratuitement les serviteurs ainsi piochés."},
+  GOB000015:{cap:"[Initiative] Choisissez *1* autre serviteur allié : cette carte en devient une copie parfaite et réplique ses statistiques et ses capacités jusqu'à ce que l'un des deux quitte le terrain.",detail:"[Initiative] Choisissez *1* autre serviteur allié. Le « Faux jumeau » copie son attaque et ses points de vie actuels, ses capacités spéciales et ses mots-clefs, sauf [Serviteur de la rune] et [Insensible], mais conserve son nom, son propriétaire et sa faction Gobelin. L'effet cesse dès que l'une des deux cartes quitte le terrain."},
+  GOB000016:{cap:"*1* fois par tour, quand un sort ou une capacité adverse cible un autre serviteur allié, vous pouvez rediriger cet effet vers cette carte.",detail:"*1* fois par tour, lorsqu'un sort ou une capacité spéciale adverse cible directement un autre serviteur allié, vous pouvez faire du « Casse-cou » la nouvelle cible, à condition qu'il soit une cible légale. Si l'effet nécessite plusieurs cibles, seule celle remplacée est modifiée."},
+  GOB000017:{cap:"[Initiative] Volez tous les mots-clefs de *1* serviteur adverse jusqu'à ce que cette carte quitte le terrain.",detail:"[Initiative] Choisissez *1* serviteur adverse : transférez tous ses mots-clefs au « Maître de l'indiscrétion », à l'exception d'[Insensible] et [Serviteur de la rune]. Les mots-clefs reviennent à leur propriétaire légitime quand le « Maître de l'indiscrétion » quitte le terrain."},
+  GOB000018:{cap:"[Initiative] Regardez les *4* cartes du dessus du deck adverse. Placez-en *1* tout en dessous, puis replacez les autres dans l'ordre de votre choix.",detail:"[Initiative] Révélez secrètement les *4* cartes du dessus du deck adverse. Choisissez-en *1* et placez-la tout en dessous de ce deck. Replacez les *3* autres sur le dessus dans l'ordre de votre choix. Le propriétaire du deck ne voit pas l'ordre choisi."},
+  GOB000019:{cap:"*1* fois par tour, sacrifiez *1* autre serviteur gobelin allié pour choisir : piochez *2* cartes ; infligez *5* dégâts à *1* serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de *+1 ATK*/*+3 PDV* et lui confère [Rempart].",detail:"*1* fois par tour, vous pouvez envoyer *1* autre serviteur de la faction « Gobelin » de votre côté du terrain au cimetière. Choisissez ensuite *1* effet : piochez *2* cartes ; infligez *5* points de dégâts à *1* serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de *+1 ATK*/*+3 PDV* et lui confère [Rempart]."},
+  GOB000020:{kws:['Serviteur de la rune','Rage','Fer','Nourriture'],cap:"[Serviteur de la rune] [Rage] Ce serviteur peut attaquer *2* fois par tour et ne provoque pas de riposte. Chaque fois que « Gitzo » détruit *1* serviteur adverse, piochez *1* carte.",detail:"[Serviteur de la rune] [Rage] Ce serviteur peut attaquer *2* fois par tour et ne provoque pas de riposte : il ne subit pas de dégâts des contre-attaques ennemies. Chaque fois que « Gitzo » détruit *1* serviteur adverse, piochez *1* carte."},
+  S000009:{cap:"Scanne votre deck à la recherche des *3* premiers serviteurs gobelins coûtant chacun moins de *3* unités de ressources. Les invoque de votre côté du terrain.",detail:"Scanne votre deck à la recherche des *3* premiers serviteurs gobelins coûtant chacun moins de *3* unités de ressources. Si vous avez des emplacements de serviteurs vides, invoque *1*, *2* ou *3* de ces gobelins de votre côté du terrain, en fonction du nombre d'emplacements disponibles."},
+  S000037:{cap:"Piochez des serviteurs de la faction des « Gobelins » de votre deck jusqu'à avoir *8* cartes en main.",detail:"Piochez des serviteurs de la faction des « Gobelins » de votre deck jusqu'à avoir *8* cartes en main. Cette carte quitte la main avant le calcul de l'objectif."},
+  S000038:{cap:"Ajoute *1* copie de chaque serviteur unique de la faction des « Gobelins » actuellement dans votre main.",detail:"Ajoute *1* copie de chaque serviteur unique de la faction des « Gobelins » actuellement dans votre main."},
+  S000047:{cap:"Invoque jusqu'à *3* « Surineurs » de votre côté du terrain.",detail:"Invoque jusqu'à *3* « Surineurs » de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck."},
+  S000049:{cap:"Jusqu'à la fin de votre tour, chaque effet [Vengeance] allié inflige *+2* dégâts supplémentaires à un serviteur adverse aléatoire. Les [Vengeance] de vos serviteurs gobelins se déclenchent une *2e* fois ce tour-ci.",detail:"Jusqu'à la fin de votre tour, chaque effet [Vengeance] allié inflige *+2* dégâts supplémentaires à un serviteur adverse aléatoire. Les [Vengeance] de vos serviteurs gobelins se déclenchent une *2e* fois ce tour-ci."}
+};
+Object.entries(COLLECTION_BATCH_10_CARD_TEXT_OVERRIDES).forEach(([id, patch]) => { if (CARDS_DATA[id]) Object.assign(CARDS_DATA[id], patch); });
+
 applySupplyProductionDefinitions();
 
 const collectionBatch09State = {events:[], stashes:{}, randomQueue:[]};
@@ -20541,6 +20625,429 @@ function auditCollectionBatch09Runtime() {
 }
 window.auditCollectionBatch09Runtime = auditCollectionBatch09Runtime;
 
+const collectionBatch10State = {events:[], randomQueue:[]};
+function recordCollectionBatch10Event(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch10State.events.push(event);
+  window.__collectionBatch10LastEvent = event;
+  return event;
+}
+function batch10Random() {
+  const queue = window.__collectionBatch10RandomQueue || collectionBatch10State.randomQueue;
+  if (Array.isArray(queue) && queue.length) return Number(queue.shift()) || 0;
+  return batch09Random ? batch09Random() : gameRandom();
+}
+function batch10Pick(items) {
+  const list = Array.from(items || []);
+  if (!list.length) return null;
+  return list[Math.min(list.length - 1, Math.floor(batch10Random() * list.length))];
+}
+function isBatch10GoblinServant(value) { return isBatch09GoblinServant(value); }
+function batch10Living(player) { return livingServantCardsForPlayer(player); }
+function batch10EnemyServants(player, sourceCardId='batch10', effectKind='damage') {
+  const p = playerState(player);
+  return getAffectableTargets({sourcePlayer:p, targets:batch10Living(opponentOf(p)), sourceCardId, effectKind, isAbility:true});
+}
+function batch10PrintedCostAtMost(cardId, max) { return Number(CARDS_DATA[cardId]?.cost || 0) <= Number(max); }
+function batch10LinkedKeywordList(value) {
+  const id = typeof value === 'string' ? value : value?.dataset?.id || '';
+  const extra = typeof value === 'string' ? [] : String(value?.dataset?.batch10GrantedKeywords || value?.dataset?.batch10StolenKeywords || '').split('|').filter(Boolean);
+  return [...new Set([...(CARDS_DATA[id]?.kws || []), ...extra])];
+}
+function batch10CopyableKeywords(fc) {
+  const excluded = new Set(['Serviteur de la rune','Insensible', ...RES_KWS]);
+  return batch10LinkedKeywordList(fc).filter(keyword => !excluded.has(keyword));
+}
+function batch10ApplyGrantedKeywords(fc, keywords, reason) {
+  if (!fc) return [];
+  const clean = [...new Set((keywords || []).filter(Boolean))];
+  if (!clean.length) return [];
+  fc.dataset.batch10GrantedKeywords = clean.join('|');
+  if (clean.includes('Rempart')) fc.dataset.rempart = '1';
+  if (clean.includes('Rage')) updateRageState(fc);
+  recordCollectionBatch10Event('keywords-granted', {source:targetSummary(fc), keywords:clean, reason});
+  return clean;
+}
+function batch10ReleaseDynamicKeywords(fc) {
+  if (!fc) return false;
+  delete fc.dataset.batch10GrantedKeywords;
+  delete fc.dataset.batch10StolenKeywords;
+  if (!(CARDS_DATA[fc.dataset.id]?.kws || []).includes('Rempart') && fc.dataset.batch09InstableRempart !== '1') delete fc.dataset.rempart;
+  if (!(CARDS_DATA[fc.dataset.id]?.kws || []).includes('Rage') && fc.dataset.batch08TotemRage !== '1') delete fc.dataset.rageActive;
+  return true;
+}
+function batch10PassiveBuffFor(fc) {
+  const owner = playerState(fc?.dataset?.player);
+  if (!owner || !fc || fc.dataset.dead || !isBatch10GoblinServant(fc)) return {atk:0, pdvMax:0, sources:[]};
+  const cost = Number(CARDS_DATA[fc.dataset.id]?.cost || 0);
+  const cheffaillons = batch10Living(owner).filter(card => card !== fc && card.dataset.id === 'GOB000009' && canResolveServantAbility(card, {triggerType:'passive'})).length;
+  return cheffaillons && cost <= 2 ? {atk:cheffaillons, pdvMax:0, sources:['GOB000009']} : {atk:0, pdvMax:0, sources:[]};
+}
+function adjustBatch10IncomingDamage(fc, amount) {
+  const owner = playerState(fc?.dataset?.player);
+  if (!owner || !fc || fc.dataset.dead || !isBatch10GoblinServant(fc)) return {amount, reduction:0, sources:[]};
+  const sources = batch10Living(owner).filter(card => card.dataset.id === 'GOB000013' && canResolveServantAbility(card, {triggerType:'passive'}));
+  const reduction = Math.min(Number(amount || 0), sources.length);
+  if (reduction > 0) {
+    sources.forEach(source => pulseBatch03Ability(source, 'batch10-moule-gadoue', {passive:true, move:false}));
+    recordCollectionBatch10Event('damage-reduced', {target:targetSummary(fc), amount, reduction, sources:sources.map(targetSummary)});
+  }
+  return {amount:Math.max(0, Number(amount || 0) - reduction), reduction, sources:sources.map(targetSummary)};
+}
+function maybeRedirectBatch10CasseCouTarget({sourcePlayer, targetFC, sourceCardId=null, amount=null, bypassInsensitive=false, directSpellDamage=false, directSpecialAbilityDamage=false}={}) {
+  const targetOwner = playerState(targetFC?.dataset?.player);
+  const source = playerState(sourcePlayer);
+  if (!source || !targetOwner || source.key === targetOwner.key || !targetFC || targetFC.dataset.dead || targetFC.dataset.id === 'GOB000016') return {redirected:false};
+  const casseCou = batch10Living(targetOwner).find(fc => fc.dataset.id === 'GOB000016' && !fc.dataset.batch10CasseCouUsedTurn && canResolveServantAbility(fc, {triggerType:'passive'}) && canAffectTarget({sourcePlayer:source, targetFC:fc, sourceCardId, effectKind:'damage', isAbility:true, bypassInsensitive, directSpellDamage}));
+  if (!casseCou) return {redirected:false};
+  casseCou.dataset.batch10CasseCouUsedTurn = String(turnSequence);
+  pulseBatch03Ability(casseCou, 'batch10-casse-cou', {move:true});
+  const event = recordCollectionBatch10Event('casse-cou-redirect', {sourceCardId, original:targetSummary(targetFC), redirectedTo:targetSummary(casseCou), amount, directSpellDamage, directSpecialAbilityDamage});
+  return {redirected:true, targetFC:casseCou, event};
+}
+async function resolveBatch10Initiative(cardId, player, context={}) {
+  const p = playerState(player);
+  const sourceFC = context.sourceFC || findBoardCard(p, cardId);
+  if (!sourceFC || !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:false};
+  if (cardId === 'GOB000005') {
+    const defender = opponentOf(p);
+    const roll = batch10Random();
+    const supplies = playerDrawPile(defender).map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => CARDS_DATA[item.cardId]?.type === 'Approvisionnement');
+    if (roll <= 0.75 && supplies.length && !getHandCapacityStatus(p).full) {
+      const picked = supplies[supplies.length - 1];
+      playerDrawPile(defender).splice(picked.index, 1);
+      addCardToHand(p, picked.cardId, {refresh:true});
+      updateDeckCount(defender);
+      pulseBatch03Ability(sourceFC, 'batch10-chapardeur', {move:true});
+      const result = {handled:true, success:true, stolen:picked.cardId, roll};
+      recordCollectionBatch10Event('chapardeur-success', result);
+      return result;
+    }
+    await sendToCemetery(sourceFC, {suppressVengeance:true});
+    const result = {handled:true, success:false, reason:'chapardeur-failed', roll, supplies:supplies.map(item => item.cardId)};
+    recordCollectionBatch10Event('chapardeur-failed', result);
+    return result;
+  }
+  if (cardId === 'GOB000008') {
+    const target = batch10Pick(batch10EnemyServants(p, cardId, 'damage'));
+    const before = targetSummary(target);
+    const died = target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:2}) : false;
+    const result = {handled:true, success:!!target, target:before, died};
+    if (target) pulseBatch03Ability(sourceFC, 'batch10-petit-nerveux', {move:true});
+    recordCollectionBatch10Event('petit-nerveux-initiative', result);
+    return result;
+  }
+  if (cardId === 'GOB000010') {
+    const entries = zoneCardEntries(p, 'graveyard', {type:'Approvisionnement'});
+    const selected = entries[0] || null;
+    let moved = null;
+    if (selected && !getHandCapacityStatus(p).full) {
+      const [entry] = p.graveyard.splice(selected.index, 1);
+      const movedId = getRuntimeCardId(entry) || selected.id;
+      addCardToHand(p, movedId, {refresh:true, occurrenceId:selected.occurrenceId || null});
+      refreshCemeteryVisual(p);
+      moved = movedId;
+      batch09Shuffle(playerDrawPile(p));
+      updateDeckCount(p);
+      pulseBatch03Ability(sourceFC, 'batch10-chercheur', {move:true});
+    }
+    const result = {handled:true, success:!!moved, moved, graveyardBefore:entries.map(entry => entry.id)};
+    recordCollectionBatch10Event('chercheur-tresor-initiative', result);
+    return result;
+  }
+  if (cardId === 'GOB000011') {
+    const pile = playerDrawPile(p);
+    let selected = null;
+    for (let i = pile.length - 1; i >= 0; i--) {
+      const candidateId = getRuntimeCardId(pile[i]);
+      if (CARDS_DATA[candidateId]?.type === 'Serviteur' && CARDS_DATA[candidateId]?.fac === 'bet' && batch10PrintedCostAtMost(candidateId, 2)) { selected = {index:i, cardId:candidateId}; break; }
+    }
+    const entry = selected ? pile.splice(selected.index, 1)[0] : null;
+    updateDeckCount(p);
+    const summon = selected ? await summonBatch03Servant(p, selected.cardId, {sourceCardId:cardId, sourceInstanceId:sourceFC.dataset.instance || null, triggerInitiativeEffect:false, ready:true}) : {success:false, reason:'no-beast'};
+    batch09Shuffle(pile);
+    if (summon.success) pulseBatch03Ability(sourceFC, 'batch10-dompteur', {move:true});
+    const result = {handled:true, success:!!summon.success, selected:selected?.cardId || null, consumedEntry:entry, summon};
+    recordCollectionBatch10Event('dompteur-initiative', result);
+    return result;
+  }
+  if (cardId === 'GOB000012') {
+    const avatar = applyAvatarEffectDamage(opponentOf(p), 1, {sourcePlayer:p, sourceCardId:cardId});
+    const target = batch10Pick(batch10EnemyServants(p, cardId, 'damage'));
+    const servantDamage = target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:1}) : false;
+    pulseBatch03Ability(sourceFC, 'batch10-gobelassassin', {move:true});
+    const result = {handled:true, success:true, avatar, target:targetSummary(target), servantDamage};
+    recordCollectionBatch10Event('gobelassassin-initiative', result);
+    return result;
+  }
+  if (cardId === 'GOB000014') {
+    const drawn = [];
+    const summoned = [];
+    while (drawn.length < 2 && !getHandCapacityStatus(p).full) {
+      const graveIndex = (p.graveyard || []).findIndex(entry => {
+        const id = getRuntimeCardId(entry);
+        return isBatch10GoblinServant(id) && batch10PrintedCostAtMost(id, 2);
+      });
+      if (graveIndex >= 0) {
+        const [entry] = p.graveyard.splice(graveIndex, 1);
+        const id = getRuntimeCardId(entry);
+        addCardToHand(p, id, {refresh:false, occurrenceId:entry?.occurrenceId || null});
+        drawn.push({id, from:'graveyard'});
+        continue;
+      }
+      const draw = drawCardFromRuntimeDeck(p, {sourceCardId:cardId, refresh:false, predicate:id => isBatch10GoblinServant(id) && batch10PrintedCostAtMost(id, 2)});
+      if (!draw.success) break;
+      drawn.push({id:draw.cardId, from:'deck'});
+    }
+    refreshCemeteryVisual(p);
+    renderAllHands();
+    for (const entry of [...drawn]) {
+      if (!batch09FreeServantSlots(p).length) break;
+      const index = playerHand(p).indexOf(entry.id);
+      if (index < 0) continue;
+      removeHandCardAt(p, index);
+      summoned.push(await summonBatch03Servant(p, entry.id, {sourceCardId:cardId, sourceInstanceId:sourceFC.dataset.instance || null, triggerInitiativeEffect:false, ready:true}));
+    }
+    renderAllHands();
+    batch09Shuffle(playerDrawPile(p));
+    updateDeckCount(p);
+    pulseBatch03Ability(sourceFC, 'batch10-snarff', {move:true});
+    const result = {handled:true, success:true, drawn, summoned};
+    recordCollectionBatch10Event('snarff-initiative', result);
+    return result;
+  }
+  if (cardId === 'GOB000015') {
+    const targets = context.selectedTargetIds?.length ? resolveBoardTargetReferences(context.selectedTargetIds) : batch10Living(p).filter(fc => fc !== sourceFC);
+    const target = targets.find(fc => fc && fc !== sourceFC && fc.dataset.player === p.key && !fc.dataset.dead) || null;
+    if (!target) return {handled:true, success:false, reason:'no-copy-target'};
+    sourceFC.dataset.batch10FauxJumeauTarget = target.dataset.instance || ensureServantInstanceId(target);
+    target.dataset.batch10FauxJumeauSource = sourceFC.dataset.instance || ensureServantInstanceId(sourceFC);
+    sourceFC.dataset.batch10FauxJumeauBaseAtk = String(Number(target.dataset.atk || 0));
+    sourceFC.dataset.batch10FauxJumeauBasePdvMax = String(Number(target.dataset.pdvMax || target.dataset.pdv || 1));
+    const copiedKeywords = batch10CopyableKeywords(target);
+    batch10ApplyGrantedKeywords(sourceFC, copiedKeywords, 'faux-jumeau');
+    syncBatch05Passives();
+    pulseBatch03Ability(sourceFC, 'batch10-faux-jumeau', {move:true});
+    const result = {handled:true, success:true, target:targetSummary(target), source:targetSummary(sourceFC), copiedKeywords};
+    recordCollectionBatch10Event('faux-jumeau-copy', result);
+    return result;
+  }
+  if (cardId === 'GOB000017') {
+    const target = (context.selectedTargetIds?.length ? resolveBoardTargetReferences(context.selectedTargetIds) : batch10EnemyServants(p, cardId, 'effect')).find(Boolean) || null;
+    if (!target) return {handled:true, success:false, reason:'no-keyword-target'};
+    const keywords = batch10CopyableKeywords(target);
+    sourceFC.dataset.batch10StolenKeywords = keywords.join('|');
+    sourceFC.dataset.batch10KeywordTheftTarget = target.dataset.instance || ensureServantInstanceId(target);
+    target.dataset.batch10KeywordTheftSource = sourceFC.dataset.instance || ensureServantInstanceId(sourceFC);
+    if (keywords.includes('Rempart')) { sourceFC.dataset.rempart = '1'; delete target.dataset.rempart; }
+    if (keywords.includes('Rage')) updateRageState(sourceFC);
+    pulseBatch03Ability(sourceFC, 'batch10-indiscretion', {move:true});
+    const result = {handled:true, success:true, target:targetSummary(target), source:targetSummary(sourceFC), stolenKeywords:keywords};
+    recordCollectionBatch10Event('indiscretion-keywords', result);
+    return result;
+  }
+  if (cardId === 'GOB000018') {
+    const adverse = opponentOf(p);
+    const pile = playerDrawPile(adverse);
+    const top = pile.slice(Math.max(0, pile.length - 4)).map(getRuntimeCardId);
+    const absoluteIndex = pile.length - top.length;
+    const chosenOffset = top.length ? Math.min(top.length - 1, Math.floor(batch10Random() * top.length)) : -1;
+    const movedEntry = chosenOffset >= 0 ? pile.splice(absoluteIndex + chosenOffset, 1)[0] : null;
+    if (movedEntry) pile.unshift(movedEntry);
+    updateDeckCount(adverse);
+    pulseBatch03Ability(sourceFC, 'batch10-petit-fute', {move:true});
+    const result = {handled:true, success:!!movedEntry, topBefore:top, movedToBottom:getRuntimeCardId(movedEntry), topAfter:pile.slice(Math.max(0, pile.length - 4)).map(getRuntimeCardId)};
+    recordCollectionBatch10Event('petit-fute-deck-order', result);
+    return result;
+  }
+  return {handled:false};
+}
+function batch10CombatPlan(attacker, targetFC, damage) {
+  if (!attacker || !targetFC) return {damage, undeadBonus:false, preventCounter:false};
+  let nextDamage = damage;
+  const undeadBonus = attacker.dataset.id === 'GOB000003' && CARDS_DATA[targetFC.dataset.id]?.fac === 'mvs';
+  if (undeadBonus) nextDamage = Number(attacker.dataset.atk || damage || 0) * 3;
+  return {damage:nextDamage, undeadBonus, preventCounter:attacker.dataset.id === 'GOB000020'};
+}
+async function prepareBatch10CombatFeedback(sourceFC, targetFC, context={}) {
+  if (!sourceFC || sourceFC.dataset.dead || context.phase !== 'attack') return [];
+  const results = [];
+  if (context.undeadBonus) results.push({type:'undead-triple-damage', damage:context.damage, target:targetSummary(targetFC)});
+  if (context.preventCounter) results.push({type:'gitzo-no-counter', target:targetSummary(targetFC)});
+  if (results.length) {
+    pulseBatch03Ability(sourceFC, 'batch10-combat', {move:true});
+    recordCollectionBatch10Event('combat-feedback-before-attack', {source:targetSummary(sourceFC), target:targetSummary(targetFC), results});
+    await batch05VisualDelay(260);
+  }
+  return results;
+}
+async function resolveBatch10CombatDamageDealtEffects(sourceFC, targetFC, context={}) {
+  if (!sourceFC || sourceFC.dataset.dead) return null;
+  const results = [];
+  if (sourceFC.dataset.id === 'GOB000003' && context.phase === 'attack' && context.undeadBonus && targetFC && !targetFC.dataset.dead) {
+    const divine = applyBatch03DivineWrath(targetFC, playerState(sourceFC.dataset.player), {sourceCardId:'GOB000003', sourceInstanceId:sourceFC.dataset.instance || null});
+    results.push({type:'divine-wrath-vs-undead', target:targetSummary(targetFC), divine});
+  }
+  if (sourceFC.dataset.id === 'GOB000020' && context.phase === 'attack' && context.targetDied && !sourceFC.dataset.dead) {
+    const draw = drawCardFromRuntimeDeck(playerState(sourceFC.dataset.player), {sourceCardId:'GOB000020', refresh:true});
+    pulseBatch03Ability(sourceFC, 'batch10-gitzo-draw', {move:true});
+    results.push({type:'gitzo-draw-on-kill', draw});
+  }
+  if (results.length) recordCollectionBatch10Event('combat-effects', {source:targetSummary(sourceFC), target:targetSummary(targetFC), results});
+  return results;
+}
+function batch10ApplyAttackExhaustion(attacker) {
+  if (!attacker || attacker.dataset.dead || attacker.dataset.id !== 'GOB000020') return false;
+  const count = Number(attacker.dataset.batch10GitzoAttacksThisTurn || 0) + 1;
+  attacker.dataset.batch10GitzoAttacksThisTurn = String(count);
+  if (count < 2) {
+    delete attacker.dataset.exhausted;
+    attacker.classList.remove('fc-exhausted');
+  } else {
+    attacker.dataset.exhausted = '1';
+    attacker.classList.add('fc-exhausted');
+  }
+  recordCollectionBatch10Event('gitzo-attack-count', {source:targetSummary(attacker), count, exhausted:attacker.dataset.exhausted === '1'});
+  return true;
+}
+async function triggerBatch10Vengeance(cardId, player, dyingFC, killer, context={}) {
+  const p = playerState(player);
+  if (!p) return null;
+  pulseBatch03Ability(dyingFC, 'batch10-vengeance', {move:true});
+  await batch05VisualDelay(260);
+  const results = [];
+  if (cardId === 'GOB000006') {
+    const target = batch10Pick(batch10EnemyServants(p, cardId, 'damage'));
+    results.push({type:'mini-furie', target:targetSummary(target), died:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:2}) : false});
+  }
+  if (cardId === 'GOB000012') {
+    results.push({type:'gobelassassin-avatar', avatar:applyAvatarEffectDamage(opponentOf(p), 1, {sourcePlayer:p, sourceCardId:cardId})});
+    const target = batch10Pick(batch10EnemyServants(p, cardId, 'damage'));
+    results.push({type:'gobelassassin-servant', target:targetSummary(target), died:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:cardId, amount:1}) : false});
+  }
+  const machiavelisme = await resolveBatch06MachiavelismeAfterVengeance(p, cardId, dyingFC, context);
+  let repeat = null;
+  if (isBatch06MachiavelismeActive(p) && isBatch10GoblinServant(cardId) && !context.batch10MachiavelismeRepeat) {
+    repeat = await triggerBatch10Vengeance(cardId, p, dyingFC, killer, {...context, batch10MachiavelismeRepeat:true});
+  }
+  const result = {success:true, cardId, destination:'graveyard', results, machiavelisme, repeat};
+  recordCollectionBatch10Event('goblin-vengeance', result);
+  return result;
+}
+function releaseBatch10LinkedEffects(fc) {
+  if (!fc) return null;
+  const instance = fc.dataset.instance || '';
+  const result = {source:targetSummary(fc), released:[]};
+  const linkedFauxSource = document.querySelector(`.fc[data-batch10-faux-jumeau-target="${instance}"]:not([data-dead])`);
+  if (linkedFauxSource) {
+    delete linkedFauxSource.dataset.batch10FauxJumeauTarget;
+    delete linkedFauxSource.dataset.batch10FauxJumeauBaseAtk;
+    delete linkedFauxSource.dataset.batch10FauxJumeauBasePdvMax;
+    batch10ReleaseDynamicKeywords(linkedFauxSource);
+    result.released.push({type:'faux-jumeau', source:targetSummary(linkedFauxSource)});
+  }
+  const theftSource = document.querySelector(`.fc[data-batch10-keyword-theft-target="${instance}"]:not([data-dead])`);
+  if (theftSource) {
+    delete theftSource.dataset.batch10KeywordTheftTarget;
+    batch10ReleaseDynamicKeywords(theftSource);
+    result.released.push({type:'indiscretion-source', source:targetSummary(theftSource)});
+  }
+  const theftTarget = document.querySelector(`.fc[data-batch10-keyword-theft-source="${instance}"]:not([data-dead])`);
+  if (theftTarget) {
+    delete theftTarget.dataset.batch10KeywordTheftSource;
+    if ((CARDS_DATA[theftTarget.dataset.id]?.kws || []).includes('Rempart')) theftTarget.dataset.rempart = '1';
+    result.released.push({type:'indiscretion-target', target:targetSummary(theftTarget)});
+  }
+  if (result.released.length) {
+    syncBatch05Passives();
+    recordCollectionBatch10Event('linked-effects-released', result);
+  }
+  return result.released.length ? result : null;
+}
+function resolveBatch10CodeCouleurs(player) {
+  const p = playerState(player);
+  const unique = [...new Set(playerHand(p).filter(id => isBatch10GoblinServant(id)))].sort();
+  const added = [];
+  for (const id of unique) if (addCardToHand(p, id, {refresh:false})) added.push(id);
+  renderAllHands();
+  showNotif(`Code couleurs ajoute ${added.length} copie(s) gobeline(s).`, 1600);
+  const result = {success:true, cardId:'S000038', unique, added};
+  recordCollectionBatch10Event('code-couleurs', result);
+  return result;
+}
+async function resolveBatch10ReunionAuSommet(player) {
+  const p = playerState(player);
+  const summoned = [];
+  const scanned = [];
+  while (summoned.length < 3 && batch09FreeServantSlots(p).length) {
+    let selected = null;
+    const pile = playerDrawPile(p);
+    for (let i = pile.length - 1; i >= 0; i--) {
+      const id = getRuntimeCardId(pile[i]);
+      if (isBatch10GoblinServant(id) && batch10PrintedCostAtMost(id, 2)) { selected = {index:i, id}; break; }
+      scanned.push(id);
+    }
+    if (!selected) break;
+    pile.splice(selected.index, 1);
+    updateDeckCount(p);
+    summoned.push(await summonBatch03Servant(p, selected.id, {sourceCardId:'S000009', triggerInitiativeEffect:false, ready:true}));
+  }
+  showNotif(`Réunion au sommet invoque ${summoned.filter(s => s?.success).length} gobelin(s).`, 1600);
+  const result = {success:true, cardId:'S000009', scanned, summoned};
+  recordCollectionBatch10Event('reunion-au-sommet', result);
+  return result;
+}
+async function resolveBatch10VoleeDeGobelins(player) {
+  const p = playerState(player);
+  const summoned = [];
+  while (summoned.length < 3 && batch09FreeServantSlots(p).length) summoned.push(await summonBatch03Servant(p, 'GOB000002', {sourceCardId:'S000047', triggerInitiativeEffect:false, ready:true}));
+  showNotif(`Volée de gobelins invoque ${summoned.filter(s => s?.success).length} Surineur(s).`, 1600);
+  const result = {success:true, cardId:'S000047', summoned};
+  recordCollectionBatch10Event('volee-de-gobelins', result);
+  return result;
+}
+async function resolveBatch10TyranDePoche(player, choice='draw', context={}) {
+  const p = playerState(player);
+  const tyran = context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : batch10Living(p).find(fc => fc.dataset.id === 'GOB000019');
+  if (!tyran || tyran.dataset.batch10TyranUsedTurn === String(turnSequence)) return {success:false, reason:'already-used-or-missing'};
+  const sacrifice = (context.sacrificeInstanceId ? document.querySelector(`.fc[data-instance="${context.sacrificeInstanceId}"]`) : batch10Living(p).find(fc => fc !== tyran && isBatch10GoblinServant(fc))) || null;
+  if (!sacrifice) return {success:false, reason:'no-sacrifice'};
+  tyran.dataset.batch10TyranUsedTurn = String(turnSequence);
+  await sendToCemetery(sacrifice);
+  let effect = null;
+  if (choice === 'damage') {
+    const target = (context.targetInstanceId ? document.querySelector(`.fc[data-instance="${context.targetInstanceId}"]`) : batch10Pick(batch10EnemyServants(p, 'GOB000019', 'damage'))) || null;
+    effect = {choice, target:targetSummary(target), died:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:'GOB000019', amount:5}) : false};
+  } else if (choice === 'buff') {
+    tyran.dataset.batch10TyranAtkBonus = String(Number(tyran.dataset.batch10TyranAtkBonus || 0) + 1);
+    tyran.dataset.batch10TyranPdvBonus = String(Number(tyran.dataset.batch10TyranPdvBonus || 0) + 3);
+    tyran.dataset.rempart = '1';
+    batch05SetStats(tyran, {atk:Number(tyran.dataset.atk || 0) + 1, pdvMax:Number(tyran.dataset.pdvMax || 0) + 3, preserveDamage:false});
+    effect = {choice, target:targetSummary(tyran)};
+  } else {
+    const draws = [drawCardFromRuntimeDeck(p, {sourceCardId:'GOB000019', refresh:false}), drawCardFromRuntimeDeck(p, {sourceCardId:'GOB000019', refresh:false})];
+    renderAllHands();
+    effect = {choice:'draw', draws};
+  }
+  pulseBatch03Ability(tyran, 'batch10-tyran', {move:true});
+  const result = {success:true, cardId:'GOB000019', sacrifice:targetSummary(sacrifice), effect};
+  recordCollectionBatch10Event('tyran-de-poche', result);
+  return result;
+}
+function auditCollectionBatch10Runtime() {
+  const summarizePlayer = p => ({
+    playerId:p?.key || null,
+    hand:[...(p?.hand || [])],
+    deck:[...(p?.drawPile || [])].map(entry => getRuntimeCardId(entry) || entry),
+    graveyard:[...(p?.graveyard || [])].map(entry => getRuntimeCardId(entry) || entry),
+    servants:batch10Living(p).map(fc => ({...targetSummary(fc), keywords:batch10LinkedKeywordList(fc), sources:fc.dataset.batch05PassiveSources || '', granted:fc.dataset.batch10GrantedKeywords || '', stolen:fc.dataset.batch10StolenKeywords || '', gitzoAttacks:Number(fc.dataset.batch10GitzoAttacksThisTurn || 0)})),
+    avatarHp:batch09AvatarHp(p)
+  });
+  return {scenarioId:selectedScenarioId(), state:JSON.parse(JSON.stringify(collectionBatch10State)), players:[summarizePlayer(player1), summarizePlayer(player2)]};
+}
+window.auditCollectionBatch10Runtime = auditCollectionBatch10Runtime;
+window.resolveBatch10TyranDePoche = resolveBatch10TyranDePoche;
+
 const collectionBatch05State = {events:[], ambiguities:[]};
 function recordCollectionBatch05Event(type, detail={}) {
   const event = {type, turnSequence, ...detail};
@@ -20624,6 +21131,12 @@ function batch05PassiveBuffFor(fc) {
     pdvMax += trollBuff.pdvMax;
     sources.push(...trollBuff.sources);
   }
+  const goblinBuff = batch10PassiveBuffFor(fc);
+  if (goblinBuff.sources.length) {
+    atk += goblinBuff.atk;
+    pdvMax += goblinBuff.pdvMax;
+    sources.push(...goblinBuff.sources);
+  }
   return {atk, pdvMax, sources};
 }
 function syncBatch05Passives() {
@@ -20633,16 +21146,17 @@ function syncBatch05Passives() {
       const isDwarf = isBatch07DwarfServant(fc);
       const isOrcFamily = isBatch08OrcFamilyServant(fc);
       const isTrollFamily = isBatch09TrollServant(fc) || isBatch09GoblinServant(fc);
+      const isGoblinFamily = isBatch10GoblinServant(fc);
       const hasBatch09BoneBonus = Number(fc.dataset.batch09BonePdvBonus || 0) > 0;
       if (isDwarf) applyBatch07FutureFireResistance(fc);
       const hasVigilance = (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Vigilance');
       const hasDwarfAura = batch05LivingServants(p).some(card => card.dataset.id === 'N000003' && canResolveServantAbility(card, {triggerType:'passive'}));
       const hadDwarfAura = String(fc.dataset.batch05PassiveSources || '').split(',').includes('N000003');
-      if (!isWoodOrIce && !hasVigilance && !isDwarf && !isOrcFamily && !isTrollFamily && !hasBatch09BoneBonus && !hasDwarfAura && !hadDwarfAura) continue;
+      if (!isWoodOrIce && !hasVigilance && !isDwarf && !isOrcFamily && !isTrollFamily && !isGoblinFamily && !hasBatch09BoneBonus && !hasDwarfAura && !hadDwarfAura && !fc.dataset.batch10FauxJumeauBaseAtk) continue;
       const hadBatch05PassiveGlow = fc.dataset.batch03PassivePulse === '1' && fc.dataset.batch03LastPulseReason === 'batch05-passive';
-      if (isWoodOrIce || isDwarf || isOrcFamily || isTrollFamily || hasBatch09BoneBonus || hasDwarfAura || hadDwarfAura) {
-        const baseAtk = batch05BaseStat(fc, 'atk');
-        const baseMax = batch05BaseStat(fc, 'pdvMax');
+      if (isWoodOrIce || isDwarf || isOrcFamily || isTrollFamily || isGoblinFamily || hasBatch09BoneBonus || hasDwarfAura || hadDwarfAura || fc.dataset.batch10FauxJumeauBaseAtk) {
+        const baseAtk = fc.dataset.batch10FauxJumeauBaseAtk ? Number(fc.dataset.batch10FauxJumeauBaseAtk) : batch05BaseStat(fc, 'atk');
+        const baseMax = fc.dataset.batch10FauxJumeauBasePdvMax ? Number(fc.dataset.batch10FauxJumeauBasePdvMax) : batch05BaseStat(fc, 'pdvMax');
         const buff = batch05PassiveBuffFor(fc);
         const ancientOathBonus = Number(fc.dataset.batch05AncientOathBonus || 0);
         const batch09FuryBonus = Number(fc.dataset.batch09FuryAtkBonus || 0);
@@ -20671,7 +21185,7 @@ function batch05ShouldShowPassiveGlow(fc) {
   if (!fc || fc.dataset.dead) return false;
   const kws = CARDS_DATA[fc.dataset.id]?.kws || [];
   if (kws.includes('Vigilance')) return true;
-  return ['EDB000009','EDB000014','EDG000008','N000003','N000005','ORC000012','ORC000014','ORC000016','ORC000017','TRL000010'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
+  return ['EDB000009','EDB000014','EDG000008','N000003','N000005','ORC000012','ORC000014','ORC000016','ORC000017','TRL000010','GOB000009','GOB000013','GOB000016'].includes(fc.dataset.id) && canResolveServantAbility(fc, {triggerType:'passive'});
 }
 function batch05EnemyServants(player, effectKind='damage') {
   const p = playerState(player);
@@ -22288,7 +22802,7 @@ async function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) 
 
 async function applyBatch03EndTurnAbilities(player) {
   const p = playerState(player);
-  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[], necraneSummons:[], mageobelinThrows:[]};
+  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[], necraneSummons:[], mageobelinThrows:[], gueribelinHeals:[]};
   if (!p) return result;
   for (const wolf of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000020' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     pulseBatch03Ability(wolf, 'end-turn');
@@ -22327,8 +22841,18 @@ async function applyBatch03EndTurnAbilities(player) {
     if (died || afterPdv < beforePdv) pulseBatch03Ability(mageobelin, 'end-turn');
     result.mageobelinThrows.push({success:true, source:targetSummary(mageobelin), target:targetSummary(target), amount, died, beforePdv, afterPdv});
   }
+  for (const gueribelin of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'GOB000007' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    const lenya = Math.max(0, getClassicalResourceByType(p, 'lenya'));
+    const maxTargets = 1 + lenya;
+    const injured = livingServantCardsForPlayer(p)
+      .filter(fc => fc !== gueribelin && isBatch10GoblinServant(fc) && Number(fc.dataset.pdv || 0) < Number(fc.dataset.pdvMax || CARDS_DATA[fc.dataset.id]?.pdv || 1))
+      .slice(0, maxTargets);
+    const heals = injured.map(target => ({target:targetSummary(target), heal:applyHeal(target, 2)}));
+    if (heals.some(entry => entry.heal?.success)) pulseBatch03Ability(gueribelin, 'batch10-gueribelin-end-turn');
+    result.gueribelinHeals.push({source:targetSummary(gueribelin), lenya, maxTargets, heals});
+  }
   await resolveBatch03NecraneEndTurn(p, result);
-  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length || result.necraneSummons.length || result.mageobelinThrows.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
+  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length || result.necraneSummons.length || result.mageobelinThrows.length || result.gueribelinHeals.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
   return result;
 }
 

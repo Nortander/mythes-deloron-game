@@ -96,13 +96,13 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
   expect(result.twoHeads).toContain("serviteur adjacent choisi");
   expect(result.twoHeads).not.toContain("pricipale");
   expect(result.firstBorn).not.toMatch(/ID\s*=|TRL000001|TRL000003/);
-  expect(result.instableCap).toBe("Au dÃ©but de chacun de vos tours, cette carte adopte alÃ©atoirement *1* comportement jusqu'Ã  la fin du tour.");
-  expect(result.instableTooltips.map(t => t.title)).toEqual(["COMPÃ‰TENCE 1","COMPÃ‰TENCE 2","COMPÃ‰TENCE 3","COMPÃ‰TENCE 4"]);
+  expect(result.instableCap).toBe("Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à la fin du tour.");
+  expect(result.instableTooltips.map(t => t.title)).toEqual(["COMPÉTENCE 1","COMPÉTENCE 2","COMPÉTENCE 3","COMPÉTENCE 4"]);
   expect(result.instableTooltips.map(t => t.text)).toEqual([
-    "Gagne +5 ATK jusqu'Ã  votre prochain tour.",
-    "Gagne +5 PDV jusqu'Ã  votre prochain tour.",
-    "Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'Ã  votre prochain tour.",
-    "Inflige 3 points de dÃ©gÃ¢ts Ã  1 autre serviteur alliÃ© alÃ©atoire puis vous fait piocher 1 carte."
+    "Gagne +5 ATK jusqu'à votre prochain tour.",
+    "Gagne +5 PDV jusqu'à votre prochain tour.",
+    "Obtient temporairement [Rempart] mais ne peut plus attaquer jusqu'à votre prochain tour.",
+    "Inflige 3 points de dégâts à 1 autre serviteur allié aléatoire puis vous fait piocher 1 carte."
   ]);
   expect(result.zarrach).toContain("*1* serviteur");
   expect(result.mugwa).toContain("*3*");
@@ -174,7 +174,7 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
     options:expect.arrayContaining([expect.objectContaining({resource:"lenya", amount:3})])
   })]));
   expect(result.horde.drawn).toBe(2);
-  expect(result.hordeMessage).toContain("Vos serviteurs trolls, orcs et gobelins se battent sous la banniÃ¨re de la horde !");
+  expect(result.hordeMessage).toContain("Vos serviteurs trolls, orcs et gobelins se battent sous la bannière de la horde !");
   expect(result.afterHorde.hand).toBe(result.before.hand + 2);
   expect(result.afterHorde.deck).toBe(result.before.deck - 2);
   expect(result.afterHorde.troll.pdvMax).toBeGreaterThan(5);
@@ -326,7 +326,7 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   expect(result.afterAttach.pdvMax).toBe(result.beforeAttach.pdvMax + 2);
   expect(result.attachClasses.atk).toContain("grn");
   expect(result.attachClasses.pdv).toContain("grn");
-  expect(result.attachPreview).toContain("BÃ©nÃ©ficie du renforcement d'un Troll-nain, petit mais costaud !");
+  expect(result.attachPreview).toContain("Bénéficie du renforcement d'un Troll-nain, petit mais costaud !");
   expect(result.afterDeath.hand).toContain("TRL000015");
   expect(result.umpAfter.pdv).toBeGreaterThanOrEqual(result.umpBefore.pdv);
   expect(result.umpBefore.pdvMax).toBe(9);
@@ -616,10 +616,10 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
   expect(["", "none", "normal", "\"\""]).toContain(tempo.furyCounterAfter);
   expect(tempo.furyGrave).toContain("TRL000016");
   expect(tempo.enemyAfterThird.length < tempo.enemyCountBeforeThird || tempo.enemyAfterThird.some(enemy => enemy.pdv < enemy.pdvMax)).toBe(true);
-  expect(tempo.previewText).toContain("BÃ©nÃ©ficie temporairement de [Rempart]. Ne peut pas attaquer.");
+  expect(tempo.previewText).toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
   expect(tempo.instable.batch09InstableAtkBonus).toBe(5);
   expect(tempo.instableAtkClass).toContain("grn");
-  expect(tempo.previewAtkText).toContain("BÃ©nÃ©ficie temporairement d'un bonus d'attaque.");
+  expect(tempo.previewAtkText).toContain("Bénéficie temporairement d'un bonus d'attaque.");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
