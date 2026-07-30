@@ -12,6 +12,9 @@ const SCENARIOS = [
   "collection-batch-09-magic",
   "collection-batch-09-protectroll",
   "collection-batch-09-tempo",
+  "collection-batch-09-ossements",
+  "collection-batch-09-instabilite",
+  "collection-batch-09-amasseur",
   "collection-batch-09-vengeance",
   "collection-batch-09-faveurs-sorts"
 ];
@@ -92,7 +95,7 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
   expect(result.twoHeads).toContain("serviteur adjacent choisi");
   expect(result.twoHeads).not.toContain("pricipale");
   expect(result.firstBorn).not.toMatch(/ID\s*=|TRL000001|TRL000003/);
-  expect(result.instableCap).toBe("Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à votre prochain tour.");
+  expect(result.instableCap).toBe("Au début de chacun de vos tours, cette carte adopte aléatoirement *1* comportement jusqu'à la fin du tour.");
   expect(result.instableTooltips.map(t => t.title)).toEqual(["COMPÉTENCE 1","COMPÉTENCE 2","COMPÉTENCE 3","COMPÉTENCE 4"]);
   expect(result.instableTooltips.map(t => t.text)).toEqual([
     "Gagne +5 ATK jusqu'à votre prochain tour.",
@@ -102,6 +105,7 @@ test("Troll public text uses numeric highlights and Troll instable exposes four 
   ]);
   expect(result.zarrach).toContain("*1* serviteur");
   expect(result.mugwa).toContain("*3*");
+  expect(result.caCasseFormatted).toContain('<strong class="kv">1</strong>');
   expect(result.caCasseFormatted).toContain('<strong class="kv">4 PDV</strong>');
   expect(result.hordeFormatted).toContain('<strong class="kv">+1 ATK</strong>');
   expect(result.hordeFormatted).toContain('<strong class="kv">+1 PDV</strong>');
@@ -138,12 +142,13 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
     const afterHorde = {hand:player1.hand.length, deck:player1.drawPile.length, troll:targetSummary(troll), gob:targetSummary(gob), orc:targetSummary(orc), classes:{troll:statClass(troll), gob:statClass(gob), orc:statClass(orc)}, sources:{troll:troll.dataset.batch05PassiveSources || "", gob:gob.dataset.batch05PassiveSources || "", orc:orc.dataset.batch05PassiveSources || ""}};
     await triggerSort("PRST000004", player1);
     const handBeforeDeath = player1.hand.length;
-    await sendToCemetery(troll);
+    await sendToCemetery(gob);
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const handAfterDeath = player1.hand.length;
     const zarrachAnimated = Array.from(document.querySelectorAll('.hc[data-batch09-hand-animation="batch09-zarrach-hand-added"]')).map(card => card.dataset.id);
-    const casseTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000011");
+    const casseTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000006");
     const enemiesBefore = livingServantCardsForPlayer(player2).length;
+    window.__collectionBatch09RandomQueue = [0, 0, 0.75, 0, 0.25, 0, 0.5, 0, 0.99];
     const casse = await triggerSort("S000046", player1, {selectedTargetIds:[casseTarget.dataset.instance]});
     const lastPublicMessage = document.querySelector("#notif")?.textContent || document.body.textContent;
     return {before, mugwa, afterMugwa, horde, hordeMessage, afterHorde, handBeforeDeath, handAfterDeath, zarrachAnimated, casse, enemiesBefore, enemiesAfter:livingServantCardsForPlayer(player2).length, lastPublicMessage, events:auditCollectionBatch09Runtime().state.events};
@@ -174,8 +179,11 @@ test("Faveurs, Cache de gros cailloux, Grande horde and S000046 resolve with exa
   expect(result.events.some(event => event.type === "zarrach-death-trigger")).toBe(true);
   expect(result.casse.success).toBe(true);
   expect(result.casse.rounds).toBeGreaterThan(0);
+  expect(result.casse.roundResults.some(round => (round.followUps || []).some(item => item.type === "balayeur-adjacent"))).toBe(true);
+  expect(result.casse.roundResults.filter(round => round.heal).every(round => round.heal.amount >= 1 && round.heal.amount <= 4)).toBe(true);
   expect(result.enemiesAfter).toBeLessThanOrEqual(result.enemiesBefore);
   expect(result.lastPublicMessage).not.toMatch(/attaque\(s\) résolue\(s\)/i);
+  expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.forcedBy === "S000046")).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -228,12 +236,14 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
     const target = livingServantCardsForPlayer(player2)[1];
     const beforeBalayeur = snapshot();
     const planBalayeur = batch09CombatPlan(balayeur, target, Number(balayeur.dataset.atk || 0));
+    await prepareBatch09CombatFeedback(balayeur, target, {phase:"attack", damage:planBalayeur.damage, adjacentTargets:planBalayeur.adjacentTargets, rempartBonus:planBalayeur.rempartBonus});
     target._killer = balayeur;
     const diedBalayeur = await applyDamage(target, planBalayeur.damage);
     await resolveBatch09CombatDamageDealtEffects(balayeur, target, {phase:"attack", targetDied:diedBalayeur, adjacentTargets:planBalayeur.adjacentTargets});
     const afterBalayeur = snapshot();
     const rempartTarget = livingServantCardsForPlayer(player2).find(fc => fc.dataset.rempart === "1");
     const brisePlan = batch09CombatPlan(brise, rempartTarget, Number(brise.dataset.atk || 0));
+    await prepareBatch09CombatFeedback(brise, rempartTarget, {phase:"attack", damage:brisePlan.damage, adjacentTargets:brisePlan.adjacentTargets, rempartBonus:brisePlan.rempartBonus});
     rempartTarget._killer = brise;
     const briseDied = await applyDamage(rempartTarget, brisePlan.damage);
     await resolveBatch09CombatDamageDealtEffects(brise, rempartTarget, {phase:"attack", targetDied:briseDied, adjacentTargets:brisePlan.adjacentTargets});
@@ -277,31 +287,33 @@ test("Combat Trolls apply adjacent damage, ignore Rempart, attach Troll-nain, an
   expect(result.runeHand).toContain("TRL000020");
   expect(result.runeHand.length).toBe(result.handBeforeRune.length + 1);
   expect(result.runeBlock).toEqual(expect.objectContaining({cardId:"TRL000020", sourceName:"Serviteur de la rune", armed:true}));
+  expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.results?.some(item => item.type === "balayeur-before-attack"))).toBe(true);
+  expect(result.events.some(event => event.type === "combat-feedback-before-attack" && event.results?.some(item => item.type === "brise-rempart-before-attack"))).toBe(true);
   expect(result.events.some(event => event.type === "combat-effects")).toBe(true);
   expect(result.events.some(event => event.type === "combat-effects" && event.results?.some(item => item.type === "brise-rempart-bonus"))).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Devore-magie reacts only to direct magical damage and then becomes Insensible", async ({page}, testInfo) => {
+test("Devore-magie exposes S000056 scenario cards and reacts only to direct magical hits", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-09-magic");
   const result = await page.evaluate(async () => {
     const devore = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "TRL000009");
+    const handIds = [...player1.hand];
     const before = targetSummary(devore);
     await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"H000001", targetFC:devore, amount:1, bypassInsensitive:true});
     const afterNonSpell = targetSummary(devore);
     applyHeal(devore, 1);
     const snapshots = [];
-    await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"H000001", targetFC:devore, amount:1, bypassInsensitive:true, directSpecialAbilityDamage:true});
-    snapshots.push(targetSummary(devore));
-    for (let i = 0; i < 2; i++) {
-      await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"S000032", targetFC:devore, amount:1, bypassInsensitive:true, directSpellDamage:true});
+    for (let i = 0; i < 3; i++) {
+      await tryApplyAbilityDamage({sourcePlayer:player1, sourceCardId:"S000056", targetFC:devore, amount:1, bypassInsensitive:true, directSpellDamage:true});
       snapshots.push(targetSummary(devore));
     }
     const previewData = batch03PreviewCardData("TRL000009", CARDS_DATA.TRL000009, {sourceElement:devore});
-    return {before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className})), events:auditCollectionBatch09Runtime().state.events};
+    return {handIds, before, afterNonSpell, snapshots, final:targetSummary(devore), previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters:Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className})), events:auditCollectionBatch09Runtime().state.events};
   });
+  expect(result.handIds.filter(id => id === "S000056")).toHaveLength(3);
   expect(result.afterNonSpell.batch09DevoreMagicMarkers).toBe(0);
   expect(result.snapshots.map(card => card.batch09DevoreMagicMarkers)).toEqual([1,2,3]);
   expect(result.final.batch09DevoreMagicSpent).toBe(true);
@@ -346,7 +358,9 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
     window.__mythesRandom = () => 0;
     await resolveBatch09StartTurnEffects(player1);
     const previewAtk = batch03PreviewCardData("TRL000017", CARDS_DATA.TRL000017, {sourceElement:instable});
-    return {furyBefore, afterOne, afterTwo, instable:targetSummary(instable), instableAtkClass:instable.querySelector(".fc-atk-val")?.className || "", previewText:previewData.cap, previewAtkText:previewAtk.cap, furyClasses};
+    const furyCounter = fury.querySelector('[data-batch03-status-counter="sang-furieux"]');
+    const furyCounterAfter = furyCounter ? getComputedStyle(furyCounter, "::after").content : "";
+    return {furyBefore, afterOne, afterTwo, instable:targetSummary(instable), instableAtkClass:instable.querySelector(".fc-atk-val")?.className || "", previewText:previewData.cap, previewAtkText:previewAtk.cap, furyClasses, furyCounterAfter};
   });
   expect(tempo.afterOne.atk).toBe(tempo.furyBefore.atk + 3);
   expect(tempo.afterTwo.atk).toBe(tempo.furyBefore.atk + 6);
@@ -354,10 +368,107 @@ test("Protectroll, Troll Sang-furieux and Troll instable keep visual passive sta
   expect(tempo.furyClasses.atk).toContain("grn");
   expect(tempo.furyClasses.counter.some(counter => counter.key === "sang-furieux" && counter.text === "2")).toBe(true);
   expect(tempo.furyClasses.counter.some(counter => counter.key === "sang-furieux" && counter.className.includes("batch03-status-counter"))).toBe(true);
+  expect(["", "none", "normal", "\"\""]).toContain(tempo.furyCounterAfter);
   expect(tempo.previewText).toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
   expect(tempo.instable.batch09InstableAtkBonus).toBe(5);
   expect(tempo.instableAtkClass).toContain("grn");
   expect(tempo.previewAtkText).toContain("Bénéficie temporairement d'un bonus d'attaque.");
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Sorcier des ossements grants stable permanent max-health bonuses at full health", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-09-ossements");
+  const result = await page.evaluate(async () => {
+    const ids = ["H000001","TRL000007","H000005"];
+    const cards = () => livingServantCardsForPlayer(player1).filter(fc => ids.includes(fc.dataset.id));
+    const before = cards().map(targetSummary);
+    const triggered = await resolveBatch09EndTurnEffects(player1);
+    syncBatch05Passives();
+    const afterFirstSync = cards().map(targetSummary);
+    syncBatch05Passives();
+    const afterSecondSync = cards().map(targetSummary);
+    const classes = cards().map(fc => ({id:fc.dataset.id, pdv:fc.querySelector(".fc-pdv-val")?.className || ""}));
+    return {before, triggered, afterFirstSync, afterSecondSync, classes, events:auditCollectionBatch09Runtime().state.events};
+  });
+  expect(result.triggered).toHaveLength(1);
+  for (const after of result.afterFirstSync) {
+    const before = result.before.find(card => card.instance === after.instance);
+    expect(after.batch09BonePdvBonus, after.id).toBe(1);
+    expect(after.pdvMax, after.id).toBe(before.pdvMax + 1);
+  }
+  expect(result.afterSecondSync).toEqual(result.afterFirstSync);
+  expect(result.classes.every(card => card.pdv.includes("grn"))).toBe(true);
+  expect(result.events.some(event => event.type === "bone-sorcerer-end-turn")).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Troll instable exposes four behaviors, replaces previous state, and blocks attack on Rempart roll", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-09-instabilite");
+  const result = await page.evaluate(async () => {
+    const instable = () => livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000017");
+    const ally = () => livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000001");
+    const base = targetSummary(instable());
+    window.__collectionBatch09RandomQueue = [0];
+    await resolveBatch09StartTurnEffects(player1);
+    const atkRoll = targetSummary(instable());
+    window.__collectionBatch09RandomQueue = [0.26];
+    await resolveBatch09StartTurnEffects(player1);
+    const pdvRoll = targetSummary(instable());
+    window.__collectionBatch09RandomQueue = [0.51];
+    await resolveBatch09StartTurnEffects(player1);
+    const rempartRoll = targetSummary(instable());
+    tryAttack(instable());
+    const rempartMessage = document.querySelector("#notif")?.textContent || document.body.textContent;
+    window.__collectionBatch09RandomQueue = [0.76, 0];
+    const handBeforeDraw = player1.hand.length;
+    const allyBefore = targetSummary(ally());
+    await resolveBatch09StartTurnEffects(player1);
+    const drawDamageRoll = {instable:targetSummary(instable()), ally:targetSummary(ally()), hand:player1.hand.length, handBeforeDraw};
+    return {base, atkRoll, pdvRoll, rempartRoll, rempartMessage, allyBefore, drawDamageRoll, preview:batch03PreviewCardData("TRL000017", CARDS_DATA.TRL000017, {sourceElement:instable()}).cap, events:auditCollectionBatch09Runtime().state.events};
+  });
+  expect(result.atkRoll.batch09InstableAtkBonus).toBe(5);
+  expect(result.pdvRoll.batch09InstableAtkBonus).toBe(0);
+  expect(result.pdvRoll.batch09InstablePdvBonus).toBe(5);
+  expect(result.rempartRoll.batch09InstableNoAttack).toBe(true);
+  expect(result.rempartMessage).toContain("Troll instable ne peut pas attaquer");
+  expect(result.drawDamageRoll.instable.batch09InstableNoAttack).toBe(false);
+  expect(result.drawDamageRoll.ally.pdv).toBeLessThan(result.allyBefore.pdv);
+  expect(result.drawDamageRoll.hand).toBe(result.drawDamageRoll.handBeforeDraw + 1);
+  expect(result.preview).not.toContain("Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.");
+  expect(result.events.filter(event => event.type === "troll-start-turn").length).toBeGreaterThanOrEqual(4);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Amasseur de cadavres moves stored cemetery cards back to owner decks without duplication", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-09-amasseur");
+  const result = await page.evaluate(async () => {
+    const before = {p1Deck:player1.drawPile.map(getRuntimeCardId), p2Deck:player2.drawPile.map(getRuntimeCardId), p1Grave:player1.graveyard.map(getRuntimeCardId), p2Grave:player2.graveyard.map(getRuntimeCardId)};
+    window.__collectionBatch09RandomQueue = [0, 0, 0];
+    const play = await playCard("TRL000018", qs(playerZoneSelector(player1, "servants"))?.querySelector(".slot"), {returnValidation:true});
+    const hoarder = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000018");
+    const afterStash = {summary:targetSummary(hoarder), p1Deck:player1.drawPile.map(getRuntimeCardId), p2Deck:player2.drawPile.map(getRuntimeCardId), p1Grave:player1.graveyard.map(getRuntimeCardId), p2Grave:player2.graveyard.map(getRuntimeCardId), dynamic:batch03PreviewCardData("TRL000018", CARDS_DATA.TRL000018, {sourceElement:hoarder}).cap};
+    await sendToCemetery(hoarder);
+    const afterRelease = {p1Deck:player1.drawPile.map(getRuntimeCardId), p2Deck:player2.drawPile.map(getRuntimeCardId), p1Grave:player1.graveyard.map(getRuntimeCardId), p2Grave:player2.graveyard.map(getRuntimeCardId), stashes:Object.keys(auditCollectionBatch09Runtime().state.stashes)};
+    return {before, play, afterStash, afterRelease, events:auditCollectionBatch09Runtime().state.events};
+  });
+  expect(result.play.success).toBe(true);
+  expect(result.afterStash.summary.batch09CadaverStashCount).toBe(3);
+  expect(result.afterStash.summary.atk).toBeGreaterThan(2);
+  expect(result.afterStash.summary.pdvMax).toBeGreaterThan(4);
+  expect(result.afterStash.p2Grave).toEqual([]);
+  expect(result.afterStash.dynamic).toContain("Conserve");
+  expect(result.afterRelease.p2Deck).toEqual(expect.arrayContaining(result.before.p2Grave));
+  expect(result.afterRelease.p2Deck).toHaveLength(result.before.p2Deck.length + result.before.p2Grave.length);
+  expect(result.afterRelease.p1Grave).toContain("TRL000018");
+  expect(result.afterRelease.stashes).toEqual([]);
+  expect(result.events.filter(event => event.type === "cadaver-flight" && event.reason === "stash")).toHaveLength(3);
+  expect(result.events.filter(event => event.type === "cadaver-flight" && event.reason === "release")).toHaveLength(3);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
