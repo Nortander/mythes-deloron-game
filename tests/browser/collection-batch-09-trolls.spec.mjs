@@ -360,6 +360,42 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
     const devore = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000009");
     const healer = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "EDB000005");
     const enemy = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    async function auditBatch09MagicModal(title, prompt, targets) {
+      const choice = chooseBoardTargets({title, prompt, targets, maxCount:1, minCount:1, panelClass:'board-target-choice-panel batch03-spell-target-choice-panel batch09-magic-choice-panel'});
+      await new Promise(requestAnimationFrame);
+      const panel = document.querySelector('.batch09-magic-choice-panel');
+      const action = panel?.querySelector('.decision-modal-actions');
+      const titleNode = panel?.querySelector('.sort-choice-title');
+      const list = panel?.querySelector('.sort-choice-cards');
+      const item = panel?.querySelector('.sort-choice-item');
+      const confirm = panel?.querySelector('[data-testid="board-target-confirm"]');
+      const panelRect = panel?.getBoundingClientRect();
+      const actionRect = action?.getBoundingClientRect();
+      const titleRect = titleNode?.getBoundingClientRect();
+      const listStyle = list ? getComputedStyle(list) : null;
+      const panelStyle = panel ? getComputedStyle(panel) : null;
+      const beforeItemRect = item?.getBoundingClientRect();
+      const audit = {
+        title,
+        hasPanel:!!panel,
+        actionAboveTitle:!!(actionRect && titleRect && actionRect.bottom <= titleRect.top),
+        titleCentered:!!(titleRect && panelRect && Math.abs((titleRect.left + titleRect.right) / 2 - (panelRect.left + panelRect.right) / 2) < 8),
+        panelOverflow:panelStyle?.overflow || panelStyle?.overflowX || '',
+        cardsOverflow:listStyle?.overflow || listStyle?.overflowX || '',
+        cardsPadding:listStyle?.padding || '',
+        itemInsidePanel:!!(beforeItemRect && panelRect && beforeItemRect.left >= panelRect.left && beforeItemRect.right <= panelRect.right),
+        panelClass:panel?.className || ''
+      };
+      item?.dispatchEvent(new MouseEvent('click', {bubbles:true}));
+      confirm?.click();
+      await choice;
+      return audit;
+    }
+    const modalAudits = [
+      await auditBatch09MagicModal('Bouclier de glace', 'Choisissez le serviteur allié à protéger.', [devore]),
+      await auditBatch09MagicModal('Déferlante de flammes', 'Choisissez le serviteur adverse à embraser.', [enemy]),
+      await auditBatch09MagicModal('Choc mental', 'Choisissez le serviteur adverse à frapper.', [enemy])
+    ];
     const scenario = {
       currentPlayer,
       player1Hand:[...player1.hand],
@@ -377,6 +413,12 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
     cardsPlayedThisTurn = 0;
     const flame1 = await playCard("S000062", null, {selectedTargetIds:[devore.dataset.instance], returnValidation:true});
     const afterFlame1 = targetSummary(devore);
+    const counterNodesAfterFlame1 = Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => {
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      const before = getComputedStyle(node, '::before');
+      return {key:node.dataset.batch03StatusCounter, text:node.textContent, left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom, width:rect.width, height:rect.height, color:style.color, beforeBackground:before.backgroundImage, beforeBorderStyle:before.borderStyle, beforeBoxShadow:before.boxShadow, beforeFilter:before.filter};
+    });
     const afterAdjacentFlame = targetSummary(healer);
     const burningMarkersBeforeTick = afterFlame1.batch09DevoreMagicMarkers;
     turnSequence += 1;
@@ -401,17 +443,27 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
     const previewData = batch03PreviewCardData("TRL000009", CARDS_DATA.TRL000009, {sourceElement:devore});
     const counters = Array.from(devore.querySelectorAll('[data-batch03-status-counter]')).map(node => ({key:node.dataset.batch03StatusCounter, text:node.textContent, className:node.className}));
     const events = auditCollectionBatch09Runtime().state.events;
-    return {spellData, scenario, before, shieldPlay, afterShield, flame1, afterFlame1, afterAdjacentFlame, burningMarkersBeforeTick, burnTick, afterBurnTick, mental1, afterMental1, mental2, afterMental2, afterTransformBeforeMental, mentalAfterInsensible, afterMentalInsensible, attackBefore, attackerBefore, attackAfter, attackerAfter, previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters, events, finalHands:{player1:[...player1.hand], player2:[...player2.hand]}, graves:{player1:player1.graveyard.map(getRuntimeCardId), player2:player2.graveyard.map(getRuntimeCardId)}};
+    return {spellData, scenario, modalAudits, before, shieldPlay, afterShield, flame1, afterFlame1, counterNodesAfterFlame1, afterAdjacentFlame, burningMarkersBeforeTick, burnTick, afterBurnTick, mental1, afterMental1, mental2, afterMental2, afterTransformBeforeMental, mentalAfterInsensible, afterMentalInsensible, attackBefore, attackerBefore, attackAfter, attackerAfter, previewText:previewData.cap, statClass:devore.querySelector(".fc-atk-val")?.className || "", counters, events, finalHands:{player1:[...player1.hand], player2:[...player2.hand]}, graves:{player1:player1.graveyard.map(getRuntimeCardId), player2:player2.graveyard.map(getRuntimeCardId)}};
   });
   expect(result.spellData.S000061).toEqual(expect.objectContaining({name:"Bouclier de glace", type:"Sort", fac:"sort", cost:1, resType:"Lenya|Aria"}));
   expect(result.spellData.S000062).toEqual(expect.objectContaining({name:"Déferlante de flammes", type:"Sort", fac:"sort", cost:3, resType:"Lenya|Aria|Sélène|me"}));
   expect(result.spellData.S000063).toEqual(expect.objectContaining({name:"Choc mental", type:"Sort", fac:"sort", cost:2, resType:"Lenya|Aria|Sélène"}));
-  expect(result.spellData.S000061.cap).toContain("Les dégâts des *3* prochaines attaques");
+  expect(result.spellData.S000061.cap).toBe("Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce serviteur sont réduits de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. ».");
   expect(result.spellData.S000062.cap).toContain("[Embrasement]");
   expect(result.spellData.S000063.cap).toContain("*2* à *6* points de dégâts");
   expect(result.spellData.S000061.formatted).toContain('<strong class="kv">3</strong>');
   expect(result.spellData.S000062.formatted).toContain("Embrasement");
   expect(result.spellData.S000063.formatted).toContain('<strong class="kv">6</strong>');
+  expect(result.modalAudits).toHaveLength(3);
+  for (const audit of result.modalAudits) {
+    expect(audit.hasPanel, audit.title).toBe(true);
+    expect(audit.actionAboveTitle, audit.title).toBe(true);
+    expect(audit.titleCentered, audit.title).toBe(true);
+    expect(audit.panelOverflow, audit.title).toBe('visible');
+    expect(audit.cardsOverflow, audit.title).toBe('visible');
+    expect(audit.itemInsidePanel, audit.title).toBe(true);
+    expect(audit.panelClass, audit.title).toContain('batch09-magic-choice-panel');
+  }
   expect(result.scenario.player1Hand).toEqual(["S000061"]);
   expect(result.scenario.player2Hand).toEqual(["S000062","S000062","S000063","S000063"]);
   expect(result.scenario.player1Board.map(card => card.id)).toEqual(["TRL000009","EDB000005"]);
@@ -425,6 +477,15 @@ test("Devore-magie is validated by real opposing spells and the three Batch-09F 
   expect(result.afterFlame1.pdv).toBe(result.before.pdvMax);
   expect(result.afterAdjacentFlame.id).toBe("EDB000005");
   expect(result.afterAdjacentFlame.pdv).toBeLessThan(20);
+  const devoreCounter = result.counterNodesAfterFlame1.find(counter => counter.key === "devore-magie");
+  const shieldCounter = result.counterNodesAfterFlame1.find(counter => counter.key === "bouclier-glace");
+  expect(devoreCounter).toEqual(expect.objectContaining({text:"1", beforeBorderStyle:"none"}));
+  expect(shieldCounter).toEqual(expect.objectContaining({text:"3", beforeBorderStyle:"none"}));
+  expect(devoreCounter.width).toBeGreaterThan(devoreCounter.height);
+  expect(shieldCounter.width).toBeGreaterThan(shieldCounter.height);
+  expect(Math.max(devoreCounter.left, shieldCounter.left)).toBeGreaterThanOrEqual(Math.min(devoreCounter.right, shieldCounter.right));
+  expect(devoreCounter.beforeBackground).toContain("linear-gradient");
+  expect(shieldCounter.beforeBackground).toContain("linear-gradient");
   expect(result.burningMarkersBeforeTick).toBe(1);
   expect(result.burnTick.triggered).toBeGreaterThanOrEqual(1);
   expect(result.afterBurnTick.batch09DevoreMagicMarkers).toBe(1);
