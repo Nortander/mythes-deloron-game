@@ -51,7 +51,34 @@ test("Batch-10 scenarios stay hidden and expose exact Goblin runtime data", asyn
           chercheurCond:formatPlayerFacingCardText(CARDS_DATA.GOB000010.cond || ''),
           chemins:formatPlayerFacingCardText(CARDS_DATA.S000037.detail || CARDS_DATA.S000037.cap),
           surineurPreview:buildCanonicalCardPreview("GOB000002"),
-          globeminatorPreview:buildCanonicalCardPreview("GOB000004")
+          globeminatorPreview:buildCanonicalCardPreview("GOB000004"),
+          dompteurHandHtml:buildHC("GOB000011", player1),
+          tyranHandHtml:buildHC("GOB000019", player1),
+          larronHandHtml:buildHC("H000001", player1),
+          fantassinHandHtml:buildHC("H000005", player1),
+          styleProbe:(() => {
+            const host = document.createElement("div");
+            host.style.position = "absolute";
+            host.style.left = "-9999px";
+            host.innerHTML = buildHC("GOB000011", player1) + buildHC("GOB000019", player1) + buildHC("H000001", player1) + buildHC("H000005", player1);
+            document.body.appendChild(host);
+            const colorOf = selector => { const el = host.querySelector(selector); return el ? getComputedStyle(el).color : ""; };
+            const styleOf = selector => { const el = host.querySelector(selector); return el ? getComputedStyle(el).fontStyle : ""; };
+            const textOf = selector => host.querySelector(selector)?.textContent || "";
+            const probe = {
+              gobKeywordColor:colorOf('.hc[data-id="GOB000011"] .card-keyword'),
+              gobValueColor:colorOf('.hc[data-id="GOB000011"] strong.kv'),
+              gobTooltipColor:facColor('gob'),
+              larronLoreStyle:styleOf('.hc[data-id="H000001"] .card-lore-text'),
+              larronLoreColor:colorOf('.hc[data-id="H000001"] .card-lore-text'),
+              larronLoreText:textOf('.hc[data-id="H000001"] .card-lore-text'),
+              fantassinKeywordStyle:styleOf('.hc[data-id="H000005"] .canonical-keyword-inline'),
+              fantassinLoreStyle:styleOf('.hc[data-id="H000005"] .card-lore-text'),
+              fantassinLoreText:textOf('.hc[data-id="H000005"] .card-lore-text')
+            };
+            host.remove();
+            return probe;
+          })()
         }
       };
     }, {scenario, ids:fixture.cardIds});
@@ -64,6 +91,16 @@ test("Batch-10 scenarios stay hidden and expose exact Goblin runtime data", asyn
     expect(audit.rendered.miniFurie).toContain("2");
     expect(audit.rendered.snarff).toContain("2");
     expect(audit.rendered.tyran).toContain("+3 PDV");
+    expect(audit.rendered.styleProbe.gobKeywordColor).toBe("rgb(255, 210, 63)");
+    expect(audit.rendered.styleProbe.gobValueColor).toBe("rgb(255, 210, 63)");
+    expect(audit.rendered.styleProbe.gobTooltipColor).toBe("#e6b93f");
+    expect(audit.rendered.larronHandHtml).toContain("sombre...");
+    expect(audit.rendered.larronHandHtml).not.toContain("”¦");
+    expect(audit.rendered.styleProbe.larronLoreStyle).toBe("italic");
+    expect(audit.rendered.styleProbe.larronLoreColor).not.toBe("rgb(0, 47, 167)");
+    expect(audit.rendered.fantassinHandHtml).toContain("card-lore-text");
+    expect(audit.rendered.styleProbe.fantassinKeywordStyle).not.toBe("italic");
+    expect(audit.rendered.styleProbe.fantassinLoreStyle).toBe("italic");
     expect(audit.rendered.codeCouleurs).toContain("1");
     expect(audit.rendered.vollee).toContain("3");
     expect(audit.rendered.chapardeur).toContain("Approvisionnement");
@@ -274,7 +311,7 @@ test("Goblin combat, damage reduction, Vengeance and Machiavélisme resolve as r
   expect(result.audit.state.events.filter(event => event.type === "goblin-vengeance").length).toBeGreaterThanOrEqual(1);
   expect(result.audit.state.events.some(event => event.type === "goblin-vengeance" && event.repeat)).toBe(true);
   expect(result.notices.join(" ")).toContain("MACHIAVÉLISME RENFORCE VOS VENGEANCES JUSQU'À LA FIN DU TOUR");
-  expect(result.notices.join(" ")).not.toContain("ajoute 2 dÃ©gÃ¢ts Ã  la Vengeance");
+  expect(result.notices.join(" ")).not.toContain("ajoute 2 dégâts à la Vengeance");
   expect(result.enemiesAfterVengeance.some(card => card.pdv < result.enemiesBeforeVengeance.find(before => before.instance === card.instance)?.pdv)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -326,7 +363,18 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
     const decoyBefore = Number(decoy.dataset.pdv || 0);
     await tryApplyAbilityDamage({sourcePlayer:player2, targetFC:target, sourceCardId:"H000001", amount:2, bypassInsensitive:true});
     const redirectState = {targetAfter:Number(target.dataset.pdv || 0), decoyAfter:Number(decoy.dataset.pdv || 0), used:decoy.dataset.batch10CasseCouUsedTurn === String(turnSequence)};
-    return {faux, fauxInitiative, fauxState, fauxMouleReduction:{reductionBefore, reductionAfterCopy, reductionBeforeRelease, reductionAfterRelease, firstReduction, secondReduction}, master, masterInitiative, stolen, targetAfterSteal:targetSummary(targetAfterSteal), enemyTopBefore, clever, cleverInitiative, enemyBottomAfter, targetBefore, decoyBefore, redirectState, audit:auditCollectionBatch10Runtime()};
+    const mageDeGuerre = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000007");
+    if (!mageDeGuerre) throw new Error("missing Mage de guerre H000007");
+    const secondMaster = await summonBatch03Servant(player1, "GOB000017", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const secondMasterCard = secondMaster.instanceId ? document.querySelector('.fc[data-instance="' + secondMaster.instanceId + '"]') : livingServantCardsForPlayer(player1).filter(fc => fc.dataset.id === "GOB000017").at(-1);
+    const mageBeforeKeywords = batch10LinkedKeywordList(mageDeGuerre);
+    const secondMasterInitiative = await triggerInitiative("GOB000017", player1, {sourceInstanceId:secondMasterCard.dataset.instance, selectedTargetIds:[mageDeGuerre.dataset.instance]});
+    const mageAfterKeywords = batch10LinkedKeywordList(mageDeGuerre);
+    openCardPreview("H000007", {sourceElement:mageDeGuerre, sourceType:"board"});
+    const suppressedVisual = Array.from(document.querySelectorAll('.batch10-stolen-keyword')).map(el => ({text:el.textContent.trim(), decoration:getComputedStyle(el).textDecorationLine, color:getComputedStyle(el).color}));
+    openCardPreview("GOB000017", {sourceElement:secondMasterCard, sourceType:"board"});
+    const stolenVisual = Array.from(document.querySelectorAll('.batch10-goblin-keyword')).map(el => ({text:el.textContent.trim(), color:getComputedStyle(el).color}));
+    return {faux, fauxInitiative, fauxState, fauxMouleReduction:{reductionBefore, reductionAfterCopy, reductionBeforeRelease, reductionAfterRelease, firstReduction, secondReduction}, master, masterInitiative, stolen, targetAfterSteal:targetSummary(targetAfterSteal), mageTheft:{secondMaster, secondMasterInitiative, beforeKeywords:mageBeforeKeywords, afterKeywords:mageAfterKeywords, stolen:secondMasterCard.dataset.batch10StolenKeywords || "", suppressed:mageDeGuerre.dataset.batch10SuppressedKeywords || "", suppressedVisual, stolenVisual}, enemyTopBefore, clever, cleverInitiative, enemyBottomAfter, targetBefore, decoyBefore, redirectState, audit:auditCollectionBatch10Runtime()};
   });
   await openScenario(page, "collection-batch-10-special");
   const tyranResult = await page.evaluate(async () => {
@@ -346,6 +394,29 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
     const before = {enemyPdv:Number(enemy.dataset.pdv || 0), grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length};
     const result = await resolveBatch10TyranDePoche(player1, "damage", {sourceInstanceId:tyran.dataset.instance, sacrificeInstanceId:sacrifice.dataset.instance, targetInstanceId:enemy.dataset.instance});
     const after = {enemyPdv:Number(enemy.dataset.pdv || 0), grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length};
+    return {tyranSummon, before, result, after, audit:auditCollectionBatch10Runtime()};
+  });
+  await openScenario(page, "collection-batch-10-special");
+  const tyranBuff = await page.evaluate(async () => {
+    const tyranSummon = await summonBatch03Servant(player1, "GOB000019", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const tyran = tyranSummon.instanceId ? document.querySelector('.fc[data-instance="' + tyranSummon.instanceId + '"]') : livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000019");
+    const sacrifice = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002");
+    const before = {atk:Number(tyran.dataset.atk || 0), pdv:Number(tyran.dataset.pdv || 0), pdvMax:Number(tyran.dataset.pdvMax || 0), grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length};
+    const result = await resolveBatch10TyranDePoche(player1, "buff", {sourceInstanceId:tyran.dataset.instance, sacrificeInstanceId:sacrifice.dataset.instance});
+    const after = {atk:Number(tyran.dataset.atk || 0), pdv:Number(tyran.dataset.pdv || 0), pdvMax:Number(tyran.dataset.pdvMax || 0), rempart:tyran.dataset.rempart === "1", text:batch03DynamicStatusTexts(tyran).join(" ")};
+    cleanTurnState(player1);
+    syncBatch05Passives();
+    const afterCleanup = {atk:Number(tyran.dataset.atk || 0), pdv:Number(tyran.dataset.pdv || 0), pdvMax:Number(tyran.dataset.pdvMax || 0), rempart:tyran.dataset.rempart === "1", text:batch03DynamicStatusTexts(tyran).join(" ")};
+    return {tyranSummon, before, result, after, afterCleanup, audit:auditCollectionBatch10Runtime()};
+  });
+  await openScenario(page, "collection-batch-10-special");
+  const tyranNoTargetRefusal = await page.evaluate(async () => {
+    const tyranSummon = await summonBatch03Servant(player1, "GOB000019", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const tyran = tyranSummon.instanceId ? document.querySelector('.fc[data-instance="' + tyranSummon.instanceId + '"]') : livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000019");
+    for (const fc of [...livingServantCardsForPlayer(player1)]) if (fc !== tyran) await sendToCemetery(fc, {suppressVengeance:true});
+    const before = {grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length, hand:player1.hand.length, deck:player1.drawPile.length, resources:JSON.parse(JSON.stringify(player1.resources || {}))};
+    const result = await resolveBatch10TyranDePoche(player1, "buff", {sourceInstanceId:tyran.dataset.instance});
+    const after = {grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length, hand:player1.hand.length, deck:player1.drawPile.length, resources:JSON.parse(JSON.stringify(player1.resources || {}))};
     return {tyranSummon, before, result, after, audit:auditCollectionBatch10Runtime()};
   });
   await openScenario(page, "collection-batch-10-special");
@@ -371,6 +442,20 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
   expect(result.stolen).toContain("Rempart");
   expect(result.targetAfterSteal.rempart).not.toBe(true);
   expect(result.audit.players[1].servants.find(card => card.id === "TRL000010").suppressed).toContain("Rempart");
+  expect(result.mageTheft.secondMaster.success).toBe(true);
+  expect(result.mageTheft.secondMasterInitiative.success).toBe(true);
+  expect(result.mageTheft.beforeKeywords).toContain("Initiative");
+  expect(result.mageTheft.stolen).not.toContain("Initiative");
+  expect(result.mageTheft.suppressed).not.toContain("Initiative");
+  expect(result.mageTheft.afterKeywords).toContain("Initiative");
+  expect(result.mageTheft.stolen).toContain("Coup de glace");
+  expect(result.mageTheft.stolen).toContain("Embrasement");
+  expect(result.mageTheft.afterKeywords).not.toContain("Coup de glace");
+  expect(result.mageTheft.afterKeywords).not.toContain("Embrasement");
+  expect(result.mageTheft.suppressedVisual.map(item => item.text)).toEqual(expect.arrayContaining(["Coup de glace", "Embrasement"]));
+  expect(result.mageTheft.suppressedVisual.every(item => item.decoration.includes("line-through"))).toBe(true);
+  expect(result.mageTheft.stolenVisual.some(item => item.color === "rgb(255, 210, 63)")).toBe(true);
+  expect(result.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "indiscretion-keyword-theft")).toBe(true);
   expect(result.audit.state.events.some(event => event.type === "linked-effects-released" && event.released?.some(item => item.type === "faux-jumeau"))).toBe(true);
   expect(result.clever.success).toBe(true);
   expect(result.cleverInitiative.success).toBe(true);
@@ -387,6 +472,18 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
   expect(tyranDamage.after.enemyPdv).toBe(tyranDamage.before.enemyPdv - 5);
   expect(tyranDamage.after.grave).toBe(tyranDamage.before.grave + 1);
   expect(tyranDamage.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "tyran-sacrifice")).toBe(true);
+  expect(tyranBuff.result.success).toBe(true);
+  expect(tyranBuff.after.atk).toBe(tyranBuff.before.atk + 1);
+  expect(tyranBuff.after.pdvMax).toBe(tyranBuff.before.pdvMax + 3);
+  expect(tyranBuff.after.rempart).toBe(true);
+  expect(tyranBuff.after.text).toContain("Décret royal");
+  expect(tyranBuff.after.text).not.toContain("temporairement");
+  expect(tyranBuff.afterCleanup.atk).toBe(tyranBuff.after.atk);
+  expect(tyranBuff.afterCleanup.pdvMax).toBe(tyranBuff.after.pdvMax);
+  expect(tyranBuff.afterCleanup.rempart).toBe(true);
+  expect(tyranNoTargetRefusal.result.success).toBe(false);
+  expect(tyranNoTargetRefusal.result.reason).toBe("missing-sacrifice");
+  expect(tyranNoTargetRefusal.after).toEqual(tyranNoTargetRefusal.before);
   expect(tyranRefusal.result.success).toBe(false);
   expect(tyranRefusal.result.reason).toBe("self-sacrifice-forbidden");
   expect(tyranRefusal.after).toEqual(tyranRefusal.before);

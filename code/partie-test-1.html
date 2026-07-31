@@ -1613,7 +1613,12 @@ body.dragging-card .hc.dragging {
 .hc.gob .hc-name-b{background:linear-gradient(180deg,#201402,#160e02 50%,#201402);}
 .hc.gob .hc-desc-inner{background:linear-gradient(155deg,#2e2208,#1a1402);}
 .hc.gob .hc-desc-text{color:#d4b060;}
-.hc.gob .hc-desc-text em,.hc.gob .hc-desc-text strong.kv{color:#b89030;}
+.hc.gob .hc-desc-text em,.hc.gob .hc-desc-text strong.kv,
+.hc.gob .hc-desc-text .canonical-keyword-inline,
+.hc.gob .hc-desc-text .card-keyword,
+.hc.gob .hc-desc-text .card-named-ability,
+.hc.gob .hc-desc-text .batch10-goblin-keyword{color:#ffd23f!important;}
+.batch10-stolen-keyword{color:#b8aa92!important;text-decoration:line-through!important;text-decoration-thickness:2px;text-decoration-color:#d24a32!important;opacity:.86;}
 .hc.gob .hc-cost-z{background:linear-gradient(180deg,#201402,#160e02);}
 
 .hc.nain .hc-frame{background:linear-gradient(170deg,#2e3040,#0e0e18);}
@@ -1723,7 +1728,17 @@ body.dragging-card .hc.dragging {
 .fc.gob-fc .fc-zoom-name-b{background:linear-gradient(180deg,#201402,#160e02 50%,#201402);}
 .fc.gob-fc .fz-desc-inner{background:linear-gradient(155deg,#2e2208,#1a1402);}
 .fc.gob-fc .fz-desc-text{color:#d4b060;}
-.fc.gob-fc .fz-desc-text em,.fc.gob-fc .fz-desc-text strong.kv{color:#b89030;}
+.fc.gob-fc .fz-desc-text em,.fc.gob-fc .fz-desc-text strong.kv,
+.fc.gob-fc .fz-desc-text .canonical-keyword-inline,
+.fc.gob-fc .fz-desc-text .card-keyword,
+.fc.gob-fc .fz-desc-text .card-named-ability,
+.fc.gob-fc .fz-desc-text .batch10-goblin-keyword,
+.canonical-card-preview.gob-fc .fz-desc-text em,
+.canonical-card-preview.gob-fc .fz-desc-text strong.kv,
+.canonical-card-preview.gob-fc .fz-desc-text .canonical-keyword-inline,
+.canonical-card-preview.gob-fc .fz-desc-text .card-keyword,
+.canonical-card-preview.gob-fc .fz-desc-text .card-named-ability,
+.canonical-card-preview.gob-fc .fz-desc-text .batch10-goblin-keyword{color:#ffd23f!important;}
 .fc.gob-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#201402,#160e02);}
 
 .fc.nain-fc .fi{border-color:#8090a8;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(160,168,184,0.4);}
@@ -2983,7 +2998,7 @@ SCENARIOS['collection-batch-10-special'] = {
   label: 'TEST - COLLECTION BATCH 10 Spécial gobelin', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'GOB000019',
   testSetup: {
     player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:40, pierre:40, nourriture:80}, souls:20}, hand:['GOB000015','GOB000017','GOB000018','GOB000019'], drawPile:['H000001','GOB000001','GOB000002','GOB000003'], graveyard:['GOB000002'], servants:[{id:'GOB000002',prepared:true},{id:'GOB000013',prepared:true},{id:'GOB000016',prepared:true}], avatarHp:30, initialSupplyCardId:'R000010', initialSupplyMultiplier:10},
-    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001','S000063'], drawPile:['H000001','H000005','R000001','MV000020','H000006'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true},{id:'TRL000010',pdv:7,pdvMax:7,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001','S000063'], drawPile:['H000001','H000005','R000001','MV000020','H000006'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true},{id:'MV000020',pdv:5,pdvMax:5,prepared:true},{id:'TRL000010',pdv:7,pdvMax:7,prepared:true},{id:'H000007',pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:10}
   }
 };
 SCENARIOS['collection-batch-03-humans-overview'] = {
@@ -6605,7 +6620,9 @@ function formatPlayerFacingCardText(rawText) {
 }
 
 function humanDescriptionAccentColor(card, fallbackColor) {
-  return card?.fac === 'hum' ? '#002fa7' : fallbackColor;
+  if (card?.fac === 'hum') return '#002fa7';
+  if (card?.fac === 'gob') return '#ffd23f';
+  return fallbackColor;
 }
 
 function renderZoomDescription(card, kwColor) {
@@ -6628,7 +6645,7 @@ function renderZoomDescription(card, kwColor) {
 }
 
 function facColor(fac) {
-  return {edb:'#5a8a3a',edn:'#d080e8',edg:'#2a8fd4',mvs:'#d080e8',sort:'#6a3a9a',appro:'#8a6820',hum:'#26c4ec',orc:'#e87040',bet:'#c89040',div:'#e06080',gob:'#b89030',nain:'#8090a8',trl:'#e0a840'}[fac]||'#c8a84b';
+  return {edb:'#5a8a3a',edn:'#d080e8',edg:'#2a8fd4',mvs:'#d080e8',sort:'#6a3a9a',appro:'#8a6820',hum:'#26c4ec',orc:'#e87040',bet:'#c89040',div:'#e06080',gob:'#e6b93f',nain:'#8090a8',trl:'#e0a840'}[fac]||'#c8a84b';
 }
 function facFolder(fac) {
   return {edb:'elfes-des-bois',edn:'elfes-noirs',edg:'elfes-de-glace',mvs:'morts-vivants',sort:'sorts',appro:'approvisionnement',hum:'humains',div:'autres',orc:'orcs',bet:'betes',gob:'gobelins',nain:'nains',trl:'trolls'}[fac]||'autres';
@@ -7457,6 +7474,10 @@ function batch02PreviewCardData(cardId, data, sourceContext={}) {
   return {...data, cap: cap + separator + tempText, detail: String(data.detail || cap || '') + separator + tempText};
 }
 
+function batch10KeywordHtml(keyword, className) {
+  return '<span class="' + className + '">' + escapeHtml(keyword) + '</span>';
+}
+
 function batch03DynamicStatusTexts(fc) {
   if (!fc?.dataset) return [];
   const lines = [];
@@ -7486,9 +7507,12 @@ function batch03DynamicStatusTexts(fc) {
   if (fc.dataset.batch09InstableRempart === '1') add('Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.');
   if (Number(fc.dataset.batch09IceShieldCharges || 0) > 0) add('Protégé par [Gel] : *' + Number(fc.dataset.batch09IceShieldCharges || 0) + '* attaque(s) restante(s), dégâts réduits de *2*.');
   const stolenBatch10 = String(fc.dataset.batch10StolenKeywords || '').split('|').filter(Boolean);
-  if (stolenBatch10.length) add('Bénéficie de ' + stolenBatch10.join(', ') + '.');
+  if (stolenBatch10.length) add('Bénéficie de ' + stolenBatch10.map(keyword => batch10KeywordHtml(keyword, 'batch10-goblin-keyword')).join(', ') + '.');
   const suppressedBatch10 = String(fc.dataset.batch10SuppressedKeywords || '').split('|').filter(Boolean);
-  if (suppressedBatch10.length) add('A perdu temporairement ' + suppressedBatch10.join(', ') + '.');
+  if (suppressedBatch10.length) add('A perdu temporairement ' + suppressedBatch10.map(keyword => batch10KeywordHtml(keyword, 'batch10-stolen-keyword')).join(', ') + '.');
+  const tyranAtkBonus = Number(fc.dataset.batch10TyranAtkBonus || 0);
+  const tyranPdvBonus = Number(fc.dataset.batch10TyranPdvBonus || 0);
+  if (tyranAtkBonus > 0 || tyranPdvBonus > 0) add('Décret royal : gagne *+' + tyranAtkBonus + ' ATK* / *+' + tyranPdvBonus + ' PDV* et [Rempart].');
   if (fc.dataset.batch09DevoreMagicSpent === '1') return ['[Insensible] Attaque augmentée de *+3*.'];
   return lines;
 }
@@ -16874,9 +16898,9 @@ Object.assign(CARDS_DATA, {
   'DIV000011':{name:'Démon majeur',type:'Serviteur',fac:'div',atk:8,pdv:8,cost:5,res_ico:'IC00000ARI',res_val:'5',resOu:true,resType:'Aria',fico:'FCT00000RDM.png',kws:['Insensible','Rempart','Rage','Embrasement','Vengeance'],cap:'[Insensible] [Rempart] [Rage] Récupère tous ses points de vie à chacun de vos débuts de tour jusqu\'à sa destruction. Chaque fois qu\'il inflige des dégâts à 1 serviteur, lui applique également [Embrasement] avec 25% de chance. [Vengeance] Inflige le montant de son attaque en dégâts, répartis aléatoirement entre les serviteurs adverses.',lore:'',cond:'Nécessite d’avoir une « Porte démoniaque » de votre côté du terrain.',related:['DIV000001']},
   'GOB000001':{name:'Mageobelin lance-cailloux',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:4,pdv:1,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000GOB.png',kws:['Insensible'],cap:'À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à un serviteur adverse aléatoire. Cette capacité ne peut cibler un serviteur possédant la capacité [Insensible].',lore:''},
   'GOB000002':{name:'Surineur',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:3,pdv:1,cost:1,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture',fico:'FCT00000GOB.png',kws:[],cap:'',lore:'Petits, véloces et bigrement agiles, les gobelins constituent une réelle menace quand ils combattent à deux dagues.'},
-  'H000001':{name:'Larron',type:'Serviteur',fac:'hum',atk:1,pdv:1,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000HUM.png',kws:[],cap:'',lore:'La guerre conduit de nombreuses familles à la ruine. Beaucoup endurent stoïquement, rêvant d\'un retour aux jours heureux. D\'autres empruntent une voie plus sombre”¦'},
+  'H000001':{name:'Larron',type:'Serviteur',fac:'hum',atk:1,pdv:1,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000HUM.png',kws:[],cap:'',lore:'La guerre conduit de nombreuses familles à la ruine. Beaucoup endurent stoïquement, rêvant d\'un retour aux jours heureux. D\'autres empruntent une voie plus sombre...'},
   'H000004':{name:'Élémentaliste',type:'Serviteur',fac:'hum',atk:4,pdv:2,cost:2,res_ico:'IC00000ARI',res_val:'2',resType:'Aria',fico:'FCT00000HUM.png',kws:['Initiative'],cap:'[Initiative] : Inflige 1 point de dégât à tous les serviteurs adverses, puis encore 1 autre point de dégât au début de votre prochain tour.',lore:''},
-  'H000005':{name:'Fantassin rouge',type:'Serviteur',fac:'hum',atk:2,pdv:5,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000HUM.png',kws:['Rempart'],cap:'[Rempart] Les grandes familles nobles ont chacune leur armée féodale. Chez les moins puissants, ces armées ressemblent davantage à des hordes paysannes qu\'à des troupes entraînées. Mais les seigneurs les plus importants équipent leurs combattants d\'armures et de lames de grande qualité, aux couleurs de leur maison.',lore:''},
+  'H000005':{name:'Fantassin rouge',type:'Serviteur',fac:'hum',atk:2,pdv:5,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000HUM.png',kws:['Rempart'],cap:'[Rempart]',lore:'Les grandes familles nobles ont chacune leur armée féodale. Chez les moins puissants, ces armées ressemblent davantage à des hordes paysannes qu\'à des troupes entraînées. Mais les seigneurs les plus importants équipent leurs combattants d\'armures et de lames de grande qualité, aux couleurs de leur maison.'},
 'H000006':{name:'Pr\u00eatre de guerre',type:'Serviteur',fac:'hum',atk:2,pdv:4,cost:2,res_ico:'IC00000ARI',res2:'IC00000FER',res_val:'2',resType:'Aria+Fer',fico:'FCT00000HUM.png',kws:['Aria'],cap:'Tant que vous avez au moins *1* ressource d\'Aria sur le terrain, rend jusqu\'\u00e0 *2* points de vie chaque tour \u00e0 *1* autre serviteur alli\u00e9 bless\u00e9 al\u00e9atoire. Le montant des soins est doubl\u00e9 sur les serviteurs de la faction des \u00ab humains \u00bb. En revanche, cette capacit\u00e9 ne peut pas soigner de serviteurs \u00ab morts-vivants \u00bb.',lore:''},
   'H000007':{name:'Mage de guerre',type:'Serviteur',fac:'hum',atk:5,pdv:3,cost:3,res_ico:'IC00000ARI',res2:'IC00000FER',res_val:'3',resType:'Aria+Fer',fico:'FCT00000HUM.png',kws:['Aria','Initiative','Coup de glace','Embrasement','Fer'],cap:'[Initiative] Inflige [Coup de glace] pendant 2 tours \u00e0 un serviteur adverse al\u00e9atoire, puis inflige [Embrasement] \u00e0 *1* autre serviteur adverse al\u00e9atoire.',lore:''},
   'H000008':{name:'Patrouilleur du village',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Vigilance'],cap:'[Vigilance]',lore:'',related:['H000011']},
@@ -20725,7 +20749,7 @@ function batch10LinkedKeywordList(value) {
   return [...new Set([...(CARDS_DATA[id]?.kws || []), ...extra])].filter(keyword => !suppressed.has(keyword));
 }
 function batch10CopyableKeywords(fc) {
-  const excluded = new Set(['Serviteur de la rune','Insensible', ...RES_KWS]);
+  const excluded = new Set(['Serviteur de la rune','Insensible','Initiative', ...RES_KWS]);
   return batch10LinkedKeywordList(fc).filter(keyword => !excluded.has(keyword));
 }
 function batch10ApplyGrantedKeywords(fc, keywords, reason) {
@@ -21018,6 +21042,7 @@ async function resolveBatch10Initiative(cardId, player, context={}) {
     const target = await batch10ChooseBoardTarget({title:"VOL PEU DISCRET", prompt:"Choisissez 1 serviteur adverse, transférez tous ses mots-clefs au « Maître de l'indiscrétion ».", targets:candidates, context, sourceFC, reason:'indiscretion'});
     if (!target) return {handled:true, success:false, reason:'no-keyword-target'};
     const keywords = batch10CopyableKeywords(target);
+    await batch10FeedbackBefore(sourceFC, 'indiscretion-keyword-theft', {target:targetSummary(target), keywords}, 520);
     sourceFC.dataset.batch10StolenKeywords = keywords.join('|');
     sourceFC.dataset.batch10KeywordTheftTarget = target.dataset.instance || ensureServantInstanceId(target);
     target.dataset.batch10KeywordTheftSource = sourceFC.dataset.instance || ensureServantInstanceId(sourceFC);
@@ -21445,7 +21470,9 @@ function syncBatch05Passives() {
         const batch09InstableAtkBonus = Number(fc.dataset.batch09InstableAtkBonus || 0);
         const batch09InstablePdvBonus = Number(fc.dataset.batch09InstablePdvBonus || 0);
         const batch09BonePdvBonus = Number(fc.dataset.batch09BonePdvBonus || 0);
-        batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0) + Number(fc.dataset.batch08ButcherBonus || 0) + ancientOathBonus + batch09FuryBonus + batch09StoneAtkBonus + batch09CadaverBonus + batch09TrollNainBonus + batch09DevoreMagicAtkBonus + batch09InstableAtkBonus, pdvMax:baseMax + buff.pdvMax + ancientOathBonus + batch09StonePdvBonus + batch09CadaverBonus + batch09TrollNainBonus + batch09InstablePdvBonus + batch09BonePdvBonus});
+        const batch10TyranAtkBonus = Number(fc.dataset.batch10TyranAtkBonus || 0);
+        const batch10TyranPdvBonus = Number(fc.dataset.batch10TyranPdvBonus || 0);
+        batch05SetStats(fc, {atk:baseAtk + buff.atk + Number(fc.dataset.batch05PermanentAtkBonus || 0) + Number(fc.dataset.batch08ButcherBonus || 0) + ancientOathBonus + batch09FuryBonus + batch09StoneAtkBonus + batch09CadaverBonus + batch09TrollNainBonus + batch09DevoreMagicAtkBonus + batch09InstableAtkBonus + batch10TyranAtkBonus, pdvMax:baseMax + buff.pdvMax + ancientOathBonus + batch09StonePdvBonus + batch09CadaverBonus + batch09TrollNainBonus + batch09InstablePdvBonus + batch09BonePdvBonus + batch10TyranPdvBonus});
         fc.dataset.batch05PassiveSources = buff.sources.join(',');
         if (buff.sources.includes('ORC000014')) fc.dataset.batch08TotemRage = '1';
         else delete fc.dataset.batch08TotemRage;
