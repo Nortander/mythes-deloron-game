@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import {expect, test} from "@playwright/test";
 import {attachDiagnostics, attachPageDiagnostics} from "./helpers/eloron-ui.mjs";
 
@@ -45,6 +45,11 @@ test("Batch-10 scenarios stay hidden and expose exact Goblin runtime data", asyn
           tyran:formatPlayerFacingCardText(CARDS_DATA.GOB000019.cap),
           codeCouleurs:formatPlayerFacingCardText(CARDS_DATA.S000038.cap),
           vollee:formatPlayerFacingCardText(CARDS_DATA.S000047.cap),
+          chapardeur:formatPlayerFacingCardText(CARDS_DATA.GOB000005.cap),
+          cheffaillon:formatPlayerFacingCardText(CARDS_DATA.GOB000009.cap),
+          chercheurCap:formatPlayerFacingCardText(CARDS_DATA.GOB000010.cap),
+          chercheurCond:formatPlayerFacingCardText(CARDS_DATA.GOB000010.cond || ''),
+          chemins:formatPlayerFacingCardText(CARDS_DATA.S000037.detail || CARDS_DATA.S000037.cap),
           surineurPreview:buildCanonicalCardPreview("GOB000002"),
           globeminatorPreview:buildCanonicalCardPreview("GOB000004")
         }
@@ -61,6 +66,12 @@ test("Batch-10 scenarios stay hidden and expose exact Goblin runtime data", asyn
     expect(audit.rendered.tyran).toContain("+3 PDV");
     expect(audit.rendered.codeCouleurs).toContain("1");
     expect(audit.rendered.vollee).toContain("3");
+    expect(audit.rendered.chapardeur).toContain("Approvisionnement");
+    expect(audit.rendered.cheffaillon).toContain("+1 ATK");
+    expect(audit.rendered.cheffaillon).toContain('class="kv"');
+    expect(audit.rendered.chercheurCap).toContain("Approvisionnement");
+    expect(audit.rendered.chercheurCond).toContain("cimetière");
+    expect(audit.rendered.chemins).not.toContain("objectif");
     expect(audit.rendered.surineurPreview).toContain("card-lore-text");
     expect(audit.rendered.globeminatorPreview).toContain("card-lore-text");
     expect(audit.cards.find(card => card.id === "GOB000006").keywords).toContain("Sang ardent");
@@ -101,7 +112,9 @@ test("Goblin initiatives move cards, summon allies, heal and manipulate deck zon
   await openScenario(page, "collection-batch-10-gobelins");
   const searchAndHeal = await page.evaluate(async () => {
     window.__collectionBatch10RandomQueue = [0, 0, 0, 0];
-    const initGob010 = await summonBatch03Servant(player1, "GOB000010", {sourceCardId:"test", triggerInitiativeEffect:true, ready:true});
+    const initGob010Summon = await summonBatch03Servant(player1, "GOB000010", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const chercheur = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000010");
+    const initGob010 = await triggerInitiative("GOB000010", player1, {sourceInstanceId:chercheur.dataset.instance, zoneSelection:{selectedCardIds:["R000010"]}});
     const initGob014 = await summonBatch03Servant(player1, "GOB000014", {sourceCardId:"test", triggerInitiativeEffect:true, ready:true});
     const wounded = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002");
     if (wounded) batch03UpdateStats(wounded, {pdvMax:1, pdv:1});
@@ -110,6 +123,7 @@ test("Goblin initiatives move cards, summon allies, heal and manipulate deck zon
     const endTurn = await applyBatch03EndTurnAbilities(player1);
     return {
       initGob010,
+      initGob010Summon,
       initGob014,
       endTurn,
       audit:auditCollectionBatch10Runtime()
@@ -119,12 +133,16 @@ test("Goblin initiatives move cards, summon allies, heal and manipulate deck zon
   expect(nervous.afterGob008.enemyPdvTotal).toBeLessThan(nervous.before.enemyPdvTotal);
   expect(dompteur.initGob011.initiative.success).toBe(true);
   expect(dompteur.beastOnBoard).toBe(true);
-  expect(searchAndHeal.initGob010.initiative.moved).toBe("R000010");
+  expect(searchAndHeal.initGob010.moved).toBe("R000010");
   expect(searchAndHeal.initGob014.initiative.drawn.length).toBeGreaterThan(0);
   expect(searchAndHeal.endTurn.gueribelinHeals.length).toBeGreaterThan(0);
+  expect(nervous.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "petit-nerveux")).toBe(true);
   expect(nervous.audit.state.events.some(event => event.type === "petit-nerveux-initiative")).toBe(true);
+  expect(dompteur.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "dompteur")).toBe(true);
   expect(dompteur.audit.state.events.some(event => event.type === "dompteur-initiative")).toBe(true);
   expect(searchAndHeal.audit.state.events.some(event => event.type === "chercheur-tresor-initiative")).toBe(true);
+  expect(searchAndHeal.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "chercheur")).toBe(true);
+  expect(searchAndHeal.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "snarff")).toBe(true);
   expect(searchAndHeal.audit.state.events.some(event => event.type === "snarff-initiative")).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -158,12 +176,12 @@ test("Goblin spells summon, copy hand contents, draw to eight and empower Vengea
   expect(vollee.after.surineurs).toBe(3);
 
   await openScenario(page, "collection-batch-10-sorts");
-  const ley = await page.evaluate(() => {
+  const ley = await page.evaluate(async () => {
     player1.hand = ["S000037", "GOB000001", "GOB000002", "H000001"];
     player1.drawPile = ["H000005", "GOB000005", "GOB000006", "GOB000008", "GOB000012", "GOB000016", "GOB000018"];
     removeHandCardAt(player1, 0);
     const before = {hand:player1.hand.length, deck:player1.drawPile.length};
-    const result = resolveCheminsDeLey(player1);
+    const result = await resolveCheminsDeLey(player1);
     return {before, result, after:{hand:player1.hand.length, deck:player1.drawPile.length, handIds:[...player1.hand]}};
   });
   expect(ley.after.hand).toBe(8);
@@ -198,9 +216,10 @@ test("Goblin combat, damage reduction, Vengeance and Machiavélisme resolve as r
     const enemiesBeforeVengeance = livingServantCardsForPlayer(player2).map(targetSummary);
     await sendToCemetery(protectedGoblin);
     const enemiesAfterVengeance = livingServantCardsForPlayer(player2).map(targetSummary);
-    return {undeadBefore, undeadAfter, gitzoBefore, gitzoAfter, protectedBefore, protectedAfter, enemiesBeforeVengeance, enemiesAfterVengeance, audit:auditCollectionBatch10Runtime()};
+    return {undeadBefore, undeadAfter, gitzoBefore, gitzoAfter, protectedBefore, protectedAfter, enemiesBeforeVengeance, enemiesAfterVengeance, notices:Array.from(document.querySelectorAll('.notif,.toast,.history li')).map(el => el.textContent || ''), audit:auditCollectionBatch10Runtime()};
   });
   expect(result.undeadAfter.pdv).toBe(result.undeadBefore.pdv - 9);
+  expect(result.audit.state.events.some(event => event.type === "combat-effects" && event.results?.some(item => item.type === "divine-wrath-vs-undead"))).toBe(true);
   expect(result.gitzoAfter.hand).toBe(result.gitzoBefore.hand + 1);
   expect(result.gitzoAfter.deck).toBe(result.gitzoBefore.deck - 1);
   expect(result.gitzoAfter.pdv).toBe(result.gitzoBefore.pdv);
@@ -210,6 +229,7 @@ test("Goblin combat, damage reduction, Vengeance and Machiavélisme resolve as r
   expect(result.audit.state.events.some(event => event.type === "damage-reduced")).toBe(true);
   expect(result.audit.state.events.filter(event => event.type === "goblin-vengeance").length).toBeGreaterThanOrEqual(1);
   expect(result.audit.state.events.some(event => event.type === "goblin-vengeance" && event.repeat)).toBe(true);
+  expect(result.notices.join(" ")).not.toContain("ajoute 2 dÃ©gÃ¢ts Ã  la Vengeance");
   expect(result.enemiesAfterVengeance.some(card => card.pdv < result.enemiesBeforeVengeance.find(before => before.instance === card.instance)?.pdv)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -232,7 +252,9 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
     const stolen = masterCard.dataset.batch10StolenKeywords || "";
     const targetAfterSteal = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "TRL000010");
     const enemyTopBefore = player2.drawPile.slice(-4);
-    const clever = await summonBatch03Servant(player1, "GOB000018", {sourceCardId:"test", triggerInitiativeEffect:true, ready:true});
+    const clever = await summonBatch03Servant(player1, "GOB000018", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const cleverCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000018");
+    const cleverInitiative = await triggerInitiative("GOB000018", player1, {sourceInstanceId:cleverCard.dataset.instance, zoneSelection:{selectedIndex:player2.drawPile.length - 4}});
     const enemyBottomAfter = player2.drawPile[0];
     const target = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002");
     const decoy = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000016");
@@ -241,7 +263,7 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
     const decoyBefore = Number(decoy.dataset.pdv || 0);
     await tryApplyAbilityDamage({sourcePlayer:player2, targetFC:target, sourceCardId:"H000001", amount:2, bypassInsensitive:true});
     const redirectState = {targetAfter:Number(target.dataset.pdv || 0), decoyAfter:Number(decoy.dataset.pdv || 0), used:decoy.dataset.batch10CasseCouUsedTurn === String(turnSequence)};
-    return {faux, fauxInitiative, fauxState, master, masterInitiative, stolen, targetAfterSteal:targetSummary(targetAfterSteal), enemyTopBefore, clever, enemyBottomAfter, targetBefore, decoyBefore, redirectState, audit:auditCollectionBatch10Runtime()};
+    return {faux, fauxInitiative, fauxState, master, masterInitiative, stolen, targetAfterSteal:targetSummary(targetAfterSteal), enemyTopBefore, clever, cleverInitiative, enemyBottomAfter, targetBefore, decoyBefore, redirectState, audit:auditCollectionBatch10Runtime()};
   });
   await openScenario(page, "collection-batch-10-special");
   const tyranResult = await page.evaluate(async () => {
@@ -260,7 +282,10 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
   expect(result.masterInitiative.success).toBe(true);
   expect(result.stolen).toContain("Rempart");
   expect(result.targetAfterSteal.rempart).not.toBe(true);
-  expect(result.clever.initiative.success).toBe(true);
+  expect(result.audit.players[1].servants.find(card => card.id === "TRL000010").suppressed).toContain("Rempart");
+  expect(result.audit.players[0].servants.find(card => card.id === "GOB000015").copiedFrom).toBeTruthy();
+  expect(result.clever.success).toBe(true);
+  expect(result.cleverInitiative.success).toBe(true);
   expect(result.enemyBottomAfter).toBe(result.enemyTopBefore[0]);
   expect(result.redirectState.targetAfter).toBe(result.targetBefore);
   expect(result.redirectState.decoyAfter).toBe(result.decoyBefore - 1);

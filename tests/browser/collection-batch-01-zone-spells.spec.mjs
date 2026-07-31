@@ -272,7 +272,8 @@ test("S000029, S000037 and S000043 draw only their legal deck families", async (
   expect(afterTaureau.player1.hand.length).toBe(beforeTaureau.player1.hand.length - 1 + 3);
   expect(beforeTaureau.player1.deck.filter(id => id.startsWith("B00001")).sort()).toEqual(["B000015", "B000016", "B000017"]);
   expect(afterTaureau.player1.deck).not.toEqual(expect.arrayContaining(["B000015", "B000016", "B000017"]));
-  expect(afterTaureau.notificationText).toContain("3 carte(s) piochée(s)");
+  expect(taureau.spellResolution.count).toBe(3);
+  expect(taureau.spellResolution.drawn).toHaveLength(3);
   expect(afterTaureau.player1.graveyard).toContain("S000043");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

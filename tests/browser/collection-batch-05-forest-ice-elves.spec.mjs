@@ -407,7 +407,7 @@ test("Batch-05B Tisseur, ancient ice spells and rescue shield resolve as runtime
     player1.drawPile = ["EDG000001","EDG000003","EDG000004","H000001","S000004"];
     player1.hand = [];
     refreshHand(player1);
-    const patrol = resolvePatrouilleGlaciale(player1);
+    const patrol = await resolvePatrouilleGlaciale(player1);
 
     resetServants(player1);
     const fragile = await summonBatch03Servant(player1, "EDG000006", {triggerInitiativeEffect:false, ready:true});

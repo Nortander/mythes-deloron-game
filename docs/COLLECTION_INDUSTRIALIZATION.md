@@ -352,3 +352,14 @@ Retours visuels Batch-08B :
 - Les textes publics Orcs renforcent les valeurs importantes et retirent les identifiants techniques de `S000014`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-10B
+
+- Les retours visuels Daddy du scénario Gobelins sont intégrés sans modification de `code/collection.html`.
+- Les feedbacks visuels de `GOB000001`, `GOB000007`, `GOB000008`, `GOB000011`, `GOB000012`, `GOB000014`, `S000009`, `S000037`, `S000038` et `S000047` sont séquencés avant ou pendant la mutation réelle, avec délais visibles bornés.
+- `GOB000005` ne part plus au cimetière lorsqu'aucun Approvisionnement adverse n'existe dans le deck ; son échec destructeur reste limité au vrai raté de vol.
+- `GOB000010`, `GOB000015`, `GOB000017` et `GOB000018` utilisent des choix explicites ou des sélections déterministes de test, avec diagnostics exploitables.
+- `GOB000017` transfère réellement les mots-clefs volables, en excluant `Insensible` et `Serviteur de la rune`, et restitue l'état quand le lien quitte le terrain.
+- `GOB000003` est vérifié contre un mort-vivant assez robuste pour prouver les dégâts triplés et l'application de `Colère divine`.
+- Le message répété de `S000049` après Vengeance est retiré ; le message initial reste le seul feedback public de Machiavélisme.
+- Aucun changement n'est apporté aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
