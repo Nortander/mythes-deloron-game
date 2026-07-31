@@ -169,7 +169,15 @@ Scenarios techniques caches : `collection-batch-09-trolls`, `collection-batch-09
 - Les scenarios techniques Batch09 rendent verifiables les pulsations, deplacements, soins d'avatar, retours Rune, Clef de pierre liee, effets de combat, modalite de `S000046` et reduction de cout de Mugwa.
 
 
-Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+### Corrections COLLECTION-BATCH-10C
+
+- Les modales de choix Gobelins affichent desormais le bouton `REDUIRE` sur une ligne separee au-dessus du titre centre, avec cartes non rognees au survol.
+- Les effets de fin de tour `GOB000001` / `GOB000007` se resolvent dans l'ordre gauche-droite du plateau, avec feedback avant la mutation reelle.
+- `GOB000015` copie aussi les passifs runtime de sa cible : copier `GOB000013` ajoute une seconde source de reduction de degats, puis la retire quand Faux jumeau quitte le terrain.
+- `GOB000019` se declenche par sacrifice volontaire d'un autre Gobelin allie, ouvre `DECRET ROYAL`, refuse l'auto-sacrifice et applique pioche, degats cibles ou bonus selon le choix.
+- Les sorts `S000009`, `S000037`, `S000038`, `S000047` et l'Initiative de `GOB000014` exposent des animations sequentielles d'arrivee en main ou sur le terrain ; `S000049` retrouve son message public initial unique.
+- Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
 
 ### Corrections COLLECTION-BATCH-03B
 

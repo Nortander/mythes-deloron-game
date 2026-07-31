@@ -44,6 +44,8 @@
 - 2026-06-06 : ajout des 36 cartes nécessaires au duel Hokhan Ashir Vs Uram dans `CARDS_DATA`.
 - 2026-06-07 : ajout du scénario de test Hokhan Ashir Vs Uram dans la partie test.
 
+
+- 2026-07-31 : COLLECTION-BATCH-10C - corrections finales Gobelins ; modales de choix repliables realignees, fin de tour gauche-droite, Faux jumeau raccorde aux passifs copies, Tyran de poche en sacrifice volontaire avec decret explicite, animations sequentielles main/terrain et message initial de Machiavelisme restaure ; aucun changement de Collection, decks, mains initiales, marqueurs OUI/MAYBE, assets ou exports.
 - 2026-06-07 : alignement des themes Gobelin, Nain, Bete, Orc et Approvisionnement du duel Hokhan Ashir Vs Uram.
 - 2026-06-07 : correction du rendu des couts, lores et espaces typographiques dans la partie test.
 - 2026-06-07 : refonte du debut de partie avec `player1`, `player2`, positions visuelles et pioche `MAYBE`.

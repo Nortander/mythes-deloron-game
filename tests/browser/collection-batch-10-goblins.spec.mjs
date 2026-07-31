@@ -1,4 +1,4 @@
-﻿import fs from "node:fs";
+import fs from "node:fs";
 import {expect, test} from "@playwright/test";
 import {attachDiagnostics, attachPageDiagnostics} from "./helpers/eloron-ui.mjs";
 
@@ -148,6 +148,46 @@ test("Goblin initiatives move cards, summon allies, heal and manipulate deck zon
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+test("Goblin choice modals keep the minimize control above a centered title", async ({page}, testInfo) => {
+  const diagnostics = diagnosticsFor(page);
+  await openScenario(page, "collection-batch-10-gobelins");
+  await page.evaluate(() => {
+    window.__batch10ModalPromise = (async () => {
+      const summon = await summonBatch03Servant(player1, "GOB000010", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+      const source = summon.instanceId ? document.querySelector('.fc[data-instance="' + summon.instanceId + '"]') : livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000010");
+      return await triggerInitiative("GOB000010", player1, {sourceInstanceId:source.dataset.instance});
+    })();
+  });
+  const overlay = page.locator(".decision-modal-overlay");
+  await expect(overlay).toBeVisible();
+  const layout = await page.evaluate(() => {
+    const overlay = document.querySelector(".decision-modal-overlay");
+    const panel = overlay?.querySelector(".sort-choice-panel");
+    const topline = overlay?.querySelector(".decision-modal-topline");
+    const title = overlay?.querySelector(".decision-modal-title");
+    const item = overlay?.querySelector(".sort-choice-item");
+    item?.dispatchEvent(new MouseEvent("mouseover", {bubbles:true}));
+    const pr = panel?.getBoundingClientRect();
+    const tr = topline?.getBoundingClientRect();
+    const titleRect = title?.getBoundingClientRect();
+    const ir = item?.getBoundingClientRect();
+    return {
+      topBeforeTitle:!!tr && !!titleRect && tr.bottom <= titleRect.top + 2,
+      titleCentered:!!pr && !!titleRect && Math.abs((titleRect.left + titleRect.right) / 2 - (pr.left + pr.right) / 2) < 24,
+      itemVisible:!!ir && ir.left >= 0 && ir.right <= window.innerWidth && ir.top >= 0 && ir.bottom <= window.innerHeight
+    };
+  });
+  expect(layout.topBeforeTitle).toBe(true);
+  expect(layout.titleCentered).toBe(true);
+  expect(layout.itemVisible).toBe(true);
+  await page.locator(".sort-choice-item").first().click();
+  await page.getByTestId("zone-card-confirm").click();
+  const result = await page.evaluate(() => window.__batch10ModalPromise);
+  expect(result.success).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("Goblin spells summon, copy hand contents, draw to eight and empower Vengeance", async ({page}, testInfo) => {
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-10-sorts");
@@ -161,8 +201,10 @@ test("Goblin spells summon, copy hand contents, draw to eight and empower Vengea
   });
   expect(spells.code.added).toEqual(["GOB000001","GOB000002"]);
   expect(spells.afterCode.hand).toBe(spells.initial.hand + 2);
+  expect(spells.audit.state.events.filter(event => event.type === "card-arrival-animation" && event.reason === "code-couleurs-copy").length).toBe(2);
   expect(spells.reunion.summoned.filter(item => item.success).length).toBeGreaterThan(0);
   expect(spells.afterReunion.servants).toBeGreaterThan(spells.initial.servants);
+  expect(spells.audit.state.events.some(event => event.type === "summon-arrival-pulse" && event.reason === "reunion-arrival")).toBe(true);
 
   await openScenario(page, "collection-batch-10-sorts");
   const vollee = await page.evaluate(async () => {
@@ -174,6 +216,7 @@ test("Goblin spells summon, copy hand contents, draw to eight and empower Vengea
   expect(vollee.after.servants).toBe(vollee.before.servants + 3);
   expect(vollee.after.deck).toBe(vollee.before.deck);
   expect(vollee.after.surineurs).toBe(3);
+  expect(vollee.result.summoned.every(item => item.success)).toBe(true);
 
   await openScenario(page, "collection-batch-10-sorts");
   const ley = await page.evaluate(async () => {
@@ -187,6 +230,7 @@ test("Goblin spells summon, copy hand contents, draw to eight and empower Vengea
   expect(ley.after.hand).toBe(8);
   expect(ley.result.drawn.length).toBe(5);
   expect(ley.result.drawn.every(id => id.startsWith("GOB"))).toBe(true);
+  expect(ley.result.after.hand).toEqual(ley.after.handIds);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -229,6 +273,7 @@ test("Goblin combat, damage reduction, Vengeance and Machiavélisme resolve as r
   expect(result.audit.state.events.some(event => event.type === "damage-reduced")).toBe(true);
   expect(result.audit.state.events.filter(event => event.type === "goblin-vengeance").length).toBeGreaterThanOrEqual(1);
   expect(result.audit.state.events.some(event => event.type === "goblin-vengeance" && event.repeat)).toBe(true);
+  expect(result.notices.join(" ")).toContain("MACHIAVÉLISME RENFORCE VOS VENGEANCES JUSQU'À LA FIN DU TOUR");
   expect(result.notices.join(" ")).not.toContain("ajoute 2 dÃ©gÃ¢ts Ã  la Vengeance");
   expect(result.enemiesAfterVengeance.some(card => card.pdv < result.enemiesBeforeVengeance.find(before => before.instance === card.instance)?.pdv)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
@@ -245,25 +290,43 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
     const fauxCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000015");
     const fauxInitiative = await triggerInitiative("GOB000015", player1, {sourceInstanceId:fauxCard.dataset.instance, selectedTargetIds:[gobRempart.dataset.instance]});
     const fauxState = {atk:Number(fauxCard.dataset.atk || 0), pdvMax:Number(fauxCard.dataset.pdvMax || 0), rempart:fauxCard.dataset.rempart === "1", granted:fauxCard.dataset.batch10GrantedKeywords || ""};
+    const reductionTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002");
+    batch03UpdateStats(reductionTarget, {pdvMax:8, pdv:8});
+    const reductionBefore = Number(reductionTarget.dataset.pdv || 0);
+    await tryApplyAbilityDamage({sourcePlayer:player1, targetFC:reductionTarget, sourceCardId:"test", amount:3, bypassInsensitive:true});
+    const reductionAfterCopy = Number(reductionTarget.dataset.pdv || 0);
+    const firstReduction = [...collectionBatch10State.events].reverse().find(event => event.type === "damage-reduced");
+    await sendToCemetery(fauxCard, {suppressVengeance:true});
+    const postReleaseTarget = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000016");
+    batch03UpdateStats(postReleaseTarget, {pdvMax:8, pdv:8});
+    const reductionBeforeRelease = Number(postReleaseTarget.dataset.pdv || 0);
+    await tryApplyAbilityDamage({sourcePlayer:player1, targetFC:postReleaseTarget, sourceCardId:"test", amount:3, bypassInsensitive:true});
+    const reductionAfterRelease = Number(postReleaseTarget.dataset.pdv || 0);
+    const secondReduction = [...collectionBatch10State.events].reverse().find(event => event.type === "damage-reduced" && event !== firstReduction);
     const trollRempart = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "TRL000010");
+    if (!trollRempart) throw new Error("missing trollRempart TRL000010");
     const master = await summonBatch03Servant(player1, "GOB000017", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
     const masterCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000017");
+    if (!masterCard) throw new Error("missing master GOB000017");
     const masterInitiative = await triggerInitiative("GOB000017", player1, {sourceInstanceId:masterCard.dataset.instance, selectedTargetIds:[trollRempart.dataset.instance]});
     const stolen = masterCard.dataset.batch10StolenKeywords || "";
     const targetAfterSteal = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "TRL000010");
     const enemyTopBefore = player2.drawPile.slice(-4);
     const clever = await summonBatch03Servant(player1, "GOB000018", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
     const cleverCard = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000018");
+    if (!cleverCard) throw new Error("missing clever GOB000018");
     const cleverInitiative = await triggerInitiative("GOB000018", player1, {sourceInstanceId:cleverCard.dataset.instance, zoneSelection:{selectedIndex:player2.drawPile.length - 4}});
     const enemyBottomAfter = player2.drawPile[0];
-    const target = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002");
+    const target = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002") || livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000013");
     const decoy = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000016");
+    if (!target) throw new Error("missing allied Goblin target for Casse-cou");
+    if (!decoy) throw new Error("missing decoy GOB000016");
     batch03UpdateStats(target, {pdvMax:1, pdv:1});
     const targetBefore = Number(target.dataset.pdv || 0);
     const decoyBefore = Number(decoy.dataset.pdv || 0);
     await tryApplyAbilityDamage({sourcePlayer:player2, targetFC:target, sourceCardId:"H000001", amount:2, bypassInsensitive:true});
     const redirectState = {targetAfter:Number(target.dataset.pdv || 0), decoyAfter:Number(decoy.dataset.pdv || 0), used:decoy.dataset.batch10CasseCouUsedTurn === String(turnSequence)};
-    return {faux, fauxInitiative, fauxState, master, masterInitiative, stolen, targetAfterSteal:targetSummary(targetAfterSteal), enemyTopBefore, clever, cleverInitiative, enemyBottomAfter, targetBefore, decoyBefore, redirectState, audit:auditCollectionBatch10Runtime()};
+    return {faux, fauxInitiative, fauxState, fauxMouleReduction:{reductionBefore, reductionAfterCopy, reductionBeforeRelease, reductionAfterRelease, firstReduction, secondReduction}, master, masterInitiative, stolen, targetAfterSteal:targetSummary(targetAfterSteal), enemyTopBefore, clever, cleverInitiative, enemyBottomAfter, targetBefore, decoyBefore, redirectState, audit:auditCollectionBatch10Runtime()};
   });
   await openScenario(page, "collection-batch-10-special");
   const tyranResult = await page.evaluate(async () => {
@@ -273,17 +336,42 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
     const tyranAfter = {hand:player1.hand.length, deck:player1.drawPile.length, grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length};
     return {tyranSummon, tyranBefore, tyran, tyranAfter, audit:auditCollectionBatch10Runtime()};
   });
+  await openScenario(page, "collection-batch-10-special");
+  const tyranDamage = await page.evaluate(async () => {
+    const tyranSummon = await summonBatch03Servant(player1, "GOB000019", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const tyran = tyranSummon.instanceId ? document.querySelector('.fc[data-instance="' + tyranSummon.instanceId + '"]') : livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000019");
+    const sacrifice = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000002");
+    const enemy = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    batch03UpdateStats(enemy, {pdvMax:8, pdv:8});
+    const before = {enemyPdv:Number(enemy.dataset.pdv || 0), grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length};
+    const result = await resolveBatch10TyranDePoche(player1, "damage", {sourceInstanceId:tyran.dataset.instance, sacrificeInstanceId:sacrifice.dataset.instance, targetInstanceId:enemy.dataset.instance});
+    const after = {enemyPdv:Number(enemy.dataset.pdv || 0), grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length};
+    return {tyranSummon, before, result, after, audit:auditCollectionBatch10Runtime()};
+  });
+  await openScenario(page, "collection-batch-10-special");
+  const tyranRefusal = await page.evaluate(async () => {
+    const tyranSummon = await summonBatch03Servant(player1, "GOB000019", {sourceCardId:"test", triggerInitiativeEffect:false, ready:true});
+    const tyran = tyranSummon.instanceId ? document.querySelector('.fc[data-instance="' + tyranSummon.instanceId + '"]') : livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "GOB000019");
+    const before = {grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length, hand:player1.hand.length, deck:player1.drawPile.length};
+    const result = await resolveBatch10TyranDePoche(player1, "draw", {sourceInstanceId:tyran.dataset.instance, sacrificeInstanceId:tyran.dataset.instance});
+    const after = {grave:player1.graveyard.length, servants:livingServantCardsForPlayer(player1).length, hand:player1.hand.length, deck:player1.drawPile.length};
+    return {tyranSummon, before, result, after, audit:auditCollectionBatch10Runtime()};
+  });
   expect(result.faux.success).toBe(true);
   expect(result.fauxInitiative.success).toBe(true);
   expect(result.fauxState.atk).toBeGreaterThanOrEqual(1);
   expect(result.fauxState.rempart).toBe(true);
   expect(result.fauxState.granted).toContain("Rempart");
+  expect(result.fauxMouleReduction.reductionAfterCopy).toBe(result.fauxMouleReduction.reductionBefore - 1);
+  expect(result.fauxMouleReduction.firstReduction.reduction).toBe(2);
+  expect(result.fauxMouleReduction.reductionAfterRelease).toBe(result.fauxMouleReduction.reductionBeforeRelease - 2);
+  expect(result.fauxMouleReduction.secondReduction.reduction).toBe(1);
   expect(result.master.success).toBe(true);
   expect(result.masterInitiative.success).toBe(true);
   expect(result.stolen).toContain("Rempart");
   expect(result.targetAfterSteal.rempart).not.toBe(true);
   expect(result.audit.players[1].servants.find(card => card.id === "TRL000010").suppressed).toContain("Rempart");
-  expect(result.audit.players[0].servants.find(card => card.id === "GOB000015").copiedFrom).toBeTruthy();
+  expect(result.audit.state.events.some(event => event.type === "linked-effects-released" && event.released?.some(item => item.type === "faux-jumeau"))).toBe(true);
   expect(result.clever.success).toBe(true);
   expect(result.cleverInitiative.success).toBe(true);
   expect(result.enemyBottomAfter).toBe(result.enemyTopBefore[0]);
@@ -295,6 +383,13 @@ test("Faux jumeau, Maître de l'indiscrétion, Petit futé, Tyran and Casse-cou 
   expect(tyranResult.tyranAfter.hand).toBe(tyranResult.tyranBefore.hand + 2);
   expect(tyranResult.tyranAfter.deck).toBe(tyranResult.tyranBefore.deck - 2);
   expect(tyranResult.tyranAfter.grave).toBe(tyranResult.tyranBefore.grave + 1);
+  expect(tyranDamage.result.success).toBe(true);
+  expect(tyranDamage.after.enemyPdv).toBe(tyranDamage.before.enemyPdv - 5);
+  expect(tyranDamage.after.grave).toBe(tyranDamage.before.grave + 1);
+  expect(tyranDamage.audit.state.events.some(event => event.type === "feedback-before-effect" && event.reason === "tyran-sacrifice")).toBe(true);
+  expect(tyranRefusal.result.success).toBe(false);
+  expect(tyranRefusal.result.reason).toBe("self-sacrifice-forbidden");
+  expect(tyranRefusal.after).toEqual(tyranRefusal.before);
   expect(result.audit.state.events.some(event => event.type === "faux-jumeau-copy")).toBe(true);
   expect(result.audit.state.events.some(event => event.type === "indiscretion-keywords")).toBe(true);
   expect(result.audit.state.events.some(event => event.type === "petit-fute-deck-order")).toBe(true);
