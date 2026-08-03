@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-10.xlsx",
-  "sourceSha256": "d874b8d2f6260765aa241dab396cc35d1d42fd8d5a95bd0b3d3c6eb173e1b62f",
+  "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-10.xlsx + correction ciblée 2026-07-30",
+  "sourceSha256": "d874b8d2f6260765aa241dab396cc35d1d42fd8d5a95bd0b3d3c6eb173e1b62f + 590dbdf654ac775f566925a651abe77f259708038ffd409dd101243c6952d36c",
   "sourceSheet": "Cartes et description",
   "deckSourceFile": "Decks de test - export 2026-07-03.xlsx",
   "deckSourceSha256": "90811b81fc240b2ea50140f7385612f927f970671e958c02459de44ebe573da7",
   "deckSourceSheet": "Hokhan Ashir Vs Uram",
   "exportDate": "2026-07-10",
-  "cardCount": 328,
-  "uniqueIdCount": 328,
+  "cardCount": 331,
+  "uniqueIdCount": 331,
   "cards": [
     {
       "id": "AVS000001",
@@ -3185,13 +3185,14 @@
         }
       ],
       "playCondition": "",
-      "displayText": "[Rempart] Chaque fois qu'il attaque et blesse un serviteur adverse, propage une maladie qui inflige 1 point de dégât par tour au serviteur infecté, jusqu'à ce que celui-ci soit envoyé au cimetière ou qu'il récupère des points de vie. Cet effet est cumulable. [Vengeance] Double le montant de dégâts infligé par la maladie aux serviteurs adverses infectés.",
-      "detailedEffect": "[Rempart] Chaque fois qu'il attaque et blesse un serviteur adverse, propage une maladie qui inflige 1 point de dégât par tour au serviteur infecté, jusqu'à ce que celui-ci soit envoyé au cimetière ou qu'il récupère des points de vie. Cet effet est cumulable. [Vengeance] Double le montant de dégâts infligé par la maladie aux serviteurs adverses infectés.",
+      "displayText": "[Rempart] Chaque fois que le « Héraut ténébreux » inflige des dégâts à un serviteur adverse, infecte également ledit serviteur avec [Pestilence]. [Vengeance] Double le montant de dégâts infligés par [Pestilence] à tous les serviteurs adverses déjà malades.",
+      "detailedEffect": "[Rempart] Chaque fois que le « Héraut ténébreux » inflige des dégâts à un serviteur adverse, infecte également ledit serviteur avec [Pestilence]. [Vengeance] Double le montant de dégâts infligés par [Pestilence] à tous les serviteurs adverses déjà malades.",
       "keywords": [
         "Aria",
         "Sélène",
         "Rempart",
-        "Vengeance"
+        "Vengeance",
+        "Pestilence"
       ],
       "related": [],
       "maxOwned": 2,
@@ -11330,8 +11331,8 @@
         }
       ],
       "playCondition": "Vous devez contrôler au moins 1 serviteur troll. Votre adversaire doit avoir au moins 1 serviteur de son côté du terrain.",
-      "displayText": "Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 4 points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",
-      "detailedEffect": "Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 4 points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",
+      "displayText": "Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 1 à 4 PDV. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",
+      "detailedEffect": "Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 1 à 4 PDV. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",
       "keywords": [
         "Nourriture",
         "Pierre"
@@ -11880,6 +11881,150 @@
       "catalogKind": "CARD",
       "obtainability": "GENERATED_ONLY",
       "obtainabilityReason": "Carte ajoutée au deck par H000035 — Gabar, l'apprenti magicien prodige."
+    },
+    {
+      "id": "S000061",
+      "name": "Bouclier de glace",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 1,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Aria",
+          "key": "aria",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Choisissez 1 serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des <3> prochaines attaques portées contre ce serviteur sont réduits de 2. Inflige également [Gel] pendant 1 tour aux attaquants. ».",
+      "detailedEffect": "Choisissez 1 serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des <3> prochaines attaques portées contre ce serviteur sont réduits de 2. Inflige également [Gel] pendant 1 tour aux attaquants. ».",
+      "keywords": [
+        "Gel",
+        "Lenya",
+        "Aria"
+      ],
+      "related": [],
+      "maxOwned": 3,
+      "generatedOnly": false,
+      "sourceRow": 311,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "S000062",
+      "name": "Déferlante de flammes",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 3,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Aria",
+          "key": "aria",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Sélène",
+          "key": "selene",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Écho",
+          "key": "soul",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Choisissez 1 serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",
+      "detailedEffect": "Choisissez 1 serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",
+      "keywords": [
+        "Lenya",
+        "Aria",
+        "Sélène",
+        "Écho",
+        "Embrasement"
+      ],
+      "related": [],
+      "maxOwned": 3,
+      "generatedOnly": false,
+      "sourceRow": 312,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "S000063",
+      "name": "Choc mental",
+      "type": "Sort",
+      "faction": "/",
+      "attack": null,
+      "health": null,
+      "costTotal": 2,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Aria",
+          "key": "aria",
+          "amount": 1,
+          "explicit": false
+        },
+        {
+          "op": "ou",
+          "resource": "Sélène",
+          "key": "selene",
+          "amount": 1,
+          "explicit": false
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Choisissez 1 serviteur adverse et infligez-lui 2 à 6 points de dégâts. Passe outre [Insensible].",
+      "detailedEffect": "Choisissez 1 serviteur adverse et infligez-lui 2 à 6 points de dégâts. Passe outre [Insensible].",
+      "keywords": [
+        "Lenya",
+        "Aria",
+        "Sélène",
+        "Insensible"
+      ],
+      "related": [],
+      "maxOwned": 3,
+      "generatedOnly": false,
+      "sourceRow": 313,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
     },
     {
       "id": "TRL000001",

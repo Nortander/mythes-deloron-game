@@ -176,6 +176,7 @@ Règles :
 - ne pas utiliser les textes français comme logique runtime ;
 - ne pas réécrire, paraphraser ou renommer les textes visibles des cartes sans instruction explicite : les noms et descriptions runtime doivent rester alignés sur l’export canonique actif ;
 - dans les lots Collection, toute donnée numérique écrite en chiffres dans la description principale, les lignes dynamiques ou les infobulles d’une carte touchée doit être rendue avec la mise en valeur mécanique appropriée à sa faction ou à son type ; ne pas attendre un rappel carte par carte pour les valeurs comme `1`, `2`, `3`, `4`, `5`, `10`, `25%`, `50%`, `+1 ATK`, `+1 PDV`, `+2 ATK`, `+3` ou `+5 ATK` ;
+- dans la Collection, un mot-clef suivi de deux-points doit garder une espace insécable avant `:` ; exemple attendu : `Mot-clef : texte`, jamais `Mot-clef: texte` ;
 - ne pas insérer d’IDs techniques dans les textes publics ;
 - réserver les IDs, `effectInstanceId`, `linkedOccurrenceId` et diagnostics détaillés au panneau de test ou aux logs techniques.
 
@@ -373,6 +374,13 @@ TOUTES / POSSÉDÉES / MANQUANTES / NON OBTENABLES
 Note : `S000008 — Clef de pierre` doit être corrigée dans un futur lot `COLLECTION-DATAFIX-1` pour devenir non obtenable, après correction du Spreadsheet principal.
 
 Ne pas appliquer cette correction dans un lot process ou documentaire.
+
+Règles de rendu Collection :
+
+- tous les Sorts doivent utiliser la palette visuelle du type `Sort`, quelle que soit leur faction imprimée ;
+- la faction imprimée d'un Sort reste visible par son icône de faction, mais ne doit pas recolorer le corps de carte, les chiffres de description ni les infobulles ;
+- les cartes Serviteur, Avatar et Approvisionnement conservent leurs chartes propres ;
+- ne pas corriger une carte Collection en paraphrasant son nom ou sa description : si l'export actif, le runtime validé et les retours Daddy divergent, documenter l'écart et ne trancher que la partie explicitement validée.
 
 ## 17. Publication
 

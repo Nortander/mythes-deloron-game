@@ -110,6 +110,23 @@ Les cartes `H000032` et `S000055` sont obtenables. Les huit autres maillons de l
 
 Le corpus passe à 328 cartes canoniques, dont 310 obtenables et 18 non obtenables. Les 14 avatars historiques restent hors corpus.
 
+## COLLECTION-SYNC-02 - correction ciblée Collection / runtime / export
+
+L'audit `COLLECTION-SYNC-01` a confirmé que la Collection devait recevoir trois sorts présents dans l'export principal du 30 juillet 2026 : `S000061` - Bouclier de glace, `S000062` - Déferlante de flammes et `S000063` - Choc mental.
+
+La correction ciblée porte le corpus suivi à 331 cartes canoniques, dont 313 obtenables et 18 non obtenables. `TRL000020` - Ump est corrigé en 9/9. `AV000006` reste l'avatar Collection de Gor le Changeforme ; `AVS000006` reste la carte pseudo-serviteur, et `AVP000006` reste uniquement l'illustration portrait de partie. `B000018`, présent dans l'export du 30 juillet mais hors périmètre validé de cette synchronisation, est documenté comme reporté.
+
+Cette synchronisation ne modifie ni `code/partie-test-1.html`, ni les decks Hokhan/Uram, ni les mains initiales, ni les marqueurs OUI/MAYBE, ni les assets.
+
+Corrections de reprise `COLLECTION-SYNC-02B` :
+
+- tous les Sorts de la Collection utilisent la palette visuelle `Sort`, même lorsqu'ils portent une faction imprimée comme Troll ou Gobelin ; l'icône de faction reste affichée ;
+- `S000046` - Ça passe ou ça casse affiche maintenant le soin validé `1 à 4 PDV` au lieu d'un soin fixe à 4 points de vie ;
+- `EN000005` répercute le mot-clef `[Pestilence]` et son infobulle générique validée ;
+- `GOB000003` répercute `[Colère divine]` sans durée parasite dans le texte de carte, avec une infobulle générique complète ;
+- les valeurs numériques des descriptions, conditions et infobulles des cartes touchées sont rendues comme valeurs mécaniques ;
+- les mots-clefs suivis de deux-points passent par une espace insécable.
+
 ## COLLECTION-BATCH-02 - Gabar et Triangle des ténèbres
 
 Les dix cartes importées le 10 juillet disposent désormais d'un comportement runtime et d'un test fonctionnel direct. La chaîne `H000032` à `H000036` crée puis résout automatiquement `S000057` à `S000060`, retire la forme précédente de la partie et invoque la forme suivante si un emplacement est libre.

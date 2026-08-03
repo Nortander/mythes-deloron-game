@@ -219,7 +219,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .gob-card .ccard-name-b{background:linear-gradient(180deg,#201402,#160e02 50%,#201402);}
 .gob-card .ccard-desc-inner{background:linear-gradient(155deg,#2e2208,#1a1402);}
 .gob-card .ccard-desc-inner p{color:#d4b060;}
-.gob-card .ccard-desc-inner p em{color:#b89030;}
+.gob-card .ccard-desc-inner p em{color:#ffd23f;}
 .gob-card .ccard-cost-z{background:linear-gradient(180deg,#201402,#160e02);}
 
 .div-card .ccard-inner{background:linear-gradient(170deg,#1e1e22,#0a0a0e);}
@@ -425,8 +425,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .m-gob .modal-desc-inner{background:linear-gradient(155deg,#2e2208,#1a1402);}
 .m-gob .modal-desc-inner p{color:#d4b060;}
 .m-gob .modal-cost-z{background:linear-gradient(180deg,#201402,#160e02);}
-.m-gob .modal-cond-text{color:#b89030;}
-.m-gob .modal-kw-name{color:#b89030;}
+.m-gob .modal-cond-text{color:#e6b93f;}
+.m-gob .modal-kw-name{color:#e6b93f;}
 
 .m-div .modal-inner{background:linear-gradient(170deg,#1e1e22,#0a0a0e);}
 .m-div{--card-dark:#141418;--card-border:#6a1020;}
@@ -478,7 +478,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .m-nain .modal-desc-inner p strong.kv{color:#2a3448;}
 .m-trl .modal-desc-inner p strong.kv{color:#e0a840;}
 .m-bet .modal-desc-inner p strong.kv{color:#c89040;}
-.m-gob .modal-desc-inner p strong.kv{color:#b89030;}
+.m-gob .modal-desc-inner p strong.kv{color:#ffd23f;}
 .m-div .modal-desc-inner p strong.kv{color:#e06080;}
 .m-sort .modal-desc-inner p strong.kv{color:#5a1a8a;}
 .m-appro .modal-desc-inner p strong.kv{color:#8a6820;}
@@ -706,10 +706,10 @@ const CARDS=[
   {id:'EN000002',name:`Assassin nocturne`,type:'Serviteur',faction:'Elfe noir',atk:3,pdv:1,cost:1,kw:['Vengeance','Fer'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000002.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`<em>Vengeance</em> Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu'aux deux serviteurs adjacents à celui-ci.`,detail:`<em>Vengeance</em> Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu'aux deux serviteurs adjacents à celui-ci. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents. Cette capacité passe outre le mot-clef <em>Insensible</em>.`,owned:false,qty:0,maxOwned:6,resType:'Fer',res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000FER.png`,n:1}]},
   {id:'EN000003',name:`Nécromancien`,type:'Serviteur',faction:'Elfe noir',atk:1,pdv:4,cost:3,kw:[],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000003.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`À la fin de chacun de vos tours, invoque un <span class="nw">« Serviteur osseux »</span> de votre côté du terrain.`,owned:false,qty:0,maxOwned:4,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:3}],related:['MV000007']},
   {id:'EN000004',name:`Avatar de destruction`,type:'Serviteur',faction:'Elfe noir',atk:7,pdv:4,cost:5,kw:['Aria','Initiative'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000004.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`<em>Initiative</em> Détruit <strong class="kv">1</strong> carte aléatoire de la main de votre adversaire. À la fin de chacun de vos tours, inflige le montant de son attaque à <strong class="kv">1</strong> serviteur adverse aléatoire.`,owned:false,qty:0,maxOwned:2,resType:'Aria',res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:5}]},
-  {id:'EN000005',name:`Héraut ténébreux`,type:'Serviteur',faction:'Elfe noir',atk:5,pdv:6,cost:7,kw:['Rempart','Vengeance'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000005.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`<em>Rempart</em> Chaque fois qu'il attaque et blesse un serviteur adverse, propage une maladie qui inflige <strong class="kv">1</strong> point de dégât par tour au serviteur infecté, jusqu'à ce que celui-ci soit envoyé au cimetière ou qu'il récupère des points de vie. Cet effet est cumulable. <em>Vengeance</em> : Double le montant de dégâts infligé par la maladie aux serviteurs adverses infectés.`,owned:false,qty:0,maxOwned:2,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:4},{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000SLN.png`,n:1}],rs:'≥ 7'},
+  {id:'EN000005',name:`Héraut ténébreux`,type:'Serviteur',faction:'Elfe noir',atk:5,pdv:6,cost:7,kw:['Aria','Sélène','Rempart','Vengeance','Pestilence'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000005.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`[Rempart] Chaque fois que le « Héraut ténébreux » inflige des dégâts à un serviteur adverse, infecte également ledit serviteur avec [Pestilence]. [Vengeance] Double le montant de dégâts infligés par [Pestilence] à tous les serviteurs adverses déjà malades.`,owned:false,qty:0,maxOwned:2,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:4},{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000SLN.png`,n:1}],rs:'≥ 7'},
   {id:'GOB000001',name:`Mageobelin lance-cailloux`,type:'Serviteur',faction:'Gobelin',atk:4,pdv:1,cost:2,kw:['Lenya'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/gobelins/GOB000001.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à <strong class="kv">1</strong> serviteur adverse aléatoire.`,owned:true,qty:2,qty:2,maxOwned:6,resType:'Lenya',res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:2}]},
   {id:'GOB000002',name:`Surineur`,type:'Serviteur',faction:'Gobelin',atk:3,pdv:1,cost:1,kw:[],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/gobelins/GOB000002.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`<i>Petits, véloces et bigrement agiles, les gobelins constituent une réelle menace quand ils combattent à deux dagues.</i>`,owned:true,qty:2,qty:2,maxOwned:6,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}]},
-  {id:'GOB000003',name:`Gobelin d'exception`,type:'Serviteur',faction:'Gobelin',atk:3,pdv:7,cost:5,kw:['Colère divine'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/gobelins/GOB000003.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`Les dégâts de ce serviteur sont triplés contre les morts-vivants. Chaque attaque contre un serviteur mort-vivant applique également <em>Colère divine</em> à ce dernier pendant <strong class="kv">2</strong> tours.`,detail:`Les dégâts de ce serviteur sont triplés contre les morts-vivants. Chaque attaque contre un serviteur mort-vivant applique également <em>Colère divine</em> à ce dernier.`,owned:false,qty:0,maxOwned:1,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000RDM.png`,n:5}]},
+  {id:'GOB000003',name:`Gobelin d'exception`,type:'Serviteur',faction:'Gobelin',atk:3,pdv:7,cost:5,kw:['Colère divine'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/gobelins/GOB000003.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`Les dégâts de ce serviteur sont triplés contre les morts-vivants. Chaque attaque contre un serviteur mort-vivant applique également [Colère divine] à ce dernier.`,detail:`Les dégâts de ce serviteur sont triplés contre les morts-vivants. Chaque attaque contre un serviteur mort-vivant applique également <em>Colère divine</em> à ce dernier.`,owned:false,qty:0,maxOwned:1,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000RDM.png`,n:5}]},
   {id:'GOB000004',name:`Globeminator`,type:'Serviteur',faction:'Gobelin',atk:8,pdv:8,cost:6,kw:['Nourriture'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/gobelins/GOB000004.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`<i>Sa maman lui a fait manger de la soupe d'os depuis qu'il est tout petit. Elle disait que cela le rendrait grand et fort, mais le résultat a dépassé toutes ses éspérances.</i>`,owned:false,qty:0,maxOwned:2,resType:'Nourriture',res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:6}]},
   {id:'H000001',name:`Larron`,type:'Serviteur',faction:'Humain',atk:1,pdv:1,cost:1,kw:[],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/humains/H000001.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png`,desc:`<i>La guerre conduit de nombreuses familles à la ruine. Beaucoup endurent stoïquement, rêvant d'un retour aux jours heureux. D'autres empruntent une voie plus sombre…</i>`,owned:true,qty:3,qty:3,maxOwned:6,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000RDM.png`,n:1}]},
   {id:'H000002',name:`Mage ermite`,type:'Serviteur',faction:'Humain',atk:6,pdv:2,cost:3,kw:['Initiative'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/humains/H000002.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png`,desc:`<em>Initiative</em> : Renvoie un serviteur adverse présent sur le terrain dans la main de son propriétaire. Ce dernier ne peut la jouer à nouveau pendant son prochain tour.`,owned:true,qty:2,qty:2,maxOwned:4,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:3}]},
@@ -930,7 +930,7 @@ const CARDS=[
   {id:'S000043',name:`Prendre le taureau par les cornes`,type:'Sort',faction:'Bête',atk:null,pdv:null,cost:6,kw:['Nourriture'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000043.png`,fico:null,desc:`Piochez immédiatement tous les serviteurs de type « Minotaure » restant dans votre deck.`,detail:`Piochez immédiatement tous les serviteurs de type « Minotaure » [ID = B0<strong class="kv">00015</strong>, B0<strong class="kv">00016 </strong>et B0<strong class="kv">00017</strong>] restant dans votre deck.`,useDetail:true,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:6}],owned:false,qty:0,maxOwned:1,related:['B000015','B000016','B000017']},
   {id:'S000044',name:`Recyclage`,type:'Sort',faction:'Mort-vivant',atk:null,pdv:null,cost:6,kw:['Aria'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000044.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png`,desc:`Jusqu'à la fin de votre tour, piochez <strong class="kv">1 </strong>carte de votre deck et renvoyez <strong class="kv">1 </strong>carte de votre cimetière dans votre deck chaque fois que vous invoquez <strong class="kv">1 </strong>serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:6}],owned:false,qty:0,maxOwned:2},
   {id:'S000045',name:`Jardins botaniques`,type:'Sort',faction:'Elfe des bois',atk:null,pdv:null,cost:6,kw:['Aria','Lenya','Nourriture','Bois'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000045.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDB.png`,desc:`Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en deux piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à la pile correspondante. Ajoute <strong class="kv">1 </strong>carte « Herboristerie » et <strong class="kv">2 </strong>cartes « Buissons à baies » à votre main.`,detail:`Toutes vos cartes « Herboristerie » [ID = R0<strong class="kv">00004</strong>] et « Buissons à baies » [ID = R0<strong class="kv">00003</strong>] actuellement sur le terrain fusionnent en deux piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à la pile correspondante. Ajoute <strong class="kv">1 </strong>carte « Herboristerie » et <strong class="kv">2 </strong>cartes « Buissons à baies » à votre main.`,useDetail:true,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:1}],rs:`+`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs2:`+`,res3:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs3:`+`,res4:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000BOI.png`,n:3}],owned:false,qty:0,maxOwned:1,related:['R000004','R000003']},
-  {id:'S000046',name:`Ça passe ou ça casse`,type:'Sort',faction:'Troll',atk:null,pdv:null,cost:4,kw:['Nourriture','Pierre'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000046.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`Choisissez <strong class="kv">1 </strong>serviteur troll allié : il attaque immédiatement <strong class="kv">1 </strong>serviteur adverse aléatoire. S'il survit, il récupère <strong class="kv">4 </strong>points de vie. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.`,cond:`Vous devez contrôler au moins <strong class="kv">1 </strong>serviteur troll. Votre adversaire doit avoir au moins <strong class="kv">1 </strong>serviteur de son côté du terrain.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs:`ou`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000PIE.png`,n:1}],owned:false,qty:0,maxOwned:2},
+  {id:'S000046',name:`Ça passe ou ça casse`,type:'Sort',faction:'Troll',atk:null,pdv:null,cost:4,kw:['Nourriture','Pierre'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000046.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 1 à 4 PDV. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.`,cond:`Vous devez contrôler au moins <strong class="kv">1 </strong>serviteur troll. Votre adversaire doit avoir au moins <strong class="kv">1 </strong>serviteur de son côté du terrain.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs:`ou`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000PIE.png`,n:1}],owned:false,qty:0,maxOwned:2},
   {id:'S000047',name:`Volée de gobelins`,type:'Sort',faction:'Gobelin',atk:null,pdv:null,cost:5,kw:['Nourriture'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000047.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`Invoque jusqu'à <strong class="kv">3 </strong>« Surineurs » de votre côté du terrain.`,detail:`Invoque jusqu'à <strong class="kv">3 </strong>« Surineurs » [ID = GOB0<strong class="kv">00002</strong>] de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck.`,useDetail:true,cond:`Un ou plusieurs emplacements de serviteur doivent être libres de votre côté du terrain.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:5}],owned:false,qty:0,maxOwned:2,related:['GOB000002']},
   {id:'S000048',name:`Grande horde`,type:'Sort',faction:'/',atk:null,pdv:null,cost:6,kw:['Lenya','Nourriture','Fer','Aria'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000048.png`,fico:null,desc:`Jusqu'à la fin de la partie, vos serviteurs orcs gagnent <strong class="kv">+1</strong> ATK et vos serviteurs trolls et gobelins gagnent <strong class="kv">+1</strong> PDV. Si votre deck contient également au moins <strong class="kv">1 </strong>serviteur humain, piochez <strong class="kv">2 </strong>cartes.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs:`+`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs2:`+`,res3:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000FER.png`,n:1}],rs3:`+`,res4:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:1}],owned:false,qty:0,maxOwned:2},
   {id:'S000049',name:`Machiavélisme`,type:'Sort',faction:'Gobelin',atk:null,pdv:null,cost:3,kw:['Lenya','Nourriture','Vengeance'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000049.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`Jusqu'à la fin de votre tour, chaque capacité <em>Vengeance</em> déclenchée par un serviteur allié inflige <strong class="kv">2 </strong>points de dégâts supplémentaires à <strong class="kv">1 </strong>serviteur adverse aléatoire. Les capacités <em>Vengeance</em> de vos serviteurs gobelins se déclenchent une seconde fois ce tour.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs:`ou`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],owned:false,qty:0,maxOwned:3},
@@ -957,7 +957,7 @@ const CARDS=[
   {id:`EDB000014`,name:`Dryade de l'Arbre de vie`,type:`Serviteur`,faction:`Elfe des bois`,atk:2,pdv:12,cost:8,kw:["Insensible", "Initiative", "Lenya", "Bois", "Embrasement", "Gel", "Coup de glace", "Hypnose"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-des-bois/EDB000014.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDB.png`,desc:`<em>Insensible</em> <em>Initiative</em> Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs. Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à <strong class="kv">4 </strong>« Pixies » et <strong class="kv">1 </strong>« Père des arbres ». Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de <strong class="kv">+2</strong>. De plus, ces mêmes serviteurs sont soignés de <strong class="kv">1 </strong>point de vie à chaque fin de tour.`,detail:`<em>Insensible</em> <em>Initiative</em> Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit, <em>Embrasement</em>, <em>Gel</em>, <em>Coup de glace</em> et <em>Hypnose</em>). Si vous n'avez pas d'autrre serviteur de votre côté du terrain, invoque pour vous jusqu'à <strong class="kv">4 </strong>« Pixies » [ID = EDB000012] et <strong class="kv">1 </strong>« Père des arbres » [ID = EDB000009]. Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de <strong class="kv">+2</strong>. De plus, ces mêmes serviteurs sont soignés de <strong class="kv">1 </strong>point de vie à chaque fin de tour.`,useDetail:true,cond:`Votre deck de départ doit comporter au moins <strong class="kv">15 </strong>serviteurs de la faction « Elfe des bois ».`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs:`+`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000BOI.png`,n:1}],owned:false,qty:0,maxOwned:1,related:['EDB000012','EDB000009']},
   {id:`EN000012`,name:`Shar Arduin`,type:`Serviteur`,faction:`Elfe noir`,atk:6,pdv:6,cost:8,kw:["Serviteur de la rune", "Insensible", "Vengeance"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/elfes-noirs/EN000012.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDN.png`,desc:`<em>Serviteur de la rune</em> <em>Insensible</em> Chaque fois que « Shar Arduin » survit à des dégâts, il se soigne de <strong class="kv">4 </strong> points de vie et inflige en prime <strong class="kv">1 </strong> point de dommage à tous les serviteurs adverses sur le terrain. Cet effet ne peut se produire qu'une fois par tour. <em>Vengeance</em> Piochez <strong class="kv">1 </strong> serviteur de la faction « Elfe noir » de votre deck.`,owned:false,qty:0,maxOwned:1},
   {id:`N000014`,name:`Glamrig`,type:`Serviteur`,faction:`Nain`,atk:9,pdv:10,cost:9,kw:["Sang-froid", "Serviteur de la rune", "Rempart"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/nains/N000014.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000NAI.png`,desc:`<em>Serviteur de la rune</em> <em>Rempart</em> <em>Sang-froid</em> Chaque fois qu'il attaque, « Glamrig » inflige également <strong class="kv">2 </strong> points de dégâts aux serviteurs adjacents. Un emplacement vide entre deux serviteurs interrompt l'adjacence. À la fin de chacun de vos tours que « Glamrig » passe sur le terrain, réduit le coût d'un serviteur nain aléatoire de votre main de <strong class="kv">2 </strong>.`,owned:false,qty:0,maxOwned:1},
-  {id:`TRL000020`,name:`Ump`,type:`Serviteur`,faction:`Troll`,atk:12,pdv:12,cost:11,kw:["Serviteur de la rune", "Sang-froid", "Rempart"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/trolls/TRL000020.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`<em>Serviteur de la rune</em> <em>Sang-froid</em> <em>Rempart</em> Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de <strong class="kv">1 </strong> à <strong class="kv">4 </strong> PDV inclus.`,owned:false,qty:0,maxOwned:1},
+  {id:`TRL000020`,name:`Ump`,type:`Serviteur`,faction:`Troll`,atk:9,pdv:9,cost:11,kw:["Serviteur de la rune", "Sang-froid", "Rempart", "Sang ardent"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/trolls/TRL000020.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`<em>Serviteur de la rune</em> <em>Sang-froid</em> <em>Rempart</em> Chaque fois qu' « Ump » détruit un serviteur adverse, il se soigne d'un montant aléatoire de points de vie, de <strong class="kv">1 </strong> à <strong class="kv">4 </strong> PDV inclus.`,owned:false,qty:0,maxOwned:1},
   {id:`DIV000016`,name:`Xyallah`,type:`Serviteur`,faction:`Non-affiliés`,atk:5,pdv:7,cost:7,kw:["Serviteur de la rune", "Insensible", "Initiative"],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/autres/DIV000016.png`,fico:null,desc:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » de votre côté du terrain.`,owned:false,qty:0,maxOwned:1,detail:`<em>Serviteur de la rune</em> <em>Insensible</em> <em>Initiative</em> Ajoute <strong class="kv">1 </strong> exemplaire du sort « Pétrification » [ID = S000021] à votre main. À chacune de vos fins de tours, « Xyallah » accumule une marque, tant qu'elle reste sur le terrain. Quand « Xyallah » cumule trois marques, réinitialise ce montant et invoque <strong class="kv">1 </strong> « Golem de roche » [ID = DIV000008] de votre côté du terrain. Les marques sont perdues si « Xyallah » quitte le terrain.`,useDetail:true},
   {"id":"H000032","name":"Gabar, l'apprenti magicien maladroit","type":"Serviteur","faction":"Humain","atk":1,"pdv":2,"cost":1,"kw":["Aria","Lenya","Nourriture","Initiative"],"img":"../assets/humains/H000032.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.","owned":false,"qty":0,"maxOwned":1,"detail":"[Initiative] Ajoute le sort « Aube de soie de lumière » [ID = S000057] à votre deck. Inflige 1 point de dégât à tous les serviteurs sur le plateau, alliés comme ennemis.","useDetail":true,"related":["S000057"],"res":[{"i":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png","n":1}],"rs":"ou","res2":[{"i":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png","n":1}],"rs2":"ou","res3":[{"i":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png","n":1}]},
   {"id":"H000033","name":"Gabar, l'apprenti magicien timoré","type":"Serviteur","faction":"Humain","atk":2,"pdv":4,"cost":0,"kw":["Initiative"],"img":"../assets/humains/H000033.png","fico":"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000HUM.png","desc":"[Initiative] Ajoute le sort « Grimoire du maître » à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.","owned":false,"qty":0,"maxOwned":0,"detail":"[Initiative] Ajoute le sort « Grimoire du maître » [ID = S000058] à votre deck. Inflige 0 à 4 points de dégâts à 0 à 4 serviteurs adverses aléatoires. Si aucun serviteur n'est présent sur le terrain adverse, inflige à la place 0 à 4 points de dégâts à l'avatar ennemi.","useDetail":true,"related":["S000058"],"cond":"Joué gratuitement dès qu'il est pioché (sauf si votre terrain est déjà plein) et déclenche son [Initiative]. Ne peut être invoqué que par le sort « Aube de soie de lumière »."},
@@ -969,6 +969,9 @@ const CARDS=[
   {"id":"S000058","name":"Grimoire du maître","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000058.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien dévoué » [ID = H000034] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » [ID = H000033] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000034","H000033"],"cond":"Joué dès qu'il est pioché."},
   {"id":"S000059","name":"Plume enchantée","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000059.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien prodige » [ID = H000035] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » [ID = H000034] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000035","H000034"],"cond":"Joué dès qu'il est pioché."},
   {"id":"S000060","name":"Craie d'invocation","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000060.png","fico":null,"desc":"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, maître-magicien » [ID = H000036] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » [ID = H000035] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000036","H000035"],"cond":"Joué dès qu'il est pioché."},
+  {id:"S000061",name:"Bouclier de glace",type:"Sort",faction:"/",atk:null,pdv:null,cost:1,kw:["Gel","Lenya","Aria"],img:"../assets/sorts/S000061.png",fico:null,desc:"Choisissez 1 serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des <3> prochaines attaques portées contre ce serviteur sont réduits de 2. Inflige également [Gel] pendant 1 tour aux attaquants. ».",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],owned:false,qty:0},
+  {id:"S000062",name:"Déferlante de flammes",type:"Sort",faction:"/",atk:null,pdv:null,cost:3,kw:["Lenya","Aria","Sélène","Écho","Embrasement"],img:"../assets/sorts/S000062.png",fico:null,desc:"Choisissez 1 serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],rs2:"ou",res3:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000SLN.png",n:1}],rs3:"ou",res4:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000AME.png",n:1}],owned:false,qty:0},
+  {id:"S000063",name:"Choc mental",type:"Sort",faction:"/",atk:null,pdv:null,cost:2,kw:["Lenya","Aria","Sélène","Insensible"],img:"../assets/sorts/S000063.png",fico:null,desc:"Choisissez 1 serviteur adverse et infligez-lui 2 à 6 points de dégâts. Passe outre [Insensible].",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],rs2:"ou",res3:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000SLN.png",n:1}],owned:false,qty:0},
 ];
 
 
@@ -1360,7 +1363,10 @@ const COLLECTION_IMPORT_20260710_COST_DEFINITIONS = Object.freeze({
   "S000060": {
     "total": 0,
     "groups": []
-  }
+  },
+  "S000061": {"total":1,"groups":[{"op":null,"resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"aria","amount":1,"explicit":false}]}]},
+  "S000062": {"total":3,"groups":[{"op":null,"resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"aria","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"selene","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"soul","amount":1,"explicit":false}]}]},
+  "S000063": {"total":2,"groups":[{"op":null,"resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"aria","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"selene","amount":1,"explicit":false}]}]}
 });
 function collectionCostDefinition(cardId) {
   return COLLECTION_IMPORT_20260710_COST_DEFINITIONS[cardId] || COLLECTION_INDUS_1_COLLECTION_COST_DEFINITIONS[cardId] || HUVU_SYNC_1_COLLECTION_COST_DEFINITIONS[cardId] || COLLECTION_COST_DEFINITIONS[cardId] || null;
@@ -1369,7 +1375,7 @@ function collectionCostDefinition(cardId) {
 const KEYWORD_DEFS={
   'Approvisionnement':`L\'un des trois types de cartes. Les cartes d\'approvisionnement fournissent des ressources nécessaires à l\'invocation de la plupart des cartes. Chaque joueur peut en avoir jusqu\'à 6 sur son plateau.`,
   'Camouflage':`Un serviteur avec ce mot-clef ne peut pas être attaqué ou ciblé par un sort jusqu\'à ce qu\'il attaque. Les capacités spéciales ne mettent pas fin au Camouflage.`,
-  'Colère divine':`Un serviteur mort-vivant affecté subit des dégâts croissants pendant trois tours : d\'abord 2, puis 3, puis 4 points de dégâts.`,
+  'Colère divine':`Un serviteur mort-vivant affecté par Colère divine subit des dégâts croissants pendant trois tours : d\'abord 2, puis 3, puis 4 points de dégâts. Les dégâts sont subis au début du tour du propriétaire du mort-vivant affecté. Ne peut pas affecter les avatars.`,
   'Coup de glace':`Empêche le serviteur ciblé d\'attaquer ou d\'utiliser ses capacités spéciales pendant X tours. Inflige également 2 points de dégâts par tour. Le serviteur gelé ne peut riposter.`,
   'Embrasement':`Un serviteur affecté subit immédiatement 3 points de dégâts, puis 1 point de dégât supplémentaire à chacun de ses débuts de tour pendant 3 tours. Embrasement met fin à Gel et Coup de glace ; si Coup de glace est dissipé, ses dégâts restants sont infligés d\'un coup.`,
   'Gèle':`Empêche le serviteur ciblé d\'attaquer ou d\'utiliser ses capacités spéciales pendant X tours. Le serviteur gelé ne peut riposter.`,
@@ -1377,6 +1383,7 @@ const KEYWORD_DEFS={
   'Hypnose':`Le serviteur affecté ne peut pas attaquer, riposter ni utiliser de capacité spéciale. L\'hypnose s\'arrête dès que le serviteur subit des dégâts.`,
   'Initiative':`Lorsqu\'elle est jouée depuis la main, cette carte produit directement un effet unique.`,
   'Insensible':`Ce serviteur ne peut pas être la cible de sorts ni de capacités spéciales adverses, sauf si la carte adverse mentionne explicitement qu’elle passe outre ce mot-clef. Les sorts et capacités alliés l’affectent normalement.`,
+  'Pestilence':`Marque un serviteur malade. Il subit des dégâts au début du tour de la source jusqu’à sa disparition ou jusqu’à ce qu’il soit soigné.`,
   'Rage':`Ce serviteur gagne +2 d\'attaque tant que ses points de vie sont inférieurs à leur maximum.`,
   'Rempart':`Tant qu\'un serviteur avec Rempart est présent, les serviteurs ennemis ne peuvent attaquer aucune autre carte. Les sorts et capacités spéciales ne sont pas affectés.`,
   'Serviteur de la rune':`Ce serviteur revient dans votre main quand il devrait être envoyé au cimetière. Vous pouvez le rejouer sans tenir compte des prérequis.`,
@@ -1494,7 +1501,7 @@ const SOURCE_LORE_IDS_20260622=new Set([
   'ORC000002','ORC000005','ORC000006','TRL000001','TRL000003'
 ]);
 const SOURCE_MECHANICAL_CONTROL_IDS_20260622=new Set(['H000010','H000017','N000004']);
-const SOURCE_MECHANICAL_IDS_20260622=new Set(["AVS000001","AVS000002","AVS000003","AVS000004","AVS000005","AVS000006","AVS000007","AVS000008","AVS000009","AVS000010","AVS000011","AVS000012","AVS000013","AVS000014","B000002","B000003","B000004","B000005","B000012","B000013","B000014","B000015","B000017","DIV000001","DIV000003","DIV000004","DIV000005","DIV000006","DIV000007","DIV000008","DIV000009","DIV000010","DIV000011","DIV000012","DIV000013","DIV000016","EDB000001","EDB000002","EDB000003","EDB000005","EDB000006","EDB000007","EDB000008","EDB000009","EDB000010","EDB000011","EDB000012","EDB000013","EDG000001","EDG000003","EDG000004","EDG000005","EDG000006","EDG000007","EDG000008","EDG000009","EDG000010","EDG000011","EDG000012","EDG000013","EN000001","EN000002","EN000003","EN000004","EN000005","EN000006","EN000007","EN000008","EN000009","EN000010","EN000012","GOB000001","GOB000002","GOB000003","GOB000005","GOB000006","GOB000007","GOB000008","GOB000009","GOB000010","GOB000011","GOB000012","GOB000013","GOB000014","GOB000015","GOB000016","GOB000017","GOB000018","GOB000019","GOB000020","H000002","H000003","H000004","H000005","H000006","H000007","H000008","H000009","H000010","H000011","H000012","H000013","H000014","H000015","H000016","H000017","H000019","H000020","H000022","H000023","H000024","H000026","H000027","H000028","H000029","H000030","H000031","MV000002","MV000003","MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010","MV000011","MV000012","MV000014","MV000015","MV000017","MV000018","MV000019","MV000020","MV000021","MV000022","MV000023","MV000024","N000001","N000002","N000003","N000004","N000005","N000006","N000007","N000008","N000009","N000010","N000011","N000012","N000014","ORC000001","ORC000003","ORC000004","ORC000007","ORC000008","ORC000009","ORC000010","ORC000011","ORC000012","ORC000013","ORC000014","ORC000015","ORC000016","ORC000017","ORC000018","ORC000019","ORC000020","PRST000001","PRST000002","PRST000003","PRST000004","PRST000005","PRST000006","PRST000007","PRST000008","PRST000009","PRST000010","PRST000011","PRST000012","PRST000013","PRST000014","R000001","R000002","R000003","R000004","R000005","R000006","R000007","R000008","R000009","R000010","R000011","R000012","R000013","R000014","R000015","R000016","R000017","R000018","R000019","R000020","R000021","R000022","R000023","R000024","R000025","R000026","S000001","S000002","S000003","S000004","S000005","S000006","S000007","S000008","S000009","S000010","S000011","S000012","S000013","S000014","S000015","S000016","S000017","S000018","S000019","S000020","S000021","S000022","S000023","S000024","S000025","S000026","S000027","S000028","S000029","S000030","S000031","S000032","S000033","S000034","S000035","S000036","S000037","S000038","S000039","S000040","S000041","S000042","S000043","S000044","S000045","S000046","S000047","S000048","S000049","S000050","S000056","TRL000002","TRL000004","TRL000005","TRL000006","TRL000007","TRL000008","TRL000009","TRL000010","TRL000011","TRL000012","TRL000013","TRL000014","TRL000015","TRL000016","TRL000017","TRL000018","TRL000019","TRL000020"]);
+const SOURCE_MECHANICAL_IDS_20260622=new Set(["AVS000001","AVS000002","AVS000003","AVS000004","AVS000005","AVS000006","AVS000007","AVS000008","AVS000009","AVS000010","AVS000011","AVS000012","AVS000013","AVS000014","B000002","B000003","B000004","B000005","B000012","B000013","B000014","B000015","B000017","DIV000001","DIV000003","DIV000004","DIV000005","DIV000006","DIV000007","DIV000008","DIV000009","DIV000010","DIV000011","DIV000012","DIV000013","DIV000016","EDB000001","EDB000002","EDB000003","EDB000005","EDB000006","EDB000007","EDB000008","EDB000009","EDB000010","EDB000011","EDB000012","EDB000013","EDG000001","EDG000003","EDG000004","EDG000005","EDG000006","EDG000007","EDG000008","EDG000009","EDG000010","EDG000011","EDG000012","EDG000013","EN000001","EN000002","EN000003","EN000004","EN000005","EN000006","EN000007","EN000008","EN000009","EN000010","EN000012","GOB000001","GOB000002","GOB000003","GOB000005","GOB000006","GOB000007","GOB000008","GOB000009","GOB000010","GOB000011","GOB000012","GOB000013","GOB000014","GOB000015","GOB000016","GOB000017","GOB000018","GOB000019","GOB000020","H000002","H000003","H000004","H000005","H000006","H000007","H000008","H000009","H000010","H000011","H000012","H000013","H000014","H000015","H000016","H000017","H000019","H000020","H000022","H000023","H000024","H000026","H000027","H000028","H000029","H000030","H000031","MV000002","MV000003","MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010","MV000011","MV000012","MV000014","MV000015","MV000017","MV000018","MV000019","MV000020","MV000021","MV000022","MV000023","MV000024","N000001","N000002","N000003","N000004","N000005","N000006","N000007","N000008","N000009","N000010","N000011","N000012","N000014","ORC000001","ORC000003","ORC000004","ORC000007","ORC000008","ORC000009","ORC000010","ORC000011","ORC000012","ORC000013","ORC000014","ORC000015","ORC000016","ORC000017","ORC000018","ORC000019","ORC000020","PRST000001","PRST000002","PRST000003","PRST000004","PRST000005","PRST000006","PRST000007","PRST000008","PRST000009","PRST000010","PRST000011","PRST000012","PRST000013","PRST000014","R000001","R000002","R000003","R000004","R000005","R000006","R000007","R000008","R000009","R000010","R000011","R000012","R000013","R000014","R000015","R000016","R000017","R000018","R000019","R000020","R000021","R000022","R000023","R000024","R000025","R000026","S000001","S000002","S000003","S000004","S000005","S000006","S000007","S000008","S000009","S000010","S000011","S000012","S000013","S000014","S000015","S000016","S000017","S000018","S000019","S000020","S000021","S000022","S000023","S000024","S000025","S000026","S000027","S000028","S000029","S000030","S000031","S000032","S000033","S000034","S000035","S000036","S000037","S000038","S000039","S000040","S000041","S000042","S000043","S000044","S000045","S000046","S000047","S000048","S000049","S000050","S000056","S000061","S000062","S000063","TRL000002","TRL000004","TRL000005","TRL000006","TRL000007","TRL000008","TRL000009","TRL000010","TRL000011","TRL000012","TRL000013","TRL000014","TRL000015","TRL000016","TRL000017","TRL000018","TRL000019","TRL000020"]);
 
 function isLoreOnly(c){
   if(!c)return false;
@@ -1509,11 +1516,12 @@ function stripGlobalLoreMarkupForDisplay(text){
 }
 
 function displayCardText(c,{preferDetail=false}={}){
+  const loreOnly=isLoreOnly(c);
   let text=preferDetail&&c.useDetail&&c.detail?c.detail:c.desc;
   text=stripTechnicalIdsForDisplay(applyDisplayTextOverrides(c.id,text));
-  text=formatPlayerFacingCardText(text,c);
-  if(isLoreOnly(c)&&!/^<(?:i|em)\b/i.test(text))return`<i>${text}</i>`;
-  return isLoreOnly(c)?text:stripGlobalLoreMarkupForDisplay(text);
+  text=formatPlayerFacingCardText(text,c,{highlightNumbers:!loreOnly});
+  if(loreOnly&&!/^<(?:i|em)\b/i.test(text))return`<i>${text}</i>`;
+  return loreOnly?text:stripGlobalLoreMarkupForDisplay(text);
 }
 
 function auditLoreRendering(){
@@ -1593,7 +1601,7 @@ function getFc(c){
   if(c.type==='Approvisionnement')return'appro';
   if(c.type==='Avatar')return'avatar';
   if(c.type==='Serviteur (pseudo avatar)')return'hum';
-  if(c.type==='Sort')return m[key]||'sort';
+  if(c.type==='Sort')return'sort';
   return m[key]||'sort';
 }
 
@@ -1601,9 +1609,13 @@ function collectionFactionColor(c){
   const fc=getFc(c);
   return {
     edb:'#5a8a3a',hum:'#26c4ec',orc:'#e87040',mvs:'#d080e8',edn:'#d080e8',
-    edg:'#2a8fd4',nain:'#8090a8',trl:'#e0a840',bet:'#c89040',gob:'#b89030',
+    edg:'#2a8fd4',nain:'#8090a8',trl:'#e0a840',bet:'#c89040',gob:'#ffd23f',
     div:'#e06080',sort:'#6a3a9a',appro:'#8a6820',avatar:'#c8a84b'
   }[fc]||'#c8a84b';
+}
+
+function collectionTooltipColor(c){
+  return getFc(c)==='gob' ? '#e6b93f' : collectionFactionColor(c);
 }
 
 
@@ -2133,6 +2145,7 @@ function openModal(cardId){
   }
   const fc=getFc(c);
   const factionColor=collectionFactionColor(c);
+  const tooltipColor=collectionTooltipColor(c);
   const wrap=document.getElementById('modalLayout');
   const model=getCanonicalCardDisplayModel(cardId);
   recordCollectionDetailTrace({canonicalModelBuilt:!!model?.sourceFound});
@@ -2142,8 +2155,8 @@ function openModal(cardId){
   document.getElementById('modalCard').className=`modal-card m-${fc}`;
   document.getElementById('modalCard').style.setProperty('--card-faction-color',factionColor);
   document.getElementById('modalCard').style.setProperty('--card-kw',factionColor);
-  document.getElementById('modalRight').style.setProperty('--card-faction-color',factionColor);
-  document.getElementById('modalRight').style.setProperty('--card-kw',factionColor);
+  document.getElementById('modalRight').style.setProperty('--card-faction-color',tooltipColor);
+  document.getElementById('modalRight').style.setProperty('--card-kw',tooltipColor);
   document.getElementById('modalRelated').style.setProperty('--card-faction-color',factionColor);
   document.getElementById('modalInner').className=`modal-inner`;
 
@@ -2168,7 +2181,7 @@ function openModal(cardId){
   if (c.type === 'Approvisionnement') {
     const supplyLore = model?.lore || '';
     document.getElementById('modalDesc').innerHTML = supplyLore
-      ? `<em class="card-lore-text">${formatPlayerFacingCardText(supplyLore, model)}</em>`
+      ? `<em class="card-lore-text">${formatPlayerFacingCardText(supplyLore, model, {highlightNumbers:false})}</em>`
       : '';
   } else {
     document.getElementById('modalDesc').innerHTML=displayCardText(c,{preferDetail:true});
@@ -2818,7 +2831,22 @@ function adaptCollectionCardRecordToCanonicalInput(cardOrId){
     loreClassification:CardRenderingCore.inferLoreClassification({sourceDetail:card.detail,detailedEffect:card.detail})
   };
 }
-function canonicalKeywordGlossary(){return CardRenderingCore.canonicalKeywordGlossary();}
+function canonicalKeywordGlossary(){
+  const glossary={...CardRenderingCore.canonicalKeywordGlossary()};
+  Object.entries(KEYWORD_DEFS||{}).forEach(([canonicalName,definition],index)=>{
+    glossary[canonicalName]={
+      ...(glossary[canonicalName]||{}),
+      canonicalName,
+      aliases:[canonicalName],
+      publicTitle:canonicalName,
+      definition,
+      category:canonicalName==='Approvisionnement'?'type':'keyword',
+      tooltipOrder:glossary[canonicalName]?.tooltipOrder||index+1,
+      formattingClass:'card-keyword'
+    };
+  });
+  return glossary;
+}
 function canonicalCardTypeGlossary(){return CardRenderingCore.canonicalCardTypeGlossary();}
 function canonicalResourceRegistry(){return CardRenderingCore.canonicalResourceRegistry();}
 function canonicalNamedAbilityRegistry(){return CardRenderingCore.canonicalNamedAbilityRegistry();}
@@ -2826,12 +2854,80 @@ function normalizeFrenchTypography(text,options={}){return CardRenderingCore.nor
 function normalizeCanonicalToken(value,options={}){return CardRenderingCore.normalizeCanonicalToken(value,options);}
 function normalizeFormattingAnnotations(textFormatRuns,options={}){return CardRenderingCore.normalizeFormattingAnnotations(textFormatRuns,options);}
 function resolvePublicCardReferences(rawText){return CardRenderingCore.resolvePublicCardReferences(rawText,{cardLookup:buildCollectionCanonicalCardLookup()});}
-function formatPlayerFacingCardText(rawText,cardModel=null,options={}){return CardRenderingCore.formatPlayerFacingCardText(rawText,cardModel,{...options,cardLookup:buildCollectionCanonicalCardLookup()});}
+function highlightPublicNumbersInHtml(html){
+  if(typeof document==='undefined')return String(html||'');
+  const template=document.createElement('template');
+  template.innerHTML=String(html||'');
+  const nodes=[];
+  const walker=document.createTreeWalker(template.content,NodeFilter.SHOW_TEXT,{
+    acceptNode(node){
+      if(!/\d/.test(node.nodeValue||''))return NodeFilter.FILTER_REJECT;
+      if(node.parentElement&&node.parentElement.closest('.kv,.card-keyword,.card-named-ability,script,style'))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    const fragment=document.createDocumentFragment();
+    String(node.nodeValue||'').split(/([+-]?\d+)/g).forEach(part=>{
+      if(/^[+-]?\d+$/.test(part)){
+        const strong=document.createElement('strong');
+        strong.className='kv';
+        strong.textContent=part;
+        fragment.appendChild(strong);
+      }else if(part){
+        fragment.appendChild(document.createTextNode(part));
+      }
+    });
+    node.parentNode.replaceChild(fragment,node);
+  });
+  return template.innerHTML;
+}
+function enforceKeywordColonSpacing(html){
+  return String(html||'').replace(/(<strong\b[^>]*(?:card-keyword|card-named-ability)[^>]*>[\s\S]*?<\/strong>)\s*:/g,'$1\u00a0:');
+}
+function applyCollectionKeywordMarkers(html){
+  let out=String(html||'');
+  const glossary=canonicalKeywordGlossary();
+  Object.keys(glossary).sort((a,b)=>b.length-a.length).forEach(keyword=>{
+    const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    out=out.replace(new RegExp(`\\[${escaped}\\]`,'g'),`<strong class="card-keyword" data-keyword="${keyword}">${keyword}</strong>`);
+  });
+  return out;
+}
+function formatPlayerFacingCardText(rawText,cardModel=null,options={}){
+  const formatted=CardRenderingCore.formatPlayerFacingCardText(rawText,cardModel,{...options,cardLookup:buildCollectionCanonicalCardLookup()});
+  const decorate=html=>{
+    const marked=applyCollectionKeywordMarkers(html);
+    return enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked));
+  };
+  return options.tokens&&formatted&&typeof formatted==='object'
+    ? {...formatted,html:decorate(formatted.html)}
+    : decorate(formatted);
+}
 function getCanonicalCardDisplayModel(cardOrId,options={}){return adaptCollectionCardRecordToCanonicalInput(cardOrId);}
 function getRuntimeCardDisplayModel(cardOrId,player=null,context={}){const model=getCanonicalCardDisplayModel(cardOrId,context);return{...model,runtime:{playerId:player?.id||null,context,baseModelPreserved:true}};}
 function buildCanonicalResourceExpression(cardModel,context='base'){const model=typeof cardModel==='string'?getCanonicalCardDisplayModel(cardModel):cardModel;return CardRenderingCore.buildCanonicalResourceExpression(model,context);}
 function resolveRelatedCards(cardModel){const model=typeof cardModel==='string'?getCanonicalCardDisplayModel(cardModel):cardModel;return CardRenderingCore.resolveRelatedCards(model,{cardLookup:buildCollectionCanonicalCardLookup()});}
-function buildCanonicalCardTooltips(cardModel,context='collection'){const model=typeof cardModel==='string'?getCanonicalCardDisplayModel(cardModel):cardModel;return CardRenderingCore.buildCanonicalCardTooltips(model,context,{cardLookup:buildCollectionCanonicalCardLookup()});}
+function buildCanonicalCardTooltips(cardModel,context='collection'){
+  const model=typeof cardModel==='string'?getCanonicalCardDisplayModel(cardModel):cardModel;
+  const tooltips=CardRenderingCore.buildCanonicalCardTooltips(model,context,{cardLookup:buildCollectionCanonicalCardLookup()});
+  const glossary=canonicalKeywordGlossary();
+  const right=tooltips.right.map(item=>{
+    const keyword=item.keyword||item.title;
+    const definition=glossary[keyword]?.definition;
+    return definition?{...item,kind:'keyword',keyword,title:glossary[keyword].publicTitle,body:definition}:item;
+  });
+  const present=new Set(right.map(item=>item.keyword||item.title));
+  const sourceCard=CARDS.find(card=>card.id===model?.id);
+  const keywords=[...(model?.keywords||[]),...(sourceCard?.kw||[])].filter((keyword,index,all)=>keyword&&all.indexOf(keyword)===index);
+  keywords.forEach(keyword=>{
+    if(!glossary[keyword]||present.has(keyword))return;
+    right.push({kind:'keyword',keyword,title:glossary[keyword].publicTitle,body:glossary[keyword].definition,order:40+right.length});
+    present.add(keyword);
+  });
+  return{...tooltips,right};
+}
 function auditCardRenderingCoreLoad(){return CardRenderingCore.auditCardRenderingCoreLoad();}
 function auditCanonicalCoreParity(){return CardRenderingCore.auditCanonicalCoreParity({cards:['EDG000001','S000035','S000006','R000014','B000003','B000004','N000003','DIV000016']});}
 function auditCanonicalRegistries(){return CardRenderingCore.auditCanonicalRegistries();}

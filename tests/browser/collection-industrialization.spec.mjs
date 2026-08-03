@@ -17,8 +17,8 @@ const dependencies = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-
 
 const julyImportedIds = ["H000032", "H000033", "H000034", "H000035", "H000036", "S000055", "S000057", "S000058", "S000059", "S000060"];
 const addedIds = ["MV000025", "N000015", "S000054", ...julyImportedIds];
-const expectedCanonicalCount = 328;
-const expectedObtainableCount = 310;
+const expectedCanonicalCount = 331;
+const expectedObtainableCount = 313;
 const nonObtainableIds = ["B000003", "B000004", "B000005", "EDG000011", "EDG000012", "EN000011", "H000033", "H000034", "H000035", "H000036", "MV000025", "S000008", "S000025", "S000054", "S000057", "S000058", "S000059", "S000060"];
 const transformationOnlyIds = ["B000003", "B000004", "B000005"];
 const generatedOnlyIds = ["EDG000011", "EN000011", "H000033", "H000034", "H000035", "H000036", "MV000025", "S000008", "S000054", "S000057", "S000058", "S000059", "S000060"];
