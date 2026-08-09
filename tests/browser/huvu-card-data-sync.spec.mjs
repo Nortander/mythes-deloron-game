@@ -142,7 +142,9 @@ for (const cardId of fixture.collectionAddedIds) {
     }
     if (cardId === "R000027") {
       expect(modal.cardText).toContain("Nécropole");
-      expect(modal.rightText).toContain("APPROVISIONNEMENT");
+      expect(modal.rightText).toContain("CONDITION D’INVOCATION");
+      expect(modal.rightText).toContain("CAPACITÉ SPÉCIALE");
+      expect(modal.rightText).not.toContain("APPROVISIONNEMENT");
       expect(modal.cardText).toContain("Ce lieu");
     }
     if (cardId === "S000051" || cardId === "S000052") {
