@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "cardCount": 331,
+  "cardCount": 332,
   "signatures": [
     {
       "schemaVersion": 1,
@@ -174,7 +174,11 @@
       "confidence": "HAUT",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
-      "directTest": "tests/browser/collection-batch-03-humans.spec.mjs"
+      "directTest": "tests/browser/collection-batch-03-humans.spec.mjs",
+      "referencedCardIds": [
+        "DIV000003",
+        "DIV000004"
+      ]
     },
     {
       "schemaVersion": 1,
@@ -463,7 +467,7 @@
     {
       "schemaVersion": 1,
       "id": "AVS000011",
-      "name": "Mage du Cercle - Main d'argent, maître des mirroirs",
+      "name": "Mage du Cercle - Main d'argent, maître des miroirs",
       "type": "Serviteur",
       "faction": "Humain",
       "sourceRow": 12,
@@ -1248,6 +1252,48 @@
       "confidence": "MOYEN",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
+    },
+    {
+      "id": "B000018",
+      "name": "Rampant caustique",
+      "type": "Serviteur",
+      "faction": "Bête",
+      "status": "PARTIAL",
+      "industrialReadiness": "NEEDS_RUNTIME_TEST",
+      "familyKey": "combat-damage-applies-pestilence",
+      "timings": [
+        "combat-damage"
+      ],
+      "operations": [
+        "apply-status",
+        "increase-status-damage"
+      ],
+      "targets": [
+        "enemy-servant-damaged-by-this"
+      ],
+      "zones": [
+        "field"
+      ],
+      "duration": "persistent-status",
+      "selectionMode": "automatic",
+      "requiredPrimitives": [
+        "combat-damage-trigger",
+        "pestilence-status"
+      ],
+      "supportedPrimitives": [
+        "damage"
+      ],
+      "missingPrimitives": [
+        "combat-damage-trigger",
+        "pestilence-status-increase"
+      ],
+      "referencedCardIds": [],
+      "directTests": [],
+      "notes": "Décision finale Sync04 : carte oubliée intégrée ; effet complet Pestilence à tester dans un lot runtime dédié.",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "maxOwned": 3,
+      "generatedOnly": false
     },
     {
       "schemaVersion": 1,
@@ -2573,6 +2619,7 @@
         "modify-pv",
         "move-hand-deck-graveyard",
         "play-condition",
+        "remove-pestilence",
         "summon",
         "target-immunity"
       ],
@@ -2602,6 +2649,7 @@
         "initiative-trigger",
         "modify-pv",
         "move-hand-deck-graveyard",
+        "pestilence-status",
         "play-condition",
         "summon",
         "target-immunity"
@@ -3202,7 +3250,7 @@
       "id": "EDG000013",
       "name": "Archère millénaire",
       "type": "Serviteur",
-      "faction": "Elfes de glace",
+      "faction": "Elfe de glace",
       "sourceRow": 75,
       "timing": [
         "static"
@@ -14894,5 +14942,6 @@
   ],
   "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-03.xlsx",
   "sourceSha256": "892a0fe51dde030944dab165a21e77657a303548aa350eea7edd7a1eb2843883",
-  "sourceSheet": "Cartes et description"
+  "sourceSheet": "Cartes et description",
+  "uniqueIdCount": 332
 }

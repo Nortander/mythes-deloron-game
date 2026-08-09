@@ -7,8 +7,8 @@
   "deckSourceSha256": "90811b81fc240b2ea50140f7385612f927f970671e958c02459de44ebe573da7",
   "deckSourceSheet": "Hokhan Ashir Vs Uram",
   "exportDate": "2026-07-10",
-  "cardCount": 331,
-  "uniqueIdCount": 331,
+  "cardCount": 332,
+  "uniqueIdCount": 332,
   "cards": [
     {
       "id": "AVS000001",
@@ -129,14 +129,14 @@
       ],
       "playCondition": "",
       "displayText": "[Insensible] [Initiative] Invoque 2 « Gorgonnes » de votre côté du terrain. Recommence chaque fois que Shâr subit des dégâts.",
-      "detailedEffect": "[Insensible] [Initiative] Invoque 2 « Gorgonnes » [1 x ID = B000006 + 1 x ID = B000007] de votre côté du terrain. Recommence chaque fois que Shâr subit des dégâts.",
+      "detailedEffect": "[Insensible] [Initiative] Invoque 2 « Gorgonnes » [1 x ID = DIV000003 + 1 x ID = DIV000004] de votre côté du terrain. Recommence chaque fois que Shâr subit des dégâts.",
       "keywords": [
         "Insensible",
         "Aria"
       ],
       "related": [
-        "B000006",
-        "B000007"
+        "DIV000003",
+        "DIV000004"
       ],
       "maxOwned": 1,
       "generatedOnly": false,
@@ -357,7 +357,7 @@
     },
     {
       "id": "AVS000011",
-      "name": "Mage du Cercle - Main d'argent, maître des mirroirs",
+      "name": "Mage du Cercle - Main d'argent, maître des miroirs",
       "type": "Serviteur",
       "faction": "Humain",
       "attack": 13,
@@ -1123,6 +1123,38 @@
       "maxOwned": 4,
       "generatedOnly": false,
       "sourceRow": 32,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "B000018",
+      "name": "Rampant caustique",
+      "type": "Serviteur",
+      "faction": "Bête",
+      "attack": 2,
+      "health": 4,
+      "costTotal": 3,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 3,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Chaque fois qu'il inflige des dégâts à un serviteur adverse, lui applique également [Pestilence]. Si l'adversaire est déjà sous l'effet de [Pestilence], augmente les dommages actuels de l'effet de +1.",
+      "detailedEffect": "Chaque fois qu'il inflige des dégâts à un serviteur adverse, lui applique également [Pestilence]. Si l'adversaire est déjà sous l'effet de [Pestilence], augmente les dommages actuels de l'effet de +1.",
+      "keywords": [
+        "Nourriture",
+        "Pestilence"
+      ],
+      "related": [],
+      "maxOwned": 3,
+      "generatedOnly": false,
+      "sourceRow": 33,
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
@@ -2317,8 +2349,8 @@
       "name": "Kyra",
       "type": "Serviteur",
       "faction": "Elfe des bois",
-      "attack": 8,
-      "health": 4,
+      "attack": 6,
+      "health": 3,
       "costTotal": 7,
       "mandatoryResources": [],
       "playCondition": "",
@@ -2364,17 +2396,18 @@
         }
       ],
       "playCondition": "Votre deck de départ doit comporter au moins 15 serviteurs de la faction « Elfe des bois ».",
-      "displayText": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs. Si vous n'avez pas d'autre serviteur de votre côté du terrain, invoque pour vous jusqu'à 4 « Pixies » et 1 « Père des arbres ». Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de +2. De plus, ces mêmes serviteurs sont soignés de 1 point de vie à chaque fin de tour.",
-      "detailedEffect": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit [Embrasement], [Gel], [Coup de glace] et [Hypnose]). Si vous n'avez pas d'autre serviteur de votre côté du terrain, invoque pour vous jusqu'à 4 « Pixies » [ID = EDB000012] et 1 « Père des arbres » [ID = EDB000009]. Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de +2. De plus, ces mêmes serviteurs sont soignés de 1 point de vie à chaque fin de tour.",
+      "displayText": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit [Pestilence], [Embrasement], [Gel], [Coup de glace] et [Hypnose]). Si vous n'avez pas d'autre serviteur de votre côté du terrain, invoque pour vous jusqu'à 4 « Pixies » et 1 « Père des arbres ». Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de +2. De plus, ces mêmes serviteurs sont soignés de 1 point de vie à chaque fin de tour.",
+      "detailedEffect": "[Insensible] [Initiative] Soigne entièrement vos autres serviteurs sur le terrain et retire la plupart des effets négatifs (soit [Pestilence], [Embrasement], [Gel], [Coup de glace] et [Hypnose]). Si vous n'avez pas d'autre serviteur de votre côté du terrain, invoque pour vous jusqu'à 4 « Pixies » [ID = EDB000012] et 1 « Père des arbres » [ID = EDB000009]. Tant que la « Dryade de l'Arbre de vie » reste sur le terrain, vos autres serviteurs de la faction « Elfe des bois » voient leurs points de vie maximaux et actuels augmentés de +2. De plus, ces mêmes serviteurs sont soignés de 1 point de vie à chaque fin de tour.",
       "keywords": [
-        "Insensible",
-        "Initiative",
-        "Lenya",
         "Bois",
+        "Coup de glace",
         "Embrasement",
         "Gel",
-        "Coup de glace",
-        "Hypnose"
+        "Hypnose",
+        "Initiative",
+        "Insensible",
+        "Lenya",
+        "Pestilence"
       ],
       "related": [
         "EDB000012",
@@ -2719,8 +2752,8 @@
         }
       ],
       "playCondition": "",
-      "displayText": "À la fin de chacun de vos tours, tant que la « Grande-soigneuse » est sur le terrain, soigne entièrement votre serviteur blessé à qu'il manque le plus de points de vie.",
-      "detailedEffect": "À la fin de chacun de vos tours, tant que la « Grande-soigneuse » est sur le terrain, soigne entièrement votre serviteur blessé à qu'il manque le plus de points de vie.",
+      "displayText": "À la fin de chacun de vos tours, tant que la « Grande-soigneuse » est sur le terrain, soigne entièrement votre serviteur blessé à qui il manque le plus de points de vie. Si plusieurs serviteurs sont à égalité, soigne chacun de ces serviteurs de la moitié de ses PV maximums, arrondie à l'unité supérieure.",
+      "detailedEffect": "À la fin de chacun de vos tours, tant que la « Grande-soigneuse » est sur le terrain, soigne entièrement votre serviteur blessé à qui il manque le plus de points de vie. Si plusieurs serviteurs sont à égalité, soigne chacun de ces serviteurs de la moitié de ses PV maximums, arrondie à l'unité supérieure.",
       "keywords": [
         "Lenya",
         "Bois",
@@ -2947,7 +2980,7 @@
       "id": "EDG000013",
       "name": "Archère millénaire",
       "type": "Serviteur",
-      "faction": "Elfes de glace",
+      "faction": "Elfe de glace",
       "attack": 7,
       "health": 2,
       "costTotal": 7,
@@ -3065,8 +3098,8 @@
         }
       ],
       "playCondition": "",
-      "displayText": "[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu'aux deux serviteurs adjacents à celui-ci.",
-      "detailedEffect": "[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu'aux deux serviteurs adjacents à celui-ci. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents. Cette capacité passe outre le mot-clef [Insensible].",
+      "displayText": "[Vengeance] Inflige les dégâts de son attaque au serviteur qui l'envoie au cimetière ainsi qu'aux deux serviteurs adjacents à celui-ci. Cet effet traverse [Insensible].",
+      "detailedEffect": "[Vengeance] Inflige les dégâts de son attaque au serviteur qui l'envoie au cimetière ainsi qu'aux deux serviteurs adjacents à celui-ci. Cet effet traverse [Insensible]. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents.",
       "keywords": [
         "Vengeance",
         "Fer"
@@ -4819,8 +4852,8 @@
         }
       ],
       "playCondition": "",
-      "displayText": "[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu'un serviteur mort-vivant adverse est envoyé au cimetière sous l'effet de [Colère divine], retire 1 ressource Écho du terrain adverse.",
-      "detailedEffect": "[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu'un serviteur mort-vivant adverse est envoyé au cimetière sous l'effet de [Colère divine], retire 1 ressource Écho du terrain adverse.",
+      "displayText": "[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu'un serviteur mort-vivant adverse est envoyé au cimetière sous l'effet de [Colère divine], retire 1 Écho des réserves adverses.",
+      "detailedEffect": "[Initiative] Inflige [Colère divine] à tous les serviteurs morts-vivants adverses présents sur le terrain. Tant que Randall Mainblanche reste sur le terrain, chaque fois qu'un serviteur mort-vivant adverse est envoyé au cimetière sous l'effet de [Colère divine], retire 1 Écho des réserves adverses.",
       "keywords": [
         "Initiative",
         "Colère divine",
@@ -12941,5 +12974,7 @@
       "obtainability": "OBTAINABLE",
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
     }
-  ]
+  ],
+  "obtainableCount": 314,
+  "nonObtainableCount": 18
 }

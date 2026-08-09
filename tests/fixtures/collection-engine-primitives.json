@@ -125,6 +125,7 @@
         "B000015",
         "B000016",
         "B000017",
+        "B000018",
         "DIV000001",
         "DIV000002",
         "DIV000005",
@@ -351,7 +352,7 @@
       ],
       "supported": true,
       "implementationLevel": "present-or-partial",
-      "cardCount": 251
+      "cardCount": 252
     },
     {
       "primitive": "create-card",
@@ -392,6 +393,7 @@
         "B000002",
         "B000012",
         "B000015",
+        "B000018",
         "DIV000004",
         "DIV000005",
         "DIV000006",
@@ -478,7 +480,7 @@
       ],
       "supported": true,
       "implementationLevel": "present-or-partial",
-      "cardCount": 93
+      "cardCount": 94
     },
     {
       "primitive": "draw",

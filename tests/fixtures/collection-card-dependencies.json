@@ -5,7 +5,7 @@
     {
       "sourceId": "AVS000004",
       "sourceName": "Mage du Cercle - Shâr des Îles",
-      "dependencyId": "B000006",
+      "dependencyId": "DIV000003",
       "dependencyName": "Rampant des marais",
       "relation": "SUMMONS_OR_CREATES",
       "dependencyInCanonicalCorpus": true,
@@ -14,7 +14,7 @@
     {
       "sourceId": "AVS000004",
       "sourceName": "Mage du Cercle - Shâr des Îles",
-      "dependencyId": "B000007",
+      "dependencyId": "DIV000004",
       "dependencyName": "Araignée des bois",
       "relation": "SUMMONS_OR_CREATES",
       "dependencyInCanonicalCorpus": true,

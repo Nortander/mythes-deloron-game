@@ -1,7 +1,7 @@
 (function attachCardRenderingCore(global) {
   "use strict";
 
-  const CORE_VERSION = "1.2.1";
+  const CORE_VERSION = "1.2.2";
 
   const KEYWORDS = Object.freeze({
     "Camouflage": keyword("Camouflage", "Ce serviteur ne peut pas être ciblé par une attaque tant qu’une règle ne révèle pas sa position.", "implemented", 10),
@@ -17,6 +17,7 @@
     "Sang-froid": keyword("Sang-froid", "Protège contre les effets de Gel et de Coup de glace.", "implemented", 110),
     "Serviteur de la rune": keyword("Serviteur de la rune", "Ce serviteur revient dans votre main quand il devrait être envoyé au cimetière. Vous pouvez le rejouer sans tenir compte des prérequis.", "dormant", 120),
     "Vengeance": keyword("Vengeance", "Ce serviteur déclenche un effet lorsqu’il est envoyé au cimetière depuis le terrain.", "implemented", 130),
+    "Pestilence": keyword("Pestilence", "Un serviteur affecté par Pestilence subit des dégâts récurrents et peut voir cette maladie renforcée par certains effets.", "implemented", 135),
     "Vigilance": keyword("Vigilance", "Aucun serviteur adverse ne peut utiliser Camouflage tant qu’un serviteur allié avec Vigilance est sur le terrain.", "implemented", 140)
   });
 
@@ -46,7 +47,7 @@
   });
 
   const NAMED_ABILITIES = Object.freeze({
-    "Colère divine": namedAbility("Colère divine", "Colère divine", "Capacité nommée à vérifier dans la source avant implémentation.", "dormant", 10)
+    "Colère divine": namedAbility("Colère divine", "Colère divine", "Un serviteur mort-vivant affecté par Colère divine subit des dégâts croissants pendant trois tours : d'abord 2, puis 3, puis 4 points de dégâts. Les dégâts sont subis au début du tour du propriétaire du mort-vivant affecté. Ne peut pas affecter les avatars.", "implemented", 10)
   });
 
   const AMBIGUOUS_VALUES = Object.freeze({

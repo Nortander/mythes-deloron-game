@@ -114,7 +114,7 @@ Le corpus passe à 328 cartes canoniques, dont 310 obtenables et 18 non obtenabl
 
 L'audit `COLLECTION-SYNC-01` a confirmé que la Collection devait recevoir trois sorts présents dans l'export principal du 30 juillet 2026 : `S000061` - Bouclier de glace, `S000062` - Déferlante de flammes et `S000063` - Choc mental.
 
-La correction ciblée porte le corpus suivi à 331 cartes canoniques, dont 313 obtenables et 18 non obtenables. `TRL000020` - Ump est corrigé en 9/9. `AV000006` reste l'avatar Collection de Gor le Changeforme ; `AVS000006` reste la carte pseudo-serviteur, et `AVP000006` reste uniquement l'illustration portrait de partie. `B000018`, présent dans l'export du 30 juillet mais hors périmètre validé de cette synchronisation, est documenté comme reporté.
+La correction ciblée porte le corpus suivi à 331 cartes canoniques, dont 313 obtenables et 18 non obtenables. `TRL000020` - Ump est corrigé en 9/9. `AV000006` reste l'avatar Collection de Gor le Changeforme ; `AVS000006` reste la carte pseudo-serviteur, et `AVP000006` reste uniquement l'illustration portrait de partie. `B000018`, présent dans l'export du 30 juillet, est intégré par COLLECTION-SYNC-04 après décision finale Daddy.
 
 Cette synchronisation ne modifie ni `code/partie-test-1.html`, ni les decks Hokhan/Uram, ni les mains initiales, ni les marqueurs OUI/MAYBE, ni les assets.
 
@@ -160,6 +160,12 @@ Les dependances directes necessaires au fonctionnement sont explicites : `DIV000
 Scenarios techniques caches : `collection-batch-03-humans-overview`, `collection-batch-03-humans-triggers`, `collection-batch-03-humans-avatars`, `collection-batch-03-humans-ianna` et `collection-batch-03-humans-spells`.
 
 Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+## COLLECTION-SYNC-04 - Décisions finales
+
+Les décisions finales validées dans le tableau d'arbitrage sont appliquées sans synchronisation massive automatique : `B000018` (`Rampant caustique`) est intégré au corpus Collection, les valeurs imprimées et textes publics validés sont corrigés, `AVS000004` référence les Gorgones canoniques `DIV000003` et `DIV000004`, et les infobulles génériques `Colère divine` / `Pestilence` restent centralisées.
+
+Les corrections conservent les décisions de périmètre : aucune modification des decks Hokhan/Uram, des mains initiales, des marqueurs OUI/MAYBE, des assets ou des exports XLSX. Les arbitrages hors décisions finales restent reportés aux lots dédiés.
 
 ## COLLECTION-BATCH-09 - Trolls
 
