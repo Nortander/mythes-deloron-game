@@ -54,13 +54,7 @@ async function hoverVisiblePartCard(page, cardId) {
     message: `${cardId} image naturalWidth`,
     timeout: 5000
   }).toBeGreaterThan(0);
-  await expect.poll(async () => !!(await card.boundingBox()), {
-    message: `${cardId} measurable bounding box`,
-    timeout: 5000
-  }).toBe(true);
-  const box = await card.boundingBox();
-  if (!box) throw new Error(`Card ${cardId} has no bounding box`);
-  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await card.hover();
   await expect(page.locator("#card-preview-layer.preview-open")).toBeVisible();
   await page.waitForTimeout(250);
   return previewSnapshot(page);

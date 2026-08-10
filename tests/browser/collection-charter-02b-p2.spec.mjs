@@ -178,7 +178,7 @@ test.describe("COLLECTION-CHARTER-02B P2 arbitrés", () => {
 
     const crypt = await openModalAudit(page, "R000021");
     expect(crypt.titles).toContain("APPROVISIONNEMENT");
-    expect(crypt.rightText).toContain("Fournit 3 Échos au joueur.");
+    expect(crypt.rightText).toContain("Fournit 5 Échos au joueur.");
     expect(crypt.rightText).toContain("Le visuel de la carte évolue en fonction du total d'Échos disponibles.");
     expect(crypt.rightText).not.toContain("RAME0");
     expect(crypt.rightText).not.toContain("RAME21");

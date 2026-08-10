@@ -98,7 +98,7 @@ test("Collection Sync02 applies targeted canonical corrections", async ({ page }
 
   expect(audit.s000061).toMatchObject({ id: "S000061", name: "Bouclier de glace", type: "Sort", faction: "/", cost: 1, maxOwned: 3, obtainability: "OBTAINABLE" });
   expect(audit.s000061.kw).toEqual(expect.arrayContaining(["Gel", "Lenya", "Aria"]));
-  expect(audit.s000061.desc).toContain("<3> prochaines attaques");
+  expect(audit.s000061.desc).toContain("3 prochaines attaques");
 
   expect(audit.s000062).toMatchObject({ id: "S000062", name: "Déferlante de flammes", type: "Sort", faction: "/", cost: 3, maxOwned: 3, obtainability: "OBTAINABLE" });
   expect(audit.s000062.kw).toEqual(expect.arrayContaining(["Lenya", "Aria", "Sélène", "Écho", "Embrasement"]));
@@ -181,7 +181,7 @@ for (const cardId of ["S000046", "S000061", "S000062", "S000063", "TRL000020", "
       expect(modal.cardText).not.toContain("4 points de vie");
     }
     if (cardId === "TRL000020") expect(modal.cardText).toMatch(/9\s*\/\s*9|9.*9/s);
-    if (cardId === "S000061") expect(modal.cardText).toContain("<3> prochaines attaques");
+    if (cardId === "S000061") expect(modal.cardText).toContain("3 prochaines attaques");
     if (cardId === "S000062") expect(modal.cardText).toContain("Embrasement");
     if (cardId === "S000063") expect(modal.cardText).toContain("2 à 6 points de dégâts");
     if (cardId === "AV000006") {

@@ -3015,6 +3015,27 @@ SCENARIOS['collection-batch-11a-necropole'] = {
     player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-11b-initiative-captures'] = {
+  label: 'TEST - COLLECTION BATCH 11B Initiative captures', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch11aPanel: true, showCollectionBatch11bPanel: true, testCardId: 'MV000002',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:12}, hand:['MV000002','MV000003','MV000004'], drawPile:['MV000001','MV000005','MV000006'], graveyard:[], servants:[{id:'MV000005',prepared:true},{id:'MV000006',prepared:true}], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000015','MV000029','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:['H000001','R000001'], drawPile:['H000006','H000018'], graveyard:[], servants:[{id:'H000001',pdv:1,pdvMax:1,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true},{id:'H000006',pdv:4,pdvMax:4,prepared:true}], avatarHp:20}
+  }
+};
+SCENARIOS['collection-batch-11b-amalgams'] = {
+  label: 'TEST - COLLECTION BATCH 11B Amalgames', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch11aPanel: true, showCollectionBatch11bPanel: true, testCardId: 'MV000006',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:9}, hand:['MV000006','MV000005','MV000004','MV000003'], drawPile:['H000001','MV000001','H000005','MV000002'], graveyard:[], servants:[{id:'MV000004',prepared:true},{id:'MV000005',prepared:true}], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000015','MV000029','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:20}
+  }
+};
+SCENARIOS['collection-batch-11b-banshee-vengeance'] = {
+  label: 'TEST - COLLECTION BATCH 11B Banshee et Gardien', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch11aPanel: true, showCollectionBatch11bPanel: true, testCardId: 'MV000015',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:6}, hand:['MV000015','MV000029'], drawPile:['MV000001','MV000002'], graveyard:[], servants:[{id:'MV000015',pdv:1,pdvMax:1,prepared:true}], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000015','MV000029','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:['H000001','R000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',pdv:1,pdvMax:1,prepared:true},{id:'H000005',pdv:5,pdvMax:5,prepared:true}], avatarHp:20}
+  }
+};
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
   testSetup: {
@@ -3500,7 +3521,7 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'MV000012': createCostDefinition(10, ["soul"], [], []),
   'MV000013': createCostDefinition(5, ["soul"], [], []),
   'MV000014': createCostDefinition(3, ["soul"], [], []),
-  'MV000015': createCostDefinition(1, ["soul"], [], []),
+  'MV000015': createCompatiblePoolCostDefinition(1, ["soul","aria"], []),
   'MV000016': createCostDefinition(2, ["soul"], [], [{"kind":"text","text":"Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.","implemented":false}]),
   'MV000017': createCostDefinition(6, ["soul"], [], [{"kind":"text","text":"Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.","implemented":false}]),
   'MV000018': createCostDefinition(5, ["soul"], [], [{"kind":"text","text":"Le « Forgeron de la Lame » [ID = MV000019] ou « Hokhan Ashir - Mage du Cercle » [ID = AVS000008] doivent être sur votre terrain.","implemented":false}]),
@@ -9977,7 +9998,7 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'))));
+  const title = activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES')))));
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
@@ -11245,6 +11266,8 @@ async function triggerInitiative(cardId, player, context={}) {
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
+  const batch11bInitiative = await resolveBatch11bInitiative(cardId, player, {...context, sourceFC, sourceInstanceId, traceId});
+  if (batch11bInitiative?.handled) return batch11bInitiative;
   const registeredHandler = INITIATIVE_HANDLERS[cardId];
   if (registeredHandler) {
     const result = await registeredHandler({
@@ -13923,18 +13946,22 @@ function auditCollectionBatch11aRuntime() {
 function resolveBatch11aEchoCaptureOnCemetery(victimOwner, fc, context={}) {
   const owner = playerState(victimOwner);
   const killer = fc?._killer || context.killer || null;
-  const collector = playerState(killer?.dataset?.player);
+  const requested = context.echoCapture || null;
+  const collector = requested ? playerState(requested.collector || requested.collectorId || killer?.dataset?.player) : playerState(killer?.dataset?.player);
   const cardId = fc?.dataset?.id;
-  if (!owner || !collector || !killer || killer.dataset.id !== 'MV000009') return {captured:false};
-  if (collector.key === owner.key || CARDS_DATA[cardId]?.type !== 'Serviteur') return {captured:false};
-  const amount = 1;
+  const sourceCardId = requested?.sourceCardId || killer?.dataset?.id || null;
+  if (!owner || !collector || !killer) return {captured:false};
+  if (!requested && sourceCardId !== 'MV000009') return {captured:false};
+  if (collector.key === owner.key && !requested?.allowFriendlyCapture) return {captured:false};
+  if (CARDS_DATA[cardId]?.type !== 'Serviteur') return {captured:false};
+  const amount = Math.max(1, Number(requested?.amount || 1) || 1);
   const gain = addSoulToAppro(collector, amount);
   const capturedEntry = {
     cardId,
     name:batch11aPublicCardName(cardId),
     originalOwnerId:owner.key,
-    capturedBy:'MV000009',
-    capturedByInstanceId:killer.dataset.instance || null,
+    capturedBy:sourceCardId || 'unknown',
+    capturedByInstanceId:requested?.sourceInstanceId || killer.dataset.instance || null,
     occurrenceId:fc.dataset.instance || null,
     amount,
     turnSequence
@@ -14044,6 +14071,159 @@ async function resolveBatch11aNecropoleRemoval(player, fc) {
 }
 
 window.auditCollectionBatch11aRuntime = auditCollectionBatch11aRuntime;
+
+const collectionBatch11bState = {events:[]};
+function recordCollectionBatch11bEvent(type, detail={}) {
+  const event = {type, detail, turnSequence, scenarioId:selectedScenarioId()};
+  collectionBatch11bState.events.push(event);
+  window.__collectionBatch11bLastEvent = event;
+  return event;
+}
+function batch11bLivingServants(player) {
+  const p = playerState(player);
+  return Array.from(qs(playerZoneSelector(p, 'servants'))?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
+}
+function batch11bEnemyServants(player) { return batch11bLivingServants(opponentOf(player)); }
+function batch11bAllyServants(player) { return batch11bLivingServants(player); }
+function batch11bEchoAmountFromPrintedCost(cardId) {
+  const cost = Math.max(0, Number(CARDS_DATA[cardId]?.cost || 0) || 0);
+  if (cost >= 7) return 3;
+  if (cost >= 4) return 2;
+  return 1;
+}
+function batch11bPickTarget(targets) {
+  if (!targets?.length) return null;
+  const index = Math.max(0, Math.min(targets.length - 1, Math.floor(gameRandom() * targets.length)));
+  return targets[index] || targets[0];
+}
+function batch11bHasRequiredAmalgamAllies(player, sourceCardId) {
+  const requirements = {
+    MV000004: ['MV000005','MV000006'],
+    MV000005: ['MV000004','MV000006'],
+    MV000006: ['MV000004','MV000005']
+  }[sourceCardId] || [];
+  if (!requirements.length) return true;
+  const allyIds = batch11bAllyServants(player).map(fc => fc.dataset.id);
+  return requirements.every(requiredId => allyIds.includes(requiredId));
+}
+async function batch11bDestroyAndCapture({player, sourceFC, sourceCardId, candidates, fixedEchoAmount=null, healSourceByTargetAttack=false}) {
+  const validTargets = getAffectableTargets({sourcePlayer:player, targets:candidates || [], sourceCardId, effectKind:'destroy', isAbility:true});
+  if (!validTargets.length) {
+    const result = {handled:true, success:false, cardId:sourceCardId, reason:(candidates || []).length ? 'targets-insensible' : 'no-valid-target'};
+    if ((candidates || []).length) showInsensitiveFailureVfx(candidates);
+    else showNotif('Aucune cible valide.', 1200);
+    recordCollectionBatch11bEvent('trigger-no-target', result);
+    return result;
+  }
+  const target = batch11bPickTarget(validTargets);
+  const targetBefore = targetSummary(target);
+  const sourceBefore = targetSummary(sourceFC);
+  const amount = fixedEchoAmount == null ? batch11bEchoAmountFromPrintedCost(target.dataset.id) : Number(fixedEchoAmount || 0);
+  const healAmount = healSourceByTargetAttack ? Number(target.dataset.atk || 0) : 0;
+  if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative', {move:true});
+  target._killer = sourceFC || null;
+  await sendToCemetery(target, {killer:sourceFC || null, echoCapture:{collector:player, sourceCardId, sourceInstanceId:sourceFC?.dataset.instance || null, amount}});
+  let heal = null;
+  if (healAmount > 0 && sourceFC?.isConnected) heal = applyHeal(sourceFC, healAmount);
+  const result = {handled:true, success:true, cardId:sourceCardId, playerId:playerKey(player), targetBefore, sourceBefore, echoAmount:amount, healAmount, heal, capturedVictims:batch11aCapturedVictims(player).map(entry => ({...entry}))};
+  recordCollectionBatch11bEvent('destroy-capture-echo', result);
+  showNotif((CARDS_DATA[sourceCardId]?.name || 'Initiative') + ' : ' + amount + ' ' + (amount > 1 ? 'Échos générés' : 'Écho généré') + '.', 1400);
+  return result;
+}
+function batch11bReturnServantToOwnerDeck(target, sourcePlayer, sourceCardId, reason) {
+  const owner = playerState(target?.dataset?.player);
+  const cardId = target?.dataset?.id;
+  if (!owner || !cardId) return {success:false, reason:'invalid-target'};
+  const before = targetSummary(target);
+  const parent = target.parentElement;
+  const slot = document.createElement('div');
+  slot.className = 'slot';
+  if (parent?.dataset?.player) slot.dataset.player = parent.dataset.player;
+  target.replaceWith(slot);
+  owner.drawPile.push(cardId);
+  shuffleDeck(owner.drawPile);
+  updateDeckCount(owner);
+  const result = {success:true, sourceCardId, reason, returned:before, ownerId:owner.key, deckSize:owner.drawPile.length};
+  recordCollectionBatch11bEvent('return-servant-to-deck', result);
+  return result;
+}
+async function resolveBatch11bInitiative(cardId, player, context={}) {
+  const sourceFC = context.sourceFC || (context.sourceInstanceId ? document.querySelector('.fc[data-instance="' + CSS.escape(context.sourceInstanceId) + '"]') : findBoardCard(player, cardId));
+  if (!['MV000002','MV000003','MV000004','MV000005','MV000006','MV000015','MV000029'].includes(cardId)) return {handled:false};
+  if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, cardId, reason:'cold-locked'};
+  if (cardId === 'MV000002') return batch11bDestroyAndCapture({player, sourceFC, sourceCardId:cardId, candidates:batch11bEnemyServants(player).filter(fc => Number(fc.dataset.atk || 0) < Number(sourceFC?.dataset.atk || CARDS_DATA[cardId]?.atk || 0))});
+  if (cardId === 'MV000003') return batch11bDestroyAndCapture({player, sourceFC, sourceCardId:cardId, candidates:batch11bEnemyServants(player).filter(fc => Number(fc.dataset.atk || 0) < Number(sourceFC?.dataset.atk || CARDS_DATA[cardId]?.atk || 0)), healSourceByTargetAttack:true});
+  if (cardId === 'MV000004') {
+    if (!batch11bHasRequiredAmalgamAllies(player, cardId)) { const result = {handled:true, success:false, cardId, reason:'missing-amalgam-allies'}; recordCollectionBatch11bEvent('amalgam-condition-missing', result); return result; }
+    return batch11bDestroyAndCapture({player, sourceFC, sourceCardId:cardId, candidates:batch11bEnemyServants(player).filter(fc => Number(fc.dataset.pdv || 0) <= 9), fixedEchoAmount:3});
+  }
+  if (cardId === 'MV000005') {
+    if (!batch11bHasRequiredAmalgamAllies(player, cardId)) { const result = {handled:true, success:false, cardId, reason:'missing-amalgam-allies'}; recordCollectionBatch11bEvent('amalgam-condition-missing', result); return result; }
+    registerRuntimeCostModifier(player, {sourceKind:'servant', sourceId:'MV000005', priority:200, duration:'nextEligibleCard', criteria:{explicitSoulCost:true}, operations:[{type:'adjustTotal', amount:-3}]});
+    renderAllHands();
+    const result = {handled:true, success:true, cardId, reduction:3, duration:'nextEligibleCard'};
+    recordCollectionBatch11bEvent('amalgam-cost-reduction', result);
+    showNotif('Amalgame rageur réduit de 3 le coût en Échos de votre prochaine carte éligible.', 1500);
+    return result;
+  }
+  if (cardId === 'MV000006') {
+    if (!batch11bHasRequiredAmalgamAllies(player, cardId)) { const result = {handled:true, success:false, cardId, reason:'missing-amalgam-allies'}; recordCollectionBatch11bEvent('amalgam-condition-missing', result); return result; }
+    const draw = drawMultiple(player, 3, {notify:false, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance || null});
+    const result = {handled:true, success:draw.success, cardId, draw};
+    recordCollectionBatch11bEvent('amalgam-draw', result);
+    showNotif(draw.count ? String(draw.count) + ' carte(s) piochée(s) !' : 'Aucune carte piochée.', 1400);
+    return result;
+  }
+  if (cardId === 'MV000015') {
+    const candidates = batch11bEnemyServants(player).filter(fc => Number(fc.dataset.atk || 0) <= 4);
+    const validTargets = getAffectableTargets({sourcePlayer:player, targets:candidates, sourceCardId:cardId, effectKind:'return-to-deck', isAbility:true});
+    const target = batch11bPickTarget(validTargets);
+    if (!target) { const result = {handled:true, success:false, cardId, reason:candidates.length ? 'targets-insensible' : 'no-valid-target'}; recordCollectionBatch11bEvent('banshee-initiative-no-target', result); return result; }
+    if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative', {move:true});
+    const move = batch11bReturnServantToOwnerDeck(target, player, cardId, 'initiative');
+    showNotif('Banshee hurlante renvoie un serviteur dans le deck adverse.', 1400);
+    return {handled:true, success:move.success, cardId, move};
+  }
+  if (cardId === 'MV000029') {
+    if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative');
+    const gain = addSoulToAppro(player, 3);
+    const result = {handled:true, success:gain.success, cardId, gain, deferred:['end-turn-extra-echo-if-no-echo-spent']};
+    recordCollectionBatch11bEvent('reliquary-guardian-initiative', result);
+    showNotif('Gardien du reliquaire ajoute 3 Échos à vos réserves.', 1400);
+    return result;
+  }
+  return {handled:false};
+}
+async function resolveBatch11bVengeance(cardId, player, dyingFC, killer, context={}) {
+  if (cardId !== 'MV000015') return {handled:false};
+  pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+  await new Promise(resolve => setTimeout(resolve, 260));
+  const adverse = playerState(opponentOf(player));
+  const hand = playerHand(adverse);
+  if (!adverse || !hand.length) {
+    const result = {handled:true, success:false, cardId, reason:'opponent-hand-empty', destination:'graveyard'};
+    recordCollectionBatch11bEvent('banshee-vengeance-no-card', result);
+    return result;
+  }
+  const index = Math.max(0, Math.min(hand.length - 1, Math.floor(gameRandom() * hand.length)));
+  const returnedCard = removeHandCardAt(adverse, index);
+  adverse.drawPile.push(returnedCard);
+  shuffleDeck(adverse.drawPile);
+  updateDeckCount(adverse);
+  if (adverse.key === currentPlayer) refreshHand(adverse); else refreshAdverseHandBacks(player);
+  const result = {handled:true, success:true, cardId, returnedCard, opponentId:adverse.key, destination:'graveyard'};
+  recordCollectionBatch11bEvent('banshee-vengeance-hand-to-deck', result);
+  showNotif('Vengeance : une carte retourne dans le deck adverse.', 1400);
+  return result;
+}
+function auditCollectionBatch11bRuntime() {
+  return {
+    scenarioId:selectedScenarioId(),
+    events:[...collectionBatch11bState.events],
+    players:[player1, player2].filter(Boolean).map(p => ({playerId:p.key, ...batch11aRuntimeZoneEntries(p)}))
+  };
+}
+window.auditCollectionBatch11bRuntime = auditCollectionBatch11bRuntime;
 
 function changeSouls(player, delta, reason='effect', preferredSlot=null) {
   const p = playerState(player);
@@ -14772,6 +14952,8 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
     if (gain.success) showNotif('Vengeance : 1 Écho rejoint vos réserves.', 1200);
     return result;
   }
+  const batch11bVengeance = await resolveBatch11bVengeance(cardId, player, dyingFC, killer, context);
+  if (batch11bVengeance?.handled) return batch11bVengeance;
   if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009' && cardId !== 'TRL000013' && cardId !== 'TRL000014' && cardId !== 'GOB000006' && cardId !== 'GOB000012') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
@@ -20115,6 +20297,16 @@ Object.assign(CARDS_DATA, {
   S000059:{name:'Plume enchantée',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000034','H000035'],cap:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
   S000060:{name:"Craie d’invocation",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000035','H000036'],cap:"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."}
 });
+// COLLECTION_BATCH_11B_CARD_DATA_SYNC
+Object.assign(CARDS_DATA, {
+  MV000002:{...CARDS_DATA.MV000002,name:'Spectre hurlant',type:'Serviteur',fac:'mvs',atk:4,pdv:2,cost:2,res_ico:'IC00000AME',res_val:'2',resType:'Écho',fico:'FCT00000MVS.png',kws:['Vigilance','Initiative','Écho','Approvisionnement'],cap:"[Vigilance] [Initiative] Détruit un serviteur adverse dont l'attaque est inférieure à celle de cette carte et génère 1 à 3 Échos, puis ajoute la victime sous votre pile d'approvisionnement.",detail:"[Vigilance] [Initiative] Détruit un serviteur adverse dont l'attaque est inférieure à celle de cette carte et génère 1 à 3 Échos, puis ajoute la victime sous votre pile d'approvisionnement.",assetFolder:'morts-vivants',max:4},
+  MV000003:{...CARDS_DATA.MV000003,name:'Gueule du trépas',type:'Serviteur',fac:'mvs',atk:6,pdv:8,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Écho',fico:'FCT00000MVS.png',kws:['Initiative','Écho','Approvisionnement'],cap:"[Initiative] Détruit un serviteur adverse dont l'attaque est inférieure à celle de cette carte et génère 1 à 3 Échos en fonction du coût imprimé de la victime. Rend à ce serviteur un montant de points de vie égal à l'attaque du serviteur détruit.",detail:"[Initiative] Détruit un serviteur adverse dont l'attaque est inférieure à celle de cette carte et génère 1 à 3 Échos en fonction du coût imprimé de la victime. Rend à ce serviteur un montant de points de vie égal à l'attaque du serviteur détruit. Ajoute la victime sous votre pile d'approvisionnement.",assetFolder:'morts-vivants',max:1},
+  MV000004:{...CARDS_DATA.MV000004,name:'Amalgame terrifiant',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Écho',fico:'FCT00000MVS.png',kws:['Écho','Initiative','Approvisionnement'],cap:"[Initiative] Si deux autres serviteurs amalgamés sont de votre côté du terrain, détruit un serviteur adverse avec 9 points de vie ou moins, génère 3 Échos et ajoute la victime sous votre pile d'approvisionnement en Échos.",detail:"[Initiative] Si deux autres serviteurs amalgamés sont de votre côté du terrain, détruit un serviteur adverse avec 9 points de vie ou moins, génère 3 Échos et ajoute la victime sous votre pile d'approvisionnement en Échos.",assetFolder:'morts-vivants',max:2,related:['MV000005','MV000006']},
+  MV000005:{...CARDS_DATA.MV000005,name:'Amalgame rageur',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Écho',fico:'FCT00000MVS.png',kws:['Écho','Initiative'],cap:'[Initiative] Si deux autres serviteurs amalgamés sont de votre côté du terrain, réduit le coût en Échos de votre prochaine carte de 3.',detail:'[Initiative] Si deux autres serviteurs amalgamés sont de votre côté du terrain, réduit le coût en Échos de votre prochaine carte de 3.',assetFolder:'morts-vivants',max:2,related:['MV000004','MV000006']},
+  MV000006:{...CARDS_DATA.MV000006,name:'Amalgame erratique',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Écho',fico:'FCT00000MVS.png',kws:['Écho','Initiative'],cap:'[Initiative] Si deux autres serviteurs amalgamés sont de votre côté du terrain, piochez instantanément 3 cartes de votre deck.',detail:'[Initiative] Si deux autres serviteurs amalgamés sont de votre côté du terrain, vous piochez instantanément 3 cartes de votre deck.',assetFolder:'morts-vivants',max:2,related:['MV000004','MV000005']},
+  MV000015:{...CARDS_DATA.MV000015,name:'Banshee hurlante',type:'Serviteur',fac:'mvs',atk:2,pdv:1,cost:1,res_ico:'IC00000AME',res2:'IC00000ARI',resOu:true,res_val:'1',resType:'Écho|Aria',fico:'FCT00000MVS.png',kws:['Écho','Aria','Initiative','Vengeance'],cap:"[Initiative] Renvoie 1 serviteur adverse ayant une attaque inférieure ou égale à 4 dans le deck de votre adversaire, qui est ensuite remélangé. [Vengeance] Votre adversaire renvoie 1 carte aléatoire de sa main dans son deck, qui est ensuite remélangé.",detail:"[Initiative] Renvoie 1 serviteur adverse ayant une attaque inférieure ou égale à 4 dans le deck de votre adversaire, qui est ensuite remélangé. [Vengeance] Votre adversaire renvoie 1 carte aléatoire de sa main dans son deck, qui est ensuite remélangé.",assetFolder:'morts-vivants',max:4},
+  MV000029:{...CARDS_DATA.MV000029,name:'Gardien du reliquaire',type:'Serviteur',fac:'mvs',atk:1,pdv:6,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria',fico:'FCT00000MVS.png',kws:['Initiative','Écho','Approvisionnement'],cap:'[Initiative] Ajoute 3 Échos à vos réserves. À chacune de vos fins de tour, si vous n’avez dépensé aucun Écho pendant ce tour, fournit 1 Écho supplémentaire.',detail:'[Initiative] Ajoute 3 Échos à vos réserves. À chacune de vos fins de tour, si vous n’avez dépensé aucun Écho pendant ce tour, fournit 1 Écho supplémentaire.',assetFolder:'morts-vivants',max:3}
+});
 Object.assign(CARDS_DATA, {
   EN000001:{...CARDS_DATA.EN000001, cap:'[Initiative] Inflige instantanément le montant de son attaque à un maximum de *2* serviteurs aléatoires.', detail:'[Initiative] Inflige instantanément le montant de son attaque à un maximum de *2* serviteurs aléatoires.'},
   EN000002:{...CARDS_DATA.EN000002, cap:"[Vengeance] Inflige les dégâts de son attaque au serviteur qui envoie l'« Assassin nocturne » au cimetière, ainsi qu'aux deux serviteurs directement adjacents à celui-ci.", detail:"[Vengeance] Inflige les dégâts de son attaque au serviteur qui envoie l'« Assassin nocturne » au cimetière, ainsi qu'aux deux serviteurs directement adjacents à celui-ci."},
@@ -23750,6 +23942,7 @@ function applyScenarioTestSetup() {
     }
     p.batch11aCapturedVictims = [];
     p.batch11aNecropoleDestroyedSinceLastTurn = 0;
+    collectionBatch11bState.events = [];
     if (Array.isArray(config.servants)) {
       const zone = qs(playerZoneSelector(p, 'servants'));
       const slots = Array.from(zone?.querySelectorAll('.slot') || []);

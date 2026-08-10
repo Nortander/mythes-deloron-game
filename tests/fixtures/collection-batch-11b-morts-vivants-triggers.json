@@ -1,0 +1,68 @@
+{
+  "lotId": "COLLECTION-BATCH-11B",
+  "scenarios": {
+    "initiativeCaptures": "collection-batch-11b-initiative-captures",
+    "amalgams": "collection-batch-11b-amalgams",
+    "bansheeVengeance": "collection-batch-11b-banshee-vengeance"
+  },
+  "selectedCards": [
+    {
+      "id": "MV000002",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "initiative-destroy-capture-echo"
+    },
+    {
+      "id": "MV000003",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "initiative-destroy-heal-capture-echo"
+    },
+    {
+      "id": "MV000004",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "conditional-initiative-destroy-capture-echo"
+    },
+    {
+      "id": "MV000005",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "conditional-initiative-next-echo-cost-reduction"
+    },
+    {
+      "id": "MV000006",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "conditional-initiative-draw"
+    },
+    {
+      "id": "MV000015",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "initiative-return-servant-to-deck-and-vengeance-hand-to-deck"
+    },
+    {
+      "id": "MV000029",
+      "expectedStatus": "PARTIEL",
+      "primitive": "initiative-echo-gain",
+      "deferred": [
+        "end-turn-extra-echo-if-no-echo-spent"
+      ]
+    }
+  ],
+  "echoByPrintedCost": {
+    "low": 1,
+    "medium": 2,
+    "high": 3
+  },
+  "deferredCards": [
+    "MV000008",
+    "MV000011",
+    "MV000024",
+    "MV000028",
+    "MV000030",
+    "S000041",
+    "S000042",
+    "S000044",
+    "S000052",
+    "PRST000014"
+  ],
+  "lockedCards": [
+    "S000051"
+  ]
+}
