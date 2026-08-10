@@ -1,0 +1,36 @@
+{
+  "lotId": "COLLECTION-BATCH-11A",
+  "scenarios": [
+    "collection-batch-11a-echos",
+    "collection-batch-11a-necropole"
+  ],
+  "cardIds": [
+    "AVS000008",
+    "MV000009",
+    "MV000025",
+    "R000021",
+    "R000027"
+  ],
+  "deferredCardIds": [
+    "MV000003",
+    "MV000011",
+    "MV000026",
+    "MV000028",
+    "MV000029",
+    "MV000030",
+    "PRST000014",
+    "S000041",
+    "S000042",
+    "S000044",
+    "S000052"
+  ],
+  "expected": {
+    "resourceLabel": "Écho",
+    "crypteFamilialeEchoGain": 5,
+    "faucheurEchoGain": 1,
+    "necropoleBaseGain": 2,
+    "necropoleDestroyedBonusCap": 3,
+    "necropoleOpponentGraveyardBonus": 1,
+    "necropoleGeneratedServantId": "MV000025"
+  }
+}
