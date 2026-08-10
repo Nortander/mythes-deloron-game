@@ -1,0 +1,49 @@
+{
+  "lotId": "COLLECTION-BATCH-11C",
+  "scenarios": {
+    "sacrificePower": "collection-batch-11c-sacrifice-power",
+    "sacrificeRefusal": "collection-batch-11c-sacrifice-refusal",
+    "returnRevenantsDeck": "collection-batch-11c-return-revenants",
+    "returnRevenantsGraveyard": "collection-batch-11c-return-graveyard",
+    "returnRevenantsFallback": "collection-batch-11c-return-fallback",
+    "jeteurMorghast": "collection-batch-11c-jeteur-morghast"
+  },
+  "selectedCards": [
+    {
+      "id": "MV000011",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "passive-destruction-echo-and-vengeance-destroy-capture"
+    },
+    {
+      "id": "MV000024",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "rempart-kill-echo-and-vengeance-fill-board"
+    },
+    {
+      "id": "S000041",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "graveyard-sacrifice-damage-capture-exile"
+    },
+    {
+      "id": "S000052",
+      "expectedStatus": "FONCTIONNEL_TESTE",
+      "primitive": "summon-low-cost-undead-from-deck-or-graveyard-fallback-echo"
+    }
+  ],
+  "deferredCards": [
+    "MV000008",
+    "MV000028",
+    "MV000030",
+    "S000042",
+    "S000044",
+    "PRST000014"
+  ],
+  "lockedCards": [
+    "S000051"
+  ],
+  "expected": {
+    "sacrificeDamagePoints": 2,
+    "fallbackEchoGain": 5,
+    "morghastWarriorId": "MV000001"
+  }
+}

@@ -394,3 +394,9 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 - `GOB000003` est vérifié contre un mort-vivant assez robuste pour prouver les dégâts triplés et l'application de `Colère divine`.
 - Le message répété de `S000049` après Vengeance est retiré ; le message initial reste le seul feedback public de Machiavélisme.
 - Aucun changement n'est apporté aux decks Hokhan/Uram, aux mains initiales, aux marqueurs OUI/MAYBE, aux assets ou aux exports.
+
+## COLLECTION-BATCH-11C - Sacrifices et resurrections morts-vivants
+
+Cartes implementees et testees : `MV000011`, `MV000024`, `S000041` et `S000052`. Le lot couvre les gains et depenses d'Echos, les captures sous approvisionnement, le sacrifice du cimetiere, l'invocation depuis deck puis cimetiere, le fallback de 5 Echos et les Vengeances associees.
+
+Cartes reportees : `MV000008`, `MV000028`, `MV000030`, `S000042`, `S000044` et `PRST000014`. `S000051` reste verrouille et protege par non-regression.

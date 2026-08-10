@@ -6871,12 +6871,14 @@
       "faction": "Mort-vivant",
       "sourceRow": 149,
       "timing": [
+        "passive",
         "vengeance"
       ],
       "operations": [
         "cost-validation",
+        "echo-gain",
         "lethal-damage",
-        "modify-atk",
+        "move-hand-deck-graveyard",
         "target-immunity",
         "vengeance-trigger"
       ],
@@ -6892,26 +6894,28 @@
       "durationHints": [],
       "requiredPrimitives": [
         "cost-validation",
+        "echo-gain",
         "lethal-damage",
-        "modify-atk",
+        "move-hand-deck-graveyard",
         "target-immunity",
         "vengeance-trigger"
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "echo-gain",
         "lethal-damage",
-        "modify-atk"
-      ],
-      "missingPrimitives": [
+        "move-hand-deck-graveyard",
         "target-immunity",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:lethal-damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-11c-morts-vivants-resurrections-sacrifices.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -7503,13 +7507,16 @@
       "faction": "Mort-vivant",
       "sourceRow": 162,
       "timing": [
+        "combat-kill",
         "vengeance"
       ],
       "operations": [
         "cost-validation",
-        "guard-restriction",
+        "echo-consumption",
+        "echo-gain",
         "lethal-damage",
         "move-hand-deck-graveyard",
+        "summon",
         "vengeance-trigger"
       ],
       "targetHints": [
@@ -7523,26 +7530,30 @@
       "durationHints": [],
       "requiredPrimitives": [
         "cost-validation",
-        "guard-restriction",
+        "echo-consumption",
+        "echo-gain",
         "lethal-damage",
         "move-hand-deck-graveyard",
+        "summon",
         "vengeance-trigger"
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "echo-consumption",
+        "echo-gain",
         "lethal-damage",
-        "move-hand-deck-graveyard"
-      ],
-      "missingPrimitives": [
-        "guard-restriction",
+        "move-hand-deck-graveyard",
+        "summon",
         "vengeance-trigger"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:vengeance:guard-restriction",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-11c-morts-vivants-resurrections-sacrifices.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -12781,6 +12792,7 @@
       ],
       "operations": [
         "damage",
+        "echo-gain",
         "lethal-damage",
         "move-hand-deck-graveyard",
         "play-condition",
@@ -12808,6 +12820,7 @@
       "durationHints": [],
       "requiredPrimitives": [
         "damage",
+        "echo-gain",
         "lethal-damage",
         "move-hand-deck-graveyard",
         "play-condition",
@@ -12817,21 +12830,22 @@
       ],
       "supportedPrimitives": [
         "damage",
+        "echo-gain",
         "lethal-damage",
         "move-hand-deck-graveyard",
         "play-condition",
         "send-spell-to-graveyard",
+        "target-immunity",
         "targeting"
       ],
-      "missingPrimitives": [
-        "target-immunity"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:damage",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-11c-morts-vivants-resurrections-sacrifices.spec.mjs"
     },
     {
       "schemaVersion": 1,
@@ -13396,12 +13410,11 @@
       "faction": "Mort-vivant",
       "sourceRow": 296,
       "timing": [
-        "on-play",
-        "persistent"
+        "on-play"
       ],
       "operations": [
         "cost-validation",
-        "duration-persistent",
+        "echo-gain",
         "move-hand-deck-graveyard",
         "send-spell-to-graveyard",
         "summon"
@@ -13422,32 +13435,29 @@
         "cimetière",
         "serviteur"
       ],
-      "durationHints": [
-        "tant que possible les serviteurs distincts",
-        "tant que possible les serviteurs distincts"
-      ],
+      "durationHints": [],
       "requiredPrimitives": [
         "cost-validation",
-        "duration-persistent",
+        "echo-gain",
         "move-hand-deck-graveyard",
         "send-spell-to-graveyard",
         "summon"
       ],
       "supportedPrimitives": [
         "cost-validation",
+        "echo-gain",
         "move-hand-deck-graveyard",
-        "send-spell-to-graveyard"
-      ],
-      "missingPrimitives": [
-        "duration-persistent",
+        "send-spell-to-graveyard",
         "summon"
       ],
+      "missingPrimitives": [],
       "familyKey": "Sort:on-play:duration-persistent",
-      "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "directTest": "tests/browser/collection-batch-11c-morts-vivants-resurrections-sacrifices.spec.mjs"
     },
     {
       "schemaVersion": 1,
