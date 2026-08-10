@@ -19,6 +19,11 @@ function blockingConsoleErrors(diagnostics) {
   );
 }
 
+async function openCollectionPage(page) {
+  await page.goto("/code/collection.html?batch11bCollection=" + Date.now());
+  await expect.poll(() => page.evaluate(() => typeof CARDS !== "undefined" && Array.isArray(CARDS) && CARDS.length > 0)).toBe(true);
+}
+
 async function playFromHand(page, cardId, zone = "servants") {
   return page.evaluate(async ({cardId, zone}) => {
     const selector = zone === "appro" ? playerZoneSelector(player1, "appro") : playerZoneSelector(player1, "servants");
@@ -26,6 +31,51 @@ async function playFromHand(page, cardId, zone = "servants") {
     return playCard(cardId, slot, {returnValidation:true});
   }, {cardId, zone});
 }
+
+test("Collection keeps Batch-11B undead trigger cards aligned with runtime public contracts", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openCollectionPage(page);
+  const audit = await page.evaluate((ids) => ids.map(id => {
+    const card = CARDS.find(entry => entry.id === id);
+    return {
+      id,
+      exists:!!card,
+      name:card?.name || "",
+      type:card?.type || "",
+      faction:card?.faction || "",
+      atk:card?.atk ?? null,
+      pdv:card?.pdv ?? null,
+      cost:card?.cost ?? null,
+      keywords:[...(card?.kw || [])],
+      text:String(card?.desc || "") + " " + String(card?.detail || "") + " " + String(card?.cond || ""),
+      costDefinition:collectionCostDefinition(id)
+    };
+  }), fixture.selectedCards.map(card => card.id));
+  const byId = Object.fromEntries(audit.map(card => [card.id, card]));
+  for (const card of audit) {
+    expect(card.exists, card.id).toBe(true);
+    expect(card.faction, card.id).toBe("Mort-vivant");
+    expect(card.text, card.id + " public text has no old resource term").not.toMatch(/Âmes?|Ã‚mes?|RAME(?:0|5|10|15|20|21|\*)|\[ID\s*=/i);
+    expect(JSON.stringify([card.text, card.keywords, card.costDefinition]), card.id + " public contract keeps Echo semantics").toMatch(/Écho|soul/);
+  }
+  expect(byId.MV000002).toMatchObject({name:"Spectre hurlant", type:"Serviteur", atk:4, pdv:2, cost:2});
+  expect(byId.MV000003).toMatchObject({name:"Gueule du trépas", type:"Serviteur", atk:6, pdv:8, cost:5});
+  expect(byId.MV000004).toMatchObject({name:"Amalgame terrifiant", type:"Serviteur", atk:3, pdv:3, cost:3});
+  expect(byId.MV000005).toMatchObject({name:"Amalgame rageur", type:"Serviteur", atk:3, pdv:3, cost:3});
+  expect(byId.MV000006).toMatchObject({name:"Amalgame erratique", type:"Serviteur", atk:3, pdv:3, cost:3});
+  expect(byId.MV000015).toMatchObject({name:"Banshee hurlante", type:"Serviteur", atk:2, pdv:1, cost:1});
+  expect(byId.MV000015.keywords).toEqual(expect.arrayContaining(["Écho", "Aria", "Initiative", "Vengeance"]));
+  expect(byId.MV000015.costDefinition.groups).toEqual([
+    expect.objectContaining({resources:[expect.objectContaining({key:"soul", amount:1})]}),
+    expect.objectContaining({op:"ou", resources:[expect.objectContaining({key:"aria", amount:1})]})
+  ]);
+  expect(byId.MV000029).toMatchObject({name:"Gardien du reliquaire", type:"Serviteur", atk:1, pdv:6, cost:3});
+  expect(byId.MV000029.text).toContain("Ajoute");
+  expect(byId.MV000029.text).toContain("3");
+  expect(byId.MV000029.text).not.toMatch(/fin de tour|fins de tour|si vous n’avez dépensé aucun Écho/i);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
 
 test("Batch-11B scenarios stay hidden and expose clean Echo-facing card data", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
