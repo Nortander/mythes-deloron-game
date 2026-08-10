@@ -347,9 +347,16 @@ Règles d'impulsion et de mouvement pour les capacités :
 - les badges textuels génériques comme `INITIATIVE RESOLUE` ne remplacent pas un vrai feedback visuel de capacité.
 
 
-### Charte couleur Humain
+### Charte couleur des descriptions Collection
 
-Pour les cartes de faction Humain, le champ de description principal et tous ses descendants mécaniques doivent utiliser le bleu humain sombre `#002fa7` pour les mots-clefs, chiffres, variables et valeurs mécaniques. Le bleu céleste `#26c4ec` reste réservé aux liserés, overlays lumineux, titres et éléments de mise en valeur hors corps principal, notamment les infobulles.
+Dans la Collection, les highlights du champ de description principal et de la description agrandie doivent utiliser les couleurs validées par faction pour les mots-clefs, chiffres, variables et valeurs mécaniques :
+
+- Humain : `#26c4ec` ;
+- Elfe des bois : `#2a5a10` ;
+- Elfe de glace : `#2a8fd4` ;
+- Nain : `#8090a8`.
+
+Pour les cartes de faction Humain, les anciens bleus `#002fa7` et `#003ccc` ne doivent plus être utilisés dans les highlights de description. Cette harmonisation ne concerne pas les infobulles, leurs titres, les cadres, fonds, liserés, icônes, coûts, ATK/PV ou autres éléments hors champ de description.
 
 ## 16. Collection
 

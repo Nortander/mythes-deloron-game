@@ -94,6 +94,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ccard-desc-inner p em{font-style:normal;font-weight:700;color:var(--card-kw,#c89040);text-decoration:underline;text-underline-offset:1px;}
 .ccard-desc-inner p i{font-style:italic;}
 .ccard-desc-inner p strong{font-weight:700;}
+.hum-card .ccard-desc-inner p em,.hum-card .ccard-desc-inner p strong.kv,.hum-card .ccard-desc-inner p .card-keyword,.hum-card .ccard-desc-inner p .card-named-ability{color:#26c4ec;}
+.edb-card .ccard-desc-inner p strong.kv,.edb-card .ccard-desc-inner p .card-keyword,.edb-card .ccard-desc-inner p .card-named-ability{color:#2a5a10;}
+.edg-card .ccard-desc-inner p em,.edg-card .ccard-desc-inner p strong.kv,.edg-card .ccard-desc-inner p .card-keyword,.edg-card .ccard-desc-inner p .card-named-ability{color:#2a8fd4;}
+.nain-card .ccard-desc-inner p em,.nain-card .ccard-desc-inner p strong.kv,.nain-card .ccard-desc-inner p .card-keyword,.nain-card .ccard-desc-inner p .card-named-ability{color:#8090a8;}
 .card-keyword,.card-named-ability,.card-type-token{font-weight:700;color:var(--card-faction-color,var(--card-kw,var(--gold-lt)));text-decoration:underline;text-underline-offset:2px;}
 .ccard-resource-footer,.ccard-cost-z{min-height:30px;height:30px;display:flex;align-items:center;justify-content:center;gap:3px;position:relative;padding:4px 5px 6px;box-sizing:border-box;overflow:hidden;z-index:3;width:100%;align-self:end;}
 .ccard-resource-footer.resource-lines-0{min-height:26px;height:26px;}
@@ -156,7 +160,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .hum-card .ccard-name-b{background:linear-gradient(180deg,#0f1a3a,#091228 50%,#0f1a3a);}
 .hum-card .ccard-desc-inner{background:linear-gradient(155deg,#dce8f0,#b8cce0);}
 .hum-card .ccard-desc-inner p{color:#0a1830;}
-.hum-card .ccard-desc-inner p em{color:#003ccc;}
+.hum-card .ccard-desc-inner p em{color:#26c4ec;}
 .hum-card .ccard-cost-z{background:linear-gradient(180deg,#0f1a3a,#091228);}
 
 .orc-card .ccard-inner{background:linear-gradient(170deg,#6a0e04,#3a0400);}
@@ -188,7 +192,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .edg-card .ccard-name-b{background:linear-gradient(180deg,#061830,#040e20 50%,#061830);}
 .edg-card .ccard-desc-inner{background:linear-gradient(155deg,#ddeeff,#b8daf5);}
 .edg-card .ccard-desc-inner p{color:#0a1e36;}
-.edg-card .ccard-desc-inner p em{color:#0a4a8a;}
+.edg-card .ccard-desc-inner p em{color:#2a8fd4;}
 .edg-card .ccard-cost-z{background:linear-gradient(180deg,#061830,#040e20);}
 
 .nain-card .ccard-inner{background:linear-gradient(170deg,#2e3040,#0e0e18);}
@@ -196,7 +200,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .nain-card .ccard-name-b{background:linear-gradient(180deg,#1e2030,#141620 50%,#1e2030);}
 .nain-card .ccard-desc-inner{background:linear-gradient(155deg,#d8dce8,#b4b8cc);}
 .nain-card .ccard-desc-inner p{color:#0e0e14;}
-.nain-card .ccard-desc-inner p em{color:#2a3448;}
+.nain-card .ccard-desc-inner p em{color:#8090a8;}
 .nain-card .ccard-cost-z{background:linear-gradient(180deg,#1e2030,#141620);}
 
 .trl-card .ccard-inner{background:linear-gradient(170deg,#4a2008,#100802);}
@@ -345,7 +349,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .m-hum .modal-name-b{background:linear-gradient(180deg,#0f1a3a,#091228 50%,#0f1a3a);}
 .m-hum .modal-desc-inner{background:linear-gradient(155deg,#dce8f0,#b8cce0);}
 .m-hum .modal-desc-inner p{color:#0a1830;}
-.m-hum .modal-desc-inner p em{color:#003ccc;}
+.m-hum .modal-desc-inner p em{color:#26c4ec;}
 .m-hum .modal-cost-z{background:linear-gradient(180deg,#0f1a3a,#091228);}
 .m-hum .modal-cond-text{color:#26c4ec;}
 .m-hum .modal-kw-name{color:#26c4ec;}
@@ -385,7 +389,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .m-edg .modal-name-b{background:linear-gradient(180deg,#061830,#040e20 50%,#061830);}
 .m-edg .modal-desc-inner{background:linear-gradient(155deg,#ddeeff,#b8daf5);}
 .m-edg .modal-desc-inner p{color:#0a1e36;}
-.m-edg .modal-desc-inner p em{color:#0a4a8a;}
+.m-edg .modal-desc-inner p em{color:#2a8fd4;}
 .m-edg .modal-cost-z{background:linear-gradient(180deg,#061830,#040e20);}
 .m-edg .modal-cond-text{color:#2a8fd4;}
 .m-edg .modal-kw-name{color:#2a8fd4;}
@@ -395,7 +399,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .m-nain .modal-name-b{background:linear-gradient(180deg,#1e2030,#141620 50%,#1e2030);}
 .m-nain .modal-desc-inner{background:linear-gradient(155deg,#d8dce8,#b4b8cc);}
 .m-nain .modal-desc-inner p{color:#0e0e14;}
-.m-nain .modal-desc-inner p em{color:#2a3448;}
+.m-nain .modal-desc-inner p em{color:#8090a8;}
 .m-nain .modal-cost-z{background:linear-gradient(180deg,#1e2030,#141620);}
 .m-nain .modal-cond-text{color:#8090a8;}
 .m-nain .modal-kw-name{color:#8090a8;}
@@ -470,12 +474,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ccard-desc-inner p strong.kv{font-weight:700;color:var(--card-kw,#c89040);}
 .modal-desc-inner p strong.kv{font-weight:700;color:inherit;}
 .m-edb .modal-desc-inner p strong.kv{color:#2a5a10;}
-.m-hum .modal-desc-inner p strong.kv{color:#003ccc;}
+.m-hum .modal-desc-inner p .card-keyword,.m-hum .modal-desc-inner p .card-named-ability,.m-hum .modal-desc-inner p strong.kv{color:#26c4ec;}
+.m-edb .modal-desc-inner p .card-keyword,.m-edb .modal-desc-inner p .card-named-ability{color:#2a5a10;}
 .m-orc .modal-desc-inner p strong.kv{color:#e87040;}
 .m-mvs .modal-desc-inner p strong.kv{color:#d080e8;}
 .m-edn .modal-desc-inner p strong.kv{color:#d080e8;}
-.m-edg .modal-desc-inner p strong.kv{color:#0a4a8a;}
-.m-nain .modal-desc-inner p strong.kv{color:#2a3448;}
+.m-edg .modal-desc-inner p .card-keyword,.m-edg .modal-desc-inner p .card-named-ability,.m-edg .modal-desc-inner p strong.kv{color:#2a8fd4;}
+.m-nain .modal-desc-inner p .card-keyword,.m-nain .modal-desc-inner p .card-named-ability,.m-nain .modal-desc-inner p strong.kv{color:#8090a8;}
 .m-trl .modal-desc-inner p strong.kv{color:#e0a840;}
 .m-bet .modal-desc-inner p strong.kv{color:#c89040;}
 .m-gob .modal-desc-inner p strong.kv{color:#ffd23f;}
@@ -931,7 +936,7 @@ const CARDS=[
   {id:'S000043',name:`Prendre le taureau par les cornes`,type:'Sort',faction:'Bête',atk:null,pdv:null,cost:6,kw:['Nourriture'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000043.png`,fico:null,desc:`Piochez immédiatement tous les serviteurs de type « Minotaure » restant dans votre deck.`,detail:`Piochez immédiatement tous les serviteurs de type « Minotaure » [ID = B0<strong class="kv">00015</strong>, B0<strong class="kv">00016 </strong>et B0<strong class="kv">00017</strong>] restant dans votre deck.`,useDetail:true,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:6}],owned:false,qty:0,maxOwned:1,related:['B000015','B000016','B000017']},
   {id:'S000044',name:`Recyclage`,type:'Sort',faction:'Mort-vivant',atk:null,pdv:null,cost:6,kw:['Aria'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000044.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000MVS.png`,desc:`Jusqu'à la fin de votre tour, piochez <strong class="kv">1 </strong>carte de votre deck et renvoyez <strong class="kv">1 </strong>carte de votre cimetière dans votre deck chaque fois que vous invoquez <strong class="kv">1 </strong>serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:6}],owned:false,qty:0,maxOwned:2},
   {id:'S000045',name:`Jardins botaniques`,type:'Sort',faction:'Elfe des bois',atk:null,pdv:null,cost:6,kw:['Aria','Lenya','Nourriture','Bois'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000045.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000EDB.png`,desc:`Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en deux piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à la pile correspondante. Ajoute <strong class="kv">1 </strong>carte « Herboristerie » et <strong class="kv">2 </strong>cartes « Buissons à baies » à votre main.`,detail:`Toutes vos cartes « Herboristerie » [ID = R0<strong class="kv">00004</strong>] et « Buissons à baies » [ID = R0<strong class="kv">00003</strong>] actuellement sur le terrain fusionnent en deux piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à la pile correspondante. Ajoute <strong class="kv">1 </strong>carte « Herboristerie » et <strong class="kv">2 </strong>cartes « Buissons à baies » à votre main.`,useDetail:true,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:1}],rs:`+`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs2:`+`,res3:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs3:`+`,res4:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000BOI.png`,n:3}],owned:false,qty:0,maxOwned:1,related:['R000004','R000003']},
-  {id:'S000046',name:`Ça passe ou ça casse`,type:'Sort',faction:'Troll',atk:null,pdv:null,cost:4,kw:['Nourriture','Pierre'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000046.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 1 à 4 PDV. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.`,cond:`Vous devez contrôler au moins <strong class="kv">1 </strong>serviteur troll. Votre adversaire doit avoir au moins <strong class="kv">1 </strong>serviteur de son côté du terrain.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs:`ou`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000PIE.png`,n:1}],owned:false,qty:0,maxOwned:2},
+  {id:'S000046',name:`Ça passe ou ça casse`,type:'Sort',faction:'Troll',atk:null,pdv:null,cost:4,kw:['Nourriture','Pierre'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000046.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000TRL.png`,desc:`Choisissez 1 serviteur troll allié : il attaque immédiatement 1 serviteur adverse aléatoire. S'il survit, il récupère 1 à 4 PDV. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.`,cond:`Vous devez contrôler au moins <strong class="kv">1 </strong>serviteur troll. Votre adversaire doit avoir au moins <strong class="kv">1 </strong>serviteur de son côté du terrain.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs:`ou`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000PIE.png`,n:1}],owned:false,qty:0,maxOwned:2},
   {id:'S000047',name:`Volée de gobelins`,type:'Sort',faction:'Gobelin',atk:null,pdv:null,cost:5,kw:['Nourriture'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000047.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`Invoque jusqu'à <strong class="kv">3 </strong>« Surineurs » de votre côté du terrain.`,detail:`Invoque jusqu'à <strong class="kv">3 </strong>« Surineurs » [ID = GOB0<strong class="kv">00002</strong>] de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck.`,useDetail:true,cond:`Un ou plusieurs emplacements de serviteur doivent être libres de votre côté du terrain.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:5}],owned:false,qty:0,maxOwned:2,related:['GOB000002']},
   {id:'S000048',name:`Grande horde`,type:'Sort',faction:'/',atk:null,pdv:null,cost:6,kw:['Lenya','Nourriture','Fer','Aria'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000048.png`,fico:null,desc:`Jusqu'à la fin de la partie, vos serviteurs orcs gagnent <strong class="kv">+1</strong> ATK et vos serviteurs trolls et gobelins gagnent <strong class="kv">+1</strong> PDV. Si votre deck contient également au moins <strong class="kv">1 </strong>serviteur humain, piochez <strong class="kv">2 </strong>cartes.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs:`+`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],rs2:`+`,res3:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000FER.png`,n:1}],rs3:`+`,res4:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png`,n:1}],owned:false,qty:0,maxOwned:2},
   {id:'S000049',name:`Machiavélisme`,type:'Sort',faction:'Gobelin',atk:null,pdv:null,cost:3,kw:['Lenya','Nourriture','Vengeance'],img:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/sorts/S000049.png`,fico:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/FCT00000GOB.png`,desc:`Jusqu'à la fin de votre tour, chaque capacité <em>Vengeance</em> déclenchée par un serviteur allié inflige <strong class="kv">2 </strong>points de dégâts supplémentaires à <strong class="kv">1 </strong>serviteur adverse aléatoire. Les capacités <em>Vengeance</em> de vos serviteurs gobelins se déclenchent une seconde fois ce tour.`,res:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png`,n:1}],rs:`ou`,res2:[{i:`https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000NRT.png`,n:1}],owned:false,qty:0,maxOwned:3},
@@ -970,7 +975,7 @@ const CARDS=[
   {"id":"S000058","name":"Grimoire du maître","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000058.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien dévoué » [ID = H000034] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » [ID = H000033] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000034","H000033"],"cond":"Joué dès qu'il est pioché."},
   {"id":"S000059","name":"Plume enchantée","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000059.png","fico":null,"desc":"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, l'apprenti magicien prodige » [ID = H000035] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » [ID = H000034] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000035","H000034"],"cond":"Joué dès qu'il est pioché."},
   {"id":"S000060","name":"Craie d'invocation","type":"Sort","faction":"/","atk":null,"pdv":null,"cost":0,"kw":[],"img":"../assets/sorts/S000060.png","fico":null,"desc":"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","owned":false,"qty":0,"maxOwned":0,"detail":"Ajoute « Gabar, maître-magicien » [ID = H000036] à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » [ID = H000035] de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.","useDetail":true,"related":["H000036","H000035"],"cond":"Joué dès qu'il est pioché."},
-  {id:"S000061",name:"Bouclier de glace",type:"Sort",faction:"/",atk:null,pdv:null,cost:1,kw:["Gel","Lenya","Aria"],img:"../assets/sorts/S000061.png",fico:null,desc:"Choisissez 1 serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des <3> prochaines attaques portées contre ce serviteur sont réduits de 2. Inflige également [Gel] pendant 1 tour aux attaquants. ».",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],owned:false,qty:0},
+  {id:"S000061",name:"Bouclier de glace",type:"Sort",faction:"/",atk:null,pdv:null,cost:1,kw:["Gel","Lenya","Aria"],img:"../assets/sorts/S000061.png",fico:null,desc:"Choisissez 1 serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des 3 prochaines attaques portées contre ce serviteur sont réduits de 2. Inflige également [Gel] pendant 1 tour aux attaquants. ».",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],owned:false,qty:0},
   {id:"S000062",name:"Déferlante de flammes",type:"Sort",faction:"/",atk:null,pdv:null,cost:3,kw:["Lenya","Aria","Sélène","Écho","Embrasement"],img:"../assets/sorts/S000062.png",fico:null,desc:"Choisissez 1 serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],rs2:"ou",res3:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000SLN.png",n:1}],rs3:"ou",res4:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000AME.png",n:1}],owned:false,qty:0},
   {id:"S000063",name:"Choc mental",type:"Sort",faction:"/",atk:null,pdv:null,cost:2,kw:["Lenya","Aria","Sélène","Insensible"],img:"../assets/sorts/S000063.png",fico:null,desc:"Choisissez 1 serviteur adverse et infligez-lui 2 à 6 points de dégâts. Passe outre [Insensible].",maxOwned:3,res:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000LNY.png",n:1}],rs:"ou",res2:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000ARI.png",n:1}],rs2:"ou",res3:[{i:"https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main/icones/IC00000SLN.png",n:1}],owned:false,qty:0},
 ];
@@ -2268,7 +2273,7 @@ function openModal(cardId){
 
   // Mots-clefs — seulement ceux qui ont une définition
   const tooltipModel=buildCanonicalCardTooltips(c.id,'collection');
-  tooltipModel.right.filter(item=>item.kind==='keyword'||item.kind==='named-ability'||(c.id==='R000027'&&item.kind==='ability')).forEach(item=>{
+  tooltipModel.right.filter(item=>item.kind==='keyword'||item.kind==='named-ability'||(c.id==='R000027'&&item.kind==='ability')).filter(item=>!(['R000022','R000023'].includes(c.id)&&item.keyword==='Approvisionnement')).forEach(item=>{
       const box=document.createElement('div');
       box.className='modal-kw-box';
       box.innerHTML=`<div class="modal-kw-name">${item.title}</div><div class="modal-kw-def">${formatPlayerFacingCardText(item.body,c)}</div>`;
@@ -2914,6 +2919,9 @@ function highlightPublicNumbersInHtml(html){
 function enforceKeywordColonSpacing(html){
   return String(html||'').replace(/(<strong\b[^>]*(?:card-keyword|card-named-ability)[^>]*>[\s\S]*?<\/strong>)\s*:/g,'$1\u00a0:');
 }
+function enforceFrenchColonSpacingInHtml(html){
+  return String(html||'').replace(/([\p{L}\p{N}»”])\s*:/gu,'$1\u00a0:');
+}
 function applyCollectionKeywordMarkers(html){
   let out=String(html||'');
   const glossary=canonicalKeywordGlossary();
@@ -2927,7 +2935,7 @@ function formatPlayerFacingCardText(rawText,cardModel=null,options={}){
   const formatted=CardRenderingCore.formatPlayerFacingCardText(rawText,cardModel,{...options,cardLookup:buildCollectionCanonicalCardLookup()});
   const decorate=html=>{
     const marked=applyCollectionKeywordMarkers(html);
-    return enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked));
+    return enforceFrenchColonSpacingInHtml(enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked)));
   };
   return options.tokens&&formatted&&typeof formatted==='object'
     ? {...formatted,html:decorate(formatted.html)}
