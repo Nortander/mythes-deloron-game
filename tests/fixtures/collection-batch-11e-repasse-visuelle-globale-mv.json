@@ -1,0 +1,59 @@
+{
+  "lotId": "COLLECTION-BATCH-11E",
+  "cards": [
+    "AVS000008",
+    "R000021",
+    "R000027",
+    "MV000002",
+    "MV000003",
+    "MV000008",
+    "MV000009",
+    "MV000011",
+    "MV000015",
+    "MV000024",
+    "MV000025",
+    "MV000028",
+    "MV000029",
+    "MV000030",
+    "S000041",
+    "S000042",
+    "S000044",
+    "S000051",
+    "S000052"
+  ],
+  "scenarios": [
+    "collection-batch-11e-hokhan-gueule-mur",
+    "collection-batch-11e-arachnee-ame",
+    "collection-batch-11e-sorts-globaux",
+    "collection-batch-11e-rituel-occult",
+    "collection-batch-11e-parity"
+  ],
+  "echoHarvestTooltipCards": [
+    "MV000002",
+    "MV000008",
+    "MV000009",
+    "MV000011",
+    "MV000028",
+    "S000041"
+  ],
+  "lockedNotRecoded": [
+    "S000004",
+    "S000006",
+    "S000017",
+    "S000022"
+  ],
+  "expected": {
+    "hokhanInitialEchoes": 5,
+    "hokhanPseudoVengeanceEchoGain": 8,
+    "murDamageFiveEchoGain": 2,
+    "gueuleVictim": "H000005",
+    "araigneeVictim": "H000001",
+    "ameExplosiveDamageBudget": 6,
+    "ritualOpponentGraveyard": [
+      "H000001",
+      "R000001",
+      "H000005"
+    ],
+    "recyclageReturnedFromGraveyard": "S000044"
+  }
+}

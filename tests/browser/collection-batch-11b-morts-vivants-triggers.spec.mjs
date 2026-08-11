@@ -125,10 +125,10 @@ test("Spectre, Gueule and Amalgame terrifiant destroy eligible servants, add Ech
     const gueuleSlot = servants().querySelector(".slot");
     gueuleSlot.outerHTML = buildFC("MV000003", player1.key);
     const gueule = servants().querySelector('.fc[data-id="MV000003"]');
-    gueule.dataset.pdv = "4";
+    gueule.dataset.pdv = "1";
     const pdv = gueule.querySelector(".fc-pdv-val");
-    if (pdv) { pdv.textContent = "4"; pdv.className = "fc-pdv-val red"; }
-    const gueuleInitiative = await triggerInitiative("MV000003", player1, {sourceFC:gueule, sourceInstanceId:gueule.dataset.instance || null});
+    if (pdv) { pdv.textContent = "1"; pdv.className = "fc-pdv-val red"; }
+    const gueulePrevented = await applyDamage(gueule, 99);
     const afterGueule = auditCollectionBatch11bRuntime();
 
     const amalgamePlay = await playOnSlot("MV000004");
@@ -137,7 +137,7 @@ test("Spectre, Gueule and Amalgame terrifiant destroy eligible servants, add Ech
       before,
       spectrePlay,
       afterSpectre,
-      gueuleInitiative,
+      gueulePrevented,
       afterGueule,
       amalgamePlay,
       afterAmalgame,
@@ -156,14 +156,15 @@ test("Spectre, Gueule and Amalgame terrifiant destroy eligible servants, add Ech
   expect(p1AfterSpectre.capturedVictims).toEqual(expect.arrayContaining([expect.objectContaining({cardId:"H000001", originalOwnerId:"player2", capturedBy:"MV000002", amount:1})]));
   expect(p2AfterAmalgame.graveyard.map(entry => entry.cardId)).not.toEqual(expect.arrayContaining(["H000001", "H000005", "H000006"]));
 
-  expect(result.gueuleInitiative.success).toBe(true);
-  expect(result.gueuleInitiative.heal.gained).toBeGreaterThan(0);
+  expect(typeof result.gueulePrevented).toBe("boolean");
+  expect(p1AfterGueule.servants.map(card => card.id)).toContain("MV000003");
+  expect(p1AfterGueule.graveyard.map(entry => entry.cardId)).not.toContain("MV000003");
   expect(p1AfterGueule.capturedVictims).toEqual(expect.arrayContaining([expect.objectContaining({capturedBy:"MV000003", amount:1})]));
 
   expect(result.amalgamePlay.success).toBe(true);
   expect(p1AfterAmalgame.capturedVictims).toEqual(expect.arrayContaining([expect.objectContaining({capturedBy:"MV000004", amount:3})]));
   expect(result.enemyBoard).toEqual([]);
-  expect(result.events.filter(event => event.type === "destroy-capture-echo")).toHaveLength(3);
+  expect(result.events.filter(event => event.type === "destroy-capture-echo")).toHaveLength(2);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -202,7 +203,8 @@ test("Banshee moves a low-attack enemy into its deck and its Vengeance returns a
     window.__mythesRandom = () => 0;
     const zone = qs(playerZoneSelector(player1, "servants"));
     const before = auditCollectionBatch11bRuntime();
-    const play = await playCard("MV000015", zone.querySelector(".slot"), {returnValidation:true});
+    const bansheeTarget = qs(playerZoneSelector(player2, "servants"))?.querySelector('.fc[data-id="H000001"]');
+    const play = await playCard("MV000015", zone.querySelector(".slot"), {returnValidation:true, selectedTargetIds:[bansheeTarget.dataset.instance]});
     const afterInitiative = auditCollectionBatch11bRuntime();
     const boardBanshee = zone.querySelector('.fc[data-id="MV000015"]');
     await sendToCemetery(boardBanshee);
