@@ -1,0 +1,152 @@
+{
+  "lotId": "COLLECTION-BATCH-11D",
+  "baseUrl": "http://127.0.0.1:4173/code/partie-test-1.html?scenario=",
+  "cards": [
+    "R000021",
+    "MV000009",
+    "R000027",
+    "MV000025",
+    "AVS000008",
+    "MV000002",
+    "MV000003",
+    "MV000004",
+    "MV000005",
+    "MV000006",
+    "MV000015",
+    "MV000029",
+    "MV000011",
+    "MV000024",
+    "S000041",
+    "S000052"
+  ],
+  "scenarios": [
+    {
+      "id": "collection-batch-11-global-crypte-echos",
+      "cards": [
+        "R000021"
+      ],
+      "audit": "11a",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-faucheur-capture",
+      "cards": [
+        "MV000009",
+        "R000021"
+      ],
+      "audit": "11a",
+      "expectsEcho": true,
+      "refusal": "faucheur-one-echo"
+    },
+    {
+      "id": "collection-batch-11-global-necropole",
+      "cards": [
+        "R000027",
+        "MV000025"
+      ],
+      "audit": "11a",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-hokhan-echos",
+      "cards": [
+        "AVS000008"
+      ],
+      "audit": "11a",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-spectre-gueule",
+      "cards": [
+        "MV000002",
+        "MV000003"
+      ],
+      "audit": "11b",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-amalgames",
+      "cards": [
+        "MV000004",
+        "MV000005",
+        "MV000006"
+      ],
+      "audit": "11b",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-banshee",
+      "cards": [
+        "MV000015"
+      ],
+      "audit": "11b",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-gardien-reliquaire",
+      "cards": [
+        "MV000029"
+      ],
+      "audit": "11b",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-jeteur-morghast",
+      "cards": [
+        "MV000011",
+        "MV000024"
+      ],
+      "audit": "11c",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-sacrifice-power",
+      "cards": [
+        "S000041"
+      ],
+      "audit": "11c",
+      "expectsEcho": true,
+      "refusal": "sacrifice-no-servant-graveyard"
+    },
+    {
+      "id": "collection-batch-11-global-return-revenants",
+      "cards": [
+        "S000052"
+      ],
+      "audit": "11c",
+      "expectsEcho": true
+    },
+    {
+      "id": "collection-batch-11-global-parity-collection",
+      "cards": [
+        "R000021",
+        "MV000009",
+        "R000027",
+        "MV000025",
+        "AVS000008",
+        "MV000002",
+        "MV000003",
+        "MV000004",
+        "MV000005",
+        "MV000006",
+        "MV000015",
+        "MV000029",
+        "MV000011",
+        "MV000024",
+        "S000041",
+        "S000052"
+      ],
+      "audit": "parity",
+      "expectsEcho": true
+    }
+  ],
+  "deferredOrLocked": [
+    "MV000008",
+    "MV000028",
+    "MV000030",
+    "S000042",
+    "S000044",
+    "PRST000014",
+    "S000051"
+  ]
+}

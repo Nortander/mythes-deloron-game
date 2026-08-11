@@ -3042,6 +3042,87 @@ SCENARIOS['collection-batch-11c-return-revenants'] = { label:'TEST - COLLECTION 
 SCENARIOS['collection-batch-11c-return-graveyard'] = { label:'TEST - COLLECTION BATCH 11C Retour depuis cimetière', participants:['huvuImpl3Subject','huvuImpl3Opponent'], fixedFirstParticipant:0, hidden:true, showTestResourcePanel:true, showCollectionBatch11aPanel:true, showCollectionBatch11bPanel:true, showCollectionBatch11cPanel:true, testCardId:'S000052', testSetup:{ player1:{resources:{classical:{aria:10,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:6}, hand:['S000052'], drawPile:['H000001','R000001'], graveyard:['MV000001','MV000002','MV000025'], servants:[], avatarHp:20}, player2:{resources:{classical:{aria:20},souls:0}, hand:[], drawPile:['H000006'], graveyard:[], servants:[], avatarHp:20} } };
 SCENARIOS['collection-batch-11c-return-fallback'] = { label:'TEST - COLLECTION BATCH 11C Retour fallback Échos', participants:['huvuImpl3Subject','huvuImpl3Opponent'], fixedFirstParticipant:0, hidden:true, showTestResourcePanel:true, showCollectionBatch11aPanel:true, showCollectionBatch11bPanel:true, showCollectionBatch11cPanel:true, testCardId:'S000052', testSetup:{ player1:{resources:{classical:{aria:10,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:2}, hand:['S000052'], drawPile:['H000001','R000001'], graveyard:['R000001'], servants:[], avatarHp:20}, player2:{resources:{classical:{aria:20},souls:0}, hand:[], drawPile:['H000006'], graveyard:[], servants:[], avatarHp:20} } };
 SCENARIOS['collection-batch-11c-jeteur-morghast'] = { label:'TEST - COLLECTION BATCH 11C Jeteur et Morghast', participants:['huvuImpl3Subject','huvuImpl3Opponent'], fixedFirstParticipant:0, hidden:true, showTestResourcePanel:true, showCollectionBatch11aPanel:true, showCollectionBatch11bPanel:true, showCollectionBatch11cPanel:true, testCardId:'MV000011', testSetup:{ player1:{resources:{classical:{aria:20,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:8}, hand:['MV000011','MV000024'], drawPile:['MV000001','MV000002'], graveyard:[], servants:[{id:'MV000011',prepared:true},{id:'MV000024',pdv:1,pdvMax:10,prepared:true}], avatarHp:20}, player2:{resources:{classical:{aria:20,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:['H000001','R000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',pdv:1,pdvMax:4,atk:3,prepared:true},{id:'H000005',pdv:1,pdvMax:5,atk:5,prepared:true},{id:'H000006',pdv:3,pdvMax:3,atk:2,prepared:true}], avatarHp:20} } };
+
+const COLLECTION_BATCH_11D_COMMON = {
+  hidden: true,
+  showTestResourcePanel: true,
+  showCollectionBatch11aPanel: true,
+  showCollectionBatch11bPanel: true,
+  showCollectionBatch11cPanel: true,
+  showCollectionBatch11dPanel: true
+};
+function collectionBatch11dScenarioFrom(baseId, overrides={}) {
+  const base = SCENARIOS[baseId] || {};
+  return {...base, ...COLLECTION_BATCH_11D_COMMON, ...overrides, testSetup: overrides.testSetup || base.testSetup};
+}
+SCENARIOS['collection-batch-11-global-crypte-echos'] = collectionBatch11dScenarioFrom('collection-batch-11a-echos', {
+  label: 'TEST - COLLECTION BATCH 11D Crypte familiale',
+  testCardId: 'R000021',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:0}, hand:['R000021'], drawPile:['MV000001','MV000002'], graveyard:[], servants:[], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014','MV000015','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:[], drawPile:['H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+});
+SCENARIOS['collection-batch-11-global-faucheur-capture'] = collectionBatch11dScenarioFrom('collection-batch-11a-echos', {
+  label: 'TEST - COLLECTION BATCH 11D Faucheur capture',
+  testCardId: 'MV000009',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:2}, hand:['MV000009','R000021'], drawPile:['MV000001','MV000002'], graveyard:[], servants:[], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014','MV000015','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:['H000005'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',pdv:1,pdvMax:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+});
+SCENARIOS['collection-batch-11-global-necropole'] = collectionBatch11dScenarioFrom('collection-batch-11a-necropole', {
+  label: 'TEST - COLLECTION BATCH 11D Nécropole',
+  testCardId: 'R000027',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:4}, hand:['R000027','MV000025'], drawPile:['MV000001','H000001'], graveyard:[{cardId:'H000001',originalOwnerId:'player2'},{cardId:'H000006',originalOwnerId:'player2'},{cardId:'H000005',originalOwnerId:'player2'}], servants:[{id:'MV000001',pdv:1,pdvMax:2,prepared:true}], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014','MV000015','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:10}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',pdv:4,pdvMax:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+});
+SCENARIOS['collection-batch-11-global-hokhan-echos'] = collectionBatch11dScenarioFrom('collection-batch-11a-echos', {
+  label: 'TEST - COLLECTION BATCH 11D Hokhan Échos',
+  testCardId: 'AVS000008',
+  testSetup: {
+    player1: {resources:{classical:{aria:20, lenya:20, selene:20, fer:20, bois:20, pierre:20, nourriture:20}, souls:8}, hand:['AVS000008','R000021'], drawPile:['MV000001','MV000002'], graveyard:[], servants:[], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014','MV000015','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:[], drawPile:['H000006'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+});
+SCENARIOS['collection-batch-11-global-spectre-gueule'] = collectionBatch11dScenarioFrom('collection-batch-11b-initiative-captures', {
+  label: 'TEST - COLLECTION BATCH 11D Spectre et Gueule',
+  testCardId: 'MV000002'
+});
+SCENARIOS['collection-batch-11-global-amalgames'] = collectionBatch11dScenarioFrom('collection-batch-11b-amalgams', {
+  label: 'TEST - COLLECTION BATCH 11D Amalgames',
+  testCardId: 'MV000006'
+});
+SCENARIOS['collection-batch-11-global-banshee'] = collectionBatch11dScenarioFrom('collection-batch-11b-banshee-vengeance', {
+  label: 'TEST - COLLECTION BATCH 11D Banshee hurlante',
+  testCardId: 'MV000015'
+});
+SCENARIOS['collection-batch-11-global-gardien-reliquaire'] = collectionBatch11dScenarioFrom('collection-batch-11b-banshee-vengeance', {
+  label: 'TEST - COLLECTION BATCH 11D Gardien du reliquaire',
+  testCardId: 'MV000029'
+});
+SCENARIOS['collection-batch-11-global-jeteur-morghast'] = collectionBatch11dScenarioFrom('collection-batch-11c-jeteur-morghast', {
+  label: 'TEST - COLLECTION BATCH 11D Jeteur et Morghast',
+  testCardId: 'MV000011'
+});
+SCENARIOS['collection-batch-11-global-sacrifice-power'] = collectionBatch11dScenarioFrom('collection-batch-11c-sacrifice-power', {
+  label: 'TEST - COLLECTION BATCH 11D Puissance du sacrifice',
+  testCardId: 'S000041'
+});
+SCENARIOS['collection-batch-11-global-return-revenants'] = collectionBatch11dScenarioFrom('collection-batch-11c-return-revenants', {
+  label: 'TEST - COLLECTION BATCH 11D Retour des revenants',
+  testCardId: 'S000052'
+});
+SCENARIOS['collection-batch-11-global-parity-collection'] = collectionBatch11dScenarioFrom('collection-batch-11a-echos', {
+  label: 'TEST - COLLECTION BATCH 11D Parité Collection',
+  testCardId: 'AVS000008',
+  testSetup: {
+    player1: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:12}, hand:['AVS000008','R000021','R000027','S000041','S000052','MV000015'], drawPile:['MV000001','MV000002'], graveyard:[], servants:[{id:'MV000009',prepared:true},{id:'MV000025',prepared:true},{id:'MV000011',prepared:true},{id:'MV000024',pdv:10,pdvMax:10,prepared:true},{id:'MV000029',prepared:true}], avatarHp:20, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000007','MV000008','MV000009','MV000010','MV000011','MV000012','MV000013','MV000014','MV000015','R000027']},
+    player2: {resources:{classical:{aria:30, lenya:30, selene:30, fer:30, bois:30, pierre:30, nourriture:30}, souls:0}, hand:[], drawPile:['H000006'], graveyard:[], servants:[{id:'MV000002',prepared:true},{id:'MV000003',prepared:true},{id:'MV000004',prepared:true},{id:'MV000005',prepared:true},{id:'MV000006',prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+});
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
   testSetup: {
@@ -10005,7 +10086,7 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'))))));
+  const title = activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES')))))));
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
