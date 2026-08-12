@@ -1,15 +1,19 @@
 {
-  "lotId": "COLLECTION-BATCH-11E",
+  "lotId": "COLLECTION-BATCH-11F",
   "cards": [
     "AVS000008",
     "R000021",
     "R000027",
     "MV000002",
     "MV000003",
+    "MV000004",
+    "MV000005",
+    "MV000006",
     "MV000008",
     "MV000009",
     "MV000011",
     "MV000015",
+    "MV000022",
     "MV000024",
     "MV000025",
     "MV000028",
@@ -30,7 +34,7 @@
   ],
   "echoHarvestTooltipCards": [
     "MV000002",
-    "MV000008",
+    "MV000003",
     "MV000009",
     "MV000011",
     "MV000028",
@@ -54,6 +58,22 @@
       "R000001",
       "H000005"
     ],
-    "recyclageReturnedFromGraveyard": "S000044"
-  }
+    "recyclageReturnedFromGraveyard": "S000044",
+    "araigneeNoSlotDestination": "spider-owner-graveyard",
+    "commandantSummon": "MV000001",
+    "uppercaseStyles": [
+      "hc-name",
+      "fz-name",
+      "canonical-keyword-tooltip",
+      "notif",
+      "err-msg"
+    ],
+    "echoHarvestTitle": "RÉCOLTE D'ÉCHOS",
+    "eclipseMessage": "UNE ÉCLIPSE ! LES SERVITEURS DES TÉNÈBRES SONT RENFORCÉES PAR SA NOIRCEUR.",
+    "recyclageMessage": "LA SEULE CHOSE QUE L'ON NE PUISSE REPROCHER AUX NÉCROMANCIENS, C'EST BIEN DE LAISSER DES RESTES !",
+    "rituelMessage": "LA MAGIE NOIRE DÉPOSSÈDE L'ADVERSAIRE DU CONTENU DE SON CIMETIÈRE... AU BÉNÉFICE DU VÔTRE !"
+  },
+  "avatarIds": [
+    "AVP000008"
+  ]
 }

@@ -189,7 +189,7 @@ test("target-required immediate effects refuse before payment when no legal targ
   expect(after.opponentBoard).toEqual(before.opponentBoard);
   expect(after.graveyard).toEqual(before.graveyard);
   expect(after.opponentGraveyard).toEqual(before.opponentGraveyard);
-  expect(after.errorText).toContain("Aucune cible valide");
+  expect(after.errorText).toContain("AUCUNE CIBLE VALIDE");
   expect(after.panel.play.code).toBe("no-valid-target");
   expect(after.panel.play.immediateEffectResult.code).toBe("no-valid-target");
   expect(diagnostics.pageErrors).toEqual([]);

@@ -228,7 +228,7 @@ test("S000015 refuses before payment when no servant is in the graveyard", async
   expect(after.player1.deck).toEqual(before.player1.deck);
   expect(after.player1.graveyard).toEqual(before.player1.graveyard);
   expect(after.player1.resources).toEqual(before.player1.resources);
-  expect(after.errorText).toContain("Aucune cible valide");
+  expect(after.errorText).toContain("AUCUNE CIBLE VALIDE");
   expect(after.panel.play.code).toBe("own-graveyard-has-servant");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -256,7 +256,7 @@ test("S000029, S000037 and S000043 draw only their legal deck families", async (
   expect(ley.spellResolution.drawn.sort()).toEqual(["GOB000001", "GOB000002", "GOB000003", "GOB000004"]);
   expect(afterLey.player1.hand).toEqual(expect.arrayContaining(["GOB000001", "GOB000002", "GOB000003", "GOB000004"]));
   expect(afterLey.player1.hand).toHaveLength(8);
-  expect(afterLey.notificationText).toContain("4 carte(s) piochée(s)");
+  expect(afterLey.notificationText).toContain("4 CARTE(S) PIOCHÉE(S)");
   expect(afterLey.player1.graveyard).toContain("S000037");
 
   await openScenario(page, "collection-batch-01-zone-spells");
@@ -304,7 +304,7 @@ test("S000043 announces only the real drawn count when no Minotaur is available"
   expect(after.player1.hand).toEqual([]);
   expect(after.player1.deck).toEqual(before.player1.deck);
   expect(after.player1.graveyard).toEqual(["S000043"]);
-  expect(after.notificationText).toContain("0 carte(s) piochée(s)");
+  expect(after.notificationText).toContain("0 CARTE(S) PIOCHÉE(S)");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -330,7 +330,7 @@ test("S000043 played through the visible hand renders the three Minotaurs", asyn
   const afterPlay = await snapshot(page);
   expect(playResult.spellResolution.drawn.sort()).toEqual([...minotaurs].sort());
   expect(playResult.spellResolution.count).toBe(3);
-  expect(afterPlay.notificationText).toContain("3 carte(s) piochée(s)");
+  expect(afterPlay.notificationText).toContain("3 CARTE(S) PIOCHÉE(S)");
   await expect.poll(async () => {
     const state = await snapshot(page);
     return minotaurs.every(id => state.player1.hand.includes(id));
@@ -509,13 +509,13 @@ test("S000007 refuses illegal slots before payment or mutation", async ({page}, 
   expect(after.player2.deck).toEqual(before.player2.deck);
   expect(after.activeLocks).toEqual([]);
   expect(after.doorMarkers).toEqual([]);
-  expect(after.errorText).toContain("cible");
+  expect(after.errorText).toContain("CIBLE");
   expect(after.panel.play.code).toBe("invalid-door-slot");
   expect(allyResult).toBeUndefined();
   expect(afterAlly.player1.hand).toEqual(beforeAlly.player1.hand);
   expect(afterAlly.player1.resources).toEqual(beforeAlly.player1.resources);
   expect(afterAlly.activeLocks).toEqual([]);
-  expect(afterAlly.errorText).toContain("cible");
+  expect(afterAlly.errorText).toContain("CIBLE");
   expect(afterAlly.panel.play.code).toBe("invalid-door-slot");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -559,8 +559,8 @@ test("S000007 distinguishes insufficient resources from invalid target", async (
   expect(after.player1.hand).toEqual(before.player1.hand);
   expect(after.player1.resources).toEqual(before.player1.resources);
   expect(after.activeLocks).toEqual([]);
-  expect(after.errorText).toContain("Vous manquez de ressources");
-  expect(after.errorText).not.toContain("cible");
+  expect(after.errorText).toContain("VOUS MANQUEZ DE RESSOURCES");
+  expect(after.errorText).not.toContain("CIBLE");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -607,7 +607,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   await page.getByTestId("door-lock-marker").hover();
   await expect(page.locator('[data-door-lock-preview="1"]')).toBeVisible();
   const previewAudit = await doorPreviewAudit(page);
-  expect(previewAudit.text).toContain("Porte infranchissable");
+  expect(previewAudit.text).toContain("PORTE INFRANCHISSABLE");
   expect(previewAudit.text).toContain("Zone barrée");
   expect(previewAudit.text).toContain("Cette zone est barrée par une porte monumentale");
   expect(previewAudit.text).toContain("Clef de pierre");
@@ -640,7 +640,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   const blockedAgain = await playSpell(page, "S000007", {slotIndex: lockedSlotIndex, playerId: "player2"});
   const afterBlockedAgain = await snapshot(page);
   expect(blockedAgain).toBeUndefined();
-  expect(afterBlockedAgain.errorText).toContain("cible");
+  expect(afterBlockedAgain.errorText).toContain("CIBLE");
   expect(afterBlockedAgain.activeLocks).toHaveLength(1);
   await page.evaluate(() => {
     const p = playerState("player1");
@@ -652,7 +652,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
     playerState("player2").firstTurnStarted = true;
     window.__batch01eEndTurnPromise = endTurnRuntime().then(() => true);
   });
-  await page.waitForFunction(() => (document.querySelector("#notif")?.innerText || "").includes("pioche"));
+  await page.waitForFunction(() => (document.querySelector("#notif")?.innerText || "").includes("PIOCHE"));
   const drawMessageState = await doorSequenceState(page);
   expect(drawMessageState.openKeyVisible).toBe(false);
   await waitForDoorPhase(page, "key-found");
@@ -660,7 +660,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   await expect.poll(() => page.getByTestId("stone-key-open-animation").locator("img").evaluate(img => img.naturalWidth)).toBeGreaterThan(0);
   await waitForDoorPhase(page, "key-to-graveyard");
   const openingMessageState = await doorSequenceState(page);
-  expect(openingMessageState.notificationText).toContain("Voilà enfin la clef ! La porte est ouverte.");
+  expect(openingMessageState.notificationText).toContain("VOILÀ ENFIN LA CLEF ! LA PORTE EST OUVERTE.");
   expect(openingMessageState.openKeyVisible).toBe(false);
   await waitForDoorPhase(page, "door-opening");
   const openingPhaseState = await doorSequenceState(page);
@@ -684,7 +684,7 @@ test("S000007 locks one free opposing slot and linked S000008 releases exactly t
   expect(released.player2.graveyard).toEqual(["S000008"]);
   expect(cemeteryKeyImage.src).toContain("S000008.png");
   expect(cemeteryKeyImage.naturalWidth).toBeGreaterThan(0);
-  expect(released.notificationText).toContain("Voilà enfin la clef ! La porte est ouverte.");
+  expect(released.notificationText).toContain("VOILÀ ENFIN LA CLEF ! LA PORTE EST OUVERTE.");
   expect(released.player1.graveyard).toContain("S000007");
   expect(counts([...released.player1.hand, ...released.player1.deck, ...released.player1.graveyard]).S000007).toBe(1);
   expect(diagnostics.pageErrors).toEqual([]);

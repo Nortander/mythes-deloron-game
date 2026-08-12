@@ -369,7 +369,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .hc-name-b::before{top:0;}.hc-name-b::after{bottom:0;}
 .hc-name{font-family:'Cinzel',serif;font-size:8.5px;font-weight:700;
-  color:var(--gold-lt);text-align:center;padding:0 4px;
+  color:var(--gold-lt);text-align:center;padding:0 4px;text-transform:uppercase;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;}
 .hc-desc-z{flex:1;padding:4px 5px;display:flex;align-items:center;overflow:hidden;}
 .hc-desc-inner{width:100%;border-radius:5px;padding:4px 6px;
@@ -476,6 +476,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   z-index:2000;pointer-events:none;
   font-family:'Cinzel',serif;font-size:22px;font-weight:700;letter-spacing:0.12em;
   color:var(--gold-lt);text-shadow:0 0 28px rgba(200,168,75,0.8),0 2px 8px rgba(0,0,0,1);
+  text-transform:uppercase;
   background:rgba(6,3,1,0.92);border:1px solid var(--gold);border-radius:14px;
   padding:18px 36px;opacity:0;white-space:pre-line;text-align:center;
 }
@@ -493,6 +494,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   z-index:600;pointer-events:none;
   font-family:'Cinzel',serif;font-size:11.5px;font-weight:600;letter-spacing:0.07em;
   color:#ff8080;background:rgba(50,5,5,0.96);
+  text-transform:uppercase;
   border:1px solid rgba(180,40,40,0.6);border-radius:8px;
   padding:9px 20px;white-space:nowrap;opacity:0;
   box-shadow:0 4px 16px rgba(0,0,0,0.85);
@@ -559,7 +561,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   left:8px;right:8px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .fc-zoom-name-b::before{top:0;}.fc-zoom-name-b::after{bottom:0;}
 .fz-name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;
-  color:var(--gold-lt);text-align:center;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;}
+  color:var(--gold-lt);text-align:center;text-transform:uppercase;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;}
 .fc-zoom-desc-z{flex:1;padding:8px 10px;display:flex;align-items:center;overflow:hidden;}
 .fz-desc-inner{width:100%;border-radius:7px;padding:7px 9px;
   border:1px solid rgba(140,90,30,0.28);}
@@ -1826,7 +1828,7 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview.trl-fc .fz-desc-inner{background:linear-gradient(155deg,#4a2a08,#281002)!important}
 .canonical-keyword-tooltips{position:fixed;width:min(244px,calc(100vw - 376px));max-height:calc(100vh - 52px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:7px;pointer-events:none!important;z-index:100002}
 .canonical-keyword-tooltip{border:1px solid rgba(218,185,103,.55);border-radius:9px;background:rgba(20,12,6,.94);box-shadow:0 10px 28px rgba(0,0,0,.55);padding:8px 9px;color:#f3dfb4;font-family:'Crimson Pro',serif;font-size:12px;line-height:1.25}
-.canonical-keyword-tooltip > strong{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.06em;margin-bottom:4px;color:var(--card-faction-color,#ffe2a0)}
+.canonical-keyword-tooltip > strong{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.06em;margin-bottom:4px;color:var(--card-faction-color,#ffe2a0);text-transform:uppercase}
 .canonical-keyword-tooltip span strong{display:inline;font-family:inherit;font-size:inherit;letter-spacing:normal;margin:0;color:inherit}
 .canonical-related-cards{position:fixed;right:calc(50% + 190px);top:50%;transform:translateY(-50%);width:118px;max-height:calc(100vh - 52px);overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:7px;pointer-events:none!important;z-index:100002}
 .canonical-related-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;text-align:center;color:#ffe2a0;text-shadow:0 1px 2px #000}
@@ -3176,7 +3178,7 @@ SCENARIOS['collection-batch-11e-parity'] = collectionBatch11eScenario({
   label:'TEST - COLLECTION BATCH 11E Parite globale morts-vivants',
   testCardId:'MV000030',
   testSetup:{
-    player1:{allowOverflowServants:true,resources:{classical:{aria:50,lenya:30,selene:30,fer:30,bois:30,pierre:30,nourriture:30},souls:30}, hand:['AVS000008','MV000008','MV000028','S000042','S000044','S000051'], drawPile:['MV000019','MV000001','MV000002','MV000025'], graveyard:['MV000009'], servants:[{id:'MV000003',pdv:8,pdvMax:8,prepared:true},{id:'MV000030',pdv:30,pdvMax:30,prepared:true},{id:'MV000029',prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000019','MV000024','MV000028','MV000029','MV000030','R000027']},
+    player1:{allowOverflowServants:true,resources:{classical:{aria:50,lenya:30,selene:30,fer:30,bois:30,pierre:30,nourriture:30},souls:30}, hand:['AVS000008','R000021','R000027','MV000002','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000022','MV000024','MV000025','MV000028','S000041','S000042','S000044','S000051','S000052'], drawPile:['MV000019','MV000001','MV000002','MV000025'], graveyard:['MV000009'], servants:[{id:'MV000003',pdv:8,pdvMax:8,prepared:true},{id:'MV000030',pdv:30,pdvMax:30,prepared:true},{id:'MV000029',prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000019','MV000024','MV000028','MV000029','MV000030','R000027']},
     player2:{allowOverflowServants:true,resources:{classical:{aria:50,lenya:30,selene:30,fer:30,bois:30,pierre:30,nourriture:30},souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:['H000001','R000001','H000005'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'N000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'EN000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 });
@@ -5623,7 +5625,8 @@ async function tryApplyAbilityDamage({
   amount,
   bypassInsensitive = false,
   directSpellDamage = false,
-  directSpecialAbilityDamage = false
+  directSpecialAbilityDamage = false,
+  echoCapture = null
 } = {}) {
   if (canAffectTarget({
     sourcePlayer,
@@ -5640,9 +5643,11 @@ async function tryApplyAbilityDamage({
     targetFC._batch09DamageContext = {sourcePlayerKey:playerKey(sourcePlayer), sourceCardId, isDirectSpellDamage:!!directSpellDamage, isDirectSpecialAbilityDamage:!!directSpecialAbilityDamage};
     let died;
     try {
+      if (echoCapture) targetFC._batch11EchoCaptureContext = echoCapture;
       died = await applyDamage(targetFC, amount);
     } finally {
       delete targetFC._batch09DamageContext;
+      delete targetFC._batch11EchoCaptureContext;
     }
     if (!died && sourceFC) {
       await triggerDamageDealtEmbrasementHooks(sourceFC, targetFC, {sourcePlayer, sourceCardId, damageDealt:amount});
@@ -14024,7 +14029,7 @@ function resolveRituelOcculte(player) {
   refreshCemeteryVisual(p);
   const diagnostic = {success:true, code:'rituel-occulte-resolved', reason:null, cardId:'S000051', moved:stolen, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
   recordZoneEffectDiagnostic('S000051', diagnostic);
-  showNotif(`Rituel occulte : ${stolen.length} carte(s) volée(s) au cimetière adverse.`, 1800);
+  showNotif("LA MAGIE NOIRE DÉPOSSÈDE L'ADVERSAIRE DU CONTENU DE SON CIMETIÈRE... AU BÉNÉFICE DU VÔTRE !", 2200);
   return diagnostic;
 }
 
@@ -14142,7 +14147,12 @@ function resolveBatch11aEchoCaptureOnCemetery(victimOwner, fc, context={}) {
     gain,
     capturedEntry
   });
-  if (gain.success) showNotif(`${CARDS_DATA[sourceCardId]?.name || 'Récolte d\'Échos'} récolte ${amount} Écho(s).`, 1400);
+  if (gain.success && !requested?.silent) {
+    const specificMessages = {
+      MV000002:"LE SPECTRE HURLANT GRIFFE L'ÂME D'UN ADVERSAIRE ET EN RETIRE DE L'ÉCHO !"
+    };
+    showNotif(specificMessages[sourceCardId] || `${CARDS_DATA[sourceCardId]?.name || 'Récolte d\'Échos'} récolte ${amount} Écho(s).`, 1400);
+  }
   return {captured:true, collectorId:collector.key, victimOwnerId:owner.key, amount, gain, capturedEntry};
 }
 
@@ -14323,7 +14333,7 @@ async function resolveBatch11bInitiative(cardId, player, context={}) {
   if (!['AVS000008','MV000002','MV000004','MV000005','MV000006','MV000008','MV000015','MV000029'].includes(cardId)) return {handled:false};
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) return {handled:true, success:false, cardId, reason:'cold-locked'};
   if (cardId === 'AVS000008') return resolveBatch11eHokhanInitiative(player, sourceFC);
-  if (cardId === 'MV000008') return resolveBatch11eAraigneeInitiative(player, sourceFC);
+  if (cardId === 'MV000008') return resolveBatch11eAraigneeInitiative(player, sourceFC, context);
   if (cardId === 'MV000002') return batch11bDestroyAndCapture({player, sourceFC, sourceCardId:cardId, candidates:batch11bEnemyServants(player).filter(fc => Number(fc.dataset.atk || 0) < Number(sourceFC?.dataset.atk || CARDS_DATA[cardId]?.atk || 0))});
   if (cardId === 'MV000004') {
     if (!batch11bHasRequiredAmalgamAllies(player, cardId)) { const result = {handled:true, success:false, cardId, reason:'missing-amalgam-allies'}; recordCollectionBatch11bEvent('amalgam-condition-missing', result); return result; }
@@ -14448,18 +14458,29 @@ function batch11eAddHandOrDeck(player, cardId, occurrenceId=null) {
   updateDeckCount(p);
   return {success:true, destination:'deck-top', cardId};
 }
-async function resolveBatch11eAraigneeInitiative(player, sourceFC) {
+async function resolveBatch11eAraigneeInitiative(player, sourceFC, context={}) {
   const candidates = getAffectableTargets({sourcePlayer:player, targets:batch11bEnemyServants(player), sourceCardId:'MV000008', effectKind:'capture', isAbility:true});
-  const target = batch11bPickTarget(candidates);
+  let target = context.selectedTargetIds?.length ? candidates.find(fc => context.selectedTargetIds.includes(fc.dataset.instance)) : null;
+  if (!target && candidates.length && !context.disablePrompt) {
+    const chosen = await chooseBoardTargets({
+      title:"MÊME MORTE, ELLE CONTINUE D'AVOIR FAIM",
+      prompt:"Qui l'Araignée géante réanimée va-t-elle dévorer ?",
+      targets:candidates,
+      minCount:1,
+      maxCount:1,
+      panelClass:'board-target-choice-panel araignee-choice-panel'
+    });
+    target = chosen[0] || null;
+  }
   if (!target) return {handled:true, success:false, cardId:'MV000008', reason:'no-valid-target'};
   if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative', {move:true});
   const entry = {cardId:target.dataset.id, occurrenceId:target.dataset.instance || null, originalOwnerId:target.dataset.player || null, capturedBy:'MV000008'};
-  sourceFC.dataset.batch11eCapturedEntry = JSON.stringify(entry);
+  if (sourceFC) sourceFC.dataset.batch11eCapturedEntry = JSON.stringify(entry);
   const before = targetSummary(target);
   batch11eRemoveBoardToSlot(target);
   const result = {handled:true, success:true, cardId:'MV000008', captured:entry, targetBefore:before};
   recordCollectionBatch11eEvent('araignee-capture', result);
-  showNotif("L'Araignée réanimée retire un serviteur adverse du plateau.", 1500);
+  showNotif("L'ARAIGNÉE D'OSSEMENTS DÉVORE SA PROIE... MAIS N'A PLUS D'ESTOMAC POUR LA DIGÉRER !", 1800);
   return result;
 }
 function resolveBatch11eAraigneeVengeance(player, dyingFC) {
@@ -14468,7 +14489,7 @@ function resolveBatch11eAraigneeVengeance(player, dyingFC) {
   if (!entry?.cardId) return {handled:true, success:false, cardId:'MV000008', reason:'no-captured-card', destination:'graveyard'};
   const owner = playerState(entry.originalOwnerId) || opponentOf(player);
   const slot = qs(playerZoneSelector(owner, 'servants'))?.querySelector('.slot');
-  let finalDestination = 'rame';
+  let finalDestination = 'spider-owner-graveyard';
   if (slot && CARDS_DATA[entry.cardId]) {
     const parent = slot.parentElement;
     const index = Array.from(parent.children).indexOf(slot);
@@ -14477,11 +14498,15 @@ function resolveBatch11eAraigneeVengeance(player, dyingFC) {
     if (restored && entry.occurrenceId) restored.dataset.instance = entry.occurrenceId;
     finalDestination = 'board';
   } else {
-    batch11aCapturedVictims(player).push({...entry, amount:0, turnSequence, reason:'araignee-no-free-slot'});
+    const spiderOwner = playerState(player);
+    if (spiderOwner) {
+      spiderOwner.graveyard.push(entry.occurrenceId ? {cardId:entry.cardId, occurrenceId:entry.occurrenceId, originalOwnerId:entry.originalOwnerId || null, releasedBy:'MV000008'} : entry.cardId);
+      refreshCemeteryVisual(spiderOwner);
+    }
   }
   const result = {handled:true, success:true, cardId:'MV000008', restored:entry, finalDestination, destination:'graveyard'};
   recordCollectionBatch11eEvent('araignee-vengeance-release', result);
-  showNotif(finalDestination === 'board' ? "La proie de l'Araignée revient sur le terrain." : "La proie de l'Araignée rejoint la pile d'Échos.", 1500);
+  showNotif(finalDestination === 'board' ? "LA PROIE MIRACULÉE DE L'ARAIGNÉE GÉANTE REVIENT SUR LE TERRAIN, INDEMNE." : "LA PROIE DE L'ARAIGNÉE GÉANTE REJOINT LE CIMETIÈRE DE SON MAÎTRE.", 1800);
   return result;
 }
 async function resolveBatch11eAmeExplosiveStartTurn(player) {
@@ -14509,13 +14534,14 @@ async function resolveBatch11eAmeExplosiveVengeance(player, dyingFC) {
       if (remaining <= 0) break;
       if (!target.isConnected || target.dataset.dead) continue;
       target._killer = dyingFC;
-      const died = await tryApplyAbilityDamage({sourcePlayer:player, targetFC:target, sourceCardId:'MV000028', amount:1});
+      const died = await tryApplyAbilityDamage({sourcePlayer:player, targetFC:target, sourceCardId:'MV000028', amount:1, echoCapture:{silent:true}});
       results.push({target:targetSummary(target), died});
       remaining -= 1;
     }
   }
   const result = {handled:true, success:true, cardId:'MV000028', damageBudget:6, results, destination:'graveyard'};
   recordCollectionBatch11eEvent('ame-explosive-vengeance', result);
+  showNotif("L'EXPLOSION DE RAGE D'UN FANTÔME A LAISSÉ DE L'ÉCHO DERRIÈRE ELLE.", 1800);
   return result;
 }
 function resolveBatch11eMurNonMortVengeance(player, dyingFC) {
@@ -14523,7 +14549,7 @@ function resolveBatch11eMurNonMortVengeance(player, dyingFC) {
   const added = ['MV000022','MV000001','MV000001'].map(id => batch11eAddHandOrDeck(player, id));
   const result = {handled:true, success:true, cardId:'MV000030', added, destination:'graveyard'};
   recordCollectionBatch11eEvent('mur-non-mort-vengeance', result);
-  showNotif('Le Mur non-mort transmet ses renforts à votre main.', 1600);
+  showNotif("ALORS QUE LE MUR NON-MORT S'ÉCROULE, LES OSSEMENTS SE RÉASSEMBLENT EN GUERRIERS SQUELETTES !", 1900);
   return result;
 }
 function resolveBatch11eMurNonMortDamage(fc, context={}) {
@@ -14578,7 +14604,7 @@ function resolveBatch11eHokhanAvatarCemeteryReplacement(player, fc, options={}) 
   updateDeckCount(p);
   const result = {success:true, destination:'deck', cardId, playerId:p.key, instanceId:fc.dataset.instance || null};
   recordCollectionBatch11eEvent('hokhan-avatar-graveyard-to-deck', result);
-  showNotif('Hokhan détourne un mort-vivant du cimetière vers le deck.', 1500);
+  showNotif('HOKHAN DÉTOURNE UN MORT-VIVANT DU CIMETIÈRE VERS LE DECK.', 1500);
   return result;
 }
 async function resolveBatch11eStartTurnEffects(player) {
@@ -14612,7 +14638,7 @@ async function resolveBatch11eEclipseSolaire(player) {
   }
   const result = {success:true, cardId:'S000042', affected};
   recordCollectionBatch11eEvent('eclipse-solaire', result);
-  showNotif("Éclipse solaire modifie les attaques jusqu'à la fin du tour.", 1600);
+  showNotif("UNE ÉCLIPSE ! LES SERVITEURS DES TÉNÈBRES SONT RENFORCÉES PAR SA NOIRCEUR.", 1900);
   return result;
 }
 function expireBatch11eEclipseSolaire() {
@@ -14635,7 +14661,7 @@ function resolveBatch11eRecyclage(player) {
   p.batch11eRecyclageShufflePending = true;
   const result = {success:true, cardId:'S000044', playerId:p.key, turnSequence};
   recordCollectionBatch11eEvent('recyclage-active', result);
-  showNotif("Recyclage restera actif jusqu'à la fin du tour.", 1500);
+  showNotif("LA SEULE CHOSE QUE L'ON NE PUISSE REPROCHER AUX NÉCROMANCIENS, C'EST BIEN DE LAISSER DES RESTES !", 2200);
   return result;
 }
 function resolveBatch11eRecyclageOnSummon(player, sourceCardId=null, sourceInstanceId=null) {
@@ -14696,7 +14722,7 @@ async function resolveBatch11eGueulePreventDeath(player, fc, options={}) {
   updateRageState(fc);
   const result = {success:true, cardId:'MV000003', saved:targetSummary(fc), destroyed:targetSummary(target), healAmount, echoAmount};
   recordCollectionBatch11eEvent('gueule-prevented-destruction', result);
-  showNotif('La Gueule du trépas dévore une victime à sa place.', 1600);
+  showNotif('LA GUEULE DU TRÉPAS DÉVORE UNE VICTIME À SA PLACE.', 1600);
   return result;
 }
 
@@ -14770,7 +14796,7 @@ async function batch11cApplySacrificeDamage(player, targetFC, sourceCardId) {
     result.died = true;
     result.echoAmount = amount;
     targetFC.dataset.dead = '1';
-    await sendToCemetery(targetFC, {killer:null, echoCapture:{collector:p, sourceCardId, sourceInstanceId:null, amount}});
+    await sendToCemetery(targetFC, {killer:null, echoCapture:{collector:p, sourceCardId, sourceInstanceId:null, amount, silent:sourceCardId === 'S000041'}});
     result.capturedVictims = batch11aCapturedVictims(p).map(entry => ({...entry}));
   }
   return result;
@@ -14849,7 +14875,7 @@ async function resolveRetourDesRevenants(player) {
   const result = {success:true, code:'retour-des-revenants-resolved', before, sourceZone, operation, fallbackEcho, after:batch11cZoneSummary(p)};
   recordCollectionBatch11cEvent('retour-des-revenants', result);
   if (operation.summoned.length) showNotif('UN SOMBRE RITUEL RAPPELLE ' + operation.summoned.length + ' DE VOS SERVITEUR(S) DE LA TOMBE...', 2000);
-  else showNotif('Le retour des revenants ajoute 5 Échos.', 1500);
+  else showNotif('LE RETOUR DES REVENANTS AJOUTE 5 ÉCHOS.', 1500);
   return result;
 }
 function batch11cWatcherGainThisTurn(watcher) {
@@ -14879,6 +14905,18 @@ function resolveBatch11cServantDestroyedWatchers(dyingPlayer, dyingFC, options={
   });
   return results;
 }
+async function resolveBatch11fCommandantKillSummon(dyingPlayer, dyingFC, options={}) {
+  const killer = options.killer || dyingFC?._killer || null;
+  if (!killer || killer.dataset?.id !== 'MV000022' || !dyingFC || CARDS_DATA[dyingFC.dataset.id]?.type !== 'Serviteur') return null;
+  const owner = playerState(killer.dataset.player);
+  if (!owner || playerKey(owner) === playerKey(dyingPlayer)) return null;
+  pulseBatch03Ability(killer, 'batch11f-commandant-summon', {move:true});
+  const summon = await summonBatch03Servant(owner, 'MV000001', {sourceCardId:'MV000022', sourceInstanceId:killer.dataset.instance || null, triggerInitiativeEffect:false, ready:true});
+  const result = {source:targetSummary(killer), destroyed:targetSummary(dyingFC), summon};
+  recordCollectionBatch11cEvent('commandant-kill-summon', result);
+  showNotif('UN AUTRE GUERRIER CENDREUX SE DRESSE DERRIÈRE SON COMMANDANT.', 1800);
+  return result;
+}
 function resolveBatch11cMorghastKillEcho(dyingPlayer, dyingFC, options={}) {
   const killer = options.killer || dyingFC?._killer || null;
   if (!killer || killer.dataset?.id !== 'MV000024' || !dyingFC || CARDS_DATA[dyingFC.dataset.id]?.type !== 'Serviteur') return null;
@@ -14901,7 +14939,7 @@ async function resolveBatch11cMorghastVengeance(player, dyingFC) {
   if (!summonCount) {
     const result = {handled:true, success:false, cardId:'MV000024', reason:'insufficient-echoes', summoned:[], destination:'graveyard'};
     recordCollectionBatch11cEvent('morghast-vengeance-no-echo', result);
-    showNotif('Vengeance : aucun Écho disponible pour invoquer les Guerriers cendreux.', 1500);
+    showNotif('VENGEANCE : AUCUN ÉCHO DISPONIBLE POUR INVOQUER LES GUERRIERS CENDREUX.', 1500);
     return result;
   }
   const payment = consumeSouls(p, summonCount, 'morghast-vengeance');
@@ -15343,7 +15381,7 @@ async function applyDamage(fc, amount) {
 
   if (newPdv <= 0) {
     fc.dataset.dead = '1';
-    await sendToCemetery(fc);
+    await sendToCemetery(fc, fc._batch11EchoCaptureContext ? {echoCapture:fc._batch11EchoCaptureContext} : {});
     return true;
   }
   return false;
@@ -15606,7 +15644,10 @@ async function sendToCemetery(fc, options={}) {
       refreshCemeteryVisual(player);
     }
   }
-  if (goesToCemetery && d.type === 'Serviteur') handleBatch02AlliedServantDeath(player, cardId);
+  if (goesToCemetery && d.type === 'Serviteur') {
+    await resolveBatch11fCommandantKillSummon(player, fc, options);
+    handleBatch02AlliedServantDeath(player, cardId);
+  }
   if (typeof syncBatch08AvatarPassiveLocks === 'function') syncBatch08AvatarPassiveLocks({refresh:true});
   syncBatch05Passives();
   if (d.fac) addHistEntry(cardId, d.fac);
@@ -15643,7 +15684,7 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
     const gain = addSoulToAppro(player, 1);
     const result = {success:gain.success, cardId, playerId:playerKey(player), gain, destination:'graveyard'};
     recordCollectionBatch11aEvent('esprit-derange-vengeance', result);
-    if (gain.success) showNotif('Vengeance : 1 Écho rejoint vos réserves.', 1200);
+    if (gain.success) showNotif("LES RÉSIDUS D'UN SPECTRE VAINCU S'AJOUTENT À VOTRE RÉSERVE D'ÉCHOS.", 1800);
     return result;
   }
   const batch11bVengeance = await resolveBatch11bVengeance(cardId, player, dyingFC, killer, context);
@@ -21009,8 +21050,8 @@ Object.assign(CARDS_DATA, {
   AVS000008:{...CARDS_DATA.AVS000008, name:"Mage du Cercle - Hokhan Ashir", kws:["Insensible","Initiative","Vengeance","Aria","Écho"], cap:`[Insensible] [Initiative] Ajoute le « Forgeron de la Lame » à votre main, depuis votre deck ou cimetière, puis inflige un montant de dégâts égal à vos réserves d'Échos, réparti entre tous les serviteurs adverses. [Vengeance] Replace le « Mage du Cercle - Hokhan Ashir » au fond de votre deck et ajoute 8 Échos à vos réserves.`, detail:`[Insensible] [Initiative] Ajoute le « Forgeron de la Lame » à votre main, depuis votre deck ou cimetière, puis inflige un montant de dégâts égal à vos réserves d'Échos, réparti entre tous les serviteurs adverses. [Vengeance] Replace le « Mage du Cercle - Hokhan Ashir » au fond de votre deck et ajoute 8 Échos à vos réserves.`},
   R000021:{...CARDS_DATA.R000021, cap:"Ajoute 5 Échos à vos réserves.", detail:"Ajoute 5 Échos à vos réserves.", lore:`Une tombe isolée peut protéger des chasseurs de trésors, mais tout nécromancien sait qu'il n'y a pas mieux pour exercer tranquillement son art...`},
   MV000002:{...CARDS_DATA.MV000002, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
-  MV000003:{...CARDS_DATA.MV000003, kws:["Écho","Approvisionnement"], cap:`La première fois que la « Gueule du trépas » devrait être détruite, détruit à sa place 1 serviteur adverse dont l'attaque est inférieure ou égale à celle de cette carte, puis génère 1 à 3 Échos en fonction du coût imprimé de la victime. Enfin, rend à la « Gueule du trépas » un montant de points de vie égal à l'attaque du serviteur détruit à sa place.`, detail:`La première fois que la « Gueule du trépas » devrait être détruite, détruit à sa place 1 serviteur adverse dont l'attaque est inférieure ou égale à celle de cette carte, puis génère 1 à 3 Échos en fonction du coût imprimé de la victime. Enfin, rend à la « Gueule du trépas » un montant de points de vie égal à l'attaque du serviteur détruit à sa place.`},
-  MV000008:{...CARDS_DATA.MV000008, kws:["Écho","Initiative","Vengeance","Approvisionnement"], cap:"[Initiative] Retire le serviteur adverse du terrain. [Vengeance] Le serviteur ciblé reprend sa place sur le terrain.", detail:`[Initiative] Retire le serviteur adverse du terrain. [Vengeance] Le serviteur ciblé reprend sa place sur le terrain, sauf si l'adversaire n'a plus d'emplacement de serviteur libre, auquel cas la victime rejoint votre pile d'approvisionnement en Échos.`, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
+  MV000003:{...CARDS_DATA.MV000003, kws:["Écho","Approvisionnement"], extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP], cap:`La première fois que la « Gueule du trépas » devrait être détruite, détruit à sa place 1 serviteur adverse dont l'attaque est inférieure ou égale à celle de cette carte, puis génère 1 à 3 Échos en fonction du coût imprimé de la victime. Enfin, rend à la « Gueule du trépas » un montant de points de vie égal à l'attaque du serviteur détruit à sa place.`, detail:`La première fois que la « Gueule du trépas » devrait être détruite, détruit à sa place 1 serviteur adverse dont l'attaque est inférieure ou égale à celle de cette carte, puis génère 1 à 3 Échos en fonction du coût imprimé de la victime. Enfin, rend à la « Gueule du trépas » un montant de points de vie égal à l'attaque du serviteur détruit à sa place.`},
+  MV000008:{...CARDS_DATA.MV000008, kws:["Écho","Initiative","Vengeance","Approvisionnement"], cap:"[Initiative] Retire 1 serviteur adverse choisi du terrain. [Vengeance] Le serviteur ciblé reprend sa place sur le terrain.", detail:`[Initiative] Retire 1 serviteur adverse choisi du terrain. [Vengeance] Le serviteur ciblé reprend sa place sur le terrain, sauf si l'adversaire n'a plus d'emplacement de serviteur libre, auquel cas la victime rejoint le cimetière du propriétaire de l'Araignée.`},
   MV000009:{...CARDS_DATA.MV000009, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   MV000011:{...CARDS_DATA.MV000011, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   MV000028:{...CARDS_DATA.MV000028, kws:["Aria","Vengeance","Écho","Approvisionnement"], cap:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 Échos par serviteur détruit via cet effet.", detail:`Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 Échos par serviteur détruit via cet effet. Les victimes détruites rejoignent votre pile d'approvisionnement en Échos.`, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
@@ -21019,7 +21060,8 @@ Object.assign(CARDS_DATA, {
   S000041:{...CARDS_DATA.S000041, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   S000042:{...CARDS_DATA.S000042, cap:`Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.`, detail:`Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.`},
   S000044:{...CARDS_DATA.S000044, cap:`Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.`, detail:`Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.`},
-  S000051:{...CARDS_DATA.S000051, cap:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.", detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse."}
+  S000051:{...CARDS_DATA.S000051, cap:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.", detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse."},
+  MV000022:{...CARDS_DATA.MV000022, res_ico:'IC00000AME', res_val:'5', resType:'Écho', kws:['Écho'], cap:"Chaque fois qu'il détruit un serviteur, le « Commandant squelette » invoque 1 « Guerrier cendreux » de votre côté du terrain.", detail:"Chaque fois qu'il détruit un serviteur, le « Commandant squelette » invoque 1 « Guerrier cendreux » de votre côté du terrain.", related:['MV000001']}
 });
 Object.assign(CARDS_DATA, {
   EN000001:{...CARDS_DATA.EN000001, cap:'[Initiative] Inflige instantanément le montant de son attaque à un maximum de *2* serviteurs aléatoires.', detail:'[Initiative] Inflige instantanément le montant de son attaque à un maximum de *2* serviteurs aléatoires.'},

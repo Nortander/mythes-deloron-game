@@ -112,7 +112,7 @@ test("S000041 refuses before mutation when the caster has no servant in graveyar
   });
   expect(result.play).toMatchObject({success:false, reason:"zone-play-requirement"});
   expect(result.after.inventories).toEqual(result.before.inventories);
-  expect(result.errorText).toContain("Vous ne remplissez pas les conditions");
+  expect(result.errorText).toContain("VOUS NE REMPLISSEZ PAS LES CONDITIONS");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

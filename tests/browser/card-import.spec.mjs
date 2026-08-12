@@ -62,7 +62,8 @@ async function assertNoBlockingDiagnostics(diagnostics) {
   expect(diagnostics.consoleErrors.filter((message) => !message.includes("Failed to load resource"))).toEqual([]);
   expect(diagnostics.requestFailures.filter((request) => (
     !request.url.includes("favicon") &&
-    !request.url.endsWith(".mp3")
+    !request.url.endsWith(".mp3") &&
+    !(request.url.includes("fonts.gstatic.com") && request.errorText === "net::ERR_ABORTED")
   ))).toEqual([]);
 }
 
@@ -156,7 +157,7 @@ test.describe("IMPORT-2B imported cards", () => {
       });
 
       expect(snapshot.layerOpen).toBeTruthy();
-      expect(snapshot.previewText).toContain(card.name);
+      expect(snapshot.previewText.toLocaleUpperCase("fr-FR")).toContain(card.name.toLocaleUpperCase("fr-FR"));
       expect(snapshot.descriptionText).toContain(card.centralText);
       expectNoExcelEscapeArtifact(snapshot.previewText);
       if (card.id === "EDB000014") {

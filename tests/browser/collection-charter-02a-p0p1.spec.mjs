@@ -80,7 +80,7 @@ test.describe("COLLECTION-CHARTER-02A P0/P1", () => {
     const modal = await collectionModalSnapshot(page);
     expect(modal.cardText).toContain("Bouclier de glace");
     expect(modal.cardText).toContain("Gel");
-    expect(modal.rightText).toContain("Gel");
+    expect(modal.rightText).toContain("GEL");
     await closeCollectionModal(page);
     await attachDiagnostics(testInfo, diagnostics);
     expect(diagnostics.pageErrors).toEqual([]);

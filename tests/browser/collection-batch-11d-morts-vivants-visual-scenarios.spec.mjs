@@ -109,7 +109,7 @@ test("Batch-11D refusal checkpoints keep hand, Echoes and zones stable", async (
   });
   expect(sacrificeRefusal.play).toMatchObject({success:false, reason:"zone-play-requirement"});
   expect(sacrificeRefusal.after.inventories).toEqual(sacrificeRefusal.before.inventories);
-  expect(sacrificeRefusal.error).toContain("Vous ne remplissez pas les conditions");
+  expect(sacrificeRefusal.error).toContain("VOUS NE REMPLISSEZ PAS LES CONDITIONS");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

@@ -138,7 +138,7 @@ test.describe("COLLECTION-CHARTER-03 highlights de description", () => {
     const modal = await collectionModalSnapshot(page);
     expect(modal.cardText).toContain("des 3 prochaines attaques");
     expect(modal.cardText).not.toContain("<3>");
-    expect(modal.rightText).toContain("Gel");
+    expect(modal.rightText).toContain("GEL");
     expect(await page.locator("#modalDesc strong.kv", { hasText: "3" }).evaluate(node => getComputedStyle(node).color)).toBe(MODAL_SORT_VALUE_COLOR);
     await closeCollectionModal(page);
     await attachDiagnostics(testInfo, diagnostics);

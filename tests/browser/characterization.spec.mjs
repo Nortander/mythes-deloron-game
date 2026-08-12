@@ -62,7 +62,7 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
     const snapshot = await collectionModalSnapshot(page);
     await testInfo.attach("missing-servant-modal-snapshot", { contentType: "application/json", body: Buffer.from(JSON.stringify(snapshot, null, 2), "utf8") });
     expect(snapshot.open).toBeTruthy();
-    expect(snapshot.rightText).toContain("Initiative");
+    expect(snapshot.rightText).toContain("INITIATIVE");
     expect(snapshot.rightText).not.toContain("CONDITION");
     expect(snapshot.cardText).toContain("vous piochez instantan");
     expect(snapshot.relatedVisible).toBeTruthy();
@@ -172,7 +172,7 @@ test.describe("ENV-1F2 characterization of open interface regressions", () => {
       randomValues: FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM
     });
     const snapshot = await previewSnapshot(page);
-    expect(snapshot.previewText).toContain("Jardins botaniques");
+    expect(snapshot.previewText).toContain("JARDINS BOTANIQUES");
     expect(snapshot.previewText).toContain("Toutes vos cartes");
     expect(snapshot.descriptionText.split(/\n+/).map((line) => line.trim())).not.toContain("Sort");
     const abilityPanels = snapshot.panels.filter((panel) => panel.title.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase() === "capacite");

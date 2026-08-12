@@ -221,7 +221,7 @@ test("S000006 refuses before payment when the deck is empty", async ({page}, tes
   expect(after.player1.deck).toEqual(before.player1.deck);
   expect(after.player1.graveyard).toEqual(before.player1.graveyard);
   expect(after.player1.resources).toEqual(before.player1.resources);
-  expect(after.errorText).toContain("deck");
+  expect(after.errorText).toContain("DECK");
   expect(after.panel.play.code).toBe("own-deck-has-card");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -247,7 +247,7 @@ test("S000022 refuses before payment when the opposing graveyard has no legal se
   expect(after.player1.graveyard).toEqual(before.player1.graveyard);
   expect(after.player2.graveyard).toEqual(before.player2.graveyard);
   expect(after.player1.resources).toEqual(before.player1.resources);
-  expect(after.errorText).toContain("Aucune cible valide");
+  expect(after.errorText).toContain("AUCUNE CIBLE VALIDE");
   expect(after.panel.play.code).toBe("opponent-graveyard-has-servant");
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

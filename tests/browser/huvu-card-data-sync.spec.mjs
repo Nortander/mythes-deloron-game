@@ -169,7 +169,7 @@ for (const [scenario, cardIds] of Object.entries(fixture.galleries)) {
       const expected = fixture.cards[cardId];
       const snapshot = await hoverVisiblePartCard(page, cardId);
       expect(snapshot.layerOpen).toBe(true);
-      expect(snapshot.previewText).toContain(expected.name);
+      expect(snapshot.previewText.toLocaleUpperCase("fr-FR")).toContain(expected.name.toLocaleUpperCase("fr-FR"));
       expect(snapshot.descriptionText.trim().length).toBeGreaterThan(0);
       expect(snapshot.previewText).not.toMatch(/_x[0-9A-Fa-f]{4}_|undefined|null|\[object Object\]/);
       const emptyPanels = snapshot.panels.filter(panel => !panel.title || !panel.text.trim());

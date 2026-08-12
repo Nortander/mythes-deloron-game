@@ -103,8 +103,12 @@ async function playCardThroughGameEntryPoint(page, cardId) {
 }
 
 function expectGenericResourceMessage(snapshot) {
-  expect(snapshot.errorText).toBe(GENERIC_RESOURCE_MESSAGE);
+  expect(snapshot.errorText).toBe(GENERIC_RESOURCE_MESSAGE.toLocaleUpperCase("fr-FR"));
   expect(snapshot.errorText).not.toMatch(/requis|disponible|minimum|total|Aria|Écho|Échos|\+| ou |\{|\}|insufficient-resources/i);
+}
+
+async function expectErrorRenderedUppercase(page) {
+  await expect(page.locator("#errMsg.show")).toHaveCSS("text-transform", "uppercase");
 }
 
 function expectInsufficientDiagnostic(snapshot, cardId) {
@@ -387,6 +391,7 @@ test("resource refusal message remains readable for the configured important dur
 
   await playCardThroughGameEntryPoint(page, "DIV000002");
   await expect(page.locator("#errMsg.show")).toHaveText(GENERIC_RESOURCE_MESSAGE);
+  await expectErrorRenderedUppercase(page);
   const duration = await page.locator("#errMsg").evaluate(element => Number(element.dataset.messageDurationMs));
   expect(duration).toBeGreaterThanOrEqual(3500);
   expect(duration).toBeLessThanOrEqual(4500);
