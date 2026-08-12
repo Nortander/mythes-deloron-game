@@ -400,3 +400,11 @@ Aucun changement n'est apporte a `code/collection.html`, aux decks Hokhan/Uram, 
 Cartes implementees et testees : `MV000011`, `MV000024`, `S000041` et `S000052`. Le lot couvre les gains et depenses d'Echos, les captures sous approvisionnement, le sacrifice du cimetiere, l'invocation depuis deck puis cimetiere, le fallback de 5 Echos et les Vengeances associees.
 
 Cartes reportees : `MV000008`, `MV000028`, `MV000030`, `S000042`, `S000044` et `PRST000014`. `S000051` reste verrouille et protege par non-regression.
+
+### Stabilisation visuelle COLLECTION-BATCH-11H
+
+Le passage V4 ajoute neuf scenarios caches `collection-batch-11h-*` pour rendre les tests visuels Morts-vivants exploitables carte par carte. `R000027` dispose d'un scenario dedie : la Necropole bloque deux emplacements d'Approvisionnement, conserve son second emplacement noir tant qu'elle reste en jeu, libere le slot a son depart au cimetiere et declenche alors sa Vengeance.
+
+`AVP000008` est verifie comme avatar principal Hokhan, separe de `AVS000008`. Le pseudo-avatar n'anime plus l'ajout du Forgeron de la Lame si celui-ci est deja en main ; sinon le Forgeron est anime depuis sa zone source vers la main. Les Vengeances morts-vivantes couvertes par V4 declenchent leur pulsation avant le depart au cimetiere.
+
+`S000044` sequence maintenant ses deux deplacements visuels : deck vers main, puis cimetiere vers deck. `S000051` conserve son fonctionnement et son animation de transfert de cimetiere a cimetiere. Le futur `BATCH 12 A PREVOIR` couvre les cartes de la Lame / Forgeron de la Lame et apparentees ; elles ne sont pas implementees dans 11H.

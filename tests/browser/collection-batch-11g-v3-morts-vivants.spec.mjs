@@ -1,4 +1,4 @@
-﻿import fs from "node:fs";
+import fs from "node:fs";
 import {expect, test} from "@playwright/test";
 import {attachDiagnostics, attachPageDiagnostics} from "./helpers/eloron-ui.mjs";
 
@@ -176,6 +176,7 @@ test("AraignÃ©e, Mur and Recyclage expose the V3 visual/audit events", async (
     await playCard("S000044", null, {returnValidation:true});
     const slot = qs(playerZoneSelector(player1, "servants"))?.querySelector(".slot");
     await playCard("MV000001", slot, {returnValidation:true});
+    await new Promise(resolve => setTimeout(resolve, 700));
     return {
       hand:[...document.querySelectorAll(playerZoneSelector(player1, "hand") + ' .hc')].map(node => ({id:node.dataset.id, drawn:node.classList.contains('hc-batch03-ianna-drawn')})),
       events:auditCollectionBatch11eRuntime().events

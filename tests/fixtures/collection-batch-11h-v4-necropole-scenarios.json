@@ -1,0 +1,49 @@
+{
+  "lotId": "COLLECTION-BATCH-11H",
+  "scenarios": [
+    "collection-batch-11h-necropole-dedicated",
+    "collection-batch-11h-hokhan-avatar-pseudo",
+    "collection-batch-11h-faucheur-spectre-gueule",
+    "collection-batch-11h-amalgames-banshee-gardien",
+    "collection-batch-11h-jeteur-morghast",
+    "collection-batch-11h-arachnee-ame-mur",
+    "collection-batch-11h-sorts-sacrifice-revenants",
+    "collection-batch-11h-sorts-eclipse-recyclage-rituel",
+    "collection-batch-11h-parity-v4"
+  ],
+  "cards": [
+    "R000027",
+    "AVS000008",
+    "MV000002",
+    "MV000003",
+    "MV000004",
+    "MV000005",
+    "MV000006",
+    "MV000008",
+    "MV000009",
+    "MV000011",
+    "MV000015",
+    "MV000024",
+    "MV000025",
+    "MV000028",
+    "MV000029",
+    "MV000030",
+    "S000041",
+    "S000042",
+    "S000044",
+    "S000051",
+    "S000052"
+  ],
+  "expected": {
+    "panelTitle": "MODE TEST — COLLECTION BATCH 11H",
+    "hokhanPortrait": "AVP000008.png",
+    "necropoleFootprintClass": "hc-blocked-temporary",
+    "spectreMessage": "LE SPECTRE HURLANT GRIFFE L'ÂME D'UN ADVERSAIRE ET EN RETIRE DE L'ÉCHO !",
+    "gueuleMessage": "LA GUEULE DU TRÉPAS ASPIRE LA VIE POUR RESTAURER LA SIENNE !",
+    "bansheeInitiativeMessage": "LE CRI D'UNE BANSHEE SUBMERGE L'ADVERSAIRE DE TERREUR !",
+    "bansheeVengeanceMessage": "LE CRI D'AGONIE D'UNE BANSHEE CAUSE LA DÉBANDADE DANS LES RANGS ENNEMIS !",
+    "gardienInitiativeMessage": "LE GARDIEN VOUS DONNE ACCÈS À SON ANTIQUE RELIQUAIRE ET VOUS RESSOURCE EN ÉCHOS !",
+    "retourRevenantsMessagePattern": "UN SOMBRE RITUEL RAPPELLE [0-9]+ DE VOS SERVITEUR\\(S\\) DE LA TOMBE\\.\\.\\.",
+    "forbiddenPublicIdPattern": "RAME(?:0|5|10|15|20|21|\\*)|\\[ID\\s*=|effectInstanceId|linkedOccurrenceId|AVS000008|MV000019|S0000\\d{2}"
+  }
+}

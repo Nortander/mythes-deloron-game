@@ -3146,6 +3146,9 @@ const COLLECTION_BATCH_11E_COMMON = {
 function collectionBatch11eScenario(overrides={}) {
   return {...COLLECTION_BATCH_11E_COMMON, participants:['huvuImpl3Subject','huvuImpl3Opponent'], fixedFirstParticipant:0, ...overrides};
 }
+function collectionBatch11hScenario(overrides={}) {
+  return collectionBatch11eScenario({showCollectionBatch11hPanel:true, ...overrides});
+}
 SCENARIOS['collection-batch-11e-hokhan-gueule-mur'] = collectionBatch11eScenario({
   label:'TEST - COLLECTION BATCH 11E Hokhan, Gueule et Mur',
   testCardId:'AVS000008',
@@ -3224,6 +3227,59 @@ SCENARIOS['collection-batch-11g-eclipse-solaire'] = collectionBatch11eScenario({
 SCENARIOS['collection-batch-11g-recyclage'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Recyclage', testCardId:'S000044', testSetup:SCENARIOS['collection-batch-11e-sorts-globaux'].testSetup});
 SCENARIOS['collection-batch-11g-rituel-occulte-animation'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Rituel occulte animation', testCardId:'S000051', testSetup:SCENARIOS['collection-batch-11e-rituel-occult'].testSetup});
 SCENARIOS['collection-batch-11g-parite-collection-runtime'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Parité Collection Runtime', testCardId:'MV000030', testSetup:SCENARIOS['collection-batch-11e-parity'].testSetup});
+
+SCENARIOS['collection-batch-11h-necropole-dedicated'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Nécropole dédiée',
+  testCardId:'R000027',
+  testSetup:SCENARIOS['collection-batch-11g-necropole-blocage-approvisionnements'].testSetup
+});
+SCENARIOS['collection-batch-11h-hokhan-avatar-pseudo'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Hokhan avatar et pseudo-avatar',
+  participants:['hokhan','huvuImpl3Opponent'],
+  testCardId:'AVS000008',
+  testSetup:{
+    player1:{resources:{classical:{aria:40,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:8}, hand:['AVS000008'], drawPile:['MV000019','MV000001','MV000002'], graveyard:[], servants:[{id:'MV000001',pdv:1,pdvMax:2,prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000019','MV000024','MV000025','MV000028','MV000029','MV000030']},
+    player2:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25}
+  }
+});
+SCENARIOS['collection-batch-11h-faucheur-spectre-gueule'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Faucheur, Spectre, Gueule',
+  testCardId:'MV000003',
+  testSetup:{
+    player1:{resources:{classical:{aria:40,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:10}, hand:['MV000002'], drawPile:['MV000001','MV000025'], graveyard:[], servants:[{id:'MV000009',pdv:1,pdvMax:2,prepared:true},{id:'MV000003',pdv:1,pdvMax:8,prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000019','MV000024','MV000025','MV000028','MV000029','MV000030']},
+    player2:{resources:{classical:{aria:40,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',atk:1,pdv:1,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000006',atk:8,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+});
+SCENARIOS['collection-batch-11h-amalgames-banshee-gardien'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Amalgames, Banshee, Gardien',
+  testCardId:'MV000015',
+  testSetup:SCENARIOS['collection-batch-11b-banshee-vengeance'].testSetup
+});
+SCENARIOS['collection-batch-11h-jeteur-morghast'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Jeteur et Morghast',
+  testCardId:'MV000024',
+  testSetup:SCENARIOS['collection-batch-11c-jeteur-morghast'].testSetup
+});
+SCENARIOS['collection-batch-11h-arachnee-ame-mur'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Araignée, Âme explosive, Mur',
+  testCardId:'MV000008',
+  testSetup:SCENARIOS['collection-batch-11e-arachnee-ame'].testSetup
+});
+SCENARIOS['collection-batch-11h-sorts-sacrifice-revenants'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Sorts sacrifice et revenants',
+  testCardId:'S000052',
+  testSetup:SCENARIOS['collection-batch-11c-return-revenants'].testSetup
+});
+SCENARIOS['collection-batch-11h-sorts-eclipse-recyclage-rituel'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Sorts Eclipse, Recyclage, Rituel',
+  testCardId:'S000044',
+  testSetup:SCENARIOS['collection-batch-11e-sorts-globaux'].testSetup
+});
+SCENARIOS['collection-batch-11h-parity-v4'] = collectionBatch11hScenario({
+  label:'TEST - COLLECTION BATCH 11H Parité V4',
+  testCardId:'MV000030',
+  testSetup:SCENARIOS['collection-batch-11e-parity'].testSetup
+});
 
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
@@ -10192,7 +10248,7 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showCollectionBatch11ePanel ? 'MODE TEST — COLLECTION BATCH 11E' : (activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'))))))));
+  const title = activeScenario?.showCollectionBatch11hPanel ? 'MODE TEST — COLLECTION BATCH 11H' : (activeScenario?.showCollectionBatch11ePanel ? 'MODE TEST — COLLECTION BATCH 11E' : (activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES')))))))));
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
@@ -14649,12 +14705,18 @@ function resolveBatch11eMurNonMortDamage(fc, context={}) {
 }
 async function resolveBatch11eHokhanInitiative(player, sourceFC) {
   const p = playerState(player);
-  const found = ['deck','graveyard'].map(zone => zoneCardEntries(p, zone, {cardIds:['MV000019']})[0]).find(Boolean);
+  const forgeronAlreadyInHand = playerHand(p).map(getRuntimeCardId).includes('MV000019');
+  const found = forgeronAlreadyInHand ? null : ['deck','graveyard'].map(zone => zoneCardEntries(p, zone, {cardIds:['MV000019']})[0]).find(Boolean);
   let forgeron = null;
-  if (found) {
+  if (forgeronAlreadyInHand) {
+    forgeron = {success:false, reason:'already-in-hand', destination:'hand', cardId:'MV000019'};
+  } else if (found) {
     const entry = removeZoneEntry(p, found.zone, found.index);
     forgeron = batch11eAddHandOrDeck(p, getRuntimeCardId(entry), entry?.occurrenceId || null);
-    if (forgeron.success && forgeron.destination === 'hand') markBatch03HandTransfer(p, getRuntimeCardId(entry), 'drawn');
+    if (forgeron.success && forgeron.destination === 'hand') {
+      showBatch11eZoneFlight(getRuntimeCardId(entry), p, found.zone, p, 'hand', 'hokhan-forgeron-to-hand');
+      markBatch03HandTransfer(p, getRuntimeCardId(entry), 'drawn');
+    }
   }
   const echoDamage = Number(p?.resourceState?.souls || 0);
   const enemies = getAffectableTargets({sourcePlayer:p, targets:batch11bEnemyServants(p), sourceCardId:'AVS000008', effectKind:'damage', isAbility:true});
@@ -14764,7 +14826,7 @@ function resolveBatch11eRecyclageOnSummon(player, sourceCardId=null, sourceInsta
     if ((p.graveyard || []).length) {
       const entry = p.graveyard.pop();
       returned = getRuntimeCardId(entry);
-      if (returned) showBatch11eZoneFlight(returned, p, 'graveyard', p, 'deck', 'recyclage-grave-to-deck');
+      if (returned) setTimeout(() => showBatch11eZoneFlight(returned, p, 'graveyard', p, 'deck', 'recyclage-grave-to-deck'), 520);
       p.drawPile.unshift(entry);
       refreshCemeteryVisual(p);
       updateDeckCount(p);
@@ -14813,7 +14875,7 @@ async function resolveBatch11eGueulePreventDeath(player, fc, options={}) {
   updateRageState(fc);
   const result = {success:true, cardId:'MV000003', saved:targetSummary(fc), destroyed:targetSummary(target), healAmount, echoAmount};
   recordCollectionBatch11eEvent('gueule-prevented-destruction', result);
-  showNotif('LA GUEULE DU TRÉPAS DÉVORE UNE VICTIME À SA PLACE.', 1600);
+  showNotif("LA GUEULE DU TRÉPAS ASPIRE LA VIE POUR RESTAURER LA SIENNE !", 1600);
   return result;
 }
 
@@ -15566,7 +15628,9 @@ async function triggerUramGrantedVengeance(player, dyingFC) {
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
   return cardId === 'AVS000006' || cardId === 'B000003' || cardId === 'B000004' || cardId === 'EDB000011' ||
     cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012' || cardId === 'N000009' ||
-    cardId === 'TRL000013' || cardId === 'TRL000014' || cardId === 'GOB000006' || cardId === 'GOB000012';
+    cardId === 'TRL000013' || cardId === 'TRL000014' || cardId === 'GOB000006' || cardId === 'GOB000012' ||
+    cardId === 'AVS000008' || cardId === 'MV000008' || cardId === 'MV000009' || cardId === 'MV000011' ||
+    cardId === 'MV000015' || cardId === 'MV000024' || cardId === 'MV000025' || cardId === 'MV000028' || cardId === 'MV000030';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
