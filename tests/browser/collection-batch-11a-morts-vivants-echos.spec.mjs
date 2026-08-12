@@ -49,8 +49,8 @@ test("Batch-11A scenarios stay hidden and expose Echo-facing card data", async (
       expect(card.formatted, card.id + " keeps RAME technical ids out of public text").not.toMatch(/RAME0|RAME5|RAME10|RAME15|RAME20|RAME21|RAME\*/);
     }
     expect(audit.cards.find(card => card.id === "R000021")?.text).toContain("5 Échos");
-    expect(audit.cards.find(card => card.id === "MV000009")?.text).toContain("1 Écho");
-    expect(audit.cards.find(card => card.id === "AVS000008")?.text).toContain("8 Échos");
+    expect(audit.cards.find(card => card.id === "MV000009")?.text).toContain("*1* Écho");
+    expect(audit.cards.find(card => card.id === "AVS000008")?.text).toContain("*8* Échos");
   }
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

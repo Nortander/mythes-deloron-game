@@ -609,8 +609,12 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 /* ── États visuels d'attaque ── */
 .fc-attacking{box-shadow:0 0 0 3px rgba(255,200,50,0.9),0 0 20px rgba(255,200,50,0.5) !important;cursor:crosshair !important;}
 .fc-valid-target{cursor:crosshair;animation:targetPulse 0.9s ease-in-out infinite;}
-.batch11a-necropole-footprint{position:relative;display:flex;align-items:center;justify-content:center;min-width:70px;min-height:98px;border:1px solid rgba(78,64,72,.85);border-radius:10px;background:linear-gradient(145deg,rgba(3,3,6,.96),rgba(17,9,18,.98));box-shadow:inset 0 0 18px rgba(0,0,0,.95),0 0 14px rgba(68,45,86,.28);pointer-events:none;}
+.batch11a-necropole-footprint{position:relative;display:flex;align-items:center;justify-content:center;width:var(--cs);height:var(--cs);min-width:var(--cs);min-height:var(--cs);border:1px solid rgba(78,64,72,.85);border-radius:10px;background:linear-gradient(145deg,rgba(3,3,6,.96),rgba(17,9,18,.98));box-shadow:inset 0 0 18px rgba(0,0,0,.95),0 0 14px rgba(68,45,86,.28);pointer-events:none;z-index:3;}
 .batch11a-necropole-footprint::after{content:'';position:absolute;inset:9px;border-radius:8px;border:1px dashed rgba(152,126,166,.25);}
+.board-target-choice-panel{max-width:min(94vw,1180px);max-height:none;overflow:visible;}
+.board-target-choice-panel .sort-choice-cards{overflow:visible;max-height:none;padding:16px 26px 34px;}
+.board-target-choice-panel .sort-choice-item{position:relative;z-index:1;}
+.board-target-choice-panel .sort-choice-item:hover,.board-target-choice-panel .sort-choice-item:focus-within{z-index:30;}
 .batch11e-stat-buff{color:#50e870!important;text-shadow:0 0 3px #fff,0 0 8px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,.9)!important;}
 .batch11e-stat-nerf{color:#ff5040!important;text-shadow:0 0 3px #fff,0 0 8px rgba(220,40,20,.9),0 1px 4px rgba(0,0,0,.9)!important;}
 @keyframes targetPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 16px rgba(255,80,40,0.4);}50%{box-shadow:0 0 0 3px rgba(255,80,40,1),0 0 28px rgba(255,80,40,0.7);}}
@@ -2091,7 +2095,7 @@ Object.assign(CARDS_DATA, {
     lore:'Os dorsal des armées morts-vivantes, ces guerriers ne connaissent ni la peur, ni la douleur, seulement la haine.'},
   'MV000002':{name:'Spectre hurlant',type:'Serviteur',fac:'mvs',atk:4,pdv:2,cost:2,
     res_ico:'IC00000AME',res_val:'2',fico:'FCT00000MVS.png',kws:['Vigilance','Initiative'],
-    cap:'[Vigilance] [Initiative] Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite 1 ressource me pour le propriétaire du Spectre hurlant.',
+    cap:'[Vigilance] [Initiative] Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite *1* Écho pour le propriétaire du Spectre hurlant.',
     badge:'',lore:''},
   'MV000007':{name:'Serviteur osseux',type:'Serviteur',fac:'mvs',atk:2,pdv:2,cost:0,
     res_ico:'IC00000RDM',res_val:'0',fico:'FCT00000MVS.png',kws:['Rempart','Vigilance'],
@@ -2099,7 +2103,7 @@ Object.assign(CARDS_DATA, {
     lore:'Ranimé par la magie noire, ce squelette servira aveuglément son maître jusqu\u2019à sa seconde mort.'},
   'MV000008':{name:'Araignée géante réanimée',type:'Serviteur',fac:'mvs',atk:8,pdv:3,cost:5,
     res_ico:'IC00000AME',res_val:'5',fico:'FCT00000MVS.png',kws:['Initiative'],
-    cap:'[Initiative] Retire le serviteur adverse du terrain. Le serviteur ciblé reprend sa place quand l\'Araignée géante réanimée est envoyée du terrain au cimetière.',
+    cap:'[Initiative] Retire *1* serviteur adverse du terrain. Le serviteur ciblé reprend sa place quand l\'Araignée géante réanimée est envoyée du terrain au cimetière.',
     badge:'',lore:''},
   // Sorts MVS
   'S000005':{name:'Assassinat',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,
@@ -2144,7 +2148,7 @@ Object.assign(CARDS_DATA, {
   'MV000009':{name:'Faucheur d\u2019\u00e2mes',type:'Serviteur',fac:'mvs',atk:4,pdv:4,cost:2,
     res_ico:'IC00000AME',res_val:'2',resType:'Écho',fico:'FCT00000MVS.png',
     kws:['Vengeance','Écho','Approvisionnement'],
-    cap:'Chaque fois que ce serviteur détruit un adversaire, ajoute 1 Écho à votre approvisionnement. Le serviteur détruit est alors placé sous votre pile d’Échos plutôt que dans le cimetière adverse. [Vengeance] Génère son coût en Échos et l’ajoute à vos réserves.',
+    cap:'Chaque fois que ce serviteur détruit un adversaire, ajoute *1* Écho à votre approvisionnement. Le serviteur détruit est alors placé sous votre pile d\'Échos plutôt que dans le cimetière adverse. [Vengeance] Génère son coût en Échos et l\'ajoute à vos réserves.',
     badge:'',lore:''},
   'MV000010':{name:'Zombie nouveau-n\u00e9',type:'Serviteur',fac:'mvs',atk:1,pdv:3,cost:1,
     res_ico:'IC00000AME',res_val:'1',resType:'Âme',fico:'FCT00000MVS.png',
@@ -3182,6 +3186,44 @@ SCENARIOS['collection-batch-11e-parity'] = collectionBatch11eScenario({
     player2:{allowOverflowServants:true,resources:{classical:{aria:50,lenya:30,selene:30,fer:30,bois:30,pierre:30,nourriture:30},souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:['H000001','R000001','H000005'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'N000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'EN000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 });
+
+
+SCENARIOS['collection-batch-11g-necropole-blocage-approvisionnements'] = collectionBatch11eScenario({
+  label:'TEST - COLLECTION BATCH 11G Nécropole blocage approvisionnements',
+  testCardId:'R000027',
+  testSetup:{
+    player1:{resources:{classical:{aria:40,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:5}, hand:['R000027','R000021','R000020'], drawPile:['MV000001','MV000002','MV000025'], graveyard:['H000001','R000001','H000005'], servants:[{id:'MV000001',prepared:true},{id:'MV000002',prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000019','MV000024','MV000025','MV000028','MV000029','MV000030']},
+    player2:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25}
+  }
+});
+SCENARIOS['collection-batch-11g-avatar-hokhan-principal'] = collectionBatch11eScenario({
+  label:'TEST - COLLECTION BATCH 11G Avatar principal Hokhan Ashir',
+  participants:['hokhan','huvuImpl3Opponent'],
+  testCardId:'MV000001',
+  testSetup:{
+    player1:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:5}, hand:['MV000001'], drawPile:['MV000002','MV000003','MV000004'], graveyard:[], servants:[{id:'MV000001',pdv:1,pdvMax:2,prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000003','MV000004','MV000005','MV000006','MV000008','MV000009','MV000011','MV000015','MV000019','MV000024','MV000025','MV000028','MV000029','MV000030']},
+    player2:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:['H000001'], drawPile:['H000006'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25}
+  }
+});
+SCENARIOS['collection-batch-11g-hokhan-pseudo-initiative-vengeance'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Hokhan pseudo Initiative Vengeance', testCardId:'AVS000008', testSetup:SCENARIOS['collection-batch-11e-hokhan-gueule-mur'].testSetup});
+SCENARIOS['collection-batch-11g-faucheur-vengeance-recolte'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Faucheur Vengeance Récolte', testCardId:'MV000009', testSetup:SCENARIOS['collection-batch-11a-echos'].testSetup});
+SCENARIOS['collection-batch-11g-esprit-vengeance'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Esprit Vengeance', testCardId:'MV000025', testSetup:SCENARIOS['collection-batch-11e-parity'].testSetup});
+SCENARIOS['collection-batch-11g-spectre-recolte'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Spectre Récolte', testCardId:'MV000002', testSetup:SCENARIOS['collection-batch-11b-initiative-captures'].testSetup});
+SCENARIOS['collection-batch-11g-gueule-destruction-attaque-defense'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Gueule attaque défense', testCardId:'MV000003', testSetup:SCENARIOS['collection-batch-11e-hokhan-gueule-mur'].testSetup});
+SCENARIOS['collection-batch-11g-amalgames'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Amalgames', testCardId:'MV000006', testSetup:SCENARIOS['collection-batch-11b-amalgams'].testSetup});
+SCENARIOS['collection-batch-11g-banshee-modal-vengeance'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Banshee modale Vengeance', testCardId:'MV000015', testSetup:SCENARIOS['collection-batch-11b-banshee-vengeance'].testSetup});
+SCENARIOS['collection-batch-11g-gardien-reliquaire-fin-tour'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Gardien reliquaire fin de tour', testCardId:'MV000029', testSetup:SCENARIOS['collection-batch-11b-banshee-vengeance'].testSetup});
+SCENARIOS['collection-batch-11g-jeteur-isole'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Jeteur isolé', testCardId:'MV000011', testSetup:SCENARIOS['collection-batch-11c-jeteur-morghast'].testSetup});
+SCENARIOS['collection-batch-11g-morghast-isole'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Morghast isolé', testCardId:'MV000024', testSetup:SCENARIOS['collection-batch-11c-jeteur-morghast'].testSetup});
+SCENARIOS['collection-batch-11g-araignee-capture-retour-cimetiere'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Araignée capture retour', testCardId:'MV000008', testSetup:SCENARIOS['collection-batch-11e-arachnee-ame'].testSetup});
+SCENARIOS['collection-batch-11g-ame-explosive-debut-tour-vengeance'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Âme explosive début tour Vengeance', testCardId:'MV000028', testSetup:SCENARIOS['collection-batch-11e-arachnee-ame'].testSetup});
+SCENARIOS['collection-batch-11g-mur-non-mort'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Mur non-mort', testCardId:'MV000030', testSetup:SCENARIOS['collection-batch-11e-hokhan-gueule-mur'].testSetup});
+SCENARIOS['collection-batch-11g-puissance-sacrifice'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Puissance du sacrifice', testCardId:'S000041', testSetup:SCENARIOS['collection-batch-11c-sacrifice-power'].testSetup});
+SCENARIOS['collection-batch-11g-retour-revenants-3-sous-cas'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Retour des revenants', testCardId:'S000052', testSetup:SCENARIOS['collection-batch-11c-return-revenants'].testSetup});
+SCENARIOS['collection-batch-11g-eclipse-solaire'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Éclipse solaire', testCardId:'S000042', testSetup:SCENARIOS['collection-batch-11e-sorts-globaux'].testSetup});
+SCENARIOS['collection-batch-11g-recyclage'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Recyclage', testCardId:'S000044', testSetup:SCENARIOS['collection-batch-11e-sorts-globaux'].testSetup});
+SCENARIOS['collection-batch-11g-rituel-occulte-animation'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Rituel occulte animation', testCardId:'S000051', testSetup:SCENARIOS['collection-batch-11e-rituel-occult'].testSetup});
+SCENARIOS['collection-batch-11g-parite-collection-runtime'] = collectionBatch11eScenario({label:'TEST - COLLECTION BATCH 11G Parité Collection Runtime', testCardId:'MV000030', testSetup:SCENARIOS['collection-batch-11e-parity'].testSetup});
 
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
@@ -14022,7 +14064,10 @@ function resolveRituelOcculte(player) {
   while (source.length) {
     const entry = source.shift();
     const cardId = getRuntimeCardId(entry);
-    if (cardId) stolen.push(cardId);
+    if (cardId) {
+      stolen.push(cardId);
+      showBatch11eZoneFlight(cardId, opponent, 'graveyard', p, 'graveyard', 'rituel-occulte-grave-transfer');
+    }
     addEntryToRuntimeZone(p, 'graveyard', entry);
   }
   refreshCemeteryVisual(opponent);
@@ -14149,9 +14194,15 @@ function resolveBatch11aEchoCaptureOnCemetery(victimOwner, fc, context={}) {
   });
   if (gain.success && !requested?.silent) {
     const specificMessages = {
-      MV000002:"LE SPECTRE HURLANT GRIFFE L'ÂME D'UN ADVERSAIRE ET EN RETIRE DE L'ÉCHO !"
+      MV000002:"LE SPECTRE HURLANT GRIFFE L'ÂME D'UN ADVERSAIRE ET EN RETIRE DE L'ÉCHO !",
+      MV000003:null,
+      MV000011:null
     };
-    showNotif(specificMessages[sourceCardId] || `${CARDS_DATA[sourceCardId]?.name || 'Récolte d\'Échos'} récolte ${amount} Écho(s).`, 1400);
+    if (Object.prototype.hasOwnProperty.call(specificMessages, sourceCardId)) {
+      if (specificMessages[sourceCardId]) showNotif(specificMessages[sourceCardId], 1400);
+    } else {
+      showNotif(`${CARDS_DATA[sourceCardId]?.name || 'Récolte d\'Échos'} récolte ${amount} Écho(s).`, 1400);
+    }
   }
   return {captured:true, collectorId:collector.key, victimOwnerId:owner.key, amount, gain, capturedEntry};
 }
@@ -14199,7 +14250,7 @@ function applyBatch11aNecropoleFootprint(player, fc) {
   const slot = preferred || fallback;
   if (!slot) return {success:false, reason:'no-free-supply-slot', sourceInstanceId};
   const blocker = document.createElement('div');
-  blocker.className = 'batch11a-necropole-footprint';
+  blocker.className = 'batch11a-necropole-footprint hc-blocked-temporary';
   blocker.dataset.player = p.key;
   blocker.dataset.batch11aNecropoleFootprint = sourceInstanceId;
   blocker.dataset.blockedSupplySlot = 'necropole';
@@ -14308,7 +14359,7 @@ async function batch11bDestroyAndCapture({player, sourceFC, sourceCardId, candid
   if (healAmount > 0 && sourceFC?.isConnected) heal = applyHeal(sourceFC, healAmount);
   const result = {handled:true, success:true, cardId:sourceCardId, playerId:playerKey(player), targetBefore, sourceBefore, echoAmount:amount, healAmount, heal, capturedVictims:batch11aCapturedVictims(player).map(entry => ({...entry}))};
   recordCollectionBatch11bEvent('destroy-capture-echo', result);
-  showNotif((CARDS_DATA[sourceCardId]?.name || 'Initiative') + ' : ' + amount + ' ' + (amount > 1 ? 'Échos générés' : 'Écho généré') + '.', 1400);
+  if (!['MV000002','MV000003','MV000011'].includes(sourceCardId)) showNotif((CARDS_DATA[sourceCardId]?.name || 'Initiative') + ' : ' + amount + ' ' + (amount > 1 ? 'Échos générés' : 'Écho généré') + '.', 1400);
   return result;
 }
 function batch11bReturnServantToOwnerDeck(target, sourcePlayer, sourceCardId, reason) {
@@ -14350,6 +14401,7 @@ async function resolveBatch11bInitiative(cardId, player, context={}) {
   }
   if (cardId === 'MV000006') {
     if (!batch11bHasRequiredAmalgamAllies(player, cardId)) { const result = {handled:true, success:false, cardId, reason:'missing-amalgam-allies'}; recordCollectionBatch11bEvent('amalgam-condition-missing', result); return result; }
+    if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative', {move:true});
     const draw = drawMultiple(player, 3, {notify:false, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance || null});
     const result = {handled:true, success:draw.success, cardId, draw};
     recordCollectionBatch11bEvent('amalgam-draw', result);
@@ -14371,7 +14423,7 @@ async function resolveBatch11bInitiative(cardId, player, context={}) {
     return {handled:true, success:move.success, cardId, move};
   }
   if (cardId === 'MV000029') {
-    if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative');
+    if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative', {move:true});
     const gain = addSoulToAppro(player, 3);
     const result = {handled:true, success:gain.success, cardId, gain, deferred:['end-turn-extra-echo-if-no-echo-spent']};
     recordCollectionBatch11bEvent('reliquary-guardian-initiative', result);
@@ -14400,7 +14452,7 @@ async function resolveBatch11bVengeance(cardId, player, dyingFC, killer, context
     return result;
   }
   if (cardId === 'AVS000008') return resolveBatch11eHokhanPseudoVengeance(player, dyingFC);
-  if (cardId === 'MV000008') return resolveBatch11eAraigneeVengeance(player, dyingFC);
+  if (cardId === 'MV000008') return await resolveBatch11eAraigneeVengeance(player, dyingFC);
   if (cardId === 'MV000028') return await resolveBatch11eAmeExplosiveVengeance(player, dyingFC);
   if (cardId === 'MV000030') return resolveBatch11eMurNonMortVengeance(player, dyingFC);
   if (cardId === 'MV000024') return resolveBatch11cMorghastVengeance(player, dyingFC);
@@ -14439,6 +14491,31 @@ function recordCollectionBatch11eEvent(type, detail={}) {
   collectionBatch11eState.events.push(event);
   window.__collectionBatch11eLastEvent = event;
   return event;
+}
+function batch11eZoneElement(player, zone) {
+  const p = playerState(player);
+  if (!p) return null;
+  if (zone === 'deck') return document.getElementById(p.position === 'top' ? 'yriaDeckCount' : 'raithDeckCount');
+  return qs(playerZoneSelector(p, zone));
+}
+function showBatch11eZoneFlight(cardId, fromPlayer, fromZone, toPlayer, toZone, reason='zone-flight') {
+  const visible = showBatch09CadaverFlight(
+    cardId,
+    batch11eZoneElement(fromPlayer, fromZone),
+    batch11eZoneElement(toPlayer, toZone),
+    `batch11e-${reason}`,
+    null
+  );
+  recordCollectionBatch11eEvent('zone-flight', {
+    cardId,
+    reason,
+    fromPlayer:playerState(fromPlayer)?.key || null,
+    fromZone,
+    toPlayer:playerState(toPlayer)?.key || null,
+    toZone,
+    visible
+  });
+  return visible;
 }
 function isBatch11eHokhanAvatarPlayer(player) { return playerState(player)?.characterId === 'hokhan'; }
 function batch11eBoardServants(player) { return livingServantCardsForPlayer(playerState(player)); }
@@ -14483,7 +14560,11 @@ async function resolveBatch11eAraigneeInitiative(player, sourceFC, context={}) {
   showNotif("L'ARAIGNÉE D'OSSEMENTS DÉVORE SA PROIE... MAIS N'A PLUS D'ESTOMAC POUR LA DIGÉRER !", 1800);
   return result;
 }
-function resolveBatch11eAraigneeVengeance(player, dyingFC) {
+async function resolveBatch11eAraigneeVengeance(player, dyingFC) {
+  if (dyingFC) {
+    pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
+    await new Promise(resolve => setTimeout(resolve, 260));
+  }
   let entry = null;
   try { entry = JSON.parse(dyingFC?.dataset?.batch11eCapturedEntry || 'null'); } catch { entry = null; }
   if (!entry?.cardId) return {handled:true, success:false, cardId:'MV000008', reason:'no-captured-card', destination:'graveyard'};
@@ -14546,7 +14627,11 @@ async function resolveBatch11eAmeExplosiveVengeance(player, dyingFC) {
 }
 function resolveBatch11eMurNonMortVengeance(player, dyingFC) {
   pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
-  const added = ['MV000022','MV000001','MV000001'].map(id => batch11eAddHandOrDeck(player, id));
+  const added = ['MV000022','MV000001','MV000001'].map(id => {
+    const result = batch11eAddHandOrDeck(player, id);
+    if (result.success && result.destination === 'hand') markBatch03HandTransfer(player, id, 'drawn');
+    return result;
+  });
   const result = {handled:true, success:true, cardId:'MV000030', added, destination:'graveyard'};
   recordCollectionBatch11eEvent('mur-non-mort-vengeance', result);
   showNotif("ALORS QUE LE MUR NON-MORT S'ÉCROULE, LES OSSEMENTS SE RÉASSEMBLENT EN GUERRIERS SQUELETTES !", 1900);
@@ -14569,6 +14654,7 @@ async function resolveBatch11eHokhanInitiative(player, sourceFC) {
   if (found) {
     const entry = removeZoneEntry(p, found.zone, found.index);
     forgeron = batch11eAddHandOrDeck(p, getRuntimeCardId(entry), entry?.occurrenceId || null);
+    if (forgeron.success && forgeron.destination === 'hand') markBatch03HandTransfer(p, getRuntimeCardId(entry), 'drawn');
   }
   const echoDamage = Number(p?.resourceState?.souls || 0);
   const enemies = getAffectableTargets({sourcePlayer:p, targets:batch11bEnemyServants(p), sourceCardId:'AVS000008', effectKind:'damage', isAbility:true});
@@ -14638,7 +14724,7 @@ async function resolveBatch11eEclipseSolaire(player) {
   }
   const result = {success:true, cardId:'S000042', affected};
   recordCollectionBatch11eEvent('eclipse-solaire', result);
-  showNotif("UNE ÉCLIPSE ! LES SERVITEURS DES TÉNÈBRES SONT RENFORCÉES PAR SA NOIRCEUR.", 1900);
+  showNotif("UNE ÉCLIPSE ! LES SERVITEURS DES TÉNÈBRES SONT RENFORCÉS PAR SA NOIRCEUR.", 1900);
   return result;
 }
 function expireBatch11eEclipseSolaire() {
@@ -14670,10 +14756,15 @@ function resolveBatch11eRecyclageOnSummon(player, sourceCardId=null, sourceInsta
   p.batch11eRecyclageResolving = true;
   try {
     const draw = drawCardFromRuntimeDeck(p, {predicate:()=>true, refresh:true, sourceCardId:'S000044'});
+    if (draw?.success && draw.cardId) {
+      showBatch11eZoneFlight(draw.cardId, p, 'deck', p, 'hand', 'recyclage-deck-to-hand');
+      markBatch03HandTransfer(p, draw.cardId, 'drawn');
+    }
     let returned = null;
     if ((p.graveyard || []).length) {
       const entry = p.graveyard.pop();
       returned = getRuntimeCardId(entry);
+      if (returned) showBatch11eZoneFlight(returned, p, 'graveyard', p, 'deck', 'recyclage-grave-to-deck');
       p.drawPile.unshift(entry);
       refreshCemeteryVisual(p);
       updateDeckCount(p);
@@ -18051,7 +18142,7 @@ Object.assign(CARDS_DATA, {
 // ════════ Cartes reconnues pour le duel Hokhan Ashir Vs Uram ════════
 Object.assign(CARDS_DATA, {
   'AVS000007':{name:'Mage du Cercle - Uram le Rouge',type:'Serviteur',fac:'hum',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria',fico:'FCT00000HUM.png',kws:['Insensible','Initiative'],cap:'[Insensible] [Initiative] : Place une « Porte démoniaque » de votre côté du terrain. Tant qu\'Uram reste sur le terrain, tous les serviteurs adverses subissent *2* points de dégât à chaque début de tour de leur propriétaire.',lore:'',cond:'Au moins 6 des ressources utilisées doivent être de type Aria.',related:['DIV000001']},
-  'AVS000008':{name:'Mage du Cercle — Hokhan Ashir',type:'Serviteur',fac:'mvs',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria|Écho',fico:'FCT00000MVS.png',kws:['Insensible','Aria','Écho','Initiative','Vengeance'],cap:'[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute 1 Écho à votre approvisionnement. Ces cartes détruites sont placées sous votre pile d’Échos. [Vengeance] Place cette carte au fond de votre deck.',lore:''},
+  'AVS000008':{name:'Mage du Cercle — Hokhan Ashir',type:'Serviteur',fac:'mvs',assetFolder:'avatars-pseudo-serviteurs',atk:13,pdv:13,cost:13,res_ico:'IC00000ARI',res_val:'13',resType:'Aria|Écho',fico:'FCT00000MVS.png',kws:['Insensible','Aria','Écho','Initiative','Vengeance'],cap:'[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* Écho à votre approvisionnement. Ces cartes détruites sont placées sous votre pile d\'Échos. [Initiative] Ajoute Forgeron de la Lame à votre main depuis votre deck ou votre cimetière, puis inflige des dégâts selon vos Échos. [Vengeance] Place cette carte au fond de votre deck et ajoute *8* Échos à vos réserves.',lore:''},
   'B000001':{name:'Pisteur Rhaekor',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:1,res_ico:'IC00000RDM',res_val:'1',resType:'any',fico:'FCT00000BET.png',kws:[],cap:'',lore:'Les Rhaekor, « hommes-bêtes » dans la langue des elfes, vivent en tribus de quelques dizaines d\'individus. Le chef de meute, le plus fort de sa tribu, conduit les siens lors des innombrables pillages qui rythment la vie de ces créatures primitives.'},
   'B000002':{name:'Rhaekor enragé',type:'Serviteur',fac:'bet',atk:5,pdv:3,cost:3,res_ico:'IC00000NRT',res_val:'3',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Initiative'],cap:'[Rage] [Initiative] : Subit *1* point de dégât.',lore:''},
   'B000015':{name:'Minotaure reproducteur',type:'Serviteur',fac:'bet',atk:3,pdv:9,cost:7,res_ico:'IC00000NRT',res_val:'7',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Nourriture','Rempart'],cap:'[Rempart] Chaque fois que ce serviteur survit à des dégâts, invoque 1 « Minus minotaure » de votre côté du terrain.',lore:'',assetFolder:'betes',related:['B000016']},
@@ -18074,11 +18165,11 @@ Object.assign(CARDS_DATA, {
   'H000010':{name:'Éclaireur',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:1,res_ico:'IC00000BOI',res_val:'1',resType:'Bois',fico:'FCT00000HUM.png',kws:['Vigilance','Initiative'],cap:'[Vigilance] [Initiative] : Vous piochez *1* carte.',lore:''},
   'H000018':{name:'Recrue',type:'Serviteur',fac:'hum',atk:2,pdv:1,cost:1,res_ico:'IC00000FER',res_val:'1',resType:'Fer',fico:'FCT00000HUM.png',kws:[],cap:'',lore:'Recouvertes de cuir clouté des pieds à la tête, les recrues des armées humaines sont mobiles, économiques, mais leur efficacité sur le champ de bataille est toute relative.'},
   'H000019':{name:'Hallebardier',type:'Serviteur',fac:'hum',atk:4,pdv:3,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000HUM.png',kws:[],cap:'Ce serviteur inflige également *1* point de dégât aux serviteurs adjacents à ceux qu\'il attaque.',lore:''},
-  'MV000003':{name:'Gueule du trépas',type:'Serviteur',fac:'mvs',atk:6,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite une ressource me permanente pour le propriétaire de la Gueule du trépas. Rend à ce serviteur un montant de points de vie égal à l\'attaque du serviteur détruit.',lore:'',cond:'Toutes les ressources utilisées doivent être de type me.'},
+  'MV000003':{name:'Gueule du trépas',type:'Serviteur',fac:'mvs',atk:6,pdv:6,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] Détruit un serviteur adverse dont l\'attaque est inférieure à celle de cette carte. La cible devient ensuite *1* Écho permanent pour le propriétaire de la Gueule du trépas. Rend à ce serviteur un montant de points de vie égal à l\'attaque du serviteur détruit.',lore:'',cond:'Toutes les ressources utilisées doivent être de type Écho.'},
   'MV000004':{name:'Amalgame terrifiant',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, détruit un serviteur adverse avec *9* points de vie ou moins et ajoute ce serviteur à votre approvisionnement d\'mes (+1).',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000005','MV000006']},
   'MV000005':{name:'Amalgame rageur',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, réduit le coût en Âmes de votre prochaine carte de *3*.',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000004','MV000006']},
   'MV000006':{name:'Amalgame erratique',type:'Serviteur',fac:'mvs',atk:3,pdv:3,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Initiative'],cap:'[Initiative] : Si deux autres serviteurs amalgamés sont de votre côté du terrain, vous piochez instantanément *3* cartes de votre deck.',lore:'',cond:'Condition : si deux autres serviteurs amalgamés sont de votre côté du terrain.',related:['MV000004','MV000005']},
-  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:6,res_ico:'IC00000AME',res_val:'3',resType:'Écho|Aria',fico:'FCT00000MVS.png',kws:['Écho','Aria','Insensible','Vengeance','Approvisionnement'],cap:'[Insensible] Génère 1 à 3 Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 10 Échos maximum par « Jeteur de sorts réanimé » et par tour. [Vengeance] Détruit 1 serviteur adverse aléatoire dont l\'attaque est inférieure à 8 et génère 1 à 3 Échos selon le coût imprimé de la victime.',detail:'[Insensible] Génère 1 à 3 Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 10 Échos maximum par « Jeteur de sorts réanimé » et par tour. [Vengeance] Détruit 1 serviteur adverse aléatoire dont l\'attaque est inférieure à 8 et génère 1 à 3 Échos selon le coût imprimé de la victime. Ajoute la victime sous votre pile d\'approvisionnement.',lore:''},
+  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:6,res_ico:'IC00000AME',res_val:'3',resType:'Écho|Aria',fico:'FCT00000MVS.png',kws:['Écho','Aria','Insensible','Vengeance','Approvisionnement'],cap:'[Insensible] Génère *1 à 3* Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à *10* Échos maximum par Jeteur de sorts réanimé et par tour. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8* et génère *1 à 3* Échos selon le coût imprimé de la victime.',detail:'[Insensible] Génère *1 à 3* Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à *10* Échos maximum par Jeteur de sorts réanimé et par tour. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8* et génère *1 à 3* Échos selon le coût imprimé de la victime. Ajoute la victime sous votre pile d\'approvisionnement.',lore:''},
   'MV000012':{name:'Géant jamais-sans-tête',type:'Serviteur',fac:'mvs',atk:10,pdv:10,cost:10,res_ico:'IC00000AME',res_val:'10',resType:'Âme',fico:'FCT00000MVS.png',kws:['me','Sang-froid','Rempart'],cap:'[Sang-froid] [Rempart] Chaque fois que le « Géant jamais-sans-tête » détruit un serviteur adverse, votre adversaire choisit *1* carte de sa main qui est envoyée au cimetière (le vôtre, pas celui de l\'adversaire !).',lore:''},
   'MV000013':{name:'Mort-à-vif',type:'Serviteur',fac:'mvs',atk:6,pdv:3,cost:5,res_ico:'IC00000AME',res_val:'5',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'',lore:'Dépecée vivante, puis ramenée d\'entre les morts par le biais de la magie noire, cette créature jadis humaine n\'est plus qu\'un puits sans fond de haine.'},
   'MV000014':{name:'Momie dérangée',type:'Serviteur',fac:'mvs',atk:3,pdv:4,cost:3,res_ico:'IC00000AME',res_val:'3',resType:'Âme',fico:'FCT00000MVS.png',kws:['Âme'],cap:'Ce serviteur revient automatiquement dans votre deck quand il est détruit alors qu\'il se trouvait sur le terrain. Votre deck est ensuite remélangé.',lore:''},
@@ -18147,7 +18238,7 @@ Object.assign(CARDS_DATA, {
   'EN000002':{name:'Assassin nocturne',type:'Serviteur',fac:'edn',atk:3,pdv:1,cost:2,res_ico:'IC00000FER',res_val:'2',resType:'Fer',fico:'FCT00000EDN.png',kws:['Vengeance','Fer'],cap:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci.',lore:'',detail:'[Vengeance] Inflige les dégâts de son attaque au serviteur adverse directement face à lui ainsi qu\'aux deux serviteurs adjacents à celui-ci. Si un emplacement de serviteur libre sépare deux serviteurs, ceux-ci ne sont pas considérés comme adjacents. Cette capacité passe outre le mot-clef [Insensible].'},
   'EN000004':{name:'Avatar de destruction',type:'Serviteur',fac:'edn',atk:7,pdv:4,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria',fico:'FCT00000EDN.png',kws:['Aria','Initiative'],cap:'[Initiative] Détruit *1* carte aléatoire de la main de votre adversaire. À la fin de chacun de vos tours, inflige le montant de son attaque à *1* serviteur adverse aléatoire.',lore:''},
   'GOB000001':{name:'Mageobelin lance-cailloux',type:'Serviteur',fac:'gob',assetFolder:'gobelins',atk:4,pdv:1,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000GOB.png',kws:['Lenya'],cap:'À la fin de chacun de vos tours, ce serviteur inflige le montant de son attaque à *1* serviteur adverse aléatoire.',lore:''},
-  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:6,res_ico:'IC00000AME',res_val:'3',resType:'Écho|Aria',fico:'FCT00000MVS.png',kws:['Écho','Aria','Insensible','Vengeance','Approvisionnement'],cap:'[Insensible] Génère 1 à 3 Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 10 Échos maximum par « Jeteur de sorts réanimé » et par tour. [Vengeance] Détruit 1 serviteur adverse aléatoire dont l\'attaque est inférieure à 8 et génère 1 à 3 Échos selon le coût imprimé de la victime.',detail:'[Insensible] Génère 1 à 3 Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 10 Échos maximum par « Jeteur de sorts réanimé » et par tour. [Vengeance] Détruit 1 serviteur adverse aléatoire dont l\'attaque est inférieure à 8 et génère 1 à 3 Échos selon le coût imprimé de la victime. Ajoute la victime sous votre pile d\'approvisionnement.',lore:''},
+  'MV000011':{name:'Jeteur de sorts réanimé',type:'Serviteur',fac:'mvs',atk:8,pdv:6,cost:6,res_ico:'IC00000AME',res_val:'3',resType:'Écho|Aria',fico:'FCT00000MVS.png',kws:['Écho','Aria','Insensible','Vengeance','Approvisionnement'],cap:'[Insensible] Génère *1 à 3* Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à *10* Échos maximum par Jeteur de sorts réanimé et par tour. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8* et génère *1 à 3* Échos selon le coût imprimé de la victime.',detail:'[Insensible] Génère *1 à 3* Échos chaque fois qu\'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à *10* Échos maximum par Jeteur de sorts réanimé et par tour. [Vengeance] Détruit *1* serviteur adverse aléatoire dont l\'attaque est inférieure à *8* et génère *1 à 3* Échos selon le coût imprimé de la victime. Ajoute la victime sous votre pile d\'approvisionnement.',lore:''},
   'ORC000007':{name:'Rejeton du chaos',type:'Serviteur',fac:'orc',atk:9,pdv:7,cost:8,res_ico:'IC00000RDM',res_val:'8',resType:'any',fico:'FCT00000ORC.png',kws:['Rempart','Rage','Initiative'],cap:'[Rempart] [Rage] [Initiative] Détruit *1* serviteur adverse aléatoire. À la fin de chacun de vos tours, détruit *1* autre serviteur adverse aléatoire dont les points de vie sont inférieurs ou égaux à l\'attaque actuelle du « Rejeton du chaos ».',lore:''},
   'S000022':{name:'Galerie des horreurs',type:'Sort',fac:'sort',assetFolder:'sorts',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',res2:'IC00000SLN',res3:'IC00000AME',res4:'IC00000LNY',resOu:true,resType:'Aria|Sélène|Ame|Lenya',fico:null,kws:['Aria','Sélène','me','Lenya'],cap:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé.',lore:'',detail:'Choisit jusqu\'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé. Les serviteurs ayant la capacité spéciale [Insensible] ne peuvent être sélectionnés par ce sort.',cond:'Le cimetière du joueur adverse doit contenir au minimum *1* serviteur.',badge:'Sort'}
 });
@@ -21003,20 +21094,20 @@ Object.assign(CARDS_DATA, {
 
 
 Object.assign(CARDS_DATA, {
-  "MV000025":{name:"Esprit dérangé",type:"Serviteur",fac:"mvs",atk:3,pdv:2,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Vengeance","Écho"],cap:"[Vengeance] Ajoute 1 Écho à vos ressources.",badge:"",lore:"",assetFolder:"morts-vivants",max:0,detail:"[Vengeance] Ajoute 1 Écho à vos ressources.",related:["R000027"],generatedOnly:true,cond:"Invoqué automatiquement en nombre suffisant pour remplir votre côté du plateau quand la « Nécropole » est retirée de votre terrain."},
-  "MV000024":{name:"Morghast L'Os-tentatoire",type:"Serviteur",fac:"mvs",atk:5,pdv:10,cost:9,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria","Rempart","Vengeance","Approvisionnement"],cap:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux », puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux » , puis retire 1 Écho de vos réserves pour chaque serviteur invoqué via cet effet.",related:["MV000001"]},
+  "MV000025":{name:"Esprit dérangé",type:"Serviteur",fac:"mvs",atk:3,pdv:2,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Vengeance","Écho"],cap:"[Vengeance] Ajoute *1* Écho à vos ressources.",badge:"",lore:"",assetFolder:"morts-vivants",max:0,detail:"[Vengeance] Ajoute 1 Écho à vos ressources.",related:["R000027"],generatedOnly:true,cond:"Invoqué automatiquement en nombre suffisant pour remplir votre côté du plateau quand la « Nécropole » est retirée de votre terrain."},
+  "MV000024":{name:"Morghast L'Os-tentatoire",type:"Serviteur",fac:"mvs",atk:5,pdv:10,cost:9,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria","Rempart","Vengeance","Approvisionnement"],cap:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux », puis retire *1* Écho de vos réserves pour chaque serviteur invoqué via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Rempart] Chaque fois que Morghast « L'Os-tentatoire » détruit un serviteur adverse, convertit son coût en ressources en autant d'Échos qui s'ajoutent à votre réserve. [Vengeance] Remplit votre côté du terrain de « Guerriers cendreux », puis retire *1* Écho de vos réserves pour chaque serviteur invoqué via cet effet.",related:["MV000001"]},
   "MV000026":{name:"Adepte de Bélial",type:"Serviteur",fac:"mvs",atk:1,pdv:4,cost:1,res_ico:"IC00000ARI",res_val:"1",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Génère 1 à 3 échos chaque fois qu'un serviteur est détruit alors que cette carte est sur le terrain. Production limitée à 5 échos maximum par « Adepte de Bélial » et par tour.",badge:"",lore:"",assetFolder:"morts-vivants",max:3,detail:"Génère 1 à 3 échos chaque fois qu'un serviteur est détruit alors que cette carte est sur le terrain. Le nombre d'échos produit dépend du coût imprimé du serviteur détruit. Production limitée à 5 échos maximum par « Adepte de Bélial » et par tour."},
   "MV000027":{name:"Sang-lié",type:"Serviteur",fac:"mvs",atk:1,pdv:4,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Initiative","Vengeance","Écho","Approvisionnement"],cap:"[Initiative] Inflige 3 points de dégâts à VOTRE avatar. [Vengeance] Génère 3 échos.",badge:"",lore:"",assetFolder:"morts-vivants",max:4,cond:"Votre avatar doit avoir 4 points de vie ou plus."},
-  "MV000028":{name:"Âme explosive",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:2,res_ico:"IC00000ARI",res_val:"2",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Vengeance","Écho","Approvisionnement"],cap:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 échos par serviteur détruit via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:3,detail:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 échos par serviteur détruit via cet effet. Ajoute alors la ou les victimes sous votre pile d'approvisionnement [ID = RAME*]."},
-  "MV000029":{name:"Gardien du reliquaire",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Initiative","Écho","Approvisionnement"],cap:"[Initiative] Ajoute 3 échos à vos réserves. À chacune de vos fins de tour, si vous n’avez dépensé aucun écho pendant ce tour, fournit 1 écho supplémentaire.",badge:"",lore:"",assetFolder:"morts-vivants",max:3},
-  "MV000030":{name:"Mur non-mort",type:"Serviteur",fac:"mvs",atk:0,pdv:30,cost:8,res_ico:"IC00000ARI",res_val:"8",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Rempart","Vengeance","Écho","Approvisionnement"],cap:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » et 2 « Guerriers cendreux » à votre main.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 échos à vos réserves, fonction des dégâts reçus en une fois : de 0 à 4 dommages, génère 1 écho ; de 5 à 8 dommages, 2 échos ; au-delà de 8 points de dégâts, 3 échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » [ID = MV000022] et 2 « Guerriers cendreux » [ID = MV000001] à votre main.",related:["MV000022","MV000001"]},
+  "MV000028":{name:"Âme explosive",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:2,res_ico:"IC00000ARI",res_val:"2",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Vengeance","Écho","Approvisionnement"],cap:"Au début de chacun de vos tours, perd *1* point de vie. [Vengeance] Inflige *6* points de dégâts, répartis entre tous les serviteurs adverses. Génère *1 à 3* Échos par serviteur détruit via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:3,detail:"Au début de chacun de vos tours, perd *1* point de vie. [Vengeance] Inflige *6* points de dégâts, répartis entre tous les serviteurs adverses. Génère *1 à 3* Échos par serviteur détruit via cet effet. Ajoute alors la ou les victimes sous votre pile d'approvisionnement."},
+  "MV000029":{name:"Gardien du reliquaire",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Initiative","Écho","Approvisionnement"],cap:"[Initiative] Ajoute *3* Échos à vos réserves. À chacune de vos fins de tour, si vous n'avez dépensé aucun Écho pendant ce tour, fournit *1* Écho supplémentaire.",badge:"",lore:"",assetFolder:"morts-vivants",max:3},
+  "MV000030":{name:"Mur non-mort",type:"Serviteur",fac:"mvs",atk:0,pdv:30,cost:8,res_ico:"IC00000ARI",res_val:"8",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Rempart","Vengeance","Écho","Approvisionnement"],cap:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute *1 à 3* Échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute *1* Commandant squelette et *2* Guerriers cendreux à votre main.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute *1 à 3* Échos à vos réserves, fonction des dégâts reçus en une fois : de *0 à 4* dommages, génère *1* Écho ; de *5 à 8* dommages, *2* Échos ; au-delà de *8* points de dégâts, *3* Échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute *1* Commandant squelette et *2* Guerriers cendreux à votre main.",related:["MV000022","MV000001"]},
   "PRST000014":{name:"Faveur de Bélial",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Écho"],cap:"Jusqu'à la fin de la partie, vous gagnez 1 écho supplémentaire de toutes les sources. Chaque fois que les points de vie de votre avatar passent sous la barre des 25, vous pouvez sacrifier jusqu'à 5 échos lors de votre prochain tour pour le régénérer (chaque écho sacrifié rend 5 points de vie).",badge:"Sort",lore:"",assetFolder:"sorts/presents",max:1,cond:"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ."},
-  "R000027":{name:"Nécropole",type:"Approvisionnement",fac:"appro",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Approvisionnement","Écho"],cap:"Au début de chacun de vos tours, ajoutez 2 échos à vos réserves + 1 écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu’à un maximum de 3 échos supplémentaires. Si votre cimetière contient au moins 3 serviteurs appartenant initialement à votre adversaire, ajoutez encore 1 écho. Réinitialisez ensuite son compteur de destructions. La « Nécropole » occupe 2 emplacements de votre section d'approvisionnement. Si la « Nécropole » est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d' « Esprits dérangés » [ID = MV000025].",badge:"Approvisionnement",lore:"Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.",assetFolder:"approvisionnement",max:1,cond:"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».",related:["MV000025"],production:{soul:2}},
-  "S000041":{name:"Puissance du sacrifice",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Insensible","Écho","Approvisionnement"],cap:"Pour chaque serviteur actuellement dans votre cimetière, inflige 1 point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit 1 ou plusieurs serviteurs, génère 1 à 3 Échos par victime.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Pour chaque serviteur actuellement dans votre cimetière, inflige 1 point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit 1 ou plusieurs serviteurs, génère 1 à 3 Échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement.",cond:"Nécessite au moins 1 serviteur dans votre cimetière."},
+  "R000027":{name:"Nécropole",type:"Approvisionnement",fac:"appro",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Approvisionnement","Écho"],cap:"Au début de chacun de vos tours, ajoutez *2* Échos à vos réserves + *1* Écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu'à un maximum de *3* Échos supplémentaires. Si votre cimetière contient au moins *3* serviteurs appartenant initialement à votre adversaire, ajoutez encore *1* Écho. Réinitialisez ensuite son compteur de destructions. La Nécropole occupe *2* emplacements de votre section d'approvisionnement. Si la Nécropole est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d'Esprits dérangés.",badge:"Approvisionnement",lore:"Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.",assetFolder:"approvisionnement",max:1,cond:"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».",related:["MV000025"],production:{soul:2}},
+  "S000041":{name:"Puissance du sacrifice",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Insensible","Écho","Approvisionnement"],cap:"Pour chaque serviteur actuellement dans votre cimetière, inflige *1* point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si Puissance du sacrifice détruit *1* ou plusieurs serviteurs, génère *1 à 3* Échos par victime.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Pour chaque serviteur actuellement dans votre cimetière, inflige *1* point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si Puissance du sacrifice détruit *1* ou plusieurs serviteurs, génère *1 à 3* Échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement.",cond:"Nécessite au moins 1 serviteur dans votre cimetière."},
   "S000042":{name:"Éclipse solaire",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria"],cap:"Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de 3 ; accroît l'attaque de tous les serviteurs elfes noirs de 2. Toujours jusqu'à la fin de ce tour, réduit de 3 l'attaque des serviteurs humains ; diminue de 2 l'attaque des serviteurs nains.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
   "S000044":{name:"Recyclage",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000ARI",res_val:"6",resType:"Aria|Écho",fico:"FCT00000MVS.png",kws:["Aria","Écho"],cap:"Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.",badge:"Sort",lore:"",assetFolder:"sorts",max:2},
   "S000051":{name:"Rituel occulte",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000ARI",res_val:"5",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria"],cap:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse."},
-  "S000052":{name:"Le retour des revenants",type:"Sort",fac:"sort",atk:null,pdv:null,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Invoque jusqu'à 3 serviteurs « morts-vivants » de votre deck coûtant 2 ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute 5 Échos à vos ressources.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
+  "S000052":{name:"Le retour des revenants",type:"Sort",fac:"sort",atk:null,pdv:null,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Invoque jusqu'à *3* serviteurs morts-vivants de votre deck coûtant *2* ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute *5* Échos à vos ressources.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
   "S000040":{name:"Pixiemanie",type:"Sort",fac:"sort",atk:null,pdv:null,cost:10,res_ico:"IC00000LNY",res_val:"10",resType:"Lenya|Nourriture",fico:"FCT00000EDB.png",kws:["Lenya","Nourriture"],cap:"Renvoie toutes les Pixies de votre cimetière à votre main.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,cond:"Nécessite d'avoir au moins 1 carte Pixie actuellement dans votre cimetière.",detail:"Renvoie toutes les Pixies de votre cimetière à votre main.",related:["EDB000012"]},
   "S000043":{name:"Prendre le taureau par les cornes",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000NOU",res_val:"6",resType:"Nourriture",fico:"FCT00000BET.png",kws:["Nourriture"],cap:"Piochez immédiatement tous les serviteurs de type Minotaure restant dans votre deck.",badge:"Sort",lore:"",assetFolder:"sorts",max:1,detail:"Piochez immédiatement tous les serviteurs de type Minotaure restant dans votre deck.",related:["B000015","B000016","B000017"]}
 });
@@ -21047,7 +21138,7 @@ Object.assign(CARDS_DATA, {
 });
 const BATCH11E_ECHO_HARVEST_TOOLTIP = {title:"RÉCOLTE D'ÉCHOS", body:"Les serviteurs et sorts qui génèrent de l'Écho en détruisant/ capturant d'autres cartes récoltent plus ou moins de ressources en fonction du coût de base de leurs victimes (1 Écho pour un coût de 0 à 4 ; 2 Échos pour un coût entre 5 et 8 ; 3 Échos au-delà de 8). Cette règle peut connaître des exceptions, si une carte mentionne explicitement des chiffres différents."};
 Object.assign(CARDS_DATA, {
-  AVS000008:{...CARDS_DATA.AVS000008, name:"Mage du Cercle - Hokhan Ashir", kws:["Insensible","Initiative","Vengeance","Aria","Écho"], cap:`[Insensible] [Initiative] Ajoute le « Forgeron de la Lame » à votre main, depuis votre deck ou cimetière, puis inflige un montant de dégâts égal à vos réserves d'Échos, réparti entre tous les serviteurs adverses. [Vengeance] Replace le « Mage du Cercle - Hokhan Ashir » au fond de votre deck et ajoute 8 Échos à vos réserves.`, detail:`[Insensible] [Initiative] Ajoute le « Forgeron de la Lame » à votre main, depuis votre deck ou cimetière, puis inflige un montant de dégâts égal à vos réserves d'Échos, réparti entre tous les serviteurs adverses. [Vengeance] Replace le « Mage du Cercle - Hokhan Ashir » au fond de votre deck et ajoute 8 Échos à vos réserves.`},
+  AVS000008:{...CARDS_DATA.AVS000008, name:"Mage du Cercle - Hokhan Ashir", kws:["Insensible","Initiative","Vengeance","Aria","Écho"], cap:`[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* Écho à votre approvisionnement. Ces cartes détruites sont placées sous votre pile d'Échos. [Initiative] Ajoute le « Forgeron de la Lame » à votre main, depuis votre deck ou cimetière, puis inflige un montant de dégâts égal à vos réserves d'Échos, réparti entre tous les serviteurs adverses. [Vengeance] Replace le « Mage du Cercle - Hokhan Ashir » au fond de votre deck et ajoute *8* Échos à vos réserves.`, detail:`[Insensible] Tant que cette carte est sur le terrain, tout serviteur ennemi détruit ajoute *1* Écho à votre approvisionnement. Ces cartes détruites sont placées sous votre pile d'Échos. [Initiative] Ajoute le « Forgeron de la Lame » à votre main, depuis votre deck ou cimetière, puis inflige un montant de dégâts égal à vos réserves d'Échos, réparti entre tous les serviteurs adverses. [Vengeance] Replace le « Mage du Cercle - Hokhan Ashir » au fond de votre deck et ajoute *8* Échos à vos réserves.`},
   R000021:{...CARDS_DATA.R000021, cap:"Ajoute 5 Échos à vos réserves.", detail:"Ajoute 5 Échos à vos réserves.", lore:`Une tombe isolée peut protéger des chasseurs de trésors, mais tout nécromancien sait qu'il n'y a pas mieux pour exercer tranquillement son art...`},
   MV000002:{...CARDS_DATA.MV000002, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   MV000003:{...CARDS_DATA.MV000003, kws:["Écho","Approvisionnement"], extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP], cap:`La première fois que la « Gueule du trépas » devrait être détruite, détruit à sa place 1 serviteur adverse dont l'attaque est inférieure ou égale à celle de cette carte, puis génère 1 à 3 Échos en fonction du coût imprimé de la victime. Enfin, rend à la « Gueule du trépas » un montant de points de vie égal à l'attaque du serviteur détruit à sa place.`, detail:`La première fois que la « Gueule du trépas » devrait être détruite, détruit à sa place 1 serviteur adverse dont l'attaque est inférieure ou égale à celle de cette carte, puis génère 1 à 3 Échos en fonction du coût imprimé de la victime. Enfin, rend à la « Gueule du trépas » un montant de points de vie égal à l'attaque du serviteur détruit à sa place.`},
@@ -21055,8 +21146,8 @@ Object.assign(CARDS_DATA, {
   MV000009:{...CARDS_DATA.MV000009, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   MV000011:{...CARDS_DATA.MV000011, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   MV000028:{...CARDS_DATA.MV000028, kws:["Aria","Vengeance","Écho","Approvisionnement"], cap:"Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 Échos par serviteur détruit via cet effet.", detail:`Au début de chacun de vos tours, perd 1 point de vie. [Vengeance] Inflige 6 points de dégâts, répartis entre tous les serviteurs adverses. Génère 1 à 3 Échos par serviteur détruit via cet effet. Les victimes détruites rejoignent votre pile d'approvisionnement en Échos.`, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
-  MV000030:{...CARDS_DATA.MV000030, kws:[...new Set([...(CARDS_DATA.MV000030?.kws || []), "Insensible"])], cap:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 Échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » et 2 « Guerriers cendreux » à votre main.", detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute 1 à 3 Échos à vos réserves, fonction des dégâts reçus en une fois : de 0 à 4 dommages, génère 1 Écho ; de 5 à 8 dommages, 2 Échos ; au-delà de 8 points de dégâts, 3 Échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute 1 « Commandant squelette » et 2 « Guerriers cendreux » à votre main."},
-  R000027:{...CARDS_DATA.R000027, cap:`Au début de chacun de vos tours, ajoutez 2 Échos à vos réserves + 1 Écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu'à un maximum de 3 Échos supplémentaires. Si votre cimetière contient au moins 3 serviteurs appartenant initialement à votre adversaire, ajoutez encore 1 Écho. Réinitialisez ensuite son compteur de destructions. La « Nécropole » occupe 2 emplacements de votre section d'approvisionnement. Si la « Nécropole » est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d'« Esprits dérangés ».`, detail:`Au début de chacun de vos tours, ajoutez 2 Échos à vos réserves + 1 Écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu'à un maximum de 3 Échos supplémentaires. Si votre cimetière contient au moins 3 serviteurs appartenant initialement à votre adversaire, ajoutez encore 1 Écho. Réinitialisez ensuite son compteur de destructions. La « Nécropole » occupe 2 emplacements de votre section d'approvisionnement. Si la « Nécropole » est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d'« Esprits dérangés ».`, lore:`Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.`},
+  MV000030:{...CARDS_DATA.MV000030, kws:[...new Set([...(CARDS_DATA.MV000030?.kws || []), "Insensible"])], cap:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute *1 à 3* Échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute *1* « Commandant squelette » et *2* « Guerriers cendreux » à votre main.", detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute *1 à 3* Échos à vos réserves, fonction des dégâts reçus en une fois : de *0 à 4* dommages, génère *1* Écho ; de *5 à 8* dommages, *2* Échos ; au-delà de *8* points de dégâts, *3* Échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute *1* « Commandant squelette » et *2* « Guerriers cendreux » à votre main."},
+  R000027:{...CARDS_DATA.R000027, cap:`Au début de chacun de vos tours, ajoutez *2* Échos à vos réserves + *1* Écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu'à un maximum de *3* Échos supplémentaires. Si votre cimetière contient au moins *3* serviteurs appartenant initialement à votre adversaire, ajoutez encore *1* Écho. Réinitialisez ensuite son compteur de destructions. La Nécropole occupe *2* emplacements de votre section d'approvisionnement. Si la Nécropole est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d'Esprits dérangés.`, detail:`Au début de chacun de vos tours, ajoutez *2* Échos à vos réserves + *1* Écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu'à un maximum de *3* Échos supplémentaires. Si votre cimetière contient au moins *3* serviteurs appartenant initialement à votre adversaire, ajoutez encore *1* Écho. Réinitialisez ensuite son compteur de destructions. La Nécropole occupe *2* emplacements de votre section d'approvisionnement. Si la Nécropole est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d'Esprits dérangés.`, lore:`Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.`},
   S000041:{...CARDS_DATA.S000041, extraTooltips:[BATCH11E_ECHO_HARVEST_TOOLTIP]},
   S000042:{...CARDS_DATA.S000042, cap:`Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.`, detail:`Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.`},
   S000044:{...CARDS_DATA.S000044, cap:`Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.`, detail:`Jusqu'à la fin de votre tour, piochez 1 carte de votre deck et renvoyez 1 carte de votre cimetière dans votre deck chaque fois que vous invoquez 1 serviteur, y compris si l'invocation a lieu grâce à une capacité spéciale ou un sort. À la fin du tour, votre deck est remélangé.`},

@@ -1,0 +1,49 @@
+{
+  "lotId": "COLLECTION-BATCH-11G",
+  "scenarios": [
+    "collection-batch-11g-necropole-blocage-approvisionnements",
+    "collection-batch-11g-avatar-hokhan-principal",
+    "collection-batch-11g-hokhan-pseudo-initiative-vengeance",
+    "collection-batch-11g-spectre-recolte",
+    "collection-batch-11g-gueule-destruction-attaque-defense",
+    "collection-batch-11g-banshee-modal-vengeance",
+    "collection-batch-11g-araignee-capture-retour-cimetiere",
+    "collection-batch-11g-ame-explosive-debut-tour-vengeance",
+    "collection-batch-11g-mur-non-mort",
+    "collection-batch-11g-eclipse-solaire",
+    "collection-batch-11g-recyclage",
+    "collection-batch-11g-rituel-occulte-animation",
+    "collection-batch-11g-parite-collection-runtime"
+  ],
+  "cards": [
+    "R000027",
+    "AVS000008",
+    "MV000002",
+    "MV000003",
+    "MV000006",
+    "MV000008",
+    "MV000009",
+    "MV000011",
+    "MV000015",
+    "MV000024",
+    "MV000025",
+    "MV000028",
+    "MV000029",
+    "MV000030",
+    "S000041",
+    "S000042",
+    "S000044",
+    "S000051",
+    "S000052"
+  ],
+  "expected": {
+    "hokhanPortrait": "AVP000008.png",
+    "hokhanInitialEchoes": 5,
+    "necropoleFootprintClass": "hc-blocked-temporary",
+    "eclipseMessage": "UNE ÉCLIPSE ! LES SERVITEURS DES TÉNÈBRES SONT RENFORCÉS PAR SA NOIRCEUR.",
+    "spectreMessage": "LE SPECTRE HURLANT GRIFFE L'ÂME D'UN ADVERSAIRE ET EN RETIRE DE L'ÉCHO !",
+    "bansheeInitiativeMessage": "LE CRI D'UNE BANSHEE SUBMERGE L'ADVERSAIRE DE TERREUR !",
+    "bansheeVengeanceMessage": "LE CRI D'AGONIE D'UNE BANSHEE CAUSE LA DÉBANDADE DANS LES RANGS ENNEMIS !",
+    "forbiddenPublicIdPattern": "RAME(?:0|5|10|15|20|21|\\*)|\\[ID\\s*=|AVS000008|MV000019|S0000\\d{2}"
+  }
+}
