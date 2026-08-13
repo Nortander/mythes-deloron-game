@@ -43,7 +43,7 @@
     "bansheeInitiativeMessage": "LE CRI D'UNE BANSHEE SUBMERGE L'ADVERSAIRE DE TERREUR !",
     "bansheeVengeanceMessage": "LE CRI D'AGONIE D'UNE BANSHEE CAUSE LA DÉBANDADE DANS LES RANGS ENNEMIS !",
     "gardienInitiativeMessage": "LE GARDIEN VOUS DONNE ACCÈS À SON ANTIQUE RELIQUAIRE ET VOUS RESSOURCE EN ÉCHOS !",
-    "retourRevenantsMessagePattern": "UN SOMBRE RITUEL RAPPELLE [0-9]+ DE VOS SERVITEUR\\(S\\) DE LA TOMBE\\.\\.\\.",
+    "retourRevenantsMessagePattern": "UN SOMBRE RITUEL RAPPELLE [0-9]+ DE VOS SERVITEURS DE LA TOMBE\\.\\.\\.",
     "forbiddenPublicIdPattern": "RAME(?:0|5|10|15|20|21|\\*)|\\[ID\\s*=|effectInstanceId|linkedOccurrenceId|AVS000008|MV000019|S0000\\d{2}"
   }
 }

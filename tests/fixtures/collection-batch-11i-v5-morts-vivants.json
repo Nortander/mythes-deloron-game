@@ -1,0 +1,44 @@
+{
+  "lotId": "COLLECTION-BATCH-11I",
+  "scenarios": [
+    "collection-batch-11i-necropole-cleanup",
+    "collection-batch-11i-hokhan-avatar",
+    "collection-batch-11i-hokhan-pseudo-forgeron",
+    "collection-batch-11i-faucheur-solo",
+    "collection-batch-11i-esprit-spectre-gueule",
+    "collection-batch-11i-amalgames",
+    "collection-batch-11i-banshee-gardien",
+    "collection-batch-11i-jeteur-accounting",
+    "collection-batch-11i-morghast-accounting",
+    "collection-batch-11i-arachnee-ame-mur",
+    "collection-batch-11i-sacrifice-revenants",
+    "collection-batch-11i-recyclage-rituel",
+    "collection-batch-11i-parity-v5"
+  ],
+  "expected": {
+    "panelTitle": "MODE TEST — COLLECTION BATCH 11I",
+    "retourRevenantsMessagePattern": "UN SOMBRE RITUEL RAPPELLE [0-9]+ DE VOS SERVITEURS DE LA TOMBE\\.\\.\\.",
+    "forbiddenRetourRevenantsText": "SERVITEUR(S)",
+    "gueuleMessage": "LA GUEULE DU TRÉPAS ASPIRE LA VIE POUR RESTAURER LA SIENNE !",
+    "forbiddenHokhanAvatarMessage": "HOKHAN DÉTOURNE",
+    "hiddenPublicOptionCount": 0
+  },
+  "highlightExpectations": [
+    {"id": "AVS000008", "fragments": ["*8* Échos"]},
+    {"id": "MV000002", "fragments": ["*1 à 3* Échos"]},
+    {"id": "MV000003", "fragments": ["*1* serviteur", "*1 à 3* Échos"]},
+    {"id": "MV000004", "fragments": ["*9* points", "*3* Échos"]},
+    {"id": "MV000005", "fragments": ["*3*"]},
+    {"id": "MV000006", "fragments": ["*3* cartes"]},
+    {"id": "MV000008", "fragments": ["*1* serviteur"]},
+    {"id": "MV000009", "fragments": ["*1 à 3* Échos"]},
+    {"id": "MV000015", "fragments": ["*1* serviteur", "*4*", "*1* carte"]},
+    {"id": "MV000025", "fragments": ["*1* Écho"]},
+    {"id": "MV000028", "fragments": ["*1* point", "*6* points", "*1 à 3* Échos"]},
+    {"id": "MV000029", "fragments": ["*3* Échos", "*1* Écho"]},
+    {"id": "MV000030", "fragments": ["*1 à 3* Échos", "*1* « Commandant squelette »", "*2* « Guerriers cendreux »"]},
+    {"id": "S000041", "fragments": ["« Puissance du sacrifice »", "*1 à 3* Échos"]},
+    {"id": "S000044", "fragments": ["*1* carte", "*1* serviteur"]},
+    {"id": "MV000022", "fragments": ["*1* « Guerrier cendreux »"]}
+  ]
+}
