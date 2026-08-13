@@ -1,0 +1,37 @@
+{
+  "lotId": "COLLECTION-BATCH-11J",
+  "panelTitle": "MODE TEST — COLLECTION BATCH 11J",
+  "scenarios": [
+    "collection-batch-11j-necropole-removal",
+    "collection-batch-11j-hokhan-avatar-animation",
+    "collection-batch-11j-faucheur-esprit-echo-pulse",
+    "collection-batch-11j-amalgames-duplicates",
+    "collection-batch-11j-jeteur-accounting",
+    "collection-batch-11j-morghast-animation-order",
+    "collection-batch-11j-ame-explosive-mur",
+    "collection-batch-11j-recyclage",
+    "collection-batch-11j-rituel-occulte",
+    "collection-batch-11j-parity-v6"
+  ],
+  "hiddenPublicOptionCount": 0,
+  "protectedCards": [
+    "R000021",
+    "AVS000008",
+    "MV000002",
+    "MV000003",
+    "MV000015",
+    "MV000029",
+    "MV000008",
+    "S000041",
+    "S000052",
+    "S000042",
+    "MV000022"
+  ],
+  "amalgamMessages": {
+    "MV000004": "L'AMALGAME TERRIFIANT PARTAGE LES ÉCHOS DE SA DERNIÈRE VICTIME AVEC VOUS.",
+    "MV000005": "LE HURLEMENT DE RAGE D'UNE ABOMINATION AMALGAMÉE ATTIRENT LES ÂMES COMME UN AIMANT.",
+    "MV000006": "LES TROIS TÊTES DE L'AMALGAME ERRATIQUE ONT DÉNICHÉ DES CHOSES INTÉRESSANTES DANS VOTRE DECK !"
+  },
+  "murNonMortHandOrder": ["MV000022", "MV000001", "MV000001"],
+  "rituelFinalGraveyard": ["MV000001", "H000001", "R000001", "H000005", "S000051"]
+}
