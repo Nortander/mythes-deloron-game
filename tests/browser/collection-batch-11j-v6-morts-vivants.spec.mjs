@@ -210,11 +210,13 @@ test("Jeteur and Morghast use printed Echo accounting and visible resource order
     await sendToCemetery(victim);
     const after = Number(player1.resourceState.souls || 0);
     const events = auditCollectionBatch11jRuntime().batch11i.batch11e.batch11c.events;
-    return {before, after, delta: after - before, victimId: victim?.dataset.id || "", victimName: CARDS_DATA.H000005.name, sourcePrintedCost: CARDS_DATA.MV000011.cost, events};
+    return {before, after, delta: after - before, victimId: victim?.dataset.id || "", victimName: CARDS_DATA.H000005.name, victimStructuredCost: CARD_COST_DEFINITIONS.H000005.total, sourceStructuredCost: CARD_COST_DEFINITIONS.MV000011.total, helperGain: batch11bEchoAmountFromPrintedCost("H000005"), events};
   });
   expect(jeteur.victimId).toBe("H000005");
   expect(jeteur.victimName).toBe("Fantassin rouge");
-  expect(jeteur.sourcePrintedCost).toBeGreaterThanOrEqual(5);
+  expect(jeteur.victimStructuredCost).toBe(3);
+  expect(jeteur.sourceStructuredCost).toBeGreaterThanOrEqual(5);
+  expect(jeteur.helperGain).toBe(1);
   expect(jeteur.delta).toBe(1);
   expect(jeteur.events).toEqual(expect.arrayContaining([
     expect.objectContaining({type: "jeteur-destruction-echo", detail: expect.objectContaining({gain: 1})})

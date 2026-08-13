@@ -14530,8 +14530,13 @@ function batch11bLivingServants(player) {
 }
 function batch11bEnemyServants(player) { return batch11bLivingServants(opponentOf(player)); }
 function batch11bAllyServants(player) { return batch11bLivingServants(player); }
+function batch11bPrintedCostTotal(cardId) {
+  const structuredTotal = CARD_COST_DEFINITIONS[cardId]?.total;
+  if (Number.isFinite(structuredTotal)) return Number(structuredTotal);
+  return Number(CARDS_DATA[cardId]?.cost || 0) || 0;
+}
 function batch11bEchoAmountFromPrintedCost(cardId) {
-  return batch11eEchoAmountFromValue(CARDS_DATA[cardId]?.cost || 0);
+  return batch11eEchoAmountFromValue(batch11bPrintedCostTotal(cardId));
 }
 function batch11eEchoAmountFromValue(value) {
   const amount = Math.max(0, Number(value || 0) || 0);
