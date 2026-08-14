@@ -200,5 +200,3 @@ test("AraignÃ©e, Mur and Recyclage expose the V3 visual/audit events", async (
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
-
-

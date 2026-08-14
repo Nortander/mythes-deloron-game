@@ -283,4 +283,3 @@ test("Open V7 effects keep dedicated sequencing for Morghast, Esprit, Mur, Recyc
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
-
