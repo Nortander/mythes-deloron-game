@@ -1,0 +1,62 @@
+{
+  "lotId": "COLLECTION-BATCH-11K-V7-REV2-ECHOS-CHRONOLOGIE",
+  "panelTitle": "MODE TEST — COLLECTION BATCH 11K",
+  "scenarios": [
+    "collection-batch-11k-necropole-dedicated",
+    "collection-batch-11k-hokhan-avatar",
+    "collection-batch-11k-faucheur-accounting",
+    "collection-batch-11k-esprit-vengeance",
+    "collection-batch-11k-jeteur-accounting",
+    "collection-batch-11k-morghast-sequencing",
+    "collection-batch-11k-mur-non-mort-accounting",
+    "collection-batch-11k-recyclage",
+    "collection-batch-11k-rituel-occulte",
+    "collection-batch-11k-parity-v7-open-only"
+  ],
+  "hiddenPublicOptionCount": 0,
+  "protectedScenarioSubjects": [
+    "MV000022",
+    "MV000004",
+    "MV000005",
+    "MV000006",
+    "MV000015",
+    "MV000008",
+    "MV000029",
+    "S000042"
+  ],
+  "openCards": [
+    "R000027",
+    "AVP000008",
+    "MV000009",
+    "MV000025",
+    "MV000011",
+    "MV000024",
+    "MV000030",
+    "S000044",
+    "S000051"
+  ],
+  "expectedEchoRule": [
+    {
+      "min": 0,
+      "max": 4,
+      "echo": 1
+    },
+    {
+      "min": 5,
+      "max": 8,
+      "echo": 2
+    },
+    {
+      "min": 9,
+      "max": null,
+      "echo": 3
+    }
+  ],
+  "rituelFinalGraveyard": [
+    "MV000001",
+    "H000001",
+    "R000001",
+    "H000005",
+    "S000051"
+  ]
+}

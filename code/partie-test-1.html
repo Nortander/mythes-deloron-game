@@ -661,6 +661,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-rune-returning::before{content:'';position:absolute;inset:6px;z-index:48;border-radius:12px;border:2px solid rgba(180,130,255,.95);box-shadow:0 0 18px rgba(160,90,255,.95),inset 0 0 18px rgba(160,90,255,.65);pointer-events:none;}
 .hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
 .hc-batch03-ianna-stolen{animation:batch03IannaStolen .9s ease-out;box-shadow:0 0 22px rgba(90,190,255,.9),0 0 8px rgba(255,255,255,.8);}
+.hc-batch11-undead-transfer{animation:batch03IannaDrawn .85s ease-out;box-shadow:0 0 22px rgba(190,96,255,.9),0 0 34px rgba(96,24,160,.55),0 0 8px rgba(255,255,255,.75);}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
 @keyframes batch03DivineApply{0%{filter:brightness(2.2) drop-shadow(0 0 20px #fff);transform:translateY(-3px) scale(1.03);}100%{filter:none;transform:none;}}
 @keyframes batch03DivineBolt{0%{opacity:0;transform:translateY(-22px) scaleY(.7);}18%{opacity:1;}72%{opacity:.98;}100%{opacity:0;transform:translateY(10px) scaleY(1.08);}}
@@ -3429,6 +3430,65 @@ SCENARIOS['collection-batch-11j-parity-v6'] = collectionBatch11jScenario({
   label:'TEST - COLLECTION BATCH 11J Parité V6',
   testCardId:'MV000030',
   testSetup:SCENARIOS['collection-batch-11e-parity'].testSetup
+});
+
+function collectionBatch11kScenario(overrides={}) {
+  return collectionBatch11jScenario({
+    showCollectionBatch11jPanel:false,
+    showCollectionBatch11kPanel:true,
+    ...overrides
+  });
+}
+SCENARIOS['collection-batch-11k-necropole-dedicated'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Nécropole dédiée',
+  testCardId:'R000027',
+  testSetup:SCENARIOS['collection-batch-11j-necropole-removal'].testSetup
+});
+SCENARIOS['collection-batch-11k-hokhan-avatar'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Hokhan avatar',
+  participants:['hokhan','huvuImpl3Opponent'],
+  testCardId:'AVP000008',
+  testSetup:SCENARIOS['collection-batch-11j-hokhan-avatar-animation'].testSetup
+});
+SCENARIOS['collection-batch-11k-faucheur-accounting'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Faucheur accounting',
+  testCardId:'MV000009',
+  testSetup:SCENARIOS['collection-batch-11j-faucheur-esprit-echo-pulse'].testSetup
+});
+SCENARIOS['collection-batch-11k-esprit-vengeance'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Esprit dérangé Vengeance',
+  testCardId:'MV000025',
+  testSetup:SCENARIOS['collection-batch-11j-faucheur-esprit-echo-pulse'].testSetup
+});
+SCENARIOS['collection-batch-11k-jeteur-accounting'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Jeteur accounting',
+  testCardId:'MV000011',
+  testSetup:SCENARIOS['collection-batch-11j-jeteur-accounting'].testSetup
+});
+SCENARIOS['collection-batch-11k-morghast-sequencing'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Morghast chronologie',
+  testCardId:'MV000024',
+  testSetup:SCENARIOS['collection-batch-11j-morghast-animation-order'].testSetup
+});
+SCENARIOS['collection-batch-11k-mur-non-mort-accounting'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Mur non-mort accounting',
+  testCardId:'MV000030',
+  testSetup:SCENARIOS['collection-batch-11j-ame-explosive-mur'].testSetup
+});
+SCENARIOS['collection-batch-11k-recyclage'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Recyclage',
+  testCardId:'S000044',
+  testSetup:SCENARIOS['collection-batch-11j-recyclage'].testSetup
+});
+SCENARIOS['collection-batch-11k-rituel-occulte'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Rituel occulte',
+  testCardId:'S000051',
+  testSetup:SCENARIOS['collection-batch-11j-rituel-occulte'].testSetup
+});
+SCENARIOS['collection-batch-11k-parity-v7-open-only'] = collectionBatch11kScenario({
+  label:'TEST - COLLECTION BATCH 11K Parité V7 cartes ouvertes',
+  testCardId:'MV000011',
+  testSetup:SCENARIOS['collection-batch-11j-jeteur-accounting'].testSetup
 });
 
 SCENARIOS['collection-batch-03-humans-overview'] = {
@@ -10398,7 +10458,7 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showCollectionBatch11jPanel ? 'MODE TEST — COLLECTION BATCH 11J' : (activeScenario?.showCollectionBatch11iPanel ? 'MODE TEST — COLLECTION BATCH 11I' : (activeScenario?.showCollectionBatch11hPanel ? 'MODE TEST — COLLECTION BATCH 11H' : (activeScenario?.showCollectionBatch11ePanel ? 'MODE TEST — COLLECTION BATCH 11E' : (activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES')))))))))));
+  const title = activeScenario?.showCollectionBatch11kPanel ? 'MODE TEST — COLLECTION BATCH 11K' : (activeScenario?.showCollectionBatch11jPanel ? 'MODE TEST — COLLECTION BATCH 11J' : (activeScenario?.showCollectionBatch11iPanel ? 'MODE TEST — COLLECTION BATCH 11I' : (activeScenario?.showCollectionBatch11hPanel ? 'MODE TEST — COLLECTION BATCH 11H' : (activeScenario?.showCollectionBatch11ePanel ? 'MODE TEST — COLLECTION BATCH 11E' : (activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'))))))))))));
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
@@ -14874,8 +14934,8 @@ function resolveBatch11eMurNonMortDamage(fc, context={}) {
   if (!fc || fc.dataset.id !== 'MV000030' || fc.dataset.dead) return null;
   const p = playerState(fc.dataset.player);
   const amount = batch11eEchoAmountFromValue(context.damageApplied || context.amount || 0);
-  const gain = addSoulToAppro(p, amount);
   pulseBatch03Ability(fc, 'damage-echo', {move:true});
+  const gain = addSoulToAppro(p, amount);
   const result = {success:gain.success, cardId:'MV000030', damage:context.damageApplied || context.amount || 0, echoAmount:amount, gain};
   recordCollectionBatch11eEvent('mur-non-mort-damage-echo', result);
   return result;
@@ -14997,7 +15057,7 @@ function resolveBatch11eRecyclageOnSummon(player, sourceCardId=null, sourceInsta
     const draw = drawCardFromRuntimeDeck(p, {predicate:()=>true, refresh:true, sourceCardId:'S000044'});
     if (draw?.success && draw.cardId) {
       showBatch11eZoneFlight(draw.cardId, p, 'deck', p, 'hand', 'recyclage-deck-to-hand');
-      markBatch03HandTransfer(p, draw.cardId, 'drawn');
+      markBatch03HandTransfer(p, draw.cardId, 'undead');
     }
     let returned = null;
     if ((p.graveyard || []).length) {
@@ -15249,7 +15309,7 @@ function resolveBatch11cServantDestroyedWatchers(dyingPlayer, dyingFC, options={
       const current = batch11cWatcherGainThisTurn(watcher);
       const gain = Math.max(0, Math.min(amount, 10 - current));
       if (!gain) return;
-      pulseBatch03Ability(watcher, 'batch11c-echo-watch');
+      pulseBatch03Ability(watcher, 'batch11c-echo-watch', {move:true});
       const change = addSoulToAppro(owner, gain);
       batch11cAddWatcherGain(watcher, gain);
       const result = {source:targetSummary(watcher), destroyed:targetSummary(dyingFC), gain, capAfter:batch11cWatcherGainThisTurn(watcher), change};
@@ -15277,7 +15337,7 @@ function resolveBatch11cMorghastKillEcho(dyingPlayer, dyingFC, options={}) {
   const owner = playerState(killer.dataset.player);
   if (!owner || playerKey(owner) === playerKey(dyingPlayer)) return null;
   const amount = batch11bEchoAmountFromPrintedCost(dyingFC.dataset.id);
-  pulseBatch03Ability(killer, 'batch11c-morghast-echo');
+  pulseBatch03Ability(killer, 'batch11c-morghast-echo', {move:true});
   const change = addSoulToAppro(owner, amount);
   const result = {source:targetSummary(killer), destroyed:targetSummary(dyingFC), gain:amount, change};
   recordCollectionBatch11cEvent('morghast-kill-echo', result);
@@ -15296,8 +15356,6 @@ async function resolveBatch11cMorghastVengeance(player, dyingFC) {
     showNotif('VENGEANCE : AUCUN ÉCHO DISPONIBLE POUR INVOQUER LES GUERRIERS CENDREUX.', 1500);
     return result;
   }
-  const payment = consumeSouls(p, summonCount, 'morghast-vengeance');
-  if (payment.success) pulseBatch11EchoPile(p, 'morghast-vengeance');
   const summoned = [];
   for (let i = 1; i < summonCount; i++) {
     const summon = await summonBatch03Servant(p, 'MV000001', {sourceCardId:'MV000024', sourceInstanceId:dyingFC?.dataset.instance || null, triggerInitiativeEffect:false, ready:true});
@@ -15308,6 +15366,7 @@ async function resolveBatch11cMorghastVengeance(player, dyingFC) {
       await new Promise(resolve => setTimeout(resolve, 500));
     }
   }
+  const payment = consumeSouls(p, summonCount, 'morghast-vengeance');
   const result = {handled:true, success:true, cardId:'MV000024', payment, replacementCardId:'MV000001', summoned, summonCount, destination:'graveyard'};
   recordCollectionBatch11cEvent('morghast-vengeance-fill-board', result);
   showNotif('Vengeance : Morghast remplit votre terrain de Guerriers cendreux.', 1600);
@@ -15327,10 +15386,10 @@ function changeSouls(player, delta, reason='effect', preferredSlot=null) {
   if (next < 0) return {success:false, reason:'insufficient-souls', soulsBefore:current, soulsAfter:current};
   if (next !== current) {
     if (change < 0) p.batch11eEchoSpentTurnSequence = turnSequence;
+    pulseBatch11EchoPile(p, reason);
     p.resourceState.souls = next;
     p.resourceState.revision += 1;
     projectSoulState(p, preferredSlot);
-    if (change > 0) pulseBatch11EchoPile(p, reason);
   }
   return {success:true, reason, soulsBefore:current, soulsAfter:next, delta:change};
 }
@@ -24169,11 +24228,11 @@ function markBatch03HandTransfer(player, cardId, marker) {
   const cards = Array.from(qs(playerZoneSelector(p, 'hand'))?.querySelectorAll(`.hc[data-id="${cardId}"]`) || []);
   const node = cards[cards.length - 1] || null;
   if (node) {
-    const cls = marker === 'drawn' ? 'hc-batch03-ianna-drawn' : 'hc-batch03-ianna-stolen';
+    const classes = marker === 'undead' ? ['hc-batch11-undead-transfer', 'hc-batch03-ianna-drawn'] : [marker === 'drawn' ? 'hc-batch03-ianna-drawn' : 'hc-batch03-ianna-stolen'];
     node.dataset.batch03IannaTransfer = marker;
-    node.classList.add(cls);
+    node.classList.add(...classes);
     setTimeout(() => {
-      node.classList.remove(cls);
+      node.classList.remove(...classes);
       if (node.dataset.batch03IannaTransfer === marker) delete node.dataset.batch03IannaTransfer;
     }, 1150);
   }
