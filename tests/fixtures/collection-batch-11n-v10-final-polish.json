@@ -1,0 +1,29 @@
+{
+  "lotId": "COLLECTION-BATCH-11N-V10-FINAL-POLISH",
+  "panelTitle": "MODE TEST — COLLECTION BATCH 11N",
+  "hiddenPublicOptionCount": 0,
+  "scenarios": [
+    "collection-batch-11n-necropole-owner-message",
+    "collection-batch-11n-mur-non-mort-sequencing"
+  ],
+  "targetCards": [
+    "R000027",
+    "MV000030"
+  ],
+  "necropole": {
+    "scenario": "collection-batch-11n-necropole-owner-message",
+    "expectedMessage": "LA NÉCROPOLE S'EST VIDÉE : DE DANGEREUX ESPRITS S'ÉCHAPPENT DE SES RUINES !",
+    "forbiddenGenericMessagePattern": "APPROVISIONNEMENT ENVOY",
+    "minimumRemovalDelayMs": 500,
+    "minimumSummonGapMs": 500,
+    "expectedSummonedCardId": "MV000025",
+    "expectedPulseColor": "#8a3a9a73"
+  },
+  "mur": {
+    "scenario": "collection-batch-11n-mur-non-mort-sequencing",
+    "damage": 5,
+    "expectedEchoGain": 2,
+    "sourceDelayMs": 500,
+    "rameCommitDelayMs": 500
+  }
+}
