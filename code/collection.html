@@ -2920,8 +2920,20 @@ function highlightPublicNumbersInHtml(html){
 function enforceKeywordColonSpacing(html){
   return String(html||'').replace(/(<strong\b[^>]*(?:card-keyword|card-named-ability)[^>]*>[\s\S]*?<\/strong>)\s*:/g,'$1\u00a0:');
 }
-function enforceFrenchColonSpacingInHtml(html){
-  return String(html||'').replace(/([\p{L}\p{N}»”])\s*:/gu,'$1\u00a0:');
+function enforceFrenchPunctuationSpacingInHtml(html){
+  const source=String(html||'');
+  if(typeof document==='undefined'){
+    return source.replace(/([\p{L}\p{N}»”])\s*([:;])/gu,'$1\u00a0$2');
+  }
+  const template=document.createElement('template');
+  template.innerHTML=source;
+  const walker=document.createTreeWalker(template.content,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    node.nodeValue=String(node.nodeValue||'').replace(/([\p{L}\p{N}»”])\s*([:;])/gu,'$1\u00a0$2');
+  });
+  return template.innerHTML;
 }
 function applyCollectionKeywordMarkers(html){
   let out=String(html||'');
@@ -2936,7 +2948,7 @@ function formatPlayerFacingCardText(rawText,cardModel=null,options={}){
   const formatted=CardRenderingCore.formatPlayerFacingCardText(rawText,cardModel,{...options,cardLookup:buildCollectionCanonicalCardLookup()});
   const decorate=html=>{
     const marked=applyCollectionKeywordMarkers(html);
-    return enforceFrenchColonSpacingInHtml(enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked)));
+    return enforceFrenchPunctuationSpacingInHtml(enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked)));
   };
   return options.tokens&&formatted&&typeof formatted==='object'
     ? {...formatted,html:decorate(formatted.html)}

@@ -55,6 +55,11 @@ test.describe("COLLECTION-BATCH-11R correctif final Collection Morts-vivants", (
         node.innerHTML = String(html || "");
         return normalize(node.textContent || "");
       };
+      const plainText = html => {
+        const node = document.createElement("div");
+        node.innerHTML = String(html || "");
+        return node.textContent || "";
+      };
       const snapshot = id => {
         const card = CARDS.find(entry => entry.id === id);
         const rawText = card ? String(card.detail || card.desc || "") : "";
@@ -68,6 +73,7 @@ test.describe("COLLECTION-BATCH-11R correctif final Collection Morts-vivants", (
           sourceText: strip(rawText),
           rawSource: rawText,
           renderedText: strip(renderedHtml),
+          renderedPlainText: plainText(renderedHtml),
           renderedHtml,
           condition: card?.cond || "",
           tooltipTitles: tooltipModel.right.map(item => item.title),
@@ -76,6 +82,10 @@ test.describe("COLLECTION-BATCH-11R correctif final Collection Morts-vivants", (
           semicolons: Array.from(rawText.matchAll(/;/g)).map(match => ({
             index: match.index,
             previousChar: rawText[match.index - 1] || ""
+          })),
+          renderedSemicolons: Array.from(plainText(renderedHtml).matchAll(/;/g)).map(match => ({
+            index: match.index,
+            previousChar: plainText(renderedHtml)[match.index - 1] || ""
           })),
           hasPublicTechnicalId: /\[\s*ID\s*=|RAME\*/.test(strip(rawText))
         };
@@ -97,6 +107,10 @@ test.describe("COLLECTION-BATCH-11R correctif final Collection Morts-vivants", (
     expect(audit.mur.semicolons.length, "MV000030 points-virgules").toBeGreaterThan(0);
     for (const semicolon of audit.mur.semicolons) {
       expect(semicolon.previousChar, `MV000030 point-virgule ${semicolon.index}`).toBe("\u00a0");
+    }
+    expect(audit.mur.renderedSemicolons.length, "MV000030 points-virgules rendus").toBe(audit.mur.semicolons.length);
+    for (const semicolon of audit.mur.renderedSemicolons) {
+      expect(semicolon.previousChar, `MV000030 point-virgule rendu ${semicolon.index}`).toBe("\u00a0");
     }
 
     expect(normalizeText(audit.hokhan.descText), "AVS000008 desc").toBe(normalizeText(HOKHAN_TEXT));
