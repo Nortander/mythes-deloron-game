@@ -126,6 +126,9 @@ test("Mur non-mort pulses before RAME and keeps the Echo counter unchanged until
       visibleSouls:Number(echoPile()?.dataset?.soul || 0),
       sourcePulsing:!!source?.classList.contains("batch03-ability-pulse"),
       sourceMoving:!!source?.classList.contains("batch03-ability-pulse-move"),
+      sourceDamageFlashing:!!source?.classList.contains("anim-damage"),
+      sourceAnimationName:source ? getComputedStyle(source).animationName : "",
+      sourceFeedbackMarker:source?.dataset?.batch11oMurFeedback || "",
       ramePulsing:!!echoPile()?.classList.contains("batch11-echo-pile-pulse"),
       events:auditCollectionBatch11lRuntime().batch11aEvents.slice(eventStart).map(event => ({type:event.type, detail:event.detail, at:event.at}))
     });
@@ -151,6 +154,10 @@ test("Mur non-mort pulses before RAME and keeps the Echo counter unchanged until
   expect(audit.afterSource.visibleSouls).toBe(audit.before.visibleSouls);
   expect(audit.afterSource.sourcePulsing).toBe(true);
   expect(audit.afterSource.sourceMoving).toBe(true);
+  expect(audit.afterSource.sourceDamageFlashing).toBe(false);
+  expect(audit.afterSource.sourceAnimationName).toContain("batch03AbilityPulse");
+  expect(audit.afterSource.sourceAnimationName).not.toContain("damageFlash");
+  expect(audit.afterSource.sourceFeedbackMarker).toBe("source-before-rame");
 
   const rameIndexAtMidpoint = eventIndex(audit.afterRame.events, "echo-pile-pulse", detail => detail.reason === "gain");
   const mutationIndexAtMidpoint = eventIndex(audit.afterRame.events, "echo-resource-mutated", detail => detail.reason === "gain");

@@ -14769,7 +14769,14 @@ async function resolveBatch11mEchoGainSequence({player, sourceFC=null, sourceCar
   if (!p || !Number.isInteger(value) || value <= 0) return {success:false, reason:'invalid-echo-sequence', soulsBefore:Number(p?.resourceState?.souls || 0), soulsAfter:Number(p?.resourceState?.souls || 0)};
   p.batch11mEchoSequencePending = true;
   try {
-    if (sourceFC) pulseBatch03Ability(sourceFC, reason, {move:true});
+    if (sourceFC) {
+      if ((sourceCardId || sourceFC.dataset?.id) === 'MV000030' && reason === 'damage-echo') {
+        sourceFC.classList.remove('anim-damage');
+        void sourceFC.offsetWidth;
+        sourceFC.dataset.batch11oMurFeedback = 'source-before-rame';
+      }
+      pulseBatch03Ability(sourceFC, reason, {move:true});
+    }
     recordCollectionBatch11aEvent('echo-source-pulse', {playerId:p.key, cardId:sourceCardId || sourceFC?.dataset?.id || null, reason, source:targetSummary(sourceFC), gain:value, delayBeforeRameMs:sourceDelayMs, delayAfterRameMs:rameCommitDelayMs});
     if (sourceDelayMs > 0) await batch11mSleep(sourceDelayMs);
     if (rameCommitDelayMs > 0) {
