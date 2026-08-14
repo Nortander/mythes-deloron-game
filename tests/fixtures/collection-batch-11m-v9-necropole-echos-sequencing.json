@@ -1,0 +1,73 @@
+{
+  "lotId": "COLLECTION-BATCH-11M-V9-NECROPOLE-ECHOS-SEQUENCING",
+  "panelTitle": "MODE TEST \u2014 COLLECTION BATCH 11M",
+  "hiddenPublicOptionCount": 0,
+  "scenarios": [
+    "collection-batch-11m-necropole-owner-removal-delay",
+    "collection-batch-11m-necropole-opponent-removal-delay",
+    "collection-batch-11m-jeteur-cost3-single-kill",
+    "collection-batch-11m-jeteur-thresholds",
+    "collection-batch-11m-morghast-sequencing-only",
+    "collection-batch-11m-mur-non-mort-sequencing-only"
+  ],
+  "targetCards": [
+    "R000027",
+    "MV000011",
+    "MV000024",
+    "MV000030"
+  ],
+  "protectedScenarioSubjects": [
+    "R000021",
+    "AVP000008",
+    "AVS000008",
+    "MV000009",
+    "MV000025",
+    "MV000002",
+    "MV000003",
+    "MV000004",
+    "MV000005",
+    "MV000006",
+    "MV000015",
+    "MV000029",
+    "MV000008",
+    "MV000028",
+    "S000041",
+    "S000052",
+    "S000042",
+    "S000044",
+    "S000051",
+    "MV000022"
+  ],
+  "necropole": {
+    "minimumRemovalDelayMs": 500,
+    "minimumSummonGapMs": 500,
+    "expectedSummonedCardId": "MV000025",
+    "expectedPulseColor": "#8a3a9a73"
+  },
+  "jeteur": {
+    "singleKillVictimId": "H000005",
+    "singleKillVictimPrintedCost": 3,
+    "singleKillExpectedEchoGain": 1,
+    "thresholdCases": [
+      {
+        "victimId": "H000005",
+        "printedCost": 3,
+        "expectedEchoGain": 1
+      },
+      {
+        "victimId": "MV000030",
+        "printedCost": 8,
+        "expectedEchoGain": 2
+      },
+      {
+        "victimId": "MV000024",
+        "printedCost": 9,
+        "expectedEchoGain": 3
+      }
+    ]
+  },
+  "mur": {
+    "damage": 5,
+    "expectedEchoGain": 2
+  }
+}

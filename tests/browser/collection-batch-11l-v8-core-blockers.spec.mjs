@@ -70,7 +70,7 @@ test("Necropole releases both supply slots and fills the board on owner and oppo
         if (killer) necropole._killer = killer;
         removal = await sendToCemetery(necropole, {killer, forceCemetery:true});
       }
-      await new Promise(resolve => setTimeout(resolve, 900));
+      await new Promise(resolve => setTimeout(resolve, 3800));
       const audit = auditCollectionBatch11lRuntime();
       const p1 = audit.batch11j.batch11i.batch11e.batch11a.players.find(player => player.playerId === "player1") || {};
       return {

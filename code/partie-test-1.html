@@ -3544,6 +3544,52 @@ SCENARIOS['collection-batch-11l-rituel-cemetery-transfer'] = collectionBatch11lS
   testSetup:SCENARIOS['collection-batch-11j-rituel-occulte'].testSetup
 });
 
+function collectionBatch11mScenario(overrides={}) {
+  return collectionBatch11jScenario({
+    showCollectionBatch11jPanel:false,
+    showCollectionBatch11kPanel:false,
+    showCollectionBatch11lPanel:false,
+    showCollectionBatch11mPanel:true,
+    ...overrides
+  });
+}
+SCENARIOS['collection-batch-11m-necropole-owner-removal-delay'] = collectionBatch11mScenario({
+  label:'TEST - COLLECTION BATCH 11M Nécropole retrait propriétaire temporisé',
+  testCardId:'R000027',
+  testSetup:SCENARIOS['collection-batch-11j-necropole-removal'].testSetup
+});
+SCENARIOS['collection-batch-11m-necropole-opponent-removal-delay'] = collectionBatch11mScenario({
+  label:'TEST - COLLECTION BATCH 11M Nécropole retrait adverse temporisé',
+  testCardId:'R000027',
+  testSetup:SCENARIOS['collection-batch-11j-necropole-removal'].testSetup
+});
+SCENARIOS['collection-batch-11m-jeteur-cost3-single-kill'] = collectionBatch11mScenario({
+  label:'TEST - COLLECTION BATCH 11M Jeteur coût 3',
+  testCardId:'MV000011',
+  testSetup:{
+    player1:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:5}, hand:[], drawPile:['MV000001'], graveyard:[], servants:[{id:'MV000011',prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000011']},
+    player2:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:[], drawPile:[], graveyard:[], servants:[{id:'H000005',atk:2,pdv:1,pdvMax:5,prepared:true}], avatarHp:25}
+  }
+});
+SCENARIOS['collection-batch-11m-jeteur-thresholds'] = collectionBatch11mScenario({
+  label:'TEST - COLLECTION BATCH 11M Jeteur seuils',
+  testCardId:'MV000011',
+  testSetup:{
+    player1:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:1}, hand:[], drawPile:['MV000001'], graveyard:[], servants:[{id:'MV000011',prepared:true}], avatarHp:25, startingDeckCardIds:['MV000001','MV000011']},
+    player2:{resources:{classical:{aria:30,lenya:20,selene:20,fer:20,bois:20,pierre:20,nourriture:20},souls:0}, hand:[], drawPile:[], graveyard:[], servants:[{id:'H000005',atk:2,pdv:1,pdvMax:5,prepared:true},{id:'MV000001',atk:1,pdv:1,pdvMax:4,prepared:true},{id:'MV000024',atk:5,pdv:1,pdvMax:10,prepared:true}], avatarHp:25}
+  }
+});
+SCENARIOS['collection-batch-11m-morghast-sequencing-only'] = collectionBatch11mScenario({
+  label:'TEST - COLLECTION BATCH 11M Morghast chronologie',
+  testCardId:'MV000024',
+  testSetup:SCENARIOS['collection-batch-11j-morghast-animation-order'].testSetup
+});
+SCENARIOS['collection-batch-11m-mur-non-mort-sequencing-only'] = collectionBatch11mScenario({
+  label:'TEST - COLLECTION BATCH 11M Mur non-mort chronologie',
+  testCardId:'MV000030',
+  testSetup:SCENARIOS['collection-batch-11j-ame-explosive-mur'].testSetup
+});
+
 SCENARIOS['collection-batch-03-humans-overview'] = {
   label: 'TEST - COLLECTION BATCH 03 Humains', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'H000011',
   testSetup: {
@@ -10515,7 +10561,7 @@ function updateTestResourcePanel() {
   const snapshot = getHuvuTestResourcePanelSnapshot(); const panel = existing || document.createElement('aside'); panel.className = 'test-resource-panel'; panel.dataset.testid = 'test-resource-panel';
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
-  const title = activeScenario?.showCollectionBatch11lPanel ? 'MODE TEST — COLLECTION BATCH 11L' : (activeScenario?.showCollectionBatch11kPanel ? 'MODE TEST — COLLECTION BATCH 11K' : (activeScenario?.showCollectionBatch11jPanel ? 'MODE TEST — COLLECTION BATCH 11J' : (activeScenario?.showCollectionBatch11iPanel ? 'MODE TEST — COLLECTION BATCH 11I' : (activeScenario?.showCollectionBatch11hPanel ? 'MODE TEST — COLLECTION BATCH 11H' : (activeScenario?.showCollectionBatch11ePanel ? 'MODE TEST — COLLECTION BATCH 11E' : (activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES')))))))))))));
+  const title = activeScenario?.showCollectionBatch11mPanel ? 'MODE TEST — COLLECTION BATCH 11M' : (activeScenario?.showCollectionBatch11lPanel ? 'MODE TEST — COLLECTION BATCH 11L' : (activeScenario?.showCollectionBatch11kPanel ? 'MODE TEST — COLLECTION BATCH 11K' : (activeScenario?.showCollectionBatch11jPanel ? 'MODE TEST — COLLECTION BATCH 11J' : (activeScenario?.showCollectionBatch11iPanel ? 'MODE TEST — COLLECTION BATCH 11I' : (activeScenario?.showCollectionBatch11hPanel ? 'MODE TEST — COLLECTION BATCH 11H' : (activeScenario?.showCollectionBatch11ePanel ? 'MODE TEST — COLLECTION BATCH 11E' : (activeScenario?.showCollectionBatch11dPanel ? 'MODE TEST — COLLECTION BATCH 11D' : (activeScenario?.showCollectionBatch11cPanel ? 'MODE TEST — COLLECTION BATCH 11C' : (activeScenario?.showCollectionBatch11bPanel ? 'MODE TEST — COLLECTION BATCH 11B' : (activeScenario?.showCollectionBatch11aPanel ? 'MODE TEST — COLLECTION BATCH 11A' : (activeScenario?.showCollectionBatch01Panel ? 'MODE TEST — COLLECTION BATCH 01' : (activeScenario?.showHuvuImpl3Panel ? 'MODE TEST — HUVU IMPL 3' : (activeScenario?.showHuvuImpl2Panel ? 'MODE TEST — HUVU IMPL 2' : (activeScenario?.showHuvuImpl1Panel ? 'MODE TEST — HUVU IMPL 1' : 'MODE TEST — RESSOURCES'))))))))))))));
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
@@ -14405,7 +14451,7 @@ async function resolveRituelOcculte(player) {
 const collectionBatch11aState = {events:[], ambiguities:[]};
 
 function recordCollectionBatch11aEvent(type, detail={}) {
-  const event = {type, detail, turnSequence, scenarioId:selectedScenarioId()};
+  const event = {type, detail, turnSequence, scenarioId:selectedScenarioId(), at:Math.round(performance.now())};
   collectionBatch11aState.events.push(event);
   window.__collectionBatch11aLastEvent = event;
   return event;
@@ -14489,7 +14535,7 @@ function resolveBatch11aEchoCaptureOnCemetery(victimOwner, fc, context={}) {
   const cardId = fc?.dataset?.id;
   const sourceCardId = requested?.sourceCardId || killer?.dataset?.id || null;
   if (!owner || !collector || (!killer && !requested)) return {captured:false};
-  const implicitEchoCaptureSources = new Set(['MV000009','MV000002','MV000003','MV000004','MV000011','MV000028','S000041']);
+  const implicitEchoCaptureSources = new Set(['MV000009','MV000002','MV000003','MV000004','MV000028','S000041']);
   if (!requested && !implicitEchoCaptureSources.has(sourceCardId)) return {captured:false};
   if (collector.key === owner.key && !requested?.allowFriendlyCapture) return {captured:false};
   if (CARDS_DATA[cardId]?.type !== 'Serviteur') return {captured:false};
@@ -14619,6 +14665,8 @@ async function resolveBatch11aNecropoleRemoval(player, fc) {
   const p = playerState(player);
   if (!p || fc?.dataset?.id !== 'R000027') return {success:false, reason:'not-necropole'};
   const release = releaseBatch11aNecropoleFootprint(p, fc);
+  recordCollectionBatch11aEvent('necropole-removal-delay-start', {playerId:p.key, delayMs:500, source:targetSummary(fc), sourceConnected:!!fc?.isConnected});
+  await new Promise(resolve => setTimeout(resolve, 500));
   const summoned = [];
   let guard = 0;
   while (qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot') && guard < 8) {
@@ -14626,6 +14674,13 @@ async function resolveBatch11aNecropoleRemoval(player, fc) {
     const summon = await summonBatch03Servant(p, 'MV000025', {sourceCardId:'R000027', sourceInstanceId:fc.dataset.instance || fc.dataset.supplyInstance || null, triggerInitiativeEffect:false, ready:true});
     if (!summon?.success) break;
     summoned.push(summon);
+    const summonedFC = summon.instanceId ? document.querySelector('.fc[data-instance="' + CSS.escape(summon.instanceId) + '"]') : null;
+    if (summonedFC) pulseBatch03Ability(summonedFC, 'necropole-esprit-summon', {move:true});
+    recordCollectionBatch11aEvent('necropole-esprit-summoned', {playerId:p.key, cardId:'MV000025', index:summoned.length, instanceId:summon.instanceId || null, sourceConnected:!!fc?.isConnected, pulseColor:summonedFC?.dataset?.batch04PulseColor || ''});
+    if (qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot') && guard < 8) {
+      recordCollectionBatch11aEvent('necropole-esprit-delay-start', {playerId:p.key, afterIndex:summoned.length, delayMs:500});
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
   }
   updateVoluntarySupplyDiscardAvailability(p);
 
@@ -14662,6 +14717,18 @@ function batch11eEchoAmountFromValue(value) {
   if (amount > 8) return 3;
   if (amount >= 5) return 2;
   return 1;
+}
+function batch11mSleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function resolveBatch11mEchoGainSequence({player, sourceFC=null, sourceCardId='', reason='gain', amount=0, sourceDelayMs=500, preferredSlot=null}={}) {
+  const p = playerState(player);
+  const value = Number(amount);
+  if (!p || !Number.isInteger(value) || value <= 0) return {success:false, reason:'invalid-echo-sequence', soulsBefore:Number(p?.resourceState?.souls || 0), soulsAfter:Number(p?.resourceState?.souls || 0)};
+  if (sourceFC) pulseBatch03Ability(sourceFC, reason, {move:true});
+  recordCollectionBatch11aEvent('echo-source-pulse', {playerId:p.key, cardId:sourceCardId || sourceFC?.dataset?.id || null, reason, source:targetSummary(sourceFC), gain:value, delayBeforeRameMs:sourceDelayMs});
+  if (sourceDelayMs > 0) await batch11mSleep(sourceDelayMs);
+  return addSoulToAppro(p, value, preferredSlot);
 }
 function batch11bPickTarget(targets) {
   if (!targets?.length) return null;
@@ -15008,13 +15075,11 @@ async function resolveBatch11eMurNonMortVengeance(player, dyingFC) {
   showNotif("ALORS QUE LE MUR NON-MORT S'ÉCROULE, LES OSSEMENTS SE RÉASSEMBLENT EN GUERRIERS SQUELETTES !", 1900);
   return result;
 }
-function resolveBatch11eMurNonMortDamage(fc, context={}) {
+async function resolveBatch11eMurNonMortDamage(fc, context={}) {
   if (!fc || fc.dataset.id !== 'MV000030' || fc.dataset.dead) return null;
   const p = playerState(fc.dataset.player);
   const amount = batch11eEchoAmountFromValue(context.damageApplied || context.amount || 0);
-  pulseBatch03Ability(fc, 'damage-echo', {move:true});
-  recordCollectionBatch11aEvent('echo-source-pulse', {playerId:p?.key || null, cardId:'MV000030', reason:'damage-echo', source:targetSummary(fc), gain:amount});
-  const gain = addSoulToAppro(p, amount);
+  const gain = await resolveBatch11mEchoGainSequence({player:p, sourceFC:fc, sourceCardId:'MV000030', reason:'damage-echo', amount});
   const result = {success:gain.success, cardId:'MV000030', damage:context.damageApplied || context.amount || 0, echoAmount:amount, gain};
   recordCollectionBatch11eEvent('mur-non-mort-damage-echo', result);
   return result;
@@ -15391,25 +15456,25 @@ function batch11cWatcherGainThisTurn(watcher) {
   return Number(watcher.dataset.batch11cEchoGain || 0) || 0;
 }
 function batch11cAddWatcherGain(watcher, amount) { watcher.dataset.batch11cEchoTurn = String(turnSequence); watcher.dataset.batch11cEchoGain = String(batch11cWatcherGainThisTurn(watcher) + amount); }
-function resolveBatch11cServantDestroyedWatchers(dyingPlayer, dyingFC, options={}) {
+async function resolveBatch11cServantDestroyedWatchers(dyingPlayer, dyingFC, options={}) {
   if (!dyingFC || CARDS_DATA[dyingFC.dataset.id]?.type !== 'Serviteur') return [];
   const amount = batch11bEchoAmountFromPrintedCost(dyingFC.dataset.id);
   const results = [];
-  [player1, player2].filter(Boolean).forEach(candidatePlayer => {
-    batch11cLivingServants(candidatePlayer).filter(fc => fc.dataset.id === 'MV000011' && fc !== dyingFC && canResolveServantAbility(fc, {triggerType:'passive'})).forEach(watcher => {
+  const excludedSourceInstanceId = options.echoCapture?.sourceCardId === 'MV000011' ? options.echoCapture?.sourceInstanceId || null : null;
+  for (const candidatePlayer of [player1, player2].filter(Boolean)) {
+    const watchers = batch11cLivingServants(candidatePlayer).filter(fc => fc.dataset.id === 'MV000011' && fc !== dyingFC && (!excludedSourceInstanceId || fc.dataset.instance !== excludedSourceInstanceId) && canResolveServantAbility(fc, {triggerType:'passive'}));
+    for (const watcher of watchers) {
       const owner = playerState(watcher.dataset.player);
       const current = batch11cWatcherGainThisTurn(watcher);
       const gain = Math.max(0, Math.min(amount, 10 - current));
-      if (!gain) return;
-      pulseBatch03Ability(watcher, 'batch11c-echo-watch', {move:true});
-      recordCollectionBatch11aEvent('echo-source-pulse', {playerId:owner?.key || null, cardId:'MV000011', reason:'batch11c-echo-watch', source:targetSummary(watcher), gain});
-      const change = addSoulToAppro(owner, gain);
+      if (!gain) continue;
+      const change = await resolveBatch11mEchoGainSequence({player:owner, sourceFC:watcher, sourceCardId:'MV000011', reason:'batch11c-echo-watch', amount:gain});
       batch11cAddWatcherGain(watcher, gain);
       const result = {source:targetSummary(watcher), destroyed:targetSummary(dyingFC), gain, capAfter:batch11cWatcherGainThisTurn(watcher), change};
       results.push(result);
       recordCollectionBatch11cEvent('jeteur-destruction-echo', result);
-    });
-  });
+    }
+  }
   return results;
 }
 async function resolveBatch11fCommandantKillSummon(dyingPlayer, dyingFC, options={}) {
@@ -15424,15 +15489,13 @@ async function resolveBatch11fCommandantKillSummon(dyingPlayer, dyingFC, options
   showNotif('UN AUTRE GUERRIER CENDREUX SE DRESSE DERRIÈRE SON COMMANDANT.', 1800);
   return result;
 }
-function resolveBatch11cMorghastKillEcho(dyingPlayer, dyingFC, options={}) {
+async function resolveBatch11cMorghastKillEcho(dyingPlayer, dyingFC, options={}) {
   const killer = options.killer || dyingFC?._killer || null;
   if (!killer || killer.dataset?.id !== 'MV000024' || !dyingFC || CARDS_DATA[dyingFC.dataset.id]?.type !== 'Serviteur') return null;
   const owner = playerState(killer.dataset.player);
   if (!owner || playerKey(owner) === playerKey(dyingPlayer)) return null;
   const amount = batch11bEchoAmountFromPrintedCost(dyingFC.dataset.id);
-  pulseBatch03Ability(killer, 'batch11c-morghast-echo', {move:true});
-  recordCollectionBatch11aEvent('echo-source-pulse', {playerId:owner?.key || null, cardId:'MV000024', reason:'batch11c-morghast-echo', source:targetSummary(killer), gain:amount});
-  const change = addSoulToAppro(owner, amount);
+  const change = await resolveBatch11mEchoGainSequence({player:owner, sourceFC:killer, sourceCardId:'MV000024', reason:'batch11c-morghast-echo', amount});
   const result = {source:targetSummary(killer), destroyed:targetSummary(dyingFC), gain:amount, change};
   recordCollectionBatch11cEvent('morghast-kill-echo', result);
   return result;
@@ -16074,16 +16137,12 @@ async function sendToCemetery(fc, options={}) {
   let batch11aEchoCapture = {captured:false};
   if (goesToCemetery && d.type === 'Serviteur') {
     notifyBatch11aUndeadServantDestroyed(player, fc);
-    resolveBatch11cMorghastKillEcho(player, fc, options);
-    resolveBatch11cServantDestroyedWatchers(player, fc, options);
+    await resolveBatch11cMorghastKillEcho(player, fc, options);
+    await resolveBatch11cServantDestroyedWatchers(player, fc, options);
     await triggerUramGrantedVengeance(player, fc);
     batch11aEchoCapture = resolveBatch11aEchoCaptureOnCemetery(player, fc, options);
   }
 
-  let batch11aNecropoleRemoval = null;
-  if (goesToCemetery && cardId === 'R000027') {
-    batch11aNecropoleRemoval = await resolveBatch11aNecropoleRemoval(player, fc);
-  }
   if (fc.dataset.type === 'appro' && !fc.dataset.soul) {
     unregisterSupplyInstance(player, fc);
   }
@@ -16110,6 +16169,10 @@ async function sendToCemetery(fc, options={}) {
         fc.replaceWith(newSlot);
       }
     }
+  }
+  let batch11aNecropoleRemoval = null;
+  if (goesToCemetery && cardId === 'R000027') {
+    batch11aNecropoleRemoval = await resolveBatch11aNecropoleRemoval(player, fc);
   }
 
   let placedAtDeckBottom = false;
@@ -24504,10 +24567,10 @@ async function triggerBatch03DamageReceivedHooks(fc, context={}) {
     recordCollectionBatch06Event('shar-survived-damage', {source:targetSummary(fc), heal, damageResults});
   }
   if (cardId === 'MV000030') {
-    const wallEcho = resolveBatch11eMurNonMortDamage(fc, context);
+    const wallEcho = await resolveBatch11eMurNonMortDamage(fc, context);
     if (wallEcho) results.push({type:'mur-non-mort-damage-echo', result:wallEcho});
   }
-  if (results.length) pulseBatch03Ability(fc, 'damage-received');
+  if (results.length && cardId !== 'MV000030') pulseBatch03Ability(fc, 'damage-received');
   if (results.length) recordCollectionBatch03Event('damage-received-hook', {cardId, target:targetSummary(fc), results});
   return results;
 }
