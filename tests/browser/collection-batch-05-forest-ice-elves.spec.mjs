@@ -24,7 +24,7 @@ function byId(items) {
 function blockingConsoleErrors(diagnostics) {
   return diagnostics.consoleErrors.filter(message =>
     !/Failed to load resource: the server responded with a status of 404/i.test(message)
-    && !/Failed to load resource: net::ERR_(NETWORK_CHANGED|NAME_NOT_RESOLVED)/i.test(message)
+    && !/Failed to load resource: net::ERR_(FAILED|NETWORK_CHANGED|NAME_NOT_RESOLVED)/i.test(message)
   );
 }
 

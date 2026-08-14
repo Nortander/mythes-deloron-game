@@ -421,7 +421,7 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
     const echoTargets = livingServantCardsForPlayer(player2).filter(fc => !targetSummary(fc).insensible).slice(0, 3).map(fc => fc.dataset.instance);
     const echoPlay = await playCard('S000055', null, {selectedTargetIds: echoTargets});
     const afterEchoSpell = auditCollectionBatch02Runtime();
-    const handVisibility = (() => {
+    const handVisibility = await (async () => {
       currentPlayer = 'player1';
       activePlayer = player1;
       refreshRuntimeZone(player1, 'hand');
@@ -430,6 +430,11 @@ test("Gabar maître-magicien copies only eligible opposing spells", async ({page
       const copiedTriangle = handZone?.querySelector('.hc[data-id="S000055"]');
       const image = copied?.querySelector('img');
       const triangleImage = copiedTriangle?.querySelector('img');
+      await Promise.all([image, triangleImage].filter(Boolean).map(img => img.complete && img.naturalWidth > 0 ? Promise.resolve() : new Promise(resolve => {
+        img.addEventListener('load', resolve, {once:true});
+        img.addEventListener('error', resolve, {once:true});
+        setTimeout(resolve, 5000);
+      })));
       return {
         visible:!!copied,
         imageLoaded:!!image && image.naturalWidth > 0,

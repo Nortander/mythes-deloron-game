@@ -1,0 +1,68 @@
+{
+  "lotId": "COLLECTION-BATCH-11L-V8-CORE-BLOCKERS",
+  "panelTitle": "MODE TEST — COLLECTION BATCH 11L",
+  "hiddenPublicOptionCount": 0,
+  "scenarios": [
+    "collection-batch-11l-necropole-removal-owner",
+    "collection-batch-11l-necropole-removal-opponent",
+    "collection-batch-11l-jeteur-accounting-single-source",
+    "collection-batch-11l-morghast-sequencing",
+    "collection-batch-11l-mur-non-mort-sequencing",
+    "collection-batch-11l-hokhan-avatar-deck-path",
+    "collection-batch-11l-recyclage-zone-paths",
+    "collection-batch-11l-rituel-cemetery-transfer"
+  ],
+  "targetCards": [
+    "R000027",
+    "AVP000008",
+    "MV000011",
+    "MV000024",
+    "MV000030",
+    "S000044",
+    "S000051"
+  ],
+  "protectedScenarioSubjects": [
+    "R000021",
+    "AVS000008",
+    "MV000009",
+    "MV000025",
+    "MV000002",
+    "MV000003",
+    "MV000004",
+    "MV000005",
+    "MV000006",
+    "MV000015",
+    "MV000029",
+    "MV000008",
+    "MV000028",
+    "MV000022",
+    "S000041",
+    "S000052",
+    "S000042"
+  ],
+  "jeteur": {
+    "victimId": "H000005",
+    "victimPrintedCost": 3,
+    "expectedEchoGain": 1,
+    "initialEchoes": 5,
+    "finalEchoes": 6
+  },
+  "mur": {
+    "damage": 5,
+    "expectedEchoGain": 2
+  },
+  "rituel": {
+    "transferred": [
+      "H000001",
+      "R000001",
+      "H000005"
+    ],
+    "finalCasterGraveyard": [
+      "MV000001",
+      "H000001",
+      "R000001",
+      "H000005",
+      "S000051"
+    ]
+  }
+}
