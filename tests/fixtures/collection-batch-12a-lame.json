@@ -1,0 +1,27 @@
+{
+  "scenario": "collection-batch-12a-lame-visual",
+  "panelTitle": "MODE TEST — COLLECTION BATCH 12A",
+  "cards": ["MV000016", "MV000017", "MV000018", "MV000019", "MV000021"],
+  "supportCards": ["AVP000008", "AVS000008", "R000027"],
+  "initial": {
+    "player1Souls": 100,
+    "player2AvatarHp": 30,
+    "player1Hand": ["AVS000008", "MV000016", "MV000017", "MV000018", "MV000019", "MV000021"],
+    "player2Servants": ["H000001", "H000005", "H000006", "H000009"]
+  },
+  "bladeGenerationByCost": {
+    "below4": "MV000016",
+    "cost5": "MV000021",
+    "cost6or7": "MV000018",
+    "above7": "MV000017",
+    "cost4": "AMBIGUOUS_NO_GENERATION"
+  },
+  "mageExpectedReduction": 3,
+  "expectedCollection": {
+    "MV000016": {"resType": "Écho", "keywords": ["Écho"], "loreItalic": true},
+    "MV000017": {"resType": "Écho", "keywords": ["Initiative", "Écho"]},
+    "MV000018": {"resType": "Écho", "keywords": ["Initiative", "Coup de glace", "Gel", "Écho"]},
+    "MV000019": {"resType": "Aria+Écho", "keywords": ["Insensible", "Écho"]},
+    "MV000021": {"resType": "Écho", "keywords": ["Écho", "Rage", "Initiative", "Approvisionnement"]}
+  }
+}

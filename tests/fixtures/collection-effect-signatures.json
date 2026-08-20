@@ -7127,16 +7127,23 @@
         "play-condition"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "play-condition"
+        "play-condition",
+        "cost-payment",
+        "mandatory-resource",
+        "lore-rendering"
       ],
       "missingPrimitives": [],
       "familyKey": "Serviteur:static:play-condition",
       "implementationStatus": "FONCTIONNEL_NON_TESTE",
-      "industrialReadiness": "CONFIGURATION_OR_TEST_READY",
-      "confidence": "MOYEN",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "functionalStatus": "FONCTIONNEL_TESTE",
+      "testCoverage": [
+        "tests/browser/collection-batch-12a-lame.spec.mjs"
+      ],
+      "notes": "Batch 12A: comportement fonctionnel couvert par tests directs."
     },
     {
       "schemaVersion": 1,
@@ -7174,20 +7181,26 @@
         "play-condition"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "damage",
-        "modify-atk",
-        "play-condition"
+        "play-condition",
+        "cost-payment",
+        "initiative-trigger",
+        "random-enemy-servant-target",
+        "direct-damage",
+        "avatar-damage",
+        "servant-death-to-graveyard"
       ],
-      "missingPrimitives": [
-        "initiative-trigger"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
-      "industrialReadiness": "ONE_PRIMITIVE_MISSING",
-      "confidence": "MOYEN",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "functionalStatus": "FONCTIONNEL_TESTE",
+      "testCoverage": [
+        "tests/browser/collection-batch-12a-lame.spec.mjs"
+      ],
+      "notes": "Batch 12A: comportement fonctionnel couvert par tests directs."
     },
     {
       "schemaVersion": 1,
@@ -7235,24 +7248,27 @@
         "play-condition"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "damage",
-        "draw",
-        "move-hand-deck-graveyard",
-        "play-condition"
-      ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "freeze-status",
+        "play-condition",
+        "cost-payment",
+        "initiative-trigger",
+        "random-enemy-servant-target",
         "ice-hit-status",
-        "initiative-trigger"
+        "freeze-status",
+        "draw-filtered-card",
+        "permanent-cost-reduction"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "functionalStatus": "FONCTIONNEL_TESTE",
+      "testCoverage": [
+        "tests/browser/collection-batch-12a-lame.spec.mjs"
+      ],
+      "notes": "Batch 12A: comportement fonctionnel couvert par tests directs."
     },
     {
       "schemaVersion": 1,
@@ -7306,21 +7322,27 @@
         "target-immunity"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "lethal-damage",
-        "move-hand-deck-graveyard",
-        "play-condition"
+        "play-condition",
+        "advanced-cost",
+        "target-immunity",
+        "duration-while-on-board",
+        "echo-gain-multiplier",
+        "enemy-servant-death-trigger",
+        "create-card-in-deck",
+        "shuffle-deck"
       ],
-      "missingPrimitives": [
-        "duration-persistent",
-        "target-immunity"
-      ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:persistent:duration-persistent",
       "implementationStatus": "PARTIEL",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "functionalStatus": "FONCTIONNEL_TESTE",
+      "testCoverage": [
+        "tests/browser/collection-batch-12a-lame.spec.mjs"
+      ],
+      "notes": "Batch 12A: comportement fonctionnel couvert par tests directs."
     },
     {
       "schemaVersion": 1,
@@ -7402,22 +7424,28 @@
         "rage-stat-buff"
       ],
       "supportedPrimitives": [
-        "cost-validation",
-        "damage",
-        "lethal-damage",
-        "modify-atk",
-        "play-condition"
-      ],
-      "missingPrimitives": [
+        "play-condition",
+        "cost-payment",
         "initiative-trigger",
-        "rage-stat-buff"
+        "rage-stat-buff",
+        "random-enemy-servant-target",
+        "direct-damage",
+        "servant-death-to-graveyard",
+        "echo-harvest",
+        "victim-capture-to-supply"
       ],
+      "missingPrimitives": [],
       "familyKey": "Serviteur:initiative:damage",
       "implementationStatus": "FONCTIONNEL_TESTE",
-      "industrialReadiness": "MULTIPLE_PRIMITIVES_MISSING",
-      "confidence": "MOYEN",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "confidence": "HAUT",
       "catalogKind": "CARD",
-      "obtainability": "OBTAINABLE"
+      "obtainability": "OBTAINABLE",
+      "functionalStatus": "FONCTIONNEL_TESTE",
+      "testCoverage": [
+        "tests/browser/collection-batch-12a-lame.spec.mjs"
+      ],
+      "notes": "Batch 12A: comportement fonctionnel couvert par tests directs."
     },
     {
       "schemaVersion": 1,
