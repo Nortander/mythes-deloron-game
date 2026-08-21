@@ -16,9 +16,10 @@ const keywords = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-keyw
 const dependencies = JSON.parse(fs.readFileSync(new URL("../fixtures/collection-card-dependencies.json", import.meta.url), "utf8"));
 
 const julyImportedIds = ["H000032", "H000033", "H000034", "H000035", "H000036", "S000055", "S000057", "S000058", "S000059", "S000060"];
-const addedIds = ["MV000025", "N000015", "S000054", ...julyImportedIds];
-const expectedCanonicalCount = 332;
-const expectedObtainableCount = 314;
+const batch13ImportedIds = ["B000019", "DIV000017", "EDG000014", "EDG000015", "EDG000016", "EDG000017"];
+const addedIds = ["MV000025", "N000015", "S000054", ...julyImportedIds, ...batch13ImportedIds];
+const expectedCanonicalCount = 338;
+const expectedObtainableCount = 320;
 const nonObtainableIds = ["B000003", "B000004", "B000005", "EDG000011", "EDG000012", "EN000011", "H000033", "H000034", "H000035", "H000036", "MV000025", "S000008", "S000025", "S000054", "S000057", "S000058", "S000059", "S000060"];
 const transformationOnlyIds = ["B000003", "B000004", "B000005"];
 const generatedOnlyIds = ["EDG000011", "EN000011", "H000033", "H000034", "H000035", "H000036", "MV000025", "S000008", "S000054", "S000057", "S000058", "S000059", "S000060"];
@@ -105,8 +106,25 @@ test("Collection effect inventory covers every canonical card", async () => {
       obtainability: card.obtainability
     });
   }
+  for (const id of batch13ImportedIds) {
+    const card = byId[id];
+    const signature = signatures.signatures.find(item => item.id === id);
+    expect(card).toBeTruthy();
+    expect(card.obtainability).toBe("OBTAINABLE");
+    expect(signature).toMatchObject({
+      id,
+      implementationStatus: "FONCTIONNEL_TESTE",
+      industrialReadiness: "IMPLEMENTED_TESTED",
+      directTest: "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      catalogKind: "CARD",
+      obtainability: "OBTAINABLE"
+    });
+  }
   expect(byId.H000032).toMatchObject({ type: "Serviteur", faction: "Humain", attack: 1, health: 2, costTotal: 1, maxOwned: 1, obtainability: "OBTAINABLE" });
   expect(byId.S000055).toMatchObject({ type: "Sort", faction: "/", costTotal: 0, maxOwned: 1, obtainability: "OBTAINABLE" });
+  expect(byId.B000019).toMatchObject({ type: "Serviteur", faction: "Bête", attack: 5, health: 5, costTotal: 4, maxOwned: 6, obtainability: "OBTAINABLE" });
+  expect(byId.DIV000017).toMatchObject({ type: "Serviteur", faction: "Non-affiliés", attack: 3, health: 6, costTotal: 4, maxOwned: 4, obtainability: "OBTAINABLE" });
+  expect(byId.EDG000017).toMatchObject({ type: "Serviteur", faction: "Elfe de glace", attack: 4, health: 8, costTotal: 7, maxOwned: 1, obtainability: "OBTAINABLE" });
   expect(julyImportedIds.filter(id => byId[id].obtainability === "GENERATED_ONLY")).toEqual(["H000033", "H000034", "H000035", "H000036", "S000057", "S000058", "S000059", "S000060"]);
   expect(dependencies.dependencies).toEqual(expect.arrayContaining([
     expect.objectContaining({ sourceId: "H000032", dependencyId: "S000057", relation: "ADDS_TO_HAND" }),
@@ -132,7 +150,7 @@ for (const cardId of addedIds) {
     await openCollection(page);
     if (expected.obtainability !== "OBTAINABLE") await setPossessionFilter(page, "unobtainable");
     await searchCollectionCard(page, cardId);
-    if (julyImportedIds.includes(cardId)) {
+    if (julyImportedIds.includes(cardId) || batch13ImportedIds.includes(cardId)) {
       await page.locator("#searchInput").fill(expected.name);
       await expect(collectionCard(page, cardId), cardId + " name search result").toBeVisible();
     }
@@ -159,10 +177,10 @@ for (const cardId of addedIds) {
       expect(modal.cardText).not.toContain("S000054");
       expect(modal.relatedText).not.toContain("S000054");
     }
-    if (julyImportedIds.includes(cardId) && expected.type === "Serviteur") {
+    if ((julyImportedIds.includes(cardId) || batch13ImportedIds.includes(cardId)) && expected.type === "Serviteur") {
       expect(modal.cardText).toMatch(new RegExp(String(expected.attack) + ".*" + String(expected.health), "s"));
     }
-    if (julyImportedIds.includes(cardId) && expected.type === "Sort") {
+    if ((julyImportedIds.includes(cardId) || batch13ImportedIds.includes(cardId)) && expected.type === "Sort") {
       expect(modal.cardText).toContain("Sort");
     }
     if (cardId === "S000054") {

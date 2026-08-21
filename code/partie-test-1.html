@@ -2006,7 +2006,7 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['B000018','H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['B000018','B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017','H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -3171,6 +3171,18 @@ SCENARIOS['collection-batch-12a-lame-visual'] = collectionBatch12aScenario({
     player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006','H000006','H000009'], drawPile:['H000012','H000013','H000014','H000015','H000016','H000023','H000024','H000027','H000031','S000033'], graveyard:['H000001','R000001','H000005','H000006','H000009','H000012','H000013','H000014','H000015','S000004'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'H000009',atk:4,pdv:6,pdvMax:6,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 });
+SCENARIOS['collection-batch-13a-nouvelles-cartes-visual'] = {
+  label:'TEST - COLLECTION BATCH 13A Nouvelles cartes',
+  participants:['yria','rohen'],
+  fixedFirstParticipant:0,
+  hidden:true,
+  showTestResourcePanel:true,
+  testCardId:'EDG000017',
+  testSetup:{
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017'], drawPile:['S000029','S000039','B000005','EDG000015','EDG000016'], graveyard:['B000001','B000002','EDG000001','EDG000003','EDG000006','EDG000009','EDG000010','EDG000013','S000011','S000027'], servants:[], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:20},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['H000006','H000009','H000012','H000013','H000014','H000015','H000016','H000023','H000024','H000027','H000031','S000033'], graveyard:['H000001','R000001','H000005','H000006','H000009','H000012','H000013','H000014','H000015','S000004'], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true},{id:'H000005',atk:5,pdv:8,pdvMax:8,prepared:true},{id:'H000006',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'H000009',atk:4,pdv:7,pdvMax:7,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:20}
+  }
+};
 SCENARIOS['collection-batch-11e-hokhan-gueule-mur'] = collectionBatch11eScenario({
   label:'TEST - COLLECTION BATCH 11E Hokhan, Gueule et Mur',
   testCardId:'AVS000008',
@@ -4009,11 +4021,13 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'B000015': createCostDefinition(7, ["nourriture"], [{"kind": "minimum", "resource": "nourriture", "amount": 7}], []),
   'B000016': createCostDefinition(2, ["nourriture", "fer"], [{"kind": "minimum", "resource": "nourriture", "amount": 1}, {"kind": "minimum", "resource": "fer", "amount": 1}], []),
   'B000017': createCostDefinition(4, ["lenya", "nourriture"], [{"kind": "minimum", "resource": "lenya", "amount": 1}, {"kind": "minimum", "resource": "nourriture", "amount": 1}], []),
+  'B000019': createCostDefinition(4, ["nourriture"], [{"kind":"minimum","resource":"nourriture","amount":4}], []),
   'DIV000002': createCompatiblePoolCostDefinition(2, ["aria","lenya","nourriture","soul"], []),
   'DIV000003': createCostDefinition(3, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], []),
   'DIV000004': createCostDefinition(3, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [], []),
   'DIV000006': createCompatiblePoolCostDefinition(3, ["aria","lenya"], []),
   'DIV000007': createCompatiblePoolCostDefinition(3, ["aria","lenya"], []),
+  'DIV000017': createCompatiblePoolCostDefinition(4, ["lenya","aria"], []),
   'DIV000009': createCostDefinition(5, ["aria","pierre"], [{"kind":"minimum","resource":"aria","amount":3},{"kind":"minimum","resource":"pierre","amount":2}], []),
   'DIV000010': createCostDefinition(5, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":1},{"kind":"minimum","resource":"lenya","amount":1}], []),
   'DIV000011': createCompatiblePoolCostDefinition(5, ["aria","lenya","soul"], [{"kind":"text","text":"Nécessite d'avoir une « Porte démoniaque » [ID = DIV000001] de votre côté du terrain.","implemented":false}]),
@@ -4041,6 +4055,10 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'EDG000010': createCostDefinition(6, ["nourriture","lenya"], [{"kind":"minimum","resource":"nourriture","amount":3},{"kind":"minimum","resource":"lenya","amount":3}], []),
   'EDG000011': createCostDefinition(0, ["nourriture","lenya"], [], []),
   'EDG000013': createCostDefinition(7, ["lenya","fer","nourriture","bois"], [{"kind":"minimum","resource":"lenya","amount":2},{"kind":"minimum","resource":"fer","amount":2},{"kind":"minimum","resource":"nourriture","amount":2},{"kind":"minimum","resource":"bois","amount":1}], []),
+  'EDG000014': createCostDefinition(3, ["bois","lenya","nourriture"], [{"kind":"minimum","resource":"bois","amount":1},{"kind":"minimum","resource":"lenya","amount":1},{"kind":"minimum","resource":"nourriture","amount":1}], []),
+  'EDG000015': createCostDefinition(5, ["lenya","nourriture"], [{"kind":"minimum","resource":"lenya","amount":2},{"kind":"minimum","resource":"nourriture","amount":3}], []),
+  'EDG000016': createCostDefinition(6, ["fer","nourriture","lenya"], [{"kind":"minimum","resource":"fer","amount":3},{"kind":"minimum","resource":"nourriture","amount":1},{"kind":"minimum","resource":"lenya","amount":2}], []),
+  'EDG000017': createCostDefinition(7, ["fer","nourriture","lenya"], [{"kind":"minimum","resource":"fer","amount":3},{"kind":"minimum","resource":"nourriture","amount":2},{"kind":"minimum","resource":"lenya","amount":2}], []),
   'EN000001': createCompatiblePoolCostDefinition(2, ["aria","soul"], []),
   'EN000002': createCostDefinition(2, ["fer"], [], []),
   'EN000003': createCompatiblePoolCostDefinition(3, ["aria","soul"], []),
@@ -11882,6 +11900,8 @@ async function triggerInitiative(cardId, player, context={}) {
   const sourceFC = sourceInstanceId
     ? document.querySelector(`.fc[data-instance="${sourceInstanceId}"]`)
     : findBoardCard(player, cardId);
+  const batch13aInitiative = await resolveBatch13aInitiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
+  if (batch13aInitiative?.handled) return batch13aInitiative;
   const batch05Initiative = await resolveBatch05Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch05Initiative?.handled) return batch05Initiative;
   if (['H000032','H000033','H000034','H000035'].includes(cardId)) {
@@ -16618,9 +16638,13 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
   }
   const batch11bVengeance = await resolveBatch11bVengeance(cardId, player, dyingFC, killer, context);
   if (batch11bVengeance?.handled) return batch11bVengeance;
-  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009' && cardId !== 'TRL000013' && cardId !== 'TRL000014' && cardId !== 'GOB000006' && cardId !== 'GOB000012') {
+  if (cardId !== 'EN000002' && cardId !== 'EN000005' && cardId !== 'EN000010' && cardId !== 'EN000012' && cardId !== 'MV000011' && cardId !== 'MV000015' && cardId !== 'EDB000011' && cardId !== 'DIV000011' && cardId !== 'AVS000006' && cardId !== 'B000003' && cardId !== 'B000004' && cardId !== 'AVS000008' && cardId !== 'H000030' && cardId !== 'H000031' && cardId !== 'N000009' && cardId !== 'TRL000013' && cardId !== 'TRL000014' && cardId !== 'GOB000006' && cardId !== 'GOB000012' && cardId !== 'EDG000016') {
     console.debug(`[Vengeance] Effet non implemente pour ${cardId}.`);
     return;
+  }
+
+  if (cardId === 'EDG000016') {
+    return triggerBatch13aFiruneVengeance(player, dyingFC);
   }
 
   if (cardId === 'H000030') {
@@ -18987,6 +19011,12 @@ Object.assign(CARDS_DATA, {
   'B000015':{name:'Minotaure reproducteur',type:'Serviteur',fac:'bet',atk:3,pdv:9,cost:7,res_ico:'IC00000NRT',res_val:'7',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Nourriture','Rempart'],cap:'[Rempart] Chaque fois que ce serviteur survit à des dégâts, invoque 1 « Minus minotaure » de votre côté du terrain.',lore:'',assetFolder:'betes',related:['B000016']},
   'B000016':{name:'Minus minotaure',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:2,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture+Fer',fico:'FCT00000BET.png',kws:['Nourriture','Fer'],cap:'',lore:"Ce spécimen est un gringalet selon les standards de son espèce. Un gringalet qui peut tuer un homme adulte d'un seul coup de sabot ! Sans même parler de cette jolie hache qu'il a déniché...",assetFolder:'betes'},
   'B000017':{name:'Maginotaure',type:'Serviteur',fac:'bet',atk:3,pdv:3,cost:4,res_ico:'IC00000LNY',res_val:'1',resType:'Lenya+Nourriture',fico:'FCT00000BET.png',kws:['Lenya','Nourriture','Initiative'],cap:'[Initiative] Augmente de +1 ATK / +2 PDV les statistiques de tous vos autres serviteurs actuellement sur le terrain.',lore:'',assetFolder:'betes'},
+  'B000019':{name:'Ours territorial',type:'Serviteur',fac:'bet',assetFolder:'betes',atk:5,pdv:5,cost:4,res_ico:'IC00000NRT',res_val:'4',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Nourriture'],cap:'[Rage]',badge:'',lore:'',max:6,detail:'[Rage]'},
+  'DIV000017':{name:'Sylvenier',type:'Serviteur',fac:'div',assetFolder:'divers',atk:3,pdv:6,cost:4,res_ico:'IC00000LNY',res_val:'4',resType:'Lenya|Aria',fico:'FCT00000RDM.png',kws:['Lenya','Aria'],cap:'',badge:'',lore:'Les « Esprits des arbres » ou « Arbres animés » étaient jadis de paisibles créatures. Mais l\'abattage intensif des forêts pour le bois et la culture a durablement endurci le coeur des Sylveniers. Désormais, ils se montrent hostiles et agressifs envers toutes les races, sauf les elfes des bois et de glace.',max:4},
+  'EDG000014':{name:'Gardienne hivernale',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:4,pdv:4,cost:3,res_ico:'IC00000BOI',res_val:'3',resType:'Bois+Lenya+Nourriture',fico:'FCT00000EDG.png',kws:['Bois','Lenya','Nourriture'],cap:'',badge:'',lore:'Les elfes de glace forment un peuple isolationniste. Ses représentants n\'ont plus guère de contact volontaire qu\'avec leurs cousins des bois et les marchands courageux qui osent s\'aventurer jusque dans les terres inhospitalières du Nord. Pour les elfes de glace, seul compte la préservation de leur pacte sacré avec le Tisseur de Givre, qui leur a accordé pouvoir sur la glace. Toute la société est articulée autour de ce grand serment.',max:4},
+  'EDG000015':{name:'Veilleuse hivernale',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:3,pdv:6,cost:5,res_ico:'IC00000LNY',res_val:'5',resType:'Lenya+Nourriture',fico:'FCT00000EDG.png',kws:['Rempart','Vigilance','Lenya','Nourriture','Gel'],cap:'[Rempart] [Vigilance] Chaque fois qu\'un serviteur adverse lui inflige des dégâts autrement que par une capacité spéciale, la « Veilleuse hivernale » lui inflige [Gel] pendant *1* tour.',badge:'',lore:'',max:4,detail:'[Rempart] [Vigilance] Chaque fois qu\'un serviteur adverse lui inflige des dégâts autrement que par une capacité spéciale, la « Veilleuse hivernale » lui inflige [Gel] pendant *1* tour.'},
+  'EDG000016':{name:'Firune',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:4,pdv:6,cost:6,res_ico:'IC00000FER',res_val:'6',resType:'Fer+Nourriture+Lenya',fico:'FCT00000EDG.png',kws:['Sang-froid','Sang ardent','Rempart','Rage','Initiative','Vengeance','Fer','Nourriture','Lenya','Embrasement','Coup de glace'],cap:'[Sang-froid] [Sang ardent] [Rempart] [Rage] [Initiative] Inflige [Embrasement] à *1* serviteur adverse qui n\'est pas déjà victime de [Gel] ni de [Coup de glace]. [Vengeance] Inflige [Coup de glace] à *1* serviteur adversaire aléatoire. Si celui-ci subissait déjà [Gel], lui inflige seulement *3* points de dégâts à la place ; s\'il subissait déjà [Coup de glace], réinitialise la durée de l\'effet et y ajoute *2* tours supplémentaires.',badge:'',lore:'',max:1,detail:'[Sang-froid] [Sang ardent] [Rempart] [Rage] [Initiative] Inflige [Embrasement] à *1* serviteur adverse qui n\'est pas déjà victime de [Gel] ni de [Coup de glace]. [Vengeance] Inflige [Coup de glace] à *1* serviteur adversaire aléatoire. Si celui-ci subissait déjà [Gel], lui inflige seulement *3* points de dégâts à la place ; s\'il subissait déjà [Coup de glace], réinitialise la durée de l\'effet et y ajoute *2* tours supplémentaires.'},
+  'EDG000017':{name:'Commandante Aileen',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:4,pdv:8,cost:7,res_ico:'IC00000FER',res_val:'7',resType:'Fer+Nourriture+Lenya',fico:'FCT00000EDG.png',kws:['Sang-froid','Rempart','Vigilance','Initiative','Fer','Nourriture','Lenya','Coup de glace','Gel'],cap:'[Sang-froid] [Rempart] [Vigilance] Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant *1* tour et [Gel] aux serviteurs immédiatement adjacents à la cible pendant *2* tours. Quand la « Commandante Aileen » attaque une cible subissant déjà [Gel] ou [Coup de glace], elle lui inflige *2* points de dégâts supplémentaires et réinitialise la durée de l\'effet. [Initiative] Ajoute les sorts « Vivacité elfique » et « Patrouille glaciale » à votre main.',badge:'',lore:'',max:1,detail:'[Sang-froid] [Rempart] [Vigilance] Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant *1* tour et [Gel] aux serviteurs immédiatement adjacents à la cible pendant *2* tours. Quand la « Commandante Aileen » attaque une cible subissant déjà [Gel] ou [Coup de glace], elle lui inflige *2* points de dégâts supplémentaires et réinitialise la durée de l\'effet. [Initiative] Ajoute les sorts « Vivacité elfique » et « Patrouille glaciale » à votre main.',related:['S000039','S000029']},
   'DIV000002':{name:'Démon mineur',type:'Serviteur',fac:'div',atk:4,pdv:2,cost:2,res_ico:'IC00000RDM',res_val:'2',resType:'any',fico:'FCT00000RDM.png',kws:[],cap:'',lore:'Les démons mangent les cœurs et dévorent les âmes. Après leur passage, il ne reste plus de leurs victimes que des déchets vidés de toute substance.',related:['DIV000001']},
   'DIV000003':{name:'Gorgone gardienne',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000RDM',res_val:'3',resType:'any',fico:'FCT00000RDM.png',kws:['Rempart'],cap:'[Rempart]',lore:''},
   'DIV000004':{name:'Gorgone séductrice',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000RDM',res_val:'3',resType:'any',fico:'FCT00000RDM.png',kws:['Hypnose'],cap:'Après avoir attaqué un serviteur, si ce dernier est encore sur le terrain, lui inflige [Hypnose].',lore:''},
@@ -23651,6 +23681,127 @@ function batch05TisseurLocksPlayer(player, sourceCardId=null) {
 function batch05ApplyGel({sourcePlayer, targetFC, sourceCardId, turns, type='gel', bypassInsensitive=false}={}) {
   return tryApplyGel({sourcePlayer, targetFC, sourceCardId, turns, type, bypassInsensitive});
 }
+
+const collectionBatch13aState = {events:[]};
+
+function recordCollectionBatch13aEvent(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch13aState.events.push(event);
+  window.__collectionBatch13aLastEvent = event;
+  return event;
+}
+
+function resetColdStateExact(fc) {
+  if (!fc) return;
+  if (fc.dataset.frozen) {
+    delete fc.dataset.frozen;
+    delete fc.dataset.frozenLastTurn;
+    removeVFXOverlays(fc, 'gel');
+  }
+  if (fc.dataset.frozen_cdg) {
+    delete fc.dataset.frozen_cdg;
+    delete fc.dataset.frozenCdgLastTurn;
+    removeVFXOverlays(fc, 'cdg');
+  }
+  fc.querySelector('.fc-ice-badge')?.remove();
+}
+
+function setColdDurationExact(fc, type, turns, sourcePlayer, sourceCardId) {
+  resetColdStateExact(fc);
+  return batch05ApplyGel({sourcePlayer, targetFC:fc, sourceCardId, turns, type});
+}
+
+function batch13aEnemyServants(player) {
+  return Array.from(qs(playerZoneSelector(opponentOf(player), 'servants'))?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
+}
+
+async function resolveBatch13aFiruneInitiative(cardId, player, sourceFC) {
+  const candidates = batch13aEnemyServants(player).filter(fc => !fc.dataset.frozen && !fc.dataset.frozen_cdg);
+  const valid = getAffectableTargets({sourcePlayer:player, targets:candidates, sourceCardId:cardId, effectKind:'embrasement', isAbility:true});
+  const target = valid[Math.floor(gameRandom() * valid.length)] || null;
+  if (!target) {
+    const result = {handled:true, success:true, cardId, reason:'no-valid-embrasement-target'};
+    recordCollectionBatch13aEvent('firune-initiative-no-target', result);
+    return result;
+  }
+  await waitBatch05BeforeEffect(sourceFC, 'firune-embrasement', {target:targetSummary(target)});
+  const embrasement = await applyEmbrasement(target, {sourcePlayer:player, sourceCardId:cardId, sourceInstanceId:sourceFC?.dataset.instance, reason:'batch13a-firune'});
+  const result = {handled:true, success:!!embrasement.success, cardId, target:targetSummary(target), embrasement};
+  recordCollectionBatch13aEvent('firune-initiative-embrasement', result);
+  return result;
+}
+
+async function resolveBatch13aAileenInitiative(cardId, player, sourceFC) {
+  const added = [];
+  for (const generatedId of ['S000039','S000029']) {
+    if (addCardToHand(player, generatedId, {refresh:false})) added.push(generatedId);
+  }
+  renderAllHands();
+  if (sourceFC) pulseBatch03Ability(sourceFC, 'aileen-initiative');
+  const result = {handled:true, success:added.length === 2, cardId, added};
+  recordCollectionBatch13aEvent('aileen-initiative-add-to-hand', result);
+  return result;
+}
+
+async function resolveBatch13aInitiative(cardId, player, context={}) {
+  const sourceFC = context.sourceFC || findBoardCard(player, cardId);
+  if (!['EDG000016','EDG000017'].includes(cardId)) return {handled:false};
+  if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
+    return {handled:true, success:false, reason:'cold-locked', cardId};
+  }
+  if (cardId === 'EDG000016') return resolveBatch13aFiruneInitiative(cardId, player, sourceFC);
+  if (cardId === 'EDG000017') return resolveBatch13aAileenInitiative(cardId, player, sourceFC);
+  return {handled:false};
+}
+
+async function triggerBatch13aFiruneVengeance(player, dyingFC) {
+  const candidates = batch13aEnemyServants(player);
+  const target = candidates[Math.floor(gameRandom() * candidates.length)] || null;
+  if (!target) {
+    const result = {success:true, cardId:'EDG000016', reason:'no-enemy-servant', destination:'graveyard'};
+    recordCollectionBatch13aEvent('firune-vengeance-no-target', result);
+    return result;
+  }
+  pulseBatch03Ability(dyingFC, 'firune-vengeance', {move:true});
+  let effect;
+  if (target.dataset.frozen_cdg) {
+    const applied = setColdDurationExact(target, 'cdg', 3, player, 'EDG000016');
+    effect = {type:'cdg-reset-plus-two', applied, target:targetSummary(target)};
+  } else if (target.dataset.frozen) {
+    const died = await tryApplyAbilityDamage({sourcePlayer:player, targetFC:target, sourceCardId:'EDG000016', amount:3});
+    effect = {type:'gel-target-damage-only', died, target:targetSummary(target)};
+  } else {
+    const applied = batch05ApplyGel({sourcePlayer:player, targetFC:target, sourceCardId:'EDG000016', turns:1, type:'cdg'});
+    effect = {type:'cdg-applied', applied, target:targetSummary(target)};
+  }
+  const result = {success:true, cardId:'EDG000016', effect, destination:'graveyard'};
+  recordCollectionBatch13aEvent('firune-vengeance', result);
+  return result;
+}
+
+function auditCollectionBatch13aRuntime() {
+  const summarize = p => ({
+    hand:[...playerHand(p)],
+    deck:[...playerDrawPile(p)],
+    graveyard:[...(p.graveyard || [])].map(getRuntimeCardId),
+    servants:batch05LivingServants(p).map(fc => ({
+      ...targetSummary(fc),
+      gel:fc.dataset.frozen || '',
+      cdg:fc.dataset.frozen_cdg || '',
+      burning:fc.dataset.burning || ''
+    })),
+    resources:JSON.parse(JSON.stringify(p.resourceState || {}))
+  });
+  return {
+    scenarioId:selectedScenarioId(),
+    events:[...collectionBatch13aState.events],
+    player1:summarize(player1),
+    player2:summarize(player2),
+    cards:['B000005','B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017'].map(id => ({id, ...CARDS_DATA[id]}))
+  };
+}
+window.auditCollectionBatch13aRuntime = auditCollectionBatch13aRuntime;
+
 async function triggerBatch05DamageReceivedHooks(fc, context={}) {
   const owner = playerState(fc?.dataset?.player);
   if (!owner || !fc || fc.dataset.dead) return [];
@@ -23803,6 +23954,30 @@ async function resolveBatch05PostAttackEffects(attacker, targetFC, context={}) {
     if (plan.behavior === 'kyra-4') { await beforePostEffect('kyra-area-draw', {target:targetSummary(targetFC)}); for (const enemy of batch05EnemyServants(p, 'damage')) { enemy._killer = attacker; results.push({type:'kyra-area-damage', target:targetSummary(enemy), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:enemy,sourceCardId:id,amount:2})}); } const draw = drawCardFromRuntimeDeck(p, {sourceCardId:id, sourceInstanceId:attacker.dataset.instance}); results.push({type:'kyra-draw', result:draw}); }
   }
   if ((id === 'EDG000001' || id === 'EDG000006') && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { await beforePostEffect('ice-damage-cdg', {target:targetSummary(targetFC)}); batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'ice-damage-cdg', target:targetSummary(targetFC), phase:context.phase}); }
+  if (targetFC.dataset.id === 'EDG000015' && Number(context.damageDealt || 0) > 0 && !attacker.dataset.dead && attacker.dataset.player !== targetFC.dataset.player) {
+    await beforePostEffect('veilleuse-retaliation-gel', {target:targetSummary(attacker)});
+    const applied = batch05ApplyGel({sourcePlayer:playerState(targetFC.dataset.player), targetFC:attacker, sourceCardId:'EDG000015', turns:1, type:'gel'});
+    results.push({type:'veilleuse-retaliation-gel', target:targetSummary(attacker), applied, phase:context.phase});
+    recordCollectionBatch13aEvent('veilleuse-retaliation-gel', {source:targetSummary(targetFC), target:targetSummary(attacker), applied, phase:context.phase});
+  }
+  if (id === 'EDG000017' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) {
+    const hadGel = !!targetFC.dataset.frozen;
+    const hadCdg = !!targetFC.dataset.frozen_cdg;
+    await beforePostEffect('aileen-attack-cold', {target:targetSummary(targetFC), hadGel, hadCdg});
+    let bonusDamage = false;
+    if (hadGel || hadCdg) {
+      bonusDamage = await tryApplyAbilityDamage({sourcePlayer:p, targetFC, sourceCardId:id, amount:2});
+      if (!targetFC.dataset.dead) resetColdStateExact(targetFC);
+    }
+    if (!targetFC.dataset.dead) batch05ApplyGel({sourcePlayer:p, targetFC, sourceCardId:id, turns:1, type:'cdg'});
+    const adjacent = [];
+    for (const adj of batch03AdjacentServants(targetFC)) {
+      const applied = batch05ApplyGel({sourcePlayer:p, targetFC:adj, sourceCardId:id, turns:2, type:'gel'});
+      adjacent.push({target:targetSummary(adj), applied});
+    }
+    results.push({type:'aileen-attack-cold', target:targetSummary(targetFC), hadGel, hadCdg, bonusDamage, adjacent});
+    recordCollectionBatch13aEvent('aileen-attack-cold', {source:targetSummary(attacker), target:targetSummary(targetFC), hadGel, hadCdg, bonusDamage, adjacent});
+  }
   if (id === 'EDB000002' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { await beforePostEffect('mage-froid-cdg', {target:targetSummary(targetFC)}); batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:2,type:'cdg'}); results.push({type:'mage-froid-cdg', target:targetSummary(targetFC)}); }
   if (id === 'EDB000003' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead && gameRandom() < 0.5) { await beforePostEffect('archere-vent-cdg', {target:targetSummary(targetFC)}); batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'archere-vent-cdg', target:targetSummary(targetFC)}); }
   if (id === 'EDB000007' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead && gameRandom() < 0.5) { await beforePostEffect('lame-sylvestre-cdg', {target:targetSummary(targetFC)}); batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'lame-sylvestre-cdg', target:targetSummary(targetFC)}); }
@@ -25616,6 +25791,7 @@ function applyScenarioTestSetup() {
   collectionBatch11aState.ambiguities = [];
   collectionBatch12aState.events = [];
   collectionBatch12aState.ambiguities = [];
+  collectionBatch13aState.events = [];
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;

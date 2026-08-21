@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "cardCount": 332,
+  "cardCount": 338,
   "signatures": [
     {
       "schemaVersion": 1,
@@ -1296,6 +1296,41 @@
       "generatedOnly": false
     },
     {
+      "id": "B000019",
+      "name": "Ours territorial",
+      "type": "Serviteur",
+      "faction": "Bête",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "familyKey": "rage-keyword",
+      "timings": [
+        "passive-keyword"
+      ],
+      "operations": [
+        "rage-keyword"
+      ],
+      "targets": [],
+      "zones": [],
+      "duration": [],
+      "selectionMode": [],
+      "requiredPrimitives": [
+        "structured-cost",
+        "legal-play",
+        "servant-rendering"
+      ],
+      "supportedPrimitives": [],
+      "missingPrimitives": [],
+      "referencedCardIds": [],
+      "directTests": [
+        "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs"
+      ],
+      "notes": "Implémente Batch 13A Nouvelles cartes.",
+      "directTest": "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      "testCoverage": "TEST_DIRECT"
+    },
+    {
       "schemaVersion": 1,
       "id": "DIV000001",
       "name": "Porte démoniaque",
@@ -1971,6 +2006,39 @@
       "confidence": "MOYEN",
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE"
+    },
+    {
+      "id": "DIV000017",
+      "name": "Sylvenier",
+      "type": "Serviteur",
+      "faction": "Non-affiliés",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "familyKey": "no-special-effect",
+      "timings": [],
+      "operations": [
+        "no-special-effect"
+      ],
+      "targets": [],
+      "zones": [],
+      "duration": [],
+      "selectionMode": [],
+      "requiredPrimitives": [
+        "structured-cost",
+        "legal-play",
+        "servant-rendering"
+      ],
+      "supportedPrimitives": [],
+      "missingPrimitives": [],
+      "referencedCardIds": [],
+      "directTests": [
+        "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs"
+      ],
+      "notes": "Implémente Batch 13A Nouvelles cartes.",
+      "directTest": "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      "testCoverage": "TEST_DIRECT"
     },
     {
       "schemaVersion": 1,
@@ -3289,6 +3357,159 @@
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
       "directTest": "tests/browser/collection-batch-05-forest-ice-elves.spec.mjs"
+    },
+    {
+      "id": "EDG000014",
+      "name": "Gardienne hivernale",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "familyKey": "no-special-effect",
+      "timings": [],
+      "operations": [
+        "no-special-effect"
+      ],
+      "targets": [],
+      "zones": [],
+      "duration": [],
+      "selectionMode": [],
+      "requiredPrimitives": [
+        "structured-cost",
+        "legal-play",
+        "servant-rendering"
+      ],
+      "supportedPrimitives": [],
+      "missingPrimitives": [],
+      "referencedCardIds": [],
+      "directTests": [
+        "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs"
+      ],
+      "notes": "Implémente Batch 13A Nouvelles cartes.",
+      "directTest": "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      "testCoverage": "TEST_DIRECT"
+    },
+    {
+      "id": "EDG000015",
+      "name": "Veilleuse hivernale",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "familyKey": "combat-retaliation-gel",
+      "timings": [
+        "combat-damage-received"
+      ],
+      "operations": [
+        "combat-retaliation-gel"
+      ],
+      "targets": [],
+      "zones": [],
+      "duration": [
+        "turn-counted-status"
+      ],
+      "selectionMode": [],
+      "requiredPrimitives": [
+        "structured-cost",
+        "legal-play",
+        "servant-rendering"
+      ],
+      "supportedPrimitives": [],
+      "missingPrimitives": [],
+      "referencedCardIds": [],
+      "directTests": [
+        "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs"
+      ],
+      "notes": "Implémente Batch 13A Nouvelles cartes.",
+      "directTest": "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      "testCoverage": "TEST_DIRECT"
+    },
+    {
+      "id": "EDG000016",
+      "name": "Firune",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "familyKey": "initiative-embrasement+vengeance-cold-or-damage",
+      "timings": [
+        "initiative",
+        "vengeance"
+      ],
+      "operations": [
+        "initiative-embrasement",
+        "vengeance-cold-or-damage"
+      ],
+      "targets": [],
+      "zones": [],
+      "duration": [
+        "turn-counted-status"
+      ],
+      "selectionMode": [
+        "deterministic-random"
+      ],
+      "requiredPrimitives": [
+        "structured-cost",
+        "legal-play",
+        "servant-rendering"
+      ],
+      "supportedPrimitives": [],
+      "missingPrimitives": [],
+      "referencedCardIds": [],
+      "directTests": [
+        "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs"
+      ],
+      "notes": "Implémente Batch 13A Nouvelles cartes.",
+      "directTest": "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      "testCoverage": "TEST_DIRECT"
+    },
+    {
+      "id": "EDG000017",
+      "name": "Commandante Aileen",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "implementationStatus": "FONCTIONNEL_TESTE",
+      "industrialReadiness": "IMPLEMENTED_TESTED",
+      "familyKey": "initiative-add-to-hand+attack-cdg-adjacent-gel",
+      "timings": [
+        "initiative",
+        "attack"
+      ],
+      "operations": [
+        "initiative-add-to-hand",
+        "attack-cdg-adjacent-gel"
+      ],
+      "targets": [],
+      "zones": [],
+      "duration": [
+        "turn-counted-status"
+      ],
+      "selectionMode": [],
+      "requiredPrimitives": [
+        "structured-cost",
+        "legal-play",
+        "servant-rendering"
+      ],
+      "supportedPrimitives": [],
+      "missingPrimitives": [],
+      "referencedCardIds": [
+        "S000039",
+        "S000029"
+      ],
+      "directTests": [
+        "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs"
+      ],
+      "notes": "Implémente Batch 13A Nouvelles cartes.",
+      "directTest": "tests/browser/collection-batch-13a-nouvelles-cartes.spec.mjs",
+      "testCoverage": "TEST_DIRECT"
     },
     {
       "schemaVersion": 1,
@@ -14981,5 +15202,5 @@
   "sourceFile": "Jeu de cartes fantasy « Mythes d'Eloron » - export 2026-07-03.xlsx",
   "sourceSha256": "892a0fe51dde030944dab165a21e77657a303548aa350eea7edd7a1eb2843883",
   "sourceSheet": "Cartes et description",
-  "uniqueIdCount": 332
+  "uniqueIdCount": 338
 }

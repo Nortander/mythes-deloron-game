@@ -7,8 +7,8 @@
   "deckSourceSha256": "90811b81fc240b2ea50140f7385612f927f970671e958c02459de44ebe573da7",
   "deckSourceSheet": "Hokhan Ashir Vs Uram",
   "exportDate": "2026-07-10",
-  "cardCount": 332,
-  "uniqueIdCount": 332,
+  "cardCount": 338,
+  "uniqueIdCount": 338,
   "cards": [
     {
       "id": "AVS000001",
@@ -1160,6 +1160,38 @@
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
     },
     {
+      "id": "B000019",
+      "name": "Ours territorial",
+      "type": "Serviteur",
+      "faction": "Bête",
+      "attack": 5,
+      "health": 5,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 4,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Rage]",
+      "detailedEffect": "[Rage]",
+      "keywords": [
+        "Rage",
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 6,
+      "generatedOnly": false,
+      "sourceRow": 333,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
       "id": "DIV000001",
       "name": "Porte démoniaque",
       "type": "Serviteur",
@@ -1802,6 +1834,45 @@
       "maxOwned": 1,
       "generatedOnly": false,
       "sourceRow": 48,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "DIV000017",
+      "name": "Sylvenier",
+      "type": "Serviteur",
+      "faction": "Non-affiliés",
+      "attack": 3,
+      "health": 6,
+      "costTotal": 4,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 4,
+          "explicit": true
+        },
+        {
+          "op": "ou",
+          "resource": "Aria",
+          "key": "aria",
+          "amount": 4,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Les « Esprits des arbres » ou « Arbres animés » étaient jadis de paisibles créatures. Mais l'abattage intensif des forêts pour le bois et la culture a durablement endurci le coeur des Sylveniers. Désormais, ils se montrent hostiles et agressifs envers toutes les races, sauf les elfes des bois et de glace.",
+      "detailedEffect": "Les « Esprits des arbres » ou « Arbres animés » étaient jadis de paisibles créatures. Mais l'abattage intensif des forêts pour le bois et la culture a durablement endurci le coeur des Sylveniers. Désormais, ils se montrent hostiles et agressifs envers toutes les races, sauf les elfes des bois et de glace.",
+      "keywords": [
+        "Lenya",
+        "Aria"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 334,
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
@@ -3036,6 +3107,206 @@
       "maxOwned": 2,
       "generatedOnly": false,
       "sourceRow": 75,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "EDG000014",
+      "name": "Gardienne hivernale",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "attack": 4,
+      "health": 4,
+      "costTotal": 3,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Bois",
+          "key": "bois",
+          "amount": 1,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 1,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 1,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "Les elfes de glace forment un peuple isolationniste. Ses représentants n'ont plus guère de contact volontaire qu'avec leurs cousins des bois et les marchands courageux qui osent s'aventurer jusque dans les terres inhospitalières du Nord. Pour les elfes de glace, seul compte la préservation de leur pacte sacré avec le Tisseur de Givre, qui leur a accordé pouvoir sur la glace. Toute la société est articulée autour de ce grand serment.",
+      "detailedEffect": "Les elfes de glace forment un peuple isolationniste. Ses représentants n'ont plus guère de contact volontaire qu'avec leurs cousins des bois et les marchands courageux qui osent s'aventurer jusque dans les terres inhospitalières du Nord. Pour les elfes de glace, seul compte la préservation de leur pacte sacré avec le Tisseur de Givre, qui leur a accordé pouvoir sur la glace. Toute la société est articulée autour de ce grand serment.",
+      "keywords": [
+        "Bois",
+        "Lenya",
+        "Nourriture"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 335,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "EDG000015",
+      "name": "Veilleuse hivernale",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "attack": 3,
+      "health": 6,
+      "costTotal": 5,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 2,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 3,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Rempart] [Vigilance] Chaque fois qu'un serviteur adverse lui inflige des dégâts autrement que par une capacité spéciale, la « Veilleuse hivernale » lui inflige [Gel] pendant 1 tour.",
+      "detailedEffect": "[Rempart] [Vigilance] Chaque fois qu'un serviteur adverse lui inflige des dégâts autrement que par une capacité spéciale, la « Veilleuse hivernale » lui inflige [Gel] pendant 1 tour.",
+      "keywords": [
+        "Rempart",
+        "Vigilance",
+        "Lenya",
+        "Nourriture",
+        "Gel"
+      ],
+      "related": [],
+      "maxOwned": 4,
+      "generatedOnly": false,
+      "sourceRow": 336,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "EDG000016",
+      "name": "Firune",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "attack": 4,
+      "health": 6,
+      "costTotal": 6,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Fer",
+          "key": "fer",
+          "amount": 3,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 1,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 2,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Sang-froid] [Sang ardent] [Rempart] [Rage] [Initiative] Inflige [Embrasement] à 1 serviteur adverse qui n'est pas déjà victime de [Gel] ni de [Coup de glace]. [Vengeance] Inflige [Coup de glace] à 1 serviteur adversaire aléatoire. Si celui-ci subissait déjà [Gel], lui inflige seulement 3 points de dégâts à la place ; s'il subissait déjà [Coup de glace], réinitialise la durée de l'effet et y ajoute 2 tours supplémentaires.",
+      "detailedEffect": "[Sang-froid] [Sang ardent] [Rempart] [Rage] [Initiative] Inflige [Embrasement] à 1 serviteur adverse qui n'est pas déjà victime de [Gel] ni de [Coup de glace]. [Vengeance] Inflige [Coup de glace] à 1 serviteur adversaire aléatoire. Si celui-ci subissait déjà [Gel], lui inflige seulement 3 points de dégâts à la place ; s'il subissait déjà [Coup de glace], réinitialise la durée de l'effet et y ajoute 2 tours supplémentaires.",
+      "keywords": [
+        "Sang-froid",
+        "Sang ardent",
+        "Rempart",
+        "Rage",
+        "Initiative",
+        "Vengeance",
+        "Fer",
+        "Nourriture",
+        "Lenya",
+        "Embrasement",
+        "Coup de glace"
+      ],
+      "related": [],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 337,
+      "catalogKind": "CARD",
+      "obtainability": "OBTAINABLE",
+      "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."
+    },
+    {
+      "id": "EDG000017",
+      "name": "Commandante Aileen",
+      "type": "Serviteur",
+      "faction": "Elfe de glace",
+      "attack": 4,
+      "health": 8,
+      "costTotal": 7,
+      "mandatoryResources": [
+        {
+          "op": null,
+          "resource": "Fer",
+          "key": "fer",
+          "amount": 3,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Nourriture",
+          "key": "nourriture",
+          "amount": 2,
+          "explicit": true
+        },
+        {
+          "op": "+",
+          "resource": "Lenya",
+          "key": "lenya",
+          "amount": 2,
+          "explicit": true
+        }
+      ],
+      "playCondition": "",
+      "displayText": "[Sang-froid] [Rempart] [Vigilance] Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant 1 tour et [Gel] aux serviteurs immédiatement adjacents à la cible pendant 2 tours. Quand la « Commandante Aileen » attaque une cible subissant déjà [Gel] ou [Coup de glace], elle lui inflige 2 points de dégâts supplémentaires et réinitialise la durée de l'effet. [Initiative] Ajoute les sorts « Vivacité elfique » et « Patrouille glaciale » à votre main.",
+      "detailedEffect": "[Sang-froid] [Rempart] [Vigilance] Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant 1 tour et [Gel] aux serviteurs immédiatement adjacents à la cible pendant 2 tours. Quand la « Commandante Aileen » attaque une cible subissant déjà [Gel] ou [Coup de glace], elle lui inflige 2 points de dégâts supplémentaires et réinitialise la durée de l'effet. [Initiative] Ajoute les sorts « Vivacité elfique » et « Patrouille glaciale » à votre main.",
+      "keywords": [
+        "Sang-froid",
+        "Rempart",
+        "Vigilance",
+        "Initiative",
+        "Fer",
+        "Nourriture",
+        "Lenya",
+        "Coup de glace",
+        "Gel"
+      ],
+      "related": [
+        "S000039",
+        "S000029"
+      ],
+      "maxOwned": 1,
+      "generatedOnly": false,
+      "sourceRow": 338,
       "catalogKind": "CARD",
       "obtainability": "OBTAINABLE",
       "obtainabilityReason": "Carte canonique obtenable: maximumOwned superieur a 0 dans le snapshot Collection."

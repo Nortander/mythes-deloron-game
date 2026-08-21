@@ -1,0 +1,205 @@
+{
+  "scenario": "collection-batch-13a-nouvelles-cartes-visual",
+  "cards": [
+    "B000019",
+    "DIV000017",
+    "EDG000014",
+    "EDG000015",
+    "EDG000016",
+    "EDG000017"
+  ],
+  "allCards": [
+    "B000005",
+    "B000019",
+    "DIV000017",
+    "EDG000014",
+    "EDG000015",
+    "EDG000016",
+    "EDG000017"
+  ],
+  "xlsxSha256": "E3340A769405B371B9EDB8ED785CA15499A285A08783447F004EFAFBEBF8CB9D",
+  "expectedInitialHand": [
+    "B000019",
+    "DIV000017",
+    "EDG000014",
+    "EDG000015",
+    "EDG000016",
+    "EDG000017"
+  ],
+  "generatedByAileen": [
+    "S000039",
+    "S000029"
+  ],
+  "expectedCosts": {
+    "B000019": {
+      "total": 4,
+      "groups": [
+        {
+          "op": null,
+          "resources": [
+            {
+              "key": "nourriture",
+              "amount": 4,
+              "explicit": true
+            }
+          ]
+        }
+      ]
+    },
+    "DIV000017": {
+      "total": 4,
+      "groups": [
+        {
+          "op": null,
+          "resources": [
+            {
+              "key": "lenya",
+              "amount": 4,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "ou",
+          "resources": [
+            {
+              "key": "aria",
+              "amount": 4,
+              "explicit": true
+            }
+          ]
+        }
+      ]
+    },
+    "EDG000014": {
+      "total": 3,
+      "groups": [
+        {
+          "op": null,
+          "resources": [
+            {
+              "key": "bois",
+              "amount": 1,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "lenya",
+              "amount": 1,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "nourriture",
+              "amount": 1,
+              "explicit": true
+            }
+          ]
+        }
+      ]
+    },
+    "EDG000015": {
+      "total": 5,
+      "groups": [
+        {
+          "op": null,
+          "resources": [
+            {
+              "key": "lenya",
+              "amount": 2,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "nourriture",
+              "amount": 3,
+              "explicit": true
+            }
+          ]
+        }
+      ]
+    },
+    "EDG000016": {
+      "total": 6,
+      "groups": [
+        {
+          "op": null,
+          "resources": [
+            {
+              "key": "fer",
+              "amount": 3,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "nourriture",
+              "amount": 1,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "lenya",
+              "amount": 2,
+              "explicit": true
+            }
+          ]
+        }
+      ]
+    },
+    "EDG000017": {
+      "total": 7,
+      "groups": [
+        {
+          "op": null,
+          "resources": [
+            {
+              "key": "fer",
+              "amount": 3,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "nourriture",
+              "amount": 2,
+              "explicit": true
+            }
+          ]
+        },
+        {
+          "op": "+",
+          "resources": [
+            {
+              "key": "lenya",
+              "amount": 2,
+              "explicit": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -408,3 +408,19 @@ Le passage V4 ajoute neuf scenarios caches `collection-batch-11h-*` pour rendre 
 `AVP000008` est verifie comme avatar principal Hokhan, separe de `AVS000008`. Le pseudo-avatar n'anime plus l'ajout du Forgeron de la Lame si celui-ci est deja en main ; sinon le Forgeron est anime depuis sa zone source vers la main. Les Vengeances morts-vivantes couvertes par V4 declenchent leur pulsation avant le depart au cimetiere.
 
 `S000044` sequence maintenant ses deux deplacements visuels : deck vers main, puis cimetiere vers deck. `S000051` conserve son fonctionnement et son animation de transfert de cimetiere a cimetiere. Le futur `BATCH 12 A PREVOIR` couvre les cartes de la Lame / Forgeron de la Lame et apparentees ; elles ne sont pas implementees dans 11H.
+
+## COLLECTION-BATCH-13A - Nouvelles cartes Batch 13
+
+Le lot Batch 13A synchronise et rend fonctionnelles six nouvelles cartes canoniques : `B000019`, `DIV000017`, `EDG000014`, `EDG000015`, `EDG000016` et `EDG000017`. `B000005` conserve son comportement existant et utilise l'asset local `assets/betes/B000005.png` dans la Collection.
+
+Le corpus suivi passe a 338 cartes canoniques, dont 320 obtenables. Les cartes non obtenables existantes restent inchangees.
+
+Comportements couverts par test direct :
+
+- `B000019` : cout Nourriture structure et mot-clef `Rage` generique ;
+- `DIV000017` et `EDG000014` : lore rendu en italique, sans capacite programmable ;
+- `EDG000015` : `Rempart`, `Vigilance` et application de `Gel` 1 tour uniquement apres degats reels de combat recus ;
+- `EDG000016` : Initiative qui applique `Embrasement` a une cible adverse valide, et Vengeance avec branches cible normale, cible deja gelee et cible deja sous Coup de glace ;
+- `EDG000017` : Initiative ajoutant `S000039` et `S000029` a la main, attaque appliquant Coup de glace a la cible, Gel aux adjacents, bonus de degats et reinitialisation bornee si la cible etait deja sous Gel ou Coup de glace.
+
+Scenario technique cache : `collection-batch-13a-nouvelles-cartes-visual`.
