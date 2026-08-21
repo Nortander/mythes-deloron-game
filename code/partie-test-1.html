@@ -654,7 +654,9 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .fc-batch09-ice-shield{box-shadow:0 0 18px rgba(126,225,255,.74), inset 0 0 20px rgba(160,240,255,.2);}
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
-.batch09-cadaver-flight[data-flight-reason^="batch11e-"]{border-color:rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);}
+.batch09-cadaver-flight[data-flight-reason^="batch11e-"],.batch09-cadaver-flight[data-flight-reason^="batch12a-"]{border-color:rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);}
+.batch12a-center-reveal{position:fixed;left:calc(50vw - 46px);top:calc(50vh - 64px);z-index:4250;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);animation:batch12aCenterReveal .32s ease-out both;}
+@keyframes batch12aCenterReveal{0%{opacity:0;transform:translateY(18px) scale(.86);filter:brightness(2.2);}100%{opacity:1;transform:none;filter:brightness(1.16);}}
 .batch03-hypnosis-active::before,.batch03-hypnosis-active::after{content:'';position:absolute;left:50%;top:50%;z-index:47;width:18px;height:18px;border:2px solid rgba(157,255,102,.85);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:batch04HypnosisRipple 1.8s ease-out infinite;}
 .batch03-hypnosis-active::after{animation-delay:.58s;}
 .batch03-rune-returning{animation:batch03RuneReturn .95s ease-out;}
@@ -14848,6 +14850,47 @@ function batch12aZoneIds(player, zone) {
   if (zone === 'servants') return batch11bAllyServants(p).map(fc => fc.dataset.id).filter(Boolean);
   return [];
 }
+function batch12aCreateCenterRevealElement(cardId, reason='center-reveal') {
+  const data = CARDS_DATA[cardId] || {};
+  const folder = data.assetFolder || facFolder(data.fac || 'mvs');
+  const node = document.createElement('div');
+  node.className = 'batch12a-center-reveal';
+  node.dataset.batch12aCenterReveal = '1';
+  node.dataset.cardId = cardId;
+  node.dataset.flightReason = 'batch12a-' + reason;
+  node.style.backgroundImage = `url("${cardArtworkSrc(cardId, folder)}")`;
+  document.body.appendChild(node);
+  return node;
+}
+async function batch12aAnimateCardFlight(cardId, player, fromZone, toZone, reason, options={}) {
+  const p = playerState(player);
+  if (!p || !cardId) return {visible:false, reason:'missing-player-or-card'};
+  let fromElement = options.fromElement || null;
+  const usesCenterReveal = fromZone === 'center';
+  if (!fromElement) fromElement = usesCenterReveal ? batch12aCreateCenterRevealElement(cardId, reason + '-reveal') : batch11eZoneElement(p, fromZone);
+  const toElement = options.toElement || batch11eZoneElement(p, toZone);
+  if (usesCenterReveal) {
+    recordCollectionBatch12aEvent('blade-center-reveal', {cardId, reason, playerId:p.key, fromZone, toZone, halo:'undead-purple'});
+    await batch05VisualDelay(options.revealDelayMs ?? 320);
+  }
+  const visible = showBatch09CadaverFlight(cardId, fromElement, toElement, 'batch12a-' + reason, null);
+  const event = recordCollectionBatch12aEvent('blade-animation-flight', {
+    cardId,
+    reason,
+    playerId:p.key,
+    fromZone,
+    toZone,
+    visible,
+    halo:'undead-purple',
+    fromElementKind:usesCenterReveal ? 'center-reveal' : 'zone',
+    toElementKind:'zone',
+    fromElement:batch11lElementAudit(fromElement),
+    toElement:batch11lElementAudit(toElement)
+  });
+  if (usesCenterReveal && fromElement?.dataset?.batch12aCenterReveal === '1') setTimeout(() => fromElement.remove(), 80);
+  await batch05VisualDelay(options.postDelayMs ?? 500);
+  return event;
+}
 async function resolveBatch12aCauchemarInitiative(player, sourceFC) {
   const sourceCardId = 'MV000017';
   if (sourceFC) pulseBatch03Ability(sourceFC, 'initiative', {move:true});
@@ -14882,6 +14925,7 @@ async function resolveBatch12aMageInitiative(player, sourceFC) {
   await batch05VisualDelay(500);
   const draw = drawCardFromRuntimeDeck(player, {sourceCardId, sourceInstanceId:sourceFC?.dataset.instance || null, predicate:(cardId) => CARDS_DATA[cardId]?.type === 'Sort'});
   let costReduction = null;
+  let drawAnimation = null;
   if (draw.success) {
     const p = playerState(player);
     const handIndex = playerHand(p).length - 1;
@@ -14889,8 +14933,9 @@ async function resolveBatch12aMageInitiative(player, sourceFC) {
     registerRuntimeCostModifier(p, {sourceKind:'servant', sourceId:sourceCardId, priority:220, duration:'permanent', criteria:{handOccurrenceIds:handOccurrenceId ? [handOccurrenceId] : [], cardIds:handOccurrenceId ? [] : [draw.cardId]}, operations:[{type:'adjustTotal', amount:-3}]});
     costReduction = {cardId:draw.cardId, handOccurrenceId, amount:3, effectiveCost:effectiveCost(draw.cardId, p, {handOccurrenceId})};
     renderAllHands();
+    drawAnimation = await batch12aAnimateCardFlight(draw.cardId, player, 'deck', 'hand', 'mage-spell-deck-to-hand', {postDelayMs:500});
   }
-  const result = {handled:true, success:true, cardId:sourceCardId, cdg:{target:batch12aSummary(cdgTarget), result:cdg}, gel:{target:batch12aSummary(gelTarget), result:gel}, draw, costReduction};
+  const result = {handled:true, success:true, cardId:sourceCardId, cdg:{target:batch12aSummary(cdgTarget), result:cdg}, gel:{target:batch12aSummary(gelTarget), result:gel}, draw, costReduction, drawAnimation};
   recordCollectionBatch12aEvent('mage-lame-initiative', result);
   showNotif('Le Mage de la Lame glace les ennemis puis extrait un sort de votre deck.', 1800);
   return result;
@@ -14930,10 +14975,11 @@ async function resolveBatch12aForgeronEnemyServantCemeteryTrigger(ownerOfDyingCa
   pulseBatch03Ability(forgeron, 'batch12a-forgeron', {move:true});
   await batch05VisualDelay(260);
   const deckBefore = batch12aDeckIds(enemy);
+  const animation = await batch12aAnimateCardFlight(generatedCardId, enemy, 'center', 'deck', 'forgeron-blade-center-to-deck', {revealDelayMs:360, postDelayMs:500});
   enemy.drawPile.push(generatedCardId);
   shuffleDeck(enemy.drawPile);
   updateDeckCount(enemy);
-  const result = {handled:true, success:true, generatedCardId, destroyedCardId:dyingFC.dataset.id, destroyedCost, playerId:enemy.key, deckSizeBefore:deckBefore.length, deckSizeAfter:enemy.drawPile.length, deckBefore, deckAfter:batch12aDeckIds(enemy)};
+  const result = {handled:true, success:true, generatedCardId, destroyedCardId:dyingFC.dataset.id, destroyedCost, playerId:enemy.key, deckSizeBefore:deckBefore.length, deckSizeAfter:enemy.drawPile.length, deckBefore, deckAfter:batch12aDeckIds(enemy), animation};
   recordCollectionBatch12aEvent('forgeron-blade-generated-to-deck', result);
   showNotif('Le Forgeron de la Lame ajoute une créature Lame à votre deck.', 1700);
   return result;

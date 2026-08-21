@@ -157,7 +157,7 @@ test("Mage de la Lame applies Coup de glace, Gel, draws a spell and reduces its 
   const before = await audit(page);
   const result = await playFromHand(page, "MV000018");
   expect(result.success).toBe(true);
-  await page.waitForTimeout(1800);
+  await page.waitForTimeout(2400);
   const state = await audit(page);
   const mageEvent = state.events.find(event => event.type === "mage-lame-initiative");
   expect(mageEvent).toBeTruthy();
@@ -165,6 +165,8 @@ test("Mage de la Lame applies Coup de glace, Gel, draws a spell and reduces its 
   expect(mageEvent.draw.cardId).toBe("S000004");
   expect(mageEvent.costReduction.amount).toBe(fixture.mageExpectedReduction);
   expect(mageEvent.costReduction.effectiveCost).toBeLessThan(4);
+  expect(mageEvent.drawAnimation).toMatchObject({type:"blade-animation-flight", cardId:"S000004", fromZone:"deck", toZone:"hand", reason:"mage-spell-deck-to-hand", visible:true, halo:"undead-purple"});
+  expect(state.events.some(event => event.type === "blade-animation-flight" && event.cardId === "S000004" && event.fromZone === "deck" && event.toZone === "hand" && event.reason === "mage-spell-deck-to-hand" && event.visible && event.halo === "undead-purple")).toBe(true);
   expect(state.player1.hand.length).toBe(before.player1.hand.length);
   expect(state.player1.hand).toContain("S000004");
   const statuses = await page.evaluate(() => batch11bEnemyServants(player1).map(fc => ({id:fc.dataset.id, cdg:fc.dataset.frozen_cdg || "", gel:fc.dataset.frozen || ""})));
@@ -187,16 +189,24 @@ test("Forgeron doubles Echo gains and creates the correct Blade card in deck", a
   expect(state.events.some(event => event.type === "forgeron-echo-gain-doubled" && event.appliedDelta === 4)).toBe(true);
 
   await setOpponentServants(page, [{id:"H000001", atk:3, pdv:4, pdvMax:4}]);
-  const deckBefore = (await audit(page)).player1.deck;
+  const beforeGeneration = await audit(page);
+  const deckBefore = beforeGeneration.player1.deck;
+  const handBeforeGeneration = beforeGeneration.player1.hand;
   await page.evaluate(async () => {
     const target = batch11bEnemyServants(player1).find(fc => fc.dataset.id === 'H000001');
     await sendToCemetery(target, {sourceCardId:'batch12a-test'});
   });
-  await page.waitForTimeout(900);
+  await page.waitForTimeout(1800);
   state = await audit(page);
   expect(state.player1.deck.length).toBe(deckBefore.length + 1);
   expect(state.player1.deck).toContain(fixture.bladeGenerationByCost.below4);
-  expect(state.events.some(event => event.type === "forgeron-blade-generated-to-deck" && event.generatedCardId === "MV000016")).toBe(true);
+  const forgeronEvent = state.events.find(event => event.type === "forgeron-blade-generated-to-deck" && event.generatedCardId === "MV000016");
+  expect(forgeronEvent).toBeTruthy();
+  expect(forgeronEvent.animation).toMatchObject({type:"blade-animation-flight", cardId:"MV000016", fromZone:"center", toZone:"deck", reason:"forgeron-blade-center-to-deck", visible:true, halo:"undead-purple"});
+  expect(state.events.some(event => event.type === "blade-center-reveal" && event.cardId === "MV000016" && event.reason === "forgeron-blade-center-to-deck" && event.halo === "undead-purple")).toBe(true);
+  expect(state.events.some(event => event.type === "blade-animation-flight" && event.cardId === "MV000016" && event.fromZone === "center" && event.toZone === "deck" && event.reason === "forgeron-blade-center-to-deck" && event.visible && event.halo === "undead-purple")).toBe(true);
+  const countInHand = (cards, id) => cards.filter(cardId => cardId === id).length;
+  expect(countInHand(state.player1.hand, "MV000016")).toBe(countInHand(handBeforeGeneration, "MV000016"));
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
