@@ -211,6 +211,50 @@ test("Forgeron doubles Echo gains and creates the correct Blade card in deck", a
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+test("Forgeron ignores deaths from a resolution already active when it enters", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openScenario(page);
+  await placeFriendlySupport(page, "AVS000008");
+  await setOpponentServants(page, [{id:"H000001", atk:3, pdv:4, pdvMax:4}]);
+  const blockedResolution = await page.evaluate(() => batch12aBeginResolution("AVS000008", player1, "batch12d-hokhan-long-resolution"));
+  expect(blockedResolution.id).toMatch(/^batch12a-resolution-/);
+  const played = await playFromHand(page, "MV000019");
+  expect(played.success).toBe(true);
+  let state = await audit(page);
+  const entryEvent = state.events.find(event => event.type === "forgeron-entry-watch-start");
+  expect(entryEvent).toBeTruthy();
+  expect(entryEvent.blockedResolutionIds).toContain(blockedResolution.id);
+  const deckBeforeBlockedDeath = state.player1.deck;
+
+  await page.evaluate(async (resolutionId) => {
+    const target = batch11bEnemyServants(player1).find(fc => fc.dataset.id === "H000001");
+    await sendToCemetery(target, {sourceCardId:"AVS000008", batch12aResolutionId:resolutionId});
+  }, blockedResolution.id);
+  await page.waitForTimeout(900);
+  state = await audit(page);
+  expect(state.player1.deck).toEqual(deckBeforeBlockedDeath);
+  expect(state.events.some(event => event.type === "forgeron-generation-ignored-pre-existing-resolution" && event.resolutionId === blockedResolution.id && event.destroyedCardId === "H000001")).toBe(true);
+  expect(state.events.some(event => event.type === "forgeron-blade-generated-to-deck" && event.destroyedCardId === "H000001")).toBe(false);
+  expect(state.events.some(event => event.type === "blade-animation-flight" && event.reason === "forgeron-blade-center-to-deck" && event.cardId === "MV000016")).toBe(false);
+
+  await page.evaluate((resolution) => batch12aEndResolution(resolution, {handled:true, success:true}), blockedResolution);
+  await setOpponentServants(page, [{id:"H000001", atk:3, pdv:4, pdvMax:4}]);
+  const deckBeforeFutureDeath = (await audit(page)).player1.deck;
+  await page.evaluate(async () => {
+    const target = batch11bEnemyServants(player1).find(fc => fc.dataset.id === "H000001");
+    await sendToCemetery(target, {sourceCardId:"batch12d-future-destruction"});
+  });
+  await page.waitForTimeout(1800);
+  state = await audit(page);
+  expect(state.player1.deck.length).toBe(deckBeforeFutureDeath.length + 1);
+  expect(state.player1.deck).toContain(fixture.bladeGenerationByCost.below4);
+  expect(state.events.some(event => event.type === "forgeron-blade-generated-to-deck" && event.destroyedCardId === "H000001" && event.generatedCardId === "MV000016")).toBe(true);
+  expect(state.events.some(event => event.type === "blade-center-reveal" && event.cardId === "MV000016" && event.reason === "forgeron-blade-center-to-deck")).toBe(true);
+  expect(state.events.some(event => event.type === "blade-animation-flight" && event.cardId === "MV000016" && event.fromZone === "center" && event.toZone === "deck" && event.reason === "forgeron-blade-center-to-deck" && event.visible)).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("Scorpion de la Lame kills, captures the victim and gains doubled Echoes with Forgeron", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openScenario(page);

@@ -6077,6 +6077,8 @@ async function tryApplyAbilityDamage({
     if (batch10Redirect?.redirected) targetFC = batch10Redirect.targetFC;
     const sourceFC = sourceCardId ? findBoardCard(sourcePlayer, sourceCardId) : null;
     if (sourceFC) targetFC._killer = sourceFC;
+    const batch12aResolutionId = batch12aCurrentResolutionId();
+    if (batch12aResolutionId) targetFC._batch12aResolutionId = batch12aResolutionId;
     targetFC._batch09DamageContext = {sourcePlayerKey:playerKey(sourcePlayer), sourceCardId, isDirectSpellDamage:!!directSpellDamage, isDirectSpecialAbilityDamage:!!directSpecialAbilityDamage};
     let died;
     try {
@@ -6085,6 +6087,7 @@ async function tryApplyAbilityDamage({
     } finally {
       delete targetFC._batch09DamageContext;
       delete targetFC._batch11EchoCaptureContext;
+      delete targetFC._batch12aResolutionId;
     }
     if (!died && sourceFC) {
       await triggerDamageDealtEmbrasementHooks(sourceFC, targetFC, {sourcePlayer, sourceCardId, damageDealt:amount});
@@ -11614,6 +11617,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   }
   traceCardPlay(traceId, 'afterBoardPlacement', p, cardId, sourceInstanceId);
   applyBatch03OnBoardPlacement(placedFC, p, cardId);
+  if (placedFC && cardId === 'MV000019') markBatch12aForgeronEntry(placedFC, p);
   if (placedFC && d.type === 'Serviteur') applyBatch05IceWallToSummon(p, placedFC);
   if (placedFC && d.type === 'Serviteur') resolveBatch11eRecyclageOnSummon(p, cardId, placedFC.dataset.instance || null);
   syncBatch05Passives();
@@ -11896,7 +11900,7 @@ async function triggerInitiative(cardId, player, context={}) {
   if (sourceFC && !canResolveServantAbility(sourceFC, {triggerType:'initiative'})) {
     return {success:false, reason:'cold-locked'};
   }
-  const batch11bInitiative = await resolveBatch11bInitiative(cardId, player, {...context, sourceFC, sourceInstanceId, traceId});
+  const batch11bInitiative = await batch12aTrackResolution(cardId, player, sourceInstanceId, () => resolveBatch11bInitiative(cardId, player, {...context, sourceFC, sourceInstanceId, traceId}));
   if (batch11bInitiative?.handled) return batch11bInitiative;
   const registeredHandler = INITIATIVE_HANDLERS[cardId];
   if (registeredHandler) {
@@ -14808,6 +14812,8 @@ async function resolveBatch11mEchoGainSequence({player, sourceFC=null, sourceCar
 }
 
 const COLLECTION_BATCH_12A_BLADE_CARD_IDS = Object.freeze(['MV000016','MV000017','MV000018','MV000019','MV000021']);
+let collectionBatch12aResolutionSequence = 0;
+const collectionBatch12aResolutionStack = [];
 const collectionBatch12aState = {events:[], ambiguities:[]};
 function recordCollectionBatch12aEvent(type, detail={}) {
   const event = {type, turnSequence, ...detail};
@@ -14816,6 +14822,45 @@ function recordCollectionBatch12aEvent(type, detail={}) {
   return event;
 }
 function batch12aSummary(fc) { return targetSummary(fc); }
+function batch12aActiveResolutionIds() { return [...collectionBatch12aResolutionStack]; }
+function batch12aCurrentResolutionId() { return collectionBatch12aResolutionStack[collectionBatch12aResolutionStack.length - 1] || null; }
+function batch12aBeginResolution(cardId, player, sourceInstanceId=null) {
+  if (!activeScenario?.showCollectionBatch12aPanel) return null;
+  const id = 'batch12a-resolution-' + (++collectionBatch12aResolutionSequence);
+  collectionBatch12aResolutionStack.push(id);
+  recordCollectionBatch12aEvent('resolution-start', {resolutionId:id, cardId, playerId:playerState(player)?.key || null, sourceInstanceId});
+  return {id, cardId, playerId:playerState(player)?.key || null, sourceInstanceId};
+}
+function batch12aEndResolution(context, result=null) {
+  if (!context?.id) return;
+  const index = collectionBatch12aResolutionStack.lastIndexOf(context.id);
+  if (index >= 0) collectionBatch12aResolutionStack.splice(index, 1);
+  recordCollectionBatch12aEvent('resolution-end', {resolutionId:context.id, cardId:context.cardId, playerId:context.playerId, resultHandled:!!result?.handled, resultSuccess:result?.success !== false});
+}
+async function batch12aTrackResolution(cardId, player, sourceInstanceId, fn) {
+  const context = batch12aBeginResolution(cardId, player, sourceInstanceId);
+  let result = null;
+  try {
+    result = await fn(context);
+    return result;
+  } finally {
+    batch12aEndResolution(context, result);
+  }
+}
+function batch12aEncodeResolutionIds(ids) { return (ids || []).filter(Boolean).join('|'); }
+function batch12aDecodeResolutionIds(value) { return String(value || '').split('|').filter(Boolean); }
+function markBatch12aForgeronEntry(forgeron, player) {
+  if (!activeScenario?.showCollectionBatch12aPanel || !forgeron || forgeron.dataset.id !== 'MV000019') return null;
+  const activeIds = batch12aActiveResolutionIds();
+  forgeron.dataset.batch12aBlockedResolutionIds = batch12aEncodeResolutionIds(activeIds);
+  forgeron.dataset.batch12aEntryTurnSequence = String(turnSequence || 0);
+  const event = recordCollectionBatch12aEvent('forgeron-entry-watch-start', {forgeron:batch12aSummary(forgeron), playerId:playerState(player)?.key || null, blockedResolutionIds:activeIds});
+  return event;
+}
+function batch12aForgeronBlocksResolution(forgeron, resolutionId) {
+  if (!resolutionId || !forgeron) return false;
+  return batch12aDecodeResolutionIds(forgeron.dataset.batch12aBlockedResolutionIds).includes(resolutionId);
+}
 function batch12aFriendlySupport(player) {
   const allies = batch11bAllyServants(player);
   return allies.find(fc => ['MV000019','AVS000008'].includes(fc.dataset.id) && !fc.dataset.dead) || null;
@@ -14964,6 +15009,12 @@ async function resolveBatch12aForgeronEnemyServantCemeteryTrigger(ownerOfDyingCa
   const enemy = opponentOf(ownerOfDyingCard);
   const forgeron = batch12aForgeronOnBoard(enemy);
   if (!forgeron || !dyingFC || dyingFC.dataset.type === 'appro') return {handled:false};
+  const resolutionId = options?.batch12aResolutionId || null;
+  if (batch12aForgeronBlocksResolution(forgeron, resolutionId)) {
+    const ignored = {handled:true, success:false, reason:'pre-existing-resolution-ignored', resolutionId, destroyedCardId:dyingFC.dataset.id, playerId:enemy.key, forgeron:batch12aSummary(forgeron), deckSize:batch12aDeckIds(enemy).length};
+    recordCollectionBatch12aEvent('forgeron-generation-ignored-pre-existing-resolution', ignored);
+    return ignored;
+  }
   const destroyedCost = batch11bPrintedCostTotal(dyingFC.dataset.id);
   const generatedCardId = batch12aBladeGeneratedCardIdForCost(destroyedCost);
   if (!generatedCardId) {
@@ -14998,6 +15049,9 @@ function auditCollectionBatch12aRuntime() {
   };
 }
 window.auditCollectionBatch12aRuntime = auditCollectionBatch12aRuntime;
+window.batch12aBeginResolution = batch12aBeginResolution;
+window.batch12aEndResolution = batch12aEndResolution;
+window.markBatch12aForgeronEntry = markBatch12aForgeronEntry;
 
 function batch11bPickTarget(targets) {
   if (!targets?.length) return null;
@@ -16251,7 +16305,9 @@ async function applyDamage(fc, amount) {
 
   if (newPdv <= 0) {
     fc.dataset.dead = '1';
-    await sendToCemetery(fc, fc._batch11EchoCaptureContext ? {echoCapture:fc._batch11EchoCaptureContext} : {});
+    const cemeteryOptions = fc._batch11EchoCaptureContext ? {echoCapture:fc._batch11EchoCaptureContext} : {};
+    if (fc._batch12aResolutionId || batch12aCurrentResolutionId()) cemeteryOptions.batch12aResolutionId = fc._batch12aResolutionId || batch12aCurrentResolutionId();
+    await sendToCemetery(fc, cemeteryOptions);
     return true;
   }
   return false;
