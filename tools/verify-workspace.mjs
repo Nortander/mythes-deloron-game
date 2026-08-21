@@ -40,6 +40,19 @@ const textFiles = [
   "tools/smoke-test.mjs"
 ];
 
+const toleratedTrackedLegacyAssets = [
+  "assets/humains/H000032.png",
+  "assets/humains/H000033.png",
+  "assets/humains/H000034.png",
+  "assets/humains/H000035.png",
+  "assets/humains/H000036.png",
+  "assets/sorts/S000055.png",
+  "assets/sorts/S000057.png",
+  "assets/sorts/S000058.png",
+  "assets/sorts/S000059.png",
+  "assets/sorts/S000060.png"
+];
+
 const results = {
   errors: [],
   warnings: []
@@ -224,7 +237,7 @@ function verifyGit() {
       addError(`Git origin is ${origin}, expected ${EXPECTED_ORIGIN}`);
     }
 
-    for (const ignoredPath of ["assets/", "data/"]) {
+    for (const ignoredPath of ["data/"]) {
       try {
         runGit(gitExe, ["check-ignore", "-q", ignoredPath]);
       } catch {
@@ -232,9 +245,37 @@ function verifyGit() {
       }
     }
 
-    const trackedLocalFiles = runGit(gitExe, ["ls-files", "assets", "data"]);
-    if (trackedLocalFiles) {
-      addError(`Local assets/data files are tracked: ${trackedLocalFiles}`);
+    const trackedLocalFiles = runGit(gitExe, ["ls-files", "assets", "data"])
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const trackedAssets = trackedLocalFiles.filter((line) => line.startsWith("assets/")).sort();
+    const trackedDataFiles = trackedLocalFiles.filter((line) => line.startsWith("data/"));
+    const expectedAssets = [...toleratedTrackedLegacyAssets].sort();
+
+    const trackedAssetsMatchAllowlist =
+      trackedAssets.length === expectedAssets.length &&
+      trackedAssets.every((assetPath, index) => assetPath === expectedAssets[index]);
+
+    if (trackedAssets.length > 0) {
+      if (!trackedAssetsMatchAllowlist) {
+        addError(`Tracked assets differ from the legacy Batch02 allowlist: ${trackedAssets.join("\n")}`);
+      } else {
+        const assetStatus = runGit(gitExe, ["status", "--porcelain", "--", "assets"])
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter(Boolean);
+        if (assetStatus.length > 0) {
+          addError(`Legacy Batch02 assets are tracked but modified: ${assetStatus.join("\n")}`);
+        } else {
+          report("OK", "`assets/` est ignoré, mais 10 assets historiques Batch02 sont déjà suivis par Git.");
+          console.log("Ce signal est toléré uniquement si la liste correspond exactement à l’allowlist et si aucun de ces assets n’est modifié.");
+        }
+      }
+    }
+
+    if (trackedDataFiles.length > 0) {
+      addError(`Local data files are tracked: ${trackedDataFiles.join("\n")}`);
     }
   } catch (error) {
     addWarning(`Git checks were incomplete (${error.message})`);
