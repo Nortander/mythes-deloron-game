@@ -269,6 +269,13 @@ test("Firune resolves Initiative and Vengeance with the three cold branches", as
   const firuneGelFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "firune-vengeance"));
   expect(firuneGelFeedback.at(-1)?.source?.id).toBe("EDG000016");
   expect(firuneGelFeedback.at(-1)?.target?.id).toBe("H000005");
+  const firuneDestroyFeedback = await page.evaluate(() => auditCollectionBatch03Runtime().state.events.filter(event => event.type === "vengeance-gor-feedback" && event.sourceCardId === "EDG000016"));
+  expect(firuneDestroyFeedback.at(-1)).toMatchObject({
+    phase: "destroy-start",
+    sourceHasPulse: true,
+    sourceHasMove: true,
+    sourcePulseReason: "batch05-firune-vengeance"
+  });
 
   await openScenario(page);
   await resetPlayer1Servants(page);
@@ -342,7 +349,32 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
   expect(attack.target.cdg).toBe(1);
   expect(attack.enemies.find(card => card.id === "H000001")?.gel).toBe("2");
   expect(attack.enemies.find(card => card.id === "H000006")?.gel).toBe("2");
-  expect(attack.events.some(event => event.type === "aileen-attack-cold")).toBe(true);
+  const aileenAttackEvent = attack.events.find(event => event.type === "aileen-attack-cold");
+  expect(aileenAttackEvent?.adjacent?.map(entry => entry.target.id)).toEqual(["H000001", "H000006"]);
+  expect(aileenAttackEvent?.adjacent?.every(entry => entry.applied === true)).toBe(true);
+
+  await openScenario(page);
+  await resetPlayer1Servants(page);
+  await page.evaluate(async () => { await summonBatch03Servant(player1, "EDG000017", {triggerInitiativeEffect:false, ready:true}); });
+  await setOpponentServants(page, [
+    {id:"H000005", atk:0, pdv:30, pdvMax:30},
+    {id:"H000006", atk:0, pdv:10, pdvMax:10}
+  ]);
+  const edgeAttack = await page.evaluate(async () => {
+    const aileen = document.querySelector(playerZoneSelector(player1, "servants") + ' .fc[data-id="EDG000017"]');
+    const target = document.querySelector(playerZoneSelector(player2, "servants") + ' .fc[data-id="H000005"]');
+    currentPlayer = player1.key;
+    await resolveCombat(aileen, target);
+    return {
+      target:targetSummary(target),
+      enemies:Array.from(document.querySelectorAll(playerZoneSelector(player2, "servants") + " .fc")).map(fc => ({...targetSummary(fc), gel:fc.dataset.frozen || ""})),
+      event:[...collectionBatch13aState.events].findLast(event => event.type === "aileen-attack-cold")
+    };
+  });
+  expect(edgeAttack.target.cdg).toBe(1);
+  expect(edgeAttack.enemies.find(card => card.id === "H000006")?.gel).toBe("2");
+  expect(edgeAttack.event?.adjacent?.map(entry => entry.target.id)).toEqual(["H000006"]);
+  expect(edgeAttack.event?.adjacent?.[0]?.applied).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });

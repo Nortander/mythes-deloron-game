@@ -16427,7 +16427,8 @@ function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
     cardId === 'EN000002' || cardId === 'EN000005' || cardId === 'EN000010' || cardId === 'EN000012' || cardId === 'N000009' ||
     cardId === 'TRL000013' || cardId === 'TRL000014' || cardId === 'GOB000006' || cardId === 'GOB000012' ||
     cardId === 'AVS000008' || cardId === 'MV000008' || cardId === 'MV000009' || cardId === 'MV000011' ||
-    cardId === 'MV000015' || cardId === 'MV000024' || cardId === 'MV000025' || cardId === 'MV000028' || cardId === 'MV000030';
+    cardId === 'MV000015' || cardId === 'MV000024' || cardId === 'MV000025' || cardId === 'MV000028' || cardId === 'MV000030' ||
+    cardId === 'EDG000016';
 }
 
 async function playDestroyAnimationBeforeCemetery(fc) {
@@ -23725,6 +23726,11 @@ function batch13aEnemyServants(player) {
   return Array.from(qs(playerZoneSelector(opponentOf(player), 'servants'))?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
 }
 
+function batch13aAileenAdjacentTargets(targetFC) {
+  return batch03AdjacentServants(targetFC)
+    .filter(fc => fc.dataset.player === targetFC.dataset.player && !fc.dataset.dead);
+}
+
 async function resolveBatch13aFiruneInitiative(cardId, player, sourceFC) {
   const candidates = batch13aEnemyServants(player).filter(fc => !fc.dataset.frozen && !fc.dataset.frozen_cdg);
   const valid = getAffectableTargets({sourcePlayer:player, targets:candidates, sourceCardId:cardId, effectKind:'embrasement', isAbility:true});
@@ -24018,7 +24024,8 @@ async function resolveBatch05PostAttackEffects(attacker, targetFC, context={}) {
   if (id === 'EDG000017' && context.phase === 'attack' && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) {
     const hadGel = !!targetFC.dataset.frozen;
     const hadCdg = !!targetFC.dataset.frozen_cdg;
-    await beforePostEffect('aileen-attack-cold', {target:targetSummary(targetFC), hadGel, hadCdg});
+    const adjacentTargets = batch13aAileenAdjacentTargets(targetFC);
+    await beforePostEffect('aileen-attack-cold', {target:targetSummary(targetFC), hadGel, hadCdg, adjacentPlanned:adjacentTargets.map(targetSummary)});
     let bonusDamage = false;
     if (hadGel || hadCdg) {
       bonusDamage = await tryApplyAbilityDamage({sourcePlayer:p, targetFC, sourceCardId:id, amount:2});
@@ -24026,7 +24033,7 @@ async function resolveBatch05PostAttackEffects(attacker, targetFC, context={}) {
     }
     if (!targetFC.dataset.dead) batch05ApplyGel({sourcePlayer:p, targetFC, sourceCardId:id, turns:1, type:'cdg'});
     const adjacent = [];
-    for (const adj of batch03AdjacentServants(targetFC)) {
+    for (const adj of adjacentTargets.filter(fc => fc.isConnected && !fc.dataset.dead)) {
       const applied = batch05ApplyGel({sourcePlayer:p, targetFC:adj, sourceCardId:id, turns:2, type:'gel'});
       adjacent.push({target:targetSummary(adj), applied});
     }
