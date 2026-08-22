@@ -196,12 +196,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
   background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,transparent 100%);
   border-radius:0 0 9px 9px;pointer-events:none;
 }
-.fc-stat{display:flex;align-items:center;gap:2px;}
-.fc-stat img{width:19px;height:19px;object-fit:contain;
+.fc-stat{position:relative;width:24px;height:24px;display:flex;align-items:center;justify-content:center;}
+.fc-stat img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,1));}
 .fc-stat span{
   font-family:'Cinzel',serif;font-size:13px;font-weight:700;
   color:#fff;text-shadow:0 0 5px rgba(0,0,0,1),0 1px 3px rgba(0,0,0,1);
+  position:relative;z-index:2;
 }
 .fc-stat span.red{color:#ff5040;text-shadow:0 0 3px #fff,0 0 8px rgba(220,40,20,0.9),0 1px 4px rgba(0,0,0,1);font-weight:900;}
 .fc-stat span.grn{color:#50e870;text-shadow:0 0 3px #fff,0 0 8px rgba(40,200,60,0.9),0 1px 4px rgba(0,0,0,1);font-weight:900;}
@@ -763,7 +764,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .fc.edg-fc .fc-zoom-name-b{background:linear-gradient(180deg,#061830,#040e20 50%,#061830);}
 .fc.edg-fc .fz-desc-inner{background:linear-gradient(155deg,#ddeeff,#b8daf5);}
 .fc.edg-fc .fz-desc-text{color:#0a1e36;}
-.fc.edg-fc .fz-desc-text em{color:#0a4a8a;}
+.fc.edg-fc .fz-desc-text em{color:#2a8fd4;}
 .fc.edg-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#061830,#040e20);}
 
 
@@ -1459,7 +1460,7 @@ body.dragging-card .hc.dragging {
 /* Couleurs des mots-clefs par faction (em) — valeurs exactes de la collection */
 .hc.edb .hc-desc-text em, .fc.edb-fc .fz-desc-text em { color:#2a5a10; }
 .hc.edn .hc-desc-text em, .fc.edn-fc .fz-desc-text em { color:#d080e8; }
-.hc.edg .hc-desc-text em, .fc.edg-fc .fz-desc-text em { color:#0a4a8a; }
+.hc.edg .hc-desc-text em, .fc.edg-fc .fz-desc-text em { color:#2a8fd4; }
 .hc.hum .hc-desc-text em, .fc.hum-fc .fz-desc-text em { color:#002fa7; }
 .hc.mvs .hc-desc-text em, .fc.mvs-fc .fz-desc-text em { color:#d080e8; }
 .hc.div .hc-desc-text em, .fc.div-fc .fz-desc-text em { color:#5a1a8a; }
@@ -1470,7 +1471,7 @@ body.dragging-card .hc.dragging {
 /* Variables (kv) : même couleur que les mots-clefs de la faction */
 .hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv { color:#2a5a10; }
 .hc.edn .hc-desc-text strong.kv, .fc.edn-fc .fz-desc-text strong.kv { color:#d080e8; }
-.hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv { color:#0a4a8a; }
+.hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv { color:#2a8fd4; }
 .hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv { color:#002fa7; }
 .hc.mvs .hc-desc-text strong.kv, .fc.mvs-fc .fz-desc-text strong.kv { color:#d080e8; }
 .hc.div .hc-desc-text strong.kv, .fc.div-fc .fz-desc-text strong.kv { color:#5a1a8a; }
@@ -3179,8 +3180,8 @@ SCENARIOS['collection-batch-13a-nouvelles-cartes-visual'] = {
   showTestResourcePanel:true,
   testCardId:'EDG000017',
   testSetup:{
-    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017'], drawPile:['S000029','S000039','B000005','EDG000015','EDG000016'], graveyard:['B000001','B000002','EDG000001','EDG000003','EDG000006','EDG000009','EDG000010','EDG000013','S000011','S000027'], servants:[], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:20},
-    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['H000006','H000009','H000012','H000013','H000014','H000015','H000016','H000023','H000024','H000027','H000031','S000033'], graveyard:['H000001','R000001','H000005','H000006','H000009','H000012','H000013','H000014','H000015','S000004'], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true},{id:'H000005',atk:5,pdv:8,pdvMax:8,prepared:true},{id:'H000006',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'H000009',atk:4,pdv:7,pdvMax:7,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:20}
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017'], drawPile:['S000029','S000039','B000005','EDG000015','EDG000016'], graveyard:['B000001','B000002','EDG000001','EDG000003','EDG000006','EDG000009','EDG000010','EDG000013','S000011','S000027'], servants:[], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['H000006','H000009','H000012','H000013','H000014','H000015','H000016','H000023','H000024','H000027','H000031','S000033'], graveyard:['H000001','R000001','H000005','H000006','H000009','H000012','H000013','H000014','H000015','S000004'], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true},{id:'H000005',atk:5,pdv:8,pdvMax:8,prepared:true},{id:'H000006',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'H000009',atk:4,pdv:7,pdvMax:7,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
   }
 };
 SCENARIOS['collection-batch-11e-hokhan-gueule-mur'] = collectionBatch11eScenario({
@@ -19012,7 +19013,7 @@ Object.assign(CARDS_DATA, {
   'B000016':{name:'Minus minotaure',type:'Serviteur',fac:'bet',atk:3,pdv:2,cost:2,res_ico:'IC00000NRT',res_val:'1',resType:'Nourriture+Fer',fico:'FCT00000BET.png',kws:['Nourriture','Fer'],cap:'',lore:"Ce spécimen est un gringalet selon les standards de son espèce. Un gringalet qui peut tuer un homme adulte d'un seul coup de sabot ! Sans même parler de cette jolie hache qu'il a déniché...",assetFolder:'betes'},
   'B000017':{name:'Maginotaure',type:'Serviteur',fac:'bet',atk:3,pdv:3,cost:4,res_ico:'IC00000LNY',res_val:'1',resType:'Lenya+Nourriture',fico:'FCT00000BET.png',kws:['Lenya','Nourriture','Initiative'],cap:'[Initiative] Augmente de +1 ATK / +2 PDV les statistiques de tous vos autres serviteurs actuellement sur le terrain.',lore:'',assetFolder:'betes'},
   'B000019':{name:'Ours territorial',type:'Serviteur',fac:'bet',assetFolder:'betes',atk:5,pdv:5,cost:4,res_ico:'IC00000NRT',res_val:'4',resType:'Nourriture',fico:'FCT00000BET.png',kws:['Rage','Nourriture'],cap:'[Rage]',badge:'',lore:'',max:6,detail:'[Rage]'},
-  'DIV000017':{name:'Sylvenier',type:'Serviteur',fac:'div',assetFolder:'divers',atk:3,pdv:6,cost:4,res_ico:'IC00000LNY',res_val:'4',resType:'Lenya|Aria',fico:'FCT00000RDM.png',kws:['Lenya','Aria'],cap:'',badge:'',lore:'Les « Esprits des arbres » ou « Arbres animés » étaient jadis de paisibles créatures. Mais l\'abattage intensif des forêts pour le bois et la culture a durablement endurci le coeur des Sylveniers. Désormais, ils se montrent hostiles et agressifs envers toutes les races, sauf les elfes des bois et de glace.',max:4},
+  'DIV000017':{name:'Sylvenier',type:'Serviteur',fac:'div',assetFolder:'autres',atk:3,pdv:6,cost:4,res_ico:'IC00000LNY',res_val:'4',resType:'Lenya|Aria',fico:'FCT00000RDM.png',kws:['Lenya','Aria'],cap:'',badge:'',lore:'Les « Esprits des arbres » ou « Arbres animés » étaient jadis de paisibles créatures. Mais l\'abattage intensif des forêts pour le bois et la culture a durablement endurci le coeur des Sylveniers. Désormais, ils se montrent hostiles et agressifs envers toutes les races, sauf les elfes des bois et de glace.',max:4},
   'EDG000014':{name:'Gardienne hivernale',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:4,pdv:4,cost:3,res_ico:'IC00000BOI',res_val:'3',resType:'Bois+Lenya+Nourriture',fico:'FCT00000EDG.png',kws:['Bois','Lenya','Nourriture'],cap:'',badge:'',lore:'Les elfes de glace forment un peuple isolationniste. Ses représentants n\'ont plus guère de contact volontaire qu\'avec leurs cousins des bois et les marchands courageux qui osent s\'aventurer jusque dans les terres inhospitalières du Nord. Pour les elfes de glace, seul compte la préservation de leur pacte sacré avec le Tisseur de Givre, qui leur a accordé pouvoir sur la glace. Toute la société est articulée autour de ce grand serment.',max:4},
   'EDG000015':{name:'Veilleuse hivernale',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:3,pdv:6,cost:5,res_ico:'IC00000LNY',res_val:'5',resType:'Lenya+Nourriture',fico:'FCT00000EDG.png',kws:['Rempart','Vigilance','Lenya','Nourriture','Gel'],cap:'[Rempart] [Vigilance] Chaque fois qu\'un serviteur adverse lui inflige des dégâts autrement que par une capacité spéciale, la « Veilleuse hivernale » lui inflige [Gel] pendant *1* tour.',badge:'',lore:'',max:4,detail:'[Rempart] [Vigilance] Chaque fois qu\'un serviteur adverse lui inflige des dégâts autrement que par une capacité spéciale, la « Veilleuse hivernale » lui inflige [Gel] pendant *1* tour.'},
   'EDG000016':{name:'Firune',type:'Serviteur',fac:'edg',assetFolder:'elfes-de-glace',atk:4,pdv:6,cost:6,res_ico:'IC00000FER',res_val:'6',resType:'Fer+Nourriture+Lenya',fico:'FCT00000EDG.png',kws:['Sang-froid','Sang ardent','Rempart','Rage','Initiative','Vengeance','Fer','Nourriture','Lenya','Embrasement','Coup de glace'],cap:'[Sang-froid] [Sang ardent] [Rempart] [Rage] [Initiative] Inflige [Embrasement] à *1* serviteur adverse qui n\'est pas déjà victime de [Gel] ni de [Coup de glace]. [Vengeance] Inflige [Coup de glace] à *1* serviteur adversaire aléatoire. Si celui-ci subissait déjà [Gel], lui inflige seulement *3* points de dégâts à la place ; s\'il subissait déjà [Coup de glace], réinitialise la durée de l\'effet et y ajoute *2* tours supplémentaires.',badge:'',lore:'',max:1,detail:'[Sang-froid] [Sang ardent] [Rempart] [Rage] [Initiative] Inflige [Embrasement] à *1* serviteur adverse qui n\'est pas déjà victime de [Gel] ni de [Coup de glace]. [Vengeance] Inflige [Coup de glace] à *1* serviteur adversaire aléatoire. Si celui-ci subissait déjà [Gel], lui inflige seulement *3* points de dégâts à la place ; s\'il subissait déjà [Coup de glace], réinitialise la durée de l\'effet et y ajoute *2* tours supplémentaires.'},
@@ -23731,13 +23732,33 @@ async function resolveBatch13aFiruneInitiative(cardId, player, sourceFC) {
   return result;
 }
 
+async function markBatch13aNewestHandCards(player, cardIds, reason='batch13a-hand-added') {
+  const p = playerState(player);
+  if (!p || !Array.isArray(cardIds) || !cardIds.length) return false;
+  requestAnimationFrame(() => {
+    const hand = qs(playerZoneSelector(p, 'hand'));
+    if (!hand) return;
+    cardIds.forEach(cardId => {
+      const candidates = Array.from(hand.querySelectorAll(`.hc[data-id="${cardId}"]`));
+      const card = candidates[candidates.length - 1];
+      if (!card) return;
+      card.dataset.batch13aHandAnimation = reason;
+      card.classList.add('hc-batch03-ianna-drawn');
+      setTimeout(() => card.classList.remove('hc-batch03-ianna-drawn'), 900);
+    });
+  });
+  return true;
+}
+
 async function resolveBatch13aAileenInitiative(cardId, player, sourceFC) {
+  const generated = ['S000039','S000029'];
+  if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'aileen-initiative', {generated});
   const added = [];
-  for (const generatedId of ['S000039','S000029']) {
+  for (const generatedId of generated) {
     if (addCardToHand(player, generatedId, {refresh:false})) added.push(generatedId);
   }
   renderAllHands();
-  if (sourceFC) pulseBatch03Ability(sourceFC, 'aileen-initiative');
+  markBatch13aNewestHandCards(player, added, 'aileen-initiative-generated');
   const result = {handled:true, success:added.length === 2, cardId, added};
   recordCollectionBatch13aEvent('aileen-initiative-add-to-hand', result);
   return result;
@@ -23763,6 +23784,7 @@ async function triggerBatch13aFiruneVengeance(player, dyingFC) {
     return result;
   }
   pulseBatch03Ability(dyingFC, 'firune-vengeance', {move:true});
+  await batch05VisualDelay(420);
   let effect;
   if (target.dataset.frozen_cdg) {
     const applied = setColdDurationExact(target, 'cdg', 3, player, 'EDG000016');
@@ -23955,7 +23977,7 @@ async function resolveBatch05PostAttackEffects(attacker, targetFC, context={}) {
   }
   if ((id === 'EDG000001' || id === 'EDG000006') && Number(context.damageDealt || 0) > 0 && !targetFC.dataset.dead) { await beforePostEffect('ice-damage-cdg', {target:targetSummary(targetFC)}); batch05ApplyGel({sourcePlayer:p,targetFC,sourceCardId:id,turns:1,type:'cdg'}); results.push({type:'ice-damage-cdg', target:targetSummary(targetFC), phase:context.phase}); }
   if (targetFC.dataset.id === 'EDG000015' && Number(context.damageDealt || 0) > 0 && !attacker.dataset.dead && attacker.dataset.player !== targetFC.dataset.player) {
-    await beforePostEffect('veilleuse-retaliation-gel', {target:targetSummary(attacker)});
+    await waitBatch05BeforeEffect(targetFC, 'veilleuse-retaliation-gel', {target:targetSummary(attacker), phase:context.phase});
     const applied = batch05ApplyGel({sourcePlayer:playerState(targetFC.dataset.player), targetFC:attacker, sourceCardId:'EDG000015', turns:1, type:'gel'});
     results.push({type:'veilleuse-retaliation-gel', target:targetSummary(attacker), applied, phase:context.phase});
     recordCollectionBatch13aEvent('veilleuse-retaliation-gel', {source:targetSummary(targetFC), target:targetSummary(attacker), applied, phase:context.phase});

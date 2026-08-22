@@ -31,6 +31,29 @@ async function audit(page) {
   return page.evaluate(() => auditCollectionBatch13aRuntime());
 }
 
+async function expectImageLoaded(locator, message) {
+  await expect.poll(() => locator.evaluate(img => img.naturalWidth), {message, timeout: 8000}).toBeGreaterThan(0);
+  return locator.evaluate(img => img.currentSrc || img.src);
+}
+
+async function terrainStatAlignment(page, cardId) {
+  return page.evaluate((cardId) => {
+    const card = document.querySelector('.fc[data-id="' + cardId + '"]');
+    if (!card) throw new Error('missing terrain card ' + cardId);
+    return Array.from(card.querySelectorAll('.fc-stat')).map(stat => {
+      const icon = stat.querySelector('img').getBoundingClientRect();
+      const value = stat.querySelector('span').getBoundingClientRect();
+      return {
+        iconCenterX: icon.left + icon.width / 2,
+        iconCenterY: icon.top + icon.height / 2,
+        valueCenterX: value.left + value.width / 2,
+        valueCenterY: value.top + value.height / 2,
+        iconWidth: icon.width
+      };
+    });
+  }, cardId);
+}
+
 async function playServant(page, cardId) {
   return page.evaluate(async (cardId) => {
     const slot = document.querySelector(playerZoneSelector(player1, "servants"))?.querySelector(".slot");
@@ -114,6 +137,13 @@ test("Batch-13A Collection data, local dragon art and lore rendering stay clean"
   }).toBeGreaterThan(0);
 
   await page.locator("#btnReset").click();
+  await page.locator("#searchInput").fill("DIV000017");
+  const sylvenier = collectionCard(page, "DIV000017");
+  await expect(sylvenier).toBeVisible();
+  const sylvenierSrc = await expectImageLoaded(sylvenier.locator("img.ccard-art"), "DIV000017 local Collection image loaded");
+  expect(sylvenierSrc).toContain("/assets/autres/DIV000017.png");
+
+  await page.locator("#btnReset").click();
   for (const cardId of ["DIV000017", "EDG000014"]) {
     await page.locator("#searchInput").fill(cardId);
     await clickCollectionCard(page, cardId);
@@ -135,13 +165,33 @@ test("Batch-13A hidden scenario exposes all new cards and plays base servants", 
   expect(optionCount).toBe(0);
   let state = await audit(page);
   expect(state.player1.hand).toEqual(fixture.expectedInitialHand);
+  expect(state.player1.resources.classical).toMatchObject({aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100});
+  expect(state.player2.resources.classical).toMatchObject({aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100});
   expect(state.cards.map(card => card.id)).toEqual(fixture.allCards);
+  expect(state.cards.find(card => card.id === "DIV000017")?.assetFolder).toBe("autres");
   for (const cardId of ["B000019", "DIV000017", "EDG000014"]) {
     const result = await playServant(page, cardId);
     expect(result.success, cardId).toBe(true);
   }
   state = await audit(page);
   expect(state.player1.servants.map(card => card.id)).toEqual(expect.arrayContaining(["B000019", "DIV000017", "EDG000014"]));
+  const sylvenierBoardSrc = await expectImageLoaded(page.locator('.fc[data-id="DIV000017"] img.fi'), "DIV000017 scenario image loaded");
+  expect(sylvenierBoardSrc).toContain("/assets/autres/DIV000017.png");
+  for (const cardId of ["B000019", "DIV000017", "EDG000014"]) {
+    const alignment = await terrainStatAlignment(page, cardId);
+    expect(alignment.length, cardId).toBe(2);
+    for (const item of alignment) {
+      expect(Math.abs(item.iconCenterX - item.valueCenterX), cardId + " stat x centered").toBeLessThanOrEqual(1.5);
+      expect(Math.abs(item.iconCenterY - item.valueCenterY), cardId + " stat y centered").toBeLessThanOrEqual(1.5);
+      expect(item.iconWidth, cardId + " stat icon width").toBeGreaterThanOrEqual(22);
+    }
+  }
+  const iceHighlight = await page.evaluate(() => {
+    openCardPreview("EDG000017", {sourceType:"batch13b-test", origin:"ice-highlight-audit"});
+    const node = document.querySelector('.canonical-card-preview[data-preview-card-id="EDG000017"] .fz-desc-text strong.kv, .canonical-card-preview[data-preview-card-id="EDG000017"] .fz-desc-text .canonical-keyword-inline');
+    return node ? getComputedStyle(node).color : "";
+  });
+  expect(iceHighlight).toBe("rgb(42, 143, 212)");
   expect(state.player1.hand).not.toContain("B000019");
   expect(state.player1.hand).not.toContain("DIV000017");
   expect(state.player1.hand).not.toContain("EDG000014");
@@ -164,6 +214,8 @@ test("Veilleuse hivernale applies Gel only after real combat damage", async ({pa
   });
   expect(damaged.attacker.gel).toBe("1");
   expect(damaged.events.some(event => event.type === "veilleuse-retaliation-gel")).toBe(true);
+  const veilleuseFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "veilleuse-retaliation-gel"));
+  expect(veilleuseFeedback.at(-1)?.source?.id).toBe("EDG000015");
 
   await openScenario(page);
   await resetPlayer1Servants(page);
@@ -213,6 +265,7 @@ test("Firune resolves Initiative and Vengeance with the three cold branches", as
   expect(gelBranch.target.pdv).toBe(9);
   expect(gelBranch.target.cdg || 0).toBe(0);
   expect(gelBranch.events.some(event => event.type === "firune-vengeance" && event.effect?.type === "gel-target-damage-only")).toBe(true);
+  expect(gelBranch.events.find(event => event.type === "firune-vengeance")?.destination).toBe("graveyard");
 
   await openScenario(page);
   await resetPlayer1Servants(page);
@@ -247,6 +300,13 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
   expect(state.player1.hand).toEqual(expect.arrayContaining(fixture.generatedByAileen));
   expect(state.events.some(event => event.type === "aileen-initiative-add-to-hand" && event.added.length === 2)).toBe(true);
   expect(state.player1.hand.length).toBe(before.player1.hand.length - 1 + fixture.generatedByAileen.length);
+  const aileenFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "aileen-initiative"));
+  expect(aileenFeedback.at(-1)?.source?.id).toBe("EDG000017");
+  await expect.poll(() => page.evaluate((ids) => ids.map(id => {
+    const cards = Array.from(document.querySelectorAll(playerZoneSelector(player1, "hand") + ' .hc[data-id="' + id + '"]'));
+    const card = cards[cards.length - 1];
+    return card?.dataset.batch13aHandAnimation || "";
+  }), fixture.generatedByAileen)).toEqual(["aileen-initiative-generated", "aileen-initiative-generated"]);
 
   const attack = await page.evaluate(async () => {
     const aileen = document.querySelector(playerZoneSelector(player1, "servants") + ' .fc[data-id="EDG000017"]');

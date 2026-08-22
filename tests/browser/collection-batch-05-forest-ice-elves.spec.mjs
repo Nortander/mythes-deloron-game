@@ -895,7 +895,7 @@ test("Batch-05E locks snow bonus, exact text highlights and visual effect timing
   expect(snowAudit.beforeCaps.EDG000013).not.toContain("*50 %*");
   expect(snowAudit.archerePreview.kvText).toBe("50%");
   expect(snowAudit.archerePreview.kvHtml).toContain("class=\"kv\"");
-  expect(snowAudit.archerePreview.kvColor).toBe("rgb(10, 74, 138)");
+  expect(snowAudit.archerePreview.kvColor).toBe("rgb(42, 143, 212)");
   expect(snowAudit.first).toMatchObject({success:true, bonus:1, effectiveBonus:1, alreadyActive:false});
   expect(snowAudit.second).toMatchObject({success:true, bonus:1, effectiveBonus:1, alreadyActive:true});
   expect(snowAudit.bonus).toBe(1);
