@@ -322,9 +322,11 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
     audit: {
       totalGeneratedRendered: 1,
       totalGeneratedAnimated: 1,
+      totalGeneratedAileenArrival: 1,
+      totalGeneratedLegacyDrawn: 0,
       expected: {
-        S000039: {rendered: 1, animated: 1},
-        S000029: {rendered: 0, animated: 0}
+        S000039: {rendered: 1, animated: 1, aileenArrival: 1, legacyDrawn: 0},
+        S000029: {rendered: 0, animated: 0, aileenArrival: 0, legacyDrawn: 0}
       }
     }
   });
@@ -333,14 +335,17 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
     audit: {
       totalGeneratedRendered: 2,
       totalGeneratedAnimated: 1,
+      totalGeneratedAileenArrival: 1,
+      totalGeneratedLegacyDrawn: 0,
       totalGeneratedGlowing: 2,
       expected: {
-        S000039: {rendered: 1, animated: 0, glowing: 1},
-        S000029: {rendered: 1, animated: 1, glowing: 1}
+        S000039: {rendered: 1, animated: 0, aileenArrival: 0, legacyDrawn: 0, glowing: 1},
+        S000029: {rendered: 1, animated: 1, aileenArrival: 1, legacyDrawn: 0, glowing: 1}
       }
     }
   });
   expect(aileenInitiativeEvent.animationSteps.every(step => step.audit.totalGeneratedRendered <= 2)).toBe(true);
+  expect(aileenInitiativeEvent.animationSteps.every(step => step.audit.totalGeneratedLegacyDrawn === 0)).toBe(true);
   expect(state.player1.hand.length).toBe(before.player1.hand.length - 1 + fixture.generatedByAileen.length);
   const aileenFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "aileen-initiative"));
   expect(aileenFeedback.at(-1)?.source?.id).toBe("EDG000017");

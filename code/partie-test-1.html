@@ -665,6 +665,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
 .hc.hc-batch03-ianna-drawn[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc.hc-batch13a-hand-glow[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
+.hc-batch13a-aileen-arrival{animation:batch13aAileenArrival .72s ease-out;box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc-batch03-ianna-stolen{animation:batch03IannaStolen .9s ease-out;box-shadow:0 0 22px rgba(90,190,255,.9),0 0 8px rgba(255,255,255,.8);}
 .hc-batch11-undead-transfer{animation:batch03IannaDrawn .85s ease-out;box-shadow:0 0 22px rgba(190,96,255,.9),0 0 34px rgba(96,24,160,.55),0 0 8px rgba(255,255,255,.75);}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
@@ -681,6 +682,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch04HypnosisRipple{0%{opacity:.95;width:14px;height:14px;box-shadow:0 0 8px rgba(157,255,102,.95),inset 0 0 8px rgba(157,255,102,.55);}72%{opacity:.38;}100%{opacity:0;width:112px;height:112px;box-shadow:0 0 18px rgba(157,255,102,.55),inset 0 0 18px rgba(157,255,102,.25);}}
 @keyframes batch03IannaReveal{0%{opacity:0;transform:translate(-50%,-48%) scale(.72);}16%,78%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-52%) scale(.86);}}
 @keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
+@keyframes batch13aAileenArrival{0%{opacity:.38;filter:brightness(2.15) drop-shadow(0 0 18px rgba(42,143,212,.95));}45%{opacity:1;filter:brightness(1.45) drop-shadow(0 0 26px rgba(216,247,255,.9));}100%{opacity:1;filter:none;}}
 @keyframes batch03IannaStolen{0%{transform:translateX(38px) scale(.85);filter:brightness(1.9);}70%{transform:translateX(-4px) scale(1.04);filter:brightness(1.25);}100%{transform:none;filter:none;}}
 @keyframes batch03InitiativePulse{0%{filter:brightness(1.9) drop-shadow(0 0 18px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.28) drop-shadow(0 0 28px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
@@ -17900,8 +17902,9 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
           hc.classList.add('hc-batch13a-hand-glow');
           if (!batch13aHighlight.animationConsumed) {
             batch13aHighlight.animationConsumed = true;
-            hc.classList.add('hc-batch03-ianna-drawn');
-            setTimeout(() => hc.classList.remove('hc-batch03-ianna-drawn'), 900);
+            const arrivalClass = batch13aHighlight.reason === 'aileen-initiative-generated' ? 'hc-batch13a-aileen-arrival' : 'hc-batch03-ianna-drawn';
+            hc.classList.add(arrivalClass);
+            setTimeout(() => hc.classList.remove(arrivalClass), 900);
           }
           const remainingMs = Math.max(0, (batch13aHighlight.expiresAt || now + (batch13aHighlight.durationMs || 1400)) - now);
           setTimeout(() => {
@@ -23810,7 +23813,9 @@ function snapshotBatch13aAileenHandAnimation(player, expectedIds=[]) {
     const nodes = cards.filter(card => card.dataset.id === id);
     expected[id] = {
       rendered: nodes.length,
-      animated: nodes.filter(card => card.classList.contains('hc-batch03-ianna-drawn')).length,
+      animated: nodes.filter(card => card.classList.contains('hc-batch03-ianna-drawn') || card.classList.contains('hc-batch13a-aileen-arrival')).length,
+      aileenArrival: nodes.filter(card => card.classList.contains('hc-batch13a-aileen-arrival')).length,
+      legacyDrawn: nodes.filter(card => card.classList.contains('hc-batch03-ianna-drawn')).length,
       glowing: nodes.filter(card => card.classList.contains('hc-batch13a-hand-glow')).length
     };
   }
@@ -23818,6 +23823,8 @@ function snapshotBatch13aAileenHandAnimation(player, expectedIds=[]) {
     totalHandCards: cards.length,
     totalGeneratedRendered: Object.values(expected).reduce((sum, item) => sum + item.rendered, 0),
     totalGeneratedAnimated: Object.values(expected).reduce((sum, item) => sum + item.animated, 0),
+    totalGeneratedAileenArrival: Object.values(expected).reduce((sum, item) => sum + item.aileenArrival, 0),
+    totalGeneratedLegacyDrawn: Object.values(expected).reduce((sum, item) => sum + item.legacyDrawn, 0),
     totalGeneratedGlowing: Object.values(expected).reduce((sum, item) => sum + item.glowing, 0),
     expected
   };
