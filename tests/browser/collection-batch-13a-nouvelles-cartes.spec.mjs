@@ -311,7 +311,36 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
   expect(result.success).toBe(true);
   let state = await audit(page);
   expect(state.player1.hand).toEqual(expect.arrayContaining(fixture.generatedByAileen));
+  expect(state.player1.hand.filter(id => id === "S000039")).toHaveLength(1);
+  expect(state.player1.hand.filter(id => id === "S000029")).toHaveLength(1);
   expect(state.events.some(event => event.type === "aileen-initiative-add-to-hand" && event.added.length === 2)).toBe(true);
+  const aileenInitiativeEvent = state.events.find(event => event.type === "aileen-initiative-add-to-hand");
+  expect(aileenInitiativeEvent?.added).toEqual(fixture.generatedByAileen);
+  expect(aileenInitiativeEvent?.animationSteps).toHaveLength(3);
+  expect(aileenInitiativeEvent.animationSteps[0]).toMatchObject({
+    phase: "after-render-S000039",
+    audit: {
+      totalGeneratedRendered: 1,
+      totalGeneratedAnimated: 1,
+      expected: {
+        S000039: {rendered: 1, animated: 1},
+        S000029: {rendered: 0, animated: 0}
+      }
+    }
+  });
+  expect(aileenInitiativeEvent.animationSteps[1]).toMatchObject({
+    phase: "after-render-S000029",
+    audit: {
+      totalGeneratedRendered: 2,
+      totalGeneratedAnimated: 1,
+      totalGeneratedGlowing: 2,
+      expected: {
+        S000039: {rendered: 1, animated: 0, glowing: 1},
+        S000029: {rendered: 1, animated: 1, glowing: 1}
+      }
+    }
+  });
+  expect(aileenInitiativeEvent.animationSteps.every(step => step.audit.totalGeneratedRendered <= 2)).toBe(true);
   expect(state.player1.hand.length).toBe(before.player1.hand.length - 1 + fixture.generatedByAileen.length);
   const aileenFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "aileen-initiative"));
   expect(aileenFeedback.at(-1)?.source?.id).toBe("EDG000017");

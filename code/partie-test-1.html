@@ -664,6 +664,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-rune-returning::before{content:'';position:absolute;inset:6px;z-index:48;border-radius:12px;border:2px solid rgba(180,130,255,.95);box-shadow:0 0 18px rgba(160,90,255,.95),inset 0 0 18px rgba(160,90,255,.65);pointer-events:none;}
 .hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
 .hc.hc-batch03-ianna-drawn[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
+.hc.hc-batch13a-hand-glow[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc-batch03-ianna-stolen{animation:batch03IannaStolen .9s ease-out;box-shadow:0 0 22px rgba(90,190,255,.9),0 0 8px rgba(255,255,255,.8);}
 .hc-batch11-undead-transfer{animation:batch03IannaDrawn .85s ease-out;box-shadow:0 0 22px rgba(190,96,255,.9),0 0 34px rgba(96,24,160,.55),0 0 8px rgba(255,255,255,.75);}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
@@ -17891,11 +17892,24 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
       if (hc) {
         hc.setAttribute('draggable', 'true');
         hc.dataset.handOccurrence = batch03HandOccurrenceAt(p, i) || '';
-        const batch13aHighlight = (p.batch13aHandHighlights || []).find(item => item && item.cardId === id && item.occurrenceId === hc.dataset.handOccurrence);
+        const now = Date.now();
+        p.batch13aHandHighlights = (p.batch13aHandHighlights || []).filter(item => item && (!item.expiresAt || item.expiresAt > now));
+        const batch13aHighlight = p.batch13aHandHighlights.find(item => item && item.cardId === id && item.occurrenceId === hc.dataset.handOccurrence);
         if (batch13aHighlight) {
           hc.dataset.batch13aHandAnimation = batch13aHighlight.reason || 'batch13a-hand-added';
-          hc.classList.add('hc-batch03-ianna-drawn');
-          setTimeout(() => hc.classList.remove('hc-batch03-ianna-drawn'), batch13aHighlight.durationMs || 1400);
+          hc.classList.add('hc-batch13a-hand-glow');
+          if (!batch13aHighlight.animationConsumed) {
+            batch13aHighlight.animationConsumed = true;
+            hc.classList.add('hc-batch03-ianna-drawn');
+            setTimeout(() => hc.classList.remove('hc-batch03-ianna-drawn'), 900);
+          }
+          const remainingMs = Math.max(0, (batch13aHighlight.expiresAt || now + (batch13aHighlight.durationMs || 1400)) - now);
+          setTimeout(() => {
+            if (hc.dataset.handOccurrence === batch13aHighlight.occurrenceId) {
+              hc.classList.remove('hc-batch13a-hand-glow');
+              if (hc.dataset.batch13aHandAnimation === batch13aHighlight.reason) delete hc.dataset.batch13aHandAnimation;
+            }
+          }, remainingMs);
         }
         markCanonicalHandNode(hc, p, renderToken, 'face', id);
         handEl.appendChild(hc);
@@ -23779,27 +23793,53 @@ function registerBatch13aHandHighlight(player, cardId, reason='batch13a-hand-add
   if (!occurrenceId) return null;
   p.batch13aHandHighlights ||= [];
   p.batch13aHandHighlights = p.batch13aHandHighlights.filter(item => item?.occurrenceId !== occurrenceId);
-  const highlight = {cardId, occurrenceId, reason, durationMs};
+  const highlight = {cardId, occurrenceId, reason, durationMs, expiresAt:Date.now() + durationMs, animationConsumed:false};
   p.batch13aHandHighlights.push(highlight);
+  setTimeout(() => {
+    p.batch13aHandHighlights = (p.batch13aHandHighlights || []).filter(item => item?.occurrenceId !== occurrenceId);
+  }, durationMs + 80);
   return highlight;
+}
+
+function snapshotBatch13aAileenHandAnimation(player, expectedIds=[]) {
+  const p = playerState(player);
+  const handEl = qs(playerZoneSelector(p, 'hand'));
+  const cards = Array.from(handEl?.querySelectorAll('.hc') || []);
+  const expected = {};
+  for (const id of expectedIds) {
+    const nodes = cards.filter(card => card.dataset.id === id);
+    expected[id] = {
+      rendered: nodes.length,
+      animated: nodes.filter(card => card.classList.contains('hc-batch03-ianna-drawn')).length,
+      glowing: nodes.filter(card => card.classList.contains('hc-batch13a-hand-glow')).length
+    };
+  }
+  return {
+    totalHandCards: cards.length,
+    totalGeneratedRendered: Object.values(expected).reduce((sum, item) => sum + item.rendered, 0),
+    totalGeneratedAnimated: Object.values(expected).reduce((sum, item) => sum + item.animated, 0),
+    totalGeneratedGlowing: Object.values(expected).reduce((sum, item) => sum + item.glowing, 0),
+    expected
+  };
 }
 
 async function resolveBatch13aAileenInitiative(cardId, player, sourceFC) {
   const generated = ['S000039','S000029'];
   if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'aileen-initiative', {generated}, 500);
   const added = [];
+  const animationSteps = [];
   for (const generatedId of generated) {
     if (addCardToHand(player, generatedId, {refresh:false})) {
       added.push(generatedId);
       registerBatch13aHandHighlight(player, generatedId, 'aileen-initiative-generated', 1400);
       renderAllHands();
-      await markBatch13aNewestHandCards(player, [generatedId], 'aileen-initiative-generated');
+      animationSteps.push({phase:'after-render-' + generatedId, added:[...added], audit:snapshotBatch13aAileenHandAnimation(player, generated)});
       await batch05VisualDelay(500);
     }
   }
   syncBatch05Passives();
-  await markBatch13aNewestHandCards(player, added, 'aileen-initiative-generated');
-  const result = {handled:true, success:added.length === 2, cardId, added};
+  animationSteps.push({phase:'complete', added:[...added], audit:snapshotBatch13aAileenHandAnimation(player, generated)});
+  const result = {handled:true, success:added.length === 2, cardId, added, animationSteps};
   recordCollectionBatch13aEvent('aileen-initiative-add-to-hand', result);
   return result;
 }
