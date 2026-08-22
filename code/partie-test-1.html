@@ -663,6 +663,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-rune-returning{animation:batch03RuneReturn .95s ease-out;}
 .batch03-rune-returning::before{content:'';position:absolute;inset:6px;z-index:48;border-radius:12px;border:2px solid rgba(180,130,255,.95);box-shadow:0 0 18px rgba(160,90,255,.95),inset 0 0 18px rgba(160,90,255,.65);pointer-events:none;}
 .hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
+.hc.hc-batch03-ianna-drawn[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc-batch03-ianna-stolen{animation:batch03IannaStolen .9s ease-out;box-shadow:0 0 22px rgba(90,190,255,.9),0 0 8px rgba(255,255,255,.8);}
 .hc-batch11-undead-transfer{animation:batch03IannaDrawn .85s ease-out;box-shadow:0 0 22px rgba(190,96,255,.9),0 0 34px rgba(96,24,160,.55),0 0 8px rgba(255,255,255,.75);}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
@@ -2007,12 +2008,14 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['B000018','B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017','H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['B000005','B000018','B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017','H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
+const LOCAL_ASSET_VERSION_BY_ID = Object.freeze({B000005:'20260822'});
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
   const resolvedFolder = folder || data?.assetFolder || facFolder(data?.fac || 'sort');
-  if (COLLECTION_BATCH_02_LOCAL_ASSET_IDS.has(id)) return `../assets/${resolvedFolder}/${id}.png`;
+  const version = LOCAL_ASSET_VERSION_BY_ID[id] ? `?v=${LOCAL_ASSET_VERSION_BY_ID[id]}` : '';
+  if (COLLECTION_BATCH_02_LOCAL_ASSET_IDS.has(id)) return `../assets/${resolvedFolder}/${id}.png${version}`;
   return `${GH}/${resolvedFolder}/${id}.png`;
 }
 
@@ -17887,6 +17890,12 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
       if (hc) {
         hc.setAttribute('draggable', 'true');
         hc.dataset.handOccurrence = batch03HandOccurrenceAt(p, i) || '';
+        const batch13aHighlight = (p.batch13aHandHighlights || []).find(item => item && item.cardId === id && item.occurrenceId === hc.dataset.handOccurrence);
+        if (batch13aHighlight) {
+          hc.dataset.batch13aHandAnimation = batch13aHighlight.reason || 'batch13a-hand-added';
+          hc.classList.add('hc-batch03-ianna-drawn');
+          setTimeout(() => hc.classList.remove('hc-batch03-ianna-drawn'), batch13aHighlight.durationMs || 1400);
+        }
         markCanonicalHandNode(hc, p, renderToken, 'face', id);
         handEl.appendChild(hc);
         traceHandMutation(handEl, 'renderPlayerHand:append-face', {cardId:id, renderToken});
@@ -23735,9 +23744,13 @@ async function resolveBatch13aFiruneInitiative(cardId, player, sourceFC) {
 async function markBatch13aNewestHandCards(player, cardIds, reason='batch13a-hand-added') {
   const p = playerState(player);
   if (!p || !Array.isArray(cardIds) || !cardIds.length) return false;
-  requestAnimationFrame(() => {
+  return new Promise(resolve => requestAnimationFrame(() => {
     const hand = qs(playerZoneSelector(p, 'hand'));
-    if (!hand) return;
+    if (!hand) {
+      resolve(false);
+      return;
+    }
+    let marked = false;
     cardIds.forEach(cardId => {
       const candidates = Array.from(hand.querySelectorAll(`.hc[data-id="${cardId}"]`));
       const card = candidates[candidates.length - 1];
@@ -23745,20 +23758,41 @@ async function markBatch13aNewestHandCards(player, cardIds, reason='batch13a-han
       card.dataset.batch13aHandAnimation = reason;
       card.classList.add('hc-batch03-ianna-drawn');
       setTimeout(() => card.classList.remove('hc-batch03-ianna-drawn'), 900);
+      marked = true;
     });
-  });
-  return true;
+    resolve(marked);
+  }));
+}
+
+function registerBatch13aHandHighlight(player, cardId, reason='batch13a-hand-added', durationMs=1400) {
+  const p = playerState(player);
+  if (!p || !cardId) return null;
+  const index = p.hand.length - 1;
+  if (p.hand[index] !== cardId) return null;
+  const occurrenceId = batch03HandOccurrenceAt(p, index);
+  if (!occurrenceId) return null;
+  p.batch13aHandHighlights ||= [];
+  p.batch13aHandHighlights = p.batch13aHandHighlights.filter(item => item?.occurrenceId !== occurrenceId);
+  const highlight = {cardId, occurrenceId, reason, durationMs};
+  p.batch13aHandHighlights.push(highlight);
+  return highlight;
 }
 
 async function resolveBatch13aAileenInitiative(cardId, player, sourceFC) {
   const generated = ['S000039','S000029'];
-  if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'aileen-initiative', {generated});
+  if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'aileen-initiative', {generated}, 500);
   const added = [];
   for (const generatedId of generated) {
-    if (addCardToHand(player, generatedId, {refresh:false})) added.push(generatedId);
+    if (addCardToHand(player, generatedId, {refresh:false})) {
+      added.push(generatedId);
+      registerBatch13aHandHighlight(player, generatedId, 'aileen-initiative-generated', 1400);
+      renderAllHands();
+      await markBatch13aNewestHandCards(player, [generatedId], 'aileen-initiative-generated');
+      await batch05VisualDelay(500);
+    }
   }
-  renderAllHands();
-  markBatch13aNewestHandCards(player, added, 'aileen-initiative-generated');
+  syncBatch05Passives();
+  await markBatch13aNewestHandCards(player, added, 'aileen-initiative-generated');
   const result = {handled:true, success:added.length === 2, cardId, added};
   recordCollectionBatch13aEvent('aileen-initiative-add-to-hand', result);
   return result;
@@ -23783,8 +23817,7 @@ async function triggerBatch13aFiruneVengeance(player, dyingFC) {
     recordCollectionBatch13aEvent('firune-vengeance-no-target', result);
     return result;
   }
-  pulseBatch03Ability(dyingFC, 'firune-vengeance', {move:true});
-  await batch05VisualDelay(420);
+  await waitBatch05BeforeEffect(dyingFC, 'firune-vengeance', {target:targetSummary(target)}, 500);
   let effect;
   if (target.dataset.frozen_cdg) {
     const applied = setColdDurationExact(target, 'cdg', 3, player, 'EDG000016');

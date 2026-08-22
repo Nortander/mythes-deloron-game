@@ -119,7 +119,7 @@ test("Batch-13A Collection data, local dragon art and lore rendering stay clean"
     };
   }), fixture.allCards);
   expect(auditData.map(entry => entry.id)).toEqual(fixture.allCards);
-  expect(auditData.find(entry => entry.id === "B000005").image).toContain("../assets/betes/B000005.png");
+  expect(auditData.find(entry => entry.id === "B000005").image).toContain("../assets/betes/B000005.png?v=20260822");
   for (const id of fixture.cards) {
     const entry = auditData.find(item => item.id === id);
     expect(entry.card, id).toBeTruthy();
@@ -131,10 +131,8 @@ test("Batch-13A Collection data, local dragon art and lore rendering stay clean"
   await page.locator("#searchInput").fill("B000005");
   const dragon = collectionCard(page, "B000005");
   await expect(dragon).toBeVisible();
-  await expect.poll(() => dragon.locator("img.ccard-art").evaluate(img => img.naturalWidth), {
-    message: "B000005 local Collection image loaded",
-    timeout: 8000
-  }).toBeGreaterThan(0);
+  const dragonSrc = await expectImageLoaded(dragon.locator("img.ccard-art"), "B000005 local Collection image loaded");
+  expect(dragonSrc).toContain("/assets/betes/B000005.png?v=20260822");
 
   await page.locator("#btnReset").click();
   await page.locator("#searchInput").fill("DIV000017");
@@ -175,6 +173,8 @@ test("Batch-13A hidden scenario exposes all new cards and plays base servants", 
   }
   state = await audit(page);
   expect(state.player1.servants.map(card => card.id)).toEqual(expect.arrayContaining(["B000019", "DIV000017", "EDG000014"]));
+  const dragonBoardSrc = await page.evaluate(() => cardArtworkSrc("B000005", "betes"));
+  expect(dragonBoardSrc).toContain("../assets/betes/B000005.png?v=20260822");
   const sylvenierBoardSrc = await expectImageLoaded(page.locator('.fc[data-id="DIV000017"] img.fi'), "DIV000017 scenario image loaded");
   expect(sylvenierBoardSrc).toContain("/assets/autres/DIV000017.png");
   for (const cardId of ["B000019", "DIV000017", "EDG000014"]) {
@@ -266,6 +266,9 @@ test("Firune resolves Initiative and Vengeance with the three cold branches", as
   expect(gelBranch.target.cdg || 0).toBe(0);
   expect(gelBranch.events.some(event => event.type === "firune-vengeance" && event.effect?.type === "gel-target-damage-only")).toBe(true);
   expect(gelBranch.events.find(event => event.type === "firune-vengeance")?.destination).toBe("graveyard");
+  const firuneGelFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "firune-vengeance"));
+  expect(firuneGelFeedback.at(-1)?.source?.id).toBe("EDG000016");
+  expect(firuneGelFeedback.at(-1)?.target?.id).toBe("H000005");
 
   await openScenario(page);
   await resetPlayer1Servants(page);
@@ -280,6 +283,9 @@ test("Firune resolves Initiative and Vengeance with the three cold branches", as
   });
   expect(cdgBranch.target.cdg).toBe(3);
   expect(cdgBranch.events.some(event => event.type === "firune-vengeance" && event.effect?.type === "cdg-reset-plus-two")).toBe(true);
+  const firuneCdgFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "firune-vengeance"));
+  expect(firuneCdgFeedback.at(-1)?.source?.id).toBe("EDG000016");
+  expect(firuneCdgFeedback.at(-1)?.target?.id).toBe("H000006");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -302,11 +308,22 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
   expect(state.player1.hand.length).toBe(before.player1.hand.length - 1 + fixture.generatedByAileen.length);
   const aileenFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "aileen-initiative"));
   expect(aileenFeedback.at(-1)?.source?.id).toBe("EDG000017");
+  await expect.poll(() => page.locator('.fc[data-id="EDG000017"]').evaluate(fc => ({
+    passive: fc.dataset.batch03PassivePulse,
+    reason: fc.dataset.batch03LastPulseReason,
+    color: fc.style.getPropertyValue("--batch04-pulse-color")
+  }))).toMatchObject({passive:"1", reason:"batch05-passive", color:"#d8f7ffcc"});
   await expect.poll(() => page.evaluate((ids) => ids.map(id => {
     const cards = Array.from(document.querySelectorAll(playerZoneSelector(player1, "hand") + ' .hc[data-id="' + id + '"]'));
     const card = cards[cards.length - 1];
     return card?.dataset.batch13aHandAnimation || "";
   }), fixture.generatedByAileen)).toEqual(["aileen-initiative-generated", "aileen-initiative-generated"]);
+  const handHaloColor = await page.evaluate((ids) => ids.map(id => {
+    const cards = Array.from(document.querySelectorAll(playerZoneSelector(player1, "hand") + ' .hc[data-id="' + id + '"]'));
+    const card = cards[cards.length - 1];
+    return card ? getComputedStyle(card).boxShadow : "";
+  }), fixture.generatedByAileen);
+  expect(handHaloColor.every(value => value.includes("42, 143, 212"))).toBe(true);
 
   const attack = await page.evaluate(async () => {
     const aileen = document.querySelector(playerZoneSelector(player1, "servants") + ' .fc[data-id="EDG000017"]');
