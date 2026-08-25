@@ -666,6 +666,9 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc.hc-batch03-ianna-drawn[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc.hc-batch13a-hand-glow[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc-batch13a-aileen-arrival{animation:batch13aAileenArrival .72s ease-out;box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
+.batch13a-aileen-hand-ghost{position:fixed;z-index:4310;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(42,143,212,.98);box-shadow:0 0 24px rgba(42,143,212,.92),0 0 46px rgba(216,247,255,.62),inset 0 0 18px rgba(216,247,255,.28);animation:batch13aAileenGhostArrival .74s ease-out both;}
+.batch13a-aileen-hand-ghost[data-ghost-index="0"]{--aileen-from-x:58px;--aileen-drift-x:-58px;--aileen-mid-x:-9px;--aileen-tilt:-4deg;}
+.batch13a-aileen-hand-ghost[data-ghost-index="1"]{--aileen-from-x:-58px;--aileen-drift-x:58px;--aileen-mid-x:9px;--aileen-tilt:4deg;}
 .hc-batch03-ianna-stolen{animation:batch03IannaStolen .9s ease-out;box-shadow:0 0 22px rgba(90,190,255,.9),0 0 8px rgba(255,255,255,.8);}
 .hc-batch11-undead-transfer{animation:batch03IannaDrawn .85s ease-out;box-shadow:0 0 22px rgba(190,96,255,.9),0 0 34px rgba(96,24,160,.55),0 0 8px rgba(255,255,255,.75);}
 .batch03-initiative-pulse{animation:batch03InitiativePulse .7s ease-out;}
@@ -683,6 +686,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch03IannaReveal{0%{opacity:0;transform:translate(-50%,-48%) scale(.72);}16%,78%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-52%) scale(.86);}}
 @keyframes batch03IannaDrawn{0%{transform:translateY(-18px) scale(.9);filter:brightness(1.8);}100%{transform:none;filter:none;}}
 @keyframes batch13aAileenArrival{0%{opacity:.38;filter:brightness(2.15) drop-shadow(0 0 18px rgba(42,143,212,.95));}45%{opacity:1;filter:brightness(1.45) drop-shadow(0 0 26px rgba(216,247,255,.9));}100%{opacity:1;filter:none;}}
+@keyframes batch13aAileenGhostArrival{0%{opacity:0;transform:translate(var(--aileen-from-x,0px),-76px) scale(.72) rotate(var(--aileen-tilt,0deg));filter:brightness(2.45) drop-shadow(0 0 24px rgba(216,247,255,.95));}18%{opacity:1;}64%{opacity:1;transform:translate(var(--aileen-mid-x,0px),-18px) scale(1.03) rotate(var(--aileen-tilt,0deg));filter:brightness(1.55) drop-shadow(0 0 28px rgba(42,143,212,.92));}100%{opacity:0;transform:translate(var(--aileen-drift-x,0px),0) scale(.92) rotate(0deg);filter:brightness(1.1);}}
 @keyframes batch03IannaStolen{0%{transform:translateX(38px) scale(.85);filter:brightness(1.9);}70%{transform:translateX(-4px) scale(1.04);filter:brightness(1.25);}100%{transform:none;filter:none;}}
 @keyframes batch03InitiativePulse{0%{filter:brightness(1.9) drop-shadow(0 0 18px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(-2px) scale(1.035);}55%{filter:brightness(1.28) drop-shadow(0 0 28px var(--batch04-pulse-color,var(--card-faction-color,#26c4ec)));transform:translateY(1px) scale(1.015);}100%{filter:none;transform:none;}}
 .av-valid-target{animation:avPulse 0.9s ease-in-out infinite;cursor:crosshair;}
@@ -23808,6 +23812,7 @@ function snapshotBatch13aAileenHandAnimation(player, expectedIds=[]) {
   const p = playerState(player);
   const handEl = qs(playerZoneSelector(p, 'hand'));
   const cards = Array.from(handEl?.querySelectorAll('.hc') || []);
+  const ghosts = Array.from(document.querySelectorAll('[data-batch13a-aileen-ghost="1"]'));
   const expected = {};
   for (const id of expectedIds) {
     const nodes = cards.filter(card => card.dataset.id === id);
@@ -23826,27 +23831,66 @@ function snapshotBatch13aAileenHandAnimation(player, expectedIds=[]) {
     totalGeneratedAileenArrival: Object.values(expected).reduce((sum, item) => sum + item.aileenArrival, 0),
     totalGeneratedLegacyDrawn: Object.values(expected).reduce((sum, item) => sum + item.legacyDrawn, 0),
     totalGeneratedGlowing: Object.values(expected).reduce((sum, item) => sum + item.glowing, 0),
+    activeAileenGhosts: ghosts.length,
+    activeAileenGhostIds: ghosts.map(ghost => ghost.dataset.id || ''),
     expected
   };
+}
+
+async function animateBatch13aAileenAtomicHandArrival(player, cardIds, sourceFC=null) {
+  const p = playerState(player);
+  const handEl = qs(playerZoneSelector(p, 'hand'));
+  const before = snapshotBatch13aAileenHandAnimation(p, cardIds);
+  const cleanup = () => document.querySelectorAll('[data-batch13a-aileen-ghost="1"]').forEach(ghost => ghost.remove());
+  cleanup();
+  if (!p || !handEl || typeof document === 'undefined') return {mode:'no-dom', before, during:before, afterCleanup:before};
+  const handRect = handEl.getBoundingClientRect();
+  const sourceRect = sourceFC?.getBoundingClientRect?.();
+  const centerX = sourceRect ? sourceRect.left + sourceRect.width / 2 : handRect.left + handRect.width / 2;
+  const centerY = sourceRect ? sourceRect.top + sourceRect.height / 2 : handRect.top - 72;
+  const ghosts = [];
+  cardIds.forEach((cardId, index) => {
+    const data = CARDS_DATA[cardId];
+    if (!data) return;
+    const ghost = document.createElement('div');
+    ghost.className = 'batch13a-aileen-hand-ghost';
+    ghost.dataset.batch13aAileenGhost = '1';
+    ghost.dataset.id = cardId;
+    ghost.dataset.ghostIndex = String(index);
+    ghost.style.left = Math.max(10, centerX - 46) + 'px';
+    ghost.style.top = Math.max(10, centerY - 64) + 'px';
+    ghost.style.backgroundImage = 'url("' + cardArtworkSrc(cardId, data.assetFolder || facFolder(data.fac)) + '")';
+    document.body.appendChild(ghost);
+    ghosts.push(ghost);
+  });
+  const during = snapshotBatch13aAileenHandAnimation(p, cardIds);
+  recordCollectionBatch13aEvent('aileen-initiative-atomic-ghosts', {playerId:p.key, cardIds:[...cardIds], activeGhosts:during.activeAileenGhosts, activeGhostIds:during.activeAileenGhostIds});
+  await batch05VisualDelay(760);
+  cleanup();
+  const afterCleanup = snapshotBatch13aAileenHandAnimation(p, cardIds);
+  return {mode:'atomic-ghosts-before-final-render', before, during, afterCleanup};
 }
 
 async function resolveBatch13aAileenInitiative(cardId, player, sourceFC) {
   const generated = ['S000039','S000029'];
   if (sourceFC) await waitBatch05BeforeEffect(sourceFC, 'aileen-initiative', {generated}, 500);
-  const added = [];
   const animationSteps = [];
+  const atomicAnimation = await animateBatch13aAileenAtomicHandArrival(player, generated, sourceFC);
+  animationSteps.push({phase:'atomic-ghosts', audit:atomicAnimation.during});
+  animationSteps.push({phase:'after-ghost-cleanup', audit:atomicAnimation.afterCleanup});
+  const added = [];
   for (const generatedId of generated) {
     if (addCardToHand(player, generatedId, {refresh:false})) {
       added.push(generatedId);
-      registerBatch13aHandHighlight(player, generatedId, 'aileen-initiative-generated', 1400);
-      renderAllHands();
-      animationSteps.push({phase:'after-render-' + generatedId, added:[...added], audit:snapshotBatch13aAileenHandAnimation(player, generated)});
-      await batch05VisualDelay(500);
+      const highlight = registerBatch13aHandHighlight(player, generatedId, 'aileen-initiative-generated', 1400);
+      if (highlight) highlight.animationConsumed = true;
     }
   }
+  renderAllHands();
+  animationSteps.push({phase:'after-final-render', added:[...added], audit:snapshotBatch13aAileenHandAnimation(player, generated)});
   syncBatch05Passives();
   animationSteps.push({phase:'complete', added:[...added], audit:snapshotBatch13aAileenHandAnimation(player, generated)});
-  const result = {handled:true, success:added.length === 2, cardId, added, animationSteps};
+  const result = {handled:true, success:added.length === 2, cardId, added, animationMode:'atomic-ghosts-then-final-render', atomicAnimation, animationSteps};
   recordCollectionBatch13aEvent('aileen-initiative-add-to-hand', result);
   return result;
 }

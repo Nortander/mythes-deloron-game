@@ -316,36 +316,44 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
   expect(state.events.some(event => event.type === "aileen-initiative-add-to-hand" && event.added.length === 2)).toBe(true);
   const aileenInitiativeEvent = state.events.find(event => event.type === "aileen-initiative-add-to-hand");
   expect(aileenInitiativeEvent?.added).toEqual(fixture.generatedByAileen);
-  expect(aileenInitiativeEvent?.animationSteps).toHaveLength(3);
+  expect(aileenInitiativeEvent?.animationMode).toBe("atomic-ghosts-then-final-render");
+  expect(aileenInitiativeEvent?.animationSteps).toHaveLength(4);
   expect(aileenInitiativeEvent.animationSteps[0]).toMatchObject({
-    phase: "after-render-S000039",
+    phase: "atomic-ghosts",
     audit: {
-      totalGeneratedRendered: 1,
-      totalGeneratedAnimated: 1,
-      totalGeneratedAileenArrival: 1,
-      totalGeneratedLegacyDrawn: 0,
-      expected: {
-        S000039: {rendered: 1, animated: 1, aileenArrival: 1, legacyDrawn: 0},
-        S000029: {rendered: 0, animated: 0, aileenArrival: 0, legacyDrawn: 0}
-      }
+      totalGeneratedRendered: 0,
+      activeAileenGhosts: 2,
+      activeAileenGhostIds: fixture.generatedByAileen
     }
   });
   expect(aileenInitiativeEvent.animationSteps[1]).toMatchObject({
-    phase: "after-render-S000029",
+    phase: "after-ghost-cleanup",
+    audit: {
+      totalGeneratedRendered: 0,
+      activeAileenGhosts: 0,
+      totalGeneratedLegacyDrawn: 0
+    }
+  });
+  expect(aileenInitiativeEvent.animationSteps[2]).toMatchObject({
+    phase: "after-final-render",
     audit: {
       totalGeneratedRendered: 2,
-      totalGeneratedAnimated: 1,
-      totalGeneratedAileenArrival: 1,
+      totalGeneratedAnimated: 0,
+      totalGeneratedAileenArrival: 0,
       totalGeneratedLegacyDrawn: 0,
       totalGeneratedGlowing: 2,
+      activeAileenGhosts: 0,
       expected: {
         S000039: {rendered: 1, animated: 0, aileenArrival: 0, legacyDrawn: 0, glowing: 1},
-        S000029: {rendered: 1, animated: 1, aileenArrival: 1, legacyDrawn: 0, glowing: 1}
+        S000029: {rendered: 1, animated: 0, aileenArrival: 0, legacyDrawn: 0, glowing: 1}
       }
     }
   });
   expect(aileenInitiativeEvent.animationSteps.every(step => step.audit.totalGeneratedRendered <= 2)).toBe(true);
+  expect(aileenInitiativeEvent.animationSteps.every(step => step.audit.activeAileenGhosts <= 2)).toBe(true);
+  expect(aileenInitiativeEvent.animationSteps.at(-1).audit.activeAileenGhosts).toBe(0);
   expect(aileenInitiativeEvent.animationSteps.every(step => step.audit.totalGeneratedLegacyDrawn === 0)).toBe(true);
+  expect(aileenInitiativeEvent.atomicAnimation?.during?.activeAileenGhostIds).toEqual(fixture.generatedByAileen);
   expect(state.player1.hand.length).toBe(before.player1.hand.length - 1 + fixture.generatedByAileen.length);
   const aileenFeedback = await page.evaluate(() => auditCollectionBatch05Runtime().state.events.filter(event => event.type === "feedback-before-effect" && event.reason === "aileen-initiative"));
   expect(aileenFeedback.at(-1)?.source?.id).toBe("EDG000017");
@@ -365,6 +373,7 @@ test("Commandante Aileen creates spells and spreads cold on attack", async ({pag
     return card ? getComputedStyle(card).boxShadow : "";
   }), fixture.generatedByAileen);
   expect(handHaloColor.every(value => value.includes("42, 143, 212"))).toBe(true);
+  expect(await page.locator('[data-batch13a-aileen-ghost="1"]').count()).toBe(0);
 
   const attack = await page.evaluate(async () => {
     const aileen = document.querySelector(playerZoneSelector(player1, "servants") + ' .fc[data-id="EDG000017"]');
