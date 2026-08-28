@@ -619,6 +619,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch11e-stat-buff{color:#50e870!important;text-shadow:0 0 3px #fff,0 0 8px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,.9)!important;}
 .batch11e-stat-nerf{color:#ff5040!important;text-shadow:0 0 3px #fff,0 0 8px rgba(220,40,20,.9),0 1px 4px rgba(0,0,0,.9)!important;}
 .batch11-echo-pile-pulse{--batch04-pulse-color:rgba(190,96,255,.98);animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);box-shadow:0 0 0 3px rgba(190,96,255,.92),0 0 32px rgba(142,52,220,.82)!important;}
+.batch14d-ereon-draw-halo{animation:batch14dEreonDrawHalo 1.2s ease-out;box-shadow:0 0 0 3px rgba(255,220,96,.96),0 0 32px rgba(255,190,45,.86)!important;}
+@keyframes batch14dEreonDrawHalo{0%{filter:brightness(1.75) saturate(1.35);transform:translateY(-4px) scale(1.04);}60%{filter:brightness(1.25);transform:translateY(0) scale(1.01);}100%{filter:none;transform:none;}}
 @keyframes targetPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 16px rgba(255,80,40,0.4);}50%{box-shadow:0 0 0 3px rgba(255,80,40,1),0 0 28px rgba(255,80,40,0.7);}}
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
@@ -3282,6 +3284,19 @@ SCENARIOS['collection-batch-14b-prst000007-core-visual'] = {
     player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:["H000006","H000009","H000012","H000013","H000014","S000033"], graveyard:["H000004","H000005","H000006","S000004","S000006","R000003","R000004","DIV000002","EDN000001","MV000002"], servants:[{"id":"DIV000003","atk":1,"pdv":4,"pdvMax":4,"prepared":true},{"id":"DIV000003","atk":1,"pdv":4,"pdvMax":4,"prepared":true},{"id":"DIV000003","atk":1,"pdv":4,"pdvMax":4,"prepared":true},{"id":"DIV000003","atk":1,"pdv":4,"pdvMax":4,"prepared":true},{"id":"DIV000003","atk":1,"pdv":4,"pdvMax":4,"prepared":true},{"id":"DIV000003","atk":1,"pdv":4,"pdvMax":4,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
   }
 };
+// COLLECTION_BATCH_14D_PRST_SCENARIO_ENRICHMENTS
+SCENARIOS['collection-batch-14b-prst000001-core-visual'].label = "TEST - COLLECTION BATCH 14D Faveur d'Aonir combat";
+SCENARIOS['collection-batch-14b-prst000001-core-visual'].testSetup.player2.servants = [{id:'MV000001',atk:1,pdv:8,pdvMax:8,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}];
+SCENARIOS['collection-batch-14b-prst000004-core-visual'].label = "TEST - COLLECTION BATCH 14D Faveur de Zarrach destruction";
+SCENARIOS['collection-batch-14b-prst000004-core-visual'].testSetup.player1.servants = [{id:'H000001',atk:3,pdv:2,pdvMax:4,prepared:true},{id:'EDB000001',atk:2,pdv:2,pdvMax:2,prepared:true}];
+SCENARIOS['collection-batch-14b-prst000006-core-visual'].label = "TEST - COLLECTION BATCH 14D Faveur d'Éréon pioche";
+SCENARIOS['collection-batch-14b-prst000006-core-visual'].testSetup.player1.drawPile = ['H000001','H000002','H000003','H000004','H000005','H000006','H000007','H000008','H000009','H000010','H000011','PRST000006'];
+SCENARIOS['collection-batch-14b-prst000006-core-visual'].testSetup.player1.startingDeckCardIds = ['H000001','H000002','H000003','H000004','H000005','H000006','H000007','H000008','H000009','H000010','H000011','PRST000006'];
+SCENARIOS['collection-batch-14b-prst000006-core-visual'].testSetup.player2.drawPile = ['H000006','H000009','H000012','H000013','H000014','S000033','H000001'];
+SCENARIOS['collection-batch-14b-prst000007-core-visual'].label = "TEST - COLLECTION BATCH 14D Faveur d'Hirin arbitrage";
+SCENARIOS['collection-batch-14b-prst000007-core-visual'].testSetup.player1.servants = [{id:'H000001',atk:6,pdv:6,pdvMax:6,prepared:true}];
+SCENARIOS['collection-batch-14b-prst000007-core-visual'].testSetup.player2.servants = [{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true},{id:'DIV000003',atk:1,pdv:4,pdvMax:4,prepared:true},{id:'DIV000003',atk:1,pdv:4,pdvMax:4,prepared:true},{id:'DIV000003',atk:1,pdv:4,pdvMax:4,prepared:true},{id:'DIV000003',atk:1,pdv:4,pdvMax:4,prepared:true},{id:'DIV000003',atk:1,pdv:4,pdvMax:4,prepared:true}];
+
 SCENARIOS['collection-batch-14b-prst000008-core-visual'] = {
   label:"TEST - COLLECTION BATCH 14B Faveur de Niethalf",
   participants:['yria','rohen'],
@@ -5462,6 +5477,8 @@ function drawCardFromRuntimeDeck(player, options={}) {
     previousHandSize: handSizeBefore,
     newHandSize: hand.length
   };
+  const prstEreonBonus = queueBatch14DEreonDrawBonus(p, result, options);
+  if (prstEreonBonus) result.prstEreonBonus = prstEreonBonus;
   emitDrawTrace({
     ...trace,
     selectedEntry,
@@ -8366,6 +8383,9 @@ function batch03DynamicStatusTexts(fc) {
   if (Number(fc.dataset.batch09InstablePdvBonus || 0) > 0) add("Bénéficie temporairement d'un bonus de points de vie.");
   if (fc.dataset.batch09InstableRempart === '1') add('Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.');
   if (Number(fc.dataset.batch09IceShieldCharges || 0) > 0) add('Protégé par [Gel] : *' + Number(fc.dataset.batch09IceShieldCharges || 0) + '* attaque(s) restante(s), dégâts réduits de *2*.');
+  if (fc.dataset.batch14dAonirBlessing === '1') add(COLLECTION_BATCH_14D_AONIR_TEXT);
+  if (fc.dataset.batch14dHirinBypassRempart === '1') add(COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT);
+  if (fc.dataset.batch14dHirinCurse === '1') add(COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT);
   const stolenBatch10 = String(fc.dataset.batch10StolenKeywords || '').split('|').filter(Boolean);
   if (stolenBatch10.length) add('Bénéficie de ' + stolenBatch10.map(keyword => batch10KeywordHtml(keyword, 'batch10-goblin-keyword')).join(', ') + '.');
   const suppressedBatch10 = String(fc.dataset.batch10SuppressedKeywords || '').split('|').filter(Boolean);
@@ -11406,6 +11426,9 @@ function targetSummary(fc) {
     batch09TrollNainAttached:fc.dataset.batch09TrollNainAttached === '1',
     batch09DevoreMagicAtkBonus:Number(fc.dataset.batch09DevoreMagicAtkBonus || 0),
     batch09IceShieldCharges:Number(fc.dataset.batch09IceShieldCharges || 0),
+    batch14dAonirBlessing:fc.dataset.batch14dAonirBlessing === '1',
+    batch14dHirinBypassRempart:fc.dataset.batch14dHirinBypassRempart === '1',
+    batch14dHirinCurse:fc.dataset.batch14dHirinCurse === '1',
     batch09BonePdvBonus:Number(fc.dataset.batch09BonePdvBonus || 0),
     batch09InstableAtkBonus:Number(fc.dataset.batch09InstableAtkBonus || 0),
     batch09InstablePdvBonus:Number(fc.dataset.batch09InstablePdvBonus || 0),
@@ -11741,6 +11764,7 @@ function activatePrstFavorCore(cardId, player, context={}) {
   };
   const message = state[cardId].message;
   if (message) showNotif(message, 2200);
+  const specificResolution = activateBatch14DPrstSpecificFavor(cardId, p, context);
   if (typeof window !== "undefined") {
     window.__lastPrstActivation = {playerId:p.key, cardId, state:{...state[cardId]}};
     window.__prstFavorStates = window.__prstFavorStates || {};
@@ -11748,7 +11772,188 @@ function activatePrstFavorCore(cardId, player, context={}) {
   }
   let removedFromGame = false;
   if (context.source === "draw") removedFromGame = moveResolvedSpellToRemovedFromGame(cardId, p);
-  return {success:true, handled:true, cardId, status:state[cardId].status, deferredLot:state[cardId].deferredLot, message, removedFromGame};
+  return {success:true, handled:true, cardId, status:state[cardId].status, deferredLot:state[cardId].deferredLot, message, removedFromGame, specificResolution};
+}
+
+// COLLECTION_BATCH_14D_PRST_COMBAT_DESTRUCTION_DRAW_RUNTIME
+const COLLECTION_BATCH_14D_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000001','PRST000004','PRST000006','PRST000007']));
+const COLLECTION_BATCH_14D_AONIR_TEXT = "Bénéficie de la Faveur d'Aonir : inflige [Colère Divine] aux morts-vivants qu'il rencontre. Peut parfois détruire des Échos.";
+const COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT = "Bénéficie de la Faveur d'Hirin : passe outre [Rempart].";
+const COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT = "Maudit par Hirin le Messager : inflige 1 point de dégât à son avatar quand ce serviteur est détruit.";
+
+function collectionBatch14DState() {
+  if (typeof window === 'undefined') return {events:[]};
+  window.__collectionBatch14D ||= {events:[]};
+  window.__collectionBatch14D.events ||= [];
+  return window.__collectionBatch14D;
+}
+function recordCollectionBatch14DEvent(type, detail={}) {
+  const event = {type, timestamp:Date.now(), ...(detail || {})};
+  const state14d = collectionBatch14DState();
+  state14d.events.push(event);
+  return event;
+}
+function hasActivePrstFavor(player, cardId) {
+  const p = playerState(player);
+  return !!(p?.prstFavors && p.prstFavors[cardId]);
+}
+function isBatch14DHumanServant(fc) {
+  const d = CARDS_DATA[fc?.dataset?.id];
+  return !!fc && !fc.dataset.dead && d?.type === 'Serviteur' && d.fac === 'hum';
+}
+function isBatch14DUndeadServant(fc) {
+  if (!fc || fc.dataset.dead) return false;
+  return typeof isBatch03UndeadServant === 'function' ? isBatch03UndeadServant(fc) : CARDS_DATA[fc.dataset.id]?.fac === 'mvs';
+}
+function syncBatch14DPrstFavorEffects() {
+  [player1, player2].filter(Boolean).forEach(owner => {
+    for (const fc of livingServantCardsForPlayer(owner)) {
+      const opponent = opponentOf(owner);
+      if (hasActivePrstFavor(owner, 'PRST000001') && isBatch14DHumanServant(fc)) {
+        fc.dataset.batch14dAonirBlessing = '1';
+      } else {
+        delete fc.dataset.batch14dAonirBlessing;
+      }
+      if (hasActivePrstFavor(owner, 'PRST000007')) {
+        fc.dataset.batch14dHirinBypassRempart = '1';
+      } else {
+        delete fc.dataset.batch14dHirinBypassRempart;
+      }
+      if (opponent && hasActivePrstFavor(opponent, 'PRST000007')) {
+        fc.dataset.batch14dHirinCurse = '1';
+        fc.dataset.batch14dHirinCurseCaster = opponent.key;
+      } else {
+        delete fc.dataset.batch14dHirinCurse;
+        delete fc.dataset.batch14dHirinCurseCaster;
+      }
+    }
+  });
+}
+function activateBatch14DPrstSpecificFavor(cardId, player, context={}) {
+  const p = playerState(player);
+  if (!p || !COLLECTION_BATCH_14D_PRST_EFFECT_IDS.has(cardId)) return null;
+  const state = ensurePrstFavorState(p);
+  if (state?.[cardId]) {
+    state[cardId].specificStatus = 'EFFET_SPECIFIQUE_IMPLEMENTE_14D';
+    state[cardId].implementedLot = '14D';
+  }
+  syncBatch14DPrstFavorEffects();
+  const result = {success:true, cardId, playerId:p.key, specificStatus:'EFFET_SPECIFIQUE_IMPLEMENTE_14D', source:context.source || 'manual'};
+  recordCollectionBatch14DEvent('prst-specific-activated', result);
+  return result;
+}
+function applyBatch14DEreonHandHalo(player, cardId) {
+  const p = playerState(player);
+  const handEl = qs(playerZoneSelector(p, 'hand'));
+  if (!handEl) return false;
+  const matches = Array.from(handEl.querySelectorAll('.hc[data-id="' + CSS.escape(cardId) + '"]'));
+  const node = matches[matches.length - 1];
+  if (!node) return false;
+  node.classList.add('batch14d-ereon-draw-halo');
+  setTimeout(() => node.classList.remove('batch14d-ereon-draw-halo'), 1200);
+  return true;
+}
+function queueBatch14DEreonDrawBonus(drawingPlayer, drawResult, options={}) {
+  const drawer = playerState(drawingPlayer);
+  if (!drawer || !drawResult?.success || options.suppressPrstEreonBonus) return null;
+  const owners = [player1, player2].filter(owner => owner && owner.key !== drawer.key && hasActivePrstFavor(owner, 'PRST000006'));
+  if (!owners.length) return null;
+  const batches = owners.map(owner => {
+    const batch = {ownerId:owner.key, triggeringPlayerId:drawer.key, triggeringCardId:drawResult.cardId, scheduled:2, draws:[]};
+    recordCollectionBatch14DEvent('ereon-bonus-scheduled', batch);
+    [0, 500].forEach((delay, index) => {
+      setTimeout(() => {
+        const bonus = drawCardFromRuntimeDeck(owner, {refresh:true, sourceCardId:'PRST000006', suppressPrstEreonBonus:true});
+        if (bonus?.success) applyBatch14DEreonHandHalo(owner, bonus.cardId);
+        const payload = {ownerId:owner.key, triggeringPlayerId:drawer.key, index:index + 1, delayMs:delay, draw:bonus};
+        batch.draws.push(payload);
+        recordCollectionBatch14DEvent('ereon-bonus-draw', payload);
+      }, delay);
+    });
+    return batch;
+  });
+  return {success:true, sourceCardId:'PRST000006', batches};
+}
+function batch14DZarrachCandidatesFor(cardId) {
+  const source = CARDS_DATA[cardId];
+  const cost = Number(source?.cost);
+  if (!Number.isFinite(cost)) return [];
+  return Object.entries(CARDS_DATA)
+    .filter(([id, d]) => d?.type === 'Serviteur' && ['orc','gob','trl'].includes(d.fac) && Number(d.cost) === cost && !id.startsWith('PRST'))
+    .map(([id]) => id);
+}
+function resolveBatch14DZarrachOnServantDeath(player, fc, options={}) {
+  const p = playerState(player);
+  const d = CARDS_DATA[fc?.dataset?.id];
+  if (!p || !fc || d?.type !== 'Serviteur' || !hasActivePrstFavor(p, 'PRST000004')) return null;
+  if (fc.dataset.batch14dZarrachProcessed === '1') return {success:false, reason:'already-processed'};
+  fc.dataset.batch14dZarrachProcessed = '1';
+  const candidates = batch14DZarrachCandidatesFor(fc.dataset.id);
+  const replacementId = candidates[Math.floor(gameRandom() * candidates.length)] || null;
+  const added = replacementId ? addCardToHand(p, replacementId, {refresh:true}) : false;
+  const result = {success:!!added, playerId:p.key, sourceCardId:'PRST000004', deadCardId:fc.dataset.id, deadCost:Number(d.cost), replacementId, candidateCount:candidates.length, reason:added ? 'replacement-added-to-hand' : (replacementId ? 'hand-full' : 'no-eligible-replacement')};
+  recordCollectionBatch14DEvent('zarrach-servant-death-replacement', result);
+  return result;
+}
+function resolveBatch14DHirinCurseOnServantDeath(player, fc, options={}) {
+  const owner = playerState(player);
+  if (!owner || !fc || fc.dataset.batch14dHirinCurse !== '1') return null;
+  if (fc.dataset.batch14dHirinCurseProcessed === '1') return {success:false, reason:'already-processed'};
+  fc.dataset.batch14dHirinCurseProcessed = '1';
+  const result = applyAvatarEffectDamage(owner, 1, {sourceCardId:'PRST000007', sourceInstanceId:fc.dataset.batch14dHirinCurseCaster || ''});
+  const avatarEl = qs(playerZoneSelector(owner, 'avatar') + ' .av-portrait');
+  if (avatarEl) {
+    avatarEl.classList.add('anim-damage');
+    setTimeout(() => avatarEl.classList.remove('anim-damage'), 700);
+  }
+  recordCollectionBatch14DEvent('hirin-cursed-servant-destroyed', {success:true, ownerId:owner.key, casterId:fc.dataset.batch14dHirinCurseCaster || '', deadCardId:fc.dataset.id, damage:result});
+  return result;
+}
+function resolveBatch14DServantDeath(player, fc, options={}) {
+  syncBatch14DPrstFavorEffects();
+  return {zarrach:resolveBatch14DZarrachOnServantDeath(player, fc, options), hirin:resolveBatch14DHirinCurseOnServantDeath(player, fc, options)};
+}
+function batch14DApplyAonirWrathOnCombatDamage(sourceFC, targetFC, combat={}) {
+  syncBatch14DPrstFavorEffects();
+  const damageDealt = Number(combat.damageDealt || 0);
+  if (!sourceFC || !targetFC || damageDealt <= 0 || combat.targetDied) return {success:false, reason:'no-real-surviving-combat-damage'};
+  if (sourceFC.dataset.batch14dAonirBlessing !== '1') return {success:false, reason:'source-not-aonir-blessed'};
+  if (!isBatch14DUndeadServant(targetFC)) return {success:false, reason:'target-not-undead'};
+  if (targetFC.dataset.insensible === '1') {
+    showResistVfx(targetFC, 'Insensible');
+    return {success:false, reason:'target-insensible'};
+  }
+  const sourcePlayer = playerState(sourceFC.dataset.player);
+  const result = applyBatch03DivineWrath(targetFC, sourcePlayer, {sourceCardId:'PRST000001', sourceInstanceId:sourceFC.dataset.instance || null, reason:'batch14d-aonir-combat-damage'});
+  if (result?.success) {
+    targetFC.dataset.batch14dAonirWrathOwner = sourcePlayer?.key || '';
+    recordCollectionBatch14DEvent('aonir-divine-wrath-applied', {source:targetSummary(sourceFC), target:targetSummary(targetFC), combat:{damageDealt, phase:combat.phase || ''}, result});
+  }
+  return result;
+}
+async function triggerBatch14DCombatHooks(sourceFC, targetFC, combat={}) {
+  return batch14DApplyAonirWrathOnCombatDamage(sourceFC, targetFC, combat);
+}
+function resolveBatch14DAonirDivineWrathEchoDrain(target, context={}) {
+  if (!target || target.dataset.batch03DivineWrathSourceCard !== 'PRST000001' || !target.dataset.batch14dAonirWrathOwner) return null;
+  const owner = playerState(target.dataset.player);
+  if (!owner) return null;
+  const drain = consumeSouls(owner, 1, 'prst-aonir-divine-wrath-echo-drain');
+  const result = {sourceCardId:'PRST000001', ownerId:owner.key, casterId:target.dataset.batch14dAonirWrathOwner, target:targetSummary(target), drain};
+  recordCollectionBatch14DEvent('aonir-divine-wrath-echo-drain', result);
+  return result;
+}
+if (typeof window !== 'undefined') {
+  Object.assign(window, {
+    COLLECTION_BATCH_14D_PRST_EFFECT_IDS,
+    COLLECTION_BATCH_14D_AONIR_TEXT,
+    COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT,
+    COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT,
+    collectionBatch14DState,
+    syncBatch14DPrstFavorEffects,
+    batch14DApplyAonirWrathOnCombatDamage,
+    queueBatch14DEreonDrawBonus
+  });
 }
 function shouldMoveResolvedSpellToGraveyard(cardId) {
   const card = CARDS_DATA[cardId];
@@ -11895,6 +12100,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   if (placedFC && cardId === 'MV000019') markBatch12aForgeronEntry(placedFC, p);
   if (placedFC && d.type === 'Serviteur') applyBatch05IceWallToSummon(p, placedFC);
   if (placedFC && d.type === 'Serviteur') resolveBatch11eRecyclageOnSummon(p, cardId, placedFC.dataset.instance || null);
+  if (placedFC && d.type === 'Serviteur') syncBatch14DPrstFavorEffects();
   syncBatch05Passives();
   if (d.type === 'Approvisionnement' && placedFC) {
     const instance = registerSupplyInstance(p, placedFC);
@@ -12102,6 +12308,7 @@ function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
   const slotIndex = slotParent ? Array.from(slotParent.children).indexOf(slot) : -1;
   slot.outerHTML = buildFC(cardId, p.key);
   const placedFC = slotParent && slotIndex >= 0 ? slotParent.children[slotIndex] : null;
+  if (placedFC && CARDS_DATA[cardId]?.type === 'Serviteur') syncBatch14DPrstFavorEffects();
   addHistEntry(cardId, CARDS_DATA[cardId]?.fac);
   updateCamouflageVFX();
   renderAllHands();
@@ -16281,6 +16488,7 @@ function refreshHand(player) {
 // ── COMBAT ──
 // ════════════════════════════════════════════════════════════
 function highlightTargets() {
+  syncBatch14DPrstFavorEffects();
   const adversePlayer  = opponentOf(currentPlayer);
   const adverseZoneId  = playerZoneSelector(adversePlayer, 'servants');
   const adverseZone    = qs(adverseZoneId);
@@ -16291,7 +16499,7 @@ function highlightTargets() {
     : [];
 
   // Y a-t-il un Rempart actif ?
-  const ignoresRempart = ['EN000006','N000006','TRL000011'].includes(attackingFC?.dataset?.id || '');
+  const ignoresRempart = ['EN000006','N000006','TRL000011'].includes(attackingFC?.dataset?.id || '') || attackingFC?.dataset?.batch14dHirinBypassRempart === '1';
   const hasRempart = !ignoresRempart && adverseServants.some(fc => fc.dataset.rempart === '1' && !fc.dataset.frozen && !fc.dataset.frozen_cdg && !isBatch04Hypnotized(fc));
 
   // Le joueur courant a-t-il un serviteur avec [Vigilance] ? (révèle le camouflage adverse)
@@ -16393,6 +16601,7 @@ function tryAttack(fc) {
 }
 
 async function resolveCombat(attacker, targetFC) {
+  syncBatch14DPrstFavorEffects();
   if (isBatch04Hypnotized(attacker)) {
     showErr('Ce serviteur est sous <b>Hypnose</b> et ne peut pas attaquer.');
     recordCollectionBatch03Event('combat-refused', {reason:'attacker-hypnotized', attacker:targetSummary(attacker), target:targetSummary(targetFC)});
@@ -16444,6 +16653,7 @@ async function resolveCombat(attacker, targetFC) {
     });
   }
   await triggerBatch03CombatHooks(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
+  await triggerBatch14DCombatHooks(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
   await resolveBatch05PostAttackEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack'});
   await resolveBatch07CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch07GlamrigAdjacentTargets});
   await resolveBatch08CombatDamageDealtEffects(attacker, targetFC, {damageDealt:finalAtkDmg, targetDied:defDied, phase:'attack', adjacentTargets:batch08Plan.adjacentTargets, firstBoarAttack:batch08Plan.firstBoarAttack});
@@ -16470,6 +16680,7 @@ async function resolveCombat(attacker, targetFC) {
       });
     }
     await triggerBatch03CombatHooks(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
+    await triggerBatch14DCombatHooks(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
     await resolveBatch05PostAttackEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
     await resolveBatch08CombatDamageDealtEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
     await resolveBatch09CombatDamageDealtEffects(targetFC, attacker, {damageDealt:counterAtk, targetDied:attackerDied, phase:'counter'});
@@ -16745,6 +16956,7 @@ async function sendToCemetery(fc, options={}) {
   if (goesToCemetery) {
     handleBatch08AlliedServantDeath(player, fc, options);
     handleBatch09AlliedServantDeath(player, fc, options);
+    resolveBatch14DServantDeath(player, fc, options);
   }
   let batch11aEchoCapture = {captured:false};
   if (goesToCemetery && d.type === 'Serviteur') {
@@ -25419,6 +25631,13 @@ async function resolveBatch03DivineWrathStartTurn(player, result) {
       result.divineWrathEchoDrain ||= [];
       result.divineWrathEchoDrain.push(consumeSouls(p, 1, 'divine-wrath-randall'));
     }
+    if (died) {
+      const batch14dAonirDrain = resolveBatch14DAonirDivineWrathEchoDrain(target, {sourcePlayer, sourceCardId});
+      if (batch14dAonirDrain) {
+        result.divineWrathEchoDrain ||= [];
+        result.divineWrathEchoDrain.push(batch14dAonirDrain);
+      }
+    }
     if (!died && target.isConnected) {
       const remaining = Math.max(0, turnsBefore - 1);
       if (remaining > 0) {
@@ -26412,6 +26631,7 @@ function applyScenarioTestSetup() {
   collectionBatch12aState.events = [];
   collectionBatch12aState.ambiguities = [];
   collectionBatch13aState.events = [];
+  if (typeof window !== 'undefined' && window.__collectionBatch14D) window.__collectionBatch14D.events = [];
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
@@ -26489,6 +26709,7 @@ function applyScenarioTestSetup() {
     }
     updateDeckCount(p);
   });
+  syncBatch14DPrstFavorEffects();
   refreshBatch05SnowfallDynamicTexts();
   renderAllHands();
   syncBatch04PassivePulses();
