@@ -620,7 +620,11 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch11e-stat-nerf{color:#ff5040!important;text-shadow:0 0 3px #fff,0 0 8px rgba(220,40,20,.9),0 1px 4px rgba(0,0,0,.9)!important;}
 .batch11-echo-pile-pulse{--batch04-pulse-color:rgba(190,96,255,.98);animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);box-shadow:0 0 0 3px rgba(190,96,255,.92),0 0 32px rgba(142,52,220,.82)!important;}
 .batch14d-ereon-draw-halo{animation:batch14dEreonDrawHalo 1.2s ease-out;box-shadow:0 0 0 3px rgba(255,220,96,.96),0 0 32px rgba(255,190,45,.86)!important;}
+.batch14d-hand-flight{position:fixed;z-index:4340;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(255,224,114,.96);box-shadow:0 0 24px rgba(255,220,96,.95),0 0 46px rgba(255,160,32,.72),inset 0 0 18px rgba(255,245,170,.25);animation:batch14dHandFlight .88s cubic-bezier(.22,.95,.32,1) forwards;}
+.batch14d-hand-flight[data-flight-reason="zarrach"]{border-color:rgba(255,146,64,.98);box-shadow:0 0 24px rgba(255,146,64,.95),0 0 46px rgba(255,92,28,.68),inset 0 0 18px rgba(255,210,126,.24);}
+.batch14d-hand-flight[data-face-up="0"]{background-size:cover;}
 @keyframes batch14dEreonDrawHalo{0%{filter:brightness(1.75) saturate(1.35);transform:translateY(-4px) scale(1.04);}60%{filter:brightness(1.25);transform:translateY(0) scale(1.01);}100%{filter:none;transform:none;}}
+@keyframes batch14dHandFlight{0%{opacity:0;transform:translate(var(--from-x,0),var(--from-y,0)) scale(.76) rotate(-4deg);filter:brightness(2.25);}14%{opacity:1;}66%{opacity:1;transform:translate(calc(var(--from-x,0) + (var(--to-x,0) - var(--from-x,0)) * .66),calc(var(--from-y,0) + (var(--to-y,0) - var(--from-y,0)) * .66 - 34px)) scale(1.02) rotate(3deg);filter:brightness(1.45);}100%{opacity:0;transform:translate(var(--to-x,0),var(--to-y,0)) scale(.52) rotate(0deg);filter:brightness(1.1);}}
 @keyframes targetPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 16px rgba(255,80,40,0.4);}50%{box-shadow:0 0 0 3px rgba(255,80,40,1),0 0 28px rgba(255,80,40,0.7);}}
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
@@ -5434,7 +5438,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
     emitDrawTrace({...trace, capacity, selectedEntry, deckSizeAfter:pile.length, handSizeAfter:hand.length, result:'failure', reason:result.reason});
     return result;
   }
-  const prstAutoPlayResolution = isPrstFavorCard(cardId) ? activatePrstFavorCore(cardId, p, {source:'draw', selectedEntry, sourceCardId:options.sourceCardId || null}) : null;
+  const prstAutoPlayResolution = isPrstFavorCard(cardId) ? activatePrstFavorCore(cardId, p, {source:'draw', selectedEntry, sourceCardId:options.sourceCardId || null, suppressMessage:options.suppressPrstActivationMessage === true}) : null;
   const linkedKeyResolution = prstAutoPlayResolution?.handled ? {handled:false} : maybeResolveLinkedStoneKeyDraw(p, selectedEntry, {sourceCardId:options.sourceCardId || null});
   const evolutionRule = COLLECTION_BATCH_02_EVOLUTION?.[cardId] || null;
   const evolutionCanResolve = evolutionRule ? canResolveBatch02Evolution(p, cardId) : false;
@@ -11763,7 +11767,7 @@ function activatePrstFavorCore(cardId, player, context={}) {
     hirinArbitration:cardId === "PRST000007" ? COLLECTION_BATCH_14B_HIRIN_ARBITRATION : null
   };
   const message = state[cardId].message;
-  if (message) showNotif(message, 2200);
+  if (message && context.suppressMessage !== true) showNotif(message, 2200);
   const specificResolution = activateBatch14DPrstSpecificFavor(cardId, p, context);
   if (typeof window !== "undefined") {
     window.__lastPrstActivation = {playerId:p.key, cardId, state:{...state[cardId]}};
@@ -11777,9 +11781,10 @@ function activatePrstFavorCore(cardId, player, context={}) {
 
 // COLLECTION_BATCH_14D_PRST_COMBAT_DESTRUCTION_DRAW_RUNTIME
 const COLLECTION_BATCH_14D_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000001','PRST000004','PRST000006','PRST000007']));
-const COLLECTION_BATCH_14D_AONIR_TEXT = "Bénéficie de la Faveur d'Aonir : inflige [Colère Divine] aux morts-vivants qu'il rencontre. Peut parfois détruire des Échos.";
-const COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT = "Bénéficie de la Faveur d'Hirin : passe outre [Rempart].";
-const COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT = "Maudit par Hirin le Messager : inflige 1 point de dégât à son avatar quand ce serviteur est détruit.";
+const COLLECTION_BATCH_14D_AONIR_TEXT = "*Bénéficie de la Faveur d'Aonir* : inflige *Colère divine* aux morts-vivants qu'il rencontre. Peut parfois détruire des Échos.";
+const COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT = "*Bénéficie de la Faveur d'Hirin* : passe outre *Rempart*.";
+const COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT = "*Maudit par Hirin le Messager* : inflige *1* point de dégât à son avatar quand ce serviteur est détruit.";
+const COLLECTION_BATCH_14D_ZARRACH_MESSAGE = "Zarrach vous bénit avec l'abondance : un de perdu, un de retrouvé !";
 
 function collectionBatch14DState() {
   if (typeof window === 'undefined') return {events:[]};
@@ -11846,11 +11851,59 @@ function applyBatch14DEreonHandHalo(player, cardId) {
   const p = playerState(player);
   const handEl = qs(playerZoneSelector(p, 'hand'));
   if (!handEl) return false;
-  const matches = Array.from(handEl.querySelectorAll('.hc[data-id="' + CSS.escape(cardId) + '"]'));
+  const selector = p.key === currentPlayer ? '.hc[data-id="' + CSS.escape(cardId) + '"]' : '.hc-back';
+  const matches = Array.from(handEl.querySelectorAll(selector));
   const node = matches[matches.length - 1];
   if (!node) return false;
+  node.dataset.batch14dHandAnimation = 'ereon-draw';
   node.classList.add('batch14d-ereon-draw-halo');
   setTimeout(() => node.classList.remove('batch14d-ereon-draw-halo'), 1200);
+  return true;
+}
+function batch14DHandFlightOrigin(player, origin='center') {
+  const p = playerState(player);
+  if (origin === 'deck') {
+    const deck = qs(playerZoneSelector(p, 'deck'));
+    const rect = deck?.getBoundingClientRect?.();
+    if (rect) return {x:rect.left + rect.width / 2 - 46, y:rect.top + rect.height / 2 - 64};
+  }
+  return {x:Math.max(0, window.innerWidth / 2 - 46), y:Math.max(0, window.innerHeight / 2 - 64)};
+}
+function createBatch14DHandFlight(player, cardId, {origin='center', reason='effect', faceUp=null}={}) {
+  const p = playerState(player);
+  if (!p || typeof document === 'undefined') return false;
+  const hand = qs(playerZoneSelector(p, 'hand'));
+  const to = hand?.getBoundingClientRect?.();
+  if (!to) return false;
+  const d = CARDS_DATA[cardId] || {};
+  const node = document.createElement('div');
+  const showFace = faceUp == null ? p.key === currentPlayer : !!faceUp;
+  const from = batch14DHandFlightOrigin(p, origin);
+  node.className = 'batch14d-hand-flight';
+  node.dataset.testid = 'batch14d-hand-flight';
+  node.dataset.cardId = cardId || '';
+  node.dataset.ownerId = p.key || '';
+  node.dataset.flightOrigin = origin;
+  node.dataset.flightReason = reason;
+  node.dataset.faceUp = showFace ? '1' : '0';
+  node.style.backgroundImage = 'url("' + (showFace ? cardArtworkSrc(cardId, d.assetFolder || facFolder(d.fac || 'sort')) : p.back) + '")';
+  node.style.setProperty('--from-x', Math.round(from.x) + 'px');
+  node.style.setProperty('--from-y', Math.round(from.y) + 'px');
+  node.style.setProperty('--to-x', Math.round(to.left + to.width / 2 - 46) + 'px');
+  node.style.setProperty('--to-y', Math.round(to.top + to.height / 2 - 64) + 'px');
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 980);
+  recordCollectionBatch14DEvent('hand-flight-created', {playerId:p.key, cardId, origin, reason, faceUp:showFace});
+  return true;
+}
+function renderBatch14DDelayedHandArrival(player, cardId, {reason='effect', delayMs=650}={}) {
+  const p = playerState(player);
+  setTimeout(() => {
+    if (!p) return;
+    renderPlayerHand(p, {faceUp:p.key === currentPlayer, drawLast:true});
+    applyBatch14DEreonHandHalo(p, cardId);
+    recordCollectionBatch14DEvent('hand-arrival-rendered', {playerId:p.key, cardId, reason, faceUp:p.key === currentPlayer});
+  }, delayMs);
   return true;
 }
 function queueBatch14DEreonDrawBonus(drawingPlayer, drawResult, options={}) {
@@ -11863,8 +11916,11 @@ function queueBatch14DEreonDrawBonus(drawingPlayer, drawResult, options={}) {
     recordCollectionBatch14DEvent('ereon-bonus-scheduled', batch);
     [0, 500].forEach((delay, index) => {
       setTimeout(() => {
-        const bonus = drawCardFromRuntimeDeck(owner, {refresh:true, sourceCardId:'PRST000006', suppressPrstEreonBonus:true});
-        if (bonus?.success) applyBatch14DEreonHandHalo(owner, bonus.cardId);
+        const bonus = drawCardFromRuntimeDeck(owner, {refresh:false, sourceCardId:'PRST000006', suppressPrstEreonBonus:true, suppressPrstActivationMessage:true, predicate:candidateId => !(candidateId === 'PRST000006' && hasActivePrstFavor(owner, 'PRST000006'))});
+        if (bonus?.success) {
+          createBatch14DHandFlight(owner, bonus.cardId, {origin:'deck', reason:'ereon', faceUp:owner.key === currentPlayer});
+          renderBatch14DDelayedHandArrival(owner, bonus.cardId, {reason:'ereon', delayMs:650});
+        }
         const payload = {ownerId:owner.key, triggeringPlayerId:drawer.key, index:index + 1, delayMs:delay, draw:bonus};
         batch.draws.push(payload);
         recordCollectionBatch14DEvent('ereon-bonus-draw', payload);
@@ -11890,8 +11946,13 @@ function resolveBatch14DZarrachOnServantDeath(player, fc, options={}) {
   fc.dataset.batch14dZarrachProcessed = '1';
   const candidates = batch14DZarrachCandidatesFor(fc.dataset.id);
   const replacementId = candidates[Math.floor(gameRandom() * candidates.length)] || null;
-  const added = replacementId ? addCardToHand(p, replacementId, {refresh:true}) : false;
-  const result = {success:!!added, playerId:p.key, sourceCardId:'PRST000004', deadCardId:fc.dataset.id, deadCost:Number(d.cost), replacementId, candidateCount:candidates.length, reason:added ? 'replacement-added-to-hand' : (replacementId ? 'hand-full' : 'no-eligible-replacement')};
+  const added = replacementId ? addCardToHand(p, replacementId, {refresh:false}) : false;
+  let flight = false;
+  if (added) {
+    flight = createBatch14DHandFlight(p, replacementId, {origin:'center', reason:'zarrach', faceUp:p.key === currentPlayer});
+    renderBatch14DDelayedHandArrival(p, replacementId, {reason:'zarrach', delayMs:700});
+  }
+  const result = {success:!!added, playerId:p.key, sourceCardId:'PRST000004', deadCardId:fc.dataset.id, deadCost:Number(d.cost), replacementId, candidateCount:candidates.length, flight, reason:added ? 'replacement-added-to-hand' : (replacementId ? 'hand-full' : 'no-eligible-replacement')};
   recordCollectionBatch14DEvent('zarrach-servant-death-replacement', result);
   return result;
 }
@@ -11952,7 +12013,8 @@ if (typeof window !== 'undefined') {
     collectionBatch14DState,
     syncBatch14DPrstFavorEffects,
     batch14DApplyAonirWrathOnCombatDamage,
-    queueBatch14DEreonDrawBonus
+    queueBatch14DEreonDrawBonus,
+    createBatch14DHandFlight
   });
 }
 function shouldMoveResolvedSpellToGraveyard(cardId) {
@@ -16499,7 +16561,9 @@ function highlightTargets() {
     : [];
 
   // Y a-t-il un Rempart actif ?
-  const ignoresRempart = ['EN000006','N000006','TRL000011'].includes(attackingFC?.dataset?.id || '') || attackingFC?.dataset?.batch14dHirinBypassRempart === '1';
+  const printedRempartBypass = ['EN000006','N000006','TRL000011'].includes(attackingFC?.dataset?.id || '');
+  const hirinRempartBypass = attackingFC?.dataset?.batch14dHirinBypassRempart === '1';
+  const ignoresRempart = printedRempartBypass || hirinRempartBypass;
   const hasRempart = !ignoresRempart && adverseServants.some(fc => fc.dataset.rempart === '1' && !fc.dataset.frozen && !fc.dataset.frozen_cdg && !isBatch04Hypnotized(fc));
 
   // Le joueur courant a-t-il un serviteur avec [Vigilance] ? (révèle le camouflage adverse)
@@ -16528,7 +16592,7 @@ function highlightTargets() {
 
   // Avatar : ciblable seulement s'il n'y a aucun serviteur (ou Rempart déjà géré)
   const avatarEl = qs(playerZoneSelector(adversePlayer, 'avatar') + ' .av-portrait');
-  if (avatarEl && (adverseServants.length === 0 || ignoresRempart)) {
+  if (avatarEl && (adverseServants.length === 0 || printedRempartBypass)) {
     avatarEl.classList.add('av-valid-target');
   }
 }
@@ -22555,8 +22619,8 @@ const COLLECTION_BATCH_14B_PRST_SOURCE_ROWS = Object.freeze([
     "id": "PRST000007",
     "name": "Faveur d'Hirin",
     "cond": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
-    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs passent outre le mot-clef [Rempart] chez vos adversaires. Chaque fois qu'un serviteur ennemi est détruit, l'adversaire perd également *1* PDV.",
-    "detail": "Jusqu'à la fin de la partie, tous vos serviteurs passent outre le mot-clef [Rempart] chez vos adversaires. Chaque fois qu'un serviteur ennemi est détruit, l'adversaire perd également *1* PDV.",
+    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs passent outre le mot-clef [Rempart] chez vos adversaires. Chaque fois qu'un serviteur ennemi est détruit, l'adversaire perd également *1 PDV*.",
+    "detail": "Jusqu'à la fin de la partie, tous vos serviteurs passent outre le mot-clef [Rempart] chez vos adversaires. Chaque fois qu'un serviteur ennemi est détruit, l'adversaire perd également *1 PDV*.",
     "kws": [
       "Rempart"
     ],
@@ -22634,7 +22698,7 @@ const COLLECTION_BATCH_14B_PRST_MESSAGES = Object.freeze({
   "PRST000001": "LA BÉNÉDICTION DU DIEU SUPRÊME RENFORCE VOS SERVITEURS HUMAINS, LEUR ACCORDANT UN GRAND POUVOIR FACE AUX ABOMINATIONS MORTES-VIVANTES !",
   "PRST000002": "ELEN LA GÉNÉREUSE FAIT PLEUVOIR L'ABONDANCE !",
   "PRST000003": "LE DIEU DE LA NUIT INTERVIENT ET PERMET À SES ÉLUS DE DÉPLOYER PLUS SOUVENT LEURS MALÉFICES.",
-  "PRST000004": "Faveur divine activée : Faveur de Zarrach.",
+  "PRST000004": COLLECTION_BATCH_14D_ZARRACH_MESSAGE,
   "PRST000005": "Faveur divine activée : Faveur de Mugwa.",
   "PRST000006": "ÉRÉON LE JUSTE ACCORDE SA VISION À CEUX QUI LE MÉRITENT.",
   "PRST000007": "HIRIN LE MESSAGER PERMET À SES ÉLUS DE PASSER DIRECTEMENT DERRIÈRE LES LIGNES ENNEMIES, POUR FRAPPER L'ADVERSAIRE AU COEUR !",
