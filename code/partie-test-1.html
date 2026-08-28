@@ -625,6 +625,12 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch14d-hand-flight[data-face-up="0"]{background-size:cover;}
 @keyframes batch14dEreonDrawHalo{0%{filter:brightness(1.75) saturate(1.35);transform:translateY(-4px) scale(1.04);}60%{filter:brightness(1.25);transform:translateY(0) scale(1.01);}100%{filter:none;transform:none;}}
 @keyframes batch14dHandFlight{0%{opacity:0;transform:translate(var(--from-x,0),var(--from-y,0)) scale(.76) rotate(-4deg);filter:brightness(2.25);}14%{opacity:1;}66%{opacity:1;transform:translate(calc(var(--from-x,0) + (var(--to-x,0) - var(--from-x,0)) * .66),calc(var(--from-y,0) + (var(--to-y,0) - var(--from-y,0)) * .66 - 34px)) scale(1.02) rotate(3deg);filter:brightness(1.45);}100%{opacity:0;transform:translate(var(--to-x,0),var(--to-y,0)) scale(.52) rotate(0deg);filter:brightness(1.1);}}
+.batch14c-elen-extra-slot{position:relative;border-color:rgba(96,238,128,.9)!important;background:linear-gradient(145deg,rgba(16,70,34,.94),rgba(6,24,14,.98))!important;box-shadow:0 0 0 2px rgba(96,238,128,.72),0 0 22px rgba(54,214,96,.5),inset 0 0 18px rgba(152,255,176,.16)!important;}
+.batch14c-elen-extra-slot::before{content:'✦';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:30px;color:#9bffb4;text-shadow:0 0 12px rgba(76,255,128,.95),0 1px 5px #000;pointer-events:none;}
+.batch14c-elen-extra-slot::after{content:'Faveur d\'Elen';position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font:700 9px/1 'Cinzel',serif;color:#dcffe5;text-shadow:0 1px 4px #000;white-space:nowrap;pointer-events:none;}
+.batch14c-elen-extra-slot-pending{width:var(--cs);height:var(--cs);min-width:var(--cs);min-height:var(--cs);border:1px solid rgba(96,238,128,.38);border-radius:10px;background:rgba(32,130,58,.07);box-shadow:0 0 0 0 rgba(96,238,128,.7);animation:batch14cElenSlotPulse .72s ease-out forwards;}
+.batch14c-shanna-critical{--batch04-pulse-color:rgba(255,72,176,.98);animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);box-shadow:0 0 0 3px rgba(255,72,176,.92),0 0 32px rgba(255,40,142,.82)!important;}
+@keyframes batch14cElenSlotPulse{0%{opacity:0;transform:scale(.68);box-shadow:0 0 0 0 rgba(96,238,128,.9);}45%{opacity:1;transform:scale(1.08);box-shadow:0 0 0 10px rgba(96,238,128,.18),0 0 30px rgba(96,238,128,.72);}100%{opacity:1;transform:scale(1);box-shadow:0 0 0 2px rgba(96,238,128,.72),0 0 22px rgba(54,214,96,.5);}}
 @keyframes targetPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 16px rgba(255,80,40,0.4);}50%{box-shadow:0 0 0 3px rgba(255,80,40,1),0 0 28px rgba(255,80,40,0.7);}}
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
@@ -3325,6 +3331,36 @@ SCENARIOS['collection-batch-14b-prst000009-core-visual'] = {
     player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:["H000006","H000009","H000012","H000013","H000014","S000033"], graveyard:["H000004","H000005","H000006","S000004","S000006","R000003","R000004","DIV000002","EDN000001","MV000002"], servants:[{"id":"H000005","atk":5,"pdv":5,"pdvMax":5,"prepared":true},{"id":"MV000001","atk":2,"pdv":3,"pdvMax":3,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
   }
 };
+const COLLECTION_BATCH_14C_GRAVEYARD_PLAYER1 = Object.freeze(['H000001','H000002','H000003','S000001','S000002','R000001','R000002','DIV000001','EDB000001','MV000001']);
+const COLLECTION_BATCH_14C_GRAVEYARD_PLAYER2 = Object.freeze(['MV000001','MV000002','MV000003','MV000004','MV000005','S000004','S000006','R000003','R000004','DIV000002']);
+Object.assign(SCENARIOS['collection-batch-14b-prst000002-core-visual'], {
+  label:"TEST - COLLECTION BATCH 14C Faveur d'Elen passifs",
+  testSetup:{
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['PRST000002','R000001','R000014','EDB000001'], drawPile:['R000002','R000003','EDB000002','EDB000003','PRST000002'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER1], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'EDB000001',atk:2,pdv:2,pdvMax:2,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, startingDeckCardIds:['R000002','R000003','EDB000002','EDB000003','PRST000002']},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['MV000006','MV000007','MV000008','MV000009','MV000010','S000033'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000005-core-visual'], {
+  label:"TEST - COLLECTION BATCH 14C Faveur de Mugwa passifs",
+  testSetup:{
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['PRST000005','TRL000019','TRL000009'], drawPile:['TRL000013','TRL000014','TRL000016','TRL000020','PRST000005'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER1], servants:[{id:'TRL000010',atk:6,pdv:7,pdvMax:7,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, startingDeckCardIds:['TRL000013','TRL000014','TRL000016','TRL000020','PRST000005']},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['MV000006','MV000007','MV000008','MV000009','MV000010','S000033'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER2], servants:[{id:'MV000020',atk:10,pdv:12,pdvMax:12,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000008-core-visual'], {
+  label:"TEST - COLLECTION BATCH 14C Faveur de Niethalf passifs",
+  testSetup:{
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['PRST000008','N000001'], drawPile:['N000003','N000003','N000005','N000005','N000012','N000012','N000002','N000010','N000002','N000010','PRST000008'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER1], servants:[{id:'N000001',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'N000004',atk:4,pdv:5,pdvMax:5,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, startingDeckCardIds:['N000003','N000003','N000005','N000005','N000012','N000012','N000002','N000010','N000002','N000010','PRST000008']},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['MV000006','MV000007','MV000008','MV000009','MV000010','S000033'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000009-core-visual'], {
+  label:"TEST - COLLECTION BATCH 14C Faveur de Shanna passifs",
+  testSetup:{
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['PRST000009','H000001','H000031'], drawPile:['H000005','H000006','H000009','H000012','H000013','PRST000009'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER1], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000031',atk:6,pdv:10,pdvMax:10,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, startingDeckCardIds:['H000005','H000006','H000009','H000012','H000013','PRST000009']},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:['MV000006','MV000007','MV000008','MV000009','MV000010','S000033'], graveyard:[...COLLECTION_BATCH_14C_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:12,pdvMax:12,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
+  }
+});
 SCENARIOS['collection-batch-14b-prst000010-core-visual'] = {
   label:"TEST - COLLECTION BATCH 14B Faveur de Tiara",
   participants:['yria','rohen'],
@@ -6965,7 +7001,7 @@ function projectSupplyInstanceToDom(player, instance, fc=null) {
   const target = fc || zone?.querySelector(`[data-supply-instance="${instance.instanceId}"]`);
   if (!target) return;
 
-  const vector = compactProductionVector(instance.currentProduction);
+  const vector = compactProductionVector(batch14CEffectiveSupplyProduction(p, instance));
   const entries = supplyProductionEntries(vector);
   target.dataset.supplyInstance = instance.instanceId;
   target.removeAttribute('data-botanical-stack');
@@ -6991,7 +7027,7 @@ function recomputeClassicalResources(player) {
   const next = createEmptyClassicalResources();
   (p.supplies || []).forEach(instance => {
     RESOURCE_KEYS.forEach(key => {
-      next[key] += Number(instance.currentProduction?.[key] || 0);
+      next[key] += Number(batch14CEffectiveSupplyProduction(p, instance)?.[key] || 0);
     });
   });
   if (!resourceVectorsEqual(p.resourceState.classical, next)) {
@@ -8390,6 +8426,7 @@ function batch03DynamicStatusTexts(fc) {
   if (fc.dataset.batch14dAonirBlessing === '1') add(COLLECTION_BATCH_14D_AONIR_TEXT);
   if (fc.dataset.batch14dHirinBypassRempart === '1') add(COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT);
   if (fc.dataset.batch14dHirinCurse === '1') add(COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT);
+  if (fc.dataset.batch14cShannaFavor === '1') add(COLLECTION_BATCH_14C_SHANNA_TEXT);
   const stolenBatch10 = String(fc.dataset.batch10StolenKeywords || '').split('|').filter(Boolean);
   if (stolenBatch10.length) add('Bénéficie de ' + stolenBatch10.map(keyword => batch10KeywordHtml(keyword, 'batch10-goblin-keyword')).join(', ') + '.');
   const suppressedBatch10 = String(fc.dataset.batch10SuppressedKeywords || '').split('|').filter(Boolean);
@@ -9345,6 +9382,8 @@ function buildCanonicalCardTooltips(cardModel, context='preview') {
   const right = [];
   if (model?.type === 'Approvisionnement') {
     right.push({kind:'ability', title:'APPROVISIONNEMENT', body:formatPlayerFacingCardText(model.detailedEffect || model.description || '', model), order:0});
+    const elenTooltip = batch14CElenSupplyTooltipFor(model);
+    if (elenTooltip) right.push(elenTooltip);
   } else if (model?.detailedEffect) {
     right.push({kind:'ability', title:model.type || 'CARTE', body:formatPlayerFacingCardText(model.detailedEffect, model), order:0});
   }
@@ -11419,7 +11458,7 @@ function targetSummary(fc) {
     divineWrathNextDamage:fc.dataset.batch03DivineWrathNextDamage || null,
     blessedSwordsTurns:fc.dataset.batch03BlessedSwordsTurns || null,
     auraProtection:fc.dataset.batch03AuraProtection === '1',
-    runeServant:(CARDS_DATA[fc.dataset.id]?.kws || []).includes('Serviteur de la rune'),
+    runeServant:isBatch03RuneServant(fc.dataset.id) || fc.dataset.batch07RuneServant === '1',
     batch09DevoreMagicMarkers:Number(fc.dataset.batch09DevoreMagicMarkers || 0),
     batch09DevoreMagicSpent:fc.dataset.batch09DevoreMagicSpent === '1',
     batch09FuryCount:Number(fc.dataset.batch09FuryCount || 0),
@@ -11433,6 +11472,8 @@ function targetSummary(fc) {
     batch14dAonirBlessing:fc.dataset.batch14dAonirBlessing === '1',
     batch14dHirinBypassRempart:fc.dataset.batch14dHirinBypassRempart === '1',
     batch14dHirinCurse:fc.dataset.batch14dHirinCurse === '1',
+    batch14cShannaFavor:fc.dataset.batch14cShannaFavor === '1',
+    batch14cElenExtraSlot:fc.dataset.batch14cElenSlot || null,
     batch09BonePdvBonus:Number(fc.dataset.batch09BonePdvBonus || 0),
     batch09InstableAtkBonus:Number(fc.dataset.batch09InstableAtkBonus || 0),
     batch09InstablePdvBonus:Number(fc.dataset.batch09InstablePdvBonus || 0),
@@ -11768,7 +11809,7 @@ function activatePrstFavorCore(cardId, player, context={}) {
   };
   const message = state[cardId].message;
   if (message && context.suppressMessage !== true) showNotif(message, 2200);
-  const specificResolution = activateBatch14DPrstSpecificFavor(cardId, p, context);
+  const specificResolution = activatePrstFavorSpecificEffects(cardId, p, context);
   if (typeof window !== "undefined") {
     window.__lastPrstActivation = {playerId:p.key, cardId, state:{...state[cardId]}};
     window.__prstFavorStates = window.__prstFavorStates || {};
@@ -12017,6 +12058,210 @@ if (typeof window !== 'undefined') {
     createBatch14DHandFlight
   });
 }
+
+
+// COLLECTION_BATCH_14C_PRST_PASSIVE_RUNTIME
+const COLLECTION_BATCH_14C_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000002','PRST000005','PRST000008','PRST000009']));
+const COLLECTION_BATCH_14C_ELEN_TOOLTIP = Object.freeze({kind:'batch14c-elen', title:"FAVEUR D'ELEN", body:"Elen vous accorde l'abondance et accroît le rendement de toutes vos cartes d'approvisionnement.", order:1});
+const COLLECTION_BATCH_14C_SHANNA_TEXT = "Bénéficie de la Faveur de Shanna : a 25% de chances d'infliger le double de ses dégâts à chaque attaque.";
+function collectionBatch14CState() {
+  if (typeof window === 'undefined') return {events:[], randomQueue:[]};
+  window.__collectionBatch14C ||= {events:[], randomQueue:[]};
+  window.__collectionBatch14C.events ||= [];
+  window.__collectionBatch14C.randomQueue ||= [];
+  return window.__collectionBatch14C;
+}
+function recordCollectionBatch14CEvent(type, detail={}) {
+  const event = {type, timestamp:Date.now(), ...(detail || {})};
+  collectionBatch14CState().events.push(event);
+  return event;
+}
+function batch14CRandom() {
+  const state14c = collectionBatch14CState();
+  if (Array.isArray(state14c.randomQueue) && state14c.randomQueue.length) return Number(state14c.randomQueue.shift());
+  if (typeof window !== 'undefined' && Array.isArray(window.__collectionBatch14CRandomQueue) && window.__collectionBatch14CRandomQueue.length) return Number(window.__collectionBatch14CRandomQueue.shift());
+  return gameRandom();
+}
+function activatePrstFavorSpecificEffects(cardId, player, context={}) {
+  const result14d = activateBatch14DPrstSpecificFavor(cardId, player, context);
+  const result14c = activateBatch14CPrstSpecificFavor(cardId, player, context);
+  if (!result14d && !result14c) return null;
+  return {success:result14d?.success !== false && result14c?.success !== false, cardId, batch14d:result14d, batch14c:result14c};
+}
+function batch14CServantZone(player) {
+  const p = playerState(player);
+  return p ? qs(playerZoneSelector(p, 'servants')) : null;
+}
+function batch14CElenExtraSlots(player) {
+  const zone = batch14CServantZone(player);
+  return zone ? Array.from(zone.querySelectorAll('.batch14c-elen-extra-slot,.batch14c-elen-extra-slot-pending')) : [];
+}
+function resetBatch14CExtraServantSlots(player=null) {
+  const owners = player ? [playerState(player)].filter(Boolean) : [player1, player2].filter(Boolean);
+  owners.forEach(owner => batch14CElenExtraSlots(owner).forEach(slot => slot.remove()));
+}
+function ensureBatch14CElenServantSlots(player) {
+  const p = playerState(player);
+  const zone = batch14CServantZone(p);
+  if (!p || !zone) return {created:0, active:batch14CElenExtraSlots(p).length};
+  const existing = batch14CElenExtraSlots(p);
+  if (existing.length >= 2) return {created:0, active:existing.length};
+  const make = side => {
+    const slot = document.createElement('div');
+    slot.className = 'batch14c-elen-extra-slot-pending';
+    slot.dataset.batch14cElenSlot = side;
+    slot.dataset.player = p.key;
+    slot.dataset.testid = 'batch14c-elen-extra-slot';
+    setTimeout(() => {
+      slot.classList.remove('batch14c-elen-extra-slot-pending');
+      slot.classList.add('slot', 'batch14c-elen-extra-slot');
+      recordCollectionBatch14CEvent('elen-extra-slot-active', {playerId:p.key, side});
+    }, 520);
+    return slot;
+  };
+  const left = make('left');
+  const right = make('right');
+  zone.insertBefore(left, zone.firstElementChild || null);
+  zone.appendChild(right);
+  recordCollectionBatch14CEvent('elen-extra-slots-created', {playerId:p.key, slots:2});
+  return {created:2, active:2};
+}
+function batch14CEffectiveSupplyProduction(player, instance) {
+  const p = playerState(player);
+  const vector = compactProductionVector(instance?.currentProduction || {});
+  if (!p || !hasActivePrstFavor(p, 'PRST000002')) return vector;
+  const doubled = {};
+  RESOURCE_KEYS.forEach(key => { doubled[key] = Number(vector[key] || 0) * 2; });
+  return compactProductionVector(doubled);
+}
+function batch14CElenSupplyTooltipFor(modelOrCardId) {
+  const model = typeof modelOrCardId === 'string' ? getCanonicalCardDisplayModel(modelOrCardId) : modelOrCardId;
+  if (model?.type !== 'Approvisionnement') return null;
+  const owner = playerState(model?.runtime?.playerId);
+  if (!owner || !hasActivePrstFavor(owner, 'PRST000002')) return null;
+  return {...COLLECTION_BATCH_14C_ELEN_TOOLTIP};
+}
+function activateBatch14CElen(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'missing-player'};
+  p.batch14cElenFavor = true;
+  const slots = ensureBatch14CElenServantSlots(p);
+  for (const instance of (p.supplies || [])) projectSupplyInstanceToDom(p, instance);
+  recomputeClassicalResources(p);
+  updateTestResourcePanel();
+  const result = {success:true, cardId:'PRST000002', playerId:p.key, slots, supplyCount:(p.supplies || []).length};
+  recordCollectionBatch14CEvent('elen-activated', result);
+  return result;
+}
+function activateBatch14CMugwa(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'missing-player'};
+  p.batch09MugwaFavor = true;
+  p.batch14cMugwaFavor = true;
+  const id = `${p.key}-batch14c-mugwa`;
+  removeRuntimeCostModifier(p, id);
+  registerRuntimeCostModifier(p, {
+    id,
+    sourceId:'PRST000005',
+    sourceKind:'spell',
+    priority:15,
+    duration:'permanent',
+    criteria:{cardTypes:['Serviteur'], factions:['trl']},
+    operations:[{type:'batch09MugwaTrollCost'}],
+    description:"Faveur de Mugwa : vos Trolls coûtent 3 ressources et n'exigent plus de nourriture.",
+    active:true
+  });
+  renderAllHands();
+  const result = {success:true, cardId:'PRST000005', playerId:p.key, modifierId:id};
+  recordCollectionBatch14CEvent('mugwa-activated', result);
+  return result;
+}
+function batch14CDeckEntryCost(entry) {
+  const id = getRuntimeCardId(entry);
+  return Number(CARDS_DATA[id]?.cost || 0);
+}
+function batch14CNiethalfCandidates(player) {
+  const p = playerState(player);
+  const pile = p?.drawPile || [];
+  return pile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry), cost:batch14CDeckEntryCost(entry)}))
+    .filter(item => {
+      const data = CARDS_DATA[item.cardId];
+      return data?.type === 'Serviteur' && !item.entry?.batch07RuneServant && !(data.kws || []).includes('Serviteur de la rune');
+    })
+    .sort((a, b) => b.cost - a.cost || b.index - a.index);
+}
+function activateBatch14CNiethalf(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'missing-player'};
+  const pile = p.drawPile || [];
+  const selected = batch14CNiethalfCandidates(p).slice(0, 3);
+  selected.forEach(item => { pile[item.index] = batch07RuneDeckEntry(item.entry, 'PRST000008'); });
+  updateDeckCount(p);
+  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost}))};
+  recordCollectionBatch14CEvent('niethalf-activated', result);
+  return result;
+}
+function batch14CHasSimilarCriticalDamage(cardId) {
+  if (cardId === 'EDB000003' || cardId === 'EDG000013') return true;
+  const data = CARDS_DATA[cardId] || {};
+  const source = `${data.cap || ''} ${data.detail || ''}`.toLowerCase();
+  return /chance[^.]{0,120}(double|deux fois|2 fois)[^.]{0,120}d[ée]g[âa]ts/.test(source) || /(double|deux fois|2 fois)[^.]{0,120}d[ée]g[âa]ts[^.]{0,120}chance/.test(source);
+}
+function batch14CShannaEligibleServant(fc) {
+  if (!fc || fc.dataset.dead) return false;
+  const data = CARDS_DATA[fc.dataset.id];
+  return data?.type === 'Serviteur' && !batch14CHasSimilarCriticalDamage(fc.dataset.id);
+}
+function syncBatch14CPrstFavorEffects() {
+  [player1, player2].filter(Boolean).forEach(owner => {
+    for (const fc of livingServantCardsForPlayer(owner)) {
+      if (hasActivePrstFavor(owner, 'PRST000009') && batch14CShannaEligibleServant(fc)) fc.dataset.batch14cShannaFavor = '1';
+      else delete fc.dataset.batch14cShannaFavor;
+    }
+  });
+}
+function activateBatch14CShanna(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'missing-player'};
+  p.batch14cShannaFavor = true;
+  syncBatch14CPrstFavorEffects();
+  const result = {success:true, cardId:'PRST000009', playerId:p.key, affected:livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch14cShannaFavor === '1').map(targetSummary)};
+  recordCollectionBatch14CEvent('shanna-activated', result);
+  return result;
+}
+function batch14CShouldApplyShanna(attacker) {
+  if (!attacker || attacker.dataset.dead || attacker.dataset.batch14cShannaFavor !== '1') return false;
+  return batch14CShannaEligibleServant(attacker);
+}
+function activateBatch14CPrstSpecificFavor(cardId, player, context={}) {
+  const p = playerState(player);
+  if (!p || !COLLECTION_BATCH_14C_PRST_EFFECT_IDS.has(cardId)) return null;
+  const state = ensurePrstFavorState(p);
+  if (state?.[cardId]) {
+    state[cardId].specificStatus = 'EFFET_SPECIFIQUE_IMPLEMENTE_14C';
+    state[cardId].implementedLot = '14C';
+  }
+  let result = null;
+  if (cardId === 'PRST000002') result = activateBatch14CElen(p);
+  if (cardId === 'PRST000005') result = activateBatch14CMugwa(p);
+  if (cardId === 'PRST000008') result = activateBatch14CNiethalf(p);
+  if (cardId === 'PRST000009') result = activateBatch14CShanna(p);
+  result ||= {success:true, cardId, playerId:p.key};
+  result.specificStatus = 'EFFET_SPECIFIQUE_IMPLEMENTE_14C';
+  result.source = context.source || 'manual';
+  recordCollectionBatch14CEvent('prst-specific-activated', result);
+  return result;
+}
+if (typeof window !== 'undefined') {
+  window.collectionBatch14CState = collectionBatch14CState;
+  window.batch14CEffectiveSupplyProduction = batch14CEffectiveSupplyProduction;
+  window.batch14CElenSupplyTooltipFor = batch14CElenSupplyTooltipFor;
+  window.batch14CNiethalfCandidates = batch14CNiethalfCandidates;
+  window.batch14CHasSimilarCriticalDamage = batch14CHasSimilarCriticalDamage;
+  window.syncBatch14CPrstFavorEffects = syncBatch14CPrstFavorEffects;
+  window.activateBatch14CPrstSpecificFavor = activateBatch14CPrstSpecificFavor;
+}
+
 function shouldMoveResolvedSpellToGraveyard(cardId) {
   const card = CARDS_DATA[cardId];
   return card?.type === 'Sort' && !isPrstFavorCard(cardId);
@@ -12162,7 +12407,10 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   if (placedFC && cardId === 'MV000019') markBatch12aForgeronEntry(placedFC, p);
   if (placedFC && d.type === 'Serviteur') applyBatch05IceWallToSummon(p, placedFC);
   if (placedFC && d.type === 'Serviteur') resolveBatch11eRecyclageOnSummon(p, cardId, placedFC.dataset.instance || null);
-  if (placedFC && d.type === 'Serviteur') syncBatch14DPrstFavorEffects();
+  if (placedFC && d.type === 'Serviteur') {
+    syncBatch14DPrstFavorEffects();
+    syncBatch14CPrstFavorEffects();
+  }
   syncBatch05Passives();
   if (d.type === 'Approvisionnement' && placedFC) {
     const instance = registerSupplyInstance(p, placedFC);
@@ -12370,7 +12618,10 @@ function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
   const slotIndex = slotParent ? Array.from(slotParent.children).indexOf(slot) : -1;
   slot.outerHTML = buildFC(cardId, p.key);
   const placedFC = slotParent && slotIndex >= 0 ? slotParent.children[slotIndex] : null;
-  if (placedFC && CARDS_DATA[cardId]?.type === 'Serviteur') syncBatch14DPrstFavorEffects();
+  if (placedFC && CARDS_DATA[cardId]?.type === 'Serviteur') {
+    syncBatch14DPrstFavorEffects();
+    syncBatch14CPrstFavorEffects();
+  }
   addHistEntry(cardId, CARDS_DATA[cardId]?.fac);
   updateCamouflageVFX();
   renderAllHands();
@@ -16666,6 +16917,7 @@ function tryAttack(fc) {
 
 async function resolveCombat(attacker, targetFC) {
   syncBatch14DPrstFavorEffects();
+  syncBatch14CPrstFavorEffects();
   if (isBatch04Hypnotized(attacker)) {
     showErr('Ce serviteur est sous <b>Hypnose</b> et ne peut pas attaquer.');
     recordCollectionBatch03Event('combat-refused', {reason:'attacker-hypnotized', attacker:targetSummary(attacker), target:targetSummary(targetFC)});
@@ -16699,6 +16951,7 @@ async function resolveCombat(attacker, targetFC) {
   const batch10Plan = batch10CombatPlan(attacker, targetFC, finalAtkDmg);
   finalAtkDmg = batch10Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
+  if (batch05Plan.batch14cShannaCritical) pulseBatch03Ability(attacker, 'batch14c-shanna-critical', {move:true});
   if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
   if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
   const batch09IceShieldAttack = consumeBatch09IceShield(targetFC, attacker, finalAtkDmg);
@@ -21367,7 +21620,7 @@ Object.assign(CARDS_DATA, {
     "fac": "sort",
     "cost": 0,
     "kws": [],
-    "cap": "Jusqu'à la fin de la partie, multiplie par 2 la production en ressources de toutes vos cartes approvisionnement. Vous pouvez désormais utiliser un 7ème et un 8ème emplacements de serviteurs.",
+    "cap": "Jusqu'à la fin de la partie, multiplie par 2 la production en ressources de toutes vos cartes approvisionnement. Vous pouvez désormais utiliser un 7<sup>ème</sup> et un 8<sup>ème</sup> emplacements de serviteurs.",
     "lore": "",
     "max": 1,
     "assetFolder": "sorts/presents",
@@ -22572,8 +22825,8 @@ const COLLECTION_BATCH_14B_PRST_SOURCE_ROWS = Object.freeze([
     "id": "PRST000002",
     "name": "Faveur d'Elen",
     "cond": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
-    "cap": "Jusqu'à la fin de la partie, multiplie par *2* la production en ressources de toutes vos cartes approvisionnement. Vous pouvez désormais utiliser un *7*ème et un *8*ème emplacements de serviteurs.",
-    "detail": "Jusqu'à la fin de la partie, multiplie par *2* la production en ressources de toutes vos cartes approvisionnement. Vous pouvez désormais utiliser un *7*ème et un *8*ème emplacements de serviteurs.",
+    "cap": "Jusqu'à la fin de la partie, multiplie par *2* la production en ressources de toutes vos cartes approvisionnement. Vous pouvez désormais utiliser un *7<sup>ème</sup>* et un *8<sup>ème</sup> emplacements de serviteurs*.",
+    "detail": "Jusqu'à la fin de la partie, multiplie par *2* la production en ressources de toutes vos cartes approvisionnement. Vous pouvez désormais utiliser un *7<sup>ème</sup>* et un *8<sup>ème</sup> emplacements de serviteurs*.",
     "kws": [
       "Approvisionnement"
     ],
@@ -22641,8 +22894,8 @@ const COLLECTION_BATCH_14B_PRST_SOURCE_ROWS = Object.freeze([
     "id": "PRST000009",
     "name": "Faveur de Shanna",
     "cond": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
-    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs obtiennent *25*% de chance d'infliger *2* fois leurs dégâts normaux à chaque attaque.",
-    "detail": "Jusqu'à la fin de la partie, tous vos serviteurs obtiennent *25*% de chance d'infliger *2* fois leurs dégâts normaux à chaque attaque.",
+    "cap": "Jusqu'à la fin de la partie, tous vos serviteurs obtiennent *25%* de chance d'infliger *2* fois leurs dégâts normaux à chaque attaque.",
+    "detail": "Jusqu'à la fin de la partie, tous vos serviteurs obtiennent *25%* de chance d'infliger *2* fois leurs dégâts normaux à chaque attaque.",
     "kws": [],
     "deferredLot": "14C"
   },
@@ -22696,14 +22949,14 @@ const COLLECTION_BATCH_14B_PRST_SOURCE_ROWS = Object.freeze([
 ]);
 const COLLECTION_BATCH_14B_PRST_MESSAGES = Object.freeze({
   "PRST000001": "LA BÉNÉDICTION DU DIEU SUPRÊME RENFORCE VOS SERVITEURS HUMAINS, LEUR ACCORDANT UN GRAND POUVOIR FACE AUX ABOMINATIONS MORTES-VIVANTES !",
-  "PRST000002": "ELEN LA GÉNÉREUSE FAIT PLEUVOIR L'ABONDANCE !",
+  "PRST000002": "ELEN LA GÉNÉREUSE FAIT PLEUVOIR L'ABONDANCE !",
   "PRST000003": "LE DIEU DE LA NUIT INTERVIENT ET PERMET À SES ÉLUS DE DÉPLOYER PLUS SOUVENT LEURS MALÉFICES.",
   "PRST000004": COLLECTION_BATCH_14D_ZARRACH_MESSAGE,
   "PRST000005": "Faveur divine activée : Faveur de Mugwa.",
   "PRST000006": "ÉRÉON LE JUSTE ACCORDE SA VISION À CEUX QUI LE MÉRITENT.",
   "PRST000007": "HIRIN LE MESSAGER PERMET À SES ÉLUS DE PASSER DIRECTEMENT DERRIÈRE LES LIGNES ENNEMIES, POUR FRAPPER L'ADVERSAIRE AU COEUR !",
   "PRST000008": "NIETHALF LE FORGERON LIE LES ÂMES DE PUISSANTS SERVITEURS À LA RUNE, LES RENDANT AINSI PRESQUE IMMORTELS !",
-  "PRST000009": "SHANNA INFLUE SUR LE DESTIN ET AUGMENTE LES CHANCES DES PLUS MÉRITANTS D'INFLIGER DES COÛTS CRITIQUES !",
+  "PRST000009": "SHANNA INFLUE SUR LE DESTIN ET AUGMENTE LES CHANCES DES PLUS MÉRITANTS D'INFLIGER DES COÛTS CRITIQUES !",
   "PRST000010": "L'AMOUR DE TIARA EMPÊCHE LES ÂMES SOEURS DE SE BATTRE.",
   "PRST000011": "ULM MÉPRISE L'INJUSTICE ET VEILLE À L'ÉQUILIBRE DES FORCES ENTRE LES AVATARS.",
   "PRST000012": "LE DIEU DES VOLEURS DÉVOILE D'INNOMBRABLES OPPORTUNITÉS À SES FAVORIS.",
@@ -24820,6 +25073,16 @@ function batch05CombatPlan(attacker, targetFC, baseDamage) {
     if (gameRandom() < 0.5) { plan.damage = baseDamage * 2; plan.behavior = 'archere-millenaire-double'; }
     else plan.behavior = 'archere-millenaire';
   }
+  if (batch14CShouldApplyShanna(attacker)) {
+    const roll = batch14CRandom();
+    plan.batch14cShannaRoll = roll;
+    if (roll < 0.25) {
+      plan.damage = Math.max(plan.damage, baseDamage * 2);
+      plan.behavior = plan.behavior || 'shanna-critical';
+      plan.batch14cShannaCritical = true;
+      recordCollectionBatch14CEvent('shanna-critical-hit', {attacker:targetSummary(attacker), target:targetSummary(targetFC), roll, damage:plan.damage});
+    }
+  }
   if (id === 'EDB000013') {
     const previous = Number(attacker.dataset.batch05KyraLastBehavior || 0);
     const options = [1,2,3,4].filter(item => item !== previous);
@@ -26696,11 +26959,13 @@ function applyScenarioTestSetup() {
   collectionBatch12aState.ambiguities = [];
   collectionBatch13aState.events = [];
   if (typeof window !== 'undefined' && window.__collectionBatch14D) window.__collectionBatch14D.events = [];
+  if (typeof window !== 'undefined' && window.__collectionBatch14C) window.__collectionBatch14C.events = [];
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
     p.removedFromGame = [];
     p.prstFavors = {};
+    resetBatch14CExtraServantSlots(p);
     const hasExplicitDrawPile = Array.isArray(config.drawPile);
     if (hasExplicitDrawPile) {
       p.drawPile = [...config.drawPile];
@@ -26774,6 +27039,7 @@ function applyScenarioTestSetup() {
     updateDeckCount(p);
   });
   syncBatch14DPrstFavorEffects();
+  syncBatch14CPrstFavorEffects();
   refreshBatch05SnowfallDynamicTexts();
   renderAllHands();
   syncBatch04PassivePulses();
