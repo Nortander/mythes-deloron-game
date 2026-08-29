@@ -220,10 +220,14 @@
       .replace(/pile d['’]âmes/g, (match) => match.replace(/âmes/g, "échos"));
   }
 
+  function restoreAllowedSuperscriptMarkup(html) {
+    return String(html == null ? "" : html).replace(/&lt;sup&gt;([^<>&]*)&lt;\/sup&gt;/gi, (match, content) => `<sup>${escapeHtml(content)}</sup>`);
+  }
+
   function formatCanonicalValueMarkers(text) {
     return String(text == null ? "" : text).replace(/\*([^*]+)\*/g, (match, content) => {
       const value = String(content || "").trim();
-      return value ? `<strong class="kv">${escapeHtml(value)}</strong>` : "";
+      return value ? `<strong class="kv">${restoreAllowedSuperscriptMarkup(escapeHtml(value))}</strong>` : "";
     });
   }
 
@@ -271,6 +275,7 @@
       const dataAttr = resolution.registry === "keyword" ? "data-keyword" : "data-token";
       return `<strong class="${escapeHtml(cls)}" ${dataAttr}="${escapeHtml(entry.canonicalName)}">${escapeHtml(label)}</strong>`;
     });
+    html = restoreAllowedSuperscriptMarkup(html);
     return opts.tokens ? { html, resolvedIds: resolved.resolvedIds, unresolvedIds: resolved.unresolvedIds } : html;
   }
 

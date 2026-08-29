@@ -629,8 +629,11 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch14c-elen-extra-slot::before{content:'✦';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:30px;color:#9bffb4;text-shadow:0 0 12px rgba(76,255,128,.95),0 1px 5px #000;pointer-events:none;}
 .batch14c-elen-extra-slot::after{content:'Faveur d\'Elen';position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font:700 9px/1 'Cinzel',serif;color:#dcffe5;text-shadow:0 1px 4px #000;white-space:nowrap;pointer-events:none;}
 .batch14c-elen-extra-slot-pending{width:var(--cs);height:var(--cs);min-width:var(--cs);min-height:var(--cs);border:1px solid rgba(96,238,128,.38);border-radius:10px;background:rgba(32,130,58,.07);box-shadow:0 0 0 0 rgba(96,238,128,.7);animation:batch14cElenSlotPulse .72s ease-out forwards;}
+.fc[data-batch14c-elen-production="1"] .fc-res-num{color:#50e870!important;font-weight:900;text-shadow:0 0 3px #fff,0 0 8px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,.95)!important;}
+.batch14c-niethalf-deck-halo{animation:batch14cNiethalfDeckHalo 1.05s ease-out;box-shadow:0 0 0 3px rgba(255,220,96,.96),0 0 32px rgba(255,190,45,.86),inset 0 0 22px rgba(255,232,128,.25)!important;}
 .batch14c-shanna-critical{--batch04-pulse-color:rgba(255,72,176,.98);animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);box-shadow:0 0 0 3px rgba(255,72,176,.92),0 0 32px rgba(255,40,142,.82)!important;}
 @keyframes batch14cElenSlotPulse{0%{opacity:0;transform:scale(.68);box-shadow:0 0 0 0 rgba(96,238,128,.9);}45%{opacity:1;transform:scale(1.08);box-shadow:0 0 0 10px rgba(96,238,128,.18),0 0 30px rgba(96,238,128,.72);}100%{opacity:1;transform:scale(1);box-shadow:0 0 0 2px rgba(96,238,128,.72),0 0 22px rgba(54,214,96,.5);}}
+@keyframes batch14cNiethalfDeckHalo{0%{filter:brightness(1.8) saturate(1.35);transform:scale(1.04);}62%{filter:brightness(1.18);transform:scale(1.01);}100%{filter:none;transform:none;}}
 @keyframes targetPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 16px rgba(255,80,40,0.4);}50%{box-shadow:0 0 0 3px rgba(255,80,40,1),0 0 28px rgba(255,80,40,0.7);}}
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
@@ -7001,9 +7004,12 @@ function projectSupplyInstanceToDom(player, instance, fc=null) {
   const target = fc || zone?.querySelector(`[data-supply-instance="${instance.instanceId}"]`);
   if (!target) return;
 
+  const boostedByElen = hasActivePrstFavor(p, 'PRST000002');
   const vector = compactProductionVector(batch14CEffectiveSupplyProduction(p, instance));
   const entries = supplyProductionEntries(vector);
   target.dataset.supplyInstance = instance.instanceId;
+  if (boostedByElen && entries.length) target.dataset.batch14cElenProduction = '1';
+  else delete target.dataset.batch14cElenProduction;
   target.removeAttribute('data-botanical-stack');
   target.removeAttribute('data-botanical-card');
   target.removeAttribute('data-botanical-count');
@@ -8199,6 +8205,8 @@ function buildHC(cardId, player, drawAnim=false) {
   const blocked = !!blockEntry;
   const blockedCls = blocked ? ' hc-blocked-temporary' : '';
   const blockedSource = blocked ? batch03BlockedCardSourceName(blockEntry) : '';
+  const runeHand = isBatch07RuneHandOccurrence(player, handOccurrenceForCost, cardId);
+  const runeHandAttr = runeHand ? ' data-batch07-rune-servant="1"' : '';
 
   // Zone ressource : chiffre superposé à l'icône, compléments à côté.
   const res_h = renderCostHTML(cardId, player, costContext);
@@ -8226,7 +8234,7 @@ function buildHC(cardId, player, drawAnim=false) {
   }
 
   const animCls = drawAnim ? ' drawing' : '';
-  return `<div class="hc ${facClsHC}${animCls}${blockedCls}" data-id="${cardId}" data-player="${player}" data-blocked-card="${blocked ? '1' : '0'}" data-blocked-source="${escapeHtml(blockedSource)}" aria-disabled="${blocked ? 'true' : 'false'}" draggable="true" title="${blocked ? escapeHtml('Carte bloquée par ' + blockedSource + ' pour ce tour.') : ''}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
+  return `<div class="hc ${facClsHC}${animCls}${blockedCls}" data-id="${cardId}" data-player="${player}"${runeHandAttr} data-blocked-card="${blocked ? '1' : '0'}" data-blocked-source="${escapeHtml(blockedSource)}" aria-disabled="${blocked ? 'true' : 'false'}" draggable="true" title="${blocked ? escapeHtml('Carte bloquée par ' + blockedSource + ' pour ce tour.') : ''}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="hc-frame">
       <div class="hc-art-z">
         <img class="hc-art" src="${artworkSrc}" alt="" onerror="this.style.background='#1a1a2e';this.src=''">
@@ -8490,7 +8498,11 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
 }
 
 function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
-  const tooltipModel = buildCanonicalCardTooltips(cardId, 'preview');
+  const sourceEl = sourceContext.sourceElement;
+  const tooltipCardModel = sourceEl
+    ? getRuntimeCardDisplayModel(cardId, sourceContext.playerId || sourceEl.dataset.player || null, {sourceElement:sourceEl})
+    : getCanonicalCardDisplayModel(cardId);
+  const tooltipModel = buildCanonicalCardTooltips(tooltipCardModel, 'preview');
   const priorityForPreviewTooltip = item => {
     if (cardId === 'S000055') {
       if (item.kind === 'invocation-condition') return 0;
@@ -8500,12 +8512,11 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
     return Number.isFinite(item.order) ? item.order : 50;
   };
   const keywords = tooltipModel.right
-    .filter(item => ['ability','invocation-condition','keyword','named-ability'].includes(item.kind))
+    .filter(item => ['ability','invocation-condition','keyword','named-ability','batch14c-elen'].includes(item.kind))
     .sort((a,b) => priorityForPreviewTooltip(a) - priorityForPreviewTooltip(b));
   if (cardId === 'MV000024' && sourceContext.sourceElement?.dataset?.insensible === '1' && !keywords.some(item => item.keyword === 'Insensible' || item.title === 'Insensible')) {
     keywords.push({kind:'keyword', keyword:'Insensible', title:'Insensible', body:KDEF.Insensible || 'Ne peut pas \u00eatre la cible de sorts adverses.'});
   }
-  const sourceEl = sourceContext.sourceElement;
   const ensureKeyword = (keyword, body) => {
     if (!keywords.some(item => item.keyword === keyword || item.title === keyword)) keywords.push({kind:'keyword', keyword, title:keyword, body});
   };
@@ -9302,11 +9313,15 @@ function getCanonicalCardDisplayModel(cardOrId, options={}) {
 
 function getRuntimeCardDisplayModel(cardOrId, player, context={}) {
   const model = getCanonicalCardDisplayModel(cardOrId, context);
-  const element = typeof cardOrId !== 'string' ? cardOrId : null;
+  const element = typeof cardOrId !== 'string' ? cardOrId : (context.sourceElement || null);
+  const runtimePlayerId = playerKey(player) || context.playerId || element?.dataset?.player || null;
+  const dynamicKeywords = [];
+  if (element?.dataset?.batch07RuneServant === '1') dynamicKeywords.push('Serviteur de la rune');
   return {
     ...model,
+    keywords:[...new Set([...(model.keywords || []), ...dynamicKeywords])],
     runtime:{
-      playerId:playerKey(player) || context.playerId || null,
+      playerId:runtimePlayerId,
       currentAttack:element?.dataset?.atk != null ? Number(element.dataset.atk) : model.baseAttack,
       currentHealth:element?.dataset?.pdv != null ? Number(element.dataset.pdv) : model.baseHealth,
       currentCost:model.baseCost,
@@ -9382,7 +9397,7 @@ function buildCanonicalCardTooltips(cardModel, context='preview') {
   const right = [];
   if (model?.type === 'Approvisionnement') {
     right.push({kind:'ability', title:'APPROVISIONNEMENT', body:formatPlayerFacingCardText(model.detailedEffect || model.description || '', model), order:0});
-    const elenTooltip = batch14CElenSupplyTooltipFor(model);
+    const elenTooltip = batch14CElenSupplyTooltipFor(model, {context});
     if (elenTooltip) right.push(elenTooltip);
   } else if (model?.detailedEffect) {
     right.push({kind:'ability', title:model.type || 'CARTE', body:formatPlayerFacingCardText(model.detailedEffect, model), order:0});
@@ -9587,7 +9602,10 @@ function formatPlayerFacingCardText(rawText, cardModel=null, options={}) {
 function getCanonicalCardDisplayModel(cardOrId, options={}) { return adaptPartCardRecordToCanonicalInput(cardOrId); }
 function getRuntimeCardDisplayModel(cardOrId, player, context={}) {
   const model = getCanonicalCardDisplayModel(cardOrId, context);
-  return { ...model, runtime:{ playerId:player?.id || null, context, baseModelPreserved:true } };
+  const element = typeof cardOrId !== 'string' ? cardOrId : (context.sourceElement || null);
+  const runtimePlayerId = playerKey(player) || context.playerId || element?.dataset?.player || null;
+  const dynamicKeywords = element?.dataset?.batch07RuneServant === '1' ? ['Serviteur de la rune'] : [];
+  return { ...model, keywords:[...new Set([...(model.keywords || []), ...dynamicKeywords])], runtime:{ playerId:runtimePlayerId, context, baseModelPreserved:true } };
 }
 function buildCanonicalResourceExpression(cardModel, context='base') {
   const model = typeof cardModel === 'string' ? getCanonicalCardDisplayModel(cardModel) : cardModel;
@@ -9599,7 +9617,10 @@ function resolveRelatedCards(cardModel) {
 }
 function buildCanonicalCardTooltips(cardModel, context='preview') {
   const model = typeof cardModel === 'string' ? getCanonicalCardDisplayModel(cardModel) : cardModel;
-  return CardRenderingCore.buildCanonicalCardTooltips(model, context, { cardLookup:buildPartCanonicalCardLookup() });
+  const tooltips = CardRenderingCore.buildCanonicalCardTooltips(model, context, { cardLookup:buildPartCanonicalCardLookup() });
+  const elenTooltip = batch14CElenSupplyTooltipFor(model, {context});
+  if (elenTooltip && !tooltips.right.some(tip => tip.title === elenTooltip.title)) tooltips.right.push(elenTooltip);
+  return tooltips;
 }
 function auditCardRenderingCoreLoad() { return CardRenderingCore.auditCardRenderingCoreLoad(); }
 function auditCanonicalCoreParity() { return CardRenderingCore.auditCanonicalCoreParity({ cards:['EDG000001','S000035','S000006','R000014','B000003','B000004','N000003','DIV000016'] }); }
@@ -12063,7 +12084,7 @@ if (typeof window !== 'undefined') {
 // COLLECTION_BATCH_14C_PRST_PASSIVE_RUNTIME
 const COLLECTION_BATCH_14C_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000002','PRST000005','PRST000008','PRST000009']));
 const COLLECTION_BATCH_14C_ELEN_TOOLTIP = Object.freeze({kind:'batch14c-elen', title:"FAVEUR D'ELEN", body:"Elen vous accorde l'abondance et accroît le rendement de toutes vos cartes d'approvisionnement.", order:1});
-const COLLECTION_BATCH_14C_SHANNA_TEXT = "Bénéficie de la Faveur de Shanna : a 25% de chances d'infliger le double de ses dégâts à chaque attaque.";
+const COLLECTION_BATCH_14C_SHANNA_TEXT = "*Bénéficie de la Faveur de Shanna* : a *25%* de chances d'infliger le double de ses dégâts à chaque attaque.";
 function collectionBatch14CState() {
   if (typeof window === 'undefined') return {events:[], randomQueue:[]};
   window.__collectionBatch14C ||= {events:[], randomQueue:[]};
@@ -12134,10 +12155,11 @@ function batch14CEffectiveSupplyProduction(player, instance) {
   RESOURCE_KEYS.forEach(key => { doubled[key] = Number(vector[key] || 0) * 2; });
   return compactProductionVector(doubled);
 }
-function batch14CElenSupplyTooltipFor(modelOrCardId) {
+function batch14CElenSupplyTooltipFor(modelOrCardId, context={}) {
   const model = typeof modelOrCardId === 'string' ? getCanonicalCardDisplayModel(modelOrCardId) : modelOrCardId;
   if (model?.type !== 'Approvisionnement') return null;
-  const owner = playerState(model?.runtime?.playerId);
+  const runtimePlayerId = model?.runtime?.playerId || context.playerId || context.sourceElement?.dataset?.player || null;
+  const owner = playerState(runtimePlayerId);
   if (!owner || !hasActivePrstFavor(owner, 'PRST000002')) return null;
   return {...COLLECTION_BATCH_14C_ELEN_TOOLTIP};
 }
@@ -12190,14 +12212,33 @@ function batch14CNiethalfCandidates(player) {
     })
     .sort((a, b) => b.cost - a.cost || b.index - a.index);
 }
+function batch14CNiethalfRuneDeckEntry(entry) {
+  const base = batch07RuneDeckEntry(entry, 'PRST000008');
+  if (base && typeof base === 'object') {
+    base.batch14cNiethalfRune = true;
+    base.batch14cAddedKeywords = [...new Set([...(base.batch14cAddedKeywords || []), 'Serviteur de la rune'])];
+  }
+  return base;
+}
+function pulseBatch14CNiethalfDeck(player) {
+  const p = playerState(player);
+  const deck = p ? qs(playerSelectors(p).deckBack) : null;
+  if (!deck) return false;
+  deck.classList.add('batch14c-niethalf-deck-halo');
+  setTimeout(() => deck.classList.remove('batch14c-niethalf-deck-halo'), 1050);
+  recordCollectionBatch14CEvent('niethalf-deck-halo', {playerId:p.key});
+  return true;
+}
 function activateBatch14CNiethalf(player) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'missing-player'};
   const pile = p.drawPile || [];
+  const hadDeckCards = pile.length > 0;
   const selected = batch14CNiethalfCandidates(p).slice(0, 3);
-  selected.forEach(item => { pile[item.index] = batch07RuneDeckEntry(item.entry, 'PRST000008'); });
+  selected.forEach(item => { pile[item.index] = batch14CNiethalfRuneDeckEntry(item.entry); });
+  if (hadDeckCards) pulseBatch14CNiethalfDeck(p);
   updateDeckCount(p);
-  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost}))};
+  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, halo:hadDeckCards, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost, addedKeywords:['Serviteur de la rune']}))};
   recordCollectionBatch14CEvent('niethalf-activated', result);
   return result;
 }
@@ -12257,6 +12298,7 @@ if (typeof window !== 'undefined') {
   window.batch14CEffectiveSupplyProduction = batch14CEffectiveSupplyProduction;
   window.batch14CElenSupplyTooltipFor = batch14CElenSupplyTooltipFor;
   window.batch14CNiethalfCandidates = batch14CNiethalfCandidates;
+  window.batch14CNiethalfRuneDeckEntry = batch14CNiethalfRuneDeckEntry;
   window.batch14CHasSimilarCriticalDamage = batch14CHasSimilarCriticalDamage;
   window.syncBatch14CPrstFavorEffects = syncBatch14CPrstFavorEffects;
   window.activateBatch14CPrstSpecificFavor = activateBatch14CPrstSpecificFavor;
@@ -22952,7 +22994,7 @@ const COLLECTION_BATCH_14B_PRST_MESSAGES = Object.freeze({
   "PRST000002": "ELEN LA GÉNÉREUSE FAIT PLEUVOIR L'ABONDANCE !",
   "PRST000003": "LE DIEU DE LA NUIT INTERVIENT ET PERMET À SES ÉLUS DE DÉPLOYER PLUS SOUVENT LEURS MALÉFICES.",
   "PRST000004": COLLECTION_BATCH_14D_ZARRACH_MESSAGE,
-  "PRST000005": "Faveur divine activée : Faveur de Mugwa.",
+  "PRST000005": "Mugwa remplit le ventre de ses enfants ! Trolls, plus faim !",
   "PRST000006": "ÉRÉON LE JUSTE ACCORDE SA VISION À CEUX QUI LE MÉRITENT.",
   "PRST000007": "HIRIN LE MESSAGER PERMET À SES ÉLUS DE PASSER DIRECTEMENT DERRIÈRE LES LIGNES ENNEMIES, POUR FRAPPER L'ADVERSAIRE AU COEUR !",
   "PRST000008": "NIETHALF LE FORGERON LIE LES ÂMES DE PUISSANTS SERVITEURS À LA RUNE, LES RENDANT AINSI PRESQUE IMMORTELS !",
