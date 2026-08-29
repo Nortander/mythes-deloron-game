@@ -5486,9 +5486,16 @@ function drawCardFromRuntimeDeck(player, options={}) {
   const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDraw(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
   if (!linkedKeyResolution.handled && !evolutionCanResolve && !prstAutoPlayResolution?.handled) {
     hand.push(cardId);
-    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.occurrenceId || null;
+    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.batch14cOccurrenceKey || selectedEntry?.occurrenceId || null;
     if (occurrenceId) batch03RegisterHandCard(p, hand.length - 1, occurrenceId);
-    if (selectedEntry?.batch07RuneServant) markBatch07RuneHandOccurrence(p, batch03HandOccurrenceAt(p, hand.length - 1), cardId, selectedEntry.batch07SourceCardId || 'AVS000013');
+    if (selectedEntry?.batch07RuneServant) {
+      const handOccurrenceId = batch03HandOccurrenceAt(p, hand.length - 1);
+      markBatch07RuneHandOccurrence(p, handOccurrenceId, cardId, selectedEntry.batch07SourceCardId || 'AVS000013', {
+        batch14cNiethalfRune:selectedEntry.batch14cNiethalfRune === true,
+        batch14cOccurrenceKey:selectedEntry.batch14cOccurrenceKey || selectedEntry.batch07OccurrenceId || null,
+        batch14cSourceIndex:selectedEntry.batch14cNiethalfSourceIndex ?? null
+      });
+    }
   }
   updateDeckCount(p);
   if (options.refresh !== false) {
@@ -8207,8 +8214,9 @@ function buildHC(cardId, player, drawAnim=false) {
   const blocked = !!blockEntry;
   const blockedCls = blocked ? ' hc-blocked-temporary' : '';
   const blockedSource = blocked ? batch03BlockedCardSourceName(blockEntry) : '';
-  const runeHand = isBatch07RuneHandOccurrence(player, handOccurrenceForCost, cardId);
-  const runeHandAttr = runeHand ? ' data-batch07-rune-servant="1"' : '';
+  const runeHandEntry = batch07RuneHandOccurrenceEntry(player, handOccurrenceForCost, cardId);
+  const runeHand = !!runeHandEntry;
+  const runeHandAttr = runeHand ? ' data-batch07-rune-servant="1"' + (runeHandEntry.batch14cNiethalfRune ? ' data-batch14c-niethalf-rune="1"' : '') : '';
 
   // Zone ressource : chiffre superposé à l'icône, compléments à côté.
   const res_h = renderCostHTML(cardId, player, costContext);
@@ -14039,28 +14047,41 @@ function batch07RuneDeckEntry(entry, sourceCardId='AVS000013') {
   return base;
 }
 
-function markBatch07RuneHandOccurrence(player, occurrenceId, cardId, sourceCardId='AVS000013') {
+function batch07RuneHandOccurrenceEntry(player, occurrenceId, cardId=null) {
+  const p = playerState(player);
+  if (!p || !occurrenceId) return null;
+  return (p.batch07RuneHandOccurrences || []).find(entry => entry.occurrenceId === occurrenceId && (!cardId || entry.cardId === cardId)) || null;
+}
+
+function markBatch07RuneHandOccurrence(player, occurrenceId, cardId, sourceCardId='AVS000013', meta={}) {
   const p = playerState(player);
   if (!p || !occurrenceId || !cardId) return false;
   p.batch07RuneHandOccurrences ||= [];
-  if (!p.batch07RuneHandOccurrences.some(entry => entry.occurrenceId === occurrenceId)) {
-    p.batch07RuneHandOccurrences.push({cardId, occurrenceId, sourceCardId, createdTurnSequence:turnSequence});
-  }
+  const existing = batch07RuneHandOccurrenceEntry(p, occurrenceId, cardId);
+  const payload = {
+    cardId,
+    occurrenceId,
+    sourceCardId,
+    createdTurnSequence:turnSequence,
+    batch14cNiethalfRune:meta.batch14cNiethalfRune === true,
+    batch14cOccurrenceKey:meta.batch14cOccurrenceKey || null,
+    batch14cSourceIndex:Number.isFinite(Number(meta.batch14cSourceIndex)) ? Number(meta.batch14cSourceIndex) : null
+  };
+  if (existing) Object.assign(existing, payload);
+  else p.batch07RuneHandOccurrences.push(payload);
   return true;
 }
 
 function isBatch07RuneHandOccurrence(player, occurrenceId, cardId=null) {
-  const p = playerState(player);
-  if (!p || !occurrenceId) return false;
-  return (p.batch07RuneHandOccurrences || []).some(entry => entry.occurrenceId === occurrenceId && (!cardId || entry.cardId === cardId));
+  return !!batch07RuneHandOccurrenceEntry(player, occurrenceId, cardId);
 }
 
 function consumeBatch07RuneHandOccurrence(player, occurrenceId, cardId=null) {
   const p = playerState(player);
-  if (!p || !occurrenceId) return false;
-  const before = (p.batch07RuneHandOccurrences || []).length;
-  p.batch07RuneHandOccurrences = (p.batch07RuneHandOccurrences || []).filter(entry => !(entry.occurrenceId === occurrenceId && (!cardId || entry.cardId === cardId)));
-  return p.batch07RuneHandOccurrences.length !== before;
+  const existing = batch07RuneHandOccurrenceEntry(p, occurrenceId, cardId);
+  if (!p || !existing) return null;
+  p.batch07RuneHandOccurrences = (p.batch07RuneHandOccurrences || []).filter(entry => entry !== existing);
+  return existing;
 }
 
 function syncBatch07RuneVisual(fc) {
@@ -14088,12 +14109,18 @@ function applyBatch07FutureFireResistance(fc, sourceCardId='S000054') {
 
 function applyBatch07BoardRuneFromHandOccurrence(fc, player, occurrenceId) {
   const p = playerState(player);
-  if (!fc || !p || !occurrenceId || !isBatch07RuneHandOccurrence(p, occurrenceId, fc.dataset.id)) return false;
+  const runeEntry = batch07RuneHandOccurrenceEntry(p, occurrenceId, fc?.dataset?.id || null);
+  if (!fc || !p || !occurrenceId || !runeEntry) return false;
   fc.dataset.batch07RuneServant = '1';
-  fc.dataset.batch07RuneSource = 'AVS000013';
+  fc.dataset.batch07RuneSource = runeEntry.sourceCardId || 'AVS000013';
+  if (runeEntry.batch14cNiethalfRune) {
+    fc.dataset.batch14cNiethalfRune = '1';
+    if (runeEntry.batch14cOccurrenceKey) fc.dataset.batch14cOccurrenceKey = runeEntry.batch14cOccurrenceKey;
+    if (runeEntry.batch14cSourceIndex != null) fc.dataset.batch14cNiethalfSourceIndex = String(runeEntry.batch14cSourceIndex);
+  }
   syncBatch07RuneVisual(fc);
   consumeBatch07RuneHandOccurrence(p, occurrenceId, fc.dataset.id);
-  recordCollectionBatch07Event('rune-servant-played', {playerId:p.key, cardId:fc.dataset.id, occurrenceId, boardInstanceId:fc.dataset.instance || null});
+  recordCollectionBatch07Event('rune-servant-played', {playerId:p.key, cardId:fc.dataset.id, occurrenceId, sourceCardId:runeEntry.sourceCardId || 'AVS000013', batch14cNiethalfRune:runeEntry.batch14cNiethalfRune === true, boardInstanceId:fc.dataset.instance || null});
   return true;
 }
 
@@ -17005,17 +17032,17 @@ async function resolveCombat(attacker, targetFC) {
   const batch10Plan = batch10CombatPlan(attacker, targetFC, finalAtkDmg);
   finalAtkDmg = batch10Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
-  if (batch05Plan.batch14cShannaCritical) {
-    recordCollectionBatch14CEvent('shanna-critical-feedback-before-damage', {attacker:targetSummary(attacker), target:targetSummary(targetFC), targetPdvBefore:Number(targetFC?.dataset?.pdv || 0), damage:finalAtkDmg});
-    pulseBatch03Ability(attacker, 'batch14c-shanna-critical', {move:true});
-    await batch05VisualDelay(420);
-  }
   if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
   if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
   const batch09IceShieldAttack = consumeBatch09IceShield(targetFC, attacker, finalAtkDmg);
   finalAtkDmg = batch09IceShieldAttack.damage;
   await prepareBatch09CombatFeedback(attacker, targetFC, {phase:'attack', damage:finalAtkDmg, adjacentTargets:batch09Plan.adjacentTargets, rempartBonus:batch09Plan.rempartBonus});
   await prepareBatch10CombatFeedback(attacker, targetFC, {phase:'attack', damage:finalAtkDmg, undeadBonus:batch10Plan.undeadBonus, preventCounter:batch10Plan.preventCounter});
+  if (batch05Plan.batch14cShannaCritical) {
+    recordCollectionBatch14CEvent('shanna-critical-feedback-before-damage', {attacker:targetSummary(attacker), target:targetSummary(targetFC), targetPdvBefore:Number(targetFC?.dataset?.pdv || 0), damage:finalAtkDmg, phase:'immediate-before-damage'});
+    pulseBatch03Ability(attacker, 'batch14c-shanna-critical', {move:true});
+    await batch05VisualDelay(620);
+  }
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
   if (attacker) attacker._killer = targetFC; // pour la riposte
@@ -17388,7 +17415,11 @@ async function sendToCemetery(fc, options={}) {
         refreshHand(owner);
       }
       if (fc.dataset.batch07RuneServant === '1') {
-        markBatch07RuneHandOccurrence(owner, returnedOccurrenceId, cardId, 'AVS000013');
+        markBatch07RuneHandOccurrence(owner, returnedOccurrenceId, cardId, fc.dataset.batch07RuneSource || 'AVS000013', {
+          batch14cNiethalfRune:fc.dataset.batch14cNiethalfRune === '1',
+          batch14cOccurrenceKey:fc.dataset.batch14cOccurrenceKey || fc.dataset.instance || null,
+          batch14cSourceIndex:fc.dataset.batch14cNiethalfSourceIndex ?? null
+        });
       }
       const handNode = markBatch03HandCardReturned(owner, cardId);
       recordCollectionBatch03Event('rune-return-to-hand', {cardId, playerId:owner.key, sourceInstanceId:fc.dataset.instance, boardAnimation:true, boardEffect:'serviteur-rune-return', flightAnimation:fc.dataset.batch03RuneReturnFlight === '1', handAnimation:!!handNode});
