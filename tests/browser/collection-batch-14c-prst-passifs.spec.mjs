@@ -110,9 +110,17 @@ test("Batch 14C PRST000008 Niethalf marks the three costliest nearest deck serva
   await open14CScenario(page, "PRST000008");
   const result = await page.evaluate(async () => {
     currentPlayer = player1.key;
-    const beforeCandidates = batch14CNiethalfCandidates(player1).slice(0, 5).map(item => ({cardId:item.cardId, index:item.index, cost:item.cost}));
+    player1.drawPile = ["N000001", "N000010", "N000002", "N000010", "N000003", "N000010"];
+    const beforeCandidates = batch14CNiethalfCandidates(player1).slice(0, 6).map(item => ({cardId:item.cardId, index:item.index, cost:item.cost}));
     const play = await playCard("PRST000008", null, {returnValidation:true});
-    const marked = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.entry?.batch07RuneServant).map(item => ({cardId:item.cardId, index:item.index, source:item.entry.batch07SourceCardId, niethalf:item.entry.batch14cNiethalfRune === true, addedKeywords:item.entry.batch14cAddedKeywords || []}));
+    const marked = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.entry?.batch07RuneServant).map(item => ({cardId:item.cardId, index:item.index, source:item.entry.batch07SourceCardId, niethalf:item.entry.batch14cNiethalfRune === true, occurrenceKey:item.entry.batch14cOccurrenceKey || null, sourceIndex:item.entry.batch14cNiethalfSourceIndex, addedKeywords:item.entry.batch14cAddedKeywords || []}));
+    const unmarkedDuplicateIndexes = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId === "N000010" && !item.entry?.batch07RuneServant).map(item => item.index);
+    const haloDeck = document.querySelector(playerSelectors(player1).deckBack);
+    const haloVariant = haloDeck?.dataset.batch14cNiethalfHaloVariant || "";
+    const roundedRadius = haloDeck ? getComputedStyle(haloDeck).borderRadius : "";
+    await endTurn();
+    await endTurn();
+    const haloEventsAfterTurnCycle = (window.__collectionBatch14C?.events || []).filter(event => event.type === "niethalf-deck-halo").length;
     player1.drawPile = player1.drawPile.filter(entry => entry?.batch07RuneServant).slice(0, 1);
     const draw = drawCardFromDeck(player1, () => true, {refresh:true, sourceCardId:"collection-batch-14c-niethalf-test"});
     const handSlot = document.querySelector(playerZoneSelector(player1, "hand") + ' .hc[data-id="' + draw.cardId + '"]');
@@ -125,20 +133,26 @@ test("Batch 14C PRST000008 Niethalf marks the three costliest nearest deck serva
     const summaryBeforeDeath = targetSummary(runeBoard);
     const boardTexts = batch03DynamicStatusTexts(runeBoard);
     await applyDamage(runeBoard, 99);
-    return {play, beforeCandidates, marked, draw, summon, handTooltips, boardTexts, summaryBeforeDeath, handAfterDeath:[...player1.hand], graveyardAfterDeath:[...player1.graveyard], events:window.__collectionBatch14C?.events || []};
+    return {play, beforeCandidates, marked, unmarkedDuplicateIndexes, haloVariant, roundedRadius, haloEventsAfterTurnCycle, draw, summon, handTooltips, boardTexts, summaryBeforeDeath, handAfterDeath:[...player1.hand], graveyardAfterDeath:[...player1.graveyard], events:window.__collectionBatch14C?.events || []};
   });
   expect(result.play.success).toBe(true);
   expect(result.beforeCandidates.slice(0, 3)).toEqual([
-    {cardId:"N000010", index:9, cost:6},
-    {cardId:"N000002", index:8, cost:6},
-    {cardId:"N000010", index:7, cost:6}
+    {cardId:"N000010", index:5, cost:6},
+    {cardId:"N000010", index:3, cost:6},
+    {cardId:"N000002", index:2, cost:6}
   ]);
+  expect(result.marked).toHaveLength(3);
   expect(result.marked).toEqual([
-    {cardId:"N000010", index:7, source:"PRST000008", niethalf:true, addedKeywords:["Serviteur de la rune"]},
-    {cardId:"N000002", index:8, source:"PRST000008", niethalf:true, addedKeywords:["Serviteur de la rune"]},
-    {cardId:"N000010", index:9, source:"PRST000008", niethalf:true, addedKeywords:["Serviteur de la rune"]}
+    expect.objectContaining({cardId:"N000002", index:2, source:"PRST000008", niethalf:true, sourceIndex:2, addedKeywords:["Serviteur de la rune"]}),
+    expect.objectContaining({cardId:"N000010", index:3, source:"PRST000008", niethalf:true, sourceIndex:3, addedKeywords:["Serviteur de la rune"]}),
+    expect.objectContaining({cardId:"N000010", index:5, source:"PRST000008", niethalf:true, sourceIndex:5, addedKeywords:["Serviteur de la rune"]})
   ]);
-  expect(result.events.some(event => event.type === "niethalf-deck-halo")).toBe(true);
+  expect(new Set(result.marked.map(item => item.occurrenceKey)).size).toBe(3);
+  expect(result.unmarkedDuplicateIndexes).toEqual([1]);
+  expect(result.events.filter(event => event.type === "niethalf-deck-halo")).toHaveLength(1);
+  expect(result.haloEventsAfterTurnCycle).toBe(1);
+  expect(result.haloVariant).toBe("soft-rounded");
+  expect(parseFloat(result.roundedRadius)).toBeGreaterThanOrEqual(20);
   expect(result.handTooltips).toContain("Serviteur de la rune");
   expect(result.boardTexts).toContain("Bénéficie de [Serviteur de la rune].");
   expect(result.summaryBeforeDeath.runeServant).toBe(true);
@@ -171,7 +185,19 @@ test("Batch 14C PRST000009 Shanna highlights only the exact dynamic text segment
     const beforePdv = Number(target.dataset.pdv);
     const baseAtk = Number(normal.dataset.atk);
     await resolveCombat(normal, target);
-    return {play, normal:targetSummary(normal), similar:targetSummary(similar), textNormal, renderedNormal, textSimilar, beforePdv, afterPdv:Number(target.dataset.pdv || 0), baseAtk, plan:JSON.parse(normal.dataset.batch05CombatPlan || '{}'), events:window.__collectionBatch14C?.events || []};
+    const afterCriticalPdv = Number(target.dataset.pdv || 0);
+    const events = window.__collectionBatch14C?.events || [];
+    const feedbackIndex = events.findIndex(event => event.type === "shanna-critical-feedback-before-damage");
+    const damageIndex = events.findIndex(event => event.type === "shanna-critical-damage-resolve");
+    const criticalIndex = events.findIndex(event => event.type === "shanna-critical-hit");
+    collectionBatch14CState().randomQueue = [0.9];
+    window.__collectionBatch14CRandomQueue = [0.9];
+    const missTarget = findBoardCard(player2, "MV000002") || target;
+    await resolveCombat(normal, missTarget);
+    const eventsAfterMiss = window.__collectionBatch14C?.events || [];
+    const criticalFeedbackCount = eventsAfterMiss.filter(event => event.type === "shanna-critical-feedback-before-damage").length;
+    const criticalDamageCount = eventsAfterMiss.filter(event => event.type === "shanna-critical-damage-resolve").length;
+    return {play, normal:targetSummary(normal), similar:targetSummary(similar), textNormal, renderedNormal, textSimilar, beforePdv, afterCriticalPdv, afterPdv:Number(target.dataset.pdv || 0), baseAtk, feedbackIndex, damageIndex, criticalIndex, criticalFeedbackCount, criticalDamageCount, normalLastPulse:normal.dataset.batch03LastPulseReason || '', similarLastPulse:similar.dataset.batch03LastPulseReason || '', plan:JSON.parse(normal.dataset.batch05CombatPlan || '{}'), events:eventsAfterMiss};
   });
   expect(result.play.success).toBe(true);
   expect(result.normal.batch14cShannaFavor).toBe(true);
@@ -180,7 +206,13 @@ test("Batch 14C PRST000009 Shanna highlights only the exact dynamic text segment
   expect(result.renderedNormal).not.toMatch(/<strong class="kv"[^>]*>[^<]*double de ses dégâts[^<]*<\/strong>/);
   expect(result.similar.batch14cShannaFavor).toBe(false);
   expect(result.textSimilar).not.toContain("*Bénéficie de la Faveur de Shanna*");
-  expect(result.afterPdv).toBe(result.beforePdv - result.baseAtk * 2);
+  expect(result.feedbackIndex).toBeGreaterThan(result.criticalIndex);
+  expect(result.damageIndex).toBeGreaterThan(result.feedbackIndex);
+  expect(result.afterCriticalPdv).toBe(result.beforePdv - result.baseAtk * 2);
+  expect(result.normalLastPulse).toBe("batch14c-shanna-critical");
+  expect(result.similarLastPulse).not.toBe("batch14c-shanna-critical");
+  expect(result.criticalFeedbackCount).toBe(1);
+  expect(result.criticalDamageCount).toBe(1);
   expect(result.events.some(event => event.type === "shanna-critical-hit")).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);

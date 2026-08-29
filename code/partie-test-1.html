@@ -630,10 +630,12 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch14c-elen-extra-slot::after{content:'Faveur d\'Elen';position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font:700 9px/1 'Cinzel',serif;color:#dcffe5;text-shadow:0 1px 4px #000;white-space:nowrap;pointer-events:none;}
 .batch14c-elen-extra-slot-pending{width:var(--cs);height:var(--cs);min-width:var(--cs);min-height:var(--cs);border:1px solid rgba(96,238,128,.38);border-radius:10px;background:rgba(32,130,58,.07);box-shadow:0 0 0 0 rgba(96,238,128,.7);animation:batch14cElenSlotPulse .72s ease-out forwards;}
 .fc[data-batch14c-elen-production="1"] .fc-res-num{color:#50e870!important;font-weight:900;text-shadow:0 0 3px #fff,0 0 8px rgba(40,200,60,.9),0 1px 4px rgba(0,0,0,.95)!important;}
-.batch14c-niethalf-deck-halo{animation:batch14cNiethalfDeckHalo 1.05s ease-out;box-shadow:0 0 0 3px rgba(255,220,96,.96),0 0 32px rgba(255,190,45,.86),inset 0 0 22px rgba(255,232,128,.25)!important;}
+.batch14c-niethalf-deck-halo{position:relative;border-radius:28px;animation:batch14cNiethalfDeckHalo 1.05s ease-out;filter:drop-shadow(0 0 18px rgba(255,198,64,.86));}
+.batch14c-niethalf-deck-halo::after{content:'';position:absolute;inset:-14px;border-radius:32px;pointer-events:none;background:radial-gradient(ellipse at center,rgba(255,232,142,.34) 0%,rgba(255,202,74,.2) 48%,rgba(255,190,45,0) 74%);box-shadow:0 0 24px rgba(255,214,96,.72),0 0 46px rgba(255,172,40,.42);animation:batch14cNiethalfDeckHaloAura 1.05s ease-out forwards;}
 .batch14c-shanna-critical{--batch04-pulse-color:rgba(255,72,176,.98);animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1);box-shadow:0 0 0 3px rgba(255,72,176,.92),0 0 32px rgba(255,40,142,.82)!important;}
 @keyframes batch14cElenSlotPulse{0%{opacity:0;transform:scale(.68);box-shadow:0 0 0 0 rgba(96,238,128,.9);}45%{opacity:1;transform:scale(1.08);box-shadow:0 0 0 10px rgba(96,238,128,.18),0 0 30px rgba(96,238,128,.72);}100%{opacity:1;transform:scale(1);box-shadow:0 0 0 2px rgba(96,238,128,.72),0 0 22px rgba(54,214,96,.5);}}
-@keyframes batch14cNiethalfDeckHalo{0%{filter:brightness(1.8) saturate(1.35);transform:scale(1.04);}62%{filter:brightness(1.18);transform:scale(1.01);}100%{filter:none;transform:none;}}
+@keyframes batch14cNiethalfDeckHalo{0%{filter:brightness(1.55) saturate(1.25) drop-shadow(0 0 22px rgba(255,214,96,.9));transform:scale(1.035);}62%{filter:brightness(1.16) drop-shadow(0 0 14px rgba(255,198,64,.55));transform:scale(1.01);}100%{filter:none;transform:none;}}
+@keyframes batch14cNiethalfDeckHaloAura{0%{opacity:0;transform:scale(.82);}32%{opacity:1;transform:scale(1.04);}100%{opacity:0;transform:scale(1.18);}}
 @keyframes targetPulse{0%,100%{box-shadow:0 0 0 2px rgba(255,80,40,0.8),0 0 16px rgba(255,80,40,0.4);}50%{box-shadow:0 0 0 3px rgba(255,80,40,1),0 0 28px rgba(255,80,40,0.7);}}
 .fc-invalid-target{opacity:0.35;pointer-events:none;}
 .fc-exhausted{opacity:0.6;filter:saturate(0.35);}
@@ -12212,10 +12214,12 @@ function batch14CNiethalfCandidates(player) {
     })
     .sort((a, b) => b.cost - a.cost || b.index - a.index);
 }
-function batch14CNiethalfRuneDeckEntry(entry) {
+function batch14CNiethalfRuneDeckEntry(entry, sourceIndex=null) {
   const base = batch07RuneDeckEntry(entry, 'PRST000008');
   if (base && typeof base === 'object') {
     base.batch14cNiethalfRune = true;
+    base.batch14cNiethalfSourceIndex = Number.isFinite(Number(sourceIndex)) ? Number(sourceIndex) : null;
+    base.batch14cOccurrenceKey ||= base.batch07OccurrenceId || base.occurrenceId || `batch14c-niethalf-${++collectionBatch07RuneSequence}`;
     base.batch14cAddedKeywords = [...new Set([...(base.batch14cAddedKeywords || []), 'Serviteur de la rune'])];
   }
   return base;
@@ -12224,9 +12228,17 @@ function pulseBatch14CNiethalfDeck(player) {
   const p = playerState(player);
   const deck = p ? qs(playerSelectors(p).deckBack) : null;
   if (!deck) return false;
+  if (deck.dataset.batch14cNiethalfHaloArmed === '1') return false;
+  deck.dataset.batch14cNiethalfHaloArmed = '1';
+  deck.dataset.batch14cNiethalfHaloVariant = 'soft-rounded';
+  deck.classList.remove('batch14c-niethalf-deck-halo');
+  void deck.offsetWidth;
   deck.classList.add('batch14c-niethalf-deck-halo');
-  setTimeout(() => deck.classList.remove('batch14c-niethalf-deck-halo'), 1050);
-  recordCollectionBatch14CEvent('niethalf-deck-halo', {playerId:p.key});
+  setTimeout(() => {
+    deck.classList.remove('batch14c-niethalf-deck-halo');
+    delete deck.dataset.batch14cNiethalfHaloArmed;
+  }, 1050);
+  recordCollectionBatch14CEvent('niethalf-deck-halo', {playerId:p.key, variant:'soft-rounded'});
   return true;
 }
 function activateBatch14CNiethalf(player) {
@@ -12235,10 +12247,10 @@ function activateBatch14CNiethalf(player) {
   const pile = p.drawPile || [];
   const hadDeckCards = pile.length > 0;
   const selected = batch14CNiethalfCandidates(p).slice(0, 3);
-  selected.forEach(item => { pile[item.index] = batch14CNiethalfRuneDeckEntry(item.entry); });
-  if (hadDeckCards) pulseBatch14CNiethalfDeck(p);
+  selected.forEach(item => { pile[item.index] = batch14CNiethalfRuneDeckEntry(item.entry, item.index); });
+  const haloTriggered = hadDeckCards ? pulseBatch14CNiethalfDeck(p) : false;
   updateDeckCount(p);
-  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, halo:hadDeckCards, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost, addedKeywords:['Serviteur de la rune']}))};
+  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, halo:haloTriggered, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost, occurrenceKey:pile[item.index]?.batch14cOccurrenceKey || null, addedKeywords:['Serviteur de la rune']}))};
   recordCollectionBatch14CEvent('niethalf-activated', result);
   return result;
 }
@@ -16993,7 +17005,11 @@ async function resolveCombat(attacker, targetFC) {
   const batch10Plan = batch10CombatPlan(attacker, targetFC, finalAtkDmg);
   finalAtkDmg = batch10Plan.damage;
   if (batch05Plan.behavior === 'archere-millenaire-double') pulseBatch05BeforeEffect(attacker, 'archere-millenaire-double', {target:targetSummary(targetFC)});
-  if (batch05Plan.batch14cShannaCritical) pulseBatch03Ability(attacker, 'batch14c-shanna-critical', {move:true});
+  if (batch05Plan.batch14cShannaCritical) {
+    recordCollectionBatch14CEvent('shanna-critical-feedback-before-damage', {attacker:targetSummary(attacker), target:targetSummary(targetFC), targetPdvBefore:Number(targetFC?.dataset?.pdv || 0), damage:finalAtkDmg});
+    pulseBatch03Ability(attacker, 'batch14c-shanna-critical', {move:true});
+    await batch05VisualDelay(420);
+  }
   if (batch08Plan.firstBoarAttack) batch08PulseBeforeMutation(attacker, 'boar-first-attack', {target:targetSummary(targetFC), bonusDamage:2});
   if (batch08Plan.boarExtraAttack) batch08PulseBeforeMutation(attacker, 'boar-extra-attack', {target:targetSummary(targetFC)});
   const batch09IceShieldAttack = consumeBatch09IceShield(targetFC, attacker, finalAtkDmg);
@@ -17003,6 +17019,7 @@ async function resolveCombat(attacker, targetFC) {
   if (attacker) attacker.dataset.camoBroken = '1'; // Camouflage rompu en attaquant
   if (targetFC) targetFC._killer = attacker;
   if (attacker) attacker._killer = targetFC; // pour la riposte
+  if (batch05Plan.batch14cShannaCritical) recordCollectionBatch14CEvent('shanna-critical-damage-resolve', {attacker:targetSummary(attacker), target:targetSummary(targetFC), targetPdvBefore:Number(targetFC?.dataset?.pdv || 0), damage:finalAtkDmg});
   const defDied = await applyDamage(targetFC, finalAtkDmg);
   if (!defDied) {
     await triggerDamageDealtEmbrasementHooks(attacker, targetFC, {
