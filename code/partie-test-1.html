@@ -5486,7 +5486,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
   const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDraw(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
   if (!linkedKeyResolution.handled && !evolutionCanResolve && !prstAutoPlayResolution?.handled) {
     hand.push(cardId);
-    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.batch14cOccurrenceKey || selectedEntry?.occurrenceId || null;
+    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.batch14cOccurrenceKey || selectedEntry?.occurrenceId || selectedEntry?.batch14cDeckOccurrenceKey || null;
     if (occurrenceId) batch03RegisterHandCard(p, hand.length - 1, occurrenceId);
     if (selectedEntry?.batch07RuneServant) {
       const handOccurrenceId = batch03HandOccurrenceAt(p, hand.length - 1);
@@ -11828,6 +11828,13 @@ function activatePrstFavorCore(cardId, player, context={}) {
   if (!p || !card || !isPrstFavorCard(cardId)) return {success:false, reason:"missing-prst-core"};
   const state = ensurePrstFavorState(p);
   const previousActivations = Number(state[cardId]?.activations || 0);
+  if (cardId === 'PRST000008' && previousActivations > 0) {
+    const removedFromGame = context.source === "draw" ? moveResolvedSpellToRemovedFromGame(cardId, p) : false;
+    const duplicateResolution = {success:true, handled:true, cardId, skipped:true, reason:'prst-favor-already-active', previousActivations, removedFromGame};
+    if (typeof recordCollectionBatch14CEvent === 'function') recordCollectionBatch14CEvent('niethalf-duplicate-activation-ignored', {playerId:p.key, previousActivations, source:context.source || 'manual', removedFromGame});
+    if (typeof window !== "undefined") window.__lastPrstActivation = {playerId:p.key, cardId, state:{...state[cardId]}, duplicateIgnored:true};
+    return {success:true, handled:true, cardId, status:state[cardId]?.status || "SOCLE_IMPLEMENTE_EFFET_SPECIFIQUE_DIFFERE", deferredLot:state[cardId]?.deferredLot || COLLECTION_BATCH_14B_PRST_DEFERRED_LOTS[cardId] || null, message:'', removedFromGame, duplicateIgnored:true, specificResolution:duplicateResolution};
+  }
   state[cardId] = {
     cardId,
     name:card.name,
@@ -12093,6 +12100,7 @@ if (typeof window !== 'undefined') {
 
 // COLLECTION_BATCH_14C_PRST_PASSIVE_RUNTIME
 const COLLECTION_BATCH_14C_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000002','PRST000005','PRST000008','PRST000009']));
+let collectionBatch14CDeckOccurrenceSequence = 0;
 const COLLECTION_BATCH_14C_ELEN_TOOLTIP = Object.freeze({kind:'batch14c-elen', title:"FAVEUR D'ELEN", body:"Elen vous accorde l'abondance et accroît le rendement de toutes vos cartes d'approvisionnement.", order:1});
 const COLLECTION_BATCH_14C_SHANNA_TEXT = "*Bénéficie de la Faveur de Shanna* : a *25%* de chances d'infliger le double de ses dégâts à chaque attaque.";
 function collectionBatch14CState() {
@@ -12212,10 +12220,34 @@ function batch14CDeckEntryCost(entry) {
   const id = getRuntimeCardId(entry);
   return Number(CARDS_DATA[id]?.cost || 0);
 }
-function batch14CNiethalfCandidates(player) {
+function batch14CDeckOccurrenceKey(player, index) {
+  const key = playerKey(player) || 'player';
+  return `batch14c-deck-${key}-${index}-${++collectionBatch14CDeckOccurrenceSequence}`;
+}
+function ensureBatch14CDeckOccurrenceEntry(player, entry, index) {
+  const cardId = getRuntimeCardId(entry);
+  if (!cardId) return entry;
+  const existingKey = (typeof entry === 'object' && entry)
+    ? (entry.batch14cDeckOccurrenceKey || entry.batch14cOccurrenceKey || entry.batch07OccurrenceId || entry.occurrenceId || null)
+    : null;
+  const occurrenceKey = existingKey || batch14CDeckOccurrenceKey(player, index);
+  if (typeof entry === 'object' && entry) return {...entry, cardId, occurrenceId:entry.occurrenceId || occurrenceKey, batch14cDeckOccurrenceKey:occurrenceKey};
+  return {cardId, occurrenceId:occurrenceKey, batch14cDeckOccurrenceKey:occurrenceKey};
+}
+function ensureBatch14CNiethalfDeckOccurrences(player) {
   const p = playerState(player);
   const pile = p?.drawPile || [];
-  return pile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry), cost:batch14CDeckEntryCost(entry)}))
+  for (let index = 0; index < pile.length; index++) {
+    const cardId = getRuntimeCardId(pile[index]);
+    const data = CARDS_DATA[cardId];
+    if (data?.type === 'Serviteur' && !(data.kws || []).includes('Serviteur de la rune')) pile[index] = ensureBatch14CDeckOccurrenceEntry(p, pile[index], index);
+  }
+  return pile;
+}
+function batch14CNiethalfCandidates(player) {
+  const p = playerState(player);
+  const pile = ensureBatch14CNiethalfDeckOccurrences(p);
+  return pile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry), cost:batch14CDeckEntryCost(entry), occurrenceKey:entry?.batch14cDeckOccurrenceKey || entry?.occurrenceId || null}))
     .filter(item => {
       const data = CARDS_DATA[item.cardId];
       return data?.type === 'Serviteur' && !item.entry?.batch07RuneServant && !(data.kws || []).includes('Serviteur de la rune');
@@ -12223,11 +12255,16 @@ function batch14CNiethalfCandidates(player) {
     .sort((a, b) => b.cost - a.cost || b.index - a.index);
 }
 function batch14CNiethalfRuneDeckEntry(entry, sourceIndex=null) {
-  const base = batch07RuneDeckEntry(entry, 'PRST000008');
+  const occurrenceKey = entry?.batch14cDeckOccurrenceKey || entry?.batch14cOccurrenceKey || entry?.batch07OccurrenceId || entry?.occurrenceId || null;
+  const prepared = occurrenceKey && typeof entry === 'object' && entry ? {...entry, occurrenceId:occurrenceKey} : entry;
+  const base = batch07RuneDeckEntry(prepared, 'PRST000008');
   if (base && typeof base === 'object') {
     base.batch14cNiethalfRune = true;
     base.batch14cNiethalfSourceIndex = Number.isFinite(Number(sourceIndex)) ? Number(sourceIndex) : null;
-    base.batch14cOccurrenceKey ||= base.batch07OccurrenceId || base.occurrenceId || `batch14c-niethalf-${++collectionBatch07RuneSequence}`;
+    base.batch14cDeckOccurrenceKey = occurrenceKey || base.batch14cDeckOccurrenceKey || base.batch07OccurrenceId || base.occurrenceId || `batch14c-niethalf-${++collectionBatch07RuneSequence}`;
+    base.batch14cOccurrenceKey = base.batch14cDeckOccurrenceKey;
+    base.batch07OccurrenceId = base.batch14cOccurrenceKey;
+    base.occurrenceId = base.batch14cOccurrenceKey;
     base.batch14cAddedKeywords = [...new Set([...(base.batch14cAddedKeywords || []), 'Serviteur de la rune'])];
   }
   return base;
@@ -12252,13 +12289,13 @@ function pulseBatch14CNiethalfDeck(player) {
 function activateBatch14CNiethalf(player) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'missing-player'};
-  const pile = p.drawPile || [];
+  const pile = ensureBatch14CNiethalfDeckOccurrences(p);
   const hadDeckCards = pile.length > 0;
   const selected = batch14CNiethalfCandidates(p).slice(0, 3);
   selected.forEach(item => { pile[item.index] = batch14CNiethalfRuneDeckEntry(item.entry, item.index); });
   const haloTriggered = hadDeckCards ? pulseBatch14CNiethalfDeck(p) : false;
   updateDeckCount(p);
-  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, halo:haloTriggered, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost, occurrenceKey:pile[item.index]?.batch14cOccurrenceKey || null, addedKeywords:['Serviteur de la rune']}))};
+  const result = {success:selected.length > 0, cardId:'PRST000008', playerId:p.key, halo:haloTriggered, selected:selected.map(item => ({cardId:item.cardId, index:item.index, cost:item.cost, occurrenceKey:pile[item.index]?.batch14cOccurrenceKey || pile[item.index]?.batch14cDeckOccurrenceKey || null, addedKeywords:['Serviteur de la rune']}))};
   recordCollectionBatch14CEvent('niethalf-activated', result);
   return result;
 }

@@ -110,19 +110,26 @@ test("Batch 14C PRST000008 Niethalf marks the three costliest nearest deck serva
   await open14CScenario(page, "PRST000008");
   const result = await page.evaluate(async () => {
     currentPlayer = player1.key;
-    player1.drawPile = ["N000001", "N000002", "N000002", "N000010", "N000003", "N000010"];
-    const beforeCandidates = batch14CNiethalfCandidates(player1).slice(0, 6).map(item => ({cardId:item.cardId, index:item.index, cost:item.cost}));
+    player1.drawPile = ["N000001", "N000002", "N000002", "N000010", "N000003", "N000010", "PRST000008"];
+    const beforeCandidates = batch14CNiethalfCandidates(player1).slice(0, 6).map(item => ({cardId:item.cardId, index:item.index, cost:item.cost, occurrenceKey:item.occurrenceKey || null}));
+    const initialN000002OccurrenceKeys = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId === "N000002").map(item => item.entry?.batch14cDeckOccurrenceKey || item.entry?.occurrenceId || null);
     const play = await playCard("PRST000008", null, {returnValidation:true});
-    const marked = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.entry?.batch07RuneServant).map(item => ({cardId:item.cardId, index:item.index, source:item.entry.batch07SourceCardId, niethalf:item.entry.batch14cNiethalfRune === true, occurrenceKey:item.entry.batch14cOccurrenceKey || null, sourceIndex:item.entry.batch14cNiethalfSourceIndex, addedKeywords:item.entry.batch14cAddedKeywords || []}));
+    const marked = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.entry?.batch07RuneServant).map(item => ({cardId:item.cardId, index:item.index, source:item.entry.batch07SourceCardId, niethalf:item.entry.batch14cNiethalfRune === true, occurrenceKey:item.entry.batch14cOccurrenceKey || null, deckOccurrenceKey:item.entry.batch14cDeckOccurrenceKey || null, sourceIndex:item.entry.batch14cNiethalfSourceIndex, addedKeywords:item.entry.batch14cAddedKeywords || []}));
     const markedEntriesForDraw = player1.drawPile.filter(entry => entry?.batch07RuneServant);
     const unmarkedDuplicateIndexes = player1.drawPile.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId === "N000002" && !item.entry?.batch07RuneServant).map(item => item.index);
     const unmarkedDuplicateEntry = player1.drawPile[unmarkedDuplicateIndexes[0]];
     const haloDeck = document.querySelector(playerSelectors(player1).deckBack);
     const haloVariant = haloDeck?.dataset.batch14cNiethalfHaloVariant || "";
     const roundedRadius = haloDeck ? getComputedStyle(haloDeck).borderRadius : "";
+    const activationEventsBeforeTurnCycle = (window.__collectionBatch14C?.events || []).filter(event => event.type === "niethalf-activated").length;
     await endTurn();
     await endTurn();
-    const haloEventsAfterTurnCycle = (window.__collectionBatch14C?.events || []).filter(event => event.type === "niethalf-deck-halo").length;
+    const eventsAfterTurnCycle = window.__collectionBatch14C?.events || [];
+    const haloEventsAfterTurnCycle = eventsAfterTurnCycle.filter(event => event.type === "niethalf-deck-halo").length;
+    const activationEventsAfterTurnCycle = eventsAfterTurnCycle.filter(event => event.type === "niethalf-activated").length;
+    const duplicateIgnoredEvents = eventsAfterTurnCycle.filter(event => event.type === "niethalf-duplicate-activation-ignored");
+    const markedAfterTurnCycle = player1.drawPile.filter(entry => entry?.batch07RuneServant).length;
+    const lastPrstActivationAfterTurnCycle = window.__lastPrstActivation || null;
     player1.drawPile = [unmarkedDuplicateEntry];
     const unmarkedDraw = drawCardFromDeck(player1, () => true, {refresh:true, sourceCardId:"collection-batch-14c-niethalf-unmarked-duplicate-test"});
     const unmarkedOccurrenceId = batch03HandOccurrenceAt(player1, player1.hand.length - 1);
@@ -144,14 +151,16 @@ test("Batch 14C PRST000008 Niethalf marks the three costliest nearest deck serva
     const summaryBeforeDeath = targetSummary(runeBoard);
     const boardTexts = batch03DynamicStatusTexts(runeBoard);
     await applyDamage(runeBoard, 99);
-    return {play, beforeCandidates, marked, unmarkedDuplicateIndexes, haloVariant, roundedRadius, haloEventsAfterTurnCycle, unmarkedDraw, unmarkedSummon, unmarkedHandTooltips, unmarkedBoardSummary:targetSummary(unmarkedBoard), draw, summon, handTooltips, boardTexts, summaryBeforeDeath, handAfterDeath:[...player1.hand], graveyardAfterDeath:[...player1.graveyard], events:window.__collectionBatch14C?.events || []};
+    return {play, beforeCandidates, initialN000002OccurrenceKeys, marked, unmarkedDuplicateIndexes, haloVariant, roundedRadius, activationEventsBeforeTurnCycle, haloEventsAfterTurnCycle, activationEventsAfterTurnCycle, duplicateIgnoredEvents, markedAfterTurnCycle, lastPrstActivationAfterTurnCycle, unmarkedDraw, unmarkedSummon, unmarkedHandTooltips, unmarkedBoardSummary:targetSummary(unmarkedBoard), draw, summon, handTooltips, boardTexts, summaryBeforeDeath, handAfterDeath:[...player1.hand], graveyardAfterDeath:[...player1.graveyard], events:window.__collectionBatch14C?.events || []};
   });
   expect(result.play.success).toBe(true);
   expect(result.beforeCandidates.slice(0, 3)).toEqual([
-    {cardId:"N000010", index:5, cost:6},
-    {cardId:"N000010", index:3, cost:6},
-    {cardId:"N000002", index:2, cost:6}
+    expect.objectContaining({cardId:"N000010", index:5, cost:6}),
+    expect.objectContaining({cardId:"N000010", index:3, cost:6}),
+    expect.objectContaining({cardId:"N000002", index:2, cost:6})
   ]);
+  expect(result.initialN000002OccurrenceKeys).toHaveLength(2);
+  expect(new Set(result.initialN000002OccurrenceKeys).size).toBe(2);
   expect(result.marked).toHaveLength(3);
   expect(result.marked).toEqual([
     expect.objectContaining({cardId:"N000002", index:2, source:"PRST000008", niethalf:true, sourceIndex:2, addedKeywords:["Serviteur de la rune"]}),
@@ -161,7 +170,12 @@ test("Batch 14C PRST000008 Niethalf marks the three costliest nearest deck serva
   expect(new Set(result.marked.map(item => item.occurrenceKey)).size).toBe(3);
   expect(result.unmarkedDuplicateIndexes).toEqual([1]);
   expect(result.events.filter(event => event.type === "niethalf-deck-halo")).toHaveLength(1);
+  expect(result.activationEventsBeforeTurnCycle).toBe(1);
   expect(result.haloEventsAfterTurnCycle).toBe(1);
+  expect(result.activationEventsAfterTurnCycle).toBe(1);
+  expect(result.duplicateIgnoredEvents).toHaveLength(1);
+  expect(result.markedAfterTurnCycle).toBe(3);
+  expect(result.lastPrstActivationAfterTurnCycle?.duplicateIgnored).toBe(true);
   expect(result.haloVariant).toBe("soft-rounded");
   expect(parseFloat(result.roundedRadius)).toBeGreaterThanOrEqual(20);
   expect(result.unmarkedDraw.cardId).toBe("N000002");
