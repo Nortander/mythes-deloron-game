@@ -3414,6 +3414,52 @@ SCENARIOS['collection-batch-14b-prst000013-core-visual'] = {
     player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:["H000006","H000009","H000012","H000013","H000014","S000033"], graveyard:["H000004","H000005","H000006","S000004","S000006","R000003","R000004","DIV000002","EDN000001","MV000002"], servants:[{"id":"H000005","atk":5,"pdv":5,"pdvMax":5,"prepared":true},{"id":"MV000001","atk":2,"pdv":3,"pdvMax":3,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
   }
 };
+
+// COLLECTION_BATCH_14E_PRST_SCENARIO_ENRICHMENTS
+const COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1 = Object.freeze(['H000001','H000002','H000003','S000001','S000002','R000001','R000002','DIV000001','EDB000001','MV000001']);
+const COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2 = Object.freeze(['MV000001','MV000002','MV000003','MV000004','MV000005','S000004','S000006','R000003','R000004','DIV000002']);
+const COLLECTION_BATCH_14E_HUMAN_DRAW = Object.freeze(['H000006','H000007','H000008','H000009']);
+const COLLECTION_BATCH_14E_UNDEAD_DRAW = Object.freeze(['MV000001','MV000002','MV000003','MV000004','MV000005','S000004','S000006']);
+const COLLECTION_BATCH_14E_RESOURCES = Object.freeze({classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100});
+function collectionBatch14EPlayerSetup(extra={}) {
+  return {allowOverflowServants:true, resources:COLLECTION_BATCH_14E_RESOURCES, avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, ...extra};
+}
+Object.assign(SCENARIOS['collection-batch-14b-prst000003-core-visual'], {
+  label:'TEST - COLLECTION BATCH 14E Faveur de Nor cycle',
+  testSetup:{
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000003','H000020','GOB000001'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'GOB000007','EDB000005','PRST000003'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'GOB000007','EDB000005','PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000020',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'GOB000001',atk:2,pdv:2,pdvMax:2,prepared:true}]}),
+    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true},{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true}]})
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000010-core-visual'], {
+  label:'TEST - COLLECTION BATCH 14E Faveur de Tiara choix',
+  testSetup:{
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000010','H000001','H000006'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000010'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000010'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true},{id:'H000006',atk:2,pdv:5,pdvMax:5,prepared:true}]}),
+    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true},{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true}]})
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000011-core-visual'], {
+  label:"TEST - COLLECTION BATCH 14E Faveur d'Ulm équilibrage",
+  testSetup:{
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000011','DIV000012'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000011'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000011'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'DIV000012',atk:2,pdv:6,pdvMax:6,prepared:true, fixtureCard:{name:'Géant des collines',type:'Serviteur',fac:'div',atk:2,pdv:6,cost:0,kws:[],cap:'Fixture visuelle du scénario PRST000011.',detail:'Fixture visuelle du scénario PRST000011.',assetFolder:'divins'}}], avatarHp:7}),
+    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[], avatarHp:28})
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000012-core-visual'], {
+  label:'TEST - COLLECTION BATCH 14E Faveur de Zerbo choix',
+  testSetup:{
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000012','H000001','H000006'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000012'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000012'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true}]}),
+    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006','MV000001'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}]})
+  }
+});
+Object.assign(SCENARIOS['collection-batch-14b-prst000013-core-visual'], {
+  label:'TEST - COLLECTION BATCH 14E Faveur de Kerona extra-tour',
+  testSetup:{
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000013','H000001','H000006'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000013'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000013'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true}]}),
+    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true}]})
+  }
+});
+
 SCENARIOS['collection-batch-14b-prst000014-core-visual'] = {
   label:"TEST - COLLECTION BATCH 14B Faveur de Bélial",
   participants:['yria','rohen'],
@@ -8445,6 +8491,8 @@ function batch03DynamicStatusTexts(fc) {
   if (fc.dataset.batch14dHirinBypassRempart === '1') add(COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT);
   if (fc.dataset.batch14dHirinCurse === '1') add(COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT);
   if (fc.dataset.batch14cShannaFavor === '1') add(COLLECTION_BATCH_14C_SHANNA_TEXT);
+  if (fc.dataset.batch14eNorEndTurnReplay === '1') add(COLLECTION_BATCH_14E_NOR_TEXT);
+  if (fc.dataset.batch14eTiaraEntraved === '1') add(COLLECTION_BATCH_14E_TIARA_TEXT);
   const stolenBatch10 = String(fc.dataset.batch10StolenKeywords || '').split('|').filter(Boolean);
   if (stolenBatch10.length) add('Bénéficie de ' + stolenBatch10.map(keyword => batch10KeywordHtml(keyword, 'batch10-goblin-keyword')).join(', ') + '.');
   const suppressedBatch10 = String(fc.dataset.batch10SuppressedKeywords || '').split('|').filter(Boolean);
@@ -11504,6 +11552,9 @@ function targetSummary(fc) {
     batch14dHirinBypassRempart:fc.dataset.batch14dHirinBypassRempart === '1',
     batch14dHirinCurse:fc.dataset.batch14dHirinCurse === '1',
     batch14cShannaFavor:fc.dataset.batch14cShannaFavor === '1',
+    batch14eNorEndTurnReplay:fc.dataset.batch14eNorEndTurnReplay === '1',
+    batch14eTiaraEntraved:fc.dataset.batch14eTiaraEntraved === '1',
+    batch14eTiaraCaster:fc.dataset.batch14eTiaraCaster || null,
     batch14cElenExtraSlot:fc.dataset.batch14cElenSlot || null,
     batch09BonePdvBonus:Number(fc.dataset.batch09BonePdvBonus || 0),
     batch09InstableAtkBonus:Number(fc.dataset.batch09InstableAtkBonus || 0),
@@ -11828,10 +11879,12 @@ function activatePrstFavorCore(cardId, player, context={}) {
   if (!p || !card || !isPrstFavorCard(cardId)) return {success:false, reason:"missing-prst-core"};
   const state = ensurePrstFavorState(p);
   const previousActivations = Number(state[cardId]?.activations || 0);
-  if (cardId === 'PRST000008' && previousActivations > 0) {
+  const duplicatePersistentFavor = cardId === 'PRST000008' || isBatch14EPrstFavor(cardId);
+  if (duplicatePersistentFavor && previousActivations > 0) {
     const removedFromGame = context.source === "draw" ? moveResolvedSpellToRemovedFromGame(cardId, p) : false;
     const duplicateResolution = {success:true, handled:true, cardId, skipped:true, reason:'prst-favor-already-active', previousActivations, removedFromGame};
-    if (typeof recordCollectionBatch14CEvent === 'function') recordCollectionBatch14CEvent('niethalf-duplicate-activation-ignored', {playerId:p.key, previousActivations, source:context.source || 'manual', removedFromGame});
+    if (cardId === 'PRST000008' && typeof recordCollectionBatch14CEvent === 'function') recordCollectionBatch14CEvent('niethalf-duplicate-activation-ignored', {playerId:p.key, previousActivations, source:context.source || 'manual', removedFromGame});
+    if (isBatch14EPrstFavor(cardId) && typeof recordCollectionBatch14EEvent === 'function') recordCollectionBatch14EEvent('duplicate-activation-ignored', {playerId:p.key, cardId, previousActivations, source:context.source || 'manual', removedFromGame});
     if (typeof window !== "undefined") window.__lastPrstActivation = {playerId:p.key, cardId, state:{...state[cardId]}, duplicateIgnored:true};
     return {success:true, handled:true, cardId, status:state[cardId]?.status || "SOCLE_IMPLEMENTE_EFFET_SPECIFIQUE_DIFFERE", deferredLot:state[cardId]?.deferredLot || COLLECTION_BATCH_14B_PRST_DEFERRED_LOTS[cardId] || null, message:'', removedFromGame, duplicateIgnored:true, specificResolution:duplicateResolution};
   }
@@ -12124,8 +12177,9 @@ function batch14CRandom() {
 function activatePrstFavorSpecificEffects(cardId, player, context={}) {
   const result14d = activateBatch14DPrstSpecificFavor(cardId, player, context);
   const result14c = activateBatch14CPrstSpecificFavor(cardId, player, context);
-  if (!result14d && !result14c) return null;
-  return {success:result14d?.success !== false && result14c?.success !== false, cardId, batch14d:result14d, batch14c:result14c};
+  const result14e = activateBatch14EPrstSpecificFavor(cardId, player, context);
+  if (!result14d && !result14c && !result14e) return null;
+  return {success:result14d?.success !== false && result14c?.success !== false && result14e?.success !== false, cardId, batch14d:result14d, batch14c:result14c, batch14e:result14e};
 }
 function batch14CServantZone(player) {
   const p = playerState(player);
@@ -12361,6 +12415,272 @@ if (typeof window !== 'undefined') {
   window.activateBatch14CPrstSpecificFavor = activateBatch14CPrstSpecificFavor;
 }
 
+
+// COLLECTION_BATCH_14E_PRST_CYCLE_CHOIX_RUNTIME
+const COLLECTION_BATCH_14E_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000003','PRST000010','PRST000011','PRST000012','PRST000013']));
+const COLLECTION_BATCH_14E_NOR_TEXT = "*Bénéficie de la Faveur de Nor* : ses effets de fin de tour se résolvent une deuxième fois.";
+const COLLECTION_BATCH_14E_TIARA_TEXT = "*Entravé par la Faveur de Tiara* : ne peut ni attaquer ni riposter jusqu'à la fin de son prochain tour. Ses capacités restent utilisables.";
+const COLLECTION_BATCH_14E_END_TURN_CARD_IDS = Object.freeze(new Set(['H000020','DIV000001','GOB000001','GOB000007','H000027','H000030','EDB000005','EDG000007','EDB000014','EDG000012','EN000003','EN000004','EN000009','EN000010']));
+function isBatch14EPrstFavor(cardId) {
+  return COLLECTION_BATCH_14E_PRST_EFFECT_IDS.has(String(cardId || ''));
+}
+function collectionBatch14EState() {
+  if (typeof window === 'undefined') return {events:[], randomQueue:[], autoResolveChoices:false};
+  window.__collectionBatch14E ||= {events:[], randomQueue:[], autoResolveChoices:false};
+  window.__collectionBatch14E.events ||= [];
+  window.__collectionBatch14E.randomQueue ||= [];
+  return window.__collectionBatch14E;
+}
+function recordCollectionBatch14EEvent(type, detail={}) {
+  const event = {type, timestamp:Date.now(), ...(detail || {})};
+  collectionBatch14EState().events.push(event);
+  return event;
+}
+function batch14ERandom() {
+  const state14e = collectionBatch14EState();
+  if (Array.isArray(state14e.randomQueue) && state14e.randomQueue.length) return Number(state14e.randomQueue.shift());
+  if (typeof window !== 'undefined' && Array.isArray(window.__collectionBatch14ERandomQueue) && window.__collectionBatch14ERandomQueue.length) return Number(window.__collectionBatch14ERandomQueue.shift());
+  return gameRandom();
+}
+function batch14EAutomationEnabled() {
+  if (collectionBatch14EState().autoResolveChoices) return true;
+  if (typeof URLSearchParams === 'undefined' || typeof location === 'undefined') return false;
+  const params = new URLSearchParams(location.search || '');
+  return params.get('batch14e') === 'auto';
+}
+function batch14EHasEndTurnAbilityCard(cardId) {
+  if (COLLECTION_BATCH_14E_END_TURN_CARD_IDS.has(String(cardId || ''))) return true;
+  const data = CARDS_DATA[cardId] || {};
+  return /fin de (votre |son |chaque )?tour/i.test(`${data.cap || ''} ${data.detail || ''}`);
+}
+function syncBatch14EPrstFavorEffects() {
+  [player1, player2].filter(Boolean).forEach(owner => {
+    const norActive = hasActivePrstFavor(owner, 'PRST000003');
+    for (const fc of livingServantCardsForPlayer(owner)) {
+      if (norActive && batch14EHasEndTurnAbilityCard(fc.dataset.id)) fc.dataset.batch14eNorEndTurnReplay = '1';
+      else delete fc.dataset.batch14eNorEndTurnReplay;
+    }
+  });
+}
+function batch14ETiaraCandidates(player) {
+  const p = playerState(player);
+  return livingServantCardsForPlayer(opponentOf(p)).filter(fc => fc && !fc.dataset.dead);
+}
+function isBatch14ETiaraEntraved(fc) {
+  return !!fc?.dataset && fc.dataset.batch14eTiaraEntraved === '1' && !fc.dataset.dead;
+}
+function applyBatch14ETiaraEntrave(target, caster) {
+  const owner = playerState(target?.dataset?.player);
+  const p = playerState(caster);
+  if (!target || !owner || !p) return {success:false, reason:'missing-target'};
+  target.dataset.batch14eTiaraEntraved = '1';
+  target.dataset.batch14eTiaraCaster = p.key;
+  target.dataset.batch14eTiaraExpiresOwner = owner.key;
+  target.dataset.batch14eTiaraAppliedTurnSequence = String(turnSequence);
+  target.classList.add('fc-exhausted');
+  pulseBatch03Ability(target, 'batch14e-tiara-entrave', {move:true});
+  const result = {success:true, cardId:'PRST000010', playerId:p.key, target:targetSummary(target), expiresOwner:owner.key};
+  recordCollectionBatch14EEvent('tiara-entrave-applied', result);
+  return result;
+}
+async function chooseBatch14ETiaraTarget(player) {
+  const p = playerState(player);
+  const targets = batch14ETiaraCandidates(p);
+  if (!targets.length) return null;
+  const forcedInstance = collectionBatch14EState().forcedTiaraTargetInstance;
+  if (forcedInstance) {
+    const forced = targets.find(fc => fc.dataset.instance === forcedInstance);
+    if (forced) return forced;
+  }
+  if (batch14EAutomationEnabled()) return targets[0];
+  const chosen = await chooseBoardTargets({title:'Faveur de Tiara', prompt:'Choisissez 1 serviteur adverse : il ne pourra ni attaquer ni riposter jusqu’à la fin de son prochain tour.', targets, maxCount:1, minCount:1, panelClass:'batch14e-tiara-choice'});
+  return chosen[0] || null;
+}
+async function resolveBatch14EStartTurnEffects(player) {
+  const p = playerState(player);
+  if (!p || !hasActivePrstFavor(p, 'PRST000010')) return {success:false, skipped:true, reason:'tiara-inactive'};
+  const target = await chooseBatch14ETiaraTarget(p);
+  if (!target) {
+    const result = {success:false, skipped:true, reason:'no-enemy-servant', cardId:'PRST000010', playerId:p.key};
+    recordCollectionBatch14EEvent('tiara-no-target', result);
+    return result;
+  }
+  const result = applyBatch14ETiaraEntrave(target, p);
+  if (result.success) await showNotif('Tiara entrave un serviteur adverse.', 1200);
+  return result;
+}
+function expireBatch14ETiaraLocks(owner) {
+  const p = playerState(owner);
+  if (!p) return {expired:0};
+  let expired = 0;
+  for (const fc of livingServantCardsForPlayer(p)) {
+    if (fc.dataset.batch14eTiaraEntraved !== '1') continue;
+    if (fc.dataset.batch14eTiaraExpiresOwner !== p.key) continue;
+    const applied = Number(fc.dataset.batch14eTiaraAppliedTurnSequence || -1);
+    if (applied >= turnSequence) continue;
+    delete fc.dataset.batch14eTiaraEntraved;
+    delete fc.dataset.batch14eTiaraCaster;
+    delete fc.dataset.batch14eTiaraExpiresOwner;
+    delete fc.dataset.batch14eTiaraAppliedTurnSequence;
+    if (!fc.dataset.exhausted && !fc.dataset.frozen && !fc.dataset.frozen_cdg) fc.classList.remove('fc-exhausted');
+    expired += 1;
+  }
+  if (expired) recordCollectionBatch14EEvent('tiara-entrave-expired', {playerId:p.key, expired});
+  return {expired};
+}
+async function resolveBatch14ENorExtraEndTurn(player) {
+  const p = playerState(player);
+  if (!p || !hasActivePrstFavor(p, 'PRST000003')) return {success:false, skipped:true, reason:'nor-inactive'};
+  syncBatch14EPrstFavorEffects();
+  const eligible = livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch14eNorEndTurnReplay === '1').map(targetSummary);
+  await applyBatch03EndTurnAbilities(p);
+  const result = {success:true, cardId:'PRST000003', playerId:p.key, replayed:true, eligible};
+  recordCollectionBatch14EEvent('nor-end-turn-replay', result);
+  await showNotif('Nor fait résonner les effets de fin de tour une seconde fois.', 1200);
+  return result;
+}
+function batch14EAvatarNode(player) {
+  return qs(playerZoneSelector(playerState(player), 'avatar'));
+}
+function pulseBatch14EAvatar(player) {
+  const node = batch14EAvatarNode(player);
+  if (!node) return false;
+  node.classList.add('batch14e-avatar-pulse');
+  setTimeout(() => node.classList.remove('batch14e-avatar-pulse'), 950);
+  return true;
+}
+async function resolveBatch14EUlmEndTurn(player) {
+  const p = playerState(player);
+  const other = opponentOf(p);
+  if (!p || !other || !hasActivePrstFavor(p, 'PRST000011')) return {success:false, skipped:true, reason:'ulm-inactive'};
+  const before = {[p.key]:avatarHitPoints(p), [other.key]:avatarHitPoints(other)};
+  const total = before[p.key] + before[other.key];
+  const low = Math.floor(total / 2);
+  const high = Math.ceil(total / 2);
+  const pGetsLow = before[p.key] <= before[other.key];
+  const afterP = pGetsLow ? low : high;
+  const afterOther = pGetsLow ? high : low;
+  setAvatarHitPoints(p, afterP);
+  setAvatarHitPoints(other, afterOther);
+  pulseBatch14EAvatar(p); pulseBatch14EAvatar(other);
+  const result = {success:true, cardId:'PRST000011', playerId:p.key, before, total, rounding:'floor-ceil-total-preserved-lower-hp-receives-floor', after:{[p.key]:afterP, [other.key]:afterOther}};
+  recordCollectionBatch14EEvent('ulm-avatar-balance', result);
+  await showNotif('Ulm équilibre les points de vie des avatars.', 1200);
+  return result;
+}
+function batch14EZerboDiscardCandidates(player) {
+  const p = playerState(player);
+  return (playerHand(p) || []).map((entry, index) => ({index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isPrstFavorCard(item.cardId));
+}
+async function chooseBatch14EZerboDiscard(player) {
+  const p = playerState(player);
+  const candidates = batch14EZerboDiscardCandidates(p);
+  if (!candidates.length) return null;
+  const forcedIndex = collectionBatch14EState().forcedZerboDiscardIndex;
+  if (Number.isInteger(forcedIndex)) return candidates.find(item => item.index === forcedIndex) || null;
+  if (batch14EAutomationEnabled()) return candidates[0];
+  if (typeof document === 'undefined') return candidates[0];
+  return new Promise(resolve => {
+    const cardsHTML = candidates.map((item, i) => `<div class="sort-choice-item" data-idx="${i}">${renderSelectionCard(item.cardId, p, {context:'zerbo-discard'})}</div>`).join('');
+    const modal = createMinimizableDecisionModal({decisionId:'batch14e-zerbo-discard', title:'Faveur de Zerbo', compactLabel:'Zerbo en attente', panelClass:'batch14e-zerbo-choice', bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Défaussez 1 carte pour voler jusqu’à 2 cartes adverses, ou passez.</div><div class="sort-choice-cards">${cardsHTML}</div><button type="button" class="sort-choice-confirm" data-choice="skip">PASSER</button>`});
+    modal.onRender = () => {
+      modal.overlay?.querySelectorAll('.sort-choice-item').forEach((el, i) => el.addEventListener('click', () => { modal.close({selected:i}); resolve(candidates[i]); }));
+      modal.overlay?.querySelector('.sort-choice-confirm')?.addEventListener('click', () => { modal.close({selected:'skip'}); resolve(null); });
+    };
+    modal.onRender();
+  });
+}
+function batch14EStealableOpponentCards(player) {
+  const opponent = opponentOf(player);
+  const pool = [];
+  const add = (zone, list) => (list || []).forEach((entry, index) => { const cardId = getRuntimeCardId(entry); if (cardId && !isPrstFavorCard(cardId)) pool.push({zone, index, cardId}); });
+  add('deck', playerDrawPile(opponent)); add('hand', playerHand(opponent)); add('graveyard', opponent?.graveyard || []);
+  return pool;
+}
+function removeBatch14EStealableEntry(player, entry) {
+  const opponent = opponentOf(player);
+  if (!opponent || !entry) return null;
+  if (entry.zone === 'deck') return playerDrawPile(opponent).splice(entry.index, 1)[0] || null;
+  if (entry.zone === 'hand') return removeHandCardAt(opponent, entry.index);
+  if (entry.zone === 'graveyard') return opponent.graveyard.splice(entry.index, 1)[0] || null;
+  return null;
+}
+async function resolveBatch14EZerboEndTurn(player) {
+  const p = playerState(player);
+  if (!p || !hasActivePrstFavor(p, 'PRST000012')) return {success:false, skipped:true, reason:'zerbo-inactive'};
+  const discard = await chooseBatch14EZerboDiscard(p);
+  if (!discard) {
+    const skipped = {success:true, skipped:true, cardId:'PRST000012', playerId:p.key, reason:'player-skipped-or-no-card'};
+    recordCollectionBatch14EEvent('zerbo-skip', skipped);
+    return skipped;
+  }
+  const discarded = getRuntimeCardId(removeHandCardAt(p, discard.index)) || discard.cardId;
+  p.graveyard.push(discarded);
+  const stolen = [];
+  for (let i = 0; i < 2; i++) {
+    const pool = batch14EStealableOpponentCards(p);
+    if (!pool.length) break;
+    const pick = Math.min(pool.length - 1, Math.floor(batch14ERandom() * pool.length));
+    const entry = pool[pick];
+    const removed = removeBatch14EStealableEntry(p, entry);
+    const cardId = getRuntimeCardId(removed) || entry.cardId;
+    if (cardId && addCardToHand(p, cardId, {refresh:false})) stolen.push({zone:entry.zone, cardId});
+  }
+  refreshCemeteryVisual(p); refreshCemeteryVisual(opponentOf(p)); updateDeckCount(p); updateDeckCount(opponentOf(p)); renderAllHands(p.key);
+  const result = {success:true, cardId:'PRST000012', playerId:p.key, discarded, stolenCount:stolen.length, stolen};
+  recordCollectionBatch14EEvent('zerbo-discard-and-steal', result);
+  await showNotif(`Zerbo vole ${stolen.length} carte(s).`, 1200);
+  return result;
+}
+async function resolveBatch14EKeronaEndTurn(player) {
+  const p = playerState(player);
+  if (!p || !hasActivePrstFavor(p, 'PRST000013')) return {success:false, skipped:true, reason:'kerona-inactive'};
+  if (p.batch14eKeronaNoChainNextCheck) {
+    delete p.batch14eKeronaNoChainNextCheck;
+    const skip = {success:true, skipped:true, skippedByNoChain:true, cardId:'PRST000013', playerId:p.key};
+    recordCollectionBatch14EEvent('kerona-no-chain-skip', skip);
+    return skip;
+  }
+  const roll = batch14ERandom();
+  const extraTurn = roll < 0.5;
+  if (extraTurn) p.batch14eKeronaNoChainNextCheck = true;
+  const result = {success:true, cardId:'PRST000013', playerId:p.key, roll, extraTurn, threshold:0.5};
+  recordCollectionBatch14EEvent(extraTurn ? 'kerona-extra-turn-success' : 'kerona-extra-turn-failure', result);
+  await showNotif(extraTurn ? 'Kerona vous accorde un tour supplémentaire !' : 'Kerona reste silencieuse.', 1200);
+  return result;
+}
+async function resolveBatch14EEndTurnEffects(player) {
+  const p = playerState(player);
+  const result = {playerId:p?.key || null};
+  result.nor = await resolveBatch14ENorExtraEndTurn(p);
+  result.ulm = await resolveBatch14EUlmEndTurn(p);
+  result.zerbo = await resolveBatch14EZerboEndTurn(p);
+  result.kerona = await resolveBatch14EKeronaEndTurn(p);
+  result.tiaraExpire = expireBatch14ETiaraLocks(p);
+  return result;
+}
+function activateBatch14EPrstSpecificFavor(cardId, player, context={}) {
+  const p = playerState(player);
+  if (!p || !COLLECTION_BATCH_14E_PRST_EFFECT_IDS.has(cardId)) return null;
+  const state = ensurePrstFavorState(p);
+  if (state?.[cardId]) {
+    state[cardId].specificStatus = 'EFFET_SPECIFIQUE_IMPLEMENTE_14E';
+    state[cardId].implementedLot = '14E';
+  }
+  if (cardId === 'PRST000003') p.batch14eNorFavor = true;
+  if (cardId === 'PRST000010') p.batch14eTiaraFavor = true;
+  if (cardId === 'PRST000011') p.batch14eUlmFavor = true;
+  if (cardId === 'PRST000012') p.batch14eZerboFavor = true;
+  if (cardId === 'PRST000013') p.batch14eKeronaFavor = true;
+  syncBatch14EPrstFavorEffects();
+  const result = {success:true, cardId, playerId:p.key, specificStatus:'EFFET_SPECIFIQUE_IMPLEMENTE_14E', source:context.source || 'manual'};
+  recordCollectionBatch14EEvent('prst-specific-activated', result);
+  return result;
+}
+if (typeof window !== 'undefined') {
+  Object.assign(window, {COLLECTION_BATCH_14E_PRST_EFFECT_IDS, COLLECTION_BATCH_14E_NOR_TEXT, COLLECTION_BATCH_14E_TIARA_TEXT, collectionBatch14EState, recordCollectionBatch14EEvent, isBatch14EPrstFavor, syncBatch14EPrstFavorEffects, isBatch14ETiaraEntraved, resolveBatch14EStartTurnEffects, resolveBatch14EEndTurnEffects, resolveBatch14ENorExtraEndTurn, resolveBatch14EUlmEndTurn, resolveBatch14EZerboEndTurn, resolveBatch14EKeronaEndTurn, activateBatch14EPrstSpecificFavor});
+}
+
 function shouldMoveResolvedSpellToGraveyard(cardId) {
   const card = CARDS_DATA[cardId];
   return card?.type === 'Sort' && !isPrstFavorCard(cardId);
@@ -12509,6 +12829,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   if (placedFC && d.type === 'Serviteur') {
     syncBatch14DPrstFavorEffects();
     syncBatch14CPrstFavorEffects();
+    syncBatch14EPrstFavorEffects();
   }
   syncBatch05Passives();
   if (d.type === 'Approvisionnement' && placedFC) {
@@ -12720,6 +13041,7 @@ function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
   if (placedFC && CARDS_DATA[cardId]?.type === 'Serviteur') {
     syncBatch14DPrstFavorEffects();
     syncBatch14CPrstFavorEffects();
+    syncBatch14EPrstFavorEffects();
   }
   addHistEntry(cardId, CARDS_DATA[cardId]?.fac);
   updateCamouflageVFX();
@@ -16920,6 +17242,7 @@ function refreshHand(player) {
 // ════════════════════════════════════════════════════════════
 function highlightTargets() {
   syncBatch14DPrstFavorEffects();
+  syncBatch14EPrstFavorEffects();
   const adversePlayer  = opponentOf(currentPlayer);
   const adverseZoneId  = playerZoneSelector(adversePlayer, 'servants');
   const adverseZone    = qs(adverseZoneId);
@@ -17022,6 +17345,7 @@ document.addEventListener('click', e => {
 function tryAttack(fc) {
   if (fc.dataset.id === 'MV000030') { showErr('Le Mur non-mort ne peut pas attaquer.'); return; }
   if (fc.dataset.batch09InstableNoAttack === '1') { showErr('Le Troll instable ne peut pas attaquer avec ce comportement.'); return; }
+  if (isBatch14ETiaraEntraved(fc)) { showErr('Ce serviteur est entravé par <b>Tiara</b> et ne peut pas attaquer.'); return; }
   if (isBatch04Hypnotized(fc)) { showErr('Ce serviteur est sous <b>Hypnose</b> et ne peut pas attaquer.'); return; }
   if (fc.dataset.new)       { showErr('Ce serviteur <b>se prépare</b> et ne peut pas attaquer ce tour.'); return; }
   if (fc.dataset.exhausted) { showErr('Ce serviteur a déjà attaqué ce tour.'); return; }
@@ -17036,6 +17360,12 @@ function tryAttack(fc) {
 async function resolveCombat(attacker, targetFC) {
   syncBatch14DPrstFavorEffects();
   syncBatch14CPrstFavorEffects();
+  syncBatch14EPrstFavorEffects();
+  if (isBatch14ETiaraEntraved(attacker)) {
+    showErr('Ce serviteur est entravé par <b>Tiara</b> et ne peut pas attaquer.');
+    recordCollectionBatch14EEvent('combat-refused-tiara-attacker', {reason:'tiara-entraved-attacker', attacker:targetSummary(attacker), target:targetSummary(targetFC)});
+    return {success:false, reason:'tiara-entraved-attacker'};
+  }
   if (isBatch04Hypnotized(attacker)) {
     showErr('Ce serviteur est sous <b>Hypnose</b> et ne peut pas attaquer.');
     recordCollectionBatch03Event('combat-refused', {reason:'attacker-hypnotized', attacker:targetSummary(attacker), target:targetSummary(targetFC)});
@@ -17103,7 +17433,7 @@ async function resolveCombat(attacker, targetFC) {
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
   let counterDamageDealt = 0;
-  if (defAlive && defAtk > 0 && targetFC.dataset.id !== 'MV000030' && !batch05Plan.preventCounter && !batch10Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC)) {
+  if (defAlive && defAtk > 0 && targetFC.dataset.id !== 'MV000030' && !batch05Plan.preventCounter && !batch10Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC) && !isBatch14ETiaraEntraved(targetFC)) {
     updateRageState(targetFC);
     let counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
     if (targetFC.dataset.id === 'EDB000001' && CARDS_DATA[attacker.dataset.id]?.fac === 'mvs') counterAtk *= 2;
@@ -19392,6 +19722,7 @@ async function runStartTurnPipeline(player) {
     trace.batch11aNecropole = await resolveBatch11aNecropoleStartTurn(p);
     trace.batch11eStart = await resolveBatch11eStartTurnEffects(p);
     await applyStartTurnServantAbilities(p);
+    trace.batch14eStart = await resolveBatch14EStartTurnEffects(p);
     state.startTurnAbilitiesResolved = true;
   }
   trace.abilitiesResolved = !!state.startTurnAbilitiesResolved;
@@ -19471,6 +19802,7 @@ async function runStartTurnPipeline(player) {
     trace.batch11aNecropole = await resolveBatch11aNecropoleStartTurn(p);
     trace.batch11eStart = await resolveBatch11eStartTurnEffects(p);
     await applyStartTurnServantAbilities(p);
+    trace.batch14eStart = await resolveBatch14EStartTurnEffects(p);
     state.startTurnAbilitiesResolved = true;
   }
   trace.abilitiesResolved = !!state.startTurnAbilitiesResolved;
@@ -19560,6 +19892,7 @@ async function endTurnRuntime() {
     await resolveBatch11eEndTurnEffects(activePlayer);
     await resolveMeteoresEndOfTurn(activePlayer);
     await applyBatch03EndTurnAbilities(activePlayer);
+    const batch14eEnd = await resolveBatch14EEndTurnEffects(activePlayer);
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
     expireBatch11eEclipseSolaire();
     resolveBatch02OwnerTurnExpiration(activePlayer);
@@ -19571,11 +19904,13 @@ async function endTurnRuntime() {
       window._blockedCardSourceName = null;
       refreshHand(activePlayer);
     }
-    activePlayer = opponentOf(activePlayer);
+    const previousActivePlayer = activePlayer;
+    const batch14eExtraTurn = batch14eEnd?.kerona?.extraTurn === true;
+    activePlayer = batch14eExtraTurn ? previousActivePlayer : opponentOf(previousActivePlayer);
     turnSequence += 1;
     currentPlayer = activePlayer.key;
     cardsPlayedThisTurn = 0;
-    if (activePlayer.batch03SkipNextTurn) {
+    if (activePlayer.batch03SkipNextTurn && !batch14eExtraTurn) {
       const skippedPlayer = activePlayer;
       const skipDetail = skippedPlayer.batch03SkipNextTurn;
       delete skippedPlayer.batch03SkipNextTurn;
@@ -19585,6 +19920,9 @@ async function endTurnRuntime() {
       turnSequence += 1;
       currentPlayer = activePlayer.key;
       cardsPlayedThisTurn = 0;
+      beginTurnState(activePlayer);
+      await showNotif(`C’est encore le tour de ${playerName(activePlayer)} !`);
+    } else if (batch14eExtraTurn) {
       beginTurnState(activePlayer);
       await showNotif(`C’est encore le tour de ${playerName(activePlayer)} !`);
     } else {
@@ -27087,6 +27425,7 @@ function applyScenarioTestSetup() {
   collectionBatch13aState.events = [];
   if (typeof window !== 'undefined' && window.__collectionBatch14D) window.__collectionBatch14D.events = [];
   if (typeof window !== 'undefined' && window.__collectionBatch14C) window.__collectionBatch14C.events = [];
+  if (typeof window !== 'undefined' && window.__collectionBatch14E) window.__collectionBatch14E.events = [];
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
@@ -27134,7 +27473,12 @@ function applyScenarioTestSetup() {
           zone.appendChild(slot);
           slots[index] = slot;
         }
-        if (!slot || !CARDS_DATA[cardId]) return;
+        if (!slot) return;
+        if (!CARDS_DATA[cardId] && typeof entry === 'object' && entry.fixtureCard) {
+          CARDS_DATA[cardId] = {id:cardId, ...entry.fixtureCard, collectionBatch14EFixture:true};
+          recordCollectionBatch14EEvent('scenario-fixture-card-registered', {cardId, playerId:p.key});
+        }
+        if (!CARDS_DATA[cardId]) return;
         const parent = slot.parentElement;
         const slotIndex = parent ? Array.from(parent.children).indexOf(slot) : -1;
         slot.outerHTML = buildFC(cardId, p.key);
@@ -27167,6 +27511,7 @@ function applyScenarioTestSetup() {
   });
   syncBatch14DPrstFavorEffects();
   syncBatch14CPrstFavorEffects();
+  syncBatch14EPrstFavorEffects();
   refreshBatch05SnowfallDynamicTexts();
   renderAllHands();
   syncBatch04PassivePulses();
