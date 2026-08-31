@@ -1894,6 +1894,22 @@ body.dragging-card .hc.dragging {
 .batch14e-zerbo-choice [data-testid="batch14e-zerbo-confirm"]{display:block;margin:16px auto 0;min-width:156px}
 .batch14e-zerbo-choice [data-testid="batch14e-zerbo-confirm"]:disabled{color:#8c7760;background:linear-gradient(180deg,rgba(84,69,48,.88),rgba(42,31,22,.92));border-color:rgba(150,124,76,.45);box-shadow:inset 0 0 0 1px rgba(255,220,128,.08);cursor:not-allowed;opacity:.82}
 .batch14e-zerbo-choice .selection-card{transform-origin:center top}
+@keyframes batch14fBelialPurplePulse{0%{box-shadow:0 0 0 rgba(190,96,255,0);filter:brightness(1);transform:scale(1);}35%{box-shadow:0 0 0 4px rgba(190,96,255,.9),0 0 30px rgba(142,52,220,.9);filter:brightness(1.45) saturate(1.35);transform:scale(1.035);}100%{box-shadow:0 0 0 rgba(190,96,255,0);filter:brightness(1);transform:scale(1);}}
+.batch14f-belial-choice{overflow:visible!important;max-height:min(86vh,760px);padding:26px 30px 30px}
+.batch14f-belial-choice .decision-modal-header{margin-bottom:14px}
+.batch14f-belial-choice-body{display:grid;grid-template-columns:minmax(170px,220px) minmax(260px,1fr);gap:22px;align-items:center;color:#e8d7b0}
+.batch14f-belial-subtitle{grid-column:1/-1;font-family:'Crimson Pro',serif;font-size:15px;color:#d6c094;text-align:center;margin:0 0 4px}
+.batch14f-belial-avatar{display:flex;flex-direction:column;align-items:center;gap:8px}
+.batch14f-belial-avatar .av-portrait{position:relative;width:112px;height:112px;border-radius:50%;overflow:hidden}
+.batch14f-belial-avatar-hp{font-family:'Cinzel',serif;font-size:13px;font-weight:900;color:#f1d681;letter-spacing:.04em}
+.batch14f-belial-controls{display:flex;flex-direction:column;gap:14px;align-items:stretch}
+.batch14f-belial-meter{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.batch14f-belial-slider{accent-color:#b45cff;width:100%}
+.batch14f-belial-heal{font-family:'Cinzel',serif;font-size:15px;font-weight:900;color:#d7b4ff;min-width:82px;text-align:right}
+.batch14f-belial-actions{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;margin-top:4px}
+.batch14f-belial-action{font-family:'Cinzel',serif;font-size:11px;font-weight:900;letter-spacing:.08em;color:#1a0e05;background:linear-gradient(180deg,#ffe4a3,#c99c3e);border:1px solid rgba(255,231,159,.9);border-radius:12px;box-shadow:0 7px 18px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.32);padding:11px 18px;min-width:170px;text-align:center;cursor:pointer;text-shadow:0 1px 0 rgba(255,255,255,.32)}
+.batch14f-belial-action:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.batch14f-belial-avatar-pulse .av-portrait{animation:batch14fBelialPurplePulse 1.05s ease-in-out 1}
 
 </style>
 </head>
@@ -3439,16 +3455,53 @@ const COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2 = Object.freeze(['MV000001','MV0000
 const COLLECTION_BATCH_14E_HUMAN_DRAW = Object.freeze(['H000006','H000007','H000008','H000009']);
 const COLLECTION_BATCH_14E_UNDEAD_DRAW = Object.freeze(['MV000001','MV000002','MV000003','MV000004','MV000005','S000004','S000006']);
 const COLLECTION_BATCH_14E_RESOURCES = Object.freeze({classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100});
+const COLLECTION_BATCH_14F1_NOR_COVERAGE_IDS = Object.freeze(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012','EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027','H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']);
+const COLLECTION_BATCH_14F1_NOR_GROUP_A = Object.freeze(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012']);
+const COLLECTION_BATCH_14F1_NOR_GROUP_B = Object.freeze(['EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027']);
+const COLLECTION_BATCH_14F1_NOR_GROUP_C = Object.freeze(['H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']);
 function collectionBatch14EPlayerSetup(extra={}) {
   return {allowOverflowServants:true, resources:COLLECTION_BATCH_14E_RESOURCES, avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, ...extra};
+}
+function collectionBatch14F1NorServants(ids) {
+  return ids.filter(id => id !== 'H000027').map((id, index) => ({
+    id,
+    atk:id === 'GOB000001' || id === 'ORC000007' ? 4 : undefined,
+    pdv:['EDB000005','EDB000014','EDG000007','GOB000007','TRL000007'].includes(id) ? 2 : 8,
+    pdvMax:['EDB000005','EDB000014','EDG000007','GOB000007','TRL000007'].includes(id) ? 10 : 12,
+    prepared:true,
+    batch14eXyallahMarks:id === 'DIV000016' ? 1 : undefined
+  }));
+}
+function collectionBatch14F1NorScenario(label, ids) {
+  const enemyServants = [
+    {id:'H000001',atk:4,pdv:12,pdvMax:12,prepared:true},
+    {id:'H000005',atk:5,pdv:12,pdvMax:12,prepared:true},
+    {id:'H000006',atk:3,pdv:12,pdvMax:12,prepared:true},
+    {id:'MV000020',atk:4,pdv:12,pdvMax:12,prepared:true}
+  ];
+  return {
+    label,
+    participants:['yria','rohen'],
+    fixedFirstParticipant:0,
+    hidden:true,
+    showTestResourcePanel:true,
+    testCardId:'PRST000003',
+    testSetup:{
+      player1:collectionBatch14EPlayerSetup({hand:['PRST000003', ...ids], drawPile:[...ids, 'PRST000003'], startingDeckCardIds:[...ids, 'PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:collectionBatch14F1NorServants(ids)}),
+      player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:enemyServants})
+    }
+  };
 }
 Object.assign(SCENARIOS['collection-batch-14b-prst000003-core-visual'], {
   label:'TEST - COLLECTION BATCH 14E Faveur de Nor cycle',
   testSetup:{
-    player1:collectionBatch14EPlayerSetup({hand:['PRST000003','H000020','GOB000001'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'GOB000007','EDB000005','PRST000003'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'GOB000007','EDB000005','PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000020',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'GOB000001',atk:2,pdv:2,pdvMax:2,prepared:true}]}),
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000003','H000020','GOB000001','GOB000007','EDB000005','H000027'], drawPile:['H000020','GOB000001','GOB000007','EDB000005','H000027','PRST000003'], startingDeckCardIds:['H000020','GOB000001','GOB000007','EDB000005','H000027','PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000020',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'GOB000001',atk:2,pdv:2,pdvMax:2,prepared:true},{id:'GOB000007',atk:1,pdv:1,pdvMax:3,prepared:true},{id:'EDB000005',atk:1,pdv:1,pdvMax:5,prepared:true}]}),
     player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true},{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true}]})
   }
 });
+SCENARIOS['collection-batch-14e-prst000003-nor-coverage-a'] = collectionBatch14F1NorScenario('TEST - COLLECTION BATCH 14F1 Faveur de Nor couverture A', COLLECTION_BATCH_14F1_NOR_GROUP_A);
+SCENARIOS['collection-batch-14e-prst000003-nor-coverage-b'] = collectionBatch14F1NorScenario('TEST - COLLECTION BATCH 14F1 Faveur de Nor couverture B', COLLECTION_BATCH_14F1_NOR_GROUP_B);
+SCENARIOS['collection-batch-14e-prst000003-nor-coverage-c'] = collectionBatch14F1NorScenario('TEST - COLLECTION BATCH 14F1 Faveur de Nor couverture C', COLLECTION_BATCH_14F1_NOR_GROUP_C);
 Object.assign(SCENARIOS['collection-batch-14b-prst000010-core-visual'], {
   label:'TEST - COLLECTION BATCH 14E Faveur de Tiara choix',
   testSetup:{
@@ -3479,15 +3532,15 @@ Object.assign(SCENARIOS['collection-batch-14b-prst000013-core-visual'], {
 });
 
 SCENARIOS['collection-batch-14b-prst000014-core-visual'] = {
-  label:"TEST - COLLECTION BATCH 14B Faveur de Bélial",
-  participants:['yria','rohen'],
+  label:"TEST - COLLECTION BATCH 14F Faveur de Bélial",
+  participants:['hokhan','rohen'],
   fixedFirstParticipant:0,
   hidden:true,
   showTestResourcePanel:true,
   testCardId:'PRST000014',
   testSetup:{
-    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:["PRST000014"], drawPile:["S000001","S000002","S000003","H000001","H000002","PRST000014"], graveyard:["H000001","H000002","H000003","S000001","S000002","R000001","R000002","DIV000001","EDB000001","MV000001"], servants:[{"id":"H000001","atk":3,"pdv":4,"pdvMax":4,"prepared":true},{"id":"EDB000001","atk":2,"pdv":2,"pdvMax":2,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, startingDeckCardIds:["S000001","S000002","S000003","H000001","H000002","PRST000014"]},
-    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100}, hand:['S000004','S000006'], drawPile:["H000006","H000009","H000012","H000013","H000014","S000033"], graveyard:["H000004","H000005","H000006","S000004","S000006","R000003","R000004","DIV000002","EDN000001","MV000002"], servants:[{"id":"H000005","atk":5,"pdv":5,"pdvMax":5,"prepared":true},{"id":"MV000001","atk":2,"pdv":3,"pdvMax":3,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100}
+    player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:5}, hand:["PRST000014","MV000001","MV000002","MV000003","S000041","S000052"], drawPile:["MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010","MV000011","MV000012","MV000014","MV000015","MV000017","MV000018","MV000019","R000027","PRST000014"], graveyard:["MV000001","MV000002","MV000003","MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010"], servants:[{"id":"MV000009","atk":4,"pdv":4,"pdvMax":4,"prepared":true},{"id":"MV000011","atk":8,"pdv":6,"pdvMax":6,"prepared":true},{"id":"MV000024","atk":10,"pdv":8,"pdvMax":8,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:5, startingDeckCardIds:["MV000001","MV000002","MV000003","MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010","MV000011","MV000012","MV000014","MV000015","MV000017","MV000018","MV000019","R000027","PRST000014"]},
+    player2:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:20}, hand:['S000004','S000006'], drawPile:["N000001","N000002","N000003","N000004","N000005","N000006","N000007","N000008"], graveyard:["N000001","N000002","N000003","N000004","N000005","N000006","N000007","N000008","N000009","N000010"], servants:[{"id":"N000003","atk":6,"pdv":12,"pdvMax":12,"prepared":true},{"id":"N000004","atk":7,"pdv":13,"pdvMax":13,"prepared":true},{"id":"N000009","atk":8,"pdv":14,"pdvMax":14,"prepared":true},{"id":"N000014","atk":9,"pdv":15,"pdvMax":15,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:20}
   }
 };
 SCENARIOS['collection-batch-11e-hokhan-gueule-mur'] = collectionBatch11eScenario({
@@ -11717,7 +11770,8 @@ function applyAvatarEffectDamage(player, amount, {sourceCardId='', sourceInstanc
   const applied = Math.max(0, Number(protectedAmount.amount) || 0);
   const after = Math.max(0, before - applied);
   setAvatarHitPoints(p, after);
-  return {targetType:'avatar', targetPlayer:p?.key || '', sourceCardId, sourceInstanceId, amount:applied, reduction:protectedAmount.reduction, before, after};
+  const batch14fBelial = noteBatch14FBelialAvatarDamageCrossing(p, before, after, {sourceCardId, sourceInstanceId, amount:applied});
+  return {targetType:'avatar', targetPlayer:p?.key || '', sourceCardId, sourceInstanceId, amount:applied, reduction:protectedAmount.reduction, before, after, batch14fBelial};
 }
 
 async function applyImmediateServantDamage({sourcePlayer, sourceFC, targetFC, sourceCardId, amount}) {
@@ -11897,7 +11951,7 @@ function activatePrstFavorCore(cardId, player, context={}) {
   if (!p || !card || !isPrstFavorCard(cardId)) return {success:false, reason:"missing-prst-core"};
   const state = ensurePrstFavorState(p);
   const previousActivations = Number(state[cardId]?.activations || 0);
-  const duplicatePersistentFavor = cardId === 'PRST000008' || isBatch14EPrstFavor(cardId);
+  const duplicatePersistentFavor = cardId === 'PRST000008' || isBatch14EPrstFavor(cardId) || cardId === 'PRST000014';
   if (duplicatePersistentFavor && previousActivations > 0) {
     const removedFromGame = context.source === "draw" ? moveResolvedSpellToRemovedFromGame(cardId, p) : false;
     const duplicateResolution = {success:true, handled:true, cardId, skipped:true, reason:'prst-favor-already-active', previousActivations, removedFromGame};
@@ -12196,8 +12250,9 @@ function activatePrstFavorSpecificEffects(cardId, player, context={}) {
   const result14d = activateBatch14DPrstSpecificFavor(cardId, player, context);
   const result14c = activateBatch14CPrstSpecificFavor(cardId, player, context);
   const result14e = activateBatch14EPrstSpecificFavor(cardId, player, context);
-  if (!result14d && !result14c && !result14e) return null;
-  return {success:result14d?.success !== false && result14c?.success !== false && result14e?.success !== false, cardId, batch14d:result14d, batch14c:result14c, batch14e:result14e};
+  const result14f = activateBatch14FPrstSpecificFavor(cardId, player, context);
+  if (!result14d && !result14c && !result14e && !result14f) return null;
+  return {success:result14d?.success !== false && result14c?.success !== false && result14e?.success !== false && result14f?.success !== false, cardId, batch14d:result14d, batch14c:result14c, batch14e:result14e, batch14f:result14f};
 }
 function batch14CServantZone(player) {
   const p = playerState(player);
@@ -12908,8 +12963,150 @@ function activateBatch14EPrstSpecificFavor(cardId, player, context={}) {
   recordCollectionBatch14EEvent('prst-specific-activated', result);
   return result;
 }
+  if (typeof window !== 'undefined') {
+    Object.assign(window, {COLLECTION_BATCH_14E_PRST_EFFECT_IDS, COLLECTION_BATCH_14E_NOR_TEXT, COLLECTION_BATCH_14E_TIARA_TEXT, collectionBatch14EState, recordCollectionBatch14EEvent, isBatch14EPrstFavor, syncBatch14EPrstFavorEffects, isBatch14ETiaraEntraved, resolveBatch14EStartTurnEffects, resolveBatch14EEndTurnEffects, resolveBatch14ENorExtraEndTurn, resolveBatch14ENorSingleSource, batch14EEndTurnServantSources, resolveBatch14EUlmEndTurn, resolveBatch14EZerboEndTurn, resolveBatch14EKeronaEndTurn, activateBatch14EPrstSpecificFavor});
+  }
+
+// COLLECTION_BATCH_14F_PRST_BELIAL_RUNTIME
+const COLLECTION_BATCH_14F_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000014']));
+const COLLECTION_BATCH_14F_BELIAL_MODAL_TITLE = 'FAVEUR DE BÉLIAL';
+const COLLECTION_BATCH_14F_BELIAL_MODAL_SUBTITLE = "Votre avatar s'épuise... Voulez-vous consommer des Échos pour le régénérer ?";
+function collectionBatch14FState() {
+  if (typeof window === 'undefined') return {events:[]};
+  window.__collectionBatch14F ||= {events:[], forcedBelialChoice:null};
+  window.__collectionBatch14F.events ||= [];
+  return window.__collectionBatch14F;
+}
+function recordCollectionBatch14FEvent(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch14FState().events.push(event);
+  if (typeof window !== 'undefined') window.__lastCollectionBatch14FEvent = event;
+  return event;
+}
+function isBatch14FPrstFavor(cardId) {
+  return COLLECTION_BATCH_14F_PRST_EFFECT_IDS.has(String(cardId || ''));
+}
+function activateBatch14FPrstSpecificFavor(cardId, player, context={}) {
+  const p = playerState(player);
+  if (!p || cardId !== 'PRST000014') return null;
+  p.batch14fBelialFavor = true;
+  p.batch14fBelialRegenPending = false;
+  const result = {success:true, handled:true, cardId:'PRST000014', playerId:p.key, echoBonus:1, threshold:25, maxEchoSacrifice:5};
+  recordCollectionBatch14FEvent('belial-activated', result);
+  return result;
+}
+function batch14FApplyBelialEchoBonus(player, amount, reason='gain', options={}) {
+  const p = playerState(player);
+  const base = Number(amount);
+  if (!p || !Number.isInteger(base) || base <= 0) return {appliedAmount:base, bonus:0, skipped:true, reason:'not-positive-gain'};
+  if (options?.skipBatch14fBelialBonus) return {appliedAmount:base, bonus:0, skipped:true, reason:'explicit-skip'};
+  if (reason === 'payment-rollback') return {appliedAmount:base, bonus:0, skipped:true, reason:'rollback'};
+  if (!hasActivePrstFavor(p, 'PRST000014')) return {appliedAmount:base, bonus:0, skipped:true, reason:'belial-inactive'};
+  const appliedAmount = base + 1;
+  const result = {appliedAmount, bonus:1, skipped:false, reason, playerId:p.key, requestedAmount:base};
+  recordCollectionBatch14FEvent('belial-echo-bonus', result);
+  return result;
+}
+function noteBatch14FBelialAvatarDamageCrossing(player, before, after, detail={}) {
+  const p = playerState(player);
+  const hpBefore = Number(before);
+  const hpAfter = Number(after);
+  if (!p || !hasActivePrstFavor(p, 'PRST000014')) return {armed:false, reason:'belial-inactive'};
+  if (!Number.isFinite(hpBefore) || !Number.isFinite(hpAfter)) return {armed:false, reason:'invalid-hp'};
+  if (hpBefore >= 25 && hpAfter < 25) {
+    p.batch14fBelialRegenPending = true;
+    const event = {armed:true, playerId:p.key, before:hpBefore, after:hpAfter, ...detail};
+    recordCollectionBatch14FEvent('belial-regen-armed', event);
+    return event;
+  }
+  return {armed:false, reason:'threshold-not-crossed', before:hpBefore, after:hpAfter};
+}
+function pulseBatch14FBelialAvatar(player) {
+  const p = playerState(player);
+  const zone = p ? qs(playerZoneSelector(p, 'avatar')) : null;
+  if (!zone) return false;
+  zone.classList.remove('batch14f-belial-avatar-pulse');
+  void zone.offsetWidth;
+  zone.classList.add('batch14f-belial-avatar-pulse');
+  setTimeout(() => zone.classList.remove('batch14f-belial-avatar-pulse'), 1100);
+  return true;
+}
+function batch14FBelialForcedChoice(player) {
+  const state = collectionBatch14FState();
+  const forced = state.forcedBelialChoice || null;
+  if (!forced) return null;
+  state.forcedBelialChoice = null;
+  const p = playerState(player);
+  const maxEcho = Math.min(5, Number(p?.resourceState?.souls || 0));
+  const choice = forced.choice === 'consume' ? 'consume' : 'keep';
+  const amount = choice === 'consume' ? Math.max(0, Math.min(maxEcho, Number(forced.amount || 0))) : 0;
+  return {choice, amount};
+}
+async function chooseBatch14FBelialRegen(player) {
+  const p = playerState(player);
+  const forced = batch14FBelialForcedChoice(p);
+  if (forced) return forced;
+  const maxEcho = Math.min(5, Number(p?.resourceState?.souls || 0));
+  const currentHp = avatarHitPoints(p);
+  const portraitHtml = qs(playerZoneSelector(p, 'avatar'))?.querySelector('.av-portrait')?.innerHTML || '';
+  return await new Promise(resolve => {
+    const bodyHtml = `<div class="batch14f-belial-choice-body">
+      <p class="batch14f-belial-subtitle" data-testid="batch14f-belial-subtitle">${escapeHtml(COLLECTION_BATCH_14F_BELIAL_MODAL_SUBTITLE)}</p>
+      <div class="batch14f-belial-avatar" data-testid="batch14f-belial-avatar"><div class="av-portrait">${portraitHtml}</div><div class="batch14f-belial-avatar-hp" data-testid="batch14f-belial-avatar-hp">${currentHp} PDV</div></div>
+      <div class="batch14f-belial-controls">
+        <label for="batch14f-belial-slider">Échos à sacrifier</label>
+        <div class="batch14f-belial-meter">
+          <input id="batch14f-belial-slider" class="batch14f-belial-slider" data-testid="batch14f-belial-slider" type="range" min="0" max="${maxEcho}" step="1" value="${Math.min(1, maxEcho)}">
+          <div class="batch14f-belial-heal" data-testid="batch14f-belial-heal">${Math.min(1, maxEcho) * 5} PDV</div>
+        </div>
+        <div class="batch14f-belial-actions">
+          <button type="button" class="batch14f-belial-action" data-testid="batch14f-belial-keep">GARDER L'ÉCHO</button>
+          <button type="button" class="batch14f-belial-action" data-testid="batch14f-belial-consume">CONSOMMER L'ÉCHO</button>
+        </div>
+      </div>
+    </div>`;
+    const modal = createMinimizableDecisionModal({decisionId:'batch14f-belial-regen', title:COLLECTION_BATCH_14F_BELIAL_MODAL_TITLE, compactLabel:'Bélial en attente', ownerPlayerId:p?.key || null, panelClass:'batch14f-belial-choice', bodyHtml});
+    modal.onRender = () => {
+      const slider = modal.overlay?.querySelector('[data-testid="batch14f-belial-slider"]');
+      const heal = modal.overlay?.querySelector('[data-testid="batch14f-belial-heal"]');
+      const update = () => { if (heal && slider) heal.textContent = `${Number(slider.value || 0) * 5} PDV`; };
+      slider?.addEventListener('input', update);
+      modal.overlay?.querySelector('[data-testid="batch14f-belial-keep"]')?.addEventListener('click', () => { modal.close({choice:'keep', amount:0}); resolve({choice:'keep', amount:0}); });
+      modal.overlay?.querySelector('[data-testid="batch14f-belial-consume"]')?.addEventListener('click', () => { const amount = Math.max(0, Math.min(maxEcho, Number(slider?.value || 0))); modal.close({choice:'consume', amount}); resolve({choice:'consume', amount}); });
+      update();
+    };
+    modal.onRender();
+  });
+}
+async function resolveBatch14FBelialStartTurnDecision(player) {
+  const p = playerState(player);
+  if (!p || !hasActivePrstFavor(p, 'PRST000014') || !p.batch14fBelialRegenPending) return {success:true, skipped:true, reason:'no-pending-belial-regen'};
+  const echoes = Number(p.resourceState?.souls || 0);
+  p.batch14fBelialRegenPending = false;
+  if (echoes <= 0) {
+    const missed = {success:true, skipped:true, reason:'no-echoes', playerId:p.key};
+    recordCollectionBatch14FEvent('belial-regen-missed-no-echoes', missed);
+    return missed;
+  }
+  const hpBefore = avatarHitPoints(p);
+  const decision = await chooseBatch14FBelialRegen(p);
+  if (!decision || decision.choice !== 'consume') {
+    const kept = {success:true, playerId:p.key, choice:'keep', echoesBefore:echoes, echoesAfter:Number(p.resourceState?.souls || 0), hpBefore, hpAfter:avatarHitPoints(p)};
+    recordCollectionBatch14FEvent('belial-regen-kept-echoes', kept);
+    return kept;
+  }
+  const amount = Math.max(0, Math.min(5, echoes, Number(decision.amount || 0)));
+  const payment = consumeSouls(p, amount, 'batch14f-belial-regen');
+  const heal = amount * 5;
+  setAvatarHitPoints(p, hpBefore + heal);
+  pulseBatch11EchoPile(p, 'batch14f-belial-regen');
+  pulseBatch14FBelialAvatar(p);
+  const result = {success:true, playerId:p.key, choice:'consume', amount, heal, payment, hpBefore, hpAfter:avatarHitPoints(p), echoesBefore:echoes, echoesAfter:Number(p.resourceState?.souls || 0)};
+  recordCollectionBatch14FEvent('belial-regen-consumed-echoes', result);
+  return result;
+}
 if (typeof window !== 'undefined') {
-  Object.assign(window, {COLLECTION_BATCH_14E_PRST_EFFECT_IDS, COLLECTION_BATCH_14E_NOR_TEXT, COLLECTION_BATCH_14E_TIARA_TEXT, collectionBatch14EState, recordCollectionBatch14EEvent, isBatch14EPrstFavor, syncBatch14EPrstFavorEffects, isBatch14ETiaraEntraved, resolveBatch14EStartTurnEffects, resolveBatch14EEndTurnEffects, resolveBatch14ENorExtraEndTurn, resolveBatch14ENorSingleSource, batch14EEndTurnServantSources, resolveBatch14EUlmEndTurn, resolveBatch14EZerboEndTurn, resolveBatch14EKeronaEndTurn, activateBatch14EPrstSpecificFavor});
+  Object.assign(window, {COLLECTION_BATCH_14F_PRST_EFFECT_IDS, COLLECTION_BATCH_14F_BELIAL_MODAL_TITLE, COLLECTION_BATCH_14F_BELIAL_MODAL_SUBTITLE, collectionBatch14FState, recordCollectionBatch14FEvent, isBatch14FPrstFavor, activateBatch14FPrstSpecificFavor, batch14FApplyBelialEchoBonus, noteBatch14FBelialAvatarDamageCrossing, chooseBatch14FBelialRegen, resolveBatch14FBelialStartTurnDecision});
 }
 
 function shouldMoveResolvedSpellToGraveyard(cardId) {
@@ -17337,8 +17534,10 @@ function changeSouls(player, delta, reason='effect', preferredSlot=null, options
     return {success:false, reason:'invalid-soul-change', soulsBefore:Number(p.resourceState.souls || 0), soulsAfter:Number(p.resourceState.souls || 0)};
   }
   const current = Number(p.resourceState.souls || 0);
-  const multiplier = change > 0 && !options?.skipBatch12aForgeronMultiplier ? batch12aEchoGainMultiplier(p) : {multiplier:1, source:null};
-  const appliedChange = change > 0 ? change * multiplier.multiplier : change;
+  const belialBonus = change > 0 ? batch14FApplyBelialEchoBonus(p, change, reason, options) : {appliedAmount:change, bonus:0, skipped:true};
+  const positiveGain = change > 0 ? belialBonus.appliedAmount : change;
+  const multiplier = positiveGain > 0 && !options?.skipBatch12aForgeronMultiplier ? batch12aEchoGainMultiplier(p) : {multiplier:1, source:null};
+  const appliedChange = positiveGain > 0 ? positiveGain * multiplier.multiplier : change;
   const next = current + appliedChange;
   if (next < 0) return {success:false, reason:'insufficient-souls', soulsBefore:current, soulsAfter:current};
   if (next !== current) {
@@ -17347,10 +17546,10 @@ function changeSouls(player, delta, reason='effect', preferredSlot=null, options
     p.resourceState.souls = next;
     p.resourceState.revision += 1;
     if (multiplier.multiplier > 1) recordCollectionBatch12aEvent('forgeron-echo-gain-doubled', {playerId:p.key, reason, requestedDelta:change, appliedDelta:appliedChange, multiplier:multiplier.multiplier, forgeron:multiplier.source, soulsBefore:current, soulsAfter:next});
-    recordCollectionBatch11aEvent('echo-resource-mutated', {playerId:p.key, reason, soulsBefore:current, soulsAfter:next, delta:appliedChange, requestedDelta:change, multiplier:multiplier.multiplier, revision:p.resourceState.revision});
+    recordCollectionBatch11aEvent('echo-resource-mutated', {playerId:p.key, reason, soulsBefore:current, soulsAfter:next, delta:appliedChange, requestedDelta:change, multiplier:multiplier.multiplier, belialBonus, revision:p.resourceState.revision});
     projectSoulState(p, preferredSlot);
   }
-  return {success:true, reason, soulsBefore:current, soulsAfter:next, delta:appliedChange, requestedDelta:change, multiplier:multiplier.multiplier, forgeron:multiplier.source};
+  return {success:true, reason, soulsBefore:current, soulsAfter:next, delta:appliedChange, requestedDelta:change, multiplier:multiplier.multiplier, forgeron:multiplier.source, belialBonus};
 }
 
 function consumeSouls(player, amount, reason='effect') {
@@ -20081,6 +20280,7 @@ async function runStartTurnPipeline(player) {
     if (!trace.firstTurnBeforeNormalDraw && trace.drawResult?.success) {
       trace.yriaExtraDraw = await resolveBatch04YriaExtraDraw(p, trace);
     }
+    trace.batch14fBelial = await resolveBatch14FBelialStartTurnDecision(p);
     state.normalDrawResolved = true;
   }
   trace.normalDrawResolved = !!state.normalDrawResolved;
@@ -27661,11 +27861,14 @@ function applyScenarioTestSetup() {
   if (typeof window !== 'undefined' && window.__collectionBatch14D) window.__collectionBatch14D.events = [];
   if (typeof window !== 'undefined' && window.__collectionBatch14C) window.__collectionBatch14C.events = [];
   if (typeof window !== 'undefined' && window.__collectionBatch14E) window.__collectionBatch14E.events = [];
+  if (typeof window !== 'undefined' && window.__collectionBatch14F) window.__collectionBatch14F.events = [];
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
     p.removedFromGame = [];
     p.prstFavors = {};
+    p.batch14fBelialFavor = false;
+    p.batch14fBelialRegenPending = false;
     resetBatch14CExtraServantSlots(p);
     const hasExplicitDrawPile = Array.isArray(config.drawPile);
     if (hasExplicitDrawPile) {

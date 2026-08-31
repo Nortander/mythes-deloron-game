@@ -39,7 +39,7 @@ test("Batch 14B runtime data and hidden scenarios expose the 14 PRST core record
     expect(entry.scenario, entry.id).toBeTruthy();
     expect(entry.scenario.hidden, entry.id).toBe(true);
     expect(entry.optionCount, entry.id).toBe(0);
-    expect(entry.scenario.participants, entry.id).toEqual(["yria", "rohen"]);
+    expect(entry.scenario.participants, entry.id).toEqual(entry.id === "PRST000014" ? ["hokhan", "rohen"] : ["yria", "rohen"]);
     expect(entry.scenario.testSetup.player1.hand[0], entry.id).toBe(entry.id);
     expect(entry.scenario.testSetup.player1.drawPile.at(-1), entry.id).toBe(entry.id);
     expect(entry.scenario.testSetup.player1.graveyard.length, entry.id).toBeGreaterThanOrEqual(10);

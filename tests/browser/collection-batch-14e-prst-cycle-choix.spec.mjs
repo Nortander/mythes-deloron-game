@@ -7,6 +7,12 @@ const NOR_EXPECTED_IDS = [
   "GOB000007", "H000020", "H000027", "H000030", "MV000029", "N000014",
   "ORC000004", "ORC000007", "ORC000017", "TRL000007"
 ];
+const NOR_COVERAGE_SCENARIOS = [
+  "collection-batch-14b-prst000003-core-visual",
+  "collection-batch-14e-prst000003-nor-coverage-a",
+  "collection-batch-14e-prst000003-nor-coverage-b",
+  "collection-batch-14e-prst000003-nor-coverage-c"
+];
 
 function blockingConsoleErrors(diagnostics) {
   return diagnostics.consoleErrors.filter(message => !/Failed to load resource/i.test(message));
@@ -225,6 +231,41 @@ test("Batch 14E2 PRST000003 Nor aggregate order is left-to-right and double-befo
   expect(result.activations.slice(0, 4)).toEqual(["H000020", "H000020", "GOB000001", "GOB000001"]);
   expect(result.eventActivations.slice(0, 4)).toEqual(["H000020", "H000020", "GOB000001", "GOB000001"]);
   expect(result.parasite).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F1 PRST000003 Nor visual scenarios expose the 22 end-turn servants", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await open14EScenario(page, "PRST000003", "manual");
+  const result = await page.evaluate(({expectedIds, scenarioIds}) => {
+    const scenarios = scenarioIds.map(id => {
+      const setup = SCENARIOS[id]?.testSetup?.player1 || {};
+      const hand = [...(setup.hand || [])];
+      const deck = [...(setup.drawPile || [])];
+      const board = [...(setup.servants || [])].map(entry => typeof entry === "string" ? entry : entry?.id).filter(Boolean);
+      return {id, hand, deck, board};
+    });
+    const allHand = new Set(scenarios.flatMap(scenario => scenario.hand));
+    const allDeck = new Set(scenarios.flatMap(scenario => scenario.deck));
+    const allBoard = new Set(scenarios.flatMap(scenario => scenario.board));
+    return {
+      scenarios,
+      missingFromHand:expectedIds.filter(id => !allHand.has(id)),
+      missingFromDeck:expectedIds.filter(id => !allDeck.has(id)),
+      missingFromBoard:expectedIds.filter(id => id !== "H000027" && !allBoard.has(id)),
+      h000027InHand:scenarios.some(scenario => scenario.hand.includes("H000027")),
+      trollInstablePresent:scenarios.some(scenario => [...scenario.hand, ...scenario.deck, ...scenario.board].includes("TRL000017")),
+      hidden:scenarioIds.map(id => SCENARIOS[id]?.hidden === true)
+    };
+  }, {expectedIds:NOR_EXPECTED_IDS, scenarioIds:NOR_COVERAGE_SCENARIOS});
+  expect(result.hidden).toEqual([true, true, true, true]);
+  expect(result.missingFromHand).toEqual([]);
+  expect(result.missingFromDeck).toEqual([]);
+  expect(result.missingFromBoard).toEqual([]);
+  expect(result.h000027InHand).toBe(true);
+  expect(result.trollInstablePresent).toBe(false);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
