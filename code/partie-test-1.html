@@ -1877,6 +1877,11 @@ body.dragging-card .hc.dragging {
 .fc:hover{z-index:2700!important}
 .hc:hover .hc-tip{z-index:2900!important}
 .hc-tip .tip-cap,.fc-tip .tip-cap{max-height:260px;overflow-y:auto;scrollbar-width:thin}
+
+@keyframes batch14eAvatarGoldPulse{0%{box-shadow:0 0 0 rgba(255,215,96,0);filter:brightness(1);transform:scale(1);}35%{box-shadow:0 0 0 4px rgba(255,215,96,.85),0 0 26px rgba(255,215,96,.9);filter:brightness(1.55) saturate(1.25);transform:scale(1.035);}100%{box-shadow:0 0 0 rgba(255,215,96,0);filter:brightness(1);transform:scale(1);}}
+.batch14e-avatar-pulse .av-portrait{animation:batch14eAvatarGoldPulse .95s ease-in-out 1;}
+.batch14e-zerbo-discard-halo{animation:batch14dEreonDrawHalo .9s ease-in-out 1;}
+
 </style>
 </head>
 <body>
@@ -3435,13 +3440,13 @@ Object.assign(SCENARIOS['collection-batch-14b-prst000010-core-visual'], {
   label:'TEST - COLLECTION BATCH 14E Faveur de Tiara choix',
   testSetup:{
     player1:collectionBatch14EPlayerSetup({hand:['PRST000010','H000001','H000006'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000010'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000010'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000001',atk:3,pdv:6,pdvMax:6,prepared:true},{id:'H000006',atk:2,pdv:5,pdvMax:5,prepared:true}]}),
-    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true},{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true}]})
+    player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'EDG000012',atk:20,pdv:20,pdvMax:20,prepared:true},{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true},{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true}]})
   }
 });
 Object.assign(SCENARIOS['collection-batch-14b-prst000011-core-visual'], {
   label:"TEST - COLLECTION BATCH 14E Faveur d'Ulm équilibrage",
   testSetup:{
-    player1:collectionBatch14EPlayerSetup({hand:['PRST000011','DIV000012'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000011'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000011'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'DIV000012',atk:2,pdv:6,pdvMax:6,prepared:true, fixtureCard:{name:'Géant des collines',type:'Serviteur',fac:'div',atk:2,pdv:6,cost:0,kws:[],cap:'Fixture visuelle du scénario PRST000011.',detail:'Fixture visuelle du scénario PRST000011.',assetFolder:'divins'}}], avatarHp:7}),
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000011','DIV000012'], drawPile:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000011'], startingDeckCardIds:[...COLLECTION_BATCH_14E_HUMAN_DRAW,'PRST000011'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'DIV000012',atk:8,pdv:8,pdvMax:8,prepared:true, fixtureCard:{name:'Géant des colines',type:'Serviteur',fac:'div',atk:8,pdv:8,cost:8,res_ico:'IC00000NRT',res_val:'5',resType:'Nourriture',fico:'FCT00000RDM.png',kws:['Rempart'],cap:'[Rempart] Inflige également le montant de son attaque aux serviteurs adjacents à sa cible.',detail:'[Rempart] Inflige également le montant de son attaque aux serviteurs adjacents à sa cible.',assetFolder:'autres'}}], avatarHp:7}),
     player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[], avatarHp:28})
   }
 });
@@ -12420,7 +12425,7 @@ if (typeof window !== 'undefined') {
 const COLLECTION_BATCH_14E_PRST_EFFECT_IDS = Object.freeze(new Set(['PRST000003','PRST000010','PRST000011','PRST000012','PRST000013']));
 const COLLECTION_BATCH_14E_NOR_TEXT = "*Bénéficie de la Faveur de Nor* : ses effets de fin de tour se résolvent une deuxième fois.";
 const COLLECTION_BATCH_14E_TIARA_TEXT = "*Entravé par la Faveur de Tiara* : ne peut ni attaquer ni riposter jusqu'à la fin de son prochain tour. Ses capacités restent utilisables.";
-const COLLECTION_BATCH_14E_END_TURN_CARD_IDS = Object.freeze(new Set(['H000020','DIV000001','GOB000001','GOB000007','H000027','H000030','EDB000005','EDG000007','EDB000014','EDG000012','EN000003','EN000004','EN000009','EN000010']));
+const COLLECTION_BATCH_14E_END_TURN_CARD_IDS = Object.freeze(new Set(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012','EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027','H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']));
 function isBatch14EPrstFavor(cardId) {
   return COLLECTION_BATCH_14E_PRST_EFFECT_IDS.has(String(cardId || ''));
 }
@@ -12464,7 +12469,7 @@ function syncBatch14EPrstFavorEffects() {
 }
 function batch14ETiaraCandidates(player) {
   const p = playerState(player);
-  return livingServantCardsForPlayer(opponentOf(p)).filter(fc => fc && !fc.dataset.dead);
+  return getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponentOf(p)).filter(fc => fc && !fc.dataset.dead), sourceCardId:'PRST000010', effectKind:'tiara-entrave', isSpell:true});
 }
 function isBatch14ETiaraEntraved(fc) {
   return !!fc?.dataset && fc.dataset.batch14eTiaraEntraved === '1' && !fc.dataset.dead;
@@ -12493,7 +12498,7 @@ async function chooseBatch14ETiaraTarget(player) {
     if (forced) return forced;
   }
   if (batch14EAutomationEnabled()) return targets[0];
-  const chosen = await chooseBoardTargets({title:'Faveur de Tiara', prompt:'Choisissez 1 serviteur adverse : il ne pourra ni attaquer ni riposter jusqu’à la fin de son prochain tour.', targets, maxCount:1, minCount:1, panelClass:'batch14e-tiara-choice'});
+  const chosen = await chooseBoardTargets({title:'FAVEUR DE TIARA', prompt:"L'amour paralyse un adversaire... Mais de qui s'agit-il ?", targets, maxCount:1, minCount:1, panelClass:'batch14e-tiara-choice'});
   return chosen[0] || null;
 }
 async function resolveBatch14EStartTurnEffects(player) {
@@ -12528,15 +12533,151 @@ function expireBatch14ETiaraLocks(owner) {
   if (expired) recordCollectionBatch14EEvent('tiara-entrave-expired', {playerId:p.key, expired});
   return {expired};
 }
+function batch14ERandomChoice(items) {
+  const list = Array.from(items || []).filter(Boolean);
+  if (!list.length) return null;
+  return list[Math.min(list.length - 1, Math.floor(batch14ERandom() * list.length))];
+}
+function batch14EEndTurnServantSources(player) {
+  const p = playerState(player);
+  const board = livingServantCardsForPlayer(p).filter(fc => COLLECTION_BATCH_14E_END_TURN_CARD_IDS.has(fc.dataset.id) && fc.dataset.id !== 'H000027' && canResolveServantAbility(fc, {triggerType:'end-turn'}));
+  const hand = playerHand(p).includes('H000027') ? [{cardId:'H000027', zone:'hand', index:playerHand(p).indexOf('H000027')}] : [];
+  return [...board.map(fc => ({cardId:fc.dataset.id, zone:'board', fc})), ...hand];
+}
+async function batch14ENorVisualStep(source, activation) {
+  if (source?.fc) pulseBatch03Ability(source.fc, 'batch14e-nor-end-turn', {move:true});
+  recordCollectionBatch14EEvent('nor-source-activation', {sourceId:source?.cardId || null, sourceInstance:source?.fc?.dataset?.instance || null, zone:source?.zone || 'board', activation});
+  await batch05VisualDelay(batch14EAutomationEnabled() ? 30 : 420);
+}
+async function resolveBatch14ENorSingleSource(player, source, activation=1) {
+  const p = playerState(player);
+  const opponent = opponentOf(p);
+  const id = source?.cardId || source?.fc?.dataset?.id;
+  const fc = source?.fc || null;
+  const entry = {sourceId:id, activation, zone:source?.zone || 'board', operations:[]};
+  if (!p || !id) return {...entry, success:false, reason:'missing-source'};
+  await batch14ENorVisualStep(source, activation);
+  if (id === 'DIV000001') entry.operations.push({type:'summon', result:await summonBatch03Servant(p, 'DIV000002', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
+  else if (id === 'DIV000016') {
+    fc.dataset.batch14eXyallahMarks = String(Number(fc.dataset.batch14eXyallahMarks || 0) + 1);
+    const marks = Number(fc.dataset.batch14eXyallahMarks || 0);
+    if (marks >= 3) {
+      fc.dataset.batch14eXyallahMarks = '0';
+      entry.operations.push({type:'xyallah-summon', marks, result:await summonBatch03Servant(p, 'DIV000008', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
+    } else entry.operations.push({type:'xyallah-mark', marks});
+  }
+  else if (id === 'EDB000005') {
+    const lenya = getClassicalResourceByType(p, 'lenya') || 1;
+    const target = livingServantCardsForPlayer(p).find(card => card !== fc && Number(card.dataset.pdv || 0) < Number(card.dataset.pdvMax || 99));
+    entry.operations.push({type:'heal', target:targetSummary(target), result:target ? applyHeal(target, lenya) : {success:false, reason:'no-injured-ally'}});
+  }
+  else if (id === 'EDB000014') {
+    const heals = livingServantCardsForPlayer(p).filter(card => card !== fc && isBatch05WoodElf(card)).map(card => ({target:targetSummary(card), result:applyHeal(card, 1)}));
+    entry.operations.push({type:'dryad-heal', heals});
+  }
+  else if (id === 'EDG000005') entry.operations.push({type:'summon', result:await summonBatch03Servant(p, 'DIV000007', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
+  else if (id === 'EDG000007') {
+    const damaged = livingServantCardsForPlayer(p).filter(card => card !== fc).map(card => ({card, missing:Number(card.dataset.pdvMax || 0) - Number(card.dataset.pdv || 0)})).filter(item => item.missing > 0);
+    const maxMissing = Math.max(0, ...damaged.map(item => item.missing));
+    const targets = damaged.filter(item => item.missing === maxMissing);
+    entry.operations.push({type:'great-heal', heals:targets.map(item => ({target:targetSummary(item.card), result:applyHeal(item.card, targets.length > 1 ? Math.ceil(Number(item.card.dataset.pdvMax || 0) / 2) : item.missing)}))});
+  }
+  else if (id === 'EDG000012') {
+    const affected = [];
+    for (const target of batch05LivingServants(opponent)) {
+      if (batch14ERandom() >= 0.33) continue;
+      const type = batch14ERandom() < 0.5 ? 'gel' : 'cdg';
+      const turns = type === 'gel' ? 2 : 1;
+      const applied = batch05ApplyGel({sourcePlayer:p, targetFC:target, sourceCardId:id, turns, type, bypassInsensitive:true});
+      if (applied) affected.push({type, target:targetSummary(target), turns:batch05ColdDuration(p, turns)});
+    }
+    entry.operations.push({type:'tisseur-cold', affected});
+  }
+  else if (id === 'EN000003') entry.operations.push({type:'summon', result:await summonBatch03Servant(p, 'MV000007', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
+  else if (id === 'EN000004') {
+    const target = batch14ERandomChoice(getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent), sourceCardId:id, effectKind:'damage', isAbility:true}));
+    entry.operations.push({type:'damage', target:targetSummary(target), result:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:id, amount:Number(fc.dataset.atk || 7) || 7}) : {success:false, reason:'no-target'}});
+  }
+  else if (id === 'EN000009') {
+    const summon = await summonBatch03Servant(p, 'MV000002', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true});
+    const target = batch14ERandomChoice(getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent), sourceCardId:id, effectKind:'damage', isAbility:true}));
+    entry.operations.push({type:'summon-and-damage', summon, target:targetSummary(target), damage:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:id, amount:2}) : null});
+  }
+  else if (id === 'EN000010') {
+    const target = batch14ERandomChoice(getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent), sourceCardId:id, effectKind:'damage', isAbility:true}));
+    entry.operations.push({type:'damage', target:targetSummary(target), result:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:id, amount:4}) : {success:false, reason:'no-target'}});
+  }
+  else if (id === 'GOB000001') {
+    const target = batch14ERandomChoice(getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent), sourceCardId:id, effectKind:'damage', isAbility:true}));
+    const amount = Math.max(0, Number(fc.dataset.atk || CARDS_DATA.GOB000001?.atk || 0));
+    entry.operations.push({type:'damage', target:targetSummary(target), amount, result:target ? await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:id, amount}) : {success:false, reason:'no-target'}});
+  }
+  else if (id === 'GOB000007') {
+    const lenya = Math.max(0, getClassicalResourceByType(p, 'lenya'));
+    const injured = livingServantCardsForPlayer(p).filter(card => card !== fc && isBatch10GoblinServant(card) && Number(card.dataset.pdv || 0) < Number(card.dataset.pdvMax || CARDS_DATA[card.dataset.id]?.pdv || 1)).slice(0, 1 + lenya);
+    entry.operations.push({type:'gueribelin-heal', heals:injured.map(target => ({target:targetSummary(target), result:applyHeal(target, 2)}))});
+  }
+  else if (id === 'H000020') entry.operations.push({type:'summon', result:await summonBatch03Servant(p, 'H000021', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
+  else if (id === 'H000027') {
+    p.batch03HandBuffs ||= {};
+    const current = p.batch03HandBuffs.H000027 || {atk:0,pdv:0};
+    current.atk += 1; current.pdv += 1; p.batch03HandBuffs.H000027 = current;
+    renderAllHands(p.key);
+    entry.operations.push({type:'hand-buff', cardId:id, buff:{...current}});
+  }
+  else if (id === 'H000030') {
+    const options = ['MV000020','MV000009','MV000016'];
+    const existing = new Set(livingServantCardsForPlayer(p).filter(card => card.dataset.batch03RuneSource === fc?.dataset?.instance).map(card => card.dataset.id));
+    const next = options.find(cardId => !existing.has(cardId));
+    entry.operations.push({type:'summon', result:next ? await summonBatch03Servant(p, next, {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true}) : {success:false, reason:'all-options-present'}});
+  }
+  else if (id === 'MV000029') entry.operations.push({type:'echo', result:p.batch11eEchoSpentTurnSequence === turnSequence ? {success:false, reason:'echo-spent-this-turn'} : addSoulToAppro(p, 1)});
+  else if (id === 'N000014') {
+    const candidates = playerHand(p).map((cardId, index) => ({cardId, index, occurrenceId:batch03HandOccurrenceAt(p, index)})).filter(item => isBatch07DwarfServant(item.cardId));
+    const picked = batch14ERandomChoice(candidates);
+    if (picked) registerRuntimeCostModifier(p, {id:`${p.key}-N000014-${picked.occurrenceId}-${turnSequence}-${activation}`, sourceKind:'servant', sourceId:id, priority:150, duration:'permanent', criteria:{handOccurrenceIds:[picked.occurrenceId]}, operations:[{type:'adjustRequirement', amount:-2}, {type:'adjustTotal', amount:-2}]});
+    renderAllHands(p.key);
+    entry.operations.push({type:'dwarf-cost-reduction', picked});
+  }
+  else if (id === 'ORC000004') {
+    const targets = getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent), sourceCardId:id, effectKind:'damage', isAbility:true});
+    const damaged = [];
+    for (const target of targets) damaged.push({target:targetSummary(target), result:await tryApplyAbilityDamage({sourcePlayer:p, targetFC:target, sourceCardId:id, amount:1})});
+    entry.operations.push({type:'poison-all', damaged});
+  }
+  else if (id === 'ORC000007') {
+    const atk = Number(fc.dataset.atk || 0);
+    const target = batch14ERandomChoice(getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent), sourceCardId:id, effectKind:'destroy', isAbility:true}).filter(card => Number(card.dataset.pdv || 0) <= atk));
+    if (target) { const before = targetSummary(target); await sendToCemetery(target); entry.operations.push({type:'destroy', target:before}); }
+    else entry.operations.push({type:'destroy', success:false, reason:'no-target'});
+  }
+  else if (id === 'ORC000017') {
+    const targets = getAffectableTargets({sourcePlayer:p, targets:livingServantCardsForPlayer(opponent).filter(card => !card.dataset.burning), sourceCardId:id, effectKind:'embrasement', isAbility:true});
+    const target = batch14ERandomChoice(targets);
+    entry.operations.push({type:'embrasement', target:targetSummary(target), result:target ? await applyEmbrasement(target, {sourcePlayer:p, sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, rejectIfAlreadyBurning:true, reason:'nor-maitre-du-feu'}) : {success:false, reason:'no-target'}});
+  }
+  else if (id === 'TRL000007') {
+    const targets = [fc, ...batch03AdjacentServants(fc).filter(target => target.dataset.player === p.key)];
+    const healed = targets.map(target => { const amount = target === fc ? 3 : 1; const heal = applyHeal(target, amount); if (!heal.success && heal.reason === 'already-at-maximum') { target.dataset.batch09BonePdvBonus = String(Number(target.dataset.batch09BonePdvBonus || 0) + 1); syncBatch05Passives(); } return {target:targetSummary(target), heal}; });
+    entry.operations.push({type:'bone-heal', healed});
+  }
+  else entry.operations.push({type:'unsupported', success:false});
+  recordCollectionBatch14EEvent('nor-source-resolved', entry);
+  return entry;
+}
 async function resolveBatch14ENorExtraEndTurn(player) {
   const p = playerState(player);
   if (!p || !hasActivePrstFavor(p, 'PRST000003')) return {success:false, skipped:true, reason:'nor-inactive'};
   syncBatch14EPrstFavorEffects();
-  const eligible = livingServantCardsForPlayer(p).filter(fc => fc.dataset.batch14eNorEndTurnReplay === '1').map(targetSummary);
-  await applyBatch03EndTurnAbilities(p);
-  const result = {success:true, cardId:'PRST000003', playerId:p.key, replayed:true, eligible};
-  recordCollectionBatch14EEvent('nor-end-turn-replay', result);
-  await showNotif('Nor fait résonner les effets de fin de tour une seconde fois.', 1200);
+  const sources = batch14EEndTurnServantSources(p);
+  const activations = [];
+  for (const source of sources) {
+    for (let activation = 1; activation <= 2; activation++) {
+      activations.push(await resolveBatch14ENorSingleSource(p, source, activation));
+    }
+  }
+  const result = {success:true, cardId:'PRST000003', playerId:p.key, sequential:true, sourceIds:sources.map(source => source.cardId), activations};
+  recordCollectionBatch14EEvent('nor-sequential-end-turn', result);
   return result;
 }
 function batch14EAvatarNode(player) {
@@ -12575,17 +12716,33 @@ function batch14EZerboDiscardCandidates(player) {
 async function chooseBatch14EZerboDiscard(player) {
   const p = playerState(player);
   const candidates = batch14EZerboDiscardCandidates(p);
-  if (!candidates.length) return null;
-  const forcedIndex = collectionBatch14EState().forcedZerboDiscardIndex;
-  if (Number.isInteger(forcedIndex)) return candidates.find(item => item.index === forcedIndex) || null;
-  if (batch14EAutomationEnabled()) return candidates[0];
-  if (typeof document === 'undefined') return candidates[0];
+  const state14e = collectionBatch14EState();
+  if (!candidates.length) return {choice:'wait', discard:null, reason:'no-card'};
+  if (state14e.forcedZerboChoice === 'wait') return {choice:'wait', discard:null, reason:'forced-wait'};
+  const forcedIndex = state14e.forcedZerboDiscardIndex;
+  const forced = Number.isInteger(forcedIndex) ? candidates.find(item => item.index === forcedIndex) : null;
+  if (forced || batch14EAutomationEnabled()) return {choice:'act', discard:forced || candidates[0], automated:true};
+  if (typeof document === 'undefined') return {choice:'act', discard:candidates[0], automated:true};
   return new Promise(resolve => {
-    const cardsHTML = candidates.map((item, i) => `<div class="sort-choice-item" data-idx="${i}">${renderSelectionCard(item.cardId, p, {context:'zerbo-discard'})}</div>`).join('');
-    const modal = createMinimizableDecisionModal({decisionId:'batch14e-zerbo-discard', title:'Faveur de Zerbo', compactLabel:'Zerbo en attente', panelClass:'batch14e-zerbo-choice', bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Défaussez 1 carte pour voler jusqu’à 2 cartes adverses, ou passez.</div><div class="sort-choice-cards">${cardsHTML}</div><button type="button" class="sort-choice-confirm" data-choice="skip">PASSER</button>`});
+    let selected = null;
+    const choiceButton = (choice, label) => `<button type="button" class="sort-choice-confirm batch14e-zerbo-action" data-choice="${choice}">${label}</button>`;
+    const cardChoices = () => candidates.map((item, i) => `<div class="sort-choice-item" data-idx="${i}">${renderSelectionCard(item.cardId, p, {context:'zerbo-discard'})}</div>`).join('');
+    const modal = createMinimizableDecisionModal({decisionId:'batch14e-zerbo-discard', title:'FAVEUR DE ZERBO', compactLabel:'Zerbo en attente', panelClass:'batch14e-zerbo-choice', bodyHtml:`<div class="batch14e-zerbo-step"><div data-testid="batch14e-zerbo-subtext" style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Jugerez-vous le pari trop risqué ou irez-vous saisir l'opportunité ?</div><div class="sort-choice-actions">${choiceButton('wait', 'ATTENDRE UNE OPPORTUNITÉ')}${choiceButton('act', "PASSER À L'ACTE")}</div></div>`});
+    const renderCards = () => {
+      const box = modal.overlay?.querySelector('.batch14e-zerbo-step');
+      if (!box) return;
+      box.innerHTML = `<div data-testid="batch14e-zerbo-subtext" style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Sacrifiez 1 carte de votre main pour faire diversion.</div><div class="sort-choice-cards" data-testid="batch14e-zerbo-card-list">${cardChoices()}</div><button type="button" class="sort-choice-confirm" data-testid="batch14e-zerbo-confirm" disabled>VALIDER</button>`;
+      box.querySelectorAll('.sort-choice-item').forEach((el, i) => el.addEventListener('click', () => {
+        selected = candidates[i];
+        box.querySelectorAll('.sort-choice-item').forEach(node => node.classList.remove('is-selected'));
+        el.classList.add('is-selected');
+        box.querySelector('[data-testid="batch14e-zerbo-confirm"]').disabled = false;
+      }));
+      box.querySelector('[data-testid="batch14e-zerbo-confirm"]')?.addEventListener('click', () => { modal.close({selected:selected?.index}); resolve({choice:'act', discard:selected}); });
+    };
     modal.onRender = () => {
-      modal.overlay?.querySelectorAll('.sort-choice-item').forEach((el, i) => el.addEventListener('click', () => { modal.close({selected:i}); resolve(candidates[i]); }));
-      modal.overlay?.querySelector('.sort-choice-confirm')?.addEventListener('click', () => { modal.close({selected:'skip'}); resolve(null); });
+      modal.overlay?.querySelector('[data-choice="wait"]')?.addEventListener('click', () => { modal.close({selected:'wait'}); resolve({choice:'wait', discard:null}); });
+      modal.overlay?.querySelector('[data-choice="act"]')?.addEventListener('click', renderCards);
     };
     modal.onRender();
   });
@@ -12605,29 +12762,67 @@ function removeBatch14EStealableEntry(player, entry) {
   if (entry.zone === 'graveyard') return opponent.graveyard.splice(entry.index, 1)[0] || null;
   return null;
 }
+function batch14EZoneAnchorRect(player, zone) {
+  const p = playerState(player);
+  const selector = zone === 'deck' ? playerZoneSelector(p, 'deck') : (zone === 'graveyard' ? playerZoneSelector(p, 'cemetery') : playerZoneSelector(p, 'hand'));
+  const el = qs(selector);
+  const rect = el?.getBoundingClientRect?.();
+  return rect ? {x:rect.left + rect.width / 2 - 46, y:rect.top + rect.height / 2 - 64} : {x:Math.max(0, window.innerWidth / 2 - 46), y:Math.max(0, window.innerHeight / 2 - 64)};
+}
+function createBatch14EZerboFlight(player, cardId, originZone, delayIndex=0) {
+  const p = playerState(player);
+  const opponent = opponentOf(p);
+  if (!p || typeof document === 'undefined') return false;
+  const to = qs(playerZoneSelector(p, 'hand'))?.getBoundingClientRect?.();
+  if (!to) return false;
+  const node = document.createElement('div');
+  const from = batch14EZoneAnchorRect(opponent, originZone);
+  const d = CARDS_DATA[cardId] || {};
+  node.className = 'batch14d-hand-flight batch14e-zerbo-flight';
+  node.dataset.testid = 'batch14e-zerbo-flight';
+  node.dataset.cardId = cardId;
+  node.dataset.originZone = originZone;
+  node.dataset.delayIndex = String(delayIndex);
+  node.style.backgroundImage = 'url("' + cardArtworkSrc(cardId, d.assetFolder || facFolder(d.fac || 'sort')) + '")';
+  node.style.setProperty('--from-x', Math.round(from.x) + 'px');
+  node.style.setProperty('--from-y', Math.round(from.y) + 'px');
+  node.style.setProperty('--to-x', Math.round(to.left + to.width / 2 - 46) + 'px');
+  node.style.setProperty('--to-y', Math.round(to.top + to.height / 2 - 64) + 'px');
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 980);
+  recordCollectionBatch14EEvent('zerbo-card-flight', {playerId:p.key, cardId, originZone, delayIndex, at:Date.now()});
+  return true;
+}
 async function resolveBatch14EZerboEndTurn(player) {
   const p = playerState(player);
   if (!p || !hasActivePrstFavor(p, 'PRST000012')) return {success:false, skipped:true, reason:'zerbo-inactive'};
-  const discard = await chooseBatch14EZerboDiscard(p);
-  if (!discard) {
-    const skipped = {success:true, skipped:true, cardId:'PRST000012', playerId:p.key, reason:'player-skipped-or-no-card'};
-    recordCollectionBatch14EEvent('zerbo-skip', skipped);
+  const decision = await chooseBatch14EZerboDiscard(p);
+  if (!decision || decision.choice !== 'act' || !decision.discard) {
+    const skipped = {success:true, skipped:true, cardId:'PRST000012', playerId:p.key, reason:decision?.reason || 'player-waited'};
+    recordCollectionBatch14EEvent('zerbo-wait', skipped);
     return skipped;
   }
+  const discard = decision.discard;
+  const handNode = document.querySelector(playerZoneSelector(p, 'hand') + ' .hc:nth-child(' + (discard.index + 1) + ')');
+  if (handNode) handNode.classList.add('batch14e-zerbo-discard-halo');
+  await batch05VisualDelay(batch14EAutomationEnabled() ? 30 : 420);
   const discarded = getRuntimeCardId(removeHandCardAt(p, discard.index)) || discard.cardId;
   p.graveyard.push(discarded);
+  recordCollectionBatch14EEvent('zerbo-discard-visual', {playerId:p.key, discarded, at:Date.now()});
   const stolen = [];
   for (let i = 0; i < 2; i++) {
+    if (i > 0) await batch05VisualDelay(500);
     const pool = batch14EStealableOpponentCards(p);
     if (!pool.length) break;
     const pick = Math.min(pool.length - 1, Math.floor(batch14ERandom() * pool.length));
     const entry = pool[pick];
+    createBatch14EZerboFlight(p, entry.cardId, entry.zone, i);
     const removed = removeBatch14EStealableEntry(p, entry);
     const cardId = getRuntimeCardId(removed) || entry.cardId;
-    if (cardId && addCardToHand(p, cardId, {refresh:false})) stolen.push({zone:entry.zone, cardId});
+    if (cardId && addCardToHand(p, cardId, {refresh:false})) stolen.push({zone:entry.zone, cardId, at:Date.now()});
   }
   refreshCemeteryVisual(p); refreshCemeteryVisual(opponentOf(p)); updateDeckCount(p); updateDeckCount(opponentOf(p)); renderAllHands(p.key);
-  const result = {success:true, cardId:'PRST000012', playerId:p.key, discarded, stolenCount:stolen.length, stolen};
+  const result = {success:true, cardId:'PRST000012', playerId:p.key, choice:'act', discarded, stolenCount:stolen.length, stolen};
   recordCollectionBatch14EEvent('zerbo-discard-and-steal', result);
   await showNotif(`Zerbo vole ${stolen.length} carte(s).`, 1200);
   return result;
@@ -12646,7 +12841,7 @@ async function resolveBatch14EKeronaEndTurn(player) {
   if (extraTurn) p.batch14eKeronaNoChainNextCheck = true;
   const result = {success:true, cardId:'PRST000013', playerId:p.key, roll, extraTurn, threshold:0.5};
   recordCollectionBatch14EEvent(extraTurn ? 'kerona-extra-turn-success' : 'kerona-extra-turn-failure', result);
-  await showNotif(extraTurn ? 'Kerona vous accorde un tour supplémentaire !' : 'Kerona reste silencieuse.', 1200);
+  await showNotif(extraTurn ? `${playerName(p).toUpperCase()} OBTIENT UN TOUR SUPPLÉMENTAIRE, PAR LA GRÂCE DE KERONA.` : 'Kerona reste silencieuse.', 1200);
   return result;
 }
 async function resolveBatch14EEndTurnEffects(player) {
@@ -12678,7 +12873,7 @@ function activateBatch14EPrstSpecificFavor(cardId, player, context={}) {
   return result;
 }
 if (typeof window !== 'undefined') {
-  Object.assign(window, {COLLECTION_BATCH_14E_PRST_EFFECT_IDS, COLLECTION_BATCH_14E_NOR_TEXT, COLLECTION_BATCH_14E_TIARA_TEXT, collectionBatch14EState, recordCollectionBatch14EEvent, isBatch14EPrstFavor, syncBatch14EPrstFavorEffects, isBatch14ETiaraEntraved, resolveBatch14EStartTurnEffects, resolveBatch14EEndTurnEffects, resolveBatch14ENorExtraEndTurn, resolveBatch14EUlmEndTurn, resolveBatch14EZerboEndTurn, resolveBatch14EKeronaEndTurn, activateBatch14EPrstSpecificFavor});
+  Object.assign(window, {COLLECTION_BATCH_14E_PRST_EFFECT_IDS, COLLECTION_BATCH_14E_NOR_TEXT, COLLECTION_BATCH_14E_TIARA_TEXT, collectionBatch14EState, recordCollectionBatch14EEvent, isBatch14EPrstFavor, syncBatch14EPrstFavorEffects, isBatch14ETiaraEntraved, resolveBatch14EStartTurnEffects, resolveBatch14EEndTurnEffects, resolveBatch14ENorExtraEndTurn, resolveBatch14ENorSingleSource, batch14EEndTurnServantSources, resolveBatch14EUlmEndTurn, resolveBatch14EZerboEndTurn, resolveBatch14EKeronaEndTurn, activateBatch14EPrstSpecificFavor});
 }
 
 function shouldMoveResolvedSpellToGraveyard(cardId) {
@@ -19885,13 +20080,16 @@ async function endTurnRuntime() {
   const btn = qs('#btnEndTurn');
   try {
     btn.disabled = true; btn.classList.remove('pulse');
-    applyEndOfTurnEffects(activePlayer);
-    await applyFireMasterEndOfTurn(activePlayer);
-    await resolveBatch08EndTurnEffects(activePlayer);
-    await resolveBatch09EndTurnEffects(activePlayer);
-    await resolveBatch11eEndTurnEffects(activePlayer);
+    const batch14eNorActive = hasActivePrstFavor(activePlayer, 'PRST000003');
+    if (!batch14eNorActive) {
+      applyEndOfTurnEffects(activePlayer);
+      await applyFireMasterEndOfTurn(activePlayer);
+      await resolveBatch08EndTurnEffects(activePlayer);
+      await resolveBatch09EndTurnEffects(activePlayer);
+      await resolveBatch11eEndTurnEffects(activePlayer);
+      await applyBatch03EndTurnAbilities(activePlayer);
+    }
     await resolveMeteoresEndOfTurn(activePlayer);
-    await applyBatch03EndTurnAbilities(activePlayer);
     const batch14eEnd = await resolveBatch14EEndTurnEffects(activePlayer);
     await new Promise(r => setTimeout(r, activePlayer.position === 'bottom' ? 1200 : 800));
     expireBatch11eEclipseSolaire();
@@ -19924,7 +20122,7 @@ async function endTurnRuntime() {
       await showNotif(`C’est encore le tour de ${playerName(activePlayer)} !`);
     } else if (batch14eExtraTurn) {
       beginTurnState(activePlayer);
-      await showNotif(`C’est encore le tour de ${playerName(activePlayer)} !`);
+      await showNotif(`${playerName(activePlayer).toUpperCase()} OBTIENT UN TOUR SUPPLÉMENTAIRE, PAR LA GRÂCE DE KERONA.`);
     } else {
       await showNotif(`C’est le tour de ${playerName(activePlayer)} !`);
     }
@@ -23301,8 +23499,8 @@ const COLLECTION_BATCH_14B_PRST_SOURCE_ROWS = Object.freeze([
     "id": "PRST000003",
     "name": "Faveur de Nor",
     "cond": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
-    "cap": "Jusqu'à la fin de la partie, vos effets de fin de tour se déclenchent désormais *2* fois de suite.",
-    "detail": "Jusqu'à la fin de la partie, vos effets de fin de tour se déclenchent désormais *2* fois de suite.",
+    "cap": "Jusqu'à la fin de la partie, vos effets de fin de tour se déclenchent désormais *2 fois de suite*.",
+    "detail": "Jusqu'à la fin de la partie, vos effets de fin de tour se déclenchent désormais *2 fois de suite*.",
     "kws": [],
     "deferredLot": "14E"
   },
@@ -23395,8 +23593,8 @@ const COLLECTION_BATCH_14B_PRST_SOURCE_ROWS = Object.freeze([
     "id": "PRST000013",
     "name": "Faveur de Kerona",
     "cond": "Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ.",
-    "cap": "Jusqu'à la fin de la partie, à chaque fin de tour, vous avez *50*% de chance d'obtenir *1* tour supplémentaire.",
-    "detail": "Jusqu'à la fin de la partie, à chaque fin de tour, vous avez *50*% de chance d'obtenir *1* tour supplémentaire. Cet effet ne peut se produire deux fois de suite.",
+    "cap": "Jusqu'à la fin de la partie, à chaque fin de tour, vous avez *50%* de chance d'obtenir *1* tour supplémentaire.",
+    "detail": "Jusqu'à la fin de la partie, à chaque fin de tour, vous avez *50%* de chance d'obtenir *1* tour supplémentaire. Cet effet ne peut se produire deux fois de suite.",
     "kws": [],
     "deferredLot": "14E"
   },
@@ -23473,6 +23671,7 @@ if (typeof window !== "undefined") {
   window.COLLECTION_BATCH_14B_HIRIN_ARBITRATION = COLLECTION_BATCH_14B_HIRIN_ARBITRATION;
 }
 Object.assign(CARDS_DATA, {
+  DIV000012:{name:'Géant des colines',type:'Serviteur',fac:'div',atk:8,pdv:8,cost:8,res_ico:'IC00000NRT',res_val:'5',resType:'Nourriture',fico:'FCT00000RDM.png',kws:['Rempart'],assetFolder:'autres',max:2,cap:'[Rempart] Inflige également le montant de son attaque aux serviteurs adjacents à sa cible.',detail:'[Rempart] Inflige également le montant de son attaque aux serviteurs adjacents à sa cible.'},
   DIV000005:{name:'Élémentaire de la terre',type:'Serviteur',fac:'div',atk:2,pdv:4,cost:3,res_ico:'IC00000ARI',res_val:'3',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre'],assetFolder:'autres',max:6,cap:"Chaque fois qu'il survit à des dégâts, ce serviteur a 50% de chance de créer 1 copie parfaite de lui-même.",detail:"Chaque fois qu'il survit à des dégâts, ce serviteur a 50% de chance de créer 1 copie parfaite de lui-même."},
   DIV000008:{name:'Golem de roche',type:'Serviteur',fac:'div',atk:4,pdv:7,cost:5,res_ico:'IC00000ARI',res_val:'5',resType:'Aria|Pierre',fico:'FCT00000RDM.png',kws:['Aria','Pierre','Vengeance','Rempart'],assetFolder:'autres',max:4,related:['DIV000005'],cap:"[Rempart] [Vengeance] Remplit votre côté du terrain d'Élémentaires de la terre.",detail:"[Rempart] [Vengeance] Remplit votre côté du terrain d'Élémentaires de la terre."},
   H000032:{name:"Gabar, l'apprenti magicien maladroit",type:'Serviteur',fac:'hum',atk:1,pdv:2,cost:1,res_ico:'IC00000ARI',res_val:'1',resType:'Aria|Lenya|Nourriture',fico:'FCT00000HUM.png',kws:['Aria','Lenya','Nourriture','Initiative'],assetFolder:'humains',max:1,related:['S000057'],cap:"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige *1 point de dégât* à tous les serviteurs sur le plateau, alliés comme ennemis.",detail:"[Initiative] Ajoute le sort « Aube de soie de lumière » à votre deck. Inflige *1 point de dégât* à tous les serviteurs sur le plateau, alliés comme ennemis."},
