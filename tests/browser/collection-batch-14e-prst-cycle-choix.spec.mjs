@@ -296,16 +296,61 @@ test("Batch 14E2 PRST000012 Zerbo supports wait, two-step modal wording, Insensi
   await expect(page.getByText("Jugerez-vous le pari trop risqué ou irez-vous saisir l'opportunité ?")).toBeVisible();
   await expect(page.getByText("ATTENDRE UNE OPPORTUNITÉ")).toBeVisible();
   await expect(page.getByText("PASSER À L'ACTE")).toBeVisible();
+  const initialModalAudit = await page.evaluate(() => {
+    const panel = document.querySelector(".batch14e-zerbo-choice");
+    const buttons = Array.from(document.querySelectorAll('[data-testid="batch14e-zerbo-action"]'));
+    return {
+      panelOverflow:panel ? getComputedStyle(panel).overflow : null,
+      buttonCount:buttons.length,
+      buttons:buttons.map(button => ({
+        className:button.className,
+        background:getComputedStyle(button).backgroundImage || getComputedStyle(button).backgroundColor,
+        color:getComputedStyle(button).color,
+        width:button.getBoundingClientRect().width
+      }))
+    };
+  });
+  expect(initialModalAudit.panelOverflow).toBe("visible");
+  expect(initialModalAudit.buttonCount).toBe(2);
+  for (const button of initialModalAudit.buttons) {
+    expect(button.className).toContain("batch14e-zerbo-action");
+    expect(button.background).not.toBe("none");
+    expect(button.width).toBeGreaterThan(150);
+  }
   await page.locator('[data-choice="act"]').click();
   await expect(page.getByText("Sacrifiez 1 carte de votre main pour faire diversion.")).toBeVisible();
   await expect(page.getByTestId("batch14e-zerbo-card-list").locator(".sort-choice-item")).toHaveCount(3);
+  const sacrificeAuditBefore = await page.evaluate(() => {
+    const list = document.querySelector('[data-testid="batch14e-zerbo-card-list"]');
+    const confirm = document.querySelector('[data-testid="batch14e-zerbo-confirm"]');
+    return {
+      listOverflow:getComputedStyle(list).overflow,
+      confirmDisabled:confirm.disabled,
+      confirmBackground:getComputedStyle(confirm).backgroundImage || getComputedStyle(confirm).backgroundColor,
+      confirmMarginLeft:getComputedStyle(confirm).marginLeft,
+      cards:Array.from(list.querySelectorAll(".selection-card")).map(card => card.getBoundingClientRect().height)
+    };
+  });
+  expect(sacrificeAuditBefore.listOverflow).toBe("visible");
+  expect(sacrificeAuditBefore.confirmDisabled).toBe(true);
+  expect(sacrificeAuditBefore.confirmBackground).not.toBe("none");
+  expect(sacrificeAuditBefore.cards.every(height => height >= 180)).toBe(true);
   await page.getByTestId("batch14e-zerbo-card-list").locator(".sort-choice-item").nth(2).click();
+  const sacrificeAuditAfter = await page.evaluate(() => ({
+    selectedCount:document.querySelectorAll('[data-testid="batch14e-zerbo-card-list"] .sort-choice-item.is-selected').length,
+    confirmDisabled:document.querySelector('[data-testid="batch14e-zerbo-confirm"]').disabled
+  }));
+  expect(sacrificeAuditAfter).toEqual({selectedCount:1, confirmDisabled:false});
   await page.getByTestId("batch14e-zerbo-confirm").click();
   const manual = await page.waitForFunction(() => {
     const events = collectionBatch14EState().events;
     return events.find(event => event.type === "zerbo-discard-and-steal") || null;
   });
   expect(await manual.jsonValue()).toMatchObject({success:true, discarded:"EDG000012", stolenCount:2});
+  const manualEvents = await page.evaluate(() => collectionBatch14EState().events.map(event => ({type:event.type, at:event.at || event.timestamp || 0})));
+  expect(manualEvents.findIndex(event => event.type === "zerbo-discard-flight")).toBeGreaterThan(-1);
+  expect(manualEvents.findIndex(event => event.type === "zerbo-discard-flight")).toBeLessThan(manualEvents.findIndex(event => event.type === "zerbo-discard-visual"));
+  expect(manualEvents.findIndex(event => event.type === "zerbo-discard-visual")).toBeLessThan(manualEvents.findIndex(event => event.type === "zerbo-card-flight"));
 
   await open14EScenario(page, "PRST000012");
   const automated = await page.evaluate(async () => {
@@ -320,12 +365,14 @@ test("Batch 14E2 PRST000012 Zerbo supports wait, two-step modal wording, Insensi
     const before = {hand:player1.hand.length, graveyard:player1.graveyard.length, opponentTotal:player2.hand.length + player2.drawPile.length + player2.graveyard.length};
     const act = await resolveBatch14EZerboEndTurn(player1);
     const flights = collectionBatch14EState().events.filter(event => event.type === "zerbo-card-flight");
+    const discardFlight = collectionBatch14EState().events.find(event => event.type === "zerbo-discard-flight") || null;
     return {
       play,
       wait,
       before,
       act,
       after:{hand:player1.hand.length, graveyard:player1.graveyard.length, opponentTotal:player2.hand.length + player2.drawPile.length + player2.graveyard.length},
+      discardFlight,
       flightSpacing:flights.length >= 2 ? flights[1].at - flights[0].at : null,
       events:collectionBatch14EState().events
     };
@@ -336,6 +383,7 @@ test("Batch 14E2 PRST000012 Zerbo supports wait, two-step modal wording, Insensi
   expect(automated.after.graveyard).toBe(automated.before.graveyard + 1);
   expect(automated.after.hand).toBe(automated.before.hand + 1);
   expect(automated.after.opponentTotal).toBe(automated.before.opponentTotal - 2);
+  expect(automated.discardFlight).toMatchObject({type:"zerbo-discard-flight", cardId:"H000001"});
   expect(automated.flightSpacing).toBeGreaterThanOrEqual(450);
   expect(automated.events.some(event => event.type === "zerbo-wait")).toBe(true);
   expect(automated.events.some(event => event.type === "zerbo-discard-visual")).toBe(true);
@@ -352,23 +400,28 @@ test("Batch 14E2 PRST000013 Kerona uses exact extra-turn message and never chain
     currentPlayer = player1.key;
     activePlayer = player1;
     const play = await playCard("PRST000013", null, {returnValidation:true});
-    collectionBatch14EState().randomQueue = [0.2, 0.2, 0.8];
-    const directSuccess = await resolveBatch14EKeronaEndTurn(player1);
-    const directSuccessNotif = document.getElementById("notif")?.textContent || "";
-    delete player1.batch14eKeronaNoChainNextCheck;
+    collectionBatch14EState().randomQueue = [0.2, 0.8];
+    const messages = [];
+    const nativeShowNotif = showNotif;
+    showNotif = async (message, duration) => {
+      messages.push(String(message));
+      return nativeShowNotif(message, duration);
+    };
     await endTurn();
     const afterSuccess = {currentPlayer, activePlayer:activePlayer.key, noChain:!!player1.batch14eKeronaNoChainNextCheck, notif:document.getElementById("notif")?.textContent || ""};
     await endTurn();
     const afterNoChain = {currentPlayer, activePlayer:activePlayer.key, noChain:!!player1.batch14eKeronaNoChainNextCheck};
     const directFailure = await resolveBatch14EKeronaEndTurn(player1);
-    return {play, expectedNotif:`${playerName(player1).toUpperCase()} OBTIENT UN TOUR SUPPLÉMENTAIRE, PAR LA GRÂCE DE KERONA.`, directSuccess, directSuccessNotif, afterSuccess, afterNoChain, directFailure, events:window.__collectionBatch14E?.events || []};
+    showNotif = nativeShowNotif;
+    const expectedNotif = `${playerName(player1).toUpperCase()} OBTIENT UN TOUR SUPPLÉMENTAIRE, PAR LA GRÂCE DE KERONA.`;
+    return {play, expectedNotif, messageCount:messages.filter(message => message === expectedNotif).length, messages, afterSuccess, afterNoChain, directFailure, events:window.__collectionBatch14E?.events || []};
   });
   expect(result.play.success).toBe(true);
   expect(result.afterSuccess.currentPlayer).toBe("player1");
   expect(result.afterSuccess.activePlayer).toBe("player1");
   expect(result.afterSuccess.noChain).toBe(true);
-  expect(result.directSuccess.extraTurn).toBe(true);
-  expect(result.directSuccessNotif).toBe(result.expectedNotif);
+  expect(result.messageCount).toBe(1);
+  expect(result.messages).toContain(result.expectedNotif);
   expect(result.afterNoChain.currentPlayer).toBe("player2");
   expect(result.afterNoChain.noChain).toBe(false);
   expect(result.directFailure.extraTurn).toBe(false);

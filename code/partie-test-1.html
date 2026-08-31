@@ -1881,6 +1881,19 @@ body.dragging-card .hc.dragging {
 @keyframes batch14eAvatarGoldPulse{0%{box-shadow:0 0 0 rgba(255,215,96,0);filter:brightness(1);transform:scale(1);}35%{box-shadow:0 0 0 4px rgba(255,215,96,.85),0 0 26px rgba(255,215,96,.9);filter:brightness(1.55) saturate(1.25);transform:scale(1.035);}100%{box-shadow:0 0 0 rgba(255,215,96,0);filter:brightness(1);transform:scale(1);}}
 .batch14e-avatar-pulse .av-portrait{animation:batch14eAvatarGoldPulse .95s ease-in-out 1;}
 .batch14e-zerbo-discard-halo{animation:batch14dEreonDrawHalo .9s ease-in-out 1;}
+.batch14e-zerbo-choice{overflow:visible!important;max-height:min(86vh,760px);padding:26px 30px 30px}
+.batch14e-zerbo-choice .decision-modal-header{margin-bottom:14px}
+.batch14e-zerbo-choice .batch14e-zerbo-step{display:flex;flex-direction:column;align-items:center;gap:16px;overflow:visible}
+.batch14e-zerbo-choice .sort-choice-actions{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;margin:6px auto 0}
+.batch14e-zerbo-choice .sort-choice-cards{overflow:visible;max-height:none;padding:22px 36px 42px;gap:28px;align-items:flex-start}
+.batch14e-zerbo-choice .sort-choice-item{position:relative;overflow:visible;z-index:1;border-radius:14px;padding:4px}
+.batch14e-zerbo-choice .sort-choice-item:hover,.batch14e-zerbo-choice .sort-choice-item:focus-within{z-index:20}
+.batch14e-zerbo-choice .sort-choice-item.is-selected{outline:2px solid #ffd36a;outline-offset:5px;box-shadow:0 0 22px rgba(255,195,74,.45)}
+.batch14e-zerbo-choice .batch14e-zerbo-action,.batch14e-zerbo-choice [data-testid="batch14e-zerbo-confirm"]{font-family:'Cinzel',serif;font-size:11px;font-weight:900;letter-spacing:.08em;color:#1a0e05;background:linear-gradient(180deg,#ffe4a3,#c99c3e);border:1px solid rgba(255,231,159,.9);border-radius:12px;box-shadow:0 7px 18px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.32);padding:11px 18px;min-width:188px;text-align:center;cursor:pointer;text-shadow:0 1px 0 rgba(255,255,255,.32)}
+.batch14e-zerbo-choice .batch14e-zerbo-action:hover,.batch14e-zerbo-choice [data-testid="batch14e-zerbo-confirm"]:not(:disabled):hover{filter:brightness(1.08);transform:translateY(-1px)}
+.batch14e-zerbo-choice [data-testid="batch14e-zerbo-confirm"]{display:block;margin:16px auto 0;min-width:156px}
+.batch14e-zerbo-choice [data-testid="batch14e-zerbo-confirm"]:disabled{color:#8c7760;background:linear-gradient(180deg,rgba(84,69,48,.88),rgba(42,31,22,.92));border-color:rgba(150,124,76,.45);box-shadow:inset 0 0 0 1px rgba(255,220,128,.08);cursor:not-allowed;opacity:.82}
+.batch14e-zerbo-choice .selection-card{transform-origin:center top}
 
 </style>
 </head>
@@ -12725,7 +12738,7 @@ async function chooseBatch14EZerboDiscard(player) {
   if (typeof document === 'undefined') return {choice:'act', discard:candidates[0], automated:true};
   return new Promise(resolve => {
     let selected = null;
-    const choiceButton = (choice, label) => `<button type="button" class="sort-choice-confirm batch14e-zerbo-action" data-choice="${choice}">${label}</button>`;
+    const choiceButton = (choice, label) => `<button type="button" class="sort-choice-confirm batch14e-zerbo-action" data-testid="batch14e-zerbo-action" data-choice="${choice}">${label}</button>`;
     const cardChoices = () => candidates.map((item, i) => `<div class="sort-choice-item" data-idx="${i}">${renderSelectionCard(item.cardId, p, {context:'zerbo-discard'})}</div>`).join('');
     const modal = createMinimizableDecisionModal({decisionId:'batch14e-zerbo-discard', title:'FAVEUR DE ZERBO', compactLabel:'Zerbo en attente', panelClass:'batch14e-zerbo-choice', bodyHtml:`<div class="batch14e-zerbo-step"><div data-testid="batch14e-zerbo-subtext" style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">Jugerez-vous le pari trop risqué ou irez-vous saisir l'opportunité ?</div><div class="sort-choice-actions">${choiceButton('wait', 'ATTENDRE UNE OPPORTUNITÉ')}${choiceButton('act', "PASSER À L'ACTE")}</div></div>`});
     const renderCards = () => {
@@ -12769,6 +12782,28 @@ function batch14EZoneAnchorRect(player, zone) {
   const rect = el?.getBoundingClientRect?.();
   return rect ? {x:rect.left + rect.width / 2 - 46, y:rect.top + rect.height / 2 - 64} : {x:Math.max(0, window.innerWidth / 2 - 46), y:Math.max(0, window.innerHeight / 2 - 64)};
 }
+function createBatch14EZerboDiscardFlight(player, cardId, handNode=null) {
+  const p = playerState(player);
+  if (!p || typeof document === 'undefined') return false;
+  const fromRect = handNode?.getBoundingClientRect?.();
+  const to = qs(playerZoneSelector(p, 'cemetery'))?.getBoundingClientRect?.();
+  if (!fromRect || !to) return false;
+  const d = CARDS_DATA[cardId] || {};
+  const node = document.createElement('div');
+  node.className = 'batch14d-hand-flight batch14e-zerbo-discard-flight';
+  node.dataset.testid = 'batch14e-zerbo-discard-flight';
+  node.dataset.cardId = cardId;
+  node.dataset.flightReason = 'zerbo-discard';
+  node.style.backgroundImage = 'url("' + cardArtworkSrc(cardId, d.assetFolder || facFolder(d.fac || 'sort')) + '")';
+  node.style.setProperty('--from-x', Math.round(fromRect.left + fromRect.width / 2 - 46) + 'px');
+  node.style.setProperty('--from-y', Math.round(fromRect.top + fromRect.height / 2 - 64) + 'px');
+  node.style.setProperty('--to-x', Math.round(to.left + to.width / 2 - 46) + 'px');
+  node.style.setProperty('--to-y', Math.round(to.top + to.height / 2 - 64) + 'px');
+  document.body.appendChild(node);
+  setTimeout(() => node.remove(), 980);
+  recordCollectionBatch14EEvent('zerbo-discard-flight', {playerId:p.key, cardId, at:Date.now()});
+  return true;
+}
 function createBatch14EZerboFlight(player, cardId, originZone, delayIndex=0) {
   const p = playerState(player);
   const opponent = opponentOf(p);
@@ -12805,7 +12840,8 @@ async function resolveBatch14EZerboEndTurn(player) {
   const discard = decision.discard;
   const handNode = document.querySelector(playerZoneSelector(p, 'hand') + ' .hc:nth-child(' + (discard.index + 1) + ')');
   if (handNode) handNode.classList.add('batch14e-zerbo-discard-halo');
-  await batch05VisualDelay(batch14EAutomationEnabled() ? 30 : 420);
+  createBatch14EZerboDiscardFlight(p, discard.cardId, handNode);
+  await batch05VisualDelay(batch14EAutomationEnabled() ? 30 : 900);
   const discarded = getRuntimeCardId(removeHandCardAt(p, discard.index)) || discard.cardId;
   p.graveyard.push(discarded);
   recordCollectionBatch14EEvent('zerbo-discard-visual', {playerId:p.key, discarded, at:Date.now()});
@@ -12841,7 +12877,7 @@ async function resolveBatch14EKeronaEndTurn(player) {
   if (extraTurn) p.batch14eKeronaNoChainNextCheck = true;
   const result = {success:true, cardId:'PRST000013', playerId:p.key, roll, extraTurn, threshold:0.5};
   recordCollectionBatch14EEvent(extraTurn ? 'kerona-extra-turn-success' : 'kerona-extra-turn-failure', result);
-  await showNotif(extraTurn ? `${playerName(p).toUpperCase()} OBTIENT UN TOUR SUPPLÉMENTAIRE, PAR LA GRÂCE DE KERONA.` : 'Kerona reste silencieuse.', 1200);
+  if (!extraTurn) await showNotif('Kerona reste silencieuse.', 1200);
   return result;
 }
 async function resolveBatch14EEndTurnEffects(player) {
