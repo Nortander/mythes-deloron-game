@@ -177,10 +177,21 @@ test("Batch 14E2 PRST000003 Nor covers the 22 V9 servant ids and resolves twice 
     }
     const cases = [];
     for (const id of expectedIds) cases.push(await runCase(id));
-    return {cases, expectedIds, text:COLLECTION_BATCH_14E_NOR_TEXT};
+    resetBoard(player1);
+    place(player1, "TRL000017", {pdv:6, pdvMax:6});
+    const trollInstableSources = batch14EEndTurnServantSources(player1).map(source => source.cardId);
+    return {
+      cases,
+      expectedIds,
+      text:COLLECTION_BATCH_14E_NOR_TEXT,
+      trollInstableInContract:COLLECTION_BATCH_14E_END_TURN_CARD_IDS.has("TRL000017"),
+      trollInstableSources
+    };
   }, NOR_EXPECTED_IDS);
   expect(result.text).toContain("une deuxième fois");
   expect(result.cases.map(item => item.cardId)).toEqual(NOR_EXPECTED_IDS);
+  expect(result.trollInstableInContract).toBe(false);
+  expect(result.trollInstableSources).not.toContain("TRL000017");
   for (const item of result.cases) {
     expect(item.operations.length, item.cardId).toBeGreaterThan(0);
     expect(item.activationEvents, item.cardId).toEqual([1, 2]);
