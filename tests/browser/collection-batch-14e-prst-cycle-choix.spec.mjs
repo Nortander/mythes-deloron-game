@@ -8,7 +8,6 @@ const NOR_EXPECTED_IDS = [
   "ORC000004", "ORC000007", "ORC000017", "TRL000007"
 ];
 const NOR_COVERAGE_SCENARIOS = [
-  "collection-batch-14b-prst000003-core-visual",
   "collection-batch-14e-prst000003-nor-coverage-a",
   "collection-batch-14e-prst000003-nor-coverage-b",
   "collection-batch-14e-prst000003-nor-coverage-c"
@@ -141,7 +140,7 @@ test("Batch 14E2 PRST000003 Nor covers the 22 V9 servant ids and resolves twice 
       }
       const resolution = await activateTwice(source);
       if (cardId === "DIV000001") evidence.after = count(player1, "DIV000002");
-      if (cardId === "DIV000016") evidence.after = {marks:source.fc.dataset.batch14eXyallahMarks, golems:count(player1, "DIV000008")};
+      if (cardId === "DIV000016") evidence.after = {marks:source.fc.dataset.batch14eXyallahMarks || "0", golems:count(player1, "DIV000008"), counters:Array.from(source.fc.querySelectorAll('[data-batch03-status-counter]')).map(node => ({kind:node.dataset.batch03StatusCounter, right:node.style.getPropertyValue('--status-counter-right'), bottom:node.style.getPropertyValue('--status-counter-bottom'), hidden:node.hidden}))};
       if (["EDB000005", "EDB000014", "EDG000007", "GOB000007", "TRL000007"].includes(cardId)) evidence.afterHp = hp(player1);
       if (cardId === "EDG000005") evidence.after = count(player1, "DIV000007");
       if (cardId === "EDG000012") evidence.affected = livingServantCardsForPlayer(player2).filter(fc => fc.dataset.frozen || fc.dataset.frozen_cdg).length;
@@ -203,6 +202,8 @@ test("Batch 14E2 PRST000003 Nor covers the 22 V9 servant ids and resolves twice 
     expect(item.activationEvents, item.cardId).toEqual([1, 2]);
     expect(item.ok, JSON.stringify(item.evidence)).toBe(true);
   }
+  const xyallah = result.cases.find(item => item.cardId === "DIV000016");
+  expect(xyallah.evidence.after.counters).toEqual([]);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -236,7 +237,7 @@ test("Batch 14E2 PRST000003 Nor aggregate order is left-to-right and double-befo
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Batch 14F1 PRST000003 Nor visual scenarios expose the 22 end-turn servants", async ({page}, testInfo) => {
+test("Batch 14F2 PRST000003 Nor visual variants expose the 22 V13 end-turn servants without overload", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await open14EScenario(page, "PRST000003", "manual");
   const result = await page.evaluate(({expectedIds, scenarioIds}) => {
@@ -250,22 +251,81 @@ test("Batch 14F1 PRST000003 Nor visual scenarios expose the 22 end-turn servants
     const allHand = new Set(scenarios.flatMap(scenario => scenario.hand));
     const allDeck = new Set(scenarios.flatMap(scenario => scenario.deck));
     const allBoard = new Set(scenarios.flatMap(scenario => scenario.board));
+    const duplicateAssignments = expectedIds.filter(id => scenarios.filter(scenario => scenario.hand.includes(id) || scenario.deck.includes(id) || scenario.board.includes(id)).length > 1);
     return {
       scenarios,
       missingFromHand:expectedIds.filter(id => !allHand.has(id)),
       missingFromDeck:expectedIds.filter(id => !allDeck.has(id)),
-      missingFromBoard:expectedIds.filter(id => id !== "H000027" && !allBoard.has(id)),
+      terrainCounts:scenarios.map(scenario => scenario.board.length),
+      duplicateAssignments,
+      xyallahScenario:scenarios.find(scenario => scenario.hand.includes("DIV000016") && scenario.deck.includes("DIV000016") && scenario.board.includes("DIV000016"))?.id || null,
       h000027InHand:scenarios.some(scenario => scenario.hand.includes("H000027")),
       trollInstablePresent:scenarios.some(scenario => [...scenario.hand, ...scenario.deck, ...scenario.board].includes("TRL000017")),
       hidden:scenarioIds.map(id => SCENARIOS[id]?.hidden === true)
     };
   }, {expectedIds:NOR_EXPECTED_IDS, scenarioIds:NOR_COVERAGE_SCENARIOS});
-  expect(result.hidden).toEqual([true, true, true, true]);
+  expect(result.hidden).toEqual([true, true, true]);
   expect(result.missingFromHand).toEqual([]);
   expect(result.missingFromDeck).toEqual([]);
-  expect(result.missingFromBoard).toEqual([]);
+  expect(result.terrainCounts.every(count => count <= 3)).toBe(true);
+  expect(result.duplicateAssignments).toEqual([]);
+  expect(result.xyallahScenario).toBe("collection-batch-14e-prst000003-nor-coverage-a");
   expect(result.h000027InHand).toBe(true);
   expect(result.trollInstablePresent).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F2 DIV000016 Xyallah visual scenario lays out mark counters without overlap", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  const scenario = "collection-batch-14e-prst000003-nor-coverage-a";
+  await page.goto("/code/partie-test-1.html?scenario=" + scenario + "&batch14e=manual&t=" + Date.now());
+  await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
+  await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+  await page.waitForSelector(".history.vis", {timeout:20000});
+  const result = await page.evaluate((scenario) => {
+    const xyallah = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000016");
+    const counters = Array.from(xyallah?.querySelectorAll(".fc-burn-badge,[data-batch03-status-counter]") || []).map(node => {
+      const rect = node.getBoundingClientRect();
+      return {
+        kind:node.dataset.batch03StatusCounter || node.dataset.statusCounterKind || "unknown",
+        value:node.textContent,
+        hidden:node.hidden,
+        right:node.style.getPropertyValue("--status-counter-right"),
+        bottom:node.style.getPropertyValue("--status-counter-bottom"),
+        rect:{left:rect.left, right:rect.right, top:rect.top, bottom:rect.bottom}
+      };
+    });
+    const overlaps = [];
+    for (let i = 0; i < counters.length; i++) {
+      for (let j = i + 1; j < counters.length; j++) {
+        const a = counters[i].rect;
+        const b = counters[j].rect;
+        if (!(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top)) overlaps.push([counters[i].kind, counters[j].kind]);
+      }
+    }
+    const setup = SCENARIOS[scenario].testSetup.player1;
+    return {
+      scenario:selectedScenarioId(),
+      board:livingServantCardsForPlayer(player1).map(fc => fc.dataset.id),
+      setupHand:setup.hand,
+      setupDeck:setup.drawPile,
+      counters,
+      overlaps,
+      marks:xyallah?.dataset.batch14eXyallahMarks || null,
+      burning:xyallah?.dataset.burning || null
+    };
+  }, scenario);
+  expect(result.scenario).toBe(scenario);
+  expect(result.board.length).toBeLessThanOrEqual(3);
+  expect(result.board).toContain("DIV000016");
+  expect(result.setupHand).toContain("DIV000016");
+  expect(result.setupDeck).toContain("DIV000016");
+  expect(result.marks).toBe("1");
+  expect(result.burning).toBe("2");
+  expect(result.counters.map(counter => counter.kind)).toEqual(expect.arrayContaining(["embrasement", "xyallah-marques"]));
+  expect(result.overlaps).toEqual([]);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

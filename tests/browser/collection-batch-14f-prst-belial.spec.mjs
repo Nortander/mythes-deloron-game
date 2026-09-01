@@ -14,7 +14,7 @@ async function open14FScenario(page, mode="auto") {
   await page.waitForTimeout(150);
 }
 
-test("Batch 14F1 PRST000014 Collection uses Echo wording and V12 highlights", async ({page}, testInfo) => {
+test("Batch 14F2 PRST000014 Collection uses Echo wording and V12 highlights", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openCollection(page);
   await page.locator("#searchInput").fill("PRST000014");
@@ -32,7 +32,7 @@ test("Batch 14F1 PRST000014 Collection uses Echo wording and V12 highlights", as
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Batch 14F1 PRST000014 activates, leaves play, and adds +1 Echo to gains only", async ({page}, testInfo) => {
+test("Batch 14F2 PRST000014 activates, leaves play, and adds +1 Echo to gains only", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await open14FScenario(page);
   const result = await page.evaluate(async () => {
@@ -45,7 +45,9 @@ test("Batch 14F1 PRST000014 activates, leaves play, and adds +1 Echo to gains on
     const cost = consumeSouls(player1, 2, "batch14f-test-cost");
     const afterCost = Number(player1.resourceState.souls || 0);
     const rollback = changeSouls(player1, 2, "payment-rollback");
-    return {before, play, afterPlay, gain, afterGain, cost, afterCost, rollback, events:[...collectionBatch14FState().events]};
+    const afterRollback = Number(player1.resourceState.souls || 0);
+    const transfer = changeSouls(player1, 2, "echo-transfer");
+    return {before, play, afterPlay, gain, afterGain, cost, afterCost, rollback, afterRollback, transfer, events:[...collectionBatch14FState().events]};
   });
   expect(result.before.hand[0]).toBe("PRST000014");
   expect(result.before.deck.at(-1)).toBe("PRST000014");
@@ -64,13 +66,16 @@ test("Batch 14F1 PRST000014 activates, leaves play, and adds +1 Echo to gains on
   expect(result.afterCost).toBe(result.afterGain - 2);
   expect(result.rollback.delta).toBe(2);
   expect(result.rollback.belialBonus.bonus).toBe(0);
+  expect(result.transfer.delta).toBe(2);
+  expect(result.transfer.belialBonus.reason).toBe("transfer");
+  expect(result.transfer.soulsAfter).toBe(result.afterRollback + 2);
   expect(result.events.some(event => event.type === "belial-echo-bonus" && event.requestedAmount === 2 && event.appliedAmount === 3)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("Batch 14F1 PRST000014 opens regeneration after draw and resolves keep/consume choices", async ({page}, testInfo) => {
+test("Batch 14F2 PRST000014 opens regeneration after draw and resolves keep/consume choices", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await open14FScenario(page, "manual");
   const noEcho = await page.evaluate(async () => {
@@ -154,6 +159,44 @@ test("Batch 14F1 PRST000014 opens regeneration after draw and resolves keep/cons
   expect(noRepeat.pending).toBe(false);
   expect(noRepeat.modal).toBe(false);
   expect(noRepeat.hp).toBe(44);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F2 PRST000014 auto-plays from draw and immediately enables real Echo gains", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await open14FScenario(page, "manual");
+  const result = await page.evaluate(() => {
+    player1.hand = [];
+    player1.drawPile = ["MV000001", "PRST000014"];
+    player1.resourceState.souls = 1;
+    player1.resourceState.revision += 1;
+    renderAllHands();
+    updateDeckCount(player1);
+    const draw = drawCardFromDeck(player1, () => true, {refresh:false, sourceCardId:"collection-batch-14f2-draw-test"});
+    const gain = addSoulToAppro(player1, 1);
+    return {
+      draw,
+      hand:[...player1.hand],
+      graveyard:[...player1.graveyard],
+      removed:[...(player1.removedFromGame || [])],
+      favor:!!player1.prstFavors?.PRST000014,
+      echoes:Number(player1.resourceState.souls || 0),
+      gain,
+      events:[...collectionBatch14FState().events]
+    };
+  });
+  expect(result.draw.success).toBe(true);
+  expect(result.draw.cardId).toBe("PRST000014");
+  expect(result.draw.prstAutoPlayResolution.handled).toBe(true);
+  expect(result.hand).not.toContain("PRST000014");
+  expect(result.graveyard).not.toContain("PRST000014");
+  expect(result.removed).toContain("PRST000014");
+  expect(result.favor).toBe(true);
+  expect(result.gain.delta).toBe(2);
+  expect(result.gain.belialBonus.bonus).toBe(1);
+  expect(result.echoes).toBe(3);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

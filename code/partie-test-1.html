@@ -669,6 +669,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-status-counter[data-batch03-status-counter="devore-magie"],.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]{width:26px;height:20px;padding:0 5px;border-radius:11px;border:1.5px solid rgba(255,204,120,.94);box-sizing:border-box;color:#fff;text-shadow:0 1px 2px #120018,0 0 6px rgba(255,255,255,.5);font-size:12px;line-height:1;}
 .batch03-status-counter[data-batch03-status-counter="devore-magie"]::before{inset:0;background:linear-gradient(135deg,rgba(104,24,150,.97),rgba(186,82,255,.88));border-radius:11px;filter:drop-shadow(0 0 10px rgba(188,89,255,.88)) drop-shadow(0 0 16px rgba(116,36,180,.56));}
 .batch03-status-counter[data-batch03-status-counter="bouclier-glace"]::before{inset:0;background:linear-gradient(135deg,rgba(190,250,255,.96),rgba(58,190,236,.9));border-radius:11px;filter:drop-shadow(0 0 10px rgba(255,255,255,.96)) drop-shadow(0 0 16px rgba(126,225,255,.66));}
+.batch03-status-counter[data-batch03-status-counter="xyallah-marques"]{color:#f7e8c6;text-shadow:0 0 5px #130b04,0 1px 4px #000;}
+.batch03-status-counter[data-batch03-status-counter="xyallah-marques"]::before{background:radial-gradient(circle at 50% 45%,#f8e6a1 0 18%,#9a6a38 22% 44%,#3a2416 48% 63%,transparent 68%);border:1.5px solid rgba(255,223,148,.95);border-radius:50%;filter:drop-shadow(0 0 8px rgba(255,210,118,.86)) drop-shadow(0 0 14px rgba(122,75,30,.62));}
 .fc-batch09-ice-shield{box-shadow:0 0 18px rgba(126,225,255,.74), inset 0 0 20px rgba(160,240,255,.2);}
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
@@ -3455,24 +3457,25 @@ const COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2 = Object.freeze(['MV000001','MV0000
 const COLLECTION_BATCH_14E_HUMAN_DRAW = Object.freeze(['H000006','H000007','H000008','H000009']);
 const COLLECTION_BATCH_14E_UNDEAD_DRAW = Object.freeze(['MV000001','MV000002','MV000003','MV000004','MV000005','S000004','S000006']);
 const COLLECTION_BATCH_14E_RESOURCES = Object.freeze({classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:100});
-const COLLECTION_BATCH_14F1_NOR_COVERAGE_IDS = Object.freeze(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012','EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027','H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']);
-const COLLECTION_BATCH_14F1_NOR_GROUP_A = Object.freeze(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012']);
-const COLLECTION_BATCH_14F1_NOR_GROUP_B = Object.freeze(['EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027']);
-const COLLECTION_BATCH_14F1_NOR_GROUP_C = Object.freeze(['H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']);
+const COLLECTION_BATCH_14F2_NOR_COVERAGE_IDS = Object.freeze(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012','EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027','H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']);
+const COLLECTION_BATCH_14F2_NOR_GROUP_A = Object.freeze(['DIV000001','DIV000016','EDB000005','EDB000014','EDG000005','EDG000007','EDG000012']);
+const COLLECTION_BATCH_14F2_NOR_GROUP_B = Object.freeze(['EN000003','EN000004','EN000009','EN000010','GOB000001','GOB000007','H000020','H000027']);
+const COLLECTION_BATCH_14F2_NOR_GROUP_C = Object.freeze(['H000030','MV000029','N000014','ORC000004','ORC000007','ORC000017','TRL000007']);
 function collectionBatch14EPlayerSetup(extra={}) {
   return {allowOverflowServants:true, resources:COLLECTION_BATCH_14E_RESOURCES, avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:100, ...extra};
 }
-function collectionBatch14F1NorServants(ids) {
-  return ids.filter(id => id !== 'H000027').map((id, index) => ({
+function collectionBatch14F2NorServants(ids) {
+  return ids.filter(id => id !== 'H000027').slice(0, 3).map((id) => ({
     id,
     atk:id === 'GOB000001' || id === 'ORC000007' ? 4 : undefined,
     pdv:['EDB000005','EDB000014','EDG000007','GOB000007','TRL000007'].includes(id) ? 2 : 8,
     pdvMax:['EDB000005','EDB000014','EDG000007','GOB000007','TRL000007'].includes(id) ? 10 : 12,
     prepared:true,
-    batch14eXyallahMarks:id === 'DIV000016' ? 1 : undefined
+    batch14eXyallahMarks:id === 'DIV000016' ? 1 : undefined,
+    burning:id === 'DIV000016' ? 2 : undefined
   }));
 }
-function collectionBatch14F1NorScenario(label, ids) {
+function collectionBatch14F2NorScenario(label, ids) {
   const enemyServants = [
     {id:'H000001',atk:4,pdv:12,pdvMax:12,prepared:true},
     {id:'H000005',atk:5,pdv:12,pdvMax:12,prepared:true},
@@ -3487,7 +3490,7 @@ function collectionBatch14F1NorScenario(label, ids) {
     showTestResourcePanel:true,
     testCardId:'PRST000003',
     testSetup:{
-      player1:collectionBatch14EPlayerSetup({hand:['PRST000003', ...ids], drawPile:[...ids, 'PRST000003'], startingDeckCardIds:[...ids, 'PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:collectionBatch14F1NorServants(ids)}),
+      player1:collectionBatch14EPlayerSetup({hand:['PRST000003', ...ids], drawPile:[...ids, 'PRST000003'], startingDeckCardIds:[...ids, 'PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:collectionBatch14F2NorServants(ids)}),
       player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:enemyServants})
     }
   };
@@ -3495,13 +3498,13 @@ function collectionBatch14F1NorScenario(label, ids) {
 Object.assign(SCENARIOS['collection-batch-14b-prst000003-core-visual'], {
   label:'TEST - COLLECTION BATCH 14E Faveur de Nor cycle',
   testSetup:{
-    player1:collectionBatch14EPlayerSetup({hand:['PRST000003','H000020','GOB000001','GOB000007','EDB000005','H000027'], drawPile:['H000020','GOB000001','GOB000007','EDB000005','H000027','PRST000003'], startingDeckCardIds:['H000020','GOB000001','GOB000007','EDB000005','H000027','PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000020',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'GOB000001',atk:2,pdv:2,pdvMax:2,prepared:true},{id:'GOB000007',atk:1,pdv:1,pdvMax:3,prepared:true},{id:'EDB000005',atk:1,pdv:1,pdvMax:5,prepared:true}]}),
+    player1:collectionBatch14EPlayerSetup({hand:['PRST000003','H000020','GOB000001','GOB000007','EDB000005','H000027'], drawPile:['H000020','GOB000001','GOB000007','EDB000005','H000027','PRST000003'], startingDeckCardIds:['H000020','GOB000001','GOB000007','EDB000005','H000027','PRST000003'], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER1], servants:[{id:'H000020',atk:2,pdv:5,pdvMax:5,prepared:true},{id:'GOB000001',atk:2,pdv:2,pdvMax:2,prepared:true},{id:'GOB000007',atk:1,pdv:1,pdvMax:3,prepared:true}]}),
     player2:collectionBatch14EPlayerSetup({hand:['S000004','S000006'], drawPile:[...COLLECTION_BATCH_14E_UNDEAD_DRAW], graveyard:[...COLLECTION_BATCH_14E_GRAVEYARD_PLAYER2], servants:[{id:'MV000001',atk:2,pdv:4,pdvMax:4,prepared:true},{id:'MV000003',atk:6,pdv:8,pdvMax:8,prepared:true},{id:'MV000007',atk:1,pdv:4,pdvMax:4,prepared:true}]})
   }
 });
-SCENARIOS['collection-batch-14e-prst000003-nor-coverage-a'] = collectionBatch14F1NorScenario('TEST - COLLECTION BATCH 14F1 Faveur de Nor couverture A', COLLECTION_BATCH_14F1_NOR_GROUP_A);
-SCENARIOS['collection-batch-14e-prst000003-nor-coverage-b'] = collectionBatch14F1NorScenario('TEST - COLLECTION BATCH 14F1 Faveur de Nor couverture B', COLLECTION_BATCH_14F1_NOR_GROUP_B);
-SCENARIOS['collection-batch-14e-prst000003-nor-coverage-c'] = collectionBatch14F1NorScenario('TEST - COLLECTION BATCH 14F1 Faveur de Nor couverture C', COLLECTION_BATCH_14F1_NOR_GROUP_C);
+SCENARIOS['collection-batch-14e-prst000003-nor-coverage-a'] = collectionBatch14F2NorScenario('TEST - COLLECTION BATCH 14F2 Faveur de Nor couverture A', COLLECTION_BATCH_14F2_NOR_GROUP_A);
+SCENARIOS['collection-batch-14e-prst000003-nor-coverage-b'] = collectionBatch14F2NorScenario('TEST - COLLECTION BATCH 14F2 Faveur de Nor couverture B', COLLECTION_BATCH_14F2_NOR_GROUP_B);
+SCENARIOS['collection-batch-14e-prst000003-nor-coverage-c'] = collectionBatch14F2NorScenario('TEST - COLLECTION BATCH 14F2 Faveur de Nor couverture C', COLLECTION_BATCH_14F2_NOR_GROUP_C);
 Object.assign(SCENARIOS['collection-batch-14b-prst000010-core-visual'], {
   label:'TEST - COLLECTION BATCH 14E Faveur de Tiara choix',
   testSetup:{
@@ -12627,12 +12630,7 @@ async function resolveBatch14ENorSingleSource(player, source, activation=1) {
   await batch14ENorVisualStep(source, activation);
   if (id === 'DIV000001') entry.operations.push({type:'summon', result:await summonBatch03Servant(p, 'DIV000002', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
   else if (id === 'DIV000016') {
-    fc.dataset.batch14eXyallahMarks = String(Number(fc.dataset.batch14eXyallahMarks || 0) + 1);
-    const marks = Number(fc.dataset.batch14eXyallahMarks || 0);
-    if (marks >= 3) {
-      fc.dataset.batch14eXyallahMarks = '0';
-      entry.operations.push({type:'xyallah-summon', marks, result:await summonBatch03Servant(p, 'DIV000008', {sourceCardId:id, sourceInstanceId:fc?.dataset?.instance, triggerInitiativeEffect:false, ready:true})});
-    } else entry.operations.push({type:'xyallah-mark', marks});
+    entry.operations.push(await resolveBatch14EXyallahEndTurn(p, fc, {activation, nor:true, pulse:false}));
   }
   else if (id === 'EDB000005') {
     const lenya = getClassicalResourceByType(p, 'lenya') || 1;
@@ -13001,6 +12999,7 @@ function batch14FApplyBelialEchoBonus(player, amount, reason='gain', options={})
   if (!p || !Number.isInteger(base) || base <= 0) return {appliedAmount:base, bonus:0, skipped:true, reason:'not-positive-gain'};
   if (options?.skipBatch14fBelialBonus) return {appliedAmount:base, bonus:0, skipped:true, reason:'explicit-skip'};
   if (reason === 'payment-rollback') return {appliedAmount:base, bonus:0, skipped:true, reason:'rollback'};
+  if (/transfer|transfert|steal|vol[-_ ]?echo|déplacement/i.test(String(reason || ''))) return {appliedAmount:base, bonus:0, skipped:true, reason:'transfer'};
   if (!hasActivePrstFavor(p, 'PRST000014')) return {appliedAmount:base, bonus:0, skipped:true, reason:'belial-inactive'};
   const appliedAmount = base + 1;
   const result = {appliedAmount, bonus:1, skipped:false, reason, playerId:p.key, requestedAmount:base};
@@ -23678,7 +23677,7 @@ Object.assign(CARDS_DATA, {
   "MV000028":{name:"Âme explosive",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:2,res_ico:"IC00000ARI",res_val:"2",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Vengeance","Écho","Approvisionnement"],cap:"Au début de chacun de vos tours, perd *1* point de vie. [Vengeance] Inflige *6* points de dégâts, répartis entre tous les serviteurs adverses. Génère *1 à 3* Échos par serviteur détruit via cet effet.",badge:"",lore:"",assetFolder:"morts-vivants",max:3,detail:"Au début de chacun de vos tours, perd *1* point de vie. [Vengeance] Inflige *6* points de dégâts, répartis entre tous les serviteurs adverses. Génère *1 à 3* Échos par serviteur détruit via cet effet. Ajoute alors la ou les victimes sous votre pile d'approvisionnement."},
   "MV000029":{name:"Gardien du reliquaire",type:"Serviteur",fac:"mvs",atk:1,pdv:6,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Initiative","Écho","Approvisionnement"],cap:"[Initiative] Ajoute *3* Échos à vos réserves. À chacune de vos fins de tour, si vous n'avez dépensé aucun Écho pendant ce tour, fournit *1* Écho supplémentaire.",badge:"",lore:"",assetFolder:"morts-vivants",max:3},
   "MV000030":{name:"Mur non-mort",type:"Serviteur",fac:"mvs",atk:0,pdv:30,cost:8,res_ico:"IC00000ARI",res_val:"8",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Rempart","Vengeance","Écho","Approvisionnement"],cap:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute *1 à 3* Échos à vos réserves, fonction des dégâts reçus en une fois. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute *1* Commandant squelette et *2* Guerriers cendreux à votre main.",badge:"",lore:"",assetFolder:"morts-vivants",max:1,detail:"[Insensible] [Rempart] Ne peut ni attaquer ni riposter. Chaque fois que ce serviteur subit des dégâts, ajoute *1 à 3* Échos à vos réserves, fonction des dégâts reçus en une fois : de *0 à 4* dommages, génère *1* Écho ; de *5 à 8* dommages, *2* Échos ; au-delà de *8* points de dégâts, *3* Échos. Cet effet peut se produire plusieurs fois par tour. [Vengeance] Ajoute *1* Commandant squelette et *2* Guerriers cendreux à votre main.",related:["MV000022","MV000001"]},
-  "PRST000014":{name:"Faveur de Bélial",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Écho"],cap:"Jusqu'à la fin de la partie, vous gagnez 1 écho supplémentaire de toutes les sources. Chaque fois que les points de vie de votre avatar passent sous la barre des 25, vous pouvez sacrifier jusqu'à 5 échos lors de votre prochain tour pour le régénérer (chaque écho sacrifié rend 5 points de vie).",badge:"Sort",lore:"",assetFolder:"sorts/presents",max:1,cond:"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ."},
+  "PRST000014":{name:"Faveur de Bélial",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Écho"],cap:"Jusqu'à la fin de la partie, vous gagnez 1 Écho supplémentaire de toutes les sources. Chaque fois que les points de vie de votre avatar passent sous la barre des 25, vous pouvez sacrifier jusqu'à 5 Échos lors de votre prochain tour pour le régénérer (chaque Écho sacrifié rend 5 PDV).",badge:"Sort",lore:"",assetFolder:"sorts/presents",max:1,cond:"Carte jouée dès qu'elle est piochée. Ne peut figurer dans la main de départ."},
   "R000027":{name:"Nécropole",type:"Approvisionnement",fac:"appro",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:null,kws:["Approvisionnement","Écho"],cap:"Au début de chacun de vos tours, ajoutez *2* Échos à vos réserves + *1* Écho supplémentaire pour chaque serviteur mort-vivant allié détruit depuis le début de votre tour précédent, jusqu'à un maximum de *3* Échos supplémentaires. Si votre cimetière contient au moins *3* serviteurs appartenant initialement à votre adversaire, ajoutez encore *1* Écho. Réinitialisez ensuite son compteur de destructions. La Nécropole occupe *2* emplacements de votre section d'approvisionnement. Si la Nécropole est retirée de votre terrain, par quelque biais que ce soit, elle remplit votre terrain d'Esprits dérangés.",badge:"Approvisionnement",lore:"Ce lieu, jadis magnifique et paisible, a été désacralisé par les nécromants et autres mages noirs qui s'y sont installés au fil des ans.",assetFolder:"approvisionnement",max:1,cond:"Votre deck de départ doit contenir au moins 15 serviteurs de la faction des « Morts-vivants ».",related:["MV000025"],production:{soul:2}},
   "S000041":{name:"Puissance du sacrifice",type:"Sort",fac:"sort",atk:null,pdv:null,cost:0,res_ico:"IC00000RDM",res_val:"0",resType:"any",fico:"FCT00000MVS.png",kws:["Insensible","Écho","Approvisionnement"],cap:"Pour chaque serviteur actuellement dans votre cimetière, inflige *1* point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si Puissance du sacrifice détruit *1* ou plusieurs serviteurs, génère *1 à 3* Échos par victime.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Pour chaque serviteur actuellement dans votre cimetière, inflige *1* point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si Puissance du sacrifice détruit *1* ou plusieurs serviteurs, génère *1 à 3* Échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement.",cond:"Nécessite au moins 1 serviteur dans votre cimetière."},
   "S000042":{name:"Éclipse solaire",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000AME",res_val:"5",resType:"Écho|Aria",fico:"FCT00000MVS.png",kws:["Écho","Aria"],cap:"Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de 3 ; accroît l'attaque de tous les serviteurs elfes noirs de 2. Toujours jusqu'à la fin de ce tour, réduit de 3 l'attaque des serviteurs humains ; diminue de 2 l'attaque des serviteurs nains.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
@@ -26757,6 +26756,47 @@ function syncBatch03DivineWrathCounter(target) {
   return createBatch03StatusCounter(target, 'divine-wrath', Number(target?.dataset?.batch03DivineWrathTurns || 0), 'Colère divine');
 }
 
+function setBatch14EXyallahMarks(fc, marks) {
+  if (!fc) return 0;
+  const value = Math.max(0, Math.min(2, Number(marks) || 0));
+  if (value > 0) {
+    fc.dataset.batch14eXyallahMarks = String(value);
+    const counter = createBatch03StatusCounter(fc, 'xyallah-marques', value, 'Marques de Xyallah');
+    if (counter) counter.title = `Marques de Xyallah : ${value}/3.`;
+  } else {
+    delete fc.dataset.batch14eXyallahMarks;
+    fc.querySelectorAll('[data-batch03-status-counter="xyallah-marques"]').forEach(node => node.remove());
+    layoutStatusCountersForCard(fc);
+  }
+  return value;
+}
+
+function syncBatch14EXyallahMarksCounter(fc) {
+  return setBatch14EXyallahMarks(fc, Number(fc?.dataset?.batch14eXyallahMarks || 0));
+}
+
+async function resolveBatch14EXyallahEndTurn(player, fc, {activation=1, nor=false, pulse=true}={}) {
+  const p = playerState(player);
+  if (!p || !fc || fc.dataset.id !== 'DIV000016' || fc.dataset.dead) return {type:'xyallah', success:false, reason:'missing-xyallah'};
+  if (pulse) {
+    pulseBatch03Ability(fc, nor ? 'batch14e-nor-end-turn' : 'end-turn', {move:true});
+    await batch05VisualDelay(batch14EAutomationEnabled() ? 30 : 420);
+  }
+  const before = Number(fc.dataset.batch14eXyallahMarks || 0);
+  const next = before + 1;
+  if (next >= 3) {
+    setBatch14EXyallahMarks(fc, 0);
+    const summon = await summonBatch03Servant(p, 'DIV000008', {sourceCardId:'DIV000016', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true});
+    const result = {type:'xyallah-summon', success:!!summon?.success, before, marks:3, after:0, reset:true, activation, nor, result:summon};
+    recordCollectionBatch14EEvent('xyallah-end-turn-resolved', {playerId:p.key, source:targetSummary(fc), ...result});
+    return result;
+  }
+  const after = setBatch14EXyallahMarks(fc, next);
+  const result = {type:'xyallah-mark', success:true, before, marks:after, after, reset:false, activation, nor};
+  recordCollectionBatch14EEvent('xyallah-end-turn-resolved', {playerId:p.key, source:targetSummary(fc), ...result});
+  return result;
+}
+
 function clearBatch03DivineWrathCounter(target) {
   target?.querySelectorAll?.('[data-batch03-status-counter="divine-wrath"]').forEach(node => node.remove());
 }
@@ -27502,7 +27542,7 @@ async function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) 
 
 async function applyBatch03EndTurnAbilities(player) {
   const p = playerState(player);
-  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[], necraneSummons:[], mageobelinThrows:[], gueribelinHeals:[]};
+  const result = {wolfSummons:[], arcanistBuffs:[], demonDoorSummons:[], xyallahMarks:[], necraneSummons:[], mageobelinThrows:[], gueribelinHeals:[]};
   if (!p) return result;
   for (const wolf of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'H000020' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     pulseBatch03Ability(wolf, 'end-turn');
@@ -27511,6 +27551,9 @@ async function applyBatch03EndTurnAbilities(player) {
   for (const door of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'DIV000001' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
     pulseBatch03Ability(door, 'end-turn');
     result.demonDoorSummons.push(await summonBatch03Servant(p, 'DIV000002', {sourceCardId:'DIV000001', sourceInstanceId:door.dataset.instance, triggerInitiativeEffect:false, ready:true}));
+  }
+  for (const xyallah of livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'DIV000016' && canResolveServantAbility(fc, {triggerType:'end-turn'}))) {
+    result.xyallahMarks.push(await resolveBatch14EXyallahEndTurn(p, xyallah, {activation:1, nor:false, pulse:true}));
   }
   if (playerHand(p).includes('H000027')) {
     p.batch03HandBuffs ||= {};
@@ -27557,7 +27600,7 @@ async function applyBatch03EndTurnAbilities(player) {
     result.gueribelinHeals.push({source:targetSummary(source), lenya, maxTargets, heals});
   }
   await resolveBatch03NecraneEndTurn(p, result);
-  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length || result.necraneSummons.length || result.mageobelinThrows.length || result.gueribelinHeals.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
+  if (result.wolfSummons.length || result.arcanistBuffs.length || result.demonDoorSummons.length || result.xyallahMarks.length || result.necraneSummons.length || result.mageobelinThrows.length || result.gueribelinHeals.length) recordCollectionBatch03Event('end-turn', {playerId:p.key, result});
   return result;
 }
 
@@ -27842,6 +27885,10 @@ function applyScenarioServantState(fc, entry={}) {
   if (Number.isFinite(cdg) && cdg > 0) applyGel(fc, cdg, 'cdg');
   const hypnose = Number(entry.hypnose || entry.hypnosis || 0);
   if (Number.isFinite(hypnose) && hypnose > 0) applyBatch04Hypnosis(fc, {turns:hypnose, sourceCardId:'SCENARIO_TEST'});
+  const xyallahMarks = Number(entry.batch14eXyallahMarks ?? entry.xyallahMarks ?? 0);
+  if (Number.isFinite(xyallahMarks) && xyallahMarks > 0) setBatch14EXyallahMarks(fc, xyallahMarks);
+  else if (fc.dataset.id === 'DIV000016') syncBatch14EXyallahMarksCounter(fc);
+  layoutStatusCountersForCard(fc);
   updateRageState(fc);
 }
 
