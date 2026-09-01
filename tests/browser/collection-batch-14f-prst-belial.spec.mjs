@@ -14,6 +14,14 @@ async function open14FScenario(page, mode="auto") {
   await page.waitForTimeout(150);
 }
 
+async function belialManualSnapshot(page) {
+  return page.evaluate(() => collectionBatch14FBelialManualSnapshot());
+}
+
+async function clickBelialControl(page, testId) {
+  await page.getByTestId(testId).click();
+}
+
 test("Batch 14F2 PRST000014 Collection uses Echo wording and V12 highlights", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openCollection(page);
@@ -240,6 +248,88 @@ test("Batch 14F3 PRST000014 threshold rearms only after recovering to 25 and cla
   expect(result.belowAfterClamp.batch14fBelial.armed).toBe(false);
   expect(result.rearm.batch14fBelial.armed).toBe(true);
   expect(result.events.some(event => event.type === "belial-regen-consumed-echoes" && event.amount === 3 && event.heal === 15)).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+
+test("Batch 14F4 PRST000014 visual panel drives the V15 Belial rebuild flow", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await open14FScenario(page, "manual");
+  await expect(page.getByTestId("batch14f-belial-test-controls")).toBeVisible();
+  await expect(page.getByTestId("batch14f-belial-panel-summary")).toContainText("Faveur: inactive");
+
+  await clickBelialControl(page, "batch14f-belial-control-activate");
+  await expect.poll(() => belialManualSnapshot(page)).toMatchObject({favorActive:true});
+  const activated = await belialManualSnapshot(page);
+  expect(activated.removed).toContain("PRST000014");
+  expect(activated.hand).not.toContain("PRST000014");
+
+  const beforeGain = activated.echoes;
+  await clickBelialControl(page, "batch14f-belial-control-gain");
+  await expect.poll(() => belialManualSnapshot(page)).toMatchObject({echoes:beforeGain + 3});
+  const gainSnapshot = await belialManualSnapshot(page);
+  expect(gainSnapshot.lastManualAction.result.gain.requestedDelta).toBe(2);
+  expect(gainSnapshot.lastManualAction.result.gain.delta).toBe(3);
+  expect(gainSnapshot.lastManualAction.result.gain.belialBonus.bonus).toBe(1);
+
+  await clickBelialControl(page, "batch14f-belial-control-echoes-5");
+  await clickBelialControl(page, "batch14f-belial-control-hp-30");
+  await clickBelialControl(page, "batch14f-belial-control-damage-6");
+  const armed = await belialManualSnapshot(page);
+  expect(armed.hp).toBe(24);
+  expect(armed.regenPending).toBe(true);
+  expect(armed.modalOpen).toBe(false);
+  await expect(page.locator('[data-decision-id="batch14f-belial-regen"]')).toHaveCount(0);
+
+  await clickBelialControl(page, "batch14f-belial-control-next-turn");
+  const modal = page.locator('[data-decision-id="batch14f-belial-regen"]');
+  await expect(modal).toBeVisible();
+  await expect(modal.locator(".decision-modal-topline")).toBeVisible();
+  await expect(modal.locator(".decision-modal-title")).toHaveText("FAVEUR DE BÉLIAL");
+  await expect(modal.getByTestId("batch14f-belial-subtitle")).toHaveText("Votre avatar s'épuise... Voulez-vous consommer des Échos pour le régénérer ?");
+  await expect(modal.getByTestId("batch14f-belial-reserve")).toContainText("Réserve : 5 Échos");
+  await expect(modal.getByTestId("batch14f-belial-slider")).toHaveAttribute("min", "0");
+  await expect(modal.getByTestId("batch14f-belial-slider")).toHaveAttribute("max", "5");
+  await expect(modal.getByTestId("batch14f-belial-slider")).toHaveAttribute("data-effective-max", "5");
+  await modal.getByTestId("batch14f-belial-keep").click();
+  await expect.poll(() => belialManualSnapshot(page)).toMatchObject({echoes:5, hp:24, regenPending:false, modalOpen:false});
+
+  await clickBelialControl(page, "batch14f-belial-control-hp-30");
+  await clickBelialControl(page, "batch14f-belial-control-damage-6");
+  await clickBelialControl(page, "batch14f-belial-control-next-turn");
+  const consumeModal = page.locator('[data-decision-id="batch14f-belial-regen"]');
+  await expect(consumeModal).toBeVisible();
+  await consumeModal.getByTestId("batch14f-belial-slider").fill("5");
+  await expect(consumeModal.getByTestId("batch14f-belial-heal")).toHaveText("25 PDV");
+  await consumeModal.getByTestId("batch14f-belial-consume").click();
+  await expect.poll(() => belialManualSnapshot(page)).toMatchObject({echoes:0, hp:49, regenPending:false, modalOpen:false});
+
+  await clickBelialControl(page, "batch14f-belial-control-echoes-3");
+  await clickBelialControl(page, "batch14f-belial-control-hp-30");
+  await clickBelialControl(page, "batch14f-belial-control-damage-6");
+  await clickBelialControl(page, "batch14f-belial-control-next-turn");
+  const clampedModal = page.locator('[data-decision-id="batch14f-belial-regen"]');
+  await expect(clampedModal).toBeVisible();
+  const clampedSlider = clampedModal.getByTestId("batch14f-belial-slider");
+  await expect(clampedSlider).toHaveAttribute("data-available-echoes", "3");
+  await expect(clampedSlider).toHaveAttribute("data-effective-max", "3");
+  await clampedSlider.evaluate(slider => { slider.value = "5"; slider.dispatchEvent(new Event("input", {bubbles:true})); });
+  await expect(clampedSlider).toHaveValue("3");
+  await expect(clampedModal.getByTestId("batch14f-belial-heal")).toHaveText("15 PDV");
+  await clampedModal.getByTestId("batch14f-belial-keep").click();
+  await expect.poll(() => belialManualSnapshot(page)).toMatchObject({echoes:3, hp:24, regenPending:false, modalOpen:false});
+
+  await clickBelialControl(page, "batch14f-belial-control-echoes-0");
+  await clickBelialControl(page, "batch14f-belial-control-hp-30");
+  await clickBelialControl(page, "batch14f-belial-control-damage-6");
+  await clickBelialControl(page, "batch14f-belial-control-next-turn");
+  await expect(page.locator('[data-decision-id="batch14f-belial-regen"]')).toHaveCount(0);
+  const noEcho = await belialManualSnapshot(page);
+  expect(noEcho).toMatchObject({echoes:0, hp:24, regenPending:false, modalOpen:false});
+  expect(noEcho.recentEvents.some(event => event.type === "belial-regen-missed-no-echoes")).toBe(true);
+
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

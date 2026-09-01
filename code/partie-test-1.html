@@ -1912,6 +1912,15 @@ body.dragging-card .hc.dragging {
 .batch14f-belial-action{font-family:'Cinzel',serif;font-size:11px;font-weight:900;letter-spacing:.08em;color:#1a0e05;background:linear-gradient(180deg,#ffe4a3,#c99c3e);border:1px solid rgba(255,231,159,.9);border-radius:12px;box-shadow:0 7px 18px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.32);padding:11px 18px;min-width:170px;text-align:center;cursor:pointer;text-shadow:0 1px 0 rgba(255,255,255,.32)}
 .batch14f-belial-action:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .batch14f-belial-avatar-pulse .av-portrait{animation:batch14fBelialPurplePulse 1.05s ease-in-out 1}
+.batch14f-belial-reserve{font-family:'Crimson Pro',serif;font-size:13px;color:#cdb7dc;text-align:center;margin:-2px 0 0}
+.batch14f-belial-test-controls{margin-top:10px;border-top:1px solid rgba(200,168,75,.38);padding-top:9px}
+.batch14f-belial-test-controls h3{margin:0 0 7px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;color:#d7b4ff}
+.batch14f-belial-test-controls p{margin:5px 0;color:#dec991;font-size:12px}
+.batch14f-belial-test-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.batch14f-belial-test-action{font-family:'Cinzel',serif;font-size:9px;font-weight:900;letter-spacing:.06em;color:#1a0e05;background:linear-gradient(180deg,#f1d681,#a876d7);border:1px solid rgba(232,211,255,.82);border-radius:9px;box-shadow:0 4px 10px rgba(0,0,0,.42);padding:7px 8px;cursor:pointer;text-transform:uppercase}
+.batch14f-belial-test-action:hover{filter:brightness(1.08)}
+.batch14f-belial-test-action:disabled{opacity:.55;cursor:wait}
+.batch14f-belial-test-snapshot{max-height:120px;overflow:auto}
 
 </style>
 </head>
@@ -3540,6 +3549,7 @@ SCENARIOS['collection-batch-14b-prst000014-core-visual'] = {
   fixedFirstParticipant:0,
   hidden:true,
   showTestResourcePanel:true,
+  showCollectionBatch14FPanel:true,
   testCardId:'PRST000014',
   testSetup:{
     player1:{allowOverflowServants:true, resources:{classical:{aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100},souls:5}, hand:["PRST000014","MV000001","MV000002","MV000003","S000041","S000052"], drawPile:["MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010","MV000011","MV000012","MV000014","MV000015","MV000017","MV000018","MV000019","R000027","PRST000014"], graveyard:["MV000001","MV000002","MV000003","MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010"], servants:[{"id":"MV000009","atk":4,"pdv":4,"pdvMax":4,"prepared":true},{"id":"MV000011","atk":8,"pdv":6,"pdvMax":6,"prepared":true},{"id":"MV000024","atk":10,"pdv":8,"pdvMax":8,"prepared":true}], avatarHp:30, initialSupplyCardId:'R000020', initialSupplyMultiplier:5, startingDeckCardIds:["MV000001","MV000002","MV000003","MV000004","MV000005","MV000006","MV000007","MV000008","MV000009","MV000010","MV000011","MV000012","MV000014","MV000015","MV000017","MV000018","MV000019","R000027","PRST000014"]},
@@ -11013,7 +11023,40 @@ function recordZoneEffectDiagnostic(cardId, diagnostic) {
   updateTestResourcePanel();
   return lastZoneEffectDiagnostic;
 }
-function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastZoneEffectDiagnostic?.cardId || lastCombatEffectDiagnostic?.cardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic), combat: clonePlayDiagnostic(lastCombatEffectDiagnostic), zone: clonePlayDiagnostic(lastZoneEffectDiagnostic)}; }
+function getHuvuTestResourcePanelSnapshot() { const scenarioCardId = activeScenario?.testCardId || lastZoneEffectDiagnostic?.cardId || lastCombatEffectDiagnostic?.cardId || lastCostDiagnostic?.cardId || lastPlayLegalityDiagnostic?.cardId || playerState(currentPlayer)?.hand?.[0] || null; const liveResult = scenarioCardId ? getCardAffordabilityResult(scenarioCardId, playerState(currentPlayer)) : null; const belial = typeof collectionBatch14FBelialManualSnapshot === 'function' ? collectionBatch14FBelialManualSnapshot() : null; return {visible: !!activeScenario?.showTestResourcePanel, scenarioId: selectedScenarioId(), testCardId: scenarioCardId, resources: currentResourceSnapshot(), live: scenarioCardId ? buildCostDiagnosticRecord(scenarioCardId, liveResult, liveResult?.playable ? 'live-affordable' : 'live-blocked') : null, last: cloneCostDiagnostic(lastCostDiagnostic), play: clonePlayDiagnostic(lastPlayLegalityDiagnostic), combat: clonePlayDiagnostic(lastCombatEffectDiagnostic), zone: clonePlayDiagnostic(lastZoneEffectDiagnostic), belial}; }
+
+function renderBatch14FBelialTestControls(panel, snapshot) {
+  if (!activeScenario?.showCollectionBatch14FPanel || !panel) return;
+  const belial = snapshot?.belial || {};
+  const last = belial.lastManualAction || {};
+  const control = document.createElement('section');
+  control.className = 'batch14f-belial-test-controls';
+  control.dataset.testid = 'batch14f-belial-test-controls';
+  control.innerHTML = `<h3>Parcours Bélial V15</h3>
+    <p data-testid="batch14f-belial-panel-summary">Faveur: ${belial.favorActive ? 'active' : 'inactive'} · PV: ${belial.hp ?? '?'} · Échos: ${belial.echoes ?? '?'} · Opportunité: ${belial.regenPending ? 'armée' : 'non'} · Fenêtre: ${belial.modalOpen ? 'ouverte' : 'fermée'}</p>
+    <div class="batch14f-belial-test-actions">
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-activate" data-batch14f-belial-action="activate">Lancer faveur</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-gain" data-batch14f-belial-action="gain-echoes">Gain +2 Échos</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-echoes-5" data-batch14f-belial-action="echoes-5">Fixer 5 Échos</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-echoes-3" data-batch14f-belial-action="echoes-3">Fixer 3 Échos</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-echoes-0" data-batch14f-belial-action="echoes-0">Fixer 0 Écho</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-hp-30" data-batch14f-belial-action="hp-30">Avatar 30 PV</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-damage-6" data-batch14f-belial-action="damage-6">Dégâts 6</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-next-turn" data-batch14f-belial-action="next-turn">Pioche + fenêtre</button>
+      <button type="button" class="batch14f-belial-test-action" data-testid="batch14f-belial-control-rearm" data-batch14f-belial-action="rearm-25">Réarmer 25→24</button>
+    </div>
+    <p>Mode d’emploi : lancer la faveur, tester le gain, mettre l’avatar à 30 PV, infliger 6 dégâts — aucune fenêtre ne doit s’ouvrir — puis cliquer « Pioche + fenêtre ».</p>
+    <pre class="batch14f-belial-test-snapshot" data-testid="batch14f-belial-manual-diagnostic">${escapeHtml(JSON.stringify(last, null, 2))}</pre>`;
+  panel.appendChild(control);
+  control.querySelectorAll('[data-batch14f-belial-action]').forEach(button => {
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      try { await runCollectionBatch14FBelialManualAction(button.dataset.batch14fBelialAction); }
+      finally { button.disabled = false; }
+    });
+  });
+}
+
 function updateTestResourcePanel() {
   const existing = document.querySelector('[data-testid="test-resource-panel"]');
   const restoreButton = document.querySelector('[data-testid="test-resource-panel-restore"]');
@@ -11040,6 +11083,7 @@ function updateTestResourcePanel() {
   const resources = snapshot.resources; const card = CARDS_DATA[snapshot.testCardId] || {}; const diagnostic = snapshot.last || snapshot.live || {};
   const classicalRows = RESOURCE_KEYS.filter(resource => Number(resources.classical[resource] || 0) > 0 || ['aria','lenya','selene'].includes(resource)).map(resource => `<dt>${escapeHtml(RESOURCE_LABELS[resource] || resource)}</dt><dd data-testid="test-resource-${resource}" data-value="${Number(resources.classical[resource] || 0)}">${Number(resources.classical[resource] || 0)}</dd>`).join('');
   const title = [
+    ['showCollectionBatch14FPanel', 'MODE TEST — COLLECTION BATCH 14F BÉLIAL'],
     ['showCollectionBatch12aPanel', 'MODE TEST — COLLECTION BATCH 12A'],
     ['showCollectionBatch11nPanel', 'MODE TEST — COLLECTION BATCH 11N'],
     ['showCollectionBatch11mPanel', 'MODE TEST — COLLECTION BATCH 11M'],
@@ -11059,6 +11103,7 @@ function updateTestResourcePanel() {
     ['showHuvuImpl1Panel', 'MODE TEST — HUVU IMPL 1']
   ].find(([flag]) => activeScenario?.[flag])?.[1] || 'MODE TEST — RESSOURCES';
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
+  renderBatch14FBelialTestControls(panel, snapshot);
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
     testResourcePanelCollapsed = true;
@@ -12989,7 +13034,7 @@ const COLLECTION_BATCH_14F_BELIAL_MODAL_TITLE = 'FAVEUR DE BÉLIAL';
 const COLLECTION_BATCH_14F_BELIAL_MODAL_SUBTITLE = "Votre avatar s'épuise... Voulez-vous consommer des Échos pour le régénérer ?";
 function collectionBatch14FState() {
   if (typeof window === 'undefined') return {events:[]};
-  window.__collectionBatch14F ||= {events:[], forcedBelialChoice:null};
+  window.__collectionBatch14F ||= {events:[], forcedBelialChoice:null, lastManualAction:null};
   window.__collectionBatch14F.events ||= [];
   return window.__collectionBatch14F;
 }
@@ -13054,7 +13099,8 @@ function batch14FBelialForcedChoice(player) {
   if (!forced) return null;
   state.forcedBelialChoice = null;
   const p = playerState(player);
-  const maxEcho = Math.min(5, Number(p?.resourceState?.souls || 0));
+  const availableEchoes = Math.max(0, Number(p?.resourceState?.souls || 0));
+  const maxEcho = Math.min(5, availableEchoes);
   const choice = forced.choice === 'consume' ? 'consume' : 'keep';
   const amount = choice === 'consume' ? Math.max(0, Math.min(maxEcho, Number(forced.amount || 0))) : 0;
   return {choice, amount};
@@ -13063,7 +13109,8 @@ async function chooseBatch14FBelialRegen(player) {
   const p = playerState(player);
   const forced = batch14FBelialForcedChoice(p);
   if (forced) return forced;
-  const maxEcho = Math.min(5, Number(p?.resourceState?.souls || 0));
+  const availableEchoes = Math.max(0, Number(p?.resourceState?.souls || 0));
+  const maxEcho = Math.min(5, availableEchoes);
   const currentHp = avatarHitPoints(p);
   const portraitHtml = qs(playerZoneSelector(p, 'avatar'))?.querySelector('.av-portrait')?.innerHTML || '';
   return await new Promise(resolve => {
@@ -13072,9 +13119,10 @@ async function chooseBatch14FBelialRegen(player) {
       <div class="batch14f-belial-avatar" data-testid="batch14f-belial-avatar"><div class="av-portrait">${portraitHtml}</div><div class="batch14f-belial-avatar-hp" data-testid="batch14f-belial-avatar-hp">${currentHp} PDV</div></div>
       <div class="batch14f-belial-controls">
         <label for="batch14f-belial-slider">Échos à sacrifier</label>
+        <p class="batch14f-belial-reserve" data-testid="batch14f-belial-reserve">Réserve : ${availableEchoes} Écho${availableEchoes > 1 ? 's' : ''} · maximum consommable : ${maxEcho}</p>
         <div class="batch14f-belial-meter">
-          <input id="batch14f-belial-slider" class="batch14f-belial-slider" data-testid="batch14f-belial-slider" data-available-echoes="${maxEcho}" type="range" min="0" max="5" step="1" value="${Math.min(1, maxEcho)}">
-          <div class="batch14f-belial-heal" data-testid="batch14f-belial-heal">${Math.min(1, maxEcho) * 5} PDV</div>
+          <input id="batch14f-belial-slider" class="batch14f-belial-slider" data-testid="batch14f-belial-slider" data-available-echoes="${availableEchoes}" data-effective-max="${maxEcho}" type="range" min="0" max="5" step="1" value="${maxEcho > 0 ? Math.min(1, maxEcho) : 0}">
+          <div class="batch14f-belial-heal" data-testid="batch14f-belial-heal">${(maxEcho > 0 ? Math.min(1, maxEcho) : 0) * 5} PDV</div>
         </div>
         <div class="batch14f-belial-actions">
           <button type="button" class="batch14f-belial-action" data-testid="batch14f-belial-keep">GARDER L'ÉCHO</button>
@@ -13086,10 +13134,10 @@ async function chooseBatch14FBelialRegen(player) {
     modal.onRender = () => {
       const slider = modal.overlay?.querySelector('[data-testid="batch14f-belial-slider"]');
       const heal = modal.overlay?.querySelector('[data-testid="batch14f-belial-heal"]');
-      const update = () => { if (heal && slider) heal.textContent = `${Math.min(maxEcho, Number(slider.value || 0)) * 5} PDV`; };
+      const update = () => { if (!heal || !slider) return; const requested = Math.max(0, Math.min(5, Number(slider.value || 0))); const clamped = Math.min(maxEcho, requested); if (requested !== clamped) slider.value = String(clamped); heal.textContent = `${clamped * 5} PDV`; };
       slider?.addEventListener('input', update);
       modal.overlay?.querySelector('[data-testid="batch14f-belial-keep"]')?.addEventListener('click', () => { modal.close({choice:'keep', amount:0}); resolve({choice:'keep', amount:0}); });
-      modal.overlay?.querySelector('[data-testid="batch14f-belial-consume"]')?.addEventListener('click', () => { const amount = Math.max(0, Math.min(maxEcho, Number(slider?.value || 0))); modal.close({choice:'consume', amount}); resolve({choice:'consume', amount}); });
+      modal.overlay?.querySelector('[data-testid="batch14f-belial-consume"]')?.addEventListener('click', () => { const amount = Math.max(0, Math.min(maxEcho, 5, Number(slider?.value || 0))); modal.close({choice:'consume', amount}); resolve({choice:'consume', amount}); });
       update();
     };
     modal.onRender();
@@ -13122,8 +13170,95 @@ async function resolveBatch14FBelialStartTurnDecision(player) {
   recordCollectionBatch14FEvent('belial-regen-consumed-echoes', result);
   return result;
 }
+
+function isCollectionBatch14FBelialScenario() {
+  return selectedScenarioId() === 'collection-batch-14b-prst000014-core-visual';
+}
+function collectionBatch14FBelialManualSnapshot() {
+  if (!isCollectionBatch14FBelialScenario()) return null;
+  const p = playerState(player1);
+  const state = collectionBatch14FState();
+  return {
+    scenarioId:selectedScenarioId(),
+    playerId:p?.key || '',
+    favorActive:!!(p && hasActivePrstFavor(p, 'PRST000014')),
+    hp:p ? avatarHitPoints(p) : null,
+    echoes:Number(p?.resourceState?.souls || 0),
+    regenPending:!!p?.batch14fBelialRegenPending,
+    modalOpen:!!(pendingDecisionModal && pendingDecisionModal.decisionId === 'batch14f-belial-regen'),
+    hand:[...(p?.hand || [])],
+    deckTop:getRuntimeCardId(playerDrawPile(p).at(-1)) || null,
+    removed:[...(p?.removedFromGame || [])],
+    lastManualAction:state.lastManualAction || null,
+    recentEvents:[...(state.events || [])].slice(-8)
+  };
+}
+function recordBatch14FBelialManualAction(action, result={}) {
+  const state = collectionBatch14FState();
+  const snapshot = collectionBatch14FBelialManualSnapshot();
+  const detail = {action, result, snapshot, at:Math.round(performance.now())};
+  state.lastManualAction = detail;
+  recordCollectionBatch14FEvent('belial-manual-control', {action, result});
+  return detail;
+}
+function ensureBatch14FBelialManualDrawCard(player) {
+  const p = playerState(player);
+  if (!p) return null;
+  if (!Array.isArray(p.drawPile)) p.drawPile = [];
+  if (!p.drawPile.length || getRuntimeCardId(p.drawPile.at(-1)) === 'PRST000014') p.drawPile.push('MV000001');
+  updateDeckCount(p);
+  return getRuntimeCardId(p.drawPile.at(-1));
+}
+async function runCollectionBatch14FBelialManualAction(action) {
+  if (!isCollectionBatch14FBelialScenario()) return {success:false, reason:'not-belial-scenario', action};
+  const p = playerState(player1);
+  if (!p) return {success:false, reason:'missing-player', action};
+  currentPlayer = p.key;
+  activePlayer = p;
+  let result = null;
+  if (action === 'activate') {
+    if (hasActivePrstFavor(p, 'PRST000014')) result = {success:true, skipped:true, reason:'already-active'};
+    else {
+      if (!p.hand.includes('PRST000014')) p.hand.unshift('PRST000014');
+      renderAllHands();
+      result = await playCard('PRST000014', null, {returnValidation:true});
+    }
+  } else if (action === 'gain-echoes') {
+    const before = Number(p.resourceState?.souls || 0);
+    const gain = addSoulToAppro(p, 2, 'batch14f-manual-gain');
+    result = {success:gain?.success !== false, before, gain, after:Number(p.resourceState?.souls || 0)};
+  } else if (action === 'echoes-5' || action === 'echoes-3' || action === 'echoes-0') {
+    const value = action === 'echoes-5' ? 5 : (action === 'echoes-3' ? 3 : 0);
+    p.resourceState.souls = value;
+    p.resourceState.revision += 1;
+    projectSoulState(p);
+    result = {success:true, echoes:value};
+  } else if (action === 'hp-30') {
+    setAvatarHitPoints(p, 30);
+    result = {success:true, hp:avatarHitPoints(p)};
+  } else if (action === 'damage-6') {
+    result = applyAvatarEffectDamage(p, 6, {sourceCardId:'batch14f-manual-threshold'});
+  } else if (action === 'next-turn') {
+    const topDeck = ensureBatch14FBelialManualDrawCard(p);
+    p.firstTurnStarted = true;
+    turnSequence += 1;
+    const drawn = await runStartTurnPipeline(p);
+    result = {success:true, topDeck, drawn, trace:getLastStartTurnTrace()?.batch14fBelial || null};
+  } else if (action === 'rearm-25') {
+    if (pendingDecisionModal) return {success:false, reason:'decision-pending', action};
+    setAvatarHitPoints(p, 25);
+    result = applyAvatarEffectDamage(p, 1, {sourceCardId:'batch14f-manual-rearm'});
+  } else {
+    result = {success:false, reason:'unknown-action', action};
+  }
+  renderAllHands();
+  updateDeckCount(p);
+  updateTestResourcePanel();
+  return recordBatch14FBelialManualAction(action, result);
+}
+
 if (typeof window !== 'undefined') {
-  Object.assign(window, {COLLECTION_BATCH_14F_PRST_EFFECT_IDS, COLLECTION_BATCH_14F_BELIAL_MODAL_TITLE, COLLECTION_BATCH_14F_BELIAL_MODAL_SUBTITLE, collectionBatch14FState, recordCollectionBatch14FEvent, isBatch14FPrstFavor, activateBatch14FPrstSpecificFavor, batch14FApplyBelialEchoBonus, noteBatch14FBelialAvatarDamageCrossing, chooseBatch14FBelialRegen, resolveBatch14FBelialStartTurnDecision});
+  Object.assign(window, {COLLECTION_BATCH_14F_PRST_EFFECT_IDS, COLLECTION_BATCH_14F_BELIAL_MODAL_TITLE, COLLECTION_BATCH_14F_BELIAL_MODAL_SUBTITLE, collectionBatch14FState, recordCollectionBatch14FEvent, isBatch14FPrstFavor, activateBatch14FPrstSpecificFavor, batch14FApplyBelialEchoBonus, noteBatch14FBelialAvatarDamageCrossing, chooseBatch14FBelialRegen, resolveBatch14FBelialStartTurnDecision, isCollectionBatch14FBelialScenario, collectionBatch14FBelialManualSnapshot, runCollectionBatch14FBelialManualAction});
 }
 
 function shouldMoveResolvedSpellToGraveyard(cardId) {
