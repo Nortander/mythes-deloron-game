@@ -669,8 +669,8 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch03-status-counter[data-batch03-status-counter="devore-magie"],.batch03-status-counter[data-batch03-status-counter="bouclier-glace"]{width:26px;height:20px;padding:0 5px;border-radius:11px;border:1.5px solid rgba(255,204,120,.94);box-sizing:border-box;color:#fff;text-shadow:0 1px 2px #120018,0 0 6px rgba(255,255,255,.5);font-size:12px;line-height:1;}
 .batch03-status-counter[data-batch03-status-counter="devore-magie"]::before{inset:0;background:linear-gradient(135deg,rgba(104,24,150,.97),rgba(186,82,255,.88));border-radius:11px;filter:drop-shadow(0 0 10px rgba(188,89,255,.88)) drop-shadow(0 0 16px rgba(116,36,180,.56));}
 .batch03-status-counter[data-batch03-status-counter="bouclier-glace"]::before{inset:0;background:linear-gradient(135deg,rgba(190,250,255,.96),rgba(58,190,236,.9));border-radius:11px;filter:drop-shadow(0 0 10px rgba(255,255,255,.96)) drop-shadow(0 0 16px rgba(126,225,255,.66));}
-.batch03-status-counter[data-batch03-status-counter="xyallah-marques"]{color:#f7e8c6;text-shadow:0 0 5px #130b04,0 1px 4px #000;}
-.batch03-status-counter[data-batch03-status-counter="xyallah-marques"]::before{background:radial-gradient(circle at 50% 45%,#f8e6a1 0 18%,#9a6a38 22% 44%,#3a2416 48% 63%,transparent 68%);border:1.5px solid rgba(255,223,148,.95);border-radius:50%;filter:drop-shadow(0 0 8px rgba(255,210,118,.86)) drop-shadow(0 0 14px rgba(122,75,30,.62));}
+.batch03-status-counter[data-batch03-status-counter="xyallah-marques"]{width:26px;height:20px;padding:0 5px;box-sizing:border-box;border-radius:11px;color:#fff1d8;text-shadow:0 1px 2px #201000,0 0 6px rgba(148,92,38,.95);font-size:12px;line-height:1;}
+.batch03-status-counter[data-batch03-status-counter="xyallah-marques"]::before{inset:0;background:linear-gradient(135deg,rgba(74,42,18,.97),rgba(174,112,52,.9));border:1.5px solid rgba(230,186,122,.94);border-radius:11px;filter:drop-shadow(0 0 10px rgba(176,111,45,.88)) drop-shadow(0 0 16px rgba(84,48,18,.58));}
 .fc-batch09-ice-shield{box-shadow:0 0 18px rgba(126,225,255,.74), inset 0 0 20px rgba(160,240,255,.2);}
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
@@ -11948,6 +11948,24 @@ function moveResolvedSpellToRemovedFromGame(cardId, player) {
   }
   return true;
 }
+function shouldForcePrstActivationMessage(cardId) {
+  return cardId === 'PRST000003' || cardId === 'PRST000014';
+}
+function showPrstFavorActivationMessage(cardId, player, stateEntry, context={}) {
+  const p = playerState(player);
+  const message = stateEntry?.message || COLLECTION_BATCH_14B_PRST_MESSAGES[cardId] || '';
+  const forced = shouldForcePrstActivationMessage(cardId);
+  const suppressed = context.suppressMessage === true && !forced;
+  if (!p || !message || suppressed || stateEntry?.activationMessageShown) return {shown:false, message, suppressed};
+  showNotif(message, forced ? 2800 : 2200);
+  stateEntry.activationMessageShown = true;
+  stateEntry.activationMessageShownAt = Date.now();
+  const result = {shown:true, cardId, playerId:p.key, message, source:context.source || 'manual', forced};
+  if (cardId === 'PRST000003' && typeof recordCollectionBatch14EEvent === 'function') recordCollectionBatch14EEvent('prst-activation-message-shown', result);
+  if (cardId === 'PRST000014' && typeof recordCollectionBatch14FEvent === 'function') recordCollectionBatch14FEvent('prst-activation-message-shown', result);
+  if (typeof window !== 'undefined') window.__lastPrstActivationMessage = result;
+  return result;
+}
 function activatePrstFavorCore(cardId, player, context={}) {
   const p = playerState(player);
   const card = CARDS_DATA[cardId];
@@ -11974,7 +11992,7 @@ function activatePrstFavorCore(cardId, player, context={}) {
     hirinArbitration:cardId === "PRST000007" ? COLLECTION_BATCH_14B_HIRIN_ARBITRATION : null
   };
   const message = state[cardId].message;
-  if (message && context.suppressMessage !== true) showNotif(message, 2200);
+  const activationMessage = showPrstFavorActivationMessage(cardId, p, state[cardId], context);
   const specificResolution = activatePrstFavorSpecificEffects(cardId, p, context);
   if (typeof window !== "undefined") {
     window.__lastPrstActivation = {playerId:p.key, cardId, state:{...state[cardId]}};
@@ -11983,7 +12001,7 @@ function activatePrstFavorCore(cardId, player, context={}) {
   }
   let removedFromGame = false;
   if (context.source === "draw") removedFromGame = moveResolvedSpellToRemovedFromGame(cardId, p);
-  return {success:true, handled:true, cardId, status:state[cardId].status, deferredLot:state[cardId].deferredLot, message, removedFromGame, specificResolution};
+  return {success:true, handled:true, cardId, status:state[cardId].status, deferredLot:state[cardId].deferredLot, message, removedFromGame, activationMessage, specificResolution};
 }
 
 // COLLECTION_BATCH_14D_PRST_COMBAT_DESTRUCTION_DRAW_RUNTIME
@@ -13055,7 +13073,7 @@ async function chooseBatch14FBelialRegen(player) {
       <div class="batch14f-belial-controls">
         <label for="batch14f-belial-slider">Échos à sacrifier</label>
         <div class="batch14f-belial-meter">
-          <input id="batch14f-belial-slider" class="batch14f-belial-slider" data-testid="batch14f-belial-slider" type="range" min="0" max="${maxEcho}" step="1" value="${Math.min(1, maxEcho)}">
+          <input id="batch14f-belial-slider" class="batch14f-belial-slider" data-testid="batch14f-belial-slider" data-available-echoes="${maxEcho}" type="range" min="0" max="5" step="1" value="${Math.min(1, maxEcho)}">
           <div class="batch14f-belial-heal" data-testid="batch14f-belial-heal">${Math.min(1, maxEcho) * 5} PDV</div>
         </div>
         <div class="batch14f-belial-actions">
@@ -13068,7 +13086,7 @@ async function chooseBatch14FBelialRegen(player) {
     modal.onRender = () => {
       const slider = modal.overlay?.querySelector('[data-testid="batch14f-belial-slider"]');
       const heal = modal.overlay?.querySelector('[data-testid="batch14f-belial-heal"]');
-      const update = () => { if (heal && slider) heal.textContent = `${Number(slider.value || 0) * 5} PDV`; };
+      const update = () => { if (heal && slider) heal.textContent = `${Math.min(maxEcho, Number(slider.value || 0)) * 5} PDV`; };
       slider?.addEventListener('input', update);
       modal.overlay?.querySelector('[data-testid="batch14f-belial-keep"]')?.addEventListener('click', () => { modal.close({choice:'keep', amount:0}); resolve({choice:'keep', amount:0}); });
       modal.overlay?.querySelector('[data-testid="batch14f-belial-consume"]')?.addEventListener('click', () => { const amount = Math.max(0, Math.min(maxEcho, Number(slider?.value || 0))); modal.close({choice:'consume', amount}); resolve({choice:'consume', amount}); });
@@ -13098,9 +13116,9 @@ async function resolveBatch14FBelialStartTurnDecision(player) {
   const payment = consumeSouls(p, amount, 'batch14f-belial-regen');
   const heal = amount * 5;
   setAvatarHitPoints(p, hpBefore + heal);
-  pulseBatch11EchoPile(p, 'batch14f-belial-regen');
-  pulseBatch14FBelialAvatar(p);
-  const result = {success:true, playerId:p.key, choice:'consume', amount, heal, payment, hpBefore, hpAfter:avatarHitPoints(p), echoesBefore:echoes, echoesAfter:Number(p.resourceState?.souls || 0)};
+  const echoPilePulse = pulseBatch11EchoPile(p, 'batch14f-belial-regen');
+  const avatarPulse = pulseBatch14FBelialAvatar(p);
+  const result = {success:true, playerId:p.key, choice:'consume', amount, heal, payment, hpBefore, hpAfter:avatarHitPoints(p), echoesBefore:echoes, echoesAfter:Number(p.resourceState?.souls || 0), echoPilePulse, avatarPulse};
   recordCollectionBatch14FEvent('belial-regen-consumed-echoes', result);
   return result;
 }
@@ -17771,7 +17789,19 @@ document.addEventListener('click', e => {
 });
 
 
+function isDemonicGateCard(fc) {
+  return fc?.dataset?.id === 'DIV000001';
+}
+function recordDemonicGateCombatRefusal(reason, fc, targetFC=null) {
+  const detail = {reason, source:targetSummary(fc), target:targetFC ? targetSummary(targetFC) : null};
+  if (typeof recordCollectionBatch14EEvent === 'function') recordCollectionBatch14EEvent('demonic-gate-combat-refused', detail);
+  return detail;
+}
+function canServantCounterAttack(fc) {
+  return !!fc && !isDemonicGateCard(fc) && fc.dataset.id !== 'MV000030';
+}
 function tryAttack(fc) {
+  if (isDemonicGateCard(fc)) { showErr('La Porte démoniaque ne peut ni attaquer ni riposter.'); recordDemonicGateCombatRefusal('demonic-gate-cannot-attack', fc); return; }
   if (fc.dataset.id === 'MV000030') { showErr('Le Mur non-mort ne peut pas attaquer.'); return; }
   if (fc.dataset.batch09InstableNoAttack === '1') { showErr('Le Troll instable ne peut pas attaquer avec ce comportement.'); return; }
   if (isBatch14ETiaraEntraved(fc)) { showErr('Ce serviteur est entravé par <b>Tiara</b> et ne peut pas attaquer.'); return; }
@@ -17790,6 +17820,12 @@ async function resolveCombat(attacker, targetFC) {
   syncBatch14DPrstFavorEffects();
   syncBatch14CPrstFavorEffects();
   syncBatch14EPrstFavorEffects();
+  if (isDemonicGateCard(attacker)) {
+    showErr('La Porte démoniaque ne peut ni attaquer ni riposter.');
+    recordDemonicGateCombatRefusal('demonic-gate-cannot-attack', attacker, targetFC);
+    cancelAttack();
+    return {success:false, reason:'demonic-gate-cannot-attack'};
+  }
   if (isBatch14ETiaraEntraved(attacker)) {
     showErr('Ce serviteur est entravé par <b>Tiara</b> et ne peut pas attaquer.');
     recordCollectionBatch14EEvent('combat-refused-tiara-attacker', {reason:'tiara-entraved-attacker', attacker:targetSummary(attacker), target:targetSummary(targetFC)});
@@ -17862,7 +17898,7 @@ async function resolveCombat(attacker, targetFC) {
   // Riposte immédiate si le défenseur était vivant
   let counterAttackerDied = false;
   let counterDamageDealt = 0;
-  if (defAlive && defAtk > 0 && targetFC.dataset.id !== 'MV000030' && !batch05Plan.preventCounter && !batch10Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC) && !isBatch14ETiaraEntraved(targetFC)) {
+  if (defAlive && defAtk > 0 && canServantCounterAttack(targetFC) && !batch05Plan.preventCounter && !batch10Plan.preventCounter && !defenderHypnotizedAtCombatStart && !isBatch04Hypnotized(targetFC) && !isBatch14ETiaraEntraved(targetFC)) {
     updateRageState(targetFC);
     let counterAtk = parseInt(targetFC.dataset.atk) || defAtk;
     if (targetFC.dataset.id === 'EDB000001' && CARDS_DATA[attacker.dataset.id]?.fac === 'mvs') counterAtk *= 2;
@@ -18679,6 +18715,12 @@ function setIceBadge(fc, tours) {
 // ── Attaque sur avatar ──
 async function attackAvatar(attacker, adversePlayer) {
   if (gameOver) return;
+  if (isDemonicGateCard(attacker)) {
+    showErr('La Porte démoniaque ne peut ni attaquer ni riposter.');
+    recordDemonicGateCombatRefusal('demonic-gate-cannot-attack-avatar', attacker);
+    cancelAttack();
+    return {success:false, reason:'demonic-gate-cannot-attack'};
+  }
   if (attacker?.dataset?.id === 'EDG000012') {
     showErr('Le Tisseur de Givre ne peut pas attaquer directement un avatar.');
     recordCollectionBatch05Event('tisseur-avatar-attack-refused', {attacker:targetSummary(attacker), adversePlayerId:playerKey(adversePlayer)});
@@ -26787,7 +26829,9 @@ async function resolveBatch14EXyallahEndTurn(player, fc, {activation=1, nor=fals
   if (next >= 3) {
     setBatch14EXyallahMarks(fc, 0);
     const summon = await summonBatch03Servant(p, 'DIV000008', {sourceCardId:'DIV000016', sourceInstanceId:fc.dataset.instance, triggerInitiativeEffect:false, ready:true});
-    const result = {type:'xyallah-summon', success:!!summon?.success, before, marks:3, after:0, reset:true, activation, nor, result:summon};
+    const summonedFC = summon?.instanceId ? document.querySelector(`.fc[data-instance="${CSS.escape(summon.instanceId)}"]`) : null;
+    const golemPulse = summonedFC ? pulseBatch03Ability(summonedFC, 'batch14e-xyallah-golem-summon', {move:true}) : false;
+    const result = {type:'xyallah-summon', success:!!summon?.success, before, marks:3, after:0, reset:true, activation, nor, result:summon, golemPulse, golemPulseColor:summonedFC?.dataset?.batch04PulseColor || ''};
     recordCollectionBatch14EEvent('xyallah-end-turn-resolved', {playerId:p.key, source:targetSummary(fc), ...result});
     return result;
   }

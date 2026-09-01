@@ -12,6 +12,11 @@ const NOR_COVERAGE_SCENARIOS = [
   "collection-batch-14e-prst000003-nor-coverage-b",
   "collection-batch-14e-prst000003-nor-coverage-c"
 ];
+const NOR_VISUAL_SCENARIOS = [
+  "collection-batch-14b-prst000003-core-visual",
+  ...NOR_COVERAGE_SCENARIOS
+];
+const NOR_ACTIVATION_MESSAGE = "LE DIEU DE LA NUIT INTERVIENT ET PERMET À SES ÉLUS DE DÉPLOYER PLUS SOUVENT LEURS MALÉFICES.";
 
 function blockingConsoleErrors(diagnostics) {
   return diagnostics.consoleErrors.filter(message => !/Failed to load resource/i.test(message));
@@ -326,6 +331,151 @@ test("Batch 14F2 DIV000016 Xyallah visual scenario lays out mark counters withou
   expect(result.burning).toBe("2");
   expect(result.counters.map(counter => counter.kind)).toEqual(expect.arrayContaining(["embrasement", "xyallah-marques"]));
   expect(result.overlaps).toEqual([]);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F3 PRST000003 Nor launch message is deterministic once across visual scenarios", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  const results = [];
+  for (const scenario of NOR_VISUAL_SCENARIOS) {
+    await page.goto("/code/partie-test-1.html?scenario=" + scenario + "&batch14e=manual&t=" + Date.now());
+    await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
+    await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+    await page.waitForSelector(".history.vis", {timeout:20000});
+    results.push(await page.evaluate(async expectedMessage => {
+      currentPlayer = player1.key;
+      collectionBatch14EState().events = [];
+      const play = await playCard("PRST000003", null, {returnValidation:true});
+      const activationEvents = collectionBatch14EState().events.filter(event => event.type === "prst-activation-message-shown");
+      const duplicate = activatePrstFavorCore("PRST000003", player1, {source:"manual"});
+      const duplicateEvents = collectionBatch14EState().events.filter(event => event.type === "prst-activation-message-shown");
+      collectionBatch14EState().events = [];
+      collectionBatch14EState().autoResolveChoices = true;
+      await resolveBatch14ENorExtraEndTurn(player1);
+      const replayEvents = collectionBatch14EState().events.filter(event => event.type === "prst-activation-message-shown");
+      return {
+        scenario:selectedScenarioId(),
+        playMessage:play.spellResolution?.activationMessage || null,
+        state:player1.prstFavors?.PRST000003 || null,
+        lastMessage:window.__lastPrstActivationMessage || null,
+        activationEvents,
+        duplicate,
+        duplicateEvents,
+        replayEvents,
+        expectedMessage
+      };
+    }, NOR_ACTIVATION_MESSAGE));
+  }
+  for (const result of results) {
+    expect(result.playMessage.shown, result.scenario).toBe(true);
+    expect(result.playMessage.message, result.scenario).toBe(NOR_ACTIVATION_MESSAGE);
+    expect(result.lastMessage.message, result.scenario).toBe(NOR_ACTIVATION_MESSAGE);
+    expect(result.state.activationMessageShown, result.scenario).toBe(true);
+    expect(result.activationEvents, result.scenario).toHaveLength(1);
+    expect(result.duplicate.duplicateIgnored, result.scenario).toBe(true);
+    expect(result.duplicateEvents, result.scenario).toHaveLength(1);
+    expect(result.replayEvents, result.scenario).toHaveLength(0);
+  }
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F3 DIV000016 Xyallah uses burn-style brown marker and pulses summoned Golem", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  const scenario = "collection-batch-14e-prst000003-nor-coverage-a";
+  await page.goto("/code/partie-test-1.html?scenario=" + scenario + "&batch14e=manual&t=" + Date.now());
+  await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
+  await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+  await page.waitForSelector(".history.vis", {timeout:20000});
+  const result = await page.evaluate(async () => {
+    currentPlayer = player1.key;
+    const xyallah = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000016");
+    xyallah.dataset.batch14eXyallahMarks = "1";
+    syncBatch14EXyallahMarksCounter(xyallah);
+    const burn = xyallah.querySelector(".fc-burn-badge");
+    const mark = xyallah.querySelector('[data-batch03-status-counter="xyallah-marques"]');
+    const styleOf = node => {
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return {height:style.height, borderRadius:style.borderRadius, fontSize:style.fontSize, rect:{width:rect.width, height:rect.height}, hidden:node.hidden};
+    };
+    const initial = {burn:styleOf(burn), mark:styleOf(mark)};
+    xyallah.dataset.batch14eXyallahMarks = "2";
+    syncBatch14EXyallahMarksCounter(xyallah);
+    const operation = await resolveBatch14EXyallahEndTurn(player1, xyallah, {activation:1, nor:true, pulse:false});
+    const golem = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000008");
+    return {
+      initial,
+      operation,
+      golem:{exists:!!golem, lastPulse:golem?.dataset.batch03LastPulseReason || "", pulseColor:golem?.dataset.batch04PulseColor || ""}
+    };
+  });
+  expect(result.initial.mark.height).toBe(result.initial.burn.height);
+  expect(result.initial.mark.borderRadius).toBe(result.initial.burn.borderRadius);
+  expect(result.initial.mark.fontSize).toBe(result.initial.burn.fontSize);
+  expect(Math.round(result.initial.mark.rect.height)).toBe(Math.round(result.initial.burn.rect.height));
+  expect(result.operation.type).toBe("xyallah-summon");
+  expect(result.operation.golemPulse).toBe(true);
+  expect(result.golem.exists).toBe(true);
+  expect(result.golem.lastPulse).toBe("batch14e-xyallah-golem-summon");
+  expect(result.golem.pulseColor).toBeTruthy();
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F3 DIV000001 Porte démoniaque cannot attack or counter but keeps Nor end-turn summon", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await page.goto("/code/partie-test-1.html?scenario=collection-batch-14e-prst000003-nor-coverage-a&batch14e=manual&t=" + Date.now());
+  await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe("collection-batch-14e-prst000003-nor-coverage-a");
+  await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+  await page.waitForSelector(".history.vis", {timeout:20000});
+  const result = await page.evaluate(async () => {
+    currentPlayer = player1.key;
+    player1.prstFavors = {PRST000003:{cardId:"PRST000003"}};
+    syncBatch14EPrstFavorEffects();
+    const gate = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "DIV000001");
+    const target = livingServantCardsForPlayer(player2)[0];
+    const tryBefore = attackingFC;
+    tryAttack(gate);
+    const tryAfter = attackingFC;
+    const refusedCombat = await resolveCombat(gate, target);
+    gate.dataset.atk = "9";
+    const attacker = livingServantCardsForPlayer(player2)[0];
+    attacker.dataset.pdv = "12";
+    attacker.dataset.pdvMax = "12";
+    currentPlayer = player2.key;
+    const beforeCounterHp = Number(attacker.dataset.pdv || 0);
+    const combatIntoGate = await resolveCombat(attacker, gate);
+    const afterCounterHp = Number(attacker.dataset.pdv || 0);
+    currentPlayer = player1.key;
+    const beforeDemons = livingServantCardsForPlayer(player1).filter(fc => fc.dataset.id === "DIV000002").length;
+    collectionBatch14EState().events = [];
+    const first = await resolveBatch14ENorSingleSource(player1, {cardId:"DIV000001", zone:"board", fc:gate}, 1);
+    const second = await resolveBatch14ENorSingleSource(player1, {cardId:"DIV000001", zone:"board", fc:gate}, 2);
+    const afterDemons = livingServantCardsForPlayer(player1).filter(fc => fc.dataset.id === "DIV000002").length;
+    return {
+      tryBefore:!!tryBefore,
+      tryAfter:!!tryAfter,
+      refusedCombat,
+      beforeCounterHp,
+      afterCounterHp,
+      combatIntoGateSuccess:combatIntoGate?.success !== false,
+      beforeDemons,
+      afterDemons,
+      operations:[...first.operations, ...second.operations]
+    };
+  });
+  expect(result.tryBefore).toBe(false);
+  expect(result.tryAfter).toBe(false);
+  expect(result.refusedCombat).toMatchObject({success:false, reason:"demonic-gate-cannot-attack"});
+  expect(result.combatIntoGateSuccess).toBe(true);
+  expect(result.afterCounterHp).toBe(result.beforeCounterHp);
+  expect(result.afterDemons - result.beforeDemons).toBe(2);
+  expect(result.operations.filter(operation => operation.type === "summon")).toHaveLength(2);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

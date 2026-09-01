@@ -47,7 +47,7 @@ test("Batch 14F2 PRST000014 activates, leaves play, and adds +1 Echo to gains on
     const rollback = changeSouls(player1, 2, "payment-rollback");
     const afterRollback = Number(player1.resourceState.souls || 0);
     const transfer = changeSouls(player1, 2, "echo-transfer");
-    return {before, play, afterPlay, gain, afterGain, cost, afterCost, rollback, afterRollback, transfer, events:[...collectionBatch14FState().events]};
+    return {before, play, afterPlay, gain, afterGain, cost, afterCost, rollback, afterRollback, transfer, launchMessage:play.spellResolution?.activationMessage || null, events:[...collectionBatch14FState().events]};
   });
   expect(result.before.hand[0]).toBe("PRST000014");
   expect(result.before.deck.at(-1)).toBe("PRST000014");
@@ -58,6 +58,7 @@ test("Batch 14F2 PRST000014 activates, leaves play, and adds +1 Echo to gains on
   expect(result.afterPlay.removed).toContain("PRST000014");
   expect(result.afterPlay.favor).toBe(true);
   expect(result.afterPlay.specific.success).toBe(true);
+  expect(result.launchMessage).toMatchObject({shown:true, message:"LE DEMI-DIEU DES MORTS MANIPULE LES ÉCHOS ET LES ÂMES AU SERVICE DE SES SOMBRES ADORATEURS."});
   expect(result.gain.requestedDelta).toBe(2);
   expect(result.gain.delta).toBe(3);
   expect(result.gain.belialBonus.bonus).toBe(1);
@@ -69,6 +70,7 @@ test("Batch 14F2 PRST000014 activates, leaves play, and adds +1 Echo to gains on
   expect(result.transfer.delta).toBe(2);
   expect(result.transfer.belialBonus.reason).toBe("transfer");
   expect(result.transfer.soulsAfter).toBe(result.afterRollback + 2);
+  expect(result.events.filter(event => event.type === "prst-activation-message-shown")).toHaveLength(1);
   expect(result.events.some(event => event.type === "belial-echo-bonus" && event.requestedAmount === 2 && event.appliedAmount === 3)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
@@ -100,7 +102,7 @@ test("Batch 14F2 PRST000014 opens regeneration after draw and resolves keep/cons
   expect(noEcho.events.some(event => event.type === "belial-regen-missed-no-echoes")).toBe(true);
 
   const keepPromise = page.evaluate(async () => {
-    player1.resourceState.souls = 4;
+    player1.resourceState.souls = 5;
     player1.resourceState.revision += 1;
     projectSoulState(player1);
     setAvatarHitPoints(player1, 30);
@@ -114,17 +116,19 @@ test("Batch 14F2 PRST000014 opens regeneration after draw and resolves keep/cons
   const modal = page.locator('[data-decision-id="batch14f-belial-regen"]');
   await expect(modal).toBeVisible();
   await expect(modal.locator(".decision-modal-minimize")).toHaveText("RÉDUIRE");
+  await expect(modal.locator(".decision-modal-topline")).toBeVisible();
   await expect(modal.locator(".decision-modal-title")).toHaveText("FAVEUR DE BÉLIAL");
   await expect(modal.getByTestId("batch14f-belial-subtitle")).toHaveText("Votre avatar s'épuise... Voulez-vous consommer des Échos pour le régénérer ?");
   await expect(modal.getByTestId("batch14f-belial-avatar")).toBeVisible();
   await expect(modal.getByTestId("batch14f-belial-avatar-hp")).toContainText("24 PDV");
-  await expect(modal.getByTestId("batch14f-belial-slider")).toHaveAttribute("max", "4");
+  await expect(modal.getByTestId("batch14f-belial-slider")).toHaveAttribute("max", "5");
+  await expect(modal.getByTestId("batch14f-belial-slider")).toHaveAttribute("data-available-echoes", "5");
   await expect(modal.getByTestId("batch14f-belial-heal")).toHaveText("5 PDV");
   await modal.getByTestId("batch14f-belial-keep").click();
   const keep = await keepPromise;
   expect(keep.choice).toBe("keep");
   const afterKeep = await page.evaluate(() => ({echoes:Number(player1.resourceState.souls || 0), hp:avatarHitPoints(player1), pending:!!player1.batch14fBelialRegenPending}));
-  expect(afterKeep.echoes).toBe(4);
+  expect(afterKeep.echoes).toBe(5);
   expect(afterKeep.hp).toBe(24);
   expect(afterKeep.pending).toBe(false);
 
@@ -139,16 +143,18 @@ test("Batch 14F2 PRST000014 opens regeneration after draw and resolves keep/cons
   });
   const secondModal = page.locator('[data-decision-id="batch14f-belial-regen"]');
   await expect(secondModal).toBeVisible();
-  await secondModal.getByTestId("batch14f-belial-slider").fill("4");
-  await expect(secondModal.getByTestId("batch14f-belial-heal")).toHaveText("20 PDV");
+  await secondModal.getByTestId("batch14f-belial-slider").fill("5");
+  await expect(secondModal.getByTestId("batch14f-belial-heal")).toHaveText("25 PDV");
   await secondModal.getByTestId("batch14f-belial-consume").click();
   const consume = await consumePromise;
   expect(consume.choice).toBe("consume");
-  expect(consume.amount).toBe(4);
-  expect(consume.heal).toBe(20);
+  expect(consume.amount).toBe(5);
+  expect(consume.heal).toBe(25);
   expect(consume.echoesAfter).toBe(0);
   expect(consume.hpBefore).toBe(24);
-  expect(consume.hpAfter).toBe(44);
+  expect(consume.hpAfter).toBe(49);
+  expect(consume.echoPilePulse).toBe(true);
+  expect(consume.avatarPulse).toBe(true);
 
   const noRepeat = await page.evaluate(async () => {
     player1.drawPile = ["MV000004"];
@@ -158,7 +164,7 @@ test("Batch 14F2 PRST000014 opens regeneration after draw and resolves keep/cons
   });
   expect(noRepeat.pending).toBe(false);
   expect(noRepeat.modal).toBe(false);
-  expect(noRepeat.hp).toBe(44);
+  expect(noRepeat.hp).toBe(49);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -197,6 +203,43 @@ test("Batch 14F2 PRST000014 auto-plays from draw and immediately enables real Ec
   expect(result.gain.delta).toBe(2);
   expect(result.gain.belialBonus.bonus).toBe(1);
   expect(result.echoes).toBe(3);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(diagnostics.pageErrors).toEqual([]);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("Batch 14F3 PRST000014 threshold rearms only after recovering to 25 and clamps overlarge choices", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await open14FScenario(page, "auto");
+  const result = await page.evaluate(async () => {
+    currentPlayer = player1.key;
+    await playCard("PRST000014", null, {returnValidation:true});
+    player1.resourceState.souls = 3;
+    player1.resourceState.revision += 1;
+    projectSoulState(player1);
+    setAvatarHitPoints(player1, 30);
+    const first = applyAvatarEffectDamage(player1, 6, {sourceCardId:"batch14f-threshold-test"});
+    const stillLow = applyAvatarEffectDamage(player1, 1, {sourceCardId:"batch14f-threshold-test"});
+    collectionBatch14FState().forcedBelialChoice = {choice:"consume", amount:5};
+    player1.firstTurnStarted = true;
+    player1.drawPile = ["MV000001"];
+    turnSequence += 1;
+    await runStartTurnPipeline(player1);
+    const afterClamped = {echoes:Number(player1.resourceState.souls || 0), hp:avatarHitPoints(player1), pending:!!player1.batch14fBelialRegenPending};
+    const belowAfterClamp = applyAvatarEffectDamage(player1, 1, {sourceCardId:"batch14f-threshold-test"});
+    setAvatarHitPoints(player1, 25);
+    const rearm = applyAvatarEffectDamage(player1, 1, {sourceCardId:"batch14f-threshold-test"});
+    return {first, stillLow, afterClamped, belowAfterClamp, rearm, events:[...collectionBatch14FState().events]};
+  });
+  expect(result.first.batch14fBelial.armed).toBe(true);
+  expect(result.stillLow.batch14fBelial.armed).toBe(false);
+  expect(result.stillLow.batch14fBelial.reason).toBe("threshold-not-crossed");
+  expect(result.afterClamped.echoes).toBe(0);
+  expect(result.afterClamped.hp).toBe(38);
+  expect(result.afterClamped.pending).toBe(false);
+  expect(result.belowAfterClamp.batch14fBelial.armed).toBe(false);
+  expect(result.rearm.batch14fBelial.armed).toBe(true);
+  expect(result.events.some(event => event.type === "belial-regen-consumed-echoes" && event.amount === 3 && event.heal === 15)).toBe(true);
   await attachDiagnostics(testInfo, diagnostics);
   expect(diagnostics.pageErrors).toEqual([]);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
