@@ -2928,6 +2928,35 @@ SCENARIOS['huvu-impl-3-graveyard-theft'] = {
     player2: {resources: {classical:{aria:2}, souls:0}, hand: [], drawPile: ['H000001','H000005'], graveyard: ['H000001','R000001','H000005'], servants: [], avatarHp:10}
   }
 };
+
+SCENARIOS['collection-batch-15a-hand-info-a'] = {
+  label: 'TEST — COLLECTION BATCH 15A main / information', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch15APanel: true, testCardId: 'S000020',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000002','S000020','S000030','H000001'], drawPile:['H000024','S000017','R000010','H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['H000001','S000004','R000010','B000015','S000017'], drawPile:['H000005','R000001','S000006'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15a-draw-choice-b'] = {
+  label: 'TEST — COLLECTION BATCH 15A choix / pioche', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch15APanel: true, testCardId: 'S000004',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000004','S000006','S000017'], drawPile:['R000010','S000005','R000011','H000001','S000003','S000043','S000004','H000005'], graveyard:['R000001','H000018','R000004'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:20, lenya:20}, souls:0}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15a-faction-draw-c'] = {
+  label: 'TEST — COLLECTION BATCH 15A pioches de faction', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch15APanel: true, testCardId: 'S000029',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000029','S000037','S000043'], drawPile:['S000027','EDG000005','S000029','EDG000006','EDG000007','GOB000001','S000038','GOB000002','GOB000003','B000015','B000016','B000017','B000001'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:20, lenya:20}, souls:0}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15a-delayed-recycle-d'] = {
+  label: 'TEST — COLLECTION BATCH 15A différé / recyclage', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch15APanel: true, testCardId: 'S000019',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000019','S000044','H000001'], drawPile:['S000003','H000024','R000010','S000017','H000005','R000011','H000018'], graveyard:['R000001','H000005','S000004'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['H000001'], drawPile:['H000005','R000001','S000006'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['collection-batch-01-zone-spells'] = {
   label: 'TEST — COLLECTION BATCH 01 zones', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch01Panel: true, testCardId: 'S000015',
   testSetup: {
@@ -11018,7 +11047,7 @@ function recordCombatEffectDiagnostic(cardId, diagnostic) {
   return lastCombatEffectDiagnostic;
 }
 function recordZoneEffectDiagnostic(cardId, diagnostic) {
-    if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl3Panel && !activeScenario?.showCollectionBatch01Panel && !activeScenario?.showCollectionBatch11ePanel) return null;
+    if (!activeScenario?.showTestResourcePanel && !activeScenario?.showHuvuImpl3Panel && !activeScenario?.showCollectionBatch01Panel && !activeScenario?.showCollectionBatch11ePanel && !activeScenario?.showCollectionBatch15APanel) return null;
   lastZoneEffectDiagnostic = clonePlayDiagnostic({scenarioId:selectedScenarioId(), cardId, ...(diagnostic || {})});
   updateTestResourcePanel();
   return lastZoneEffectDiagnostic;
@@ -13442,21 +13471,18 @@ function beginPrecommitSpellChoice(transaction) {
   const cancel = () => releasePaymentLock(p, cardId);
   if (cardId === 'S000004') {
     showSortChoice(cardId, p, [
-      {label:'Piocher 3 cartes', fn:() => commitCardPlay(transaction, {resolveSpell:() => drawMultiple(p, 3)})},
-      {label:'Tirer 2 cartes Approvisionnement', fn:() => commitCardPlay(transaction, {resolveSpell:() => drawApproFromDeck(p, 2)})}
+      {label:'Piocher 3 cartes', fn:() => commitCardPlay(transaction, {resolveSpell:() => drawMultiple(p, 3, {sourceCardId:'S000004'})})},
+      {label:'Tirer 2 cartes Approvisionnement', fn:() => commitCardPlay(transaction, {resolveSpell:() => drawApproFromDeckOrCemetery(p, 2, {sourceCardId:'S000004'})})}
     ], cancel);
     return;
   }
   if (cardId === 'S000002') {
     showEyesInDarkSelection(p, {
-      onSelect: blockedId => commitCardPlay(transaction, {resolveSpell:() => {
-        window._blockedCard = blockedId;
-        window._blockedCardPlayer = opponentOf(p)?.key;
-        window._blockedCardArmed = false;
-        window._blockedCardSourceName = 'Des yeux dans le noir';
-        showNotif('Carte bloquée pour le prochain tour.', 1600);
-      }}),
-      onCancel: cancel
+      onSelect: payload => commitCardPlay(transaction, {resolveSpell:() => resolveDesYeuxDansLeNoir(p, payload)}),
+      onCancel:() => {
+        clearBatch15ATemporaryHandReveals(p);
+        cancel();
+      }
     });
   }
 }
@@ -14076,22 +14102,8 @@ async function triggerSort(cardId, player, context={}) {
       });
       showNotif(`${playerName(player)} invoque une pluie de météores sur le champ de bataille.`, 1800);
       break;
-    case 'S000017': {
-      const pile = playerDrawPile(player);
-      const sorts = pile.filter(id => CARDS_DATA[id] && CARDS_DATA[id].type === 'Sort');
-      if (!sorts.length) { showErr('Aucun sort dans votre deck\u00a0!'); break; }
-      const sorted = [...sorts].sort((a,b) => (CARDS_DATA[a].cost||0) - (CARDS_DATA[b].cost||0));
-      const cheap = sorted[0], pricey = sorted[sorted.length-1];
-      const toDraw = (cheap === pricey) ? [cheap] : [cheap, pricey];
-      let drawn = 0;
-      toDraw.forEach(id => {
-        const result = drawCardFromDeck(player, candidateId => candidateId === id, {refresh:false});
-        if (result.success) drawn++;
-      });
-      if (playerKey(player) === currentPlayer) refreshHand(player);
-      showNotif(drawn ? 'Quête magique\u00a0: ' + drawn + ' sort(s) pioché(s)\u00a0!' : 'Quête magique ne trouve aucun sort à piocher.', 1600);
-      break;
-    }
+    case 'S000017':
+      return resolveQueteMagique(player);
     case 'S000003': {
       const sId = playerZoneSelector(player, 'servants');
       const hasHU = !!qs(sId)?.querySelector('[data-id="EDB000005"],[data-id="EDB000001"]');
@@ -14103,12 +14115,18 @@ async function triggerSort(cardId, player, context={}) {
       break; }
     case 'S000004': // Commerce avec les légendes : choix
       showSortChoice(cardId, player, [
-        { label:'Piocher 3 cartes', fn:() => drawMultiple(player, 3) },
-        { label:'Tirer 2 cartes Approvisionnement', fn:() => drawApproFromDeck(player, 2) }
+        { label:'Piocher 3 cartes', fn:() => drawMultiple(player, 3, {sourceCardId:'S000004'}) },
+        { label:'Tirer 2 cartes Approvisionnement', fn:() => drawApproFromDeckOrCemetery(player, 2, {sourceCardId:'S000004'}) }
       ]);
       break;
     case 'S000006':
       return await resolveMurmuresDivins(player, context);
+    case 'S000019':
+      return resolvePierresDeCommunication(player);
+    case 'S000020':
+      return resolveBassinDeDivination(player);
+    case 'S000030':
+      return resolveSombreAffaire(player);
     case 'S000022':
       return await resolveGalerieDesHorreurs(player, context);
     case 'S000041':
@@ -14427,6 +14445,94 @@ function drawApproFromDeck(player, n, {notify=true, sourceCardId=null, sourceIns
   };
 }
 
+const COLLECTION_BATCH_15A_SCENARIO_IDS = new Set(['collection-batch-15a-hand-info-a','collection-batch-15a-draw-choice-b','collection-batch-15a-faction-draw-c','collection-batch-15a-delayed-recycle-d']);
+const collectionBatch15AState = {events:[]};
+function isCollectionBatch15AScenario() { return COLLECTION_BATCH_15A_SCENARIO_IDS.has(selectedScenarioId()); }
+function recordCollectionBatch15AEvent(type, detail={}) { const event = {type, turnSequence, ...(detail || {})}; collectionBatch15AState.events.push(event); window.__collectionBatch15ALastEvent = event; return event; }
+function batch15APlayerSnapshot(player) {
+  const p = playerState(player); if (!p) return null;
+  return {playerId:p.key, hand:[...playerHand(p)], handOccurrences:[...ensureBatch03HandOccurrences(p)], deck:[...playerDrawPile(p)].map(getRuntimeCardId), graveyard:[...(p.graveyard || [])].map(getRuntimeCardId), blockedHandOccurrences:[...(p.batch03BlockedHandOccurrences || [])].map(block => ({...block})), temporaryHandReveals:[...(p.batch15aTemporaryHandReveals || [])].map(entry => ({...entry})), permanentHandReveals:[...(p.batch15aPermanentHandReveals || [])].map(entry => ({...entry})), pierresCommunication:[...(p.batch15aPierresCommunication || [])].map(entry => ({...entry})), sombreAffaire:p.batch15aSombreAffaire ? {...p.batch15aSombreAffaire} : null};
+}
+function auditCollectionBatch15ARuntime() { return {scenarioId:selectedScenarioId(), currentPlayer, turnSequence, events:[...collectionBatch15AState.events], players:[batch15APlayerSnapshot(player1), batch15APlayerSnapshot(player2)].filter(Boolean), zone:lastZoneEffectDiagnostic ? clonePlayDiagnostic(lastZoneEffectDiagnostic) : null}; }
+function clearBatch15ATemporaryHandReveals(player) { const p = playerState(player); if (!p) return false; const had = !!p.batch15aTemporaryHandReveals?.length; p.batch15aTemporaryHandReveals = []; if (had) renderAllHands(); return had; }
+function setBatch15ATemporaryHandReveals(viewer, owner, revealed) {
+  const v = playerState(viewer); const o = playerState(owner); if (!v || !o) return [];
+  const entries = (revealed || []).map(item => ({ownerKey:o.key, cardId:item.cardId, occurrenceId:item.occurrenceId || null, expiresAtTurnSequence:turnSequence, sourceCardId:'S000002'})).filter(item => item.cardId);
+  v.batch15aTemporaryHandReveals = entries;
+  recordCollectionBatch15AEvent('temporary-hand-reveal', {viewerKey:v.key, ownerKey:o.key, revealed:entries.map(entry => ({cardId:entry.cardId, occurrenceId:entry.occurrenceId}))});
+  renderAllHands(); return entries;
+}
+function batch15AHandVisibility(owner, viewer=currentPlayer) {
+  const o = playerState(owner); const v = playerState(viewer); const result = {all:false, occurrences:new Set(), reason:null};
+  if (!o || !v || o.key === v.key) { result.all = true; result.reason = 'owner'; return result; }
+  if ((v.batch15aPermanentHandReveals || []).some(entry => entry && entry.ownerKey === o.key)) { result.all = true; result.reason = 'S000020'; return result; }
+  (v.batch15aTemporaryHandReveals || []).filter(entry => entry && entry.ownerKey === o.key && entry.expiresAtTurnSequence === turnSequence).forEach(entry => { if (entry.occurrenceId) result.occurrences.add(entry.occurrenceId); });
+  if (result.occurrences.size) result.reason = 'S000002'; return result;
+}
+function drawApproFromDeckOrCemetery(player, n, {notify=true, sourceCardId=null, sourceInstanceId=null}={}) {
+  const p = playerState(player); if (!p) return {success:false, count:0, reason:'invalid-player', results:[]};
+  const before = zoneInventorySnapshot(p); const results = []; let added = 0;
+  for (let step = 0; step < n; step++) {
+    let result = drawCardFromRuntimeDeck(p, {predicate:isSupplyCard, refresh:false, sourceCardId, sourceInstanceId});
+    if (result.success) { result.sourceZone = 'deck'; results.push(result); added++; continue; }
+    const graveyard = p.graveyard || []; let graveyardIndex = -1;
+    for (let i = graveyard.length - 1; i >= 0; i--) { if (isSupplyCard(getRuntimeCardId(graveyard[i]))) { graveyardIndex = i; break; } }
+    if (graveyardIndex < 0) { results.push({...result, sourceZone:'deck', fallback:'graveyard-empty-or-no-eligible-card'}); break; }
+    const capacity = getHandCapacityStatus(p); if (capacity.full) { traceHandFullRefusal(p, {caller:'drawApproFromDeckOrCemetery', sourceCardId}); results.push({success:false, reason:'hand-full', sourceZone:'graveyard', capacity}); break; }
+    const entry = graveyard.splice(graveyardIndex, 1)[0]; const cardId = getRuntimeCardId(entry); p.hand.push(cardId); batch03RegisterHandCard(p, p.hand.length - 1, entry?.occurrenceId || entry?.batch07OccurrenceId || null); refreshCemeteryVisual(p);
+    results.push({success:true, cardId, selectedCardId:cardId, sourceZone:'graveyard', graveyardIndex, handSizeAfter:p.hand.length, deckSizeAfter:playerDrawPile(p).length}); added++;
+  }
+  updateDeckCount(p); refreshHand(p);
+  const diagnostic = {success:added > 0, code:added > 0 ? 'appro-deck-cemetery-resolved' : 'no-eligible-card', reason:added > 0 ? null : (results[0]?.reason || 'no-eligible-card'), cardId:sourceCardId || 'S000004', count:added, results, priority:'deck-then-graveyard', before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic(sourceCardId || 'S000004', diagnostic); if (notify) showNotif(added ? `${added} carte(s) Approvisionnement tirée(s).` : `Aucun Approvisionnement disponible.`, 1400); return diagnostic;
+}
+function resolveDesYeuxDansLeNoir(player, payload={}) {
+  const p = playerState(player); const opponent = opponentOf(p); if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000002'};
+  const revealed = Array.isArray(payload.revealed) ? payload.revealed : []; const selected = payload.selected || payload || {}; const cardId = selected.cardId || payload.cardId || null; const occurrenceId = selected.occurrenceId || payload.occurrenceId || null;
+  if (!cardId) return {success:false, code:'no-selected-card', reason:'no-selected-card', cardId:'S000002'}; if (revealed.length) setBatch15ATemporaryHandReveals(p, opponent, revealed);
+  opponent.batch03BlockedHandOccurrences ||= []; opponent.batch03BlockedHandOccurrences = opponent.batch03BlockedHandOccurrences.filter(block => !(block.cardId === cardId && block.occurrenceId === occurrenceId && block.sourceCardId === 'S000002'));
+  const block = {cardId, occurrenceId, sourceName:'Des yeux dans le noir', sourceCardId:'S000002', armed:false, ownerKey:opponent.key, createdTurnSequence:turnSequence}; opponent.batch03BlockedHandOccurrences.push(block); refreshHand(opponent);
+  const diagnostic = {success:true, code:'des-yeux-dans-le-noir-resolved', reason:null, cardId:'S000002', selectedCardId:cardId, selectedOccurrenceId:occurrenceId, revealed:revealed.map(item => ({cardId:item.cardId, occurrenceId:item.occurrenceId || null})), block:{...block}, before:null, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
+  recordCollectionBatch15AEvent('hand-card-blocked', {viewerKey:p.key, ownerKey:opponent.key, selectedCardId:cardId, selectedOccurrenceId:occurrenceId, revealed:diagnostic.revealed}); recordZoneEffectDiagnostic('S000002', diagnostic); showNotif('Carte bloquée pour le prochain tour.', 1600); return diagnostic;
+}
+function resolveQueteMagique(player) {
+  const p = playerState(player); if (!p) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000017'}; const pile = playerDrawPile(p); const before = zoneInventorySnapshot(p);
+  const candidates = pile.map((entry, index) => { const cardId = getRuntimeCardId(entry); const cost = Number(CARDS_DATA[cardId]?.cost); return {entry, index, cardId, cost}; }).filter(candidate => candidate.cardId && CARDS_DATA[candidate.cardId]?.type === 'Sort' && Number.isFinite(candidate.cost));
+  if (!candidates.length) { const diagnostic = {success:false, code:'no-eligible-sort', reason:'no-eligible-card', cardId:'S000017', drawn:[], excludedNonNumeric:true, before, after:zoneInventorySnapshot(p)}; recordZoneEffectDiagnostic('S000017', diagnostic); showErr('Aucun sort éligible dans votre deck !'); return diagnostic; }
+  const byCheap = [...candidates].sort((a, b) => (a.cost - b.cost) || (b.index - a.index)); const byPricey = [...candidates].sort((a, b) => (b.cost - a.cost) || (b.index - a.index)); const selected = [byCheap[0]]; if (byPricey[0].index !== byCheap[0].index) selected.push(byPricey[0]);
+  const results = []; for (const target of [...selected].sort((a, b) => b.index - a.index)) { const result = drawCardFromRuntimeDeck(p, {predicate:(_id, index) => index === target.index, refresh:false, sourceCardId:'S000017'}); results.push({...result, targetCost:target.cost, targetIndex:target.index}); }
+  refreshHand(p); updateDeckCount(p); const drawn = results.filter(result => result.success).map(result => result.cardId);
+  const diagnostic = {success:drawn.length > 0, code:drawn.length > 0 ? 'quete-magique-resolved' : 'no-card-drawn', reason:drawn.length > 0 ? null : 'no-card-drawn', cardId:'S000017', drawn, selected:selected.map(item => ({cardId:item.cardId, cost:item.cost, index:item.index})), candidatesBefore:candidates.map(item => ({cardId:item.cardId, cost:item.cost, index:item.index})), tieBreak:'topmost-deck-order', nonNumericCostTreatment:'excluded', before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic('S000017', diagnostic); showNotif(drawn.length ? `Quête magique : ${drawn.length} sort(s) pioché(s).` : 'Quête magique ne trouve aucun sort à piocher.', 1600); return diagnostic;
+}
+function resolvePierresDeCommunication(player) {
+  const p = playerState(player); if (!p) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000019'}; p.batch15aPierresCommunication ||= [];
+  const effect = {sourceCardId:'S000019', ownerKey:p.key, createdTurnSequence:turnSequence, startsAfterLaunch:0, consumed:false}; p.batch15aPierresCommunication.push(effect);
+  const diagnostic = {success:true, code:'pierres-de-communication-armed', reason:null, cardId:'S000019', effect:{...effect}, before:null, after:zoneInventorySnapshot(p)}; recordCollectionBatch15AEvent('pierres-armed', {playerKey:p.key, effect:{...effect}}); recordZoneEffectDiagnostic('S000019', diagnostic); showNotif('Pierres de communication : effet armé pour le 3ème début de tour.', 1700); return diagnostic;
+}
+async function resolveBatch15APierresCommunicationStartTurn(player) {
+  const p = playerState(player); if (!p?.batch15aPierresCommunication?.length) return null; const before = zoneInventorySnapshot(p); const effects = p.batch15aPierresCommunication.filter(effect => effect && !effect.consumed); const due = [];
+  effects.forEach(effect => { if (turnSequence > Number(effect.createdTurnSequence || -1)) { effect.startsAfterLaunch = Number(effect.startsAfterLaunch || 0) + 1; if (effect.startsAfterLaunch >= 3) due.push(effect); } });
+  if (!due.length) { p.batch15aPierresCommunication = effects; recordCollectionBatch15AEvent('pierres-start-count', {playerKey:p.key, effects:effects.map(effect => ({...effect}))}); return null; }
+  const drawResult = drawMultiple(p, 4, {notify:false, sourceCardId:'S000019'}); due.forEach(effect => { effect.consumed = true; effect.consumedTurnSequence = turnSequence; }); p.batch15aPierresCommunication = effects.filter(effect => !effect.consumed); const drawn = drawResult.results.filter(result => result.success).map(result => result.cardId);
+  const diagnostic = {success:true, code:'pierres-de-communication-resolved', reason:null, cardId:'S000019', replacesNormalDraw:true, count:drawn.length, drawn, effects:due.map(effect => ({...effect})), drawResult, before, after:zoneInventorySnapshot(p)}; recordCollectionBatch15AEvent('pierres-resolved', {playerKey:p.key, drawn, count:drawn.length}); recordZoneEffectDiagnostic('S000019', diagnostic); showNotif(`Pierres de communication : ${drawn.length} carte(s) piochée(s) au lieu d'une.`, 1800); return diagnostic;
+}
+function resolveBassinDeDivination(player) {
+  const p = playerState(player); const opponent = opponentOf(p); if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000020'}; const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
+  const drawResult = drawCardFromRuntimeDeck(p, {predicate:() => true, refresh:false, sourceCardId:'S000020'}); p.batch15aPermanentHandReveals ||= []; if (!p.batch15aPermanentHandReveals.some(entry => entry.ownerKey === opponent.key)) p.batch15aPermanentHandReveals.push({ownerKey:opponent.key, sourceCardId:'S000020', createdTurnSequence:turnSequence});
+  refreshHand(p); refreshHand(opponent); const diagnostic = {success:true, code:'bassin-de-divination-resolved', reason:null, cardId:'S000020', drawResult, revealedOwnerKey:opponent.key, permanent:true, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('permanent-hand-reveal', {viewerKey:p.key, ownerKey:opponent.key, draw:drawResult.success ? drawResult.cardId : null}); recordZoneEffectDiagnostic('S000020', diagnostic); showNotif('Bassin de divination : main adverse révélée jusqu’à la fin de la partie.', 1800); return diagnostic;
+}
+function resolveSombreAffaire(player) {
+  const p = playerState(player); const opponent = opponentOf(p); if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000030'}; if (p.batch15aSombreAffaire?.active) return {success:false, code:'already-active', reason:'already-active', cardId:'S000030'};
+  ensureBatch03HandOccurrences(p); ensureBatch03HandOccurrences(opponent); const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}; const pHand = p.hand; const pOccurrences = p.batch03HandOccurrences; p.hand = opponent.hand; p.batch03HandOccurrences = opponent.batch03HandOccurrences; opponent.hand = pHand; opponent.batch03HandOccurrences = pOccurrences;
+  p.batch15aSombreAffaire = {active:true, opponentKey:opponent.key, createdTurnSequence:turnSequence, sourceCardId:'S000030'}; opponent.batch15aSombreAffaireCounterpart = {active:true, opponentKey:p.key, createdTurnSequence:turnSequence, sourceCardId:'S000030'}; renderAllHands(); const diagnostic = {success:true, code:'sombre-affaire-exchanged', reason:null, cardId:'S000030', untilTurnSequence:turnSequence, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('hands-exchanged', {playerKey:p.key, opponentKey:opponent.key, untilTurnSequence:turnSequence}); recordZoneEffectDiagnostic('S000030', diagnostic); showNotif('Sombre affaire : mains échangées jusqu’à la fin du tour.', 1700); return diagnostic;
+}
+function resolveBatch15ASombreAffaireEndTurn(player) {
+  const p = playerState(player); const state = p?.batch15aSombreAffaire; const opponent = state ? playerState(state.opponentKey) : null; if (!p || !state?.active || !opponent) return null; const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
+  ensureBatch03HandOccurrences(p); ensureBatch03HandOccurrences(opponent); const pHand = p.hand; const pOccurrences = p.batch03HandOccurrences; p.hand = opponent.hand; p.batch03HandOccurrences = opponent.batch03HandOccurrences; opponent.hand = pHand; opponent.batch03HandOccurrences = pOccurrences; delete p.batch15aSombreAffaire; delete opponent.batch15aSombreAffaireCounterpart; renderAllHands(); const diagnostic = {success:true, code:'sombre-affaire-restored', reason:null, cardId:'S000030', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('hands-restored', {playerKey:p.key, opponentKey:opponent.key}); recordZoneEffectDiagnostic('S000030', diagnostic); return diagnostic;
+}
+
+
 function chooseMurmuresDivinsReturnCard(player, revealed) {
   if (!revealed.length || typeof document === 'undefined' || !document.body) {
     return Promise.resolve(0);
@@ -14502,6 +14608,7 @@ async function resolveMurmuresDivins(player, context={}) {
       continue;
     }
     p.hand.push(cardId);
+    batch03RegisterHandCard(p, p.hand.length - 1, occurrence.entry?.occurrenceId || occurrence.revealOccurrenceId || null);
     added++;
   }
   updateDeckCount(p);
@@ -14564,23 +14671,26 @@ function showSortChoice(cardId, player, options, onCancel=null) {
 }
 
 function showEyesInDarkSelection(player, {onSelect, onCancel=null}={}) {
-  const opponent = opponentOf(player);
+  const p = playerState(player);
+  const opponent = opponentOf(p);
   const advHand = playerHand(opponent);
-  if (!advHand.length) {
+  if (!p || !opponent || !advHand.length) {
     if (onCancel) onCancel();
     return null;
   }
-  const revealed = [...advHand]
-    .map((cardId, index) => ({cardId, occurrenceId:`eyes-${turnSequence}-${index}`}))
-    .sort(() => Math.random() - 0.5)
+  ensureBatch03HandOccurrences(opponent);
+  const revealed = advHand
+    .map((cardId, index) => ({cardId, index, occurrenceId:batch03HandOccurrenceAt(opponent, index)}))
+    .sort(() => gameRandom() - 0.5)
     .slice(0, 3);
+  setBatch15ATemporaryHandReveals(p, opponent, revealed);
   let resolved = false;
   const bodyHtml = `
     <div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">
       Choisissez 1 carte que votre adversaire ne pourra pas jouer au prochain tour.
     </div>
     <div class="sort-choice-cards">
-      ${revealed.map(item => `<div class="sort-choice-item" data-id="${escapeHtml(item.cardId)}" data-occurrence-id="${escapeHtml(item.occurrenceId)}" style="opacity:0.7">
+      ${revealed.map((item, index) => `<div class="sort-choice-item" data-index="${index}" data-id="${escapeHtml(item.cardId)}" data-occurrence-id="${escapeHtml(item.occurrenceId || '')}">
         ${renderDecisionCard(item.cardId, {occurrenceId:item.occurrenceId, context:'opponent-hand-reveal', selectable:true})}
       </div>`).join('')}
     </div>`;
@@ -14589,9 +14699,12 @@ function showEyesInDarkSelection(player, {onSelect, onCancel=null}={}) {
     title:'DES YEUX DANS LE NOIR',
     bodyHtml,
     compactLabel:'DES YEUX DANS LE NOIR EN ATTENTE',
-    ownerPlayerId:playerKey(player),
+    ownerPlayerId:playerKey(p),
     canCancel:true,
-    onCancel
+    onCancel:() => {
+      clearBatch15ATemporaryHandReveals(p);
+      if (onCancel) onCancel();
+    }
   });
   const bind = () => {
     const overlay = modal.overlay;
@@ -14600,8 +14713,9 @@ function showEyesInDarkSelection(player, {onSelect, onCancel=null}={}) {
       el.addEventListener('click', () => {
         if (resolved) return;
         resolved = true;
-        modal.close({selected:el.dataset.id});
-        if (onSelect) onSelect(el.dataset.id);
+        const selected = revealed[Number(el.dataset.index)] || {cardId:el.dataset.id, occurrenceId:el.dataset.occurrenceId || null};
+        modal.close({selected:selected.cardId});
+        if (onSelect) onSelect({selected, revealed});
       });
     });
   };
@@ -19724,7 +19838,8 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
   const handEl = qs(playerZoneSelector(p, 'hand'));
   if (!handEl) return null;
   const hand = playerHand(p);
-  const showFace = faceUp === null ? p.key === currentPlayer : !!faceUp;
+  const batch15AVisibility = batch15AHandVisibility(p, currentPlayer);
+  const showFace = faceUp === null ? (p.key === currentPlayer || batch15AVisibility.all) : (!!faceUp || batch15AVisibility.all);
   const renderToken = String(++handProjectionSequence);
   handEl.dataset.renderToken = renderToken;
   handEl.dataset.playerId = p.key;
@@ -19745,8 +19860,9 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
       delete buildHC.__handIndex;
       const hc = el.firstElementChild;
       if (hc) {
-        hc.setAttribute('draggable', 'true');
+        hc.setAttribute('draggable', p.key === currentPlayer ? 'true' : 'false');
         hc.dataset.handOccurrence = batch03HandOccurrenceAt(p, i) || '';
+        if (p.key !== currentPlayer && batch15AVisibility.reason) hc.dataset.batch15aHandReveal = batch15AVisibility.reason;
         const now = Date.now();
         p.batch13aHandHighlights = (p.batch13aHandHighlights || []).filter(item => item && (!item.expiresAt || item.expiresAt > now));
         const batch13aHighlight = p.batch13aHandHighlights.find(item => item && item.cardId === id && item.occurrenceId === hc.dataset.handOccurrence);
@@ -19773,13 +19889,31 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
       }
     });
   } else {
-    hand.forEach(() => {
-      const el = document.createElement('div');
-      el.className = 'hc-back';
-      el.innerHTML = `<img src="${p.back}" alt="">`;
-      markCanonicalHandNode(el, p, renderToken, 'back');
-      handEl.appendChild(el);
-      traceHandMutation(handEl, 'renderPlayerHand:append-back', {renderToken});
+    ensureBatch03HandOccurrences(p);
+    hand.forEach((id, i) => {
+      const occurrenceId = batch03HandOccurrenceAt(p, i) || '';
+      if (batch15AVisibility.occurrences.has(occurrenceId)) {
+        const el = document.createElement('div');
+        buildHC.__handIndex = i;
+        el.innerHTML = buildHC(id, p.key, false);
+        delete buildHC.__handIndex;
+        const hc = el.firstElementChild;
+        if (hc) {
+          hc.setAttribute('draggable', 'false');
+          hc.dataset.handOccurrence = occurrenceId;
+          hc.dataset.batch15aHandReveal = batch15AVisibility.reason || 'partial';
+          markCanonicalHandNode(hc, p, renderToken, 'face', id);
+          handEl.appendChild(hc);
+          traceHandMutation(handEl, 'renderPlayerHand:append-partial-reveal', {cardId:id, renderToken});
+        }
+      } else {
+        const el = document.createElement('div');
+        el.className = 'hc-back';
+        el.innerHTML = `<img src="${p.back}" alt="">`;
+        markCanonicalHandNode(el, p, renderToken, 'back');
+        handEl.appendChild(el);
+        traceHandMutation(handEl, 'renderPlayerHand:append-back', {renderToken});
+      }
     });
   }
   handEl.classList.toggle('hand-empty', hand.length === 0);
@@ -20439,7 +20573,11 @@ async function runStartTurnPipeline(player) {
 
   if (!state.normalDrawResolved) {
     trace.normalDrawAttempted = true;
-    if (!p.firstTurnStarted) {
+    const batch15aPierresDraw = await resolveBatch15APierresCommunicationStartTurn(p);
+    if (batch15aPierresDraw?.replacesNormalDraw) {
+      trace.drawResult = batch15aPierresDraw;
+      drawn = batch15aPierresDraw.drawn?.[batch15aPierresDraw.drawn.length - 1] || null;
+    } else if (!p.firstTurnStarted) {
       p.firstTurnStarted = true;
       if (p.key === player2.key && p.startMaybe.length) {
         drawn = drawSpecificCard(p, p.startMaybe[0]);
@@ -20509,7 +20647,13 @@ async function endTurnRuntime() {
       await resolveBatch08EndTurnEffects(activePlayer);
       await resolveBatch09EndTurnEffects(activePlayer);
       await resolveBatch11eEndTurnEffects(activePlayer);
+      resolveBatch15ASombreAffaireEndTurn(activePlayer);
+      clearBatch15ATemporaryHandReveals(activePlayer);
       await applyBatch03EndTurnAbilities(activePlayer);
+    }
+    if (batch14eNorActive) {
+      resolveBatch15ASombreAffaireEndTurn(activePlayer);
+      clearBatch15ATemporaryHandReveals(activePlayer);
     }
     await resolveMeteoresEndOfTurn(activePlayer);
     const batch14eEnd = await resolveBatch14EEndTurnEffects(activePlayer);
@@ -23467,7 +23611,7 @@ Object.assign(CARDS_DATA, {
   "S000037": {
     "name": "Chemins de Ley",
     "type": "Sort",
-    "fac": "gob",
+    "fac": "sort",
     "cost": 5,
     "kws": [
       "Lenya"
@@ -23872,7 +24016,7 @@ Object.assign(CARDS_DATA, {
   "S000051":{name:"Rituel occulte",type:"Sort",fac:"sort",atk:null,pdv:null,cost:5,res_ico:"IC00000ARI",res_val:"5",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria"],cap:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,detail:"Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse."},
   "S000052":{name:"Le retour des revenants",type:"Sort",fac:"sort",atk:null,pdv:null,cost:3,res_ico:"IC00000ARI",res_val:"3",resType:"Aria",fico:"FCT00000MVS.png",kws:["Aria","Écho","Approvisionnement"],cap:"Invoque jusqu'à *3* serviteurs morts-vivants de votre deck coûtant *2* ou moins, en privilégiant autant que possible les serviteurs distincts. Si votre deck ne contient pas de serviteurs répondant à cette description, fouille ensuite votre cimetière. Si là non plus, aucun serviteur compatible n'est trouvé, ajoute *5* Échos à vos ressources.",badge:"Sort",lore:"",assetFolder:"sorts",max:3},
   "S000040":{name:"Pixiemanie",type:"Sort",fac:"sort",atk:null,pdv:null,cost:10,res_ico:"IC00000LNY",res_val:"10",resType:"Lenya|Nourriture",fico:"FCT00000EDB.png",kws:["Lenya","Nourriture"],cap:"Renvoie toutes les Pixies de votre cimetière à votre main.",badge:"Sort",lore:"",assetFolder:"sorts",max:2,cond:"Nécessite d'avoir au moins 1 carte Pixie actuellement dans votre cimetière.",detail:"Renvoie toutes les Pixies de votre cimetière à votre main.",related:["EDB000012"]},
-  "S000043":{name:"Prendre le taureau par les cornes",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000NOU",res_val:"6",resType:"Nourriture",fico:"FCT00000BET.png",kws:["Nourriture"],cap:"Piochez immédiatement tous les serviteurs de type Minotaure restant dans votre deck.",badge:"Sort",lore:"",assetFolder:"sorts",max:1,detail:"Piochez immédiatement tous les serviteurs de type Minotaure restant dans votre deck.",related:["B000015","B000016","B000017"]}
+  "S000043":{name:"Prendre le taureau par les cornes",type:"Sort",fac:"sort",atk:null,pdv:null,cost:6,res_ico:"IC00000NOU",res_val:"6",resType:"Nourriture",fico:"FCT00000BET.png",kws:["Nourriture"],cap:"Piochez immédiatement tous les serviteurs de type « Minotaure » restant dans votre deck.",badge:"Sort",lore:"",assetFolder:"sorts",max:1,detail:"Piochez immédiatement tous les serviteurs de type « Minotaure » [ID = B000015, B000016 et B000017] restant dans votre deck.",related:["B000015","B000016","B000017"]}
 });
 
 
