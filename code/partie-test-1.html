@@ -675,7 +675,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
 .batch09-cadaver-flight[data-flight-reason^="batch11e-"],.batch09-cadaver-flight[data-flight-reason^="batch12a-"]{border-color:rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);}
-.batch09-cadaver-flight[data-flight-reason^="batch15a-"]{border-color:rgba(255,224,114,.98);box-shadow:0 0 24px rgba(255,220,96,.92),0 0 52px rgba(255,168,36,.64),inset 0 0 18px rgba(255,246,174,.28);}
+.batch09-cadaver-flight[data-flight-reason^="batch15a-"],.batch09-cadaver-flight[data-flight-reason^="batch15b-"]{border-color:rgba(255,224,114,.98);box-shadow:0 0 24px rgba(255,220,96,.92),0 0 52px rgba(255,168,36,.64),inset 0 0 18px rgba(255,246,174,.28);}
 .batch12a-center-reveal{position:fixed;left:calc(50vw - 46px);top:calc(50vh - 64px);z-index:4250;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);animation:batch12aCenterReveal .32s ease-out both;}
 @keyframes batch12aCenterReveal{0%{opacity:0;transform:translateY(18px) scale(.86);filter:brightness(2.2);}100%{opacity:1;transform:none;filter:brightness(1.16);}}
 .batch03-hypnosis-active::before,.batch03-hypnosis-active::after{content:'';position:absolute;left:50%;top:50%;z-index:47;width:18px;height:18px;border:2px solid rgba(157,255,102,.85);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:batch04HypnosisRipple 1.8s ease-out infinite;}
@@ -2213,7 +2213,7 @@ Object.assign(CARDS_DATA, {
   // Sorts MVS
   'S000005':{name:'Assassinat',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,
     res_ico:'IC00000RDM',res_val:'5',fico:null,kws:[],
-    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à 8. Le joueur adverse peut annuler cet effet en choisissant d\'envoyer 2 cartes de type Approvisionnement au cimetière à la place.',
+    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d\'envoyer *2* cartes de type Approvisionnement au cimetière à la place.',
     badge:'Sort',lore:''},
   'S000002':{name:'Des yeux dans le noir',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,
     res_ico:'IC00000LNY',res_val:'2',fico:null,kws:[],
@@ -2982,6 +2982,34 @@ SCENARIOS['collection-batch-15a-delayed-recycle-d'] = {
   testSetup: {
     player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000019','S000044','H000001'], drawPile:['S000003','H000024','R000010','S000017','H000005','R000011','H000018'], graveyard:['R000001','H000005','S000004'], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['H000001'], drawPile:['H000005','R000001','S000006'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15b-destroy-target-a'] = {
+  label: 'TEST — COLLECTION BATCH 15B destruction / cible', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000001',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000001','S000005','S000063'], drawPile:['H000001','R000010'], graveyard:[], servants:[], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['R000001','R000002','H000001'], drawPile:['H000005','R000010','H000006'], graveyard:['H000001','R000004'], servants:[{id:'H000001',atk:4,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000029',atk:7,pdv:8,pdvMax:8,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15b-duel-overflow-b'] = {
+  label: 'TEST — COLLECTION BATCH 15B duel / surplus', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000031',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000031','S000032'], drawPile:['R000010'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'TRL000010',atk:4,pdv:7,pdvMax:7,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000029',atk:7,pdv:8,pdvMax:8,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15b-troll-chain-c'] = {
+  label: 'TEST — COLLECTION BATCH 15B troll chain', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000046',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000046','H000001'], drawPile:['TRL000019'], graveyard:[], servants:[{id:'TRL000006',atk:7,pdv:12,pdvMax:12,prepared:true},{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000026', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',atk:1,pdv:1,pdvMax:1,prepared:true},{id:'H000006',atk:1,pdv:1,pdvMax:1,prepared:true},{id:'MV000020',atk:1,pdv:1,pdvMax:1,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15b-eternal-fire-d'] = {
+  label: 'TEST — COLLECTION BATCH 15B feu éternel', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000025',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000025'], drawPile:['H000001','R000010','S000031'], graveyard:['H000005'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000029',atk:7,pdv:8,pdvMax:8,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','R000001','S000063'], graveyard:['R000004'], servants:[{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-01-zone-spells'] = {
@@ -11509,6 +11537,16 @@ function auditInvocationCondition(cardId, player=currentPlayer) {
 }
 
 const CARD_TARGET_REQUIREMENTS = Object.freeze({
+  S000001: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'opponent',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    atkLessThan: 5,
+    effectKind: 'destroy'
+  },
   S000005: {
     required: true,
     min: 1,
@@ -11518,6 +11556,16 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     cardType: 'Serviteur',
     atkLessThan: 8,
     effectKind: 'destroy'
+  },
+  S000031: {
+    required: true,
+    min: 2,
+    max: 2,
+    side: 'both',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'damage',
+    bypassInsensitive: true
   },
   S000010: {
     required: true,
@@ -11588,9 +11636,10 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     required: true,
     min: 1,
     max: 1,
-    side: 'opponent',
+    side: 'both',
     zone: 'servants',
     cardType: 'Serviteur',
+    excludeKeywords: ['Insensible'],
     effectKind: 'damage'
   },
   S000046: {
@@ -11620,6 +11669,12 @@ function cardTargetRequirement(cardId) {
 
 function boardTargetsForRequirement(player, requirement) {
   const p = playerState(player);
+  if (requirement?.side === 'both') {
+    return [p, opponentOf(p)].flatMap(side => {
+      const zone = side ? qs(playerZoneSelector(side, requirement?.zone || 'servants')) : null;
+      return Array.from(zone?.querySelectorAll('.fc:not([data-dead])') || []);
+    });
+  }
   const side = requirement?.side === 'self' ? p : opponentOf(p);
   const zoneName = requirement?.zone || 'servants';
   const zone = side ? qs(playerZoneSelector(side, zoneName)) : null;
@@ -13529,7 +13584,7 @@ async function playCard(cardId, slot, options={}) {
   const handOccurrenceId = options?.handOccurrenceId || slot?.dataset?.handOccurrence || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
   const affordabilityContext = handOccurrenceId ? {handOccurrenceId} : {};
-  if ((cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000056' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
+  if ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000031' || cardId === 'S000056' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
@@ -13544,15 +13599,29 @@ async function playCard(cardId, slot, options={}) {
       showErr(cardActionError('no-valid-target', {targetResult}));
       return {success:false, reason:'no-valid-target', targetResult};
     }
+    const targetRequirement = cardTargetRequirement(cardId);
+    const targetChoiceCopy = {
+      S000001:['Embuscade elfique','Choisissez un serviteur adverse avec moins de 5 ATK.'],
+      S000005:['Assassinat','Choisissez un serviteur adverse avec moins de 8 ATK.'],
+      S000010:['Main guérisseuse','Choisissez le serviteur allié à soigner.'],
+      S000031:['Duel','Choisissez deux serviteurs à faire s’affronter.'],
+      S000032:['Savoir tribal','Choisissez le premier serviteur à frapper.'],
+      S000046:['Envoyer un troll tout casser !','Envoyer un troll tout casser !'],
+      S000056:['Déplacement instantané','Choisissez le serviteur allié à marquer.'],
+      S000061:['Bouclier de glace','Choisissez le serviteur allié à protéger.'],
+      S000062:['Déferlante de flammes','Choisissez le serviteur adverse à embraser.'],
+      S000063:['Choc mental','Choisissez le serviteur adverse à frapper.'],
+      TRL000015:['Troll-nain','Choisissez le serviteur allié à renforcer.']
+    }[cardId] || ['Aura de protection','Choisissez le serviteur allié à protéger.'];
     const chosen = await chooseBoardTargets({
-      title:cardId === 'S000010' ? 'Main guérisseuse' : (cardId === 'S000056' ? 'Déplacement instantané' : (cardId === 'S000061' ? 'Bouclier de glace' : (cardId === 'S000062' ? 'Déferlante de flammes' : (cardId === 'S000063' ? 'Choc mental' : (cardId === 'S000032' ? 'Savoir tribal' : (cardId === 'S000046' ? 'Envoyer un troll tout casser !' : (cardId === 'TRL000015' ? 'Troll-nain' : 'Aura de protection'))))))),
-      prompt:cardId === 'S000010' ? 'Choisissez le serviteur allié à soigner.' : (cardId === 'S000056' ? 'Choisissez le serviteur allié à marquer.' : (cardId === 'S000061' ? 'Choisissez le serviteur allié à protéger.' : (cardId === 'S000062' ? 'Choisissez le serviteur adverse à embraser.' : (cardId === 'S000063' ? 'Choisissez le serviteur adverse à frapper.' : (cardId === 'S000032' ? 'Choisissez le premier serviteur à frapper.' : (cardId === 'S000046' ? 'Envoyer un troll tout casser !' : (cardId === 'TRL000015' ? 'Choisissez le serviteur allié à renforcer.' : 'Choisissez le serviteur allié à protéger.'))))))),
+      title:targetChoiceCopy[0],
+      prompt:targetChoiceCopy[1],
       targets,
-      minCount:1,
-      maxCount:1,
-      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + ((cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063') ? ' batch09-magic-choice-panel' : (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : (cardId === 'S000032' ? ' savoir-tribal-choice-panel' : (cardId === 'S000046' ? ' batch09-ca-casse-choice-panel' : ''))))
+      minCount:targetRequirement?.min || 1,
+      maxCount:targetRequirement?.max || 1,
+      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000031' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063') ? ' batch09-magic-choice-panel' : (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : (cardId === 'S000032' ? ' savoir-tribal-choice-panel' : (cardId === 'S000046' ? ' batch09-ca-casse-choice-panel' : ''))))
     });
-    if (chosen.length !== 1) {
+    if (chosen.length < (targetRequirement?.min || 1) || chosen.length > (targetRequirement?.max || 1)) {
       releasePaymentLock(p, cardId);
       showErr('Cette cible n\'est pas valide.');
       return {success:false, reason:'invalid-target-count'};
@@ -14174,6 +14243,12 @@ async function triggerSort(cardId, player, context={}) {
       return activateBatch09Zarrach(player);
     case 'PRST000005':
       return activateBatch09Mugwa(player);
+    case 'S000001':
+      return await resolveEmbuscadeElfique(player, context);
+    case 'S000025':
+      return await resolveFeuEternelDechaine(player, context);
+    case 'S000031':
+      return await resolveDuel(player, context);
     case 'S000046':
       return await resolveBatch09CaPasseOuCaCasse(player, context);
     case 'S000048':
@@ -14226,43 +14301,8 @@ async function triggerSort(cardId, player, context={}) {
       return await resolveBatch10CodeCouleurs(player, context);
     case 'S000047':
       return await resolveBatch10VoleeDeGobelins(player, context);
-    case 'S000005': // Assassinat
-    { const targetAudit = evaluateTargetRequirement(cardId, {player, selectedTargetIds:context.selectedTargetIds || null});
-      if (!targetAudit.allowed) {
-        showErr(cardActionError(targetAudit.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:targetAudit}));
-        return {success:false, reason:targetAudit.code, targetAudit};
-      }
-      let targets = [];
-      if (context.selectedTargetIds?.length) {
-        const legalInstances = new Set((targetAudit.legalTargets || []).map(target => target.instance));
-        targets = resolveBoardTargetReferences(context.selectedTargetIds).filter(fc => legalInstances.has(fc.dataset.instance || fc.dataset.supplyInstance || ''));
-      } else {
-        targets = await chooseBoardTargets({
-          title:'Assassinat',
-          prompt:'Choisissez un serviteur adverse avec moins de 8 ATK.',
-          targets:legalTargetsForRequirement(cardId, player)
-        });
-      }
-      const target = targets[0];
-      if (!target || !target.isConnected) {
-        showErr("Cette cible n'est pas valide.");
-        return {success:false, reason:'invalid-target-after-selection', targetAudit};
-      }
-      const defender = opponentOf(player);
-      if (supplyDiscardEntries(defender).length >= 2) {
-        const decision = await chooseAssassinationDecision(defender, target);
-        if (decision.action === 'sacrifice' && decision.instanceIds?.length === 2) {
-          const discard = discardSupplyInstancesForEffect(defender, decision.instanceIds, 'assassination-cancel');
-          if (discard.success) {
-            showNotif('Assassinat annule par 2 Approvisionnements.', 1400);
-            return {success:true, reason:'cancelled-by-supplies', cancelled:true, target:targetSummary(target)};
-          }
-        }
-      }
-      const destroyedTarget = targetSummary(target);
-      await sendToCemetery(target);
-      showNotif('Sort : Assassinat !', 1400);
-      return {success:true, reason:'target-destroyed', target:destroyedTarget}; }
+    case 'S000005':
+      return await resolveAssassinat(player, context);
     case 'S000010':
       return resolveBatch03HealingHand(player, context);
     case 'S000028':
@@ -16200,6 +16240,142 @@ async function resolvePillageEnRegle(player) {
   return result;
 }
 
+function batch15BLegalSelectedTargets(cardId, player, context={}) {
+  const p = playerState(player);
+  const audit = evaluateTargetRequirement(cardId, {player:p, selectedTargetIds:context.selectedTargetIds || null});
+  if (!audit.allowed) return {audit, targets:[]};
+  const legalInstances = new Set((audit.legalTargets || []).map(target => target.instance));
+  let targets = resolveBoardTargetReferences(context.selectedTargetIds || [])
+    .filter(fc => legalInstances.has(fc.dataset.instance || fc.dataset.supplyInstance || ''));
+  if (!targets.length) targets = legalTargetsForRequirement(cardId, p).slice(0, audit.requirement?.max || 1);
+  return {audit, targets};
+}
+
+async function resolveEmbuscadeElfique(player, context={}) {
+  const p = playerState(player);
+  const {audit, targets} = batch15BLegalSelectedTargets('S000001', p, context);
+  if (!p || !audit.allowed) {
+    showErr(cardActionError(audit?.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:audit}));
+    return {success:false, reason:audit?.code || 'invalid-player', cardId:'S000001', targetAudit:audit};
+  }
+  const target = targets[0];
+  if (!target || !target.isConnected) return {success:false, reason:'missing-target', cardId:'S000001', targetAudit:audit};
+  const destroyedTarget = targetSummary(target);
+  await sendToCemetery(target, {sourceCardId:'S000001'});
+  const steal = await batch15BStealOpponentSupply(p, opponentOf(p), 'S000001');
+  const result = {success:true, cardId:'S000001', playerId:p.key, target:destroyedTarget, steal};
+  recordCollectionBatch15BEvent('embuscade-elfique', result);
+  showNotif('Embuscade elfique : cible détruite' + (steal.success ? ' et approvisionnement volé.' : '.'), 1700);
+  return result;
+}
+
+async function resolveAssassinat(player, context={}) {
+  const p = playerState(player);
+  const {audit, targets} = batch15BLegalSelectedTargets('S000005', p, context);
+  if (!p || !audit.allowed) {
+    showErr(cardActionError(audit?.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:audit}));
+    return {success:false, reason:audit?.code || 'invalid-player', cardId:'S000005', targetAudit:audit};
+  }
+  const target = targets[0];
+  if (!target || !target.isConnected) return {success:false, reason:'missing-target', cardId:'S000005', targetAudit:audit};
+  const defender = opponentOf(p);
+  const targetBefore = targetSummary(target);
+  const handSupplies = batch15BHandSupplyEntries(defender);
+  if (handSupplies.length >= 2) {
+    const decision = context.assassinationDecision || await chooseAssassinationDecision(defender, target);
+    if (decision?.action === 'sacrifice' && decision.instanceIds?.length === 2) {
+      const discard = await discardHandSuppliesForEffect(defender, decision.instanceIds, 'assassinat-cancel');
+      if (discard.success) {
+        const result = {success:true, cancelled:true, reason:'cancelled-by-hand-supplies', cardId:'S000005', playerId:p.key, target:targetBefore, discard};
+        recordCollectionBatch15BEvent('assassinat-cancelled', result);
+        showNotif('Assassinat annulé par 2 cartes Approvisionnement.', 1600);
+        return result;
+      }
+    }
+  }
+  await sendToCemetery(target, {sourceCardId:'S000005'});
+  const result = {success:true, cancelled:false, reason:'target-destroyed', cardId:'S000005', playerId:p.key, target:targetBefore};
+  recordCollectionBatch15BEvent('assassinat', result);
+  showNotif('Sort : Assassinat !', 1400);
+  return result;
+}
+
+async function resolveDuel(player, context={}) {
+  const p = playerState(player);
+  const {audit, targets} = batch15BLegalSelectedTargets('S000031', p, context);
+  if (!p || !audit.allowed || targets.length !== 2) {
+    showErr(cardActionError(audit?.code === 'no-valid-target' ? 'no-valid-target' : 'invalid-target', {targetResult:audit}));
+    return {success:false, reason:audit?.code || 'invalid-target-count', cardId:'S000031', targetAudit:audit};
+  }
+  const [first, second] = targets;
+  const firstBefore = targetSummary(first);
+  const secondBefore = targetSummary(second);
+  const firstAtk = Number(first.dataset.atk || 0);
+  const secondAtk = Number(second.dataset.atk || 0);
+  await prepareBatch09CombatFeedback(first, second, {phase:'duel', forcedBy:'S000031', damage:firstAtk});
+  const secondDied = await applyDamage(second, firstAtk, {cemeteryOptions:{destinationPlayer:p, sourceCardId:'S000031'}});
+  if (first?.isConnected && !first.dataset.dead) {
+    await prepareBatch09CombatFeedback(second, first, {phase:'duel-riposte', forcedBy:'S000031', damage:secondAtk});
+  }
+  const firstDied = await applyDamage(first, secondAtk, {cemeteryOptions:{destinationPlayer:p, sourceCardId:'S000031'}});
+  const result = {
+    success:true,
+    cardId:'S000031',
+    playerId:p.key,
+    combatants:[firstBefore, secondBefore],
+    damage:[{target:secondBefore, amount:firstAtk, died:secondDied}, {target:firstBefore, amount:secondAtk, died:firstDied}],
+    destinationCemetery:p.key
+  };
+  recordCollectionBatch15BEvent('duel', result);
+  showNotif('Duel : les deux serviteurs s’affrontent.', 1600);
+  return result;
+}
+
+async function resolveFeuEternelDechaine(player, context={}) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000025'};
+  const players = [p, opponentOf(p)].filter(Boolean);
+  const servants = players.flatMap(side => batch09Living(side));
+  const destroyedServants = [];
+  for (const servant of servants) {
+    if (!servant?.isConnected || servant.dataset.dead) continue;
+    const before = targetSummary(servant);
+    await sendToCemetery(servant, {sourceCardId:'S000025'});
+    destroyedServants.push(before);
+    await batch05VisualDelay(180);
+  }
+  const destroyedSupplies = [];
+  for (const side of players) {
+    const supplies = [...(side.supplies || [])];
+    for (const instance of supplies) {
+      const cardId = instance.cardId;
+      const result = sendSupplyInstanceToCemetery(side, instance.instanceId, {reason:'feu-eternel-dechaine', useLatestBotanicalMember:false});
+      if (result.success) {
+        destroyedSupplies.push({playerId:side.key, cardId, instanceId:instance.instanceId});
+        await batch15BAnimateTransfer(cardId, side, 'supplies', side, 'cemetery', 'feu-eternel-supply', 160);
+      }
+    }
+  }
+  const erasedDecks = players.map(side => {
+    const deck = playerDrawPile(side);
+    const count = deck.length;
+    const cards = deck.splice(0).map(getRuntimeCardId);
+    updateDeckCount(side);
+    recordCollectionBatch15BEvent('deck-erased', {playerId:side.key, count, cards});
+    return {playerId:side.key, count};
+  });
+  const avatars = players.map(side => {
+    const before = batch09AvatarHp(side);
+    setAvatarHitPoints(side, 0);
+    pulseBatch09Avatar(side, 'batch15b-feu-eternel-avatar');
+    return {playerId:side.key, before, after:0};
+  });
+  const result = {success:true, cardId:'S000025', playerId:p.key, destroyedServants, destroyedSupplies, erasedDecks, avatars};
+  recordCollectionBatch15BEvent('feu-eternel-dechaine', result);
+  showNotif('Le Feu éternel déchaîné consume tout.', 2200);
+  return result;
+}
+
 async function resolveSavoirTribal(player, context={}) {
   const p = playerState(player);
   const audit = evaluateTargetRequirement('S000032', {player:p, selectedTargetIds:context.selectedTargetIds || null});
@@ -16223,6 +16399,11 @@ async function resolveSavoirTribal(player, context={}) {
   for (const current of chain) {
     if (!current?.isConnected || current.dataset.dead || overflow <= 0) break;
     const before = targetSummary(current);
+    if (current.dataset.insensible) {
+      showResistVfx(current, 'Insensible');
+      hits.push({target:before, damage:0, died:false, blocked:'Insensible'});
+      break;
+    }
     const currentPdv = Number(current.dataset.pdv || 0);
     const damage = Math.min(overflow, currentPdv);
     const died = await tryApplyAbilityDamage({sourcePlayer:p, targetFC:current, sourceCardId:'S000032', amount:damage, directSpellDamage:true});
@@ -18378,7 +18559,7 @@ async function resolveCombat(attacker, targetFC) {
 }
 
 // Retourne true si la carte est morte
-async function applyDamage(fc, amount) {
+async function applyDamage(fc, amount, options={}) {
   if (!fc || !amount || amount <= 0) return false;
   if (fc.dataset.dead) return true;
   amount = adjustBatch03IncomingDamage(fc, amount);
@@ -18428,7 +18609,7 @@ async function applyDamage(fc, amount) {
     fc.dataset.dead = '1';
     const cemeteryOptions = fc._batch11EchoCaptureContext ? {echoCapture:fc._batch11EchoCaptureContext} : {};
     if (fc._batch12aResolutionId || batch12aCurrentResolutionId()) cemeteryOptions.batch12aResolutionId = fc._batch12aResolutionId || batch12aCurrentResolutionId();
-    await sendToCemetery(fc, cemeteryOptions);
+    await sendToCemetery(fc, {...cemeteryOptions, ...(options.cemeteryOptions || {})});
     return true;
   }
   return false;
@@ -18676,8 +18857,9 @@ async function sendToCemetery(fc, options={}) {
   }
 
   if (goesToCemetery && !placedAtDeckBottom) {
+    const cemeteryPlayer = playerState(options.destinationPlayer || options.cemeteryPlayer || player) || playerState(player);
     if (d.type === 'Serviteur' && player) {
-      const graveyardOwner = playerState(player);
+      const graveyardOwner = cemeteryPlayer;
       if (graveyardOwner && fc.dataset.cemeteryRecorded !== '1') {
         const maraborcEntry = fc.dataset.batch08MaraborcCopy === '1'
           ? {
@@ -18693,20 +18875,20 @@ async function sendToCemetery(fc, options={}) {
       }
     }
     if (cardId === 'R000027' && player) {
-      const graveyardOwner = playerState(player);
+      const graveyardOwner = cemeteryPlayer;
       if (graveyardOwner && fc.dataset.cemeteryRecorded !== '1') {
         graveyardOwner.graveyard.push(cardId);
         fc.dataset.cemeteryRecorded = '1';
       }
     }
     if (!batch11aEchoCapture?.captured) {
-      addToCemetery(cardId, player, fc.dataset.batch08MaraborcCopy === '1' ? 'orc' : (d.fac||'edn'), fc.dataset.batch08MaraborcCopy === '1' ? batch08MaraborcCopyData(cardId, d, {
+      addToCemetery(cardId, cemeteryPlayer || player, fc.dataset.batch08MaraborcCopy === '1' ? 'orc' : (d.fac||'edn'), fc.dataset.batch08MaraborcCopy === '1' ? batch08MaraborcCopyData(cardId, d, {
         occurrenceId:fc.dataset.batch08MaraborcOccurrence || fc.dataset.instance || null,
         originalFaction:fc.dataset.batch08MaraborcOriginalFaction || d.fac || null,
         originalAssetFolder:fc.dataset.batch08MaraborcOriginalAssetFolder || d.assetFolder || facFolder(d.fac)
       }) : null);
     } else {
-      refreshCemeteryVisual(player);
+      refreshCemeteryVisual(cemeteryPlayer || player);
     }
   }
   if (goesToCemetery && d.type === 'Serviteur') {
@@ -20132,6 +20314,114 @@ function addCardToHand(player, cardId, {refresh=true, occurrenceId=null}={}) {
   return true;
 }
 
+const collectionBatch15BState = {events:[]};
+function recordCollectionBatch15BEvent(type, detail={}) {
+  const event = {type, turnSequence, ...detail};
+  collectionBatch15BState.events.push(event);
+  if (typeof window !== 'undefined') {
+    window.__collectionBatch15BEvents ||= [];
+    window.__collectionBatch15BEvents.push(event);
+    window.__collectionBatch15BLastEvent = event;
+  }
+  return event;
+}
+
+function batch15BZoneElement(player, zone) {
+  const p = playerState(player);
+  if (!p || typeof document === 'undefined') return null;
+  if (zone === 'deck') return qs(playerZoneSelector(p, 'deck'));
+  if (zone === 'cemetery') return qs(playerZoneSelector(p, 'cemetery'));
+  if (zone === 'hand') return qs(playerZoneSelector(p, 'hand'));
+  if (zone === 'supplies') return qs(playerZoneSelector(p, 'appro'));
+  if (zone === 'avatar') return qs(playerZoneSelector(p, 'avatar'));
+  return null;
+}
+
+async function batch15BAnimateTransfer(cardId, fromPlayer, fromZone, toPlayer, toZone, reason='transfer', delayMs=420) {
+  const from = batch15BZoneElement(fromPlayer, fromZone);
+  const to = batch15BZoneElement(toPlayer, toZone);
+  const visible = showBatch09CadaverFlight(cardId, from, to, `batch15b-${reason}-${fromZone}-to-${toZone}`, null);
+  recordCollectionBatch15BEvent('card-transfer', {cardId, fromPlayerId:playerKey(fromPlayer), fromZone, toPlayerId:playerKey(toPlayer), toZone, reason, visible});
+  if (visible) await batch05VisualDelay(delayMs);
+  return {cardId, fromZone, toZone, visible};
+}
+
+function batch15BRefreshHand(player) {
+  const p = playerState(player);
+  if (!p) return;
+  if (p.key === currentPlayer) refreshHand(p);
+  else refreshAdverseHandBacks(opponentOf(p));
+}
+
+function batch15BHandSupplyEntries(player) {
+  const p = playerState(player);
+  ensureBatch03HandOccurrences(p);
+  return (p?.hand || [])
+    .map((cardId, index) => ({cardId, index, occurrenceId:batch03HandOccurrenceAt(p, index), card:CARDS_DATA[cardId]}))
+    .filter(entry => entry.card?.type === 'Approvisionnement' && !String(entry.cardId).startsWith('RAME') && entry.cardId !== 'R000021');
+}
+
+async function discardHandSuppliesForEffect(player, occurrenceIds, reason='effect') {
+  const p = playerState(player);
+  const wanted = [...new Set(occurrenceIds || [])].filter(Boolean);
+  if (!p || !wanted.length) return {success:false, reason:'missing-selection'};
+  const entries = batch15BHandSupplyEntries(p).filter(entry => wanted.includes(entry.occurrenceId));
+  if (entries.length !== wanted.length) return {success:false, reason:'missing-hand-supply'};
+  const results = [];
+  for (const entry of entries.sort((a, b) => b.index - a.index)) {
+    await batch15BAnimateTransfer(entry.cardId, p, 'hand', p, 'cemetery', reason);
+    const removed = removeHandCardAt(p, entry.index);
+    if (!removed) return {success:false, reason:'hand-remove-failed', results};
+    p.graveyard ||= [];
+    p.graveyard.push(removed);
+    addToCemetery(removed, p, CARDS_DATA[removed]?.fac || 'appro');
+    results.push({cardId:removed, occurrenceId:entry.occurrenceId});
+  }
+  batch15BRefreshHand(p);
+  refreshCemeteryVisual(p);
+  return {success:true, results};
+}
+
+async function batch15BStealOpponentSupply(player, opponent, sourceCardId='S000001') {
+  const p = playerState(player);
+  const defender = playerState(opponent);
+  if (!p || !defender) return {success:false, reason:'invalid-player'};
+  if (getHandCapacityStatus(p).full) return {success:false, reason:'hand-full'};
+  const deck = playerDrawPile(defender);
+  let entry = null;
+  for (let i = deck.length - 1; i >= 0; i--) {
+    const cardId = getRuntimeCardId(deck[i]);
+    if (CARDS_DATA[cardId]?.type === 'Approvisionnement' && !String(cardId).startsWith('RAME') && cardId !== 'R000021') {
+      entry = {zone:'deck', index:i, cardId:deck[i], runtimeCardId:cardId};
+      break;
+    }
+  }
+  if (!entry) {
+    const graveyard = defender.graveyard || [];
+    for (let i = graveyard.length - 1; i >= 0; i--) {
+      const cardId = getRuntimeCardId(graveyard[i]);
+      if (CARDS_DATA[cardId]?.type === 'Approvisionnement' && !String(cardId).startsWith('RAME') && cardId !== 'R000021') {
+        entry = {zone:'cemetery', index:i, cardId:graveyard[i], runtimeCardId:cardId};
+        break;
+      }
+    }
+  }
+  if (!entry) return {success:false, reason:'no-opponent-supply'};
+  await batch15BAnimateTransfer(entry.runtimeCardId, defender, entry.zone, p, 'hand', 'embuscade-steal');
+  if (entry.zone === 'deck') {
+    deck.splice(entry.index, 1);
+    updateDeckCount(defender);
+  } else {
+    defender.graveyard.splice(entry.index, 1);
+    refreshCemeteryVisual(defender);
+  }
+  const occurrenceId = batch08NextOccurrenceId('batch15b-stolen-supply');
+  const added = addCardToHand(p, entry.cardId, {refresh:true, occurrenceId});
+  const result = {success:!!added, sourceCardId, playerId:p.key, opponentId:defender.key, stolen:entry.runtimeCardId, sourceZone:entry.zone, occurrenceId:added ? occurrenceId : null};
+  recordCollectionBatch15BEvent('embuscade-supply-stolen', result);
+  return result;
+}
+
 function gameRandom() {
   return typeof window !== 'undefined' && typeof window.__mythesRandom === 'function'
     ? Number(window.__mythesRandom())
@@ -20373,12 +20663,12 @@ function chooseSupplyInstances(player, count, {title='Choisissez des Approvision
 
 function chooseAssassinationDecision(player, targetFC) {
   const p = playerState(player);
-  const entries = supplyDiscardEntries(p);
+  const entries = batch15BHandSupplyEntries(p);
   if (!p || !targetFC || entries.length < 2) {
     return Promise.resolve({action:'abandon', instanceIds:[]});
   }
   if (typeof document === 'undefined' || !document.body) {
-    return Promise.resolve({action:'sacrifice', instanceIds:entries.slice(0, 2).map(entry => entry.instance.instanceId)});
+    return Promise.resolve({action:'sacrifice', instanceIds:entries.slice(0, 2).map(entry => entry.occurrenceId)});
   }
   return new Promise(resolve => {
     const selected = new Set();
@@ -20406,8 +20696,8 @@ function chooseAssassinationDecision(player, targetFC) {
       resolve(result);
     };
     const currentEntries = () => {
-      const available = supplyDiscardEntries(p);
-      const ids = new Set(available.map(entry => entry.instance.instanceId));
+      const available = batch15BHandSupplyEntries(p);
+      const ids = new Set(available.map(entry => entry.occurrenceId));
       [...selected].forEach(id => { if (!ids.has(id)) selected.delete(id); });
       return available;
     };
@@ -20443,10 +20733,10 @@ function chooseAssassinationDecision(player, targetFC) {
             <div class="assassination-supply-grid">
               ${available.map((entry, i) => {
                 const folder = entry.card.assetFolder || facFolder(entry.card.fac || 'appro');
-                const selectedClass = selected.has(entry.instance.instanceId) ? ' is-selected' : '';
+                const selectedClass = selected.has(entry.occurrenceId) ? ' is-selected' : '';
                 return `<div class="sort-choice-item${selectedClass}" data-idx="${i}">
-                  <div class="sort-choice-card-wrap"><img src="${GH}/${folder}/${entry.instance.cardId}.png" alt=""></div>
-                  <div class="sort-choice-label"><span>${entry.card.name || entry.instance.cardId}</span></div>
+                  <div class="sort-choice-card-wrap"><img src="${GH}/${folder}/${entry.cardId}.png" alt=""></div>
+                  <div class="sort-choice-label"><span>${entry.card.name || entry.cardId}</span></div>
                 </div>`;
               }).join('')}
             </div>
@@ -20465,7 +20755,7 @@ function chooseAssassinationDecision(player, targetFC) {
       overlay.querySelectorAll('.sort-choice-item').forEach(el => {
         el.addEventListener('click', () => {
           const index = Number(el.dataset.idx);
-          const id = available[index]?.instance.instanceId;
+          const id = available[index]?.occurrenceId;
           if (!id) return;
           if (selected.has(id)) {
             selected.delete(id);
@@ -21144,7 +21434,13 @@ Object.assign(CARDS_DATA, {
     cap:'Fournit 1 ressource d\'Aria au joueur.',badge:'Approvisionnement',lore:'L\'aria, l\'eau magique, est présente naturellement un peu partout. Certains peuples la puisent directement des nappes phréatiques, tandis que d\'autres construisent des autels autour des monolithes dits « fontaines » d\'aria.'},
   // ── Sorts ──
   'S000001':{name:'Embuscade elfique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:null,kws:[],
-    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à 5. Vole 1 carte Approvisionnement du deck ou cimetière de votre adversaire.',badge:'Sort',lore:''},
+    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à *5*. Vole *1* carte Approvisionnement du deck ou cimetière de votre adversaire.',badge:'Sort',lore:''},
+  'S000025':{name:'Feu éternel déchaîné',type:'Sort',fac:'sort',atk:null,pdv:null,cost:null,hideCost:true,res_ico:'IC00000RDM',res_val:'0',fico:null,kws:['Insensible'],
+    cap:'Quand les *13* Mages du Cercle découvrirent le feu éternel, la source primordiale de toute la magie du monde, ils le canalisèrent d\'abord pour renforcer leurs pouvoirs, leurs connaissances des mystères et même prolonger leur vie. Mais bientôt, les dieux noirs répandirent la corruption, le doute et l\'envie, promettant à chaque membre du Cercle qu\'il pouvait puiser à la source pour lui seul et, ainsi, devenir l\'égal des dieux eux-mêmes. C\'est ainsi que les *13* magiciens les plus puissants de tous les temps, dans un combat fratricide, firent voler le monde en éclats.',
+    detail:'Détruit successivement, un par un, tous les serviteurs des deux côtés du terrain, puis l\'approvisionnement, puis les decks, puis les avatars eux-mêmes. Passe outre [Insensible].',badge:'Sort',lore:''},
+  'S000031':{name:'Duel',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res2:'IC00000SLN',res3:'IC00000AME',res4:'IC00000LNY',resOu:true,res_val:'8',resType:'Aria|Sélène|Écho|Lenya',fico:null,kws:['Aria','Sélène','Écho','Lenya','Insensible'],
+    cap:'Choisissez *2* serviteurs, ils s\'affrontent. Si l\'un, l\'autre ou les deux sont détruits, envoyez-les dans votre cimetière.',
+    detail:'Choisissez *2* serviteurs, ils s\'affrontent. Si l\'un, l\'autre ou les deux sont détruits, envoyez-les dans votre cimetière. Passe outre [Insensible].',badge:'Sort',lore:''},
   'S000006':{name:'Murmures divins',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000ARI',res2:'IC00000LNY',resOu:true,res_val:'3',resType:'Aria|Lenya',fico:null,kws:[],
     cap:'Quand cette carte est jouée, vous piochez instantanément *4* cartes de votre deck. Choisissez-en *1* à remettre dans votre deck, tout en dessous de la pile, et gardez les autres.',badge:'Sort',lore:''},
   'S000011':{name:'Mur de glace',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000LNY',res_val:'3',resType:'Lenya',fico:null,kws:['Coup de glace'],
@@ -24539,6 +24835,11 @@ const COLLECTION_BATCH_09B_CARD_TEXT_OVERRIDES = {
   PRST000004:{cap:"Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, *1* serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main.",detail:"Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, *1* serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main. Ce serviteur est choisi de façon aléatoire."},
   PRST000005:{cap:"Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à *3*. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus.",detail:"Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à *3*. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus."},
   R000026:{cap:"Il est difficile de « cacher » des monolithes de cette envergure, mais les trolls ont une vision du monde bien à eux.",detail:"Fournit *3* ressources de Pierre et *2* ressources de Fer."},
+  S000001:{cap:"Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte Approvisionnement du deck ou cimetière de votre adversaire.",detail:"Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte Approvisionnement du deck ou cimetière de votre adversaire."},
+  S000005:{cap:"Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type Approvisionnement au cimetière à la place.",detail:"Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type Approvisionnement au cimetière à la place."},
+  S000025:{cap:"Quand les *13* Mages du Cercle découvrirent le feu éternel, la source primordiale de toute la magie du monde, ils le canalisèrent d'abord pour renforcer leurs pouvoirs, leurs connaissances des mystères et même prolonger leur vie. Mais bientôt, les dieux noirs répandirent la corruption, le doute et l'envie, promettant à chaque membre du Cercle qu'il pouvait puiser à la source pour lui seul et, ainsi, devenir l'égal des dieux eux-mêmes. C'est ainsi que les *13* magiciens les plus puissants de tous les temps, dans un combat fratricide, firent voler le monde en éclats.",detail:"Détruit successivement, un par un, tous les serviteurs des deux côtés du terrain, puis l'approvisionnement, puis les decks, puis les avatars eux-mêmes. Passe outre [Insensible]."},
+  S000031:{cap:"Choisissez *2* serviteurs, ils s'affrontent. Si l'un, l'autre ou les deux sont détruits, envoyez-les dans votre cimetière.",detail:"Choisissez *2* serviteurs, ils s'affrontent. Si l'un, l'autre ou les deux sont détruits, envoyez-les dans votre cimetière. Passe outre [Insensible]."},
+  S000032:{cap:"Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.",detail:"Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible."},
   S000046:{cap:"Choisissez *1* serviteur troll allié : il attaque immédiatement *1* serviteur adverse aléatoire. S'il survit, il récupère de *1* à *4 PDV*. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau.",detail:"Choisissez *1* serviteur troll allié : il attaque immédiatement *1* serviteur adverse aléatoire. S'il survit, il récupère de *1* à *4 PDV*. Recommence jusqu'à ce que le troll affecté soit détruit ou qu'il n'y ait plus de serviteurs adverses sur le plateau."},
   S000048:{cap:"Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes.",detail:"Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes."},
   S000061:{cap:"Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce serviteur sont réduits de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. ».",detail:"Choisissez *1* serviteur allié ; il reçoit une capacité spéciale additionnelle temporaire : « Les dégâts des *3* prochaines attaques portées contre ce serviteur sont réduits de *2*. Inflige également [Gel] pendant *1* tour aux attaquants. »."},
