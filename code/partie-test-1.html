@@ -675,6 +675,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
 .batch09-cadaver-flight[data-flight-reason^="batch11e-"],.batch09-cadaver-flight[data-flight-reason^="batch12a-"]{border-color:rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);}
+.batch09-cadaver-flight[data-flight-reason^="batch15a-"]{border-color:rgba(255,224,114,.98);box-shadow:0 0 24px rgba(255,220,96,.92),0 0 52px rgba(255,168,36,.64),inset 0 0 18px rgba(255,246,174,.28);}
 .batch12a-center-reveal{position:fixed;left:calc(50vw - 46px);top:calc(50vh - 64px);z-index:4250;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);animation:batch12aCenterReveal .32s ease-out both;}
 @keyframes batch12aCenterReveal{0%{opacity:0;transform:translateY(18px) scale(.86);filter:brightness(2.2);}100%{opacity:1;transform:none;filter:brightness(1.16);}}
 .batch03-hypnosis-active::before,.batch03-hypnosis-active::after{content:'';position:absolute;left:50%;top:50%;z-index:47;width:18px;height:18px;border:2px solid rgba(157,255,102,.85);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:batch04HypnosisRipple 1.8s ease-out infinite;}
@@ -684,6 +685,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .hc-batch03-ianna-drawn{animation:batch03IannaDrawn .7s ease-out;box-shadow:0 0 20px rgba(255,215,120,.85),0 0 8px rgba(255,255,255,.8);}
 .hc.hc-batch03-ianna-drawn[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .hc.hc-batch13a-hand-glow[data-batch13a-hand-animation="aileen-initiative-generated"]{box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
+.hc.hc-batch13a-hand-glow[data-batch13a-hand-animation^="batch15a-"]{box-shadow:0 0 24px rgba(255,220,96,.95),0 0 42px rgba(255,176,40,.62),0 0 8px rgba(255,255,255,.82);}
 .hc-batch13a-aileen-arrival{animation:batch13aAileenArrival .72s ease-out;box-shadow:0 0 22px rgba(42,143,212,.92),0 0 38px rgba(216,247,255,.58),0 0 8px rgba(255,255,255,.82);}
 .batch13a-aileen-hand-ghost{position:fixed;z-index:4310;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(42,143,212,.98);box-shadow:0 0 24px rgba(42,143,212,.92),0 0 46px rgba(216,247,255,.62),inset 0 0 18px rgba(216,247,255,.28);animation:batch13aAileenGhostArrival .74s ease-out both;}
 .batch13a-aileen-hand-ghost[data-ghost-index="0"]{--aileen-from-x:58px;--aileen-drift-x:-58px;--aileen-mid-x:-9px;--aileen-tilt:-4deg;}
@@ -872,6 +874,14 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 @keyframes batch06PestilenceSerpent{0%,100%{transform:rotate(-18deg) translateY(0)}50%{transform:rotate(14deg) translateY(3px)}}
 @keyframes batch02ResponsibilityPulse{0%{filter:brightness(1);transform:translateY(0);box-shadow:0 0 0 0 rgba(38,196,236,.25)}18%{filter:brightness(1.55) drop-shadow(0 0 18px rgba(38,196,236,.95));transform:translateY(-4px) scale(1.018)}46%{filter:brightness(1.32) drop-shadow(0 0 26px rgba(0,47,167,.72));transform:translateY(-2px) scale(1.01)}74%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(38,196,236,.55));transform:translateY(0) scale(1.004)}100%{filter:brightness(1);transform:translateY(0) scale(1)}}
 .decision-modal-minimize:hover{background:rgba(64,38,16,.98);color:#fff1ca}
+.sort-choice-cancel-button{
+  font-family:'Cinzel',serif;font-size:10px;font-weight:900;letter-spacing:.08em;
+  color:#1a0e05;background:linear-gradient(180deg,#ffe4a3,#c99c3e);
+  border:1px solid rgba(255,231,159,.9);border-radius:12px;
+  box-shadow:0 7px 18px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.32);
+  padding:10px 18px;min-width:132px;text-align:center;cursor:pointer;text-shadow:0 1px 0 rgba(255,255,255,.32);
+}
+.sort-choice-cancel-button:hover{filter:brightness(1.08);transform:translateY(-1px);}
 .decision-compact-bar{
   position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2990;
   display:flex;align-items:center;gap:14px;padding:10px 16px;border-radius:999px;
@@ -951,6 +961,14 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .sort-choice-cancel{font-family:'Cinzel',serif;font-size:9px;color:var(--text-dim);
   letter-spacing:0.08em;cursor:pointer;}
 .sort-choice-cancel:hover{color:var(--gold);}
+.murmures-divins-choice-panel{max-width:min(940px,calc(100vw - 36px));max-height:86vh;position:relative;padding-top:34px;overflow:visible;}
+.murmures-divins-choice-panel .decision-modal-header{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:2px;}
+.murmures-divins-choice-panel .decision-modal-spacer{display:none;}
+.murmures-divins-choice-panel .decision-modal-actions{order:1;align-self:flex-end;}
+.murmures-divins-choice-panel .sort-choice-title{display:block;order:2;text-align:center;width:100%;margin:0 auto 10px;line-height:1.2;}
+.murmures-divins-choice-panel .sort-choice-cards{overflow:visible;padding:24px 44px 44px;max-height:none;gap:28px;align-items:flex-start;}
+.murmures-divins-choice-panel .sort-choice-item{position:relative;z-index:1;}
+.murmures-divins-choice-panel .sort-choice-item:hover{position:relative;z-index:20;}
 .bazar-choice-panel{max-width:min(760px,calc(100vw - 36px));width:min(760px,calc(100vw - 36px));position:relative;}
 .bazar-choice-text{font-family:'Crimson Pro',serif;font-size:14px;color:#c8b898;margin-bottom:14px;text-align:center;white-space:pre-line;line-height:1.35;}
 .bazar-choice-grid{display:grid;grid-template-columns:repeat(4,minmax(86px,1fr));gap:14px;align-items:start;}
@@ -1263,6 +1281,15 @@ span.cost-red {
 .hand-j1, .hand-j2 {
   overflow: visible !important;
 }
+.hand-j1.batch15a-hand-flash::after,.hand-j2.batch15a-hand-flash::after{
+  content:'';position:absolute;left:2vw;right:2vw;top:10px;bottom:10px;z-index:3000;pointer-events:none;border-radius:32px;
+  background:radial-gradient(ellipse at center,rgba(255,235,150,.34) 0%,rgba(255,198,64,.22) 44%,rgba(255,170,32,0) 74%);
+  box-shadow:0 0 30px rgba(255,218,96,.82),0 0 62px rgba(255,168,40,.46),inset 0 0 36px rgba(255,238,166,.22);
+  animation:batch15aHandFlash .95s ease-out both;
+}
+.hand-j1.batch15a-hand-flash::after{top:34px;bottom:20px;}
+.hand-j2.batch15a-hand-flash::after{top:8px;bottom:8px;}
+@keyframes batch15aHandFlash{0%{opacity:0;transform:scale(.88);filter:brightness(2.1);}22%{opacity:1;transform:scale(1.02);filter:brightness(1.45);}100%{opacity:0;transform:scale(1.12);filter:brightness(1);}}
 
 /* ── Bouton fin de tour : toujours derrière les cartes survolées ── */
 #btnEndTurn { z-index: 40 !important; }
@@ -2190,7 +2217,7 @@ Object.assign(CARDS_DATA, {
     badge:'Sort',lore:''},
   'S000002':{name:'Des yeux dans le noir',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,
     res_ico:'IC00000LNY',res_val:'2',fico:null,kws:[],
-    cap:'Choisissez 3 cartes de la main de votre adversaire qui vous sont révélées jusqu\'à la fin du tour. Parmi les 3, choisissez-en 1 que votre adversaire ne pourra jouer lors de son prochain tour.',
+    cap:'Choisissez *3* cartes de la main de votre adversaire qui vous sont révélées jusqu\'à la fin du tour. Parmi ces cartes, choisissez-en *1* que votre adversaire ne pourra jouer lors de son prochain tour.',
     badge:'Sort',lore:''},
   // Approvisionnements Raith
   'R000009':{name:'Sombre fonderie',type:'Approvisionnement',fac:'appro',atk:null,pdv:null,cost:0,
@@ -13373,7 +13400,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     let spellResolution = null;
     if (resolveSpell) {
       recordCommittedSpell(cardId, p);
-      spellResolution = resolveSpell() || {success:true};
+      spellResolution = await (resolveSpell() || {success:true});
     } else {
       spellResolution = await triggerSort(cardId, p, {selectedTargetIds, zoneSelection});
     }
@@ -13471,8 +13498,8 @@ function beginPrecommitSpellChoice(transaction) {
   const cancel = () => releasePaymentLock(p, cardId);
   if (cardId === 'S000004') {
     showSortChoice(cardId, p, [
-      {label:'Piocher 3 cartes', fn:() => commitCardPlay(transaction, {resolveSpell:() => drawMultiple(p, 3, {sourceCardId:'S000004'})})},
-      {label:'Tirer 2 cartes Approvisionnement', fn:() => commitCardPlay(transaction, {resolveSpell:() => drawApproFromDeckOrCemetery(p, 2, {sourceCardId:'S000004'})})}
+      {label:'Piocher 3 cartes', fn:() => commitCardPlay(transaction, {resolveSpell:() => resolveCommerceAvecLesLegendes(p, 'draw3')})},
+      {label:'Tirer 2 cartes Approvisionnement', fn:() => commitCardPlay(transaction, {resolveSpell:() => resolveCommerceAvecLesLegendes(p, 'supplies')})}
     ], cancel);
     return;
   }
@@ -14115,8 +14142,8 @@ async function triggerSort(cardId, player, context={}) {
       break; }
     case 'S000004': // Commerce avec les légendes : choix
       showSortChoice(cardId, player, [
-        { label:'Piocher 3 cartes', fn:() => drawMultiple(player, 3, {sourceCardId:'S000004'}) },
-        { label:'Tirer 2 cartes Approvisionnement', fn:() => drawApproFromDeckOrCemetery(player, 2, {sourceCardId:'S000004'}) }
+        { label:'Piocher 3 cartes', fn:() => resolveCommerceAvecLesLegendes(player, 'draw3') },
+        { label:'Tirer 2 cartes Approvisionnement', fn:() => resolveCommerceAvecLesLegendes(player, 'supplies') }
       ]);
       break;
     case 'S000006':
@@ -14244,12 +14271,7 @@ async function triggerSort(cardId, player, context={}) {
       return resolveBatch03BlessedSwords(player, context);
     case 'S000002': {
       showEyesInDarkSelection(player, {
-        onSelect:blockedId => {
-          if (blockedId) {
-            window._blockedCard = blockedId;
-            showNotif('Carte bloqu?e pour le prochain tour !', 1600);
-          }
-        }
+        onSelect:payload => resolveDesYeuxDansLeNoir(player, payload)
       });
       break; }
     default:
@@ -14447,8 +14469,14 @@ function drawApproFromDeck(player, n, {notify=true, sourceCardId=null, sourceIns
 
 const COLLECTION_BATCH_15A_SCENARIO_IDS = new Set(['collection-batch-15a-hand-info-a','collection-batch-15a-draw-choice-b','collection-batch-15a-faction-draw-c','collection-batch-15a-delayed-recycle-d']);
 const collectionBatch15AState = {events:[]};
+const COLLECTION_BATCH_15A_MESSAGES = Object.freeze({
+  S000002:"DES ESPIONS HABILES MANOEUVRENT DEPUIS LES OMBRES ET MINENT L'ADVERSAIRE DE L'INTÉRIEUR !",
+  S000006:"CEUX QUI PARVIENNENT À SAISIR LES MURMURES DES DIEUX SONT BÉNIS ENTRE TOUS.",
+  S000017:"L'ÉTERNELLE QUÊTE DE CONNAISSANCE DES MAGES PRODUIT TOUJOURS DES RÉSULTATS, QUOIQUE PAS TOUJOURS CEUX QU'ILS ESPÈRENT.",
+  S000030:"AU MARCHÉ NOIR, IL N'Y A PAS D'AFFAIRES SANS RISQUE, QUE DES PARIS DANGEREUX."
+});
 function isCollectionBatch15AScenario() { return COLLECTION_BATCH_15A_SCENARIO_IDS.has(selectedScenarioId()); }
-function recordCollectionBatch15AEvent(type, detail={}) { const event = {type, turnSequence, ...(detail || {})}; collectionBatch15AState.events.push(event); window.__collectionBatch15ALastEvent = event; return event; }
+function recordCollectionBatch15AEvent(type, detail={}) { const event = {type, turnSequence, ...(detail || {})}; collectionBatch15AState.events.push(event); if (Array.isArray(window.__collectionBatch15AEvents)) window.__collectionBatch15AEvents.push(event); window.__collectionBatch15ALastEvent = event; return event; }
 function batch15APlayerSnapshot(player) {
   const p = playerState(player); if (!p) return null;
   return {playerId:p.key, hand:[...playerHand(p)], handOccurrences:[...ensureBatch03HandOccurrences(p)], deck:[...playerDrawPile(p)].map(getRuntimeCardId), graveyard:[...(p.graveyard || [])].map(getRuntimeCardId), blockedHandOccurrences:[...(p.batch03BlockedHandOccurrences || [])].map(block => ({...block})), temporaryHandReveals:[...(p.batch15aTemporaryHandReveals || [])].map(entry => ({...entry})), permanentHandReveals:[...(p.batch15aPermanentHandReveals || [])].map(entry => ({...entry})), pierresCommunication:[...(p.batch15aPierresCommunication || [])].map(entry => ({...entry})), sombreAffaire:p.batch15aSombreAffaire ? {...p.batch15aSombreAffaire} : null};
@@ -14486,6 +14514,111 @@ function drawApproFromDeckOrCemetery(player, n, {notify=true, sourceCardId=null,
   const diagnostic = {success:added > 0, code:added > 0 ? 'appro-deck-cemetery-resolved' : 'no-eligible-card', reason:added > 0 ? null : (results[0]?.reason || 'no-eligible-card'), cardId:sourceCardId || 'S000004', count:added, results, priority:'deck-then-graveyard', before, after:zoneInventorySnapshot(p)};
   recordZoneEffectDiagnostic(sourceCardId || 'S000004', diagnostic); if (notify) showNotif(added ? `${added} carte(s) Approvisionnement tirée(s).` : `Aucun Approvisionnement disponible.`, 1400); return diagnostic;
 }
+function batch15ARegisterHandGlow(player, cardId, handIndex=null, reason='batch15a-draw', durationMs=1800) {
+  const p = playerState(player);
+  if (!p || !cardId) return null;
+  ensureBatch03HandOccurrences(p);
+  const index = Number.isInteger(handIndex) && handIndex >= 0 && handIndex < p.hand.length ? handIndex : p.hand.lastIndexOf(cardId);
+  if (index < 0 || p.hand[index] !== cardId) return null;
+  const occurrenceId = batch03HandOccurrenceAt(p, index);
+  if (!occurrenceId) return null;
+  p.batch13aHandHighlights ||= [];
+  p.batch13aHandHighlights = p.batch13aHandHighlights.filter(item => item?.occurrenceId !== occurrenceId);
+  const highlight = {cardId, occurrenceId, reason, durationMs, expiresAt:Date.now() + durationMs, animationConsumed:false};
+  p.batch13aHandHighlights.push(highlight);
+  recordCollectionBatch15AEvent('hand-glow', {playerKey:p.key, cardId, occurrenceId, reason, durationMs});
+  setTimeout(() => {
+    p.batch13aHandHighlights = (p.batch13aHandHighlights || []).filter(item => item?.occurrenceId !== occurrenceId);
+  }, durationMs + 80);
+  return highlight;
+}
+async function batch15AAnimateCardToHand(player, cardId, {sourceZone='deck', reason='batch15a-draw', delayMs=500}={}) {
+  const p = playerState(player);
+  if (!p || !cardId) return {visible:false, reason:'missing-player-or-card', cardId, sourceZone};
+  const from = sourceZone === 'graveyard' ? batch11eZoneElement(p, 'graveyard') : batch11eZoneElement(p, 'deck');
+  const to = qs(playerZoneSelector(p, 'hand'));
+  const flightReason = `batch15a-${reason}-${sourceZone}-to-hand`;
+  const visible = typeof showBatch09CadaverFlight === 'function' ? showBatch09CadaverFlight(cardId, from, to, flightReason, null) : false;
+  const event = recordCollectionBatch15AEvent('draw-flight', {playerKey:p.key, cardId, sourceZone, toZone:'hand', reason, flightReason, visible, delayMs});
+  if (delayMs > 0) await batch05VisualDelay(delayMs);
+  return event;
+}
+async function batch15AFinalizeDrawArrival(player, result, sourceCardId, {sourceZone='deck', remainingSteps=1, glowDurationMs=null, reason=null}={}) {
+  const p = playerState(player);
+  if (!p || !result?.success || !result.cardId) return null;
+  const flightReason = reason || `${sourceCardId || 'spell'}-draw`;
+  const flight = await batch15AAnimateCardToHand(p, result.cardId, {sourceZone, reason:flightReason, delayMs:500});
+  updateDeckCount(p);
+  if (sourceZone === 'graveyard') refreshCemeteryVisual(p);
+  refreshHand(p);
+  const handIndex = Number.isInteger(Number(result.handSizeAfter)) ? Number(result.handSizeAfter) - 1 : p.hand.lastIndexOf(result.cardId);
+  const glow = batch15ARegisterHandGlow(p, result.cardId, handIndex, `batch15a-${sourceCardId || 'spell'}-gold`, glowDurationMs ?? Math.max(1200, 900 + Number(remainingSteps || 1) * 500));
+  refreshHand(p);
+  return {flight, glow};
+}
+function batch15APulseDeck(player, reason='deck-pulse') {
+  const p = playerState(player);
+  const deck = p ? qs(playerSelectors(p).deckBack) : null;
+  if (!deck) return false;
+  deck.classList.remove('batch14c-niethalf-deck-halo');
+  void deck.offsetWidth;
+  deck.classList.add('batch14c-niethalf-deck-halo');
+  setTimeout(() => deck.classList.remove('batch14c-niethalf-deck-halo'), 1050);
+  recordCollectionBatch15AEvent('deck-pulse', {playerKey:p.key, reason, variant:'gold'});
+  return true;
+}
+function batch15AFlashHands(player, opponent, reason='hands-flash') {
+  const nodes = [player, opponent].map(item => qs(playerZoneSelector(item, 'hand'))).filter(Boolean);
+  nodes.forEach(node => {
+    node.classList.remove('batch15a-hand-flash');
+    void node.offsetWidth;
+    node.classList.add('batch15a-hand-flash');
+    setTimeout(() => node.classList.remove('batch15a-hand-flash'), 1000);
+  });
+  recordCollectionBatch15AEvent('hand-flash', {playerKey:playerKey(player), opponentKey:playerKey(opponent), reason, count:nodes.length});
+  return nodes.length;
+}
+async function resolveCommerceAvecLesLegendes(player, mode='draw3') {
+  const p = playerState(player);
+  if (!p) return {success:false, count:0, reason:'invalid-player', cardId:'S000004', results:[]};
+  const before = zoneInventorySnapshot(p);
+  const targetCount = mode === 'supplies' ? 2 : 3;
+  const results = [];
+  let added = 0;
+  for (let step = 0; step < targetCount; step++) {
+    let sourceZone = 'deck';
+    let result = drawCardFromRuntimeDeck(p, {predicate:mode === 'supplies' ? isSupplyCard : (() => true), refresh:false, sourceCardId:'S000004'});
+    if (!result.success && mode === 'supplies') {
+      const graveyard = p.graveyard || [];
+      let graveyardIndex = -1;
+      for (let i = graveyard.length - 1; i >= 0; i--) {
+        if (isSupplyCard(getRuntimeCardId(graveyard[i]))) { graveyardIndex = i; break; }
+      }
+      if (graveyardIndex >= 0 && !getHandCapacityStatus(p).full) {
+        const entry = graveyard.splice(graveyardIndex, 1)[0];
+        const cardId = getRuntimeCardId(entry);
+        p.hand.push(cardId);
+        batch03RegisterHandCard(p, p.hand.length - 1, entry?.occurrenceId || entry?.batch07OccurrenceId || null);
+        sourceZone = 'graveyard';
+        result = {success:true, cardId, selectedCardId:cardId, sourceZone, graveyardIndex, handSizeAfter:p.hand.length, deckSizeAfter:playerDrawPile(p).length};
+      } else {
+        result = {...result, sourceZone:'graveyard', fallback:'graveyard-empty-or-no-eligible-card'};
+      }
+    }
+    results.push({...result, sourceZone:result.sourceZone || sourceZone});
+    if (!result.success) break;
+    added++;
+    await batch15AFinalizeDrawArrival(p, {...result, sourceZone:result.sourceZone || sourceZone}, 'S000004', {sourceZone:result.sourceZone || sourceZone, remainingSteps:targetCount - step, reason:mode === 'supplies' ? 'S000004-supplies' : 'S000004-draw3'});
+  }
+  updateDeckCount(p);
+  refreshCemeteryVisual(p);
+  refreshHand(p);
+  const drawn = results.filter(result => result.success).map(result => result.cardId);
+  const diagnostic = {success:added > 0, code:added > 0 ? 'commerce-legendes-resolved' : 'no-card-drawn', reason:added > 0 ? null : (results[0]?.reason || 'no-card-drawn'), cardId:'S000004', mode, count:added, drawn, results, before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic('S000004', diagnostic);
+  showNotif(mode === 'supplies' ? `${added} carte(s) Approvisionnement tirée(s).` : `${added} carte(s) piochée(s) !`, 1400);
+  return diagnostic;
+}
 function resolveDesYeuxDansLeNoir(player, payload={}) {
   const p = playerState(player); const opponent = opponentOf(p); if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000002'};
   const revealed = Array.isArray(payload.revealed) ? payload.revealed : []; const selected = payload.selected || payload || {}; const cardId = selected.cardId || payload.cardId || null; const occurrenceId = selected.occurrenceId || payload.occurrenceId || null;
@@ -14493,17 +14626,18 @@ function resolveDesYeuxDansLeNoir(player, payload={}) {
   opponent.batch03BlockedHandOccurrences ||= []; opponent.batch03BlockedHandOccurrences = opponent.batch03BlockedHandOccurrences.filter(block => !(block.cardId === cardId && block.occurrenceId === occurrenceId && block.sourceCardId === 'S000002'));
   const block = {cardId, occurrenceId, sourceName:'Des yeux dans le noir', sourceCardId:'S000002', armed:false, ownerKey:opponent.key, createdTurnSequence:turnSequence}; opponent.batch03BlockedHandOccurrences.push(block); refreshHand(opponent);
   const diagnostic = {success:true, code:'des-yeux-dans-le-noir-resolved', reason:null, cardId:'S000002', selectedCardId:cardId, selectedOccurrenceId:occurrenceId, revealed:revealed.map(item => ({cardId:item.cardId, occurrenceId:item.occurrenceId || null})), block:{...block}, before:null, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
-  recordCollectionBatch15AEvent('hand-card-blocked', {viewerKey:p.key, ownerKey:opponent.key, selectedCardId:cardId, selectedOccurrenceId:occurrenceId, revealed:diagnostic.revealed}); recordZoneEffectDiagnostic('S000002', diagnostic); showNotif('Carte bloquée pour le prochain tour.', 1600); return diagnostic;
+  recordCollectionBatch15AEvent('hand-card-blocked', {viewerKey:p.key, ownerKey:opponent.key, selectedCardId:cardId, selectedOccurrenceId:occurrenceId, revealed:diagnostic.revealed}); recordZoneEffectDiagnostic('S000002', diagnostic); showNotif(COLLECTION_BATCH_15A_MESSAGES.S000002, 2200); return diagnostic;
 }
-function resolveQueteMagique(player) {
+async function resolveQueteMagique(player) {
   const p = playerState(player); if (!p) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000017'}; const pile = playerDrawPile(p); const before = zoneInventorySnapshot(p);
   const candidates = pile.map((entry, index) => { const cardId = getRuntimeCardId(entry); const cost = Number(CARDS_DATA[cardId]?.cost); return {entry, index, cardId, cost}; }).filter(candidate => candidate.cardId && CARDS_DATA[candidate.cardId]?.type === 'Sort' && Number.isFinite(candidate.cost));
   if (!candidates.length) { const diagnostic = {success:false, code:'no-eligible-sort', reason:'no-eligible-card', cardId:'S000017', drawn:[], excludedNonNumeric:true, before, after:zoneInventorySnapshot(p)}; recordZoneEffectDiagnostic('S000017', diagnostic); showErr('Aucun sort éligible dans votre deck !'); return diagnostic; }
   const byCheap = [...candidates].sort((a, b) => (a.cost - b.cost) || (b.index - a.index)); const byPricey = [...candidates].sort((a, b) => (b.cost - a.cost) || (b.index - a.index)); const selected = [byCheap[0]]; if (byPricey[0].index !== byCheap[0].index) selected.push(byPricey[0]);
-  const results = []; for (const target of [...selected].sort((a, b) => b.index - a.index)) { const result = drawCardFromRuntimeDeck(p, {predicate:(_id, index) => index === target.index, refresh:false, sourceCardId:'S000017'}); results.push({...result, targetCost:target.cost, targetIndex:target.index}); }
+  const results = []; const orderedTargets = [...selected].sort((a, b) => b.index - a.index);
+  for (let i = 0; i < orderedTargets.length; i++) { const target = orderedTargets[i]; const result = drawCardFromRuntimeDeck(p, {predicate:(_id, index) => index === target.index, refresh:false, sourceCardId:'S000017'}); const enriched = {...result, targetCost:target.cost, targetIndex:target.index, sourceZone:'deck'}; results.push(enriched); if (enriched.success) await batch15AFinalizeDrawArrival(p, enriched, 'S000017', {sourceZone:'deck', remainingSteps:orderedTargets.length - i}); }
   refreshHand(p); updateDeckCount(p); const drawn = results.filter(result => result.success).map(result => result.cardId);
   const diagnostic = {success:drawn.length > 0, code:drawn.length > 0 ? 'quete-magique-resolved' : 'no-card-drawn', reason:drawn.length > 0 ? null : 'no-card-drawn', cardId:'S000017', drawn, selected:selected.map(item => ({cardId:item.cardId, cost:item.cost, index:item.index})), candidatesBefore:candidates.map(item => ({cardId:item.cardId, cost:item.cost, index:item.index})), tieBreak:'topmost-deck-order', nonNumericCostTreatment:'excluded', before, after:zoneInventorySnapshot(p)};
-  recordZoneEffectDiagnostic('S000017', diagnostic); showNotif(drawn.length ? `Quête magique : ${drawn.length} sort(s) pioché(s).` : 'Quête magique ne trouve aucun sort à piocher.', 1600); return diagnostic;
+  recordZoneEffectDiagnostic('S000017', diagnostic); showNotif(drawn.length ? COLLECTION_BATCH_15A_MESSAGES.S000017 : 'Quête magique ne trouve aucun sort à piocher.', drawn.length ? 2600 : 1600); return diagnostic;
 }
 function resolvePierresDeCommunication(player) {
   const p = playerState(player); if (!p) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000019'}; p.batch15aPierresCommunication ||= [];
@@ -14517,19 +14651,20 @@ async function resolveBatch15APierresCommunicationStartTurn(player) {
   const drawResult = drawMultiple(p, 4, {notify:false, sourceCardId:'S000019'}); due.forEach(effect => { effect.consumed = true; effect.consumedTurnSequence = turnSequence; }); p.batch15aPierresCommunication = effects.filter(effect => !effect.consumed); const drawn = drawResult.results.filter(result => result.success).map(result => result.cardId);
   const diagnostic = {success:true, code:'pierres-de-communication-resolved', reason:null, cardId:'S000019', replacesNormalDraw:true, count:drawn.length, drawn, effects:due.map(effect => ({...effect})), drawResult, before, after:zoneInventorySnapshot(p)}; recordCollectionBatch15AEvent('pierres-resolved', {playerKey:p.key, drawn, count:drawn.length}); recordZoneEffectDiagnostic('S000019', diagnostic); showNotif(`Pierres de communication : ${drawn.length} carte(s) piochée(s) au lieu d'une.`, 1800); return diagnostic;
 }
-function resolveBassinDeDivination(player) {
+async function resolveBassinDeDivination(player) {
   const p = playerState(player); const opponent = opponentOf(p); if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000020'}; const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
   const drawResult = drawCardFromRuntimeDeck(p, {predicate:() => true, refresh:false, sourceCardId:'S000020'}); p.batch15aPermanentHandReveals ||= []; if (!p.batch15aPermanentHandReveals.some(entry => entry.ownerKey === opponent.key)) p.batch15aPermanentHandReveals.push({ownerKey:opponent.key, sourceCardId:'S000020', createdTurnSequence:turnSequence});
-  refreshHand(p); refreshHand(opponent); const diagnostic = {success:true, code:'bassin-de-divination-resolved', reason:null, cardId:'S000020', drawResult, revealedOwnerKey:opponent.key, permanent:true, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('permanent-hand-reveal', {viewerKey:p.key, ownerKey:opponent.key, draw:drawResult.success ? drawResult.cardId : null}); recordZoneEffectDiagnostic('S000020', diagnostic); showNotif('Bassin de divination : main adverse révélée jusqu’à la fin de la partie.', 1800); return diagnostic;
+  const animation = drawResult.success ? await batch15AFinalizeDrawArrival(p, {...drawResult, sourceZone:'deck'}, 'S000020', {sourceZone:'deck', remainingSteps:1, glowDurationMs:1100}) : null;
+  refreshHand(p); refreshHand(opponent); const message = `${upperFr(playerName(p))} A TROUVÉ LE CHEMIN DU LÉGENDAIRE BASSIN DE DIVINATION ! SON ADVERSAIRE NE POURRA PLUS LUI CACHER SES INTENTIONS.`; const diagnostic = {success:true, code:'bassin-de-divination-resolved', reason:null, cardId:'S000020', drawResult, animation, revealedOwnerKey:opponent.key, permanent:true, message, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('permanent-hand-reveal', {viewerKey:p.key, ownerKey:opponent.key, draw:drawResult.success ? drawResult.cardId : null, message}); recordZoneEffectDiagnostic('S000020', diagnostic); showNotif(message, 3000); return diagnostic;
 }
 function resolveSombreAffaire(player) {
   const p = playerState(player); const opponent = opponentOf(p); if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player', cardId:'S000030'}; if (p.batch15aSombreAffaire?.active) return {success:false, code:'already-active', reason:'already-active', cardId:'S000030'};
   ensureBatch03HandOccurrences(p); ensureBatch03HandOccurrences(opponent); const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}; const pHand = p.hand; const pOccurrences = p.batch03HandOccurrences; p.hand = opponent.hand; p.batch03HandOccurrences = opponent.batch03HandOccurrences; opponent.hand = pHand; opponent.batch03HandOccurrences = pOccurrences;
-  p.batch15aSombreAffaire = {active:true, opponentKey:opponent.key, createdTurnSequence:turnSequence, sourceCardId:'S000030'}; opponent.batch15aSombreAffaireCounterpart = {active:true, opponentKey:p.key, createdTurnSequence:turnSequence, sourceCardId:'S000030'}; renderAllHands(); const diagnostic = {success:true, code:'sombre-affaire-exchanged', reason:null, cardId:'S000030', untilTurnSequence:turnSequence, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('hands-exchanged', {playerKey:p.key, opponentKey:opponent.key, untilTurnSequence:turnSequence}); recordZoneEffectDiagnostic('S000030', diagnostic); showNotif('Sombre affaire : mains échangées jusqu’à la fin du tour.', 1700); return diagnostic;
+  p.batch15aSombreAffaire = {active:true, opponentKey:opponent.key, createdTurnSequence:turnSequence, sourceCardId:'S000030'}; opponent.batch15aSombreAffaireCounterpart = {active:true, opponentKey:p.key, createdTurnSequence:turnSequence, sourceCardId:'S000030'}; renderAllHands(); const flashCount = batch15AFlashHands(p, opponent, 'sombre-affaire-exchange'); const diagnostic = {success:true, code:'sombre-affaire-exchanged', reason:null, cardId:'S000030', untilTurnSequence:turnSequence, flashCount, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('hands-exchanged', {playerKey:p.key, opponentKey:opponent.key, untilTurnSequence:turnSequence}); recordZoneEffectDiagnostic('S000030', diagnostic); showNotif(COLLECTION_BATCH_15A_MESSAGES.S000030, 2600); return diagnostic;
 }
 function resolveBatch15ASombreAffaireEndTurn(player) {
   const p = playerState(player); const state = p?.batch15aSombreAffaire; const opponent = state ? playerState(state.opponentKey) : null; if (!p || !state?.active || !opponent) return null; const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
-  ensureBatch03HandOccurrences(p); ensureBatch03HandOccurrences(opponent); const pHand = p.hand; const pOccurrences = p.batch03HandOccurrences; p.hand = opponent.hand; p.batch03HandOccurrences = opponent.batch03HandOccurrences; opponent.hand = pHand; opponent.batch03HandOccurrences = pOccurrences; delete p.batch15aSombreAffaire; delete opponent.batch15aSombreAffaireCounterpart; renderAllHands(); const diagnostic = {success:true, code:'sombre-affaire-restored', reason:null, cardId:'S000030', before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('hands-restored', {playerKey:p.key, opponentKey:opponent.key}); recordZoneEffectDiagnostic('S000030', diagnostic); return diagnostic;
+  ensureBatch03HandOccurrences(p); ensureBatch03HandOccurrences(opponent); const pHand = p.hand; const pOccurrences = p.batch03HandOccurrences; p.hand = opponent.hand; p.batch03HandOccurrences = opponent.batch03HandOccurrences; opponent.hand = pHand; opponent.batch03HandOccurrences = pOccurrences; delete p.batch15aSombreAffaire; delete opponent.batch15aSombreAffaireCounterpart; renderAllHands(); const flashCount = batch15AFlashHands(p, opponent, 'sombre-affaire-restore'); const diagnostic = {success:true, code:'sombre-affaire-restored', reason:null, cardId:'S000030', flashCount, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}}; recordCollectionBatch15AEvent('hands-restored', {playerKey:p.key, opponentKey:opponent.key}); recordZoneEffectDiagnostic('S000030', diagnostic); return diagnostic;
 }
 
 
@@ -14757,7 +14892,8 @@ function chooseMurmuresDivinsReturnCard(player, revealed) {
       title:'MURMURES DIVINS',
       bodyHtml,
       compactLabel:'MURMURES DIVINS EN ATTENTE',
-      ownerPlayerId:playerKey(player)
+      ownerPlayerId:playerKey(player),
+      panelClass:'murmures-divins-choice-panel'
     });
     const bind = () => {
       const overlay = modal.overlay;
@@ -14821,17 +14957,27 @@ async function resolveMurmuresDivins(player, context={}) {
   pile.unshift(returned.entry);
   let added = 0;
   const capacityBefore = getHandCapacityStatus(p);
-  for (const occurrence of kept) {
+  const animations = [];
+  for (let i = 0; i < kept.length; i++) {
+    const occurrence = kept[i];
     const cardId = occurrence.cardId;
     if (!cardId || getHandCapacityStatus(p).full) {
       if (getHandCapacityStatus(p).full) traceHandFullRefusal(p, {caller:'resolveMurmuresDivins', sourceCardId:'S000006'});
       pile.unshift(occurrence.entry);
       continue;
     }
+    const animation = await batch15AAnimateCardToHand(p, cardId, {sourceZone:'deck', reason:'S000006-draw', delayMs:500});
     p.hand.push(cardId);
+    batch03RegisterHandCard(p, p.hand.length - 1, occurrence.entry?.occurrenceId || occurrence.entry?.batch07OccurrenceId || occurrence.revealOccurrenceId || null);
     added++;
+    updateDeckCount(p);
+    refreshHand(p);
+    batch15ARegisterHandGlow(p, cardId, p.hand.length - 1, 'batch15a-S000006-gold', Math.max(1200, 900 + (kept.length - i) * 500));
+    refreshHand(p);
+    animations.push(animation);
   }
   updateDeckCount(p);
+  const deckPulse = batch15APulseDeck(p, 'S000006-return-under-deck');
   refreshHand(p);
   const diagnostic = {
     success: added > 0 || revealed.length === 1,
@@ -14843,13 +14989,15 @@ async function resolveMurmuresDivins(player, context={}) {
     returnedCardId: returned.cardId,
     returnedOccurrenceId: returned.revealOccurrenceId,
     keptCount: added,
+    animations,
+    deckPulse,
     capacityBefore,
     capacityAfter: getHandCapacityStatus(p),
     before,
     after:zoneInventorySnapshot(p)
   };
   recordZoneEffectDiagnostic('S000006', diagnostic);
-  showNotif(`Murmures divins : ${added} carte(s) gardée(s), 1 carte replacée sous le deck.`, 1800);
+  showNotif(COLLECTION_BATCH_15A_MESSAGES.S000006, 2600);
   return diagnostic;
 }
 
@@ -20998,7 +21146,7 @@ Object.assign(CARDS_DATA, {
   'S000001':{name:'Embuscade elfique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:null,kws:[],
     cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à 5. Vole 1 carte Approvisionnement du deck ou cimetière de votre adversaire.',badge:'Sort',lore:''},
   'S000006':{name:'Murmures divins',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000ARI',res2:'IC00000LNY',resOu:true,res_val:'3',resType:'Aria|Lenya',fico:null,kws:[],
-    cap:'Quand cette carte est jouée, vous piochez instantanément 4 cartes de votre deck. Choisissez-en 1 à remettre dans votre deck, tout en dessous de la pile, et gardez les autres.',badge:'Sort',lore:''},
+    cap:'Quand cette carte est jouée, vous piochez instantanément *4* cartes de votre deck. Choisissez-en *1* à remettre dans votre deck, tout en dessous de la pile, et gardez les autres.',badge:'Sort',lore:''},
   'S000011':{name:'Mur de glace',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000LNY',res_val:'3',resType:'Lenya',fico:null,kws:['Coup de glace'],
     cap:'Les 3 prochains serviteurs invoqués par votre adversaire depuis sa main subissent chacun [Coup de glace] pendant 2 tours.',badge:'Sort',lore:''},
   'S000019':{name:'Pierres de communication',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,res_ico:'IC00000ARI',res2:'IC00000LNY',resOu:true,res_val:'3',resType:'Aria|Lenya',fico:null,kws:[],
@@ -21019,7 +21167,7 @@ Object.assign(CARDS_DATA, {
     cap:'[Sang-froid] [Initiative] Inflige [Coup de glace] à tous les serviteurs adverses pendant 1 tour. Inflige également [Coup de glace] pendant 1 tour à la cible chaque fois que ce serviteur inflige des dégâts.',badge:'',lore:''},
   'S000020':{name:'Bassin de divination',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,
     res_ico:'IC00000ARI',res2:'IC00000LNY',resOu:true,res_val:'8',resType:'Aria|Lenya',fico:null,kws:[],
-    cap:'Piochez 1 carte de votre deck. Jusqu\'à la fin de la partie, la main de votre adversaire vous est révélée.',badge:'Sort',lore:''},
+    cap:'Piochez *1* carte de votre deck. Jusqu\'à la fin de la partie, la main de votre adversaire vous est révélée.',badge:'Sort',lore:''},
   'S000023':{name:'Pacte millénaire',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,
     res_ico:'IC00000LNY',res2:'IC00000ARI',res3:'IC00000NRT',resOu:true,res_val:'5',resType:'Lenya|Aria|Nourriture',fico:'FCT00000EDG.png',kws:[],
     cap:'Si vous avez en main un « Jeune dragon des neiges », l\'invoque de votre côté du terrain sans tenir compte de son coût en ressources. Si ce serviteur n\'est pas présent dans votre main, piochez tous les exemplaires de « Jeune dragon des neiges » restant dans votre deck et réduit leur coût de 2. Si tous vos exemplaires du « Jeune dragon des neiges » sont au cimetière, alors donne +1 attaque à vos serviteurs de la faction « Elfe de glace » pour le reste de la partie.',badge:'Sort',lore:''}
@@ -23363,7 +23511,7 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Approvisionnement"
     ],
-    "cap": "Quand vous jouez cette carte, vous pouvez choisir soit de piocher instantanément 3 cartes aléatoires de votre deck, soit de tirer 2 cartes de type Approvisionnement de votre deck ou cimetière.",
+    "cap": "Quand vous jouez cette carte, vous pouvez choisir soit de piocher instantanément *3* cartes aléatoires de votre deck, soit de tirer *2* cartes de type *Approvisionnement* de votre deck ou cimetière.",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
@@ -23494,7 +23642,7 @@ Object.assign(CARDS_DATA, {
       "Aria",
       "Lenya"
     ],
-    "cap": "Vous piochez jusqu'à 2 cartes : le sort coûtant le moins cher et le sort coûtant le plus cher en ressources restant dans votre deck.",
+    "cap": "Vous piochez jusqu'à *2* cartes : le sort coûtant le moins cher et le sort coûtant le plus cher en ressources restant dans votre deck.",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
@@ -23535,7 +23683,7 @@ Object.assign(CARDS_DATA, {
       "Aria",
       "Lenya"
     ],
-    "cap": "Piochez 1 carte de votre deck. Jusqu'à la fin de la partie, la main de votre adversaire vous est révélée.",
+    "cap": "Piochez *1* carte de votre deck. Jusqu'à la fin de la partie, la main de votre adversaire vous est révélée.",
     "lore": "",
     "max": 1,
     "assetFolder": "sorts",
