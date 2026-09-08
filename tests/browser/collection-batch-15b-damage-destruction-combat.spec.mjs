@@ -23,6 +23,7 @@ async function openBatch15BScenario(page, scenario) {
   await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
   await waitForVisibleHandStable(page);
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
+  await expect(page.locator(".hc[data-id], .fc[data-id]").first()).toBeVisible();
 }
 
 test("Batch 15B scenarios stay hidden and spell texts are synchronized", async ({page}, testInfo) => {
@@ -42,8 +43,8 @@ test("Batch 15B scenarios stay hidden and spell texts are synchronized", async (
       expect(card.exists, card.id).toBe(true);
       expect(card.type, card.id).toBe("Sort");
     }
-    expect(audit.cards.find(card => card.id === "S000001").highlights).toEqual(["5", "1"]);
-    expect(audit.cards.find(card => card.id === "S000005").highlights).toEqual(["8", "2"]);
+    expect(audit.cards.find(card => card.id === "S000001").highlights).toEqual(["5", "1", "Approvisionnement"]);
+    expect(audit.cards.find(card => card.id === "S000005").highlights).toEqual(["8", "2", "Approvisionnement"]);
     expect(audit.cards.find(card => card.id === "S000025").keywords).toContain("Insensible");
     expect(audit.cards.find(card => card.id === "S000031").highlights).toEqual(["2"]);
     expect(audit.cards.find(card => card.id === "S000031").keywords).toContain("Insensible");
@@ -72,6 +73,7 @@ test("S000001 destroys only a legal low-attack enemy and steals one supply", asy
       player2Deck:player2.drawPile.map(getRuntimeCardId),
       player2Graveyard:player2.graveyard.map(getRuntimeCardId),
       targetConnected:target.isConnected,
+      message:window.COLLECTION_BATCH_15B_MESSAGES.S000001,
       events
     };
   });
@@ -83,7 +85,92 @@ test("S000001 destroys only a legal low-attack enemy and steals one supply", asy
   expect(result.player2Deck).not.toContain("R000010");
   expect(result.player2Graveyard).toContain("H000001");
   expect(result.targetConnected).toBe(false);
+  expect(result.message).toBe("L'EMBUSCADE EST UN SUCCÈS, L'ADVERSAIRE N'A RIEN VU VENIR.");
   expect(result.events.some(event => event.type === "embuscade-supply-stolen")).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000001 and S000005 expose Daddy target modal copy and styled controls", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15BScenario(page, "collection-batch-15b-destroy-target-a");
+  await page.evaluate(() => {
+    window.__batch15bTargetCopyPromise = playCard("S000001", document.querySelector(`${playerZoneSelector(player1, "hand")} .hc[data-id="S000001"]`));
+  });
+  await expect(page.getByTestId("board-target-prompt")).toHaveText("Choisissez votre proie.");
+  await expect(page.getByTestId("board-target-confirm")).toHaveText("LANCER L'EMBUSCADE");
+  const embuscadeButtonStyle = await page.getByTestId("board-target-confirm").evaluate(button => ({
+    backgroundImage:getComputedStyle(button).backgroundImage,
+    borderRadius:getComputedStyle(button).borderRadius
+  }));
+  expect(embuscadeButtonStyle.backgroundImage).toContain("linear-gradient");
+  expect(embuscadeButtonStyle.borderRadius).not.toBe("0px");
+  await page.getByTestId("board-target-choice").first().click();
+  await page.getByTestId("board-target-confirm").click();
+  const embuscade = await page.evaluate(() => window.__batch15bTargetCopyPromise);
+  expect(embuscade.success).toBe(true);
+  expect(embuscade.spellResolution || embuscade).toEqual(expect.objectContaining({success:true, cardId:"S000001"}));
+
+  await openBatch15BScenario(page, "collection-batch-15b-destroy-target-a");
+  await page.evaluate(() => {
+    window.__batch15bTargetCopyPromise = playCard("S000005", document.querySelector(`${playerZoneSelector(player1, "hand")} .hc[data-id="S000005"]`));
+  });
+  await expect(page.getByTestId("board-target-prompt")).toHaveText("Indiquez une cible à votre assassin.");
+  await expect(page.getByTestId("board-target-confirm")).toHaveText("ASSASSINER");
+  await page.getByTestId("board-target-choice").first().click();
+  await page.getByTestId("board-target-confirm").click();
+  await expect(page.locator(".assassination-choice-panel")).toBeVisible();
+  const assassinationLayout = await page.evaluate(() => {
+    const panel = document.querySelector(".assassination-choice-panel");
+    const body = document.querySelector(".assassination-body");
+    const area = document.querySelector(".assassination-supply-area");
+    const grid = document.querySelector(".assassination-supply-grid");
+    return {
+      panelOverflow:getComputedStyle(panel).overflow,
+      bodyOverflow:getComputedStyle(body).overflow,
+      areaOverflow:getComputedStyle(area).overflow,
+      gridOverflow:getComputedStyle(grid).overflow,
+      gridMaxHeight:getComputedStyle(grid).maxHeight
+    };
+  });
+  expect(assassinationLayout).toMatchObject({
+    panelOverflow:"visible",
+    bodyOverflow:"visible",
+    areaOverflow:"visible",
+    gridOverflow:"visible",
+    gridMaxHeight:"none"
+  });
+  await page.locator("#assassination-abandon").click();
+  const assassinat = await page.evaluate(() => window.__batch15bTargetCopyPromise);
+  expect(assassinat.success).toBe(true);
+  expect(assassinat.spellResolution.cancelled).toBe(false);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000001 does not create a ghost supply when no opponent supply exists", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15BScenario(page, "collection-batch-15b-destroy-target-a");
+  const result = await page.evaluate(async () => {
+    player2.drawPile = ["H000005", "H000006"];
+    player2.graveyard = ["H000001", "H000005"];
+    updateDeckCount(player2);
+    refreshCemeteryVisual(player2);
+    const target = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000001");
+    const before = player1.hand.length;
+    const resolved = await resolveEmbuscadeElfique(player1, {selectedTargetIds:[target.dataset.instance]});
+    return {
+      before,
+      after:player1.hand.length,
+      resolved,
+      player1Hand:player1.hand.map(getRuntimeCardId)
+    };
+  });
+  expect(result.resolved.success).toBe(true);
+  expect(result.resolved.steal.success).toBe(false);
+  expect(result.resolved.steal.reason).toBe("no-opponent-supply");
+  expect(result.after).toBe(result.before);
+  expect(result.player1Hand).not.toContain("R000001");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -109,11 +196,39 @@ test("S000005 may be cancelled by exactly two supply cards from the defender han
   });
   expect(result.resolved.success).toBe(true);
   expect(result.resolved.cancelled).toBe(true);
+  expect(result.resolved.reason).toBe("cancelled-by-hand-supplies");
   expect(result.targetStillAlive).toBe(true);
   expect(result.player2Hand).not.toContain("R000001");
   expect(result.player2Hand).not.toContain("R000002");
   expect(result.player2Graveyard).toEqual(expect.arrayContaining(["R000001", "R000002"]));
   expect(result.player2SupplyBoard.length).toBeGreaterThan(0);
+  expect(await page.evaluate(() => window.COLLECTION_BATCH_15B_MESSAGES.S000005_CANCEL)).toBe("L'ASSASSIN A TROUVÉ UNE OFFRE PLUS INTÉRESSANTE ET IMMÉDIATEMENT RETOURNÉ SA VESTE !");
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000005 destroys its target when the defender does not cancel", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15BScenario(page, "collection-batch-15b-destroy-target-a");
+  const result = await page.evaluate(async () => {
+    const target = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000005");
+    const resolved = await resolveAssassinat(player1, {
+      selectedTargetIds:[target.dataset.instance],
+      assassinationDecision:{action:"abandon"}
+    });
+    return {
+      resolved,
+      targetStillAlive:target.isConnected && !target.dataset.dead,
+      player2Graveyard:player2.graveyard.map(getRuntimeCardId),
+      message:window.COLLECTION_BATCH_15B_MESSAGES.S000005_KILL
+    };
+  });
+  expect(result.resolved.success).toBe(true);
+  expect(result.resolved.cancelled).toBe(false);
+  expect(result.resolved.reason).toBe("target-destroyed");
+  expect(result.targetStillAlive).toBe(false);
+  expect(result.player2Graveyard).toContain("H000005");
+  expect(result.message).toBe("MISSION ACCOMPLIE : CIBLE ÉLIMINÉE.");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -123,21 +238,44 @@ test("S000031 duels through Insensible and sends destroyed combatants to caster 
   await openBatch15BScenario(page, "collection-batch-15b-duel-overflow-b");
   const result = await page.evaluate(async () => {
     const first = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000001");
-    const second = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000006");
+    const second = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000029");
     const resolved = await resolveDuel(player1, {selectedTargetIds:[first.dataset.instance, second.dataset.instance]});
     return {
       resolved,
-      firstPdv:Number(first.dataset.pdv || 0),
+      firstConnected:first.isConnected,
+      secondPdv:Number(second.dataset.pdv || 0),
       secondConnected:second.isConnected,
       player1Graveyard:player1.graveyard.map(getRuntimeCardId),
       player2Graveyard:player2.graveyard.map(getRuntimeCardId)
     };
   });
   expect(result.resolved.success).toBe(true);
-  expect(result.firstPdv).toBe(2);
-  expect(result.secondConnected).toBe(false);
-  expect(result.player1Graveyard).toContain("H000006");
-  expect(result.player2Graveyard).not.toContain("H000006");
+  expect(result.resolved.combatants.map(card => card.id)).toContain("H000029");
+  expect(result.firstConnected).toBe(false);
+  expect(result.secondConnected).toBe(true);
+  expect(result.secondPdv).toBe(5);
+  expect(result.player1Graveyard).toContain("H000001");
+  expect(result.player2Graveyard).not.toContain("H000001");
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000031 validates two selected modal targets without the invalid-target error", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15BScenario(page, "collection-batch-15b-duel-overflow-b");
+  await page.evaluate(() => {
+    window.__batch15bDuelPromise = playCard("S000031", document.querySelector(`${playerZoneSelector(player1, "hand")} .hc[data-id="S000031"]`));
+  });
+  await expect(page.getByTestId("board-target-choice").first()).toBeVisible();
+  await page.locator('[data-testid="board-target-choice"][data-target-id="H000001"]').first().click();
+  await page.locator('[data-testid="board-target-choice"][data-target-id="H000006"]').first().click();
+  await expect(page.getByTestId("board-target-confirm")).toBeEnabled();
+  await page.getByTestId("board-target-confirm").click();
+  const result = await page.evaluate(() => window.__batch15bDuelPromise);
+  expect(result.success).toBe(true);
+  expect(result.spellResolution.success).toBe(true);
+  expect(result.spellResolution.combatants.map(card => card.id)).toEqual(expect.arrayContaining(["H000001", "H000006"]));
+  expect(result.reason || result.spellResolution.reason || "").not.toBe("invalid-target");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -153,14 +291,37 @@ test("S000032 propagates overflow to the right and stops on Insensible", async (
       resolved,
       targetConnected:target.isConnected,
       insensiblePdv:Number(insensible.dataset.pdv || 0),
-      insensibleConnected:insensible.isConnected
+      insensibleConnected:insensible.isConnected,
+      message:window.COLLECTION_BATCH_15B_MESSAGES.S000032
     };
   });
   expect(result.resolved.success).toBe(true);
+  expect(result.message).toBe("LA MAGIE CHAMANIQUE EST CERTES PRIMITIVE, MAIS NÉANMOINS DANGEREUSE...");
   expect(result.targetConnected).toBe(false);
   expect(result.resolved.hits.map(hit => hit.blocked || null)).toContain("Insensible");
   expect(result.insensibleConnected).toBe(true);
   expect(result.insensiblePdv).toBe(8);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000063 Choc mental remains a simple non-regression on Insensible", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15BScenario(page, "collection-batch-15b-destroy-target-a");
+  const result = await page.evaluate(async () => {
+    const target = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "H000029");
+    const before = Number(target.dataset.pdv || 0);
+    const resolved = await resolveBatch09ChocMental(player1, {selectedTargetIds:[target.dataset.instance]});
+    return {
+      resolved,
+      before,
+      after:Number(target.dataset.pdv || 0),
+      insensible:target.dataset.insensible === "1"
+    };
+  });
+  expect(result.resolved.success).toBe(true);
+  expect(result.insensible).toBe(true);
+  expect(result.after).toBeLessThan(result.before);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -175,7 +336,7 @@ test("S000046 repeats troll attacks until no enemy servants remain or the troll 
     return {
       resolved,
       trollAlive:troll.isConnected && !troll.dataset.dead,
-      enemiesLeft:document.querySelectorAll('.board-j2-servants .fc:not([data-dead])').length,
+      enemiesLeft:livingServantCardsForPlayer(player2).length,
       player2Graveyard:player2.graveyard.map(getRuntimeCardId)
     };
   });
@@ -183,6 +344,13 @@ test("S000046 repeats troll attacks until no enemy servants remain or the troll 
   expect(result.resolved.rounds).toBeGreaterThanOrEqual(1);
   expect(result.trollAlive).toBe(true);
   expect(result.enemiesLeft).toBe(0);
+  expect(result.resolved.roundResults.some(round => (
+    round.trollBefore
+    && round.trollAfterDamage
+    && round.heal
+    && round.trollAfterDamage.pdv < round.trollBefore.pdv
+    && round.trollAfterHeal.pdv > round.trollAfterDamage.pdv
+  ))).toBe(true);
   expect(result.player2Graveyard.length).toBeGreaterThanOrEqual(3);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -192,10 +360,14 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15BScenario(page, "collection-batch-15b-eternal-fire-d");
   const result = await page.evaluate(async () => {
+    window.__collectionBatch15BEvents = [];
     const resolved = await resolveFeuEternelDechaine(player1);
     return {
       resolved,
-      servantsLeft:document.querySelectorAll('.zone-servants .fc:not([data-dead])').length,
+      events:window.__collectionBatch15BEvents,
+      overlayCount:document.querySelectorAll(".batch15b-eternal-fire-prelude").length,
+      cameraShake:document.body.classList.contains("batch15b-camera-shake"),
+      servantsLeft:document.querySelectorAll('.fc[data-instance]:not([data-dead])').length,
       player1Supplies:player1.supplies.length,
       player2Supplies:player2.supplies.length,
       player1Deck:player1.drawPile.length,
@@ -206,7 +378,13 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
       player2Graveyard:player2.graveyard.map(getRuntimeCardId)
     };
   });
+  const eventTypes = result.events.map(event => event.type);
   expect(result.resolved.success).toBe(true);
+  expect(result.resolved.prelude.visible).toBe(true);
+  expect(eventTypes.indexOf("feu-eternel-prelude-card")).toBeLessThan(eventTypes.indexOf("feu-eternel-prelude-explosion"));
+  expect(eventTypes.indexOf("feu-eternel-prelude-cleared")).toBeLessThan(eventTypes.indexOf("card-transfer"));
+  expect(result.overlayCount).toBe(0);
+  expect(result.cameraShake).toBe(false);
   expect(result.servantsLeft).toBe(0);
   expect(result.player1Supplies).toBe(0);
   expect(result.player2Supplies).toBe(0);

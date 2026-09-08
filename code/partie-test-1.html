@@ -977,17 +977,18 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .bazar-choice-minimize:hover{color:#fff;border-color:var(--gold);background:rgba(80,55,20,.9);}
 .bazar-choice-bar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:3001;background:rgba(20,16,28,.96);border:1px solid var(--gold);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.65);padding:10px 14px;display:flex;align-items:center;gap:14px;font-family:'Cinzel',serif;font-size:10px;color:var(--gold-lt);letter-spacing:.08em;}
 .bazar-choice-bar button{background:rgba(200,168,75,.14);border:1px solid var(--gold);border-radius:8px;color:var(--gold-lt);font-family:'Cinzel',serif;font-size:9px;padding:6px 10px;cursor:pointer;}
-.assassination-choice-panel{max-width:min(940px,calc(100vw - 36px));width:min(940px,calc(100vw - 36px));position:relative;}
+.assassination-choice-panel{max-width:min(940px,calc(100vw - 36px));width:min(940px,calc(100vw - 36px));position:relative;overflow:visible;}
 .assassination-choice-text{font-family:'Crimson Pro',serif;font-size:14px;line-height:1.35;color:#d8c8a8;text-align:center;max-width:680px;white-space:pre-line;}
-.assassination-body{display:grid;grid-template-columns:minmax(160px,210px) 1fr;gap:22px;width:100%;align-items:start;}
+.assassination-body{display:grid;grid-template-columns:minmax(160px,210px) 1fr;gap:22px;width:100%;align-items:start;overflow:visible;}
 .assassination-threat{border:2px solid rgba(180,30,30,.82);border-radius:14px;background:rgba(52,4,4,.62);padding:12px;box-shadow:0 0 22px rgba(150,0,0,.35);}
 .assassination-threat-title{font-family:'Cinzel',serif;font-size:9px;color:#ffb0a0;letter-spacing:.12em;text-align:center;margin-bottom:8px;}
 .assassination-threat img{display:block;width:128px;height:180px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(255,160,140,.55);margin:0 auto 8px;}
 .assassination-threat-name{font-family:'Cinzel',serif;font-size:10px;color:#ffe0d0;text-align:center;line-height:1.25;}
 .assassination-threat-stats{display:flex;justify-content:center;gap:10px;margin-top:8px;font-family:'Cinzel',serif;font-size:12px;color:#fff;text-shadow:0 1px 4px #000;}
-.assassination-supply-area{min-width:0;}
-.assassination-supply-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(98px,1fr));gap:14px;max-height:48vh;overflow:auto;padding:2px 6px 6px;}
-.assassination-supply-grid .sort-choice-item{min-width:0;}
+.assassination-supply-area{min-width:0;overflow:visible;}
+.assassination-supply-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(98px,1fr));gap:14px;max-height:none;overflow:visible;padding:16px 22px 34px;}
+.assassination-supply-grid .sort-choice-item{min-width:0;position:relative;z-index:1;}
+.assassination-supply-grid .sort-choice-item:hover{z-index:40;}
 .assassination-supply-grid .sort-choice-item.is-selected .sort-choice-card-wrap{border-color:#f4d58a;box-shadow:0 0 0 2px rgba(244,213,138,.85),0 8px 24px rgba(0,0,0,.85);}
 .assassination-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;width:100%;}
 .assassination-button{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.08em;border-radius:10px;padding:10px 16px;min-width:230px;min-height:42px;cursor:pointer;border:1px solid rgba(200,168,75,.48);color:#f4d58a;background:rgba(20,10,5,.92);}
@@ -997,6 +998,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .assassination-minimize:hover{color:#fff;border-color:var(--gold);background:rgba(200,168,75,.22);}
 @media(max-width:720px){.assassination-body{grid-template-columns:1fr}.assassination-threat img{width:100px;height:140px}.assassination-button{width:100%;min-width:0}}
 @media(max-width:620px){.bazar-choice-grid{grid-template-columns:repeat(3,minmax(78px,1fr));}}
+.batch15b-eternal-fire-prelude{position:fixed;inset:0;z-index:4600;pointer-events:none;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at center,rgba(255,194,90,.22),rgba(180,50,10,.16) 32%,rgba(22,5,2,.84) 72%,rgba(0,0,0,.94));overflow:hidden;}
+.batch15b-eternal-fire-card{width:min(270px,44vw);aspect-ratio:512/716;border-radius:18px;background-size:cover;background-position:top center;box-shadow:0 0 34px rgba(255,196,92,.86),0 0 92px rgba(230,70,10,.78),0 18px 54px rgba(0,0,0,.88);animation:batch15BEternalFireCard 1.18s ease-in forwards;transform-origin:center;}
+.batch15b-eternal-fire-explosion{position:absolute;width:24vmin;height:24vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,255,235,.98) 0%,rgba(255,213,92,.95) 16%,rgba(255,92,14,.78) 38%,rgba(130,10,0,.34) 62%,rgba(0,0,0,0) 76%);filter:blur(.4px);mix-blend-mode:screen;animation:batch15BEternalFireExplosion .72s ease-out forwards;}
+body.batch15b-camera-shake .board{animation:batch15BCameraShake .32s linear infinite;}
+@keyframes batch15BEternalFireCard{0%{opacity:0;transform:scale(.74) rotate(-2deg)}18%{opacity:1;transform:scale(1.08) rotate(1deg)}68%{opacity:1;transform:scale(1.18) rotate(0deg);filter:saturate(1.45) brightness(1.16)}100%{opacity:0;transform:scale(1.8) rotate(5deg);filter:saturate(2.2) brightness(1.7) blur(2px)}}
+@keyframes batch15BEternalFireExplosion{0%{opacity:0;transform:scale(.1)}18%{opacity:1}100%{opacity:0;transform:scale(7.8)}}
+@keyframes batch15BCameraShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,-2px)}80%{transform:translate(1px,2px)}}
 
 
 
@@ -2213,7 +2221,7 @@ Object.assign(CARDS_DATA, {
   // Sorts MVS
   'S000005':{name:'Assassinat',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,
     res_ico:'IC00000RDM',res_val:'5',fico:null,kws:[],
-    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d\'envoyer *2* cartes de type Approvisionnement au cimetière à la place.',
+    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d\'envoyer *2* cartes de type *Approvisionnement* au cimetière à la place.',
     badge:'Sort',lore:''},
   'S000002':{name:'Des yeux dans le noir',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,
     res_ico:'IC00000LNY',res_val:'2',fico:null,kws:[],
@@ -3002,7 +3010,7 @@ SCENARIOS['collection-batch-15b-troll-chain-c'] = {
   label: 'TEST — COLLECTION BATCH 15B troll chain', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000046',
   testSetup: {
     player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000046','H000001'], drawPile:['TRL000019'], graveyard:[], servants:[{id:'TRL000006',atk:7,pdv:12,pdvMax:12,prepared:true},{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000026', initialSupplyMultiplier:15},
-    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',atk:1,pdv:1,pdvMax:1,prepared:true},{id:'H000006',atk:1,pdv:1,pdvMax:1,prepared:true},{id:'MV000020',atk:1,pdv:1,pdvMax:1,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000005',atk:5,pdv:10,pdvMax:10,prepared:true},{id:'H000001',atk:1,pdv:1,pdvMax:1,prepared:true},{id:'MV000020',atk:1,pdv:1,pdvMax:1,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-15b-eternal-fire-d'] = {
@@ -13601,8 +13609,8 @@ async function playCard(cardId, slot, options={}) {
     }
     const targetRequirement = cardTargetRequirement(cardId);
     const targetChoiceCopy = {
-      S000001:['Embuscade elfique','Choisissez un serviteur adverse avec moins de 5 ATK.'],
-      S000005:['Assassinat','Choisissez un serviteur adverse avec moins de 8 ATK.'],
+      S000001:['Embuscade elfique','Choisissez votre proie.', "LANCER L'EMBUSCADE"],
+      S000005:['Assassinat','Indiquez une cible à votre assassin.', 'ASSASSINER'],
       S000010:['Main guérisseuse','Choisissez le serviteur allié à soigner.'],
       S000031:['Duel','Choisissez deux serviteurs à faire s’affronter.'],
       S000032:['Savoir tribal','Choisissez le premier serviteur à frapper.'],
@@ -13619,6 +13627,7 @@ async function playCard(cardId, slot, options={}) {
       targets,
       minCount:targetRequirement?.min || 1,
       maxCount:targetRequirement?.max || 1,
+      confirmLabel:targetChoiceCopy[2] || 'CONFIRMER',
       panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000031' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063') ? ' batch09-magic-choice-panel' : (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : (cardId === 'S000032' ? ' savoir-tribal-choice-panel' : (cardId === 'S000046' ? ' batch09-ca-casse-choice-panel' : ''))))
     });
     if (chosen.length < (targetRequirement?.min || 1) || chosen.length > (targetRequirement?.max || 1)) {
@@ -13626,7 +13635,7 @@ async function playCard(cardId, slot, options={}) {
       showErr('Cette cible n\'est pas valide.');
       return {success:false, reason:'invalid-target-count'};
     }
-    selectedTargetIds = [chosen[0].dataset.instance];
+    selectedTargetIds = chosen.map(target => target.dataset.instance).filter(Boolean);
   }
   const actionValidation = validateCardActionStart({player:p, cardId, slot, selectedTargetIds, zoneSelection, handOccurrenceId});
   if (!actionValidation.valid) {
@@ -16265,7 +16274,7 @@ async function resolveEmbuscadeElfique(player, context={}) {
   const steal = await batch15BStealOpponentSupply(p, opponentOf(p), 'S000001');
   const result = {success:true, cardId:'S000001', playerId:p.key, target:destroyedTarget, steal};
   recordCollectionBatch15BEvent('embuscade-elfique', result);
-  showNotif('Embuscade elfique : cible détruite' + (steal.success ? ' et approvisionnement volé.' : '.'), 1700);
+  showNotif(COLLECTION_BATCH_15B_MESSAGES.S000001, 2200);
   return result;
 }
 
@@ -16288,7 +16297,7 @@ async function resolveAssassinat(player, context={}) {
       if (discard.success) {
         const result = {success:true, cancelled:true, reason:'cancelled-by-hand-supplies', cardId:'S000005', playerId:p.key, target:targetBefore, discard};
         recordCollectionBatch15BEvent('assassinat-cancelled', result);
-        showNotif('Assassinat annulé par 2 cartes Approvisionnement.', 1600);
+        showNotif(COLLECTION_BATCH_15B_MESSAGES.S000005_CANCEL, 2600);
         return result;
       }
     }
@@ -16296,7 +16305,7 @@ async function resolveAssassinat(player, context={}) {
   await sendToCemetery(target, {sourceCardId:'S000005'});
   const result = {success:true, cancelled:false, reason:'target-destroyed', cardId:'S000005', playerId:p.key, target:targetBefore};
   recordCollectionBatch15BEvent('assassinat', result);
-  showNotif('Sort : Assassinat !', 1400);
+  showNotif(COLLECTION_BATCH_15B_MESSAGES.S000005_KILL, 2000);
   return result;
 }
 
@@ -16334,45 +16343,54 @@ async function resolveDuel(player, context={}) {
 async function resolveFeuEternelDechaine(player, context={}) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000025'};
+  const prelude = await showBatch15BEternalFirePrelude();
+  showNotif(COLLECTION_BATCH_15B_MESSAGES.S000025, 3600);
+  await batch05VisualDelay(260);
   const players = [p, opponentOf(p)].filter(Boolean);
-  const servants = players.flatMap(side => batch09Living(side));
   const destroyedServants = [];
-  for (const servant of servants) {
-    if (!servant?.isConnected || servant.dataset.dead) continue;
-    const before = targetSummary(servant);
-    await sendToCemetery(servant, {sourceCardId:'S000025'});
-    destroyedServants.push(before);
-    await batch05VisualDelay(180);
-  }
   const destroyedSupplies = [];
-  for (const side of players) {
-    const supplies = [...(side.supplies || [])];
-    for (const instance of supplies) {
-      const cardId = instance.cardId;
-      const result = sendSupplyInstanceToCemetery(side, instance.instanceId, {reason:'feu-eternel-dechaine', useLatestBotanicalMember:false});
-      if (result.success) {
-        destroyedSupplies.push({playerId:side.key, cardId, instanceId:instance.instanceId});
+  let erasedDecks = [];
+  let avatars = [];
+  setBatch15BCameraShake(true);
+  try {
+    const servants = players.flatMap(side => batch09Living(side));
+    for (const servant of servants) {
+      if (!servant?.isConnected || servant.dataset.dead) continue;
+      const before = targetSummary(servant);
+      await sendToCemetery(servant, {sourceCardId:'S000025'});
+      destroyedServants.push(before);
+      await batch05VisualDelay(180);
+    }
+    for (const side of players) {
+      const supplies = [...(side.supplies || [])];
+      for (const instance of supplies) {
+        const cardId = instance.cardId;
         await batch15BAnimateTransfer(cardId, side, 'supplies', side, 'cemetery', 'feu-eternel-supply', 160);
+        const result = sendSupplyInstanceToCemetery(side, instance.instanceId, {reason:'feu-eternel-dechaine', useLatestBotanicalMember:false});
+        if (result.success) {
+          destroyedSupplies.push({playerId:side.key, cardId, instanceId:instance.instanceId});
+        }
       }
     }
+    erasedDecks = players.map(side => {
+      const deck = playerDrawPile(side);
+      const count = deck.length;
+      const cards = deck.splice(0).map(getRuntimeCardId);
+      updateDeckCount(side);
+      recordCollectionBatch15BEvent('deck-erased', {playerId:side.key, count, cards});
+      return {playerId:side.key, count};
+    });
+    avatars = players.map(side => {
+      const before = batch09AvatarHp(side);
+      setAvatarHitPoints(side, 0);
+      pulseBatch09Avatar(side, 'batch15b-feu-eternel-avatar');
+      return {playerId:side.key, before, after:0};
+    });
+  } finally {
+    setBatch15BCameraShake(false);
   }
-  const erasedDecks = players.map(side => {
-    const deck = playerDrawPile(side);
-    const count = deck.length;
-    const cards = deck.splice(0).map(getRuntimeCardId);
-    updateDeckCount(side);
-    recordCollectionBatch15BEvent('deck-erased', {playerId:side.key, count, cards});
-    return {playerId:side.key, count};
-  });
-  const avatars = players.map(side => {
-    const before = batch09AvatarHp(side);
-    setAvatarHitPoints(side, 0);
-    pulseBatch09Avatar(side, 'batch15b-feu-eternel-avatar');
-    return {playerId:side.key, before, after:0};
-  });
-  const result = {success:true, cardId:'S000025', playerId:p.key, destroyedServants, destroyedSupplies, erasedDecks, avatars};
+  const result = {success:true, cardId:'S000025', playerId:p.key, prelude, destroyedServants, destroyedSupplies, erasedDecks, avatars};
   recordCollectionBatch15BEvent('feu-eternel-dechaine', result);
-  showNotif('Le Feu éternel déchaîné consume tout.', 2200);
   return result;
 }
 
@@ -16413,7 +16431,7 @@ async function resolveSavoirTribal(player, context={}) {
   }
   const result = {success:true, cardId:'S000032', playerId:p.key, hits, overflow};
   recordCollectionBatch08Event('savoir-tribal', result);
-  showNotif('Savoir tribal inflige ' + hits.reduce((sum, hit) => sum + hit.damage, 0) + ' dégât(s).', 1600);
+  showNotif(COLLECTION_BATCH_15B_MESSAGES.S000032, 2200);
   return result;
 }
 
@@ -19407,7 +19425,7 @@ function applyHealerEffect() {
   });
 }
 
-function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, panelClass='board-target-choice-panel'}={}) {
+function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, panelClass='board-target-choice-panel', confirmLabel='CONFIRMER'}={}) {
   const available = Array.from(targets || []).filter(fc => fc && !fc.dataset.dead);
   if (typeof document === 'undefined' || !document.body) return Promise.resolve(available.slice(0, maxCount));
   if (!available.length) return Promise.resolve([]);
@@ -19424,9 +19442,9 @@ function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, pan
       title:title || 'Sélection',
       compactLabel:`${title || 'Sélection'} en attente`,
       panelClass,
-      bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
+      bodyHtml:`<div data-testid="board-target-prompt" style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
         <div class="sort-choice-cards" data-testid="board-target-choice-list">${cardsHTML}</div>
-        <button type="button" class="sort-choice-confirm" data-testid="board-target-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
+        <button type="button" class="sort-choice-confirm" data-testid="board-target-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#1a0e05;background:linear-gradient(180deg,#ffe4a3,#c99c3e);border:1px solid rgba(255,231,159,.9);border-radius:10px;box-shadow:0 7px 18px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.32);padding:10px 20px;margin-top:12px;cursor:pointer;font-weight:900;letter-spacing:.08em;text-shadow:0 1px 0 rgba(255,255,255,.32)">${escapeHtml(confirmLabel || 'CONFIRMER')}</button>`
     });
     function update() {
       modal.overlay?.querySelectorAll('.sort-choice-item').forEach((el, i) => {
@@ -20324,6 +20342,56 @@ function recordCollectionBatch15BEvent(type, detail={}) {
     window.__collectionBatch15BLastEvent = event;
   }
   return event;
+}
+
+const COLLECTION_BATCH_15B_MESSAGES = Object.freeze({
+  S000001:'L\'EMBUSCADE EST UN SUCCÈS, L\'ADVERSAIRE N\'A RIEN VU VENIR.',
+  S000005_CANCEL:'L\'ASSASSIN A TROUVÉ UNE OFFRE PLUS INTÉRESSANTE ET IMMÉDIATEMENT RETOURNÉ SA VESTE !',
+  S000005_KILL:'MISSION ACCOMPLIE : CIBLE ÉLIMINÉE.',
+  S000025:'LA PUISSANCE DU FEU ÉTERNEL LIBÉRÉ RAVAGE TOUT SUR SON PASSAGE ET FAIT VOLER LE MONDE EN ÉCLATS ET EN CENDRES.',
+  S000032:'LA MAGIE CHAMANIQUE EST CERTES PRIMITIVE, MAIS NÉANMOINS DANGEREUSE...'
+});
+
+async function showBatch15BEternalFirePrelude() {
+  if (typeof document === 'undefined' || !document.body) {
+    recordCollectionBatch15BEvent('feu-eternel-prelude-skipped', {reason:'no-document'});
+    return {visible:false, reason:'no-document'};
+  }
+  const existing = document.querySelector('.batch15b-eternal-fire-prelude');
+  existing?.remove();
+  const card = CARDS_DATA.S000025 || {};
+  const folder = card.assetFolder || facFolder(card.fac || 'sort');
+  const overlay = document.createElement('div');
+  overlay.className = 'batch15b-eternal-fire-prelude';
+  overlay.dataset.testid = 'batch15b-eternal-fire-prelude';
+  overlay.innerHTML = `<div class="batch15b-eternal-fire-card" data-testid="batch15b-eternal-fire-card" aria-label="${escapeHtml(card.name || 'Feu éternel déchaîné')}" style="background-image:url('${cardArtworkSrc('S000025', folder)}')"></div>`;
+  document.body.appendChild(overlay);
+  recordCollectionBatch15BEvent('feu-eternel-prelude-card', {cardId:'S000025', visible:true});
+  await batch05VisualDelay(920);
+  const explosion = document.createElement('div');
+  explosion.className = 'batch15b-eternal-fire-explosion';
+  explosion.dataset.testid = 'batch15b-eternal-fire-explosion';
+  overlay.appendChild(explosion);
+  recordCollectionBatch15BEvent('feu-eternel-prelude-explosion', {cardId:'S000025', visible:true});
+  await batch05VisualDelay(760);
+  overlay.remove();
+  recordCollectionBatch15BEvent('feu-eternel-prelude-cleared', {cardId:'S000025', visible:false});
+  return {visible:true};
+}
+
+function setBatch15BCameraShake(active) {
+  if (typeof document === 'undefined' || !document.body) return false;
+  document.body.classList.toggle('batch15b-camera-shake', !!active);
+  recordCollectionBatch15BEvent('feu-eternel-camera-shake', {active:!!active});
+  return true;
+}
+
+if (typeof window !== 'undefined') {
+  Object.assign(window, {
+    COLLECTION_BATCH_15B_MESSAGES,
+    showBatch15BEternalFirePrelude,
+    setBatch15BCameraShake
+  });
 }
 
 function batch15BZoneElement(player, zone) {
@@ -21434,7 +21502,7 @@ Object.assign(CARDS_DATA, {
     cap:'Fournit 1 ressource d\'Aria au joueur.',badge:'Approvisionnement',lore:'L\'aria, l\'eau magique, est présente naturellement un peu partout. Certains peuples la puisent directement des nappes phréatiques, tandis que d\'autres construisent des autels autour des monolithes dits « fontaines » d\'aria.'},
   // ── Sorts ──
   'S000001':{name:'Embuscade elfique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:null,kws:[],
-    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à *5*. Vole *1* carte Approvisionnement du deck ou cimetière de votre adversaire.',badge:'Sort',lore:''},
+    cap:'Détruit un serviteur adverse dont l\'attaque est inférieure à *5*. Vole *1* carte *Approvisionnement* du deck ou cimetière de votre adversaire.',badge:'Sort',lore:''},
   'S000025':{name:'Feu éternel déchaîné',type:'Sort',fac:'sort',atk:null,pdv:null,cost:null,hideCost:true,res_ico:'IC00000RDM',res_val:'0',fico:null,kws:['Insensible'],
     cap:'Quand les *13* Mages du Cercle découvrirent le feu éternel, la source primordiale de toute la magie du monde, ils le canalisèrent d\'abord pour renforcer leurs pouvoirs, leurs connaissances des mystères et même prolonger leur vie. Mais bientôt, les dieux noirs répandirent la corruption, le doute et l\'envie, promettant à chaque membre du Cercle qu\'il pouvait puiser à la source pour lui seul et, ainsi, devenir l\'égal des dieux eux-mêmes. C\'est ainsi que les *13* magiciens les plus puissants de tous les temps, dans un combat fratricide, firent voler le monde en éclats.',
     detail:'Détruit successivement, un par un, tous les serviteurs des deux côtés du terrain, puis l\'approvisionnement, puis les decks, puis les avatars eux-mêmes. Passe outre [Insensible].',badge:'Sort',lore:''},
@@ -23790,7 +23858,7 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Lenya"
     ],
-    "cap": "Détruit un serviteur adverse dont l'attaque est inférieure à 5. Vole 1 carte Approvisionnement du deck ou cimetière de votre adversaire.",
+    "cap": "Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte *Approvisionnement* du deck ou cimetière de votre adversaire.",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
@@ -23827,7 +23895,7 @@ Object.assign(CARDS_DATA, {
     "kws": [
       "Approvisionnement"
     ],
-    "cap": "Détruit un serviteur adverse dont l'attaque est inférieure à 8. Le joueur adverse peut annuler cet effet en choisissant d'envoyer 2 cartes de type Approvisionnement au cimetière à la place.",
+    "cap": "Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type *Approvisionnement* au cimetière à la place.",
     "lore": "",
     "max": 3,
     "assetFolder": "sorts",
@@ -24835,8 +24903,8 @@ const COLLECTION_BATCH_09B_CARD_TEXT_OVERRIDES = {
   PRST000004:{cap:"Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, *1* serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main.",detail:"Jusqu'à la fin de la partie, chaque fois qu'un serviteur allié est envoyé au cimetière, *1* serviteur de coût identique de la faction « Orc », « Gobelin » ou « Troll » est ajouté à votre main. Ce serviteur est choisi de façon aléatoire."},
   PRST000005:{cap:"Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à *3*. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus.",detail:"Jusqu'à la fin de la partie, fixe le coût en ressources de tous vos trolls à *3*. De plus, vos serviteurs trolls qui nécessitaient de la nourriture pour être joués n'en requièrent plus."},
   R000026:{cap:"Il est difficile de « cacher » des monolithes de cette envergure, mais les trolls ont une vision du monde bien à eux.",detail:"Fournit *3* ressources de Pierre et *2* ressources de Fer."},
-  S000001:{cap:"Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte Approvisionnement du deck ou cimetière de votre adversaire.",detail:"Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte Approvisionnement du deck ou cimetière de votre adversaire."},
-  S000005:{cap:"Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type Approvisionnement au cimetière à la place.",detail:"Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type Approvisionnement au cimetière à la place."},
+  S000001:{cap:"Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte *Approvisionnement* du deck ou cimetière de votre adversaire.",detail:"Détruit un serviteur adverse dont l'attaque est inférieure à *5*. Vole *1* carte *Approvisionnement* du deck ou cimetière de votre adversaire."},
+  S000005:{cap:"Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type *Approvisionnement* au cimetière à la place.",detail:"Détruit un serviteur adverse dont l'attaque est inférieure à *8*. Le joueur adverse peut annuler cet effet en choisissant d'envoyer *2* cartes de type *Approvisionnement* au cimetière à la place."},
   S000025:{cap:"Quand les *13* Mages du Cercle découvrirent le feu éternel, la source primordiale de toute la magie du monde, ils le canalisèrent d'abord pour renforcer leurs pouvoirs, leurs connaissances des mystères et même prolonger leur vie. Mais bientôt, les dieux noirs répandirent la corruption, le doute et l'envie, promettant à chaque membre du Cercle qu'il pouvait puiser à la source pour lui seul et, ainsi, devenir l'égal des dieux eux-mêmes. C'est ainsi que les *13* magiciens les plus puissants de tous les temps, dans un combat fratricide, firent voler le monde en éclats.",detail:"Détruit successivement, un par un, tous les serviteurs des deux côtés du terrain, puis l'approvisionnement, puis les decks, puis les avatars eux-mêmes. Passe outre [Insensible]."},
   S000031:{cap:"Choisissez *2* serviteurs, ils s'affrontent. Si l'un, l'autre ou les deux sont détruits, envoyez-les dans votre cimetière.",detail:"Choisissez *2* serviteurs, ils s'affrontent. Si l'un, l'autre ou les deux sont détruits, envoyez-les dans votre cimetière. Passe outre [Insensible]."},
   S000032:{cap:"Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.",detail:"Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible."},
@@ -25155,6 +25223,7 @@ async function resolveBatch09CaPasseOuCaCasse(player, context={}) {
     if (!target) break;
     rounds++;
     attacked.push(targetSummary(target));
+    const trollBefore = targetSummary(troll);
     const plan = batch09CombatPlan(troll, target, Number(troll.dataset.atk || 0));
     recordCollectionBatch09Event('ca-casse-round-phase', {round:rounds, phase:'feedback-before-attack', troll:targetSummary(troll), target:targetSummary(target)});
     await prepareBatch09CombatFeedback(troll, target, {phase:'attack', forcedBy:'S000046', damage:plan.damage, adjacentTargets:plan.adjacentTargets, rempartBonus:plan.rempartBonus});
@@ -25171,14 +25240,17 @@ async function resolveBatch09CaPasseOuCaCasse(player, context={}) {
       await applyDamage(troll, counter);
       await batch05VisualDelay(680);
     }
+    const trollAfterDamage = targetSummary(troll);
     let heal = null;
     if (!troll.dataset.dead) {
       const healAmount = 1 + Math.floor(batch09Random() * 4);
       recordCollectionBatch09Event('ca-casse-round-phase', {round:rounds, phase:'heal-before-next-attack', troll:targetSummary(troll), amount:healAmount});
-      heal = {amount:healAmount, result:applyHeal(troll, healAmount)};
+      const healBefore = targetSummary(troll);
+      heal = {amount:healAmount, before:healBefore, result:applyHeal(troll, healAmount), after:null};
+      heal.after = targetSummary(troll);
       if (heal.result?.success) await batch05VisualDelay(840);
     }
-    roundResults.push({target:targetSummary(target), targetDied, followUps, heal});
+    roundResults.push({target:targetSummary(target), targetDied, followUps, heal, trollBefore, trollAfterDamage, trollAfterHeal:targetSummary(troll)});
     if (rounds > 12) break;
   }
   recordCollectionBatch09Event('ca-passe-ou-ca-casse', {playerId:p.key, troll:targetSummary(troll), rounds, attacked, roundResults});
