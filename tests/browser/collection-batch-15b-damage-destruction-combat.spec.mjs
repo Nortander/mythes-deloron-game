@@ -329,6 +329,20 @@ test("S000063 Choc mental remains a simple non-regression on Insensible", async 
 test("S000046 repeats troll attacks until no enemy servants remain or the troll dies", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15BScenario(page, "collection-batch-15b-troll-chain-c");
+  await page.evaluate(() => {
+    window.__batch15bTrollChoicePromise = playCard("S000046", document.querySelector(`${playerZoneSelector(player1, "hand")} .hc[data-id="S000046"]`));
+  });
+  await expect(page.locator(".batch09-ca-casse-choice-panel .sort-choice-title")).toHaveText("ÇA PASSE OU ÇA CASSE");
+  const choiceCopy = await page.locator(".batch09-ca-casse-choice-panel").evaluate(panel => ({
+    title:panel.querySelector(".sort-choice-title")?.textContent?.trim() || "",
+    prompt:panel.querySelector('[data-testid="board-target-prompt"]')?.textContent?.trim() || "",
+    instructionCount:(panel.textContent?.match(/Envoyer un troll tout casser !/g) || []).length
+  }));
+  expect(choiceCopy.title).toBe("ÇA PASSE OU ÇA CASSE");
+  expect(choiceCopy.prompt).toBe("Envoyer un troll tout casser !");
+  expect(choiceCopy.instructionCount).toBe(1);
+
+  await openBatch15BScenario(page, "collection-batch-15b-troll-chain-c");
   const result = await page.evaluate(async () => {
     window.__collectionBatch09RandomQueue = [0, 0, 0, 0, 0, 0];
     const troll = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "TRL000006");
@@ -361,12 +375,34 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
   await openBatch15BScenario(page, "collection-batch-15b-eternal-fire-d");
   const result = await page.evaluate(async () => {
     window.__collectionBatch15BEvents = [];
-    const resolved = await resolveFeuEternelDechaine(player1);
+    const resolution = resolveFeuEternelDechaine(player1);
+    const shakeDuring = await new Promise(resolve => {
+      const startedAt = Date.now();
+      const tick = () => {
+        const terrain = document.querySelector(".terrain");
+        const active = document.body.classList.contains("batch15b-camera-shake");
+        const animationName = terrain ? getComputedStyle(terrain).animationName : "";
+        if (active) {
+          resolve({seen:true, bodyClass:active, terrainAnimationName:animationName});
+          return;
+        }
+        if (Date.now() - startedAt > 5000) {
+          resolve({seen:false, bodyClass:active, terrainAnimationName:animationName});
+          return;
+        }
+        setTimeout(tick, 20);
+      };
+      tick();
+    });
+    const resolved = await resolution;
+    const terrainAnimationAfter = getComputedStyle(document.querySelector(".terrain")).animationName;
     return {
       resolved,
+      shakeDuring,
       events:window.__collectionBatch15BEvents,
       overlayCount:document.querySelectorAll(".batch15b-eternal-fire-prelude").length,
       cameraShake:document.body.classList.contains("batch15b-camera-shake"),
+      terrainAnimationAfter,
       servantsLeft:document.querySelectorAll('.fc[data-instance]:not([data-dead])').length,
       player1Supplies:player1.supplies.length,
       player2Supplies:player2.supplies.length,
@@ -383,8 +419,14 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
   expect(result.resolved.prelude.visible).toBe(true);
   expect(eventTypes.indexOf("feu-eternel-prelude-card")).toBeLessThan(eventTypes.indexOf("feu-eternel-prelude-explosion"));
   expect(eventTypes.indexOf("feu-eternel-prelude-cleared")).toBeLessThan(eventTypes.indexOf("card-transfer"));
+  expect(result.shakeDuring).toEqual(expect.objectContaining({seen:true, bodyClass:true, terrainAnimationName:"batch15BCameraShake"}));
+  expect(result.events).toEqual(expect.arrayContaining([
+    expect.objectContaining({type:"feu-eternel-camera-shake", active:true}),
+    expect.objectContaining({type:"feu-eternel-camera-shake", active:false})
+  ]));
   expect(result.overlayCount).toBe(0);
   expect(result.cameraShake).toBe(false);
+  expect(result.terrainAnimationAfter).not.toBe("batch15BCameraShake");
   expect(result.servantsLeft).toBe(0);
   expect(result.player1Supplies).toBe(0);
   expect(result.player2Supplies).toBe(0);

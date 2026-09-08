@@ -1001,7 +1001,13 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch15b-eternal-fire-prelude{position:fixed;inset:0;z-index:4600;pointer-events:none;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at center,rgba(255,194,90,.22),rgba(180,50,10,.16) 32%,rgba(22,5,2,.84) 72%,rgba(0,0,0,.94));overflow:hidden;}
 .batch15b-eternal-fire-card{width:min(270px,44vw);aspect-ratio:512/716;border-radius:18px;background-size:cover;background-position:top center;box-shadow:0 0 34px rgba(255,196,92,.86),0 0 92px rgba(230,70,10,.78),0 18px 54px rgba(0,0,0,.88);animation:batch15BEternalFireCard 1.18s ease-in forwards;transform-origin:center;}
 .batch15b-eternal-fire-explosion{position:absolute;width:24vmin;height:24vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,255,235,.98) 0%,rgba(255,213,92,.95) 16%,rgba(255,92,14,.78) 38%,rgba(130,10,0,.34) 62%,rgba(0,0,0,0) 76%);filter:blur(.4px);mix-blend-mode:screen;animation:batch15BEternalFireExplosion .72s ease-out forwards;}
-body.batch15b-camera-shake .board{animation:batch15BCameraShake .32s linear infinite;}
+body.batch15b-camera-shake .board-bg,
+body.batch15b-camera-shake .board-overlay,
+body.batch15b-camera-shake .divider,
+body.batch15b-camera-shake .terrain,
+body.batch15b-camera-shake .av-zone,
+body.batch15b-camera-shake .dc-j1,
+body.batch15b-camera-shake .dc-j2{animation:batch15BCameraShake .32s linear infinite;will-change:transform;}
 @keyframes batch15BEternalFireCard{0%{opacity:0;transform:scale(.74) rotate(-2deg)}18%{opacity:1;transform:scale(1.08) rotate(1deg)}68%{opacity:1;transform:scale(1.18) rotate(0deg);filter:saturate(1.45) brightness(1.16)}100%{opacity:0;transform:scale(1.8) rotate(5deg);filter:saturate(2.2) brightness(1.7) blur(2px)}}
 @keyframes batch15BEternalFireExplosion{0%{opacity:0;transform:scale(.1)}18%{opacity:1}100%{opacity:0;transform:scale(7.8)}}
 @keyframes batch15BCameraShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,-2px)}80%{transform:translate(1px,2px)}}
@@ -13614,7 +13620,7 @@ async function playCard(cardId, slot, options={}) {
       S000010:['Main guérisseuse','Choisissez le serviteur allié à soigner.'],
       S000031:['Duel','Choisissez deux serviteurs à faire s’affronter.'],
       S000032:['Savoir tribal','Choisissez le premier serviteur à frapper.'],
-      S000046:['Envoyer un troll tout casser !','Envoyer un troll tout casser !'],
+      S000046:['ÇA PASSE OU ÇA CASSE','Envoyer un troll tout casser !'],
       S000056:['Déplacement instantané','Choisissez le serviteur allié à marquer.'],
       S000061:['Bouclier de glace','Choisissez le serviteur allié à protéger.'],
       S000062:['Déferlante de flammes','Choisissez le serviteur adverse à embraser.'],
