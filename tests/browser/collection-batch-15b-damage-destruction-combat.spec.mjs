@@ -375,6 +375,16 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
   await openBatch15BScenario(page, "collection-batch-15b-eternal-fire-d");
   const result = await page.evaluate(async () => {
     window.__collectionBatch15BEvents = [];
+    const before = {
+      player1Supplies:player1.supplies.length,
+      player2Supplies:player2.supplies.length,
+      player1Souls:Number(player1.resourceState?.souls || 0),
+      player2Souls:Number(player2.resourceState?.souls || 0),
+      player1RameVisible:!!document.querySelector(`${playerZoneSelector(player1, "appro")} [data-soul]`),
+      player2RameVisible:!!document.querySelector(`${playerZoneSelector(player2, "appro")} [data-soul]`),
+      player1RameDomValue:document.querySelector(`${playerZoneSelector(player1, "appro")} [data-soul]`)?.dataset?.soul || null,
+      player2RameDomValue:document.querySelector(`${playerZoneSelector(player2, "appro")} [data-soul]`)?.dataset?.soul || null
+    };
     const resolution = resolveFeuEternelDechaine(player1);
     const shakeDuring = await new Promise(resolve => {
       const startedAt = Date.now();
@@ -397,6 +407,7 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
     const resolved = await resolution;
     const terrainAnimationAfter = getComputedStyle(document.querySelector(".terrain")).animationName;
     return {
+      before,
       resolved,
       shakeDuring,
       events:window.__collectionBatch15BEvents,
@@ -406,6 +417,10 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
       servantsLeft:document.querySelectorAll('.fc[data-instance]:not([data-dead])').length,
       player1Supplies:player1.supplies.length,
       player2Supplies:player2.supplies.length,
+      player1Souls:Number(player1.resourceState?.souls || 0),
+      player2Souls:Number(player2.resourceState?.souls || 0),
+      player1RameVisible:!!document.querySelector(`${playerZoneSelector(player1, "appro")} [data-soul]`),
+      player2RameVisible:!!document.querySelector(`${playerZoneSelector(player2, "appro")} [data-soul]`),
       player1Deck:player1.drawPile.length,
       player2Deck:player2.drawPile.length,
       player1Avatar:batch09AvatarHp(player1),
@@ -417,6 +432,14 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
   const eventTypes = result.events.map(event => event.type);
   expect(result.resolved.success).toBe(true);
   expect(result.resolved.prelude.visible).toBe(true);
+  expect(result.before.player1Supplies).toBeGreaterThan(0);
+  expect(result.before.player2Supplies).toBeGreaterThan(0);
+  expect(result.before.player1Souls).toBeGreaterThan(0);
+  expect(result.before.player2Souls).toBeGreaterThan(0);
+  expect(result.before.player1RameVisible).toBe(true);
+  expect(result.before.player2RameVisible).toBe(true);
+  expect(Number(result.before.player1RameDomValue)).toBeGreaterThan(0);
+  expect(Number(result.before.player2RameDomValue)).toBeGreaterThan(0);
   expect(eventTypes.indexOf("feu-eternel-prelude-card")).toBeLessThan(eventTypes.indexOf("feu-eternel-prelude-explosion"));
   expect(eventTypes.indexOf("feu-eternel-prelude-cleared")).toBeLessThan(eventTypes.indexOf("card-transfer"));
   expect(result.shakeDuring).toEqual(expect.objectContaining({seen:true, bodyClass:true, terrainAnimationName:"batch15BCameraShake"}));
@@ -430,6 +453,18 @@ test("S000025 destroys servants, supplies, decks and avatars despite Insensible"
   expect(result.servantsLeft).toBe(0);
   expect(result.player1Supplies).toBe(0);
   expect(result.player2Supplies).toBe(0);
+  expect(result.player1Souls).toBe(0);
+  expect(result.player2Souls).toBe(0);
+  expect(result.player1RameVisible).toBe(false);
+  expect(result.player2RameVisible).toBe(false);
+  expect(result.resolved.destroyedRameSupplies).toEqual([
+    expect.objectContaining({success:true, playerId:"player1", soulsAfter:0, visibleAfter:false}),
+    expect.objectContaining({success:true, playerId:"player2", soulsAfter:0, visibleAfter:false})
+  ]);
+  expect(result.events).toEqual(expect.arrayContaining([
+    expect.objectContaining({type:"feu-eternel-rame-destroyed", playerId:"player1", soulsAfter:0, visibleAfter:false}),
+    expect.objectContaining({type:"feu-eternel-rame-destroyed", playerId:"player2", soulsAfter:0, visibleAfter:false})
+  ]));
   expect(result.player1Deck).toBe(0);
   expect(result.player2Deck).toBe(0);
   expect(result.player1Avatar).toBe(0);

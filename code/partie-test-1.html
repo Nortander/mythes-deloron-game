@@ -16346,6 +16346,30 @@ async function resolveDuel(player, context={}) {
   return result;
 }
 
+async function destroyBatch15BEternalFireRameSupply(player) {
+  const p = playerState(player);
+  if (!p?.resourceState) return {success:false, reason:'missing-player', soulsBefore:0, soulsAfter:0};
+  const soulsBefore = Number(p.resourceState.souls || 0);
+  const zone = qs(playerZoneSelector(p, 'appro'));
+  const echoPile = zone?.querySelector('[data-soul]');
+  if (soulsBefore <= 0 && !echoPile) {
+    return {success:true, skipped:true, reason:'no-rame-supply', playerId:p.key, soulsBefore, soulsAfter:soulsBefore, visibleBefore:false, visibleAfter:false};
+  }
+  const visibleBefore = !!echoPile;
+  if (echoPile) {
+    echoPile.dataset.batch15bFeuEternelRame = 'destroying';
+    echoPile.classList.add('batch11-echo-pile-pulse');
+    recordCollectionBatch15BEvent('feu-eternel-rame-pulse', {playerId:p.key, soulsBefore});
+    await batch05VisualDelay(160);
+  }
+  p.resourceState.souls = 0;
+  p.resourceState.revision += 1;
+  if (echoPile?.isConnected) replaceSupplyElementWithSlot(echoPile);
+  recordCollectionBatch15BEvent('feu-eternel-rame-destroyed', {playerId:p.key, soulsBefore, soulsAfter:0, visibleBefore, visibleAfter:!!zone?.querySelector('[data-soul]')});
+  updateTestResourcePanel();
+  return {success:true, playerId:p.key, soulsBefore, soulsAfter:0, visibleBefore, visibleAfter:!!zone?.querySelector('[data-soul]')};
+}
+
 async function resolveFeuEternelDechaine(player, context={}) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000025'};
@@ -16355,6 +16379,7 @@ async function resolveFeuEternelDechaine(player, context={}) {
   const players = [p, opponentOf(p)].filter(Boolean);
   const destroyedServants = [];
   const destroyedSupplies = [];
+  const destroyedRameSupplies = [];
   let erasedDecks = [];
   let avatars = [];
   setBatch15BCameraShake(true);
@@ -16377,6 +16402,7 @@ async function resolveFeuEternelDechaine(player, context={}) {
           destroyedSupplies.push({playerId:side.key, cardId, instanceId:instance.instanceId});
         }
       }
+      destroyedRameSupplies.push(await destroyBatch15BEternalFireRameSupply(side));
     }
     erasedDecks = players.map(side => {
       const deck = playerDrawPile(side);
@@ -16395,7 +16421,7 @@ async function resolveFeuEternelDechaine(player, context={}) {
   } finally {
     setBatch15BCameraShake(false);
   }
-  const result = {success:true, cardId:'S000025', playerId:p.key, prelude, destroyedServants, destroyedSupplies, erasedDecks, avatars};
+  const result = {success:true, cardId:'S000025', playerId:p.key, prelude, destroyedServants, destroyedSupplies, destroyedRameSupplies, erasedDecks, avatars};
   recordCollectionBatch15BEvent('feu-eternel-dechaine', result);
   return result;
 }
