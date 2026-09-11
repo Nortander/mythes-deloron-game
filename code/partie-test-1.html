@@ -2186,6 +2186,11 @@ Object.assign(CARDS_DATA, {
     res_ico:'IC00000LNY',res_val:'4',fico:null,kws:[],
     cap:'Rend à tous vos serviteurs un montant de points de vie égal à leur attaque. Si vous avez un serviteur elfe des bois « Guérisseur » ou « Druide » sur le terrain, double le montant des soins.',
     badge:'Sort',lore:''},
+  'S000021':{name:'Pétrification',type:'Sort',fac:'sort',atk:null,pdv:null,cost:6,
+    res_ico:'IC00000ARI',res_val:'6',resType:'Aria|Lenya|Écho',res2:'IC00000LNY',res3:'IC00000AME',fico:null,kws:['Aria','Lenya','Écho','Rempart'],
+    cap:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à *0* d'attaque/ *20* points de vie. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt.",
+    detail:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à *0* d'attaque/ *20* points de vie. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt.",
+    badge:'Sort',lore:''},
   'S000015':{name:'Après la catastrophe',type:'Sort',fac:'sort',atk:null,pdv:null,cost:3,
     res_ico:'IC00000LNY',res_val:'3',fico:null,kws:[],
     cap:'Choisissez jusqu\'à 3 serviteurs de votre cimetière et renvoyez-les dans votre deck, puis, mélangez le deck.',
@@ -3024,6 +3029,27 @@ SCENARIOS['collection-batch-15b-eternal-fire-d'] = {
   testSetup: {
     player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000025'], drawPile:['H000001','R000010','S000031'], graveyard:['H000005'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000029',atk:7,pdv:8,pdvMax:8,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','R000001','S000063'], graveyard:['R000004'], servants:[{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15c-healing'] = {
+  label: 'TEST — COLLECTION BATCH 15C soins', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000003',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000003','S000010'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'EDB000005',atk:1,pdv:1,pdvMax:3,prepared:true},{id:'H000001',atk:3,pdv:1,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:2,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100}, souls:20}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15c-protection'] = {
+  label: 'TEST — COLLECTION BATCH 15C protection', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000028',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000028','S000034'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:2,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100}, souls:20}, hand:['S000005'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15c-transformation'] = {
+  label: 'TEST — COLLECTION BATCH 15C transformation / glace', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000021',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000021','S000061'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'AVS000010',atk:13,pdv:13,pdvMax:13,prepared:true},{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
 SCENARIOS['collection-batch-01-zone-spells'] = {
@@ -4648,6 +4674,7 @@ const CARD_COST_DEFINITIONS = Object.freeze({
   'S000018': createCostDefinition(5, ["fer","bois","lenya"], [{"kind":"minimum","resource":"fer","amount":1},{"kind":"minimum","resource":"bois","amount":1},{"kind":"minimum","resource":"lenya","amount":3}], []),
   'S000019': createCompatiblePoolCostDefinition(3, ["aria","lenya","soul"], []),
   'S000020': createCostDefinition(8, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"minimum","resource":"aria","amount":1},{"kind":"minimum","resource":"lenya","amount":1}], []),
+  'S000021': createCompatiblePoolCostDefinition(6, ["aria","lenya","soul"], []),
   'S000022': createCompatiblePoolCostDefinition(8, ["aria","selene","soul","lenya"], [{"kind":"text","text":"Le cimetière du joueur adverse doit contenir au minimum 1 serviteur.","implemented":false}]),
   'S000023': createCostDefinition(5, ["aria","bois","fer","lenya","nourriture","pierre","selene","soul"], [{"kind":"groupMinimum","resources":["lenya","aria","nourriture"],"amount":3}], [{"kind":"text","text":"Avoir au moins 1 « Jeune dragon des neiges » [ID = EDG000006] dans son deck de départ.","implemented":false}]),
   'S000039': createCompatiblePoolCostDefinition(6, ["aria","lenya","selene"], []),
@@ -6495,6 +6522,7 @@ function isColdLocked(instance) {
 
 function canResolveServantAbility(instance, context = {}) {
   if (!instance || instance.dataset?.dead) return false;
+  if (instance.dataset?.batch15cPetrified === '1') return false;
   if (typeof isBatch08AvatarPassiveDisabled === 'function' && isBatch08AvatarPassiveDisabled(instance.dataset?.player) && String(instance.dataset.id || '').startsWith('AVS') && context.triggerType === 'passive') return false;
   if (!isColdLocked(instance)) return true;
   if (context.actionStartedBeforeCold && Number(context.sequenceStep || 1) <= 1) return true;
@@ -8669,6 +8697,7 @@ function batch03DynamicStatusTexts(fc) {
   if (Number(fc.dataset.batch09InstablePdvBonus || 0) > 0) add("Bénéficie temporairement d'un bonus de points de vie.");
   if (fc.dataset.batch09InstableRempart === '1') add('Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.');
   if (Number(fc.dataset.batch09IceShieldCharges || 0) > 0) add('Protégé par [Gel] : *' + Number(fc.dataset.batch09IceShieldCharges || 0) + '* attaque(s) restante(s), dégâts réduits de *2*.');
+  if (fc.dataset.batch15cPetrified === '1') add("Pétrifié : *0* ATK / *20* PDV, ne peut plus attaquer, riposter ni utiliser de capacité spéciale. Conserve seulement [Rempart].");
   if (fc.dataset.batch14dAonirBlessing === '1') add(COLLECTION_BATCH_14D_AONIR_TEXT);
   if (fc.dataset.batch14dHirinBypassRempart === '1') add(COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT);
   if (fc.dataset.batch14dHirinCurse === '1') add(COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT);
@@ -8764,6 +8793,7 @@ function buildPreviewKeywordTooltips(cardId, sourceContext={}) {
   if (sourceEl?.dataset?.batch03DivineWrathTurns || sourceEl?.dataset?.batch03BlessedSwordsTurns) ensureKeyword('Colère divine', KDEF['Colère divine'] || 'Au début du tour du propriétaire affecté, subit 2, puis 3, puis 4 dégâts avant expiration.');
   if (sourceEl?.dataset?.frozen_cdg) ensureKeyword('Coup de glace', KDEF['Coup de glace'] || '');
   if (sourceEl?.dataset?.frozen || Number(sourceEl?.dataset?.batch09IceShieldCharges || 0) > 0) ensureKeyword('Gel', KDEF.Gel || KDEF['Gèle'] || '');
+  if (sourceEl?.dataset?.batch15cPetrified === '1') ensureKeyword('Rempart', KDEF.Rempart || 'Protège les autres serviteurs alliés des attaques adverses.');
   if (sourceEl?.dataset?.burning) ensureKeyword('Embrasement', KDEF.Embrasement || '');
   if (sourceEl?.dataset?.batch07RuneServant === '1') ensureKeyword('Serviteur de la rune', KDEF['Serviteur de la rune'] || 'À sa destruction, ce serviteur ne rejoint pas le cimetière : il retourne dans la main de son propriétaire et ne peut pas être rejoué avant le prochain tour.');
   if (sourceEl?.dataset?.batch08TotemRage === '1') ensureKeyword('Rage', KDEF.Rage || 'Gagne +2 d’attaque tant que ses points de vie sont inférieurs à leur maximum.');
@@ -11571,6 +11601,16 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     atkLessThan: 8,
     effectKind: 'destroy'
   },
+  S000021: {
+    required: true,
+    min: 1,
+    max: 1,
+    side: 'both',
+    zone: 'servants',
+    cardType: 'Serviteur',
+    effectKind: 'transformation',
+    bypassInsensitive: true
+  },
   S000031: {
     required: true,
     min: 2,
@@ -11782,6 +11822,7 @@ function targetSummary(fc) {
     blessedSwordsTurns:fc.dataset.batch03BlessedSwordsTurns || null,
     auraProtection:fc.dataset.batch03AuraProtection === '1',
     runeServant:isBatch03RuneServant(fc.dataset.id) || fc.dataset.batch07RuneServant === '1',
+    batch15cPetrified:fc.dataset.batch15cPetrified === '1',
     batch09DevoreMagicMarkers:Number(fc.dataset.batch09DevoreMagicMarkers || 0),
     batch09DevoreMagicSpent:fc.dataset.batch09DevoreMagicSpent === '1',
     batch09FuryCount:Number(fc.dataset.batch09FuryCount || 0),
@@ -13598,7 +13639,7 @@ async function playCard(cardId, slot, options={}) {
   const handOccurrenceId = options?.handOccurrenceId || slot?.dataset?.handOccurrence || null;
   const returnActionValidation = options?.returnActionValidation === true || options?.returnValidation === true;
   const affordabilityContext = handOccurrenceId ? {handOccurrenceId} : {};
-  if ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000010' || cardId === 'S000028' || cardId === 'S000031' || cardId === 'S000056' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
+  if ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000010' || cardId === 'S000021' || cardId === 'S000028' || cardId === 'S000031' || cardId === 'S000056' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063' || cardId === 'S000032' || cardId === 'S000046' || (cardId === 'TRL000015' && !slot)) && !selectedTargetIds) {
     const preAffordability = getCardAffordabilityResult(cardId, p, affordabilityContext);
     if (preAffordability && !preAffordability.playable) {
       releasePaymentLock(p, cardId);
@@ -13618,6 +13659,7 @@ async function playCard(cardId, slot, options={}) {
       S000001:['Embuscade elfique','Choisissez votre proie.', "LANCER L'EMBUSCADE"],
       S000005:['Assassinat','Indiquez une cible à votre assassin.', 'ASSASSINER'],
       S000010:['Main guérisseuse','Choisissez le serviteur allié à soigner.'],
+      S000021:['Pétrification','Choisissez le serviteur à changer en pierre.'],
       S000031:['Duel','Choisissez deux serviteurs à faire s’affronter.'],
       S000032:['Savoir tribal','Choisissez le premier serviteur à frapper.'],
       S000046:['ÇA PASSE OU ÇA CASSE','Envoyer un troll tout casser !'],
@@ -14236,6 +14278,8 @@ async function triggerSort(cardId, player, context={}) {
       return resolvePierresDeCommunication(player);
     case 'S000020':
       return resolveBassinDeDivination(player);
+    case 'S000021':
+      return resolvePetrification(player, context);
     case 'S000030':
       return resolveSombreAffaire(player);
     case 'S000022':
@@ -15256,6 +15300,25 @@ function resolveSecoursMagique(player) {
   const result = {success:true, cardId:'S000034', playerId:p.key, shields:p.batch05RescueShield};
   recordCollectionBatch05Event('rescue-shield', result);
   showNotif('Secours magique protègera la prochaine destruction alliée.', 1600);
+  return result;
+}
+
+function resolvePetrification(player, context={}) {
+  const p = playerState(player);
+  const targetResult = resolveBatch03Targets('S000021', p, context);
+  const target = targetResult.targets[0];
+  if (!targetResult.audit.allowed || !target) return {success:false, reason:targetResult.audit.code || 'invalid-target', targetAudit:targetResult.audit};
+  const before = targetSummary(target);
+  target.dataset.batch15cPetrified = '1';
+  target.dataset.rempart = '1';
+  target.dataset.batch15cPetrifiedRempart = '1';
+  delete target.dataset.exhausted;
+  batch03UpdateStats(target, {atk:0, pdvMax:20, pdv:20});
+  createBatch03StatusCounter(target, 'petrification', 1, 'Pétrification');
+  pulseBatch03Ability(target, 'batch15c-petrification', {move:true});
+  const result = {success:true, cardId:'S000021', target:targetSummary(target), before};
+  recordCollectionBatch03Event('spell', {...result, code:'petrification-resolved'});
+  showNotif('Pétrification : la cible devient pierre et gagne Rempart.', 1600);
   return result;
 }
 
@@ -18425,12 +18488,16 @@ function recordDemonicGateCombatRefusal(reason, fc, targetFC=null) {
   if (typeof recordCollectionBatch14EEvent === 'function') recordCollectionBatch14EEvent('demonic-gate-combat-refused', detail);
   return detail;
 }
+function isBatch15CPetrified(fc) {
+  return fc?.dataset?.batch15cPetrified === '1';
+}
 function canServantCounterAttack(fc) {
-  return !!fc && !isDemonicGateCard(fc) && fc.dataset.id !== 'MV000030';
+  return !!fc && !isDemonicGateCard(fc) && fc.dataset.id !== 'MV000030' && !isBatch15CPetrified(fc);
 }
 function tryAttack(fc) {
   if (isDemonicGateCard(fc)) { showErr('La Porte démoniaque ne peut ni attaquer ni riposter.'); recordDemonicGateCombatRefusal('demonic-gate-cannot-attack', fc); return; }
   if (fc.dataset.id === 'MV000030') { showErr('Le Mur non-mort ne peut pas attaquer.'); return; }
+  if (isBatch15CPetrified(fc)) { showErr('Ce serviteur est pétrifié et ne peut pas attaquer.'); return; }
   if (fc.dataset.batch09InstableNoAttack === '1') { showErr('Le Troll instable ne peut pas attaquer avec ce comportement.'); return; }
   if (isBatch14ETiaraEntraved(fc)) { showErr('Ce serviteur est entravé par <b>Tiara</b> et ne peut pas attaquer.'); return; }
   if (isBatch04Hypnotized(fc)) { showErr('Ce serviteur est sous <b>Hypnose</b> et ne peut pas attaquer.'); return; }
@@ -18453,6 +18520,11 @@ async function resolveCombat(attacker, targetFC) {
     recordDemonicGateCombatRefusal('demonic-gate-cannot-attack', attacker, targetFC);
     cancelAttack();
     return {success:false, reason:'demonic-gate-cannot-attack'};
+  }
+  if (isBatch15CPetrified(attacker)) {
+    showErr('Ce serviteur est pétrifié et ne peut pas attaquer.');
+    cancelAttack();
+    return {success:false, reason:'petrified-attacker'};
   }
   if (isBatch14ETiaraEntraved(attacker)) {
     showErr('Ce serviteur est entravé par <b>Tiara</b> et ne peut pas attaquer.');
