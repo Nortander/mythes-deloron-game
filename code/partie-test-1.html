@@ -1523,6 +1523,7 @@ body.dragging-card .hc.dragging {
 .hc-desc-text strong.kv, .fz-desc-text strong.kv { font-weight: 700; }
 .fz-desc-text strong.kv { color: var(--card-faction-color, var(--card-kw, currentColor)); }
 .hc-desc-text i, .fz-desc-text i { font-style: italic; }
+.nw{white-space:nowrap;}
 .card-lore-text { font-style: italic !important; font-weight: 400 !important; text-decoration: none !important; }
 
 /* Couleurs des mots-clefs par faction (em) — valeurs exactes de la collection */
@@ -15368,11 +15369,10 @@ function resolvePetrification(player, context={}) {
   delete target.dataset.exhausted;
   batch03UpdateStats(target, {atk:0, pdvMax:20, pdv:20});
   applyBatch15CPetrificationVisual(target);
-  createBatch03StatusCounter(target, 'petrification', 1, 'Pétrification');
   pulseBatch03Ability(target, 'batch15c-petrification', {move:true});
   const result = {success:true, cardId:'S000021', target:targetSummary(target), before};
   recordCollectionBatch03Event('spell', {...result, code:'petrification-resolved'});
-  showNotif('Une créature est magiquement pétrifiée ! Elle est désormais vulnérable... mais dure comme la pierre.', 1600);
+  showNotif('Une créature est magiquement pétrifiée ! Elle est complètement immobilisée... mais dure comme la pierre.', 1600);
   return result;
 }
 
@@ -25136,8 +25136,8 @@ const COLLECTION_BATCH_15C2_CARD_TEXT_OVERRIDES = {
   S000021:{
     fac:'sort',
     assetFolder:'sorts',
-    cap:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à *0 ATK* / *20 PDV*. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt.",
-    detail:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à *0 ATK* / *20 PDV*. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt."
+    cap:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à <span class=\"nw\"><strong class=\"kv\">0 ATK /</strong></span> <span class=\"nw\"><strong class=\"kv\">20 PDV</strong></span>. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt.",
+    detail:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à <span class=\"nw\"><strong class=\"kv\">0 ATK /</strong></span> <span class=\"nw\"><strong class=\"kv\">20 PDV</strong></span>. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt."
   },
   S000028:{
     fac:'sort',

@@ -10,10 +10,24 @@ const scenarios = [
 const SORT_COLOR = "#6a3a9a";
 const MIRACLE_MESSAGE = "La médecine elfique accomplit des miracles et revigore même les plus affectés.";
 const MAIN_MESSAGE = "Par la grâce de la Lumière, l'imposition des mains guérit de nombreuses blessures.";
-const PETRIFICATION_MESSAGE = "Une créature est magiquement pétrifiée ! Elle est désormais vulnérable... mais dure comme la pierre.";
+const PETRIFICATION_MESSAGE = "Une créature est magiquement pétrifiée ! Elle est complètement immobilisée... mais dure comme la pierre.";
+const OLD_PETRIFICATION_MESSAGE = "Une créature est magiquement pétrifiée ! Elle est désormais vulnérable... mais dure comme la pierre.";
 const AURA_MESSAGE = "Un puissant enchantement protège et renforce un serviteur méritant.";
 const RESCUE_READY_MESSAGE = "Une équipe de guérisseurs se tient prête à intervenir en urgence.";
 const RESCUE_TRIGGER_MESSAGE = "Les guérisseurs ont sauvé un serviteur de la mort, mais son état reste critique. Espérons qu'il se retire des combats !";
+
+function expectPetrificationNoWrapGroups(groups) {
+  const group0 = groups.find(group => group.text === "0 ATK /");
+  const group20 = groups.find(group => group.text === "20 PDV");
+  expect(group0).toBeTruthy();
+  expect(group20).toBeTruthy();
+  expect(group0.whiteSpace).toBe("nowrap");
+  expect(group20.whiteSpace).toBe("nowrap");
+  expect(group0.rectCount).toBe(1);
+  expect(group20.rectCount).toBe(1);
+  expect(group0.highlights).toEqual(["0 ATK /"]);
+  expect(group20.highlights).toEqual(["20 PDV"]);
+}
 
 function normalized(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
@@ -72,9 +86,22 @@ test("Batch 15C scenarios stay hidden and 15C2 card data/rendering is synchroniz
     const audit = await page.evaluate(() => ({
       publicOptionCount:document.querySelectorAll('#scenarioSelect option[value="' + selectedScenarioId() + '"]').length,
       cards:["S000003","S000010","S000021","S000028","S000034","S000061"].map(id => {
+        const nowrapGroups = root => Array.from(root.querySelectorAll(".nw")).map(group => {
+          const rects = Array.from(group.getClientRects()).filter(rect => rect.width > 0 && rect.height > 0);
+          return {
+            text:String(group.textContent || "").replace(/\s+/g, " ").trim(),
+            whiteSpace:getComputedStyle(group).whiteSpace,
+            rectCount:rects.length,
+            highlights:Array.from(group.querySelectorAll("strong.kv")).map(node => node.textContent)
+          };
+        });
         const node = document.createElement("div");
+        node.style.cssText = "position:absolute;left:-10000px;top:0;width:34px;visibility:hidden;";
         const model = CARDS_DATA[id];
         node.innerHTML = fmtDesc(formatPlayerFacingCardText(model?.detail || model?.cap || "", getCanonicalCardDisplayModel(id)), facColor(model?.fac));
+        document.body.appendChild(node);
+        const noWrapGroups = nowrapGroups(node);
+        node.remove();
         return {
           id,
           exists:!!model,
@@ -85,7 +112,8 @@ test("Batch 15C scenarios stay hidden and 15C2 card data/rendering is synchroniz
           cost:EXTRA_CARD_COST_DEFINITIONS[id] || null,
           text:node.textContent,
           highlights:[...node.querySelectorAll("strong.kv")].map(strong => strong.textContent),
-          inlineKeywords:[...node.querySelectorAll(".canonical-keyword-inline,.card-keyword")].map(strong => strong.textContent)
+          inlineKeywords:[...node.querySelectorAll(".canonical-keyword-inline,.card-keyword")].map(strong => strong.textContent),
+          noWrapGroups
         };
       }),
       vfx000014:resolveVfxImageUrl("VFX000014")
@@ -103,7 +131,8 @@ test("Batch 15C scenarios stay hidden and 15C2 card data/rendering is synchroniz
     expect(petrification.text).toContain("20 PDV");
     expect(petrification.text).not.toContain("0 d'attaque");
     expect(petrification.text).not.toContain("20 points de vie");
-    expect(petrification.highlights).toEqual(expect.arrayContaining(["0 ATK", "20 PDV"]));
+    expect(petrification.highlights).toEqual(expect.arrayContaining(["0 ATK /", "20 PDV"]));
+    expectPetrificationNoWrapGroups(petrification.noWrapGroups);
     expect(petrification.inlineKeywords).toContain("Rempart");
     expect(petrification.keywords).toEqual(expect.arrayContaining(["Aria","Lenya","Écho","Rempart"]));
     const aura = audit.cards.find(card => card.id === "S000028");
@@ -116,20 +145,34 @@ test("Batch 15C scenarios stay hidden and 15C2 card data/rendering is synchroniz
   }
   await openCollection(page);
   const collectionAudit = await page.evaluate(() => {
+    const nowrapGroups = root => Array.from(root.querySelectorAll(".nw")).map(group => {
+      const rects = Array.from(group.getClientRects()).filter(rect => rect.width > 0 && rect.height > 0);
+      return {
+        text:String(group.textContent || "").replace(/\s+/g, " ").trim(),
+        whiteSpace:getComputedStyle(group).whiteSpace,
+        rectCount:rects.length,
+        highlights:Array.from(group.querySelectorAll("strong.kv")).map(node => node.textContent)
+      };
+    });
     const cards = ["S000010","S000021","S000028","S000034"].map(id => {
       const c = CARDS.find(card => card.id === id);
       const holder = document.createElement("div");
+      holder.style.cssText = "position:absolute;left:-10000px;top:0;width:34px;visibility:hidden;";
       holder.innerHTML = renderCard(c);
+      document.body.appendChild(holder);
       const root = holder.firstElementChild;
-      return {
+      const result = {
         id,
         faction:c?.faction,
         frameClasses:Array.from(root?.querySelector(".ccard-frame")?.classList || []),
         color:root?.style.getPropertyValue("--card-faction-color") || "",
         text:root?.textContent || "",
         highlights:Array.from(root?.querySelectorAll("strong.kv")).map(node => node.textContent),
-        keywords:Array.from(root?.querySelectorAll("em,.card-keyword,.canonical-keyword-inline")).map(node => node.textContent)
+        keywords:Array.from(root?.querySelectorAll("em,.card-keyword,.canonical-keyword-inline")).map(node => node.textContent),
+        noWrapGroups:nowrapGroups(root)
       };
+      holder.remove();
+      return result;
     });
     return cards;
   });
@@ -140,7 +183,8 @@ test("Batch 15C scenarios stay hidden and 15C2 card data/rendering is synchroniz
   expect(collectionPetrification.text).toContain("20 PDV");
   expect(collectionPetrification.text).not.toContain("0 d'attaque");
   expect(collectionPetrification.text).not.toContain("20 points de vie");
-  expect(collectionPetrification.highlights).toEqual(expect.arrayContaining(["0 ATK","20 PDV"]));
+  expect(collectionPetrification.highlights).toEqual(expect.arrayContaining(["0 ATK /","20 PDV"]));
+  expectPetrificationNoWrapGroups(collectionPetrification.noWrapGroups);
   expect(collectionPetrification.keywords).toContain("Rempart");
   expect(collectionAudit.find(card => card.id === "S000028")).toMatchObject({faction:"Humain", color:SORT_COLOR});
   expect(collectionAudit.find(card => card.id === "S000028").frameClasses).toContain("sort-card");
@@ -293,6 +337,25 @@ test("S000021 rejects native and dynamic Insensible, then petrifies one occurren
   expect(replacement.afterSecond[1]).toBe(true);
   const result = await page.evaluate(async () => {
     window.__mythesRandom = () => 0;
+    const nowrapGroups = root => Array.from(root.querySelectorAll(".nw")).map(group => {
+      const rects = Array.from(group.getClientRects()).filter(rect => rect.width > 0 && rect.height > 0);
+      return {
+        text:String(group.textContent || "").replace(/\s+/g, " ").trim(),
+        whiteSpace:getComputedStyle(group).whiteSpace,
+        rectCount:rects.length,
+        highlights:Array.from(group.querySelectorAll("strong.kv")).map(node => node.textContent)
+      };
+    });
+    const handSpell = document.querySelector('.hc[data-id="S000021"]');
+    const handSpellNoWrapGroups = nowrapGroups(handSpell);
+    const spellPreviewHolder = document.createElement("div");
+    spellPreviewHolder.style.cssText = "position:absolute;left:-10000px;top:0;width:38px;visibility:hidden;";
+    spellPreviewHolder.innerHTML = buildCanonicalCardPreview("S000021", {sourceElement:handSpell, playerId:"player1"});
+    document.body.appendChild(spellPreviewHolder);
+    const spellPreviewText = spellPreviewHolder.textContent || "";
+    const spellPreviewNoWrapGroups = nowrapGroups(spellPreviewHolder);
+    const spellPreviewKeywords = Array.from(spellPreviewHolder.querySelectorAll(".canonical-keyword-inline,.card-keyword")).map(node => node.textContent);
+    spellPreviewHolder.remove();
     const ally = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000005");
     const dynamicInsensitive = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000001");
     const nativeInsensitive = livingServantCardsForPlayer(player2).find(fc => fc.dataset.id === "AVS000010");
@@ -311,6 +374,11 @@ test("S000021 rejects native and dynamic Insensible, then petrifies one occurren
     const message = document.querySelector("#notif")?.textContent || "";
     const after = targetSummary(target);
     const petrifiedArt = target.querySelector(".fi")?.getAttribute("src") || "";
+    const petrificationCounters = Array.from(target.querySelectorAll('[data-batch03-status-counter]')).map(node => ({
+      key:node.dataset.batch03StatusCounter,
+      text:String(node.textContent || "").trim(),
+      title:node.title || ""
+    }));
     const otherCopyTemplate = document.createElement("template");
     otherCopyTemplate.innerHTML = buildFC(target.dataset.id, target.dataset.player).trim();
     const otherCopyArt = otherCopyTemplate.content.firstElementChild?.querySelector(".fi")?.getAttribute("src") || "";
@@ -347,9 +415,14 @@ test("S000021 rejects native and dynamic Insensible, then petrifies one occurren
       legalForPetrification,
       resolved:resolved.spellResolution || resolved,
       message,
+      handSpellNoWrapGroups,
+      spellPreviewText,
+      spellPreviewNoWrapGroups,
+      spellPreviewKeywords,
       after,
       originalArt,
       petrifiedArt,
+      petrificationCounters,
       otherCopyArt,
       abilityAllowed,
       counterAllowed,
@@ -369,6 +442,12 @@ test("S000021 rejects native and dynamic Insensible, then petrifies one occurren
   expect(result.legalForPetrification.map(card => card.id)).toContain("H000006");
   expect(result.resolved.success).toBe(true);
   expect(result.message).toBe(PETRIFICATION_MESSAGE);
+  expect(result.message).not.toBe(OLD_PETRIFICATION_MESSAGE);
+  expectPetrificationNoWrapGroups(result.handSpellNoWrapGroups);
+  expect(result.spellPreviewText).toContain("0 ATK /");
+  expect(result.spellPreviewText).toContain("20 PDV");
+  expect(result.spellPreviewKeywords).toContain("Rempart");
+  expectPetrificationNoWrapGroups(result.spellPreviewNoWrapGroups);
   expect(result.after.batch15cPetrified).toBe(true);
   expect(result.after.batch15cPetrifiedVfx).toBe("VFX000014");
   expect(result.after.atk).toBe(0);
@@ -377,6 +456,8 @@ test("S000021 rejects native and dynamic Insensible, then petrifies one occurren
   expect(result.after.insensible).toBe(false);
   expect(result.after.rempart).toBe(true);
   expect(result.petrifiedArt).toContain("VFX000014.png");
+  expect(result.petrificationCounters.find(counter => counter.key === "petrification")).toBeUndefined();
+  expect(result.petrificationCounters.map(counter => counter.text)).not.toContain("1");
   expect(result.otherCopyArt).toBe(result.originalArt);
   expect(result.preview).toContain("VFX000014.png");
   expect(result.previewText).toContain("Subit les effets de Pétrification");
