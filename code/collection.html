@@ -1019,6 +1019,31 @@ COLLECTION_INDUS_1_COLLECTION_CARDS.forEach((card) => {
   else CARDS.push(card);
 });
 
+const BATCH_15C2_COLLECTION_OVERRIDES=[
+  {
+    id:'S000021',
+    desc:`Change le serviteur ciblé en pierre, faisant passer ses statistiques à <strong class="kv">0 ATK</strong> / <strong class="kv">20 PDV</strong>. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef <em>Rempart</em>, qu'il reçoit aussitôt.`,
+    detail:`Change le serviteur ciblé en pierre, faisant passer ses statistiques à <strong class="kv">0 ATK</strong> / <strong class="kv">20 PDV</strong>. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef <em>Rempart</em>, qu'il reçoit aussitôt.`,
+    useDetail:true
+  },
+  {
+    id:'S000028',
+    desc:`Jusqu'à la fin de la partie, le serviteur ciblé par ce sort reçoit la capacité spéciale <em>Insensible</em> et son maximum de points de vie est augmenté de <strong class="kv">+3</strong>.`,
+    detail:`Jusqu'à la fin de la partie, le serviteur ciblé par ce sort reçoit la capacité spéciale <em>Insensible</em> et son maximum de points de vie est augmenté de <strong class="kv">+3</strong>. [Si le serviteur est détruit, il perd ces effets.]`,
+    useDetail:true
+  },
+  {
+    id:'S000034',
+    desc:`La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf <strong class="kv">1</strong>.`,
+    detail:`La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf <strong class="kv">1</strong>.`,
+    useDetail:true
+  }
+];
+BATCH_15C2_COLLECTION_OVERRIDES.forEach((card) => {
+  const index = CARDS.findIndex((existing) => existing.id === card.id);
+  if (index >= 0) CARDS[index] = {...CARDS[index], ...card};
+});
+
 const COLLECTION_COST_DEFINITIONS = Object.freeze({
   'AVS000001': {"total":13,"groups":[{"op":null,"resources":[{"key":"aria","amount":10,"explicit":true}]}]},
   'AVS000002': {"total":13,"groups":[{"op":null,"resources":[{"key":"aria","amount":10,"explicit":true}]}]},

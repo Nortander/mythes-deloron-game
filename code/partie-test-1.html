@@ -3048,7 +3048,7 @@ SCENARIOS['collection-batch-15c-protection'] = {
 SCENARIOS['collection-batch-15c-transformation'] = {
   label: 'TEST — COLLECTION BATCH 15C transformation / glace', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000021',
   testSetup: {
-    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000021','S000061'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000021','S000061','S000028'], drawPile:['R000010','H000001'], graveyard:[], servants:[{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'AVS000010',atk:13,pdv:13,pdvMax:13,prepared:true},{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -5338,6 +5338,7 @@ function updateDeckCount(player) {
 
 function resolveVfxImageUrl(vfxId) {
   if (vfxId === 'VFX000013') return '../assets/effets-speciaux/VFX000013.png';
+  if (vfxId === 'VFX000014') return '../assets/effets-speciaux/VFX000014.png';
   return `${GH}/effets-speciaux/${vfxId}.png`;
 }
 
@@ -6426,6 +6427,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
       overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
         el.addEventListener('click', () => {
           if (selected.has(i)) selected.delete(i);
+          else if (maxCount === 1) { selected.clear(); selected.add(i); }
           else if (selected.size < maxCount) selected.add(i);
           update();
         });
@@ -8696,8 +8698,8 @@ function batch03DynamicStatusTexts(fc) {
   if (Number(fc.dataset.batch09InstableAtkBonus || 0) > 0) add("Bénéficie temporairement d'un bonus d'attaque.");
   if (Number(fc.dataset.batch09InstablePdvBonus || 0) > 0) add("Bénéficie temporairement d'un bonus de points de vie.");
   if (fc.dataset.batch09InstableRempart === '1') add('Bénéficie temporairement de [Rempart]. Ne peut pas attaquer.');
-  if (Number(fc.dataset.batch09IceShieldCharges || 0) > 0) add('Protégé par [Gel] : *' + Number(fc.dataset.batch09IceShieldCharges || 0) + '* attaque(s) restante(s), dégâts réduits de *2*.');
-  if (fc.dataset.batch15cPetrified === '1') add("Pétrifié : *0* ATK / *20* PDV, ne peut plus attaquer, riposter ni utiliser de capacité spéciale. Conserve seulement [Rempart].");
+  if (Number(fc.dataset.batch09IceShieldCharges || 0) > 0) add('Bénéficie de « Bouclier de glace » : les dégâts des *' + Number(fc.dataset.batch09IceShieldCharges || 0) + '* prochaines attaques portées contre ce serviteur sont réduits de *2*. Inflige également [Gel] pendant *1* tour aux attaquants.');
+  if (fc.dataset.batch15cPetrified === '1') add("Subit les effets de *Pétrification* : ce serviteur est complètement immobilisé et ne peut plus utiliser de capacité spéciale ; ses statistiques sont modifiées et il bénéficie désormais de [Rempart]. Détruire ou retirer le serviteur du terrain annule les effets de Pétrification.");
   if (fc.dataset.batch14dAonirBlessing === '1') add(COLLECTION_BATCH_14D_AONIR_TEXT);
   if (fc.dataset.batch14dHirinBypassRempart === '1') add(COLLECTION_BATCH_14D_HIRIN_ALLY_TEXT);
   if (fc.dataset.batch14dHirinCurse === '1') add(COLLECTION_BATCH_14D_HIRIN_ENEMY_TEXT);
@@ -8718,11 +8720,15 @@ function batch03DynamicStatusTexts(fc) {
 function batch03PreviewCardData(cardId, data, sourceContext={}) {
   const lines = batch03DynamicStatusTexts(sourceContext.sourceElement);
   if (!lines.length) return data;
-  if (lines.length === 1 && lines[0].startsWith('[Insensible]')) return {...data, cap:lines[0], detail:lines[0], batch03DynamicStatusText:true};
-  const cap = String(data.cap || '').trim();
+  const fc = sourceContext.sourceElement;
+  const runtimeData = fc?.dataset?.batch15cPetrified === '1'
+    ? {...data, atk:Number(fc.dataset.atk || 0), pdv:Number(fc.dataset.pdv || fc.dataset.pdvMax || 20)}
+    : data;
+  if (lines.length === 1 && lines[0].startsWith('[Insensible]')) return {...runtimeData, cap:lines[0], detail:lines[0], batch03DynamicStatusText:true};
+  const cap = String(runtimeData.cap || '').trim();
   const suffix = lines.join(' ');
   const separator = cap ? ' ' : '';
-  return {...data, cap: cap + separator + suffix, detail: String(data.detail || cap || '') + separator + suffix, batch03DynamicStatusText:true};
+  return {...runtimeData, cap: cap + separator + suffix, detail: String(runtimeData.detail || cap || '') + separator + suffix, batch03DynamicStatusText:true};
 }
 
 function batch10PreviewCardData(cardId, data, sourceContext={}) {
@@ -8750,7 +8756,8 @@ function buildCanonicalCardPreview(cardId, sourceContext={}) {
     ? {handOccurrenceId:sourceContext.sourceElement.dataset.handOccurrence}
     : {};
   const costH = d.type === 'Avatar' ? '' : `<div class="fc-zoom-cost-z">${renderCostHTML(cardId, player, costContext)}</div>`;
-  const artworkSrc = d.batch08MaraborcCopy ? `../assets/${d.originalAssetFolder || folder}/${cardId}.png` : cardArtworkSrc(cardId, folder);
+  const runtimeArtworkSrc = sourceContext.sourceElement?.dataset?.batch15cPetrifiedVfx === 'VFX000014' ? batch15CPetrificationVfxUrl() : null;
+  const artworkSrc = runtimeArtworkSrc || (d.batch08MaraborcCopy ? `../assets/${d.originalAssetFolder || folder}/${cardId}.png` : cardArtworkSrc(cardId, folder));
   return `<div class="canonical-card-preview fc ${cls}" data-preview-card-id="${cardId}" data-source-context="${sourceContext.sourceType || 'unknown'}" style="--card-faction-color:${col};--card-kw:${col};--card-border:${col}">
     <div class="fc-zoom ${cls}">
       <div class="fc-zoom-art">
@@ -11609,7 +11616,7 @@ const CARD_TARGET_REQUIREMENTS = Object.freeze({
     zone: 'servants',
     cardType: 'Serviteur',
     effectKind: 'transformation',
-    bypassInsensitive: true
+    excludeCurrentInsensible: true
   },
   S000031: {
     required: true,
@@ -11769,6 +11776,9 @@ function legalTargetsForRequirement(cardId, player, requirement=cardTargetRequir
       });
     });
   }
+  if (requirement.excludeCurrentInsensible) {
+    candidates = candidates.filter(fc => !isRuntimeInsensible(fc));
+  }
   if (requirement.selfAllowed === false) {
     candidates = candidates.filter(fc => fc.dataset.player !== p?.key);
   }
@@ -11812,6 +11822,8 @@ function targetSummary(fc) {
     pdv:Number(fc.dataset.pdv || 0),
     pdvMax:Number(fc.dataset.pdvMax || fc.dataset.pdv || 0),
     insensible:fc.dataset.insensible === '1' || (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Insensible'),
+    rempart:fc.dataset.rempart === '1' || (CARDS_DATA[fc.dataset.id]?.kws || []).includes('Rempart'),
+    batch15cPetrifiedVfx:fc.dataset.batch15cPetrifiedVfx || null,
     temporaryInsensibleTurns:fc.dataset.temporaryInsensibleTurns || null,
     hypnotized:!!(fc.dataset.hypno || fc.dataset.hypnosisUntilDamage),
     hypnoTurns:fc.dataset.hypno || null,
@@ -13658,7 +13670,7 @@ async function playCard(cardId, slot, options={}) {
     const targetChoiceCopy = {
       S000001:['Embuscade elfique','Choisissez votre proie.', "LANCER L'EMBUSCADE"],
       S000005:['Assassinat','Indiquez une cible à votre assassin.', 'ASSASSINER'],
-      S000010:['Main guérisseuse','Choisissez le serviteur allié à soigner.'],
+      S000010:['Main guérisseuse','Choisissez le serviteur allié à soigner en priorité.'],
       S000021:['Pétrification','Choisissez le serviteur à changer en pierre.'],
       S000031:['Duel','Choisissez deux serviteurs à faire s’affronter.'],
       S000032:['Savoir tribal','Choisissez le premier serviteur à frapper.'],
@@ -14264,7 +14276,7 @@ async function triggerSort(cardId, player, context={}) {
       qs(sId)?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])').forEach(fc => {
         applyHeal(fc, (parseInt(fc.dataset.atk)||0) * mult3);
       });
-      showNotif('Guérison miraculeuse' + (mult3===2?' (×2)':'') + ' !', 1400);
+      showNotif('La médecine elfique accomplit des miracles et revigore même les plus affectés.', 1400);
       break; }
     case 'S000004': // Commerce avec les légendes : choix
       showSortChoice(cardId, player, [
@@ -15299,8 +15311,49 @@ function resolveSecoursMagique(player) {
   p.batch05RescueShield = Number(p.batch05RescueShield || 0) + 1;
   const result = {success:true, cardId:'S000034', playerId:p.key, shields:p.batch05RescueShield};
   recordCollectionBatch05Event('rescue-shield', result);
-  showNotif('Secours magique protègera la prochaine destruction alliée.', 1600);
+  showNotif('Une équipe de guérisseurs se tient prête à intervenir en urgence.', 1600);
   return result;
+}
+
+function batch15CPetrificationVfxUrl() {
+  return resolveVfxImageUrl('VFX000014');
+}
+
+function isRuntimeInsensible(fc) {
+  if (!fc?.dataset) return false;
+  if (fc.dataset.insensible === '1') return true;
+  return runtimeCardKeywords(fc.dataset.id).includes('insensible');
+}
+
+function setBatch15CTerrainArtwork(fc, src) {
+  const image = fc?.querySelector?.('.fi');
+  if (!image || !src) return false;
+  image.src = src;
+  return true;
+}
+
+function applyBatch15CPetrificationVisual(fc) {
+  if (!fc?.dataset) return false;
+  const image = fc.querySelector('.fi');
+  if (image && !fc.dataset.batch15cOriginalArtSrc) {
+    fc.dataset.batch15cOriginalArtSrc = image.getAttribute('src') || image.src || '';
+  }
+  fc.dataset.batch15cPetrifiedVfx = 'VFX000014';
+  return setBatch15CTerrainArtwork(fc, batch15CPetrificationVfxUrl());
+}
+
+function clearBatch15CPetrificationState(fc, {restoreArt=true}={}) {
+  if (!fc?.dataset?.batch15cPetrified) return false;
+  if (restoreArt && fc.dataset.batch15cOriginalArtSrc) {
+    setBatch15CTerrainArtwork(fc, fc.dataset.batch15cOriginalArtSrc);
+  }
+  delete fc.dataset.batch15cPetrified;
+  delete fc.dataset.batch15cPetrifiedVfx;
+  delete fc.dataset.batch15cOriginalArtSrc;
+  if (fc.dataset.batch15cPetrifiedRempart === '1' && !runtimeCardKeywords(fc.dataset.id).includes('rempart')) delete fc.dataset.rempart;
+  delete fc.dataset.batch15cPetrifiedRempart;
+  fc.querySelector('[data-batch03-status-counter="petrification"]')?.remove();
+  return true;
 }
 
 function resolvePetrification(player, context={}) {
@@ -15314,11 +15367,12 @@ function resolvePetrification(player, context={}) {
   target.dataset.batch15cPetrifiedRempart = '1';
   delete target.dataset.exhausted;
   batch03UpdateStats(target, {atk:0, pdvMax:20, pdv:20});
+  applyBatch15CPetrificationVisual(target);
   createBatch03StatusCounter(target, 'petrification', 1, 'Pétrification');
   pulseBatch03Ability(target, 'batch15c-petrification', {move:true});
   const result = {success:true, cardId:'S000021', target:targetSummary(target), before};
   recordCollectionBatch03Event('spell', {...result, code:'petrification-resolved'});
-  showNotif('Pétrification : la cible devient pierre et gagne Rempart.', 1600);
+  showNotif('Une créature est magiquement pétrifiée ! Elle est désormais vulnérable... mais dure comme la pierre.', 1600);
   return result;
 }
 
@@ -18751,7 +18805,7 @@ async function tryBatch05RescueDestruction(fc, context={}) {
   pulseBatch03Ability(fc, 'batch05-rescue');
   const result = {success:true, cardId:'S000034', playerId:owner.key, target:targetSummary(fc), context, remainingShields:owner.batch05RescueShield};
   recordCollectionBatch05Event('rescue-prevented-destruction', result);
-  showNotif('Secours magique empêche la destruction.', 1500);
+  showNotif("Les guérisseurs ont sauvé un serviteur de la mort, mais son état reste critique. Espérons qu'il se retire des combats !", 1500);
   return true;
 }
 
@@ -18915,6 +18969,8 @@ async function sendToCemetery(fc, options={}) {
   if (fc.dataset.type === 'appro' && !fc.dataset.soul) {
     unregisterSupplyInstance(player, fc);
   }
+
+  clearBatch15CPetrificationState(fc, {restoreArt:false});
 
   // Remplacer par un slot (si la carte est encore dans le DOM)
   if (fc.isConnected) {
@@ -19564,6 +19620,7 @@ function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, pan
       overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
         el.addEventListener('click', () => {
           if (selected.has(i)) selected.delete(i);
+          else if (maxCount === 1) { selected.clear(); selected.add(i); }
           else if (selected.size < maxCount) selected.add(i);
           update();
         });
@@ -25067,6 +25124,35 @@ const COLLECTION_BATCH_10_CARD_TEXT_OVERRIDES = {
   S000049:{cap:"Jusqu'à la fin de votre tour, chaque effet [Vengeance] allié inflige *+2* dégâts supplémentaires à un serviteur adverse aléatoire. Les [Vengeance] de vos serviteurs gobelins se déclenchent une *2e* fois ce tour-ci.",detail:"Jusqu'à la fin de votre tour, chaque effet [Vengeance] allié inflige *+2* dégâts supplémentaires à un serviteur adverse aléatoire. Les [Vengeance] de vos serviteurs gobelins se déclenchent une *2e* fois ce tour-ci."}
 };
 Object.entries(COLLECTION_BATCH_10_CARD_TEXT_OVERRIDES).forEach(([id, patch]) => { if (CARDS_DATA[id]) Object.assign(CARDS_DATA[id], patch); });
+const COLLECTION_BATCH_15C2_CARD_TEXT_OVERRIDES = {
+  S000010:{
+    fac:'sort',
+    sourceFaction:'Humain',
+    assetFolder:'sorts',
+    fico:null,
+    cap:"Rend *6* points de vie à un serviteur allié et *2* points de vie aux serviteurs adjacents.",
+    detail:"Rend *6* points de vie à un serviteur allié et *2* points de vie aux serviteurs adjacents."
+  },
+  S000021:{
+    fac:'sort',
+    assetFolder:'sorts',
+    cap:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à *0 ATK* / *20 PDV*. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt.",
+    detail:"Change le serviteur ciblé en pierre, faisant passer ses statistiques à *0 ATK* / *20 PDV*. Le serviteur en question ne peut plus attaquer ni riposter, ni même utiliser de capacité spéciale, à l'exception du mot-clef [Rempart], qu'il reçoit aussitôt."
+  },
+  S000028:{
+    fac:'sort',
+    sourceFaction:'Humain',
+    assetFolder:'sorts',
+    fico:null,
+    cap:"Jusqu'à la fin de la partie, le serviteur ciblé par ce sort reçoit la capacité spéciale [Insensible] et son maximum de points de vie est augmenté de *+3*.",
+    detail:"Jusqu'à la fin de la partie, le serviteur ciblé par ce sort reçoit la capacité spéciale [Insensible] et son maximum de points de vie est augmenté de *+3*. Si le serviteur est détruit, il perd ces effets."
+  },
+  S000034:{
+    cap:"La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf *1*.",
+    detail:"La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf *1*."
+  }
+};
+Object.entries(COLLECTION_BATCH_15C2_CARD_TEXT_OVERRIDES).forEach(([id, patch]) => { if (CARDS_DATA[id]) Object.assign(CARDS_DATA[id], patch); });
 const COLLECTION_SYNC_04_FINAL_DECISIONS_APPLIED = true;
 window.COLLECTION_SYNC_04_FINAL_DECISIONS_APPLIED = true;
 function applyCollectionSync04FinalDecisions(){
@@ -25597,6 +25683,7 @@ function consumeBatch09IceShield(targetFC, attackerFC, damage) {
     targetFC.classList.remove('fc-batch09-ice-shield');
     targetFC.querySelector('[data-batch03-status-counter="bouclier-glace"]')?.remove();
   }
+  pulseBatch03Ability(targetFC, 'batch09-ice-shield-trigger', {move:true});
   const gelApplied = tryApplyGel({sourcePlayer:targetFC.dataset.player, targetFC:attackerFC, sourceCardId:'S000061', turns:1, type:'gel'});
   const result = {active:true, before:value, damage:reduced, reduction:value - reduced, remaining, gelApplied, target:targetSummary(targetFC), attacker:targetSummary(attackerFC)};
   recordBatch09SpellEvent('ice-shield-triggered', result);
@@ -28060,6 +28147,7 @@ function batch03InitiativeResultHasEffect(result) {
 
 function batch03RemoveBoardCardToSlot(fc) {
   if (!fc?.isConnected) return false;
+  clearBatch15CPetrificationState(fc, {restoreArt:false});
   const slot = document.createElement('div');
   slot.className = fc.dataset.type === 'appro' ? 'slot-appro' : 'slot';
   slot.dataset.player = fc.dataset.player || '';
@@ -28582,7 +28670,7 @@ function resolveBatch03HealingHand(player, context={}) {
   }
   const diagnostic = {success:true, code:'main-guerisseuse-resolved', cardId:'S000010', healed};
   recordCollectionBatch03Event('spell', diagnostic);
-  showNotif('Main guérisseuse : soins appliqués.', 1500);
+  showNotif("Par la grâce de la Lumière, l'imposition des mains guérit de nombreuses blessures.", 1500);
   return diagnostic;
 }
 
@@ -28600,7 +28688,7 @@ function resolveBatch03AuraProtection(player, context={}) {
   collectionBatch03State.protectedAuras.push({instanceId:target.dataset.instance, sourceCardId:'S000028', turnSequence});
   const diagnostic = {success:true, code:'aura-protection-resolved', cardId:'S000028', target:targetSummary(target)};
   recordCollectionBatch03Event('spell', diagnostic);
-  showNotif('Aura de protection : Insensible et +3 PV maximum.', 1600);
+  showNotif('Un puissant enchantement protège et renforce un serviteur méritant.', 1600);
   return diagnostic;
 }
 
