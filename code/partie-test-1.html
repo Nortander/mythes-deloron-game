@@ -3053,6 +3053,54 @@ SCENARIOS['collection-batch-15c-transformation'] = {
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'AVS000010',atk:13,pdv:13,pdvMax:13,prepared:true},{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-15d-invocation'] = {
+  label: 'TEST — COLLECTION BATCH 15D invocation / génération',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000009',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000009','S000014','S000047'], drawPile:['R000010','GOB000003','H000001','GOB000002','GOB000001','GOB000004','GOB000002'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}], avatarHp:25, startingDeckCardIds:['GOB000003','H000001','GOB000002','GOB000001','GOB000004','GOB000002'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},{id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15d-replacement'] = {
+  label: 'TEST — COLLECTION BATCH 15D remplacement / copies',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000013',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000013','S000038','N000007','GOB000001','GOB000002','GOB000002','H000001'], drawPile:['R000010','N000007','GOB000003','S000037'], graveyard:['N000007','R000001'], servants:[{id:'N000007',atk:3,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['N000007','S000057'], drawPile:['N000007','H000005'], graveyard:['N000007'], servants:[{id:'N000007',atk:3,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15d-pact-revenants'] = {
+  label: 'TEST — COLLECTION BATCH 15D pacte / revenants',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000023',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000023','S000052','EDG000006'], drawPile:['MV000001','MV000002','MV000025','MV000004','H000001','EDG000006'], graveyard:['MV000001','MV000002','MV000025','MV000004'], servants:[], avatarHp:25, startingDeckCardIds:['EDG000006','MV000001','MV000002','MV000025','MV000004'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15d-gabar'] = {
+  label: 'TEST — COLLECTION BATCH 15D Gabar',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000057',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000032','S000057'], drawPile:['S000060','S000059','S000058'], graveyard:['H000033'], servants:[{id:'H000032',atk:1,pdv:2,pdvMax:2,prepared:true}], avatarHp:25, startingDeckCardIds:['H000032','S000057','S000058','S000059','S000060'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000058','H000013'], drawPile:['S000059','H000005'], graveyard:['S000060'], servants:[{id:'H000013',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['collection-batch-01-zone-spells'] = {
   label: 'TEST — COLLECTION BATCH 01 zones', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch01Panel: true, testCardId: 'S000015',
   testSetup: {
@@ -4217,7 +4265,7 @@ SCENARIOS['collection-batch-05-elfes-des-bois'] = {
 SCENARIOS['collection-batch-05-elfes-de-glace'] = {
   label: 'TEST - COLLECTION BATCH 05 Elfes de glace', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'EDG000012',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['EDG000001','EDG000003','EDG000004','EDG000009','S000011'], drawPile:['S000027','S000029','EDG000005','EDG000006','EDG000006','EDG000007','EDG000008','EDG000010','EDG000012','EDG000013','S000023','S000026','S000034','EDG000003','EDG000004','S000004','R000010'], graveyard:['EDG000001','EDG000003','EDG000006'], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:6,prepared:true},{id:'EDG000011',pdvMax:1,pdv:1,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['EDG000001','EDG000003','EDG000004','EDG000009','S000011'], drawPile:['S000027','S000029','EDG000005','EDG000006','EDG000006','EDG000007','EDG000008','EDG000010','EDG000012','EDG000013','S000023','S000026','S000034','EDG000003','EDG000004','S000004','R000010'], graveyard:['EDG000001','EDG000003','EDG000006'], servants:[{id:'EDG000008',pdvMax:5,pdv:5,prepared:true},{id:'EDG000007',pdvMax:6,pdv:6,prepared:true},{id:'EDG000011',pdvMax:1,pdv:1,prepared:true}], avatarHp:20, startingDeckCardIds:['EDG000006','EDG000006'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:['H000001','H000005','H000018','R000010'], drawPile:['H000001','H000005','H000018','R000010'], graveyard:[], servants:[{id:'H000001',pdvMax:8,pdv:8,prepared:true},{id:'H000005',pdvMax:10,pdv:10,prepared:true},{id:'MV000020',pdvMax:12,pdv:12,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -4266,7 +4314,7 @@ SCENARIOS['collection-batch-05-envouteuse'] = {
 SCENARIOS['collection-batch-05-pacte-millenaire'] = {
   label: 'TEST - COLLECTION BATCH 05 Pacte millenaire', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, testCardId: 'S000023',
   testSetup: {
-    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['S000023'], drawPile:['S000004','EDG000001'], graveyard:['EDG000006','EDG000006','EDG000006'], servants:[{id:'EDG000004',pdvMax:4,pdv:4,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player1: {allowOverflowServants:true, resources:{classical:{aria:60, lenya:60, selene:40, fer:60, bois:60, pierre:40, nourriture:60}, souls:40}, hand:['S000023'], drawPile:['S000004','EDG000001'], graveyard:['EDG000006','EDG000006','EDG000006'], servants:[{id:'EDG000004',pdvMax:4,pdv:4,prepared:true}], avatarHp:20, startingDeckCardIds:['EDG000006','EDG000006','EDG000006','S000004','EDG000001'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {allowOverflowServants:true, resources:{classical:{aria:40, lenya:40, selene:40, fer:40, bois:40, pierre:40, nourriture:40}, souls:40}, hand:[], drawPile:[], graveyard:[], servants:[{id:'MV000020',pdvMax:20,pdv:20,prepared:true},{id:'H000005',pdvMax:20,pdv:20,prepared:true},{id:'H000001',pdvMax:20,pdv:20,prepared:true}], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -5729,7 +5777,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
     emitDrawTrace({...trace, selectedEntry, deckSizeAfter:pile.length, handSizeAfter:hand.length, result:'failure', reason:result.reason});
     return result;
   }
-  if (capacity.full && !isPrstFavorCard(cardId)) {
+  if (capacity.full && !isPrstFavorCard(cardId) && !isBatch15DGabarEvolutionSpell(cardId)) {
     pile.splice(index, 0, selectedEntry);
     const result = {success:false, reason:'hand-full', deckSizeBefore, deckSizeAfter:pile.length, handSizeBefore, handSizeAfter:hand.length, capacity};
     traceHandFullRefusal(p, {caller:'drawCardFromRuntimeDeck', sourceCardId:options.sourceCardId || null});
@@ -12099,6 +12147,7 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
   }
   if (card.type === 'Serviteur' && batch05TisseurLocksPlayer(p, cardId)) return {valid:false, reason:'tisseur-summon-lock'};
   if (cardId === 'S000002' && !playerHand(opponentOf(p)).length) return {valid:false, reason:'no-valid-target'};
+  if (cardId === 'S000023' && !batch15DHasStartingDragon(p)) return {valid:false, reason:'pacte-no-starting-dragon'};
   const blockedEntry = batch03BlockedHandEntry(cardId, p, requestedHandIndex);
   if (blockedEntry) {
     return {valid:false, reason:'blocked-card', blockedSource:batch03BlockedCardSourceName(blockedEntry), blockedOccurrenceId:blockedEntry.occurrenceId};
@@ -12130,6 +12179,7 @@ function cardActionError(reason, detail={}) {
   if (reason === 'wrong-player' || reason === 'wrong-side') return `Vous ne pouvez poser vos cartes que de votre cote du terrain.`;
   if (reason === 'wrong-slot-type') return `Cet emplacement ne correspond pas au type de cette carte.`;
   if (reason === 'no-servant-slot') return `Aucun emplacement de serviteur libre.`;
+  if (reason === 'pacte-no-starting-dragon') return `Vous ne remplissez pas les conditions pour jouer cette carte.`;
   if (reason === 'tisseur-summon-lock') return `Le Tisseur de Givre empêche cette invocation.`;
   if (reason === 'no-valid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Aucune cible valide n’est disponible.`;
   if (reason === 'invalid-target') return detail?.immediateEffectResult?.message || detail?.targetResult?.message || `Cette cible n'est pas valide.`;
@@ -13019,7 +13069,7 @@ async function resolveBatch14EUlmEndTurn(player) {
 }
 function batch14EZerboDiscardCandidates(player) {
   const p = playerState(player);
-  return (playerHand(p) || []).map((entry, index) => ({index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isPrstFavorCard(item.cardId));
+  return (playerHand(p) || []).map((entry, index) => ({index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isPrstFavorCard(item.cardId) && !isBatch15DProtectedGabarSpell(item.cardId));
 }
 async function chooseBatch14EZerboDiscard(player) {
   const p = playerState(player);
@@ -13058,7 +13108,7 @@ async function chooseBatch14EZerboDiscard(player) {
 function batch14EStealableOpponentCards(player) {
   const opponent = opponentOf(player);
   const pool = [];
-  const add = (zone, list) => (list || []).forEach((entry, index) => { const cardId = getRuntimeCardId(entry); if (cardId && !isPrstFavorCard(cardId)) pool.push({zone, index, cardId}); });
+  const add = (zone, list) => (list || []).forEach((entry, index) => { const cardId = getRuntimeCardId(entry); if (cardId && !isPrstFavorCard(cardId) && !isBatch15DProtectedGabarSpell(cardId)) pool.push({zone, index, cardId}); });
   add('deck', playerDrawPile(opponent)); add('hand', playerHand(opponent)); add('graveyard', opponent?.graveyard || []);
   return pool;
 }
@@ -13770,7 +13820,7 @@ function activatePersistentCostReduction(player, sourceId, amount, criteria) {
   return modifier;
 }
 
-function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
+async function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
   const p = playerState(player);
   const handIndex = p?.hand.indexOf(cardId) ?? -1;
   const zone = qs(playerZoneSelector(p, 'servants'));
@@ -13818,45 +13868,96 @@ function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
   addHistEntry(cardId, CARDS_DATA[cardId]?.fac);
   updateCamouflageVFX();
   renderAllHands();
-  if (placedFC && (CARDS_DATA[cardId]?.kws || []).includes('Initiative')) {
-    setTimeout(() => triggerInitiative(cardId, p), 300);
+  let initiative = null;
+  if (placedFC && shouldTriggerInitiative(cardId, CARDS_DATA[cardId])) {
+    initiative = await triggerInitiative(cardId, p, {sourceInstanceId:placedFC.dataset.instance});
   }
-  return true;
+  return {success:true, cardId, playerId:p.key, instanceId:placedFC?.dataset?.instance || null, sourceCardId:sourceId, initiative};
 }
 
-function resolvePacteMillenaireCostEffects(player) {
+function batch15DStartingDragonCount(player) {
   const p = playerState(player);
-  if (!p) return;
+  return (p?.startingDeckCardIds || []).filter(id => getRuntimeCardId(id) === 'EDG000006').length;
+}
+
+function batch15DHasStartingDragon(player) {
+  return batch15DStartingDragonCount(player) > 0;
+}
+
+function batch15DDragonEntries(player, zone) {
+  return zoneCardEntries(player, zone, {cardIds:['EDG000006']});
+}
+
+function batch15DRegisterDragonReduction(player, occurrenceId) {
+  const p = playerState(player);
+  if (!p || !occurrenceId) return null;
+  return registerRuntimeCostModifier(p, {
+    id:`${p.key}-S000023-${occurrenceId}`,
+    sourceKind:'spell',
+    sourceId:'S000023',
+    priority:200,
+    duration:'nextEligibleCard',
+    criteria:{cardIds:['EDG000006'], handOccurrenceIds:[occurrenceId]},
+    operations:[{type:'adjustRequirement', amount:-2}, {type:'adjustTotal', amount:-2}]
+  });
+}
+
+async function resolvePacteMillenaireCostEffects(player) {
+  const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000023'};
+  const before = zoneInventorySnapshot(p);
+  const startingDragonCount = batch15DStartingDragonCount(p);
+  if (startingDragonCount <= 0) {
+    const result = {success:false, cardId:'S000023', reason:'starting-deck-missing-EDG000006', mode:'refused', before, after:zoneInventorySnapshot(p)};
+    recordCollectionBatch05Event('pacte-millenaire-refused', result);
+    showErr('Vous ne remplissez pas les conditions pour jouer cette carte.');
+    return result;
+  }
   if (p.hand.includes('EDG000006')) {
-    if (invokeCardFromHandWithFreeCost(p, 'EDG000006', 'S000023')) {
+    const invocation = await invokeCardFromHandWithFreeCost(p, 'EDG000006', 'S000023');
+    if (invocation?.success) {
+      const result = {success:true, cardId:'S000023', mode:'hand-invocation', invocation, before, after:zoneInventorySnapshot(p)};
+      recordCollectionBatch05Event('pacte-millenaire-hand', result);
       showNotif('Pacte millénaire invoque le Jeune dragon des neiges sans coût.', 1500);
+      return result;
     } else {
+      const result = {success:false, cardId:'S000023', mode:'hand-invocation', reason:invocation?.reason || 'no-servant-slot', before, after:zoneInventorySnapshot(p)};
+      recordCollectionBatch05Event('pacte-millenaire-hand-refused', result);
       showErr('Aucun emplacement de serviteur libre pour le Jeune dragon des neiges.');
+      return result;
     }
-    return;
   }
 
-  let drawn = 0;
-  while (p.hand.length < MAX_HAND) {
-    const index = p.drawPile.lastIndexOf('EDG000006');
-    if (index === -1) break;
-    p.drawPile.splice(index, 1);
-    p.hand.push('EDG000006');
-    drawn++;
+  const deckEntries = batch15DDragonEntries(p, 'deck').sort((a,b) => b.index - a.index);
+  if (deckEntries.length) {
+    const drawn = [];
+    for (const entryInfo of deckEntries) {
+      const entry = removeZoneEntry(p, 'deck', entryInfo.index);
+      if (!entry) continue;
+      const added = addCardToHand(p, 'EDG000006', {refresh:false, occurrenceId:entry?.occurrenceId || entry?.batch07OccurrenceId || entry?.batch14cOccurrenceKey || null});
+      if (!added) {
+        addEntryToRuntimeZone(p, 'deck', entry, {position:'top'});
+        break;
+      }
+      const handIndex = p.hand.length - 1;
+      const occurrenceId = batch03HandOccurrenceAt(p, handIndex);
+      const modifier = batch15DRegisterDragonReduction(p, occurrenceId);
+      drawn.push({cardId:'EDG000006', occurrenceId, modifierId:modifier?.id || null});
+    }
+    updateDeckCount(p);
+    renderAllHands();
+    const result = {success:drawn.length > 0, cardId:'S000023', mode:'deck-draw-reduction', drawn, count:drawn.length, before, after:zoneInventorySnapshot(p)};
+    recordCollectionBatch05Event('pacte-millenaire-deck', result);
+    showNotif(`Pacte millénaire pioche ${drawn.length} Jeune(s) dragon(s) des neiges et réduit leur coût de 2.`, 1700);
+    return result;
   }
-  if (!drawn) return;
-  registerRuntimeCostModifier(p, {
-    sourceKind: 'spell',
-    sourceId: 'S000023',
-    priority: 200,
-    duration: 'charges',
-    remainingUses: drawn,
-    criteria: {cardIds:['EDG000006']},
-    operations: [{type:'adjustRequirement', amount:-2}, {type:'adjustTotal', amount:-2}]
-  });
-  updateDeckCount(p);
-  renderAllHands();
-  showNotif(`Pacte millénaire pioche ${drawn} Jeune(s) dragon(s) des neiges et réduit leur coût de 2.`, 1700);
+
+  const fallback = handleBatch05PacteFallback(p);
+  if (fallback) return {...fallback, before, after:zoneInventorySnapshot(p)};
+  const result = {success:false, cardId:'S000023', mode:'no-branch', reason:'starting-dragons-not-all-in-graveyard', before, after:zoneInventorySnapshot(p)};
+  recordCollectionBatch05Event('pacte-millenaire-no-branch', result);
+  showErr('Pacte millénaire ne trouve aucun Jeune dragon des neiges à mobiliser.');
+  return result;
 }
 
 // ════════════════════════════════════════════════════════════
@@ -13944,7 +14045,8 @@ async function triggerInitiative(cardId, player, context={}) {
       break; }
     case 'EDB000008': // Maître-archer â†’ détruit 1 carte main adverse + 5 dégâts + gel 1 tour
     { const adv = playerHand(opponentOf(player));
-      if (adv.length) { await waitBatch05BeforeEffect(sourceFCForBatch05, 'initiative', {cardId, effect:'discard'}); const ri = Math.floor(Math.random()*adv.length); removeHandCardAt(opponentOf(player), ri); refreshAdverseHandBacks(player); batch05InitiativeMutation = true; }
+      const discardCandidates = adv.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isBatch15DProtectedGabarSpell(item.cardId));
+      if (discardCandidates.length) { await waitBatch05BeforeEffect(sourceFCForBatch05, 'initiative', {cardId, effect:'discard'}); const target = discardCandidates[Math.floor(Math.random()*discardCandidates.length)]; removeHandCardAt(opponentOf(player), target.index); refreshAdverseHandBacks(player); batch05InitiativeMutation = true; }
       const candidates = adverseServants();
       const tt = getAffectableTargets({ sourcePlayer: player, targets: candidates, sourceCardId: cardId, effectKind: 'damage', isAbility: true });
       if (tt.length) {
@@ -13974,9 +14076,11 @@ async function triggerInitiative(cardId, player, context={}) {
       break; }
     case 'EN000004':
     { const adv2 = playerHand(opponentOf(player));
-      if (adv2.length) {
+      const discardCandidates2 = adv2.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isBatch15DProtectedGabarSpell(item.cardId));
+      if (discardCandidates2.length) {
         await waitBatch05BeforeEffect(sourceFCForBatch05, 'initiative', {cardId, effect:'discard-random'});
-        removeHandCardAt(opponentOf(player), Math.floor(gameRandom()*adv2.length));
+        const target = discardCandidates2[Math.floor(gameRandom()*discardCandidates2.length)];
+        removeHandCardAt(opponentOf(player), target.index);
         refreshAdverseHandBacks(player);
         batch05InitiativeMutation = true;
         recordCollectionBatch06Event('avatar-destruction-initiative', {source:targetSummary(sourceFCForBatch05), opponentHandAfter:playerHand(opponentOf(player)).length});
@@ -14235,11 +14339,8 @@ async function triggerSort(cardId, player, context={}) {
       );
       showNotif('Portail actif réduit de 4 le coût de vos serviteurs.', 1500);
       break;
-    case 'S000023': {
-      const fallback = handleBatch05PacteFallback(player);
-      if (fallback) return fallback;
-      resolvePacteMillenaireCostEffects(player);
-      break; }
+    case 'S000023':
+      return await resolvePacteMillenaireCostEffects(player);
     case 'S000011':
       return resolveMurDeGlace(player);
     case 'S000018':
@@ -16364,7 +16465,7 @@ async function resolvePillageEnRegle(player) {
   const summons = [];
   while (summons.length < 4 && batch08FreeSlots(p).length) {
     const id = pool[Math.floor(gameRandom() * pool.length)];
-    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:false, ready:true}));
+    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:true, ready:true}));
   }
   const result = {success:true, cardId:'S000014', playerId:p.key, summons};
   recordCollectionBatch08Event('pillage-en-regle', result);
@@ -16855,8 +16956,16 @@ async function resolveSermentDesAnciens(player) {
     fc._killer = null;
     await sendToCemetery(fc);
   }
-  const discarded = [...p.hand];
-  while (p.hand.length) addEntryToRuntimeZone(p, 'graveyard', removeHandCardAt(p, 0));
+  const discarded = [];
+  for (let i = p.hand.length - 1; i >= 0; i--) {
+    const cardId = getRuntimeCardId(p.hand[i]);
+    if (isBatch15DProtectedGabarSpell(cardId)) continue;
+    const removed = removeHandCardAt(p, i);
+    if (removed) {
+      discarded.unshift(removed);
+      addEntryToRuntimeZone(p, 'graveyard', removed);
+    }
+  }
   refreshHand(p);
   const iceInGraveyard = zoneCardEntries(p, 'graveyard').filter(entry => CARDS_DATA[getRuntimeCardId(entry)]?.fac === 'edg' && CARDS_DATA[getRuntimeCardId(entry)]?.type === 'Serviteur').length;
   const summon = await summonBatch03Servant(p, 'EDG000012', {sourceCardId:'S000026', triggerInitiativeEffect:false, ready:true});
@@ -18178,7 +18287,7 @@ async function batch11cSummonFromZone(player, zone, limit=3) {
     const cardId = getRuntimeCardId(entry);
     if (!cardId) break;
     sourceCards.push({cardId, zone, index:selected.index});
-    const summon = await summonBatch03Servant(p, cardId, {sourceCardId:'S000052', triggerInitiativeEffect:false, ready:true});
+    const summon = await summonBatch03Servant(p, cardId, {sourceCardId:'S000052', triggerInitiativeEffect:true, ready:true});
     if (!summon?.success) { addEntryToRuntimeZone(p, zone, entry, {position:'top'}); break; }
     selectedIds.add(cardId);
     summoned.push({...summon, sourceZone:zone});
@@ -18202,7 +18311,8 @@ async function resolveRetourDesRevenants(player) {
   const result = {success:true, code:'retour-des-revenants-resolved', before, sourceZone, operation, fallbackEcho, after:batch11cZoneSummary(p)};
   recordCollectionBatch11cEvent('retour-des-revenants', result);
   if (operation.summoned.length) showNotif('UN SOMBRE RITUEL RAPPELLE ' + operation.summoned.length + ' DE VOS SERVITEURS DE LA TOMBE...', 2000);
-  else showNotif('LE RETOUR DES REVENANTS AJOUTE 5 ÉCHOS.', 1500);
+  else if (fallbackEcho) showNotif('LE RETOUR DES REVENANTS AJOUTE 5 ÉCHOS.', 1500);
+  else showErr('Aucun emplacement de serviteur libre pour rappeler les revenants.');
   return result;
 }
 function batch11cWatcherGainThisTurn(watcher) {
@@ -24919,10 +25029,10 @@ Object.assign(CARDS_DATA, {
   H000035:{name:"Gabar, l'apprenti magicien prodige",type:'Serviteur',fac:'hum',atk:4,pdv:8,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Initiative'],assetFolder:'humains',max:0,related:['S000060','S000059','DIV000005'],cap:"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque *1* « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez *1 sort* de votre deck.",detail:"[Initiative] Ajoute le sort « Craie d'invocation » à votre deck. À chacun de vos débuts de tours, invoque *1* « Élémentaire de la terre » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, l'apprenti magicien prodige » est de votre côté du terrain, piochez *1 sort* de votre deck."},
   H000036:{name:"Gabar, maître-magicien",type:'Serviteur',fac:'hum',atk:5,pdv:10,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:['Insensible'],assetFolder:'humains',max:0,related:['S000060','DIV000008'],cap:"[Insensible] À chacun de vos débuts de tours, invoque *1* « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez *1 sort* de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute *1 copie* dans votre main.",detail:"[Insensible] À chacun de vos débuts de tours, invoque *1* « Golem de roche » pour vous. Chaque fois qu'un serviteur allié est envoyé au cimetière alors que « Gabar, maître-magicien » est de votre côté du terrain, piochez *1 sort* de votre deck. De même, chaque fois que votre adversaire lance un sort, en ajoute *1 copie* dans votre main."},
   S000055:{name:"Triangle des ténèbres",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000MVS.png',kws:['Echo','Insensible'],assetFolder:'sorts',max:1,related:['MV000024'],cond:"Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",cap:"Choisissez *3 serviteurs alliés* de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3 prochains tours*, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",detail:"Choisissez *3 serviteurs alliés* de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3 prochains tours*, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible]."},
-  S000057:{name:'Aube de soie de lumière',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000032','H000033'],cap:"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
-  S000058:{name:'Grimoire du maître',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000033','H000034'],cap:"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
-  S000059:{name:'Plume enchantée',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000034','H000035'],cap:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
-  S000060:{name:"Craie d’invocation",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000035','H000036'],cap:"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."}
+  S000057:{name:'Aube de soie de lumière',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000032','H000033'],protectedFromStealDestroyDiscard:true,cap:"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien timoré » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien maladroit » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
+  S000058:{name:'Grimoire du maître',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000033','H000034'],protectedFromStealDestroyDiscard:true,cap:"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien dévoué » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien timoré » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
+  S000059:{name:'Plume enchantée',type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000034','H000035'],protectedFromStealDestroyDiscard:true,cap:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, l'apprenti magicien prodige » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien dévoué » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."},
+  S000060:{name:"Craie d’invocation",type:'Sort',fac:'sort',atk:null,pdv:null,cost:0,res_ico:'IC00000RDM',res_val:'0',resType:'any',fico:'FCT00000HUM.png',kws:[],assetFolder:'sorts',max:0,related:['H000035','H000036'],protectedFromStealDestroyDiscard:true,cap:"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte.",detail:"Ajoute « Gabar, maître-magicien » à votre main (ou au-dessus de votre deck, si votre main est pleine). Retire « Gabar, l'apprenti magicien prodige » de la partie, où qu'il soit. Ce sort ne peut être volé, détruit ou défaussé par aucune carte."}
 });
 // COLLECTION_BATCH_11B_CARD_DATA_SYNC
 Object.assign(CARDS_DATA, {
@@ -25000,7 +25110,7 @@ Object.assign(CARDS_DATA, {
   EDG000011:{...CARDS_DATA.EDG000011, cap:`[Sang-froid] Gagne *+1 PDV* par autre « Loup blanc » allié sur le terrain. Gagne *+1 ATK* chaque fois qu'un autre « Loup blanc » allié est envoyé au cimetière.`, detail:`[Sang-froid] Gagne *+1 PDV* par autre « Loup blanc » allié sur le terrain. Gagne *+1 ATK* chaque fois qu'un autre « Loup blanc » allié est envoyé au cimetière.`},
   EDG000012:{...CARDS_DATA.EDG000012, cap:`[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement *1 Golem du froid* ou *1 Jeune dragon des neiges* de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a *33 %* de chance de subir aléatoirement [Gel] pendant *2 tours* ou [Coup de glace] pendant *1 tour*. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.`, detail:`[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement *1 Golem du froid* [ID = DIV000010] ou *1 Jeune dragon des neiges* [ID = EDG000006] de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a *33 %* de chance de subir aléatoirement [Gel] pendant *2 tours* ou [Coup de glace] pendant *1 tour*. Cette capacité passe outre [Insensible]. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.`},
   S000011:{...CARDS_DATA.S000011, cap:`Les *3* prochains serviteurs invoqués par votre adversaire subissent [Coup de glace] pendant *2 tours*.`},
-  S000023:{...CARDS_DATA.S000023, cap:`Si vous avez en main un « Jeune dragon des neiges », l'invoque de votre côté du terrain sans tenir compte de son coût en ressources. Si ce serviteur n'est pas présent dans votre main, piochez tous les exemplaires de « Jeune dragon des neiges » restant dans votre deck et réduit leur coût de *2*. Si tous vos exemplaires du « Jeune dragon des neiges » sont au cimetière, donne *+1 attaque* à vos serviteurs de la faction « Elfe de glace » pour le reste de la partie.`},
+  S000023:{...CARDS_DATA.S000023, cap:`Si vous avez en main un « Jeune dragon des neiges », l'invoque de votre côté du terrain sans tenir compte de son coût en ressources. Si ce serviteur n'est pas présent dans votre main, piochez tous les exemplaires de « Jeune dragon des neiges » restant dans votre deck et réduit leur coût de *2*. Si tous vos exemplaires du « Jeune dragon des neiges » sont au cimetière, donne *+1* attaque à vos serviteurs de la faction « Elfe de glace » pour le reste de la partie.`},
   S000026:{...CARDS_DATA.S000026, cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK / +1 PV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`},
   S000027:{...CARDS_DATA.S000027, cap:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.`, detail:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.`},
   S000029:{...CARDS_DATA.S000029, cap:`Piochez jusqu'à *3* serviteurs de la faction « Elfes de glace » de votre deck.`, detail:`Piochez jusqu'à *3* serviteurs de la faction « Elfes de glace » de votre deck.`},
@@ -25117,10 +25227,11 @@ const COLLECTION_BATCH_10_CARD_TEXT_OVERRIDES = {
   GOB000018:{cap:"[Initiative] Regardez les *4* cartes du dessus du deck adverse. Placez-en *1* tout en dessous, puis replacez les autres dans l'ordre de votre choix.",detail:"[Initiative] Révélez secrètement les *4* cartes du dessus du deck adverse. Choisissez-en *1* et placez-la tout en dessous de ce deck. Replacez les *3* autres sur le dessus dans l'ordre de votre choix. Le propriétaire du deck ne voit pas l'ordre choisi."},
   GOB000019:{cap:"*1* fois par tour, sacrifiez *1* autre serviteur gobelin allié pour choisir : piochez *2* cartes ; infligez *5* dégâts à *1* serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de *+1 ATK*/*+3 PDV* et lui confère [Rempart].",detail:"*1* fois par tour, vous pouvez envoyer *1* autre serviteur de la faction « Gobelin » de votre côté du terrain au cimetière. Choisissez ensuite *1* effet : piochez *2* cartes ; infligez *5* points de dégâts à *1* serviteur adverse ; ou augmentez les statistiques du « Tyran de poche » de *+1 ATK*/*+3 PDV* et lui confère [Rempart]."},
   GOB000020:{kws:['Serviteur de la rune','Rage','Fer','Nourriture'],cap:"[Serviteur de la rune] [Rage] Ce serviteur peut attaquer *2* fois par tour et ne provoque pas de riposte. Chaque fois que « Gitzo » détruit *1* serviteur adverse, piochez *1* carte.",detail:"[Serviteur de la rune] [Rage] Ce serviteur peut attaquer *2* fois par tour et ne provoque pas de riposte : il ne subit pas de dégâts des contre-attaques ennemies. Chaque fois que « Gitzo » détruit *1* serviteur adverse, piochez *1* carte."},
-  S000009:{cap:"Scanne votre deck à la recherche des *3* premiers serviteurs gobelins coûtant chacun moins de *3* unités de ressources. Les invoque de votre côté du terrain.",detail:"Scanne votre deck à la recherche des *3* premiers serviteurs gobelins coûtant chacun moins de *3* unités de ressources. Si vous avez des emplacements de serviteurs vides, invoque *1*, *2* ou *3* de ces gobelins de votre côté du terrain, en fonction du nombre d'emplacements disponibles."},
+  S000013:{fac:'sort'},
+  S000009:{fac:'sort',cap:"Scanne votre deck à la recherche des *3* premiers serviteurs gobelins coûtant chacun moins de *3* unités de ressources. Les invoque de votre côté du terrain.",detail:"Scanne votre deck à la recherche des *3* premiers serviteurs gobelins coûtant chacun moins de *3* unités de ressources. Si vous avez des emplacements de serviteurs vides, invoque *1*, *2* ou *3* de ces gobelins de votre côté du terrain, en fonction du nombre d'emplacements disponibles."},
   S000037:{cap:"Piochez des serviteurs de la faction des « Gobelins » de votre deck jusqu'à avoir *8* cartes en main.",detail:"Piochez des serviteurs de la faction des « Gobelins » de votre deck jusqu'à avoir *8* cartes en main."},
-  S000038:{cap:"Ajoute *1* copie de chaque serviteur unique de la faction des « Gobelins » actuellement dans votre main.",detail:"Ajoute *1* copie de chaque serviteur unique de la faction des « Gobelins » actuellement dans votre main."},
-  S000047:{cap:"Invoque jusqu'à *3* « Surineurs » de votre côté du terrain.",detail:"Invoque jusqu'à *3* « Surineurs » de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck."},
+  S000038:{fac:'sort',cap:"Ajoute *1* copie de chaque serviteur unique de la faction des « Gobelins » actuellement dans votre main.",detail:"Ajoute *1* copie de chaque serviteur unique de la faction des « Gobelins » actuellement dans votre main."},
+  S000047:{fac:'sort',cap:"Invoque jusqu'à *3* « Surineurs » de votre côté du terrain.",detail:"Invoque jusqu'à *3* « Surineurs » de votre côté du terrain, dans la limite des emplacements disponibles. Les cartes sont créées et ne sont pas retirées de votre deck."},
   S000049:{cap:"Jusqu'à la fin de votre tour, chaque effet [Vengeance] allié inflige *+2* dégâts supplémentaires à un serviteur adverse aléatoire. Les [Vengeance] de vos serviteurs gobelins se déclenchent une *2e* fois ce tour-ci.",detail:"Jusqu'à la fin de votre tour, chaque effet [Vengeance] allié inflige *+2* dégâts supplémentaires à un serviteur adverse aléatoire. Les [Vengeance] de vos serviteurs gobelins se déclenchent une *2e* fois ce tour-ci."}
 };
 Object.entries(COLLECTION_BATCH_10_CARD_TEXT_OVERRIDES).forEach(([id, patch]) => { if (CARDS_DATA[id]) Object.assign(CARDS_DATA[id], patch); });
@@ -26360,7 +26471,7 @@ async function resolveBatch10ReunionAuSommet(player) {
     if (!selected) break;
     pile.splice(selected.index, 1);
     updateDeckCount(p);
-    const summon = await summonBatch03Servant(p, selected.id, {sourceCardId:'S000009', triggerInitiativeEffect:false, ready:true});
+    const summon = await summonBatch03Servant(p, selected.id, {sourceCardId:'S000009', triggerInitiativeEffect:true, ready:true});
     summoned.push(summon);
     if (summon?.success) await batch10PulseSummoned(summon, 'reunion-arrival');
     await batch05VisualDelay(220);
@@ -26374,7 +26485,7 @@ async function resolveBatch10VoleeDeGobelins(player) {
   const p = playerState(player);
   const summoned = [];
   while (summoned.length < 3 && batch09FreeServantSlots(p).length) {
-    const summon = await summonBatch03Servant(p, 'GOB000002', {sourceCardId:'S000047', triggerInitiativeEffect:false, ready:true});
+    const summon = await summonBatch03Servant(p, 'GOB000002', {sourceCardId:'S000047', triggerInitiativeEffect:true, ready:true});
     summoned.push(summon);
     if (summon?.success) await batch10PulseSummoned(summon, 'volee-arrival');
     await batch05VisualDelay(220);
@@ -26995,11 +27106,18 @@ function resolveArtisanatElfique(player) {
 }
 function handleBatch05PacteFallback(player) {
   const p = playerState(player);
-  const allDragonCount = zoneCardEntries(p, 'graveyard', {cardIds:['EDG000006']}).length;
-  if (allDragonCount > 0 && !p.hand.includes('EDG000006') && !playerDrawPile(p).some(id => getRuntimeCardId(id) === 'EDG000006')) {
+  const hasStartingDeckAudit = Array.isArray(p?.startingDeckCardIds) && p.startingDeckCardIds.length > 0;
+  const startingDragonCount = batch15DStartingDragonCount(p);
+  const graveyardDragonCount = zoneCardEntries(p, 'graveyard', {cardIds:['EDG000006']}).length;
+  const allKnownStartingDragonsAreInGraveyard = hasStartingDeckAudit
+    ? startingDragonCount > 0 && graveyardDragonCount >= startingDragonCount
+    : graveyardDragonCount > 0;
+  if (allKnownStartingDragonsAreInGraveyard &&
+      !p.hand.includes('EDG000006') &&
+      !playerDrawPile(p).some(id => getRuntimeCardId(id) === 'EDG000006')) {
     p.batch05PacteIceAtkBuff = Number(p.batch05PacteIceAtkBuff || 0) + 1;
     syncBatch05Passives();
-    const result = {success:true, cardId:'S000023', mode:'graveyard-atk-buff', amount:1};
+    const result = {success:true, cardId:'S000023', mode:'graveyard-atk-buff', amount:1, startingDragonCount:hasStartingDeckAudit ? startingDragonCount : null, graveyardDragonCount};
     recordCollectionBatch05Event('pacte-millenaire-fallback', result);
     showNotif('Pacte millénaire donne +1 ATK à vos Elfes de glace.', 1600);
     return result;
@@ -27227,7 +27345,15 @@ function findBatch02GabarSource(player, cardId) {
 
 function canResolveBatch02Evolution(player, spellId) {
   const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
-  return !!(rule && findBatch02GabarSource(player, rule.source || rule.remove));
+  return !!rule;
+}
+
+function isBatch15DGabarEvolutionSpell(cardId) {
+  return !!COLLECTION_BATCH_02_EVOLUTION[String(cardId || '')];
+}
+
+function isBatch15DProtectedGabarSpell(cardId) {
+  return isBatch15DGabarEvolutionSpell(cardId);
 }
 
 function pulseBatch02Gabar(fc, reason='effet') {
@@ -27308,15 +27434,11 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
   const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
   if (!p || !rule) return {handled:false};
   const source = findBatch02GabarSource(p, rule.source || rule.remove);
-  if (!source) {
-    const result = {handled:false, success:false, reason:'missing-required-gabar-source', spellId, requiredSource:rule.source || rule.remove};
-    recordCollectionBatch02Event('evolution-refused', {...result, playerId:p.key});
-    return result;
-  }
   markBatch02VisualPhase('draw-evolution-spell', {playerId:p.key, spellId});
   await waitBatch02VisualStep();
   markBatch02VisualPhase('transform-remove-source', {playerId:p.key, spellId, removedCardId:rule.remove});
   const removed = removeBatch02CardEverywhere(p, rule.remove);
+  if (source?.isConnected) pulseBatch02Gabar(source, 'evolution');
   await waitBatch02VisualStep();
   p.graveyard.push(spellId);
   markBatch02VisualPhase('spell-to-graveyard', {playerId:p.key, spellId});
@@ -27331,9 +27453,7 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
   await waitBatch02VisualStep();
   refreshRuntimeZone(p, 'hand'); refreshRuntimeZone(p, 'deck'); refreshRuntimeZone(p, 'graveyard');
   await waitBatch02VisualStep();
-  let summoned = null;
-  if (destination === 'hand') summoned = await summonBatch02ServantFromHand(p, rule.create, spellId);
-  const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned};
+  const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false};
   recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
   showNotif(`« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 1500);
   return result;
@@ -28271,8 +28391,10 @@ async function triggerBatch03CombatHooks(attacker, targetFC, context={}) {
   if (aid === 'H000029' && context.targetDied && context.phase === 'attack') {
     const opponent = opponentOf(player);
     const hand = playerHand(opponent);
-    if (hand.length) {
-      const index = Math.floor(gameRandom() * hand.length);
+    const discardCandidates = hand.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isBatch15DProtectedGabarSpell(item.cardId));
+    if (discardCandidates.length) {
+      const target = discardCandidates[Math.floor(gameRandom() * discardCandidates.length)];
+      const index = target.index;
       const discarded = removeHandCardAt(opponent, index);
       if (discarded) addEntryToRuntimeZone(opponent, 'graveyard', discarded);
       refreshRuntimeZone(opponent, 'graveyard');
@@ -28391,8 +28513,10 @@ async function resolveBatch03Initiative(cardId, player, context={}) {
     if (target) result.operations.push({type:'hand-size-damage', target:targetSummary(target), died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:target,sourceCardId:cardId,amount:playerHand(opponentOf(p)).length})});
     const opponent = opponentOf(p);
     const hand = playerHand(opponent);
-    if (hand.length && !getHandCapacityStatus(p).full) {
-      const stolen = removeHandCardAt(opponent, Math.floor(gameRandom() * hand.length));
+    const stealCandidates = hand.map((entry, index) => ({entry, index, cardId:getRuntimeCardId(entry)})).filter(item => item.cardId && !isBatch15DProtectedGabarSpell(item.cardId));
+    if (stealCandidates.length && !getHandCapacityStatus(p).full) {
+      const target = stealCandidates[Math.floor(gameRandom() * stealCandidates.length)];
+      const stolen = removeHandCardAt(opponent, target.index);
       if (stolen) addCardToHand(p, stolen, {refresh:true});
       result.operations.push({type:'steal-hand-card', stolen});
     }
@@ -28569,6 +28693,12 @@ async function resolveBatch03IannaDrawSteal(drawer, drawnCardId, drawResult={}) 
   if (isBatch03IannaVisualScenario()) await new Promise(resolve => setTimeout(resolve, 360));
   if (showBatch03IannaReveal(drawnCardId)) sequence.push('center-reveal');
   if (isBatch03IannaVisualScenario()) await new Promise(resolve => setTimeout(resolve, 820));
+  if (isBatch15DProtectedGabarSpell(drawnCardId)) {
+    renderAllHands();
+    const result = {success:false, reason:'protected-gabar-spell', roll, stolenCardId:null, drawnCardId, drawerId:p.key, iannaOwnerId:thief.key, source:targetSummary(ianna), drawResult, visualSequence:sequence};
+    recordCollectionBatch03Event('ianna-draw-steal', result);
+    return result;
+  }
   const drawnOccurrenceId = batch03HandOccurrenceAt(p, index);
   const removed = removeHandCardAt(p, index);
   const added = addCardToHand(thief, removed, {refresh:false, occurrenceId:drawnOccurrenceId});
