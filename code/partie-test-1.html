@@ -675,7 +675,10 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch09-cadaver-flight{position:fixed;z-index:4200;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(180,144,32,.95);box-shadow:0 0 22px rgba(180,144,32,.78),0 0 44px rgba(120,80,22,.48);animation:batch03RuneFlight 1.05s cubic-bezier(.22,.95,.32,1) forwards;}
 .batch09-cadaver-flight[data-flight-reason="release"]{border-color:rgba(230,190,72,.98);box-shadow:0 0 24px rgba(230,190,72,.85),0 0 48px rgba(120,80,22,.55);}
 .batch09-cadaver-flight[data-flight-reason^="batch11e-"],.batch09-cadaver-flight[data-flight-reason^="batch12a-"]{border-color:rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);}
-.batch09-cadaver-flight[data-flight-reason^="batch15a-"],.batch09-cadaver-flight[data-flight-reason^="batch15b-"]{border-color:rgba(255,224,114,.98);box-shadow:0 0 24px rgba(255,220,96,.92),0 0 52px rgba(255,168,36,.64),inset 0 0 18px rgba(255,246,174,.28);}
+.batch09-cadaver-flight[data-flight-reason^="batch15a-"],.batch09-cadaver-flight[data-flight-reason^="batch15b-"],.batch09-cadaver-flight[data-flight-reason^="batch15d-"]{border-color:rgba(255,224,114,.98);box-shadow:0 0 24px rgba(255,220,96,.92),0 0 52px rgba(255,168,36,.64),inset 0 0 18px rgba(255,246,174,.28);}
+.batch15d-nain-board-pulse{box-shadow:0 0 24px rgba(214,226,255,.96),0 0 46px rgba(128,144,168,.72),inset 0 0 18px rgba(255,255,255,.22)!important;}
+.batch15d-nain-hand-halo{box-shadow:0 0 22px rgba(214,226,255,.9),0 0 8px rgba(255,255,255,.82)!important;}
+.batch15d-nain-deck-pulse{filter:drop-shadow(0 0 12px rgba(214,226,255,.95)) drop-shadow(0 0 24px rgba(128,144,168,.7));}
 .batch12a-center-reveal{position:fixed;left:calc(50vw - 46px);top:calc(50vh - 64px);z-index:4250;width:92px;height:128px;border-radius:12px;pointer-events:none;background-size:cover;background-position:center;border:2px solid rgba(190,96,255,.98);box-shadow:0 0 24px rgba(190,96,255,.88),0 0 52px rgba(96,24,160,.62),inset 0 0 18px rgba(210,148,255,.3);animation:batch12aCenterReveal .32s ease-out both;}
 @keyframes batch12aCenterReveal{0%{opacity:0;transform:translateY(18px) scale(.86);filter:brightness(2.2);}100%{opacity:1;transform:none;filter:brightness(1.16);}}
 .batch03-hypnosis-active::before,.batch03-hypnosis-active::after{content:'';position:absolute;left:50%;top:50%;z-index:47;width:18px;height:18px;border:2px solid rgba(157,255,102,.85);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:batch04HypnosisRipple 1.8s ease-out infinite;}
@@ -13820,7 +13823,7 @@ function activatePersistentCostReduction(player, sourceId, amount, criteria) {
   return modifier;
 }
 
-async function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
+async function invokeCardFromHandWithFreeCost(player, cardId, sourceId, options={}) {
   const p = playerState(player);
   const handIndex = p?.hand.indexOf(cardId) ?? -1;
   const zone = qs(playerZoneSelector(p, 'servants'));
@@ -13847,6 +13850,8 @@ async function invokeCardFromHandWithFreeCost(player, cardId, sourceId) {
     releasePaymentLock(p, cardId);
     return false;
   }
+  const sourceEl = qs(playerZoneSelector(p, 'hand'))?.querySelector(`[data-id="${cardId}"]`);
+  if (options.visualTransfer) await batch15D2AnimateTransfer(p, cardId, options.visualSourceZone || 'hand', slot, options.visualTransfer, {fromElement:sourceEl, delayMs:options.visualDelayMs});
   const removed = removeFromHand(cardId, p);
   if (!removed) {
     rollbackPayment(p, paymentResult);
@@ -13902,6 +13907,100 @@ function batch15DRegisterDragonReduction(player, occurrenceId) {
   });
 }
 
+const COLLECTION_BATCH_15D2_MESSAGES = Object.freeze({
+  S000009_NONE: "LES GOBELINS N'ONT JAMAIS ÉTÉ CONNUS POUR LEUR FIABILITÉ. AUCUN N'EST VENU !",
+  S000009_ONE: "UN SEUL GOBELIN A RÉPONDU À L'APPEL. LES AUTRES SE SONT PEUT-ÊTRE PERDUS EN CHEMIN ?",
+  S000009_MANY: "LA RÉUNION EST UN SUCCÈS ! LES GOBELINS AFFLUENT DE TOUS CÔTÉS !",
+  S000013: "L'EXPÉRIENCE DU COMBAT CHANGE LES SIMPLES GUERRIERS EN REDOUTABLES VÉTÉRANS ET COMBATTANTS D'ÉLITE !",
+  S000014: "AUCUNE TRIBU ORC NE PEUT RÉSISTER À L'APPEL D'UN PILLAGE FACILE ET SANGLANT !",
+  S000023_HAND: "UN REJETON DU TISSEUR DE GIVRE RÉPOND À VOTRE APPEL !",
+  S000023_DECK: "LES DRAGONS VIENNENT HONORER LEUR PACTE SACRÉ.",
+  S000023_FALLBACK: "LE CHAMP DE BATAILLE SE REFROIDIT SOUDAINEMENT, AMPLIFIANT LE POUVOIR DES ELFES DE GLACE.",
+  S000038: "VOUS CONNAISSEZ L'EXPRESSION, « DERRIÈRE CHAQUE GOBELIN S'EN CACHE UN ENCORE PLUS RETORS ? »",
+  S000047_NONE: "DES GOBELINS ONT BIEN ÉTÉ CATAPULTÉS QUELQUE PART, MAIS APPAREMMENT PAS SUR LE CHAMP DE BATAILLE. OUPS !",
+  S000047_MANY: "ATTENTION ! LES GOBELINS ONT ENVOYÉ DES SURINEURS TRANCHER DES TENDONS ET EXPOSER DES ENTRAILLES !",
+  S000052_SUMMON: "UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !",
+  S000052_FALLBACK: "UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE !",
+  S000057: "AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !",
+  S000058: "LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !",
+  S000059: "L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE !",
+  S000060: "DÉSORMAIS PARFAITEMENT ÉQUIPÉ ET INSTRUIT, GABAR DEVIENT UN MAÎTRE-MAGICIEN ET UN INVOCATEUR DE RENOM."
+});
+
+const COLLECTION_BATCH_15D2_ORC_POOL = Object.freeze(['ORC000001','ORC000002','ORC000004','ORC000005','ORC000008','ORC000009','ORC000013','ORC000017']);
+
+function batch15D2ZoneElement(player, zone) {
+  const p = playerState(player);
+  if (!p || typeof document === 'undefined') return null;
+  if (zone === 'hand') return qs(playerZoneSelector(p, 'hand'));
+  if (zone === 'graveyard') return qs(playerZoneSelector(p, 'graveyard'));
+  if (zone === 'deck') return document.getElementById(p.position === 'top' ? 'yriaDeckCount' : 'raithDeckCount') || qs(playerZoneSelector(p, 'deck')) || document.querySelector(p.position === 'top' ? '.dc-j2 .deck-stack' : '.dc-j1 .deck-stack');
+  if (zone === 'board') return qs(playerZoneSelector(p, 'servants'));
+  if (zone === 'copy' || zone === 'generated' || zone === 'center') return document.querySelector('.terrain') || document.querySelector('.board-bg');
+  return null;
+}
+
+async function batch15D2AnimateTransfer(player, cardId, fromZone, toElement, transfer, options={}) {
+  const p = playerState(player);
+  const data = CARDS_DATA[cardId];
+  const fromElement = options.fromElement || batch15D2ZoneElement(p, fromZone);
+  const targetElement = toElement || options.toElement || batch15D2ZoneElement(p, options.toZone || 'board');
+  if (!p || !data || !fromElement || !targetElement || typeof document === 'undefined') return false;
+  const fromRect = fromElement.getBoundingClientRect();
+  const toRect = targetElement.getBoundingClientRect();
+  if (!fromRect.width || !toRect.width) return false;
+  const el = document.createElement('div');
+  el.className = 'batch09-cadaver-flight batch15d-transfer-clone';
+  const transferSeq = String((window.__batch15D2TransferSeq = Number(window.__batch15D2TransferSeq || 0) + 1));
+  el.dataset.flightReason = 'batch15d-' + (transfer || 'transfer');
+  el.dataset.batch15dTransfer = transfer || `${fromZone}-to-${options.toZone || 'target'}`;
+  el.dataset.batch15dTransferSeq = transferSeq;
+  el.dataset.batch15dSourceZone = fromZone || '';
+  el.dataset.batch15dCardId = cardId;
+  el.dataset.cardId = cardId;
+  el.style.backgroundImage = `url("${cardArtworkSrc(cardId, data.assetFolder || facFolder(data.fac || 'sort'))}")`;
+  el.style.setProperty('--from-x', `${fromRect.left + fromRect.width / 2 - 46}px`);
+  el.style.setProperty('--from-y', `${fromRect.top + fromRect.height / 2 - 64}px`);
+  el.style.setProperty('--to-x', `${toRect.left + toRect.width / 2 - 46}px`);
+  el.style.setProperty('--to-y', `${toRect.top + toRect.height / 2 - 64}px`);
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+  await batch05VisualDelay(options.delayMs ?? 420);
+  return true;
+}
+
+function batch15D2MarkNainHandHalos(player) {
+  const p = playerState(player);
+  const handEl = qs(playerZoneSelector(p, 'hand'));
+  handEl?.querySelectorAll('.hc[data-id="N000008"]').forEach(card => {
+    card.dataset.batch15dHandHalo = 'N000008';
+    card.classList.add('batch15d-nain-hand-halo');
+    setTimeout(() => card.classList.remove('batch15d-nain-hand-halo'), 1400);
+  });
+}
+
+function batch15D2PulseNainDeck(player) {
+  const p = playerState(player);
+  const deckEl = batch15D2ZoneElement(p, 'deck');
+  if (!deckEl) return false;
+  deckEl.dataset.batch15dDeckPulse = 'N000008';
+  deckEl.classList.add('batch15d-nain-deck-pulse');
+  setTimeout(() => deckEl.classList.remove('batch15d-nain-deck-pulse'), 1400);
+  return true;
+}
+
+function batch15D2PulseNainBoard(targets) {
+  (targets || []).forEach(target => {
+    const fc = target?.instance ? document.querySelector(`.fc[data-instance="${CSS.escape(target.instance)}"]`) : null;
+    if (fc) {
+      fc.dataset.batch15dNainPulse = 'board';
+      fc.classList.add('batch15d-nain-board-pulse');
+      pulseBatch03Ability(fc, 'batch15d-nain-upgrade', {move:true});
+      setTimeout(() => fc.classList.remove('batch15d-nain-board-pulse'), 1400);
+    }
+  });
+}
+
 async function resolvePacteMillenaireCostEffects(player) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000023'};
@@ -13914,11 +14013,11 @@ async function resolvePacteMillenaireCostEffects(player) {
     return result;
   }
   if (p.hand.includes('EDG000006')) {
-    const invocation = await invokeCardFromHandWithFreeCost(p, 'EDG000006', 'S000023');
+    const invocation = await invokeCardFromHandWithFreeCost(p, 'EDG000006', 'S000023', {visualTransfer:'hand-to-board', visualSourceZone:'hand'});
     if (invocation?.success) {
       const result = {success:true, cardId:'S000023', mode:'hand-invocation', invocation, before, after:zoneInventorySnapshot(p)};
       recordCollectionBatch05Event('pacte-millenaire-hand', result);
-      showNotif('Pacte millénaire invoque le Jeune dragon des neiges sans coût.', 1500);
+      showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000023_HAND, 2200);
       return result;
     } else {
       const result = {success:false, cardId:'S000023', mode:'hand-invocation', reason:invocation?.reason || 'no-servant-slot', before, after:zoneInventorySnapshot(p)};
@@ -13934,6 +14033,7 @@ async function resolvePacteMillenaireCostEffects(player) {
     for (const entryInfo of deckEntries) {
       const entry = removeZoneEntry(p, 'deck', entryInfo.index);
       if (!entry) continue;
+      await batch15D2AnimateTransfer(p, 'EDG000006', 'deck', batch15D2ZoneElement(p, 'hand'), 'deck-to-hand');
       const added = addCardToHand(p, 'EDG000006', {refresh:false, occurrenceId:entry?.occurrenceId || entry?.batch07OccurrenceId || entry?.batch14cOccurrenceKey || null});
       if (!added) {
         addEntryToRuntimeZone(p, 'deck', entry, {position:'top'});
@@ -13948,7 +14048,7 @@ async function resolvePacteMillenaireCostEffects(player) {
     renderAllHands();
     const result = {success:drawn.length > 0, cardId:'S000023', mode:'deck-draw-reduction', drawn, count:drawn.length, before, after:zoneInventorySnapshot(p)};
     recordCollectionBatch05Event('pacte-millenaire-deck', result);
-    showNotif(`Pacte millénaire pioche ${drawn.length} Jeune(s) dragon(s) des neiges et réduit leur coût de 2.`, 1700);
+    showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000023_DECK, 2200);
     return result;
   }
 
@@ -15697,11 +15797,14 @@ function resolveBatch07ExperienceCombat(player) {
     if (replaced) zones.board.push(replaced);
   });
   renderAllHands();
+  batch15D2PulseNainBoard(zones.board);
+  if (zones.hand > 0) batch15D2MarkNainHandHalos(p);
+  if (zones.deck > 0) batch15D2PulseNainDeck(p);
   syncBatch05Passives();
   const total = zones.deck + zones.hand + zones.graveyard + zones.board.length;
   const result = {success:total > 0, cardId:'S000013', replaced:zones, total, before, after:zoneInventorySnapshot(p)};
   recordCollectionBatch07Event('experience-combat', result);
-  showNotif("Expérience du combat remplace " + total + " Guerrier(s).", 1700);
+  showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000013, 2200);
   return result;
 }
 
@@ -16461,15 +16564,15 @@ async function resolveBatch08StartTurnEffects(player) {
 async function resolvePillageEnRegle(player) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000014'};
-  const pool = ['ORC000001','ORC000002','ORC000004','ORC000005'];
+  const pool = COLLECTION_BATCH_15D2_ORC_POOL;
   const summons = [];
   while (summons.length < 4 && batch08FreeSlots(p).length) {
     const id = pool[Math.floor(gameRandom() * pool.length)];
-    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:true, ready:true}));
+    summons.push(await summonBatch03Servant(p, id, {sourceCardId:'S000014', triggerInitiativeEffect:false, ready:true, visualSourceZone:'generated', visualTransfer:'generated-to-board'}));
   }
   const result = {success:true, cardId:'S000014', playerId:p.key, summons};
   recordCollectionBatch08Event('pillage-en-regle', result);
-  showNotif('Pillage en règle invoque ' + summons.filter(s => s.success).length + ' serviteur(s) orc(s).', 1600);
+  showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000014, 2200);
   return result;
 }
 
@@ -18287,7 +18390,7 @@ async function batch11cSummonFromZone(player, zone, limit=3) {
     const cardId = getRuntimeCardId(entry);
     if (!cardId) break;
     sourceCards.push({cardId, zone, index:selected.index});
-    const summon = await summonBatch03Servant(p, cardId, {sourceCardId:'S000052', triggerInitiativeEffect:true, ready:true});
+    const summon = await summonBatch03Servant(p, cardId, {sourceCardId:'S000052', triggerInitiativeEffect:true, ready:true, visualSourceZone:zone, visualTransfer:`${zone}-to-board`});
     if (!summon?.success) { addEntryToRuntimeZone(p, zone, entry, {position:'top'}); break; }
     selectedIds.add(cardId);
     summoned.push({...summon, sourceZone:zone});
@@ -18310,8 +18413,8 @@ async function resolveRetourDesRevenants(player) {
   if (!operation.summoned.length && !batch11cEligibleZoneEntries(p, 'deck').length && !batch11cEligibleZoneEntries(p, 'graveyard').length) fallbackEcho = addSoulToAppro(p, 5);
   const result = {success:true, code:'retour-des-revenants-resolved', before, sourceZone, operation, fallbackEcho, after:batch11cZoneSummary(p)};
   recordCollectionBatch11cEvent('retour-des-revenants', result);
-  if (operation.summoned.length) showNotif('UN SOMBRE RITUEL RAPPELLE ' + operation.summoned.length + ' DE VOS SERVITEURS DE LA TOMBE...', 2000);
-  else if (fallbackEcho) showNotif('LE RETOUR DES REVENANTS AJOUTE 5 ÉCHOS.', 1500);
+  if (operation.summoned.length) showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000052_SUMMON, 2200);
+  else if (fallbackEcho) showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000052_FALLBACK, 2200);
   else showErr('Aucun emplacement de serviteur libre pour rappeler les revenants.');
   return result;
 }
@@ -21471,7 +21574,7 @@ async function endTurnRuntime() {
     }
     const drawn = await startTurn(activePlayer);
     renderAllHands(drawn ? activePlayer.key : null);
-    if (drawn) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
+    if (drawn && !isBatch15DGabarEvolutionSpell(drawn)) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
     await flushPendingDoorKeyDrawVisuals(activePlayer);
     updateCamouflageVFX();
     if (batch03ArmBlockedHandOccurrences(activePlayer) || window._blockedCardPlayer === currentPlayer) {
@@ -24229,7 +24332,7 @@ Object.assign(CARDS_DATA, {
     ],
     "cap": "Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.",
     "lore": "",
-    "max": 3,
+    "max": 2,
     "assetFolder": "sorts",
     "badge": "Sort",
     "detail": "Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.",
@@ -24772,7 +24875,7 @@ Object.assign(CARDS_DATA, {
   'S000026':{name:'Serment des anciens',type:'Sort',fac:'sort',atk:null,pdv:null,cost:15,res_ico:'IC00000ARI',res_val:'15',resType:'Aria|Lenya|Nourriture|Bois|Fer',fico:'FCT00000EDG.png',kws:['Aria','Lenya','Nourriture','Bois','Fer'],cap:`Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère +1 ATK/ +1 PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.`,badge:'Sort',lore:''},
   'S000027':{name:'Chute de neige',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000LNY',res_val:'8',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya','Coup de glace','Gel'],cap:`Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent 1 tour de plus.`,badge:'Sort',lore:''},
   'S000029':{name:'Patrouille glaciale',type:'Sort',fac:'sort',atk:null,pdv:null,cost:5,res_ico:'IC00000LNY',res_val:'5',resType:'Lenya|Bois|Nourriture',fico:'FCT00000EDG.png',kws:['Lenya','Bois','Nourriture'],cap:`Piochez jusqu'à 3 serviteurs de la faction « Elfes de glace » de votre deck.`,badge:'Sort',lore:''},
-  'S000014':{...CARDS_DATA.S000014, fac:'sort', cap:`Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.`, detail:`Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.`, extraTooltips:[{title:'Sélection', body:'Peut invoquer « Chaman tribal », « Guerrier », « Sorcier venimeux » ou « Pillard ».'}]},
+  'S000014':{...CARDS_DATA.S000014, fac:'sort', max:2, cap:`Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.`, detail:`Invoque jusqu'à *4* serviteurs orcs aléatoires de votre côté du terrain.`, extraTooltips:[{title:'Sélection', body:`Peut invoquer « Chaman tribal », « Guerrier », « Sorcier venimeux », « Pillard », « Lancier aguerri », « Berserker », « Boucher » ou « Maître du feu ».`}]},
   'S000032':{name:'Savoir tribal',type:'Sort',fac:'sort',atk:null,pdv:null,cost:6,res_ico:'IC00000LNY',res_val:'6',resType:'Lenya',fico:'FCT00000ORC.png',kws:['Lenya'],cap:`Inflige *10* points de dégâts à un serviteur, puis tout surplus au serviteur directement à sa droite, puis encore une fois si possible.`,badge:'Sort',lore:''},
   'S000034':{name:'Secours magique',type:'Sort',fac:'sort',atk:null,pdv:null,cost:2,res_ico:'IC00000LNY',res_val:'2',resType:'Lenya',fico:'FCT00000EDG.png',kws:['Lenya'],cap:`La prochaine fois qu'un de vos serviteurs devrait être détruit, annule cet état. En contrepartie, le serviteur en question perd tous ses points de vie sauf 1.`,badge:'Sort',lore:''},
   'S000035':{name:'Météores',type:'Sort',fac:'sort',atk:null,pdv:null,cost:8,res_ico:'IC00000ARI',res_val:'8',resType:'Aria|Sélène|me|Lenya',fico:'FCT00000RDM.png',kws:['Aria','Sélène','me','Lenya','Embrasement'],cap:`Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant 3 tours.`,badge:'Sort',lore:''},
@@ -26440,18 +26543,22 @@ function releaseBatch10LinkedEffects(fc) {
 }
 async function resolveBatch10CodeCouleurs(player) {
   const p = playerState(player);
-  const unique = [...new Set(playerHand(p).filter(id => isBatch10GoblinServant(id)))].sort();
+  const seen = new Set();
+  const unique = [];
+  for (const id of playerHand(p).map(getRuntimeCardId)) {
+    if (isBatch10GoblinServant(id) && !seen.has(id)) { seen.add(id); unique.push(id); }
+  }
   const added = [];
   for (const id of unique) {
     if (addCardToHand(p, id, {refresh:false})) {
       added.push(id);
-      await batch10AnimateCardToHand(p, id, 'code-couleurs-copy');
+      await batch15D2AnimateTransfer(p, id, 'copy', batch15D2ZoneElement(p, 'hand'), 'copy-to-hand');
+      recordCollectionBatch10Event('card-arrival-animation', {reason:'code-couleurs-copy', playerId:p.key, cardId:id});
       renderAllHands();
       await batch05VisualDelay(500);
     }
   }
-  renderAllHands();
-  showNotif(`Code couleurs ajoute ${added.length} copie(s) gobeline(s).`, 1600);
+  showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000038, 2200);
   const result = {success:true, cardId:'S000038', unique, added};
   recordCollectionBatch10Event('code-couleurs', result);
   return result;
@@ -26471,12 +26578,13 @@ async function resolveBatch10ReunionAuSommet(player) {
     if (!selected) break;
     pile.splice(selected.index, 1);
     updateDeckCount(p);
-    const summon = await summonBatch03Servant(p, selected.id, {sourceCardId:'S000009', triggerInitiativeEffect:true, ready:true});
+    const summon = await summonBatch03Servant(p, selected.id, {sourceCardId:'S000009', triggerInitiativeEffect:true, ready:true, visualSourceZone:'deck', visualTransfer:'deck-to-board'});
     summoned.push(summon);
     if (summon?.success) await batch10PulseSummoned(summon, 'reunion-arrival');
     await batch05VisualDelay(220);
   }
-  showNotif(`Réunion au sommet invoque ${summoned.filter(s => s?.success).length} gobelin(s).`, 1600);
+  const successCount = summoned.filter(s => s?.success).length;
+  showNotif(successCount <= 0 ? COLLECTION_BATCH_15D2_MESSAGES.S000009_NONE : (successCount === 1 ? COLLECTION_BATCH_15D2_MESSAGES.S000009_ONE : COLLECTION_BATCH_15D2_MESSAGES.S000009_MANY), 2200);
   const result = {success:true, cardId:'S000009', scanned, summoned};
   recordCollectionBatch10Event('reunion-au-sommet', result);
   return result;
@@ -26485,12 +26593,12 @@ async function resolveBatch10VoleeDeGobelins(player) {
   const p = playerState(player);
   const summoned = [];
   while (summoned.length < 3 && batch09FreeServantSlots(p).length) {
-    const summon = await summonBatch03Servant(p, 'GOB000002', {sourceCardId:'S000047', triggerInitiativeEffect:true, ready:true});
+    const summon = await summonBatch03Servant(p, 'GOB000002', {sourceCardId:'S000047', triggerInitiativeEffect:true, ready:true, visualSourceZone:'generated', visualTransfer:'generated-to-board'});
     summoned.push(summon);
     if (summon?.success) await batch10PulseSummoned(summon, 'volee-arrival');
     await batch05VisualDelay(220);
   }
-  showNotif(`Volée de gobelins invoque ${summoned.filter(s => s?.success).length} Surineur(s).`, 1600);
+  showNotif(summoned.filter(s => s?.success).length ? COLLECTION_BATCH_15D2_MESSAGES.S000047_MANY : COLLECTION_BATCH_15D2_MESSAGES.S000047_NONE, 2200);
   const result = {success:true, cardId:'S000047', summoned};
   recordCollectionBatch10Event('volee-de-gobelins', result);
   return result;
@@ -27109,17 +27217,18 @@ function handleBatch05PacteFallback(player) {
   const hasStartingDeckAudit = Array.isArray(p?.startingDeckCardIds) && p.startingDeckCardIds.length > 0;
   const startingDragonCount = batch15DStartingDragonCount(p);
   const graveyardDragonCount = zoneCardEntries(p, 'graveyard', {cardIds:['EDG000006']}).length;
-  const allKnownStartingDragonsAreInGraveyard = hasStartingDeckAudit
-    ? startingDragonCount > 0 && graveyardDragonCount >= startingDragonCount
+  const boardDragonCount = livingServantCardsForPlayer(p).filter(fc => fc.dataset.id === 'EDG000006').length;
+  const allKnownStartingDragonsAreAccountedFor = hasStartingDeckAudit
+    ? startingDragonCount > 0 && (graveyardDragonCount + boardDragonCount) >= startingDragonCount
     : graveyardDragonCount > 0;
-  if (allKnownStartingDragonsAreInGraveyard &&
+  if (allKnownStartingDragonsAreAccountedFor &&
       !p.hand.includes('EDG000006') &&
       !playerDrawPile(p).some(id => getRuntimeCardId(id) === 'EDG000006')) {
     p.batch05PacteIceAtkBuff = Number(p.batch05PacteIceAtkBuff || 0) + 1;
     syncBatch05Passives();
-    const result = {success:true, cardId:'S000023', mode:'graveyard-atk-buff', amount:1, startingDragonCount:hasStartingDeckAudit ? startingDragonCount : null, graveyardDragonCount};
+    const result = {success:true, cardId:'S000023', mode:'graveyard-atk-buff', amount:1, startingDragonCount:hasStartingDeckAudit ? startingDragonCount : null, graveyardDragonCount, boardDragonCount};
     recordCollectionBatch05Event('pacte-millenaire-fallback', result);
-    showNotif('Pacte millénaire donne +1 ATK à vos Elfes de glace.', 1600);
+    showNotif(COLLECTION_BATCH_15D2_MESSAGES.S000023_FALLBACK, 2200);
     return result;
   }
   return null;
@@ -27455,7 +27564,7 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
   await waitBatch02VisualStep();
   const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false};
   recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
-  showNotif(`« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 1500);
+  showNotif(COLLECTION_BATCH_15D2_MESSAGES[spellId] || `« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 2200);
   return result;
 }
 
@@ -28222,7 +28331,7 @@ function batch03AdjacentServants(fc) {
     .filter(node => node?.classList?.contains('fc') && !node.dataset.dead && node.dataset.type !== 'appro');
 }
 
-async function summonBatch03Servant(player, cardId, {sourceCardId=null, sourceInstanceId=null, triggerInitiativeEffect=true, ready=false}={}) {
+async function summonBatch03Servant(player, cardId, {sourceCardId=null, sourceInstanceId=null, triggerInitiativeEffect=true, ready=false, visualSourceZone=null, visualTransfer=null}={}) {
   const p = playerState(player);
   const slot = qs(playerZoneSelector(p, 'servants'))?.querySelector('.slot');
   if (p && CARDS_DATA[cardId]?.type === 'Serviteur' && batch05TisseurLocksPlayer(p, sourceCardId)) {
@@ -28233,6 +28342,7 @@ async function summonBatch03Servant(player, cardId, {sourceCardId=null, sourceIn
   }
   const parent = slot.parentElement;
   const index = Array.from(parent.children).indexOf(slot);
+  if (visualSourceZone) await batch15D2AnimateTransfer(p, cardId, visualSourceZone, slot, visualTransfer || `${visualSourceZone}-to-board`);
   slot.outerHTML = buildFC(cardId, p.key);
   const fc = parent.children[index];
   fc.dataset.batch03SummonedBy = sourceCardId || '';
