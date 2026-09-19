@@ -14,7 +14,8 @@ async function openBatch15DScenario(page, scenario, extra = "") {
     let index = 0;
     Math.random = () => (index < sequence.length ? sequence[index++] : nativeRandom());
   });
-  await page.goto(`/code/partie-test-1.html?scenario=${scenario}${extra}&batch15d2=${Date.now()}`);
+  const suffix = extra ? `${extra}&batch15d2=${Date.now()}` : `&batch15d2=${Date.now()}`;
+  await page.goto(`/code/partie-test-1.html?scenario=${scenario}${suffix}`);
   await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.querySelector("#btnEndTurn")?.classList.contains("vis") === true), {timeout:15000}).toBe(true);
@@ -82,20 +83,42 @@ async function state(page) {
   }));
 }
 
+function expectFrenchNoBreakSpaces(text) {
+  expect(text).not.toMatch(/ [:\;\?\!»]/);
+  expect(text).not.toMatch(/« /);
+  expect(text).not.toContain("&nbsp;");
+}
+
 function transferCount(result, transferName) {
   return new Set(result.observed
     .filter(event => event.dataset.batch15dTransfer === transferName)
     .map(event => event.dataset.batch15dTransferSeq || `${event.dataset.batch15dCardId}-${event.dataset.batch15dSourceZone}-${event.dataset.batch15dTransfer}`)).size;
 }
 
-test("S000009 uses the exact Batch 15D2 message and visible deck-to-board transfers", async ({page}, testInfo) => {
+test("S000009 uses owner deck transfers, alternate branches and no-break punctuation", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15DScenario(page, "collection-batch-15d-invocation");
   await playSpellFromHand(page, "S000009");
   const result = await state(page);
-  expect(result.notification).toBe("LA RÉUNION EST UN SUCCÈS ! LES GOBELINS AFFLUENT DE TOUS CÔTÉS !");
+  expect(result.notification).toBe("LA RÉUNION EST UN SUCCÈS ! LES GOBELINS AFFLUENT DE TOUS CÔTÉS !");
+  expectFrenchNoBreakSpaces(result.notification);
   expect(result.board.filter(id => id.startsWith("GOB"))).toEqual(["GOB000002", "GOB000001", "GOB000002"]);
   expect(transferCount(result, "deck-to-board")).toBe(3);
+  expect(result.observed.filter(event => event.dataset.batch15dTransfer === "deck-to-board").every(event => event.dataset.batch15dSourceOwner === "player1")).toBe(true);
+
+  await openBatch15DScenario(page, "collection-batch-15d-invocation", "&case=summit-none");
+  await playSpellFromHand(page, "S000009");
+  const none = await state(page);
+  expect(none.notification).toBe("LES GOBELINS N'ONT JAMAIS ÉTÉ CONNUS POUR LEUR FIABILITÉ. AUCUN N'EST VENU !");
+  expectFrenchNoBreakSpaces(none.notification);
+  expect(transferCount(none, "deck-to-board")).toBe(0);
+
+  await openBatch15DScenario(page, "collection-batch-15d-invocation", "&case=summit-one");
+  await playSpellFromHand(page, "S000009");
+  const one = await state(page);
+  expect(one.notification).toBe("UN SEUL GOBELIN A RÉPONDU À L'APPEL. LES AUTRES SE SONT PEUT-ÊTRE PERDUS EN CHEMIN ?");
+  expectFrenchNoBreakSpaces(one.notification);
+  expect(transferCount(one, "deck-to-board")).toBe(1);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -105,7 +128,7 @@ test("S000013 highlights upgraded Nains in board, hand and deck with the exact B
   await openBatch15DScenario(page, "collection-batch-15d-replacement");
   await playSpellFromHand(page, "S000013");
   const result = await state(page);
-  expect(result.notification).toBe("L'EXPÉRIENCE DU COMBAT CHANGE LES SIMPLES GUERRIERS EN REDOUTABLES VÉTÉRANS ET COMBATTANTS D'ÉLITE !");
+  expect(result.notification).toBe("L'EXPÉRIENCE DU COMBAT CHANGE LES SIMPLES GUERRIERS EN REDOUTABLES VÉTÉRANS ET COMBATTANTS D'ÉLITE !");
   expect(result.board).toContain("N000008");
   expect(result.hand).toContain("N000008");
   expect(result.deck).toContain("N000008");
@@ -123,7 +146,7 @@ test("S000014 uses the full active Orc pool, maxOwned 2, no generated Initiative
   const result = await state(page);
   const summonedOrcs = result.board.filter(id => id.startsWith("ORC"));
   const allowedOrcs = new Set(["ORC000001", "ORC000002", "ORC000004", "ORC000005", "ORC000008", "ORC000009", "ORC000013", "ORC000017"]);
-  expect(result.notification).toBe("AUCUNE TRIBU ORC NE PEUT RÉSISTER À L'APPEL D'UN PILLAGE FACILE ET SANGLANT !");
+  expect(result.notification).toBe("AUCUNE TRIBU ORC NE PEUT RÉSISTER À L'APPEL D'UN PILLAGE FACILE ET SANGLANT !");
   expect(result.runtimeMaxS000014).toBe(2);
   expect(summonedOrcs.every(id => allowedOrcs.has(id))).toBe(true);
   expect(result.observed.some(event => /initiative/i.test(`${event.className} ${event.text}`))).toBe(false);
@@ -136,14 +159,22 @@ test("S000023 and S000052 expose source-specific transfers and exact Batch 15D2 
   await openBatch15DScenario(page, "collection-batch-15d-pact-revenants");
   await playSpellFromHand(page, "S000023");
   const pacte = await state(page);
-  expect(pacte.notification).toBe("UN REJETON DU TISSEUR DE GIVRE RÉPOND À VOTRE APPEL !");
+  expect(pacte.notification).toBe("UN REJETON DU TISSEUR DE GIVRE RÉPOND À VOTRE APPEL !");
   expect(pacte.observed.some(event => event.dataset.batch15dTransfer === "hand-to-board")).toBe(true);
 
   await openBatch15DScenario(page, "collection-batch-15d-pact-revenants");
   await playSpellFromHand(page, "S000052");
   const revenants = await state(page);
-  expect(revenants.notification).toBe("UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !");
+  expect(revenants.notification).toBe("UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !");
+  expect(revenants.observed.filter(event => event.dataset.batch15dTransfer === "deck-to-board").every(event => event.dataset.batch15dSourceOwner === "player1")).toBe(true);
   expect(transferCount(revenants, "deck-to-board")).toBe(3);
+
+  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=revenants-echo");
+  await playSpellFromHand(page, "S000052");
+  const echo = await state(page);
+  expect(echo.notification).toBe("UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE !");
+  expectFrenchNoBreakSpaces(echo.notification);
+  expect(transferCount(echo, "deck-to-board")).toBe(0);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -153,13 +184,19 @@ test("S000038, S000047 and normal Gabar draws use the exact Batch 15D2 messages"
   await openBatch15DScenario(page, "collection-batch-15d-replacement");
   await playSpellFromHand(page, "S000038");
   const codeCouleurs = await state(page);
-  expect(codeCouleurs.notification).toBe("VOUS CONNAISSEZ L'EXPRESSION, « DERRIÈRE CHAQUE GOBELIN S'EN CACHE UN ENCORE PLUS RETORS ? »");
+  expect(codeCouleurs.notification).toBe("VOUS CONNAISSEZ L'EXPRESSION, « DERRIÈRE CHAQUE GOBELIN S'EN CACHE UN ENCORE PLUS RETORS ? »");
   expect(transferCount(codeCouleurs, "copy-to-hand")).toBe(2);
 
   await openBatch15DScenario(page, "collection-batch-15d-invocation");
   await playSpellFromHand(page, "S000047");
   const volee = await state(page);
-  expect(volee.notification).toBe("ATTENTION ! LES GOBELINS ONT ENVOYÉ DES SURINEURS TRANCHER DES TENDONS ET EXPOSER DES ENTRAILLES !");
+  expect(volee.notification).toBe("ATTENTION ! LES GOBELINS ONT ENVOYÉ DES SURINEURS TRANCHER DES TENDONS ET EXPOSER DES ENTRAILLES !");
+
+  await openBatch15DScenario(page, "collection-batch-15d-invocation", "&case=volley-none");
+  await playSpellFromHand(page, "S000047");
+  const volleyNone = await state(page);
+  expect(volleyNone.notification).toBe("DES GOBELINS ONT BIEN ÉTÉ CATAPULTÉS QUELQUE PART, MAIS APPAREMMENT PAS SUR LE CHAMP DE BATAILLE. OUPS !");
+  expect(transferCount(volleyNone, "generated-to-board")).toBe(0);
 
   await openBatch15DScenario(page, "collection-batch-15d-gabar");
   await page.locator("#btnEndTurn").click();
@@ -167,7 +204,7 @@ test("S000038, S000047 and normal Gabar draws use the exact Batch 15D2 messages"
   await page.locator("#btnEndTurn").click();
   await expect.poll(() => page.evaluate(() => currentPlayer === "player1" && document.querySelector("#btnEndTurn")?.disabled === false)).toBe(true);
   const gabar = await state(page);
-  expect(gabar.notification).toBe("LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !");
+  expect(gabar.notification).toBe("LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !");
   expect(gabar.hand).toContain("H000034");
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

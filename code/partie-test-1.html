@@ -3104,6 +3104,73 @@ SCENARIOS['collection-batch-15d-gabar'] = {
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000058','H000013'], drawPile:['S000059','H000005'], graveyard:['S000060'], servants:[{id:'H000013',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+function collectionBatch15DCaseSetup(baseSetup, variant) {
+  const setup = JSON.parse(JSON.stringify(baseSetup || {}));
+  const p1 = setup.player1 || {};
+  if (selectedScenarioId() === 'collection-batch-15d-invocation') {
+    if (variant === 'summit-none') {
+      p1.hand = ['S000009'];
+      p1.drawPile = ['R000010','H000001'];
+      p1.servants = [{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}];
+      p1.startingDeckCardIds = ['R000010','H000001'];
+    } else if (variant === 'summit-one') {
+      p1.hand = ['S000009'];
+      p1.drawPile = ['R000010','GOB000002'];
+      p1.servants = [{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true}];
+      p1.startingDeckCardIds = ['R000010','GOB000002'];
+    } else if (variant === 'summit-many') {
+      p1.hand = ['S000009'];
+    } else if (variant === 'volley-none') {
+      p1.hand = ['S000047'];
+      p1.drawPile = ['R000010','H000001'];
+      p1.servants = [
+        {id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},
+        {id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true},
+        {id:'H000006',atk:2,pdv:3,pdvMax:3,prepared:true},
+        {id:'H000013',atk:5,pdv:5,pdvMax:5,prepared:true},
+        {id:'MV000001',atk:1,pdv:1,pdvMax:1,prepared:true},
+        {id:'EDG000001',atk:2,pdv:4,pdvMax:4,prepared:true},
+        {id:'N000001',atk:2,pdv:2,pdvMax:2,prepared:true}
+      ];
+    }
+  }
+  if (selectedScenarioId() === 'collection-batch-15d-pact-revenants') {
+    if (variant === 'pact-deck') {
+      p1.hand = ['S000023'];
+      p1.drawPile = ['H000001','EDG000006','EDG000006'];
+      p1.graveyard = [];
+      p1.servants = [];
+      p1.startingDeckCardIds = ['EDG000006','EDG000006','H000001'];
+    } else if (variant === 'pact-exhausted') {
+      p1.hand = ['S000023'];
+      p1.drawPile = ['H000001','R000010'];
+      p1.graveyard = ['EDG000006'];
+      p1.servants = [
+        {id:'EDG000001',atk:2,pdv:4,pdvMax:4,prepared:true},
+        {id:'EDG000003',atk:3,pdv:4,pdvMax:4,prepared:true}
+      ];
+      p1.startingDeckCardIds = ['EDG000006'];
+    } else if (variant === 'revenants-deck') {
+      p1.hand = ['S000052'];
+      p1.drawPile = ['MV000001','MV000002','MV000025','MV000004','H000001'];
+      p1.graveyard = [];
+      p1.servants = [];
+    } else if (variant === 'revenants-graveyard') {
+      p1.hand = ['S000052'];
+      p1.drawPile = ['H000001','R000001'];
+      p1.graveyard = ['MV000001','MV000002','MV000025','MV000004'];
+      p1.servants = [];
+    } else if (variant === 'revenants-echo') {
+      p1.hand = ['S000052'];
+      p1.drawPile = ['H000001','R000001'];
+      p1.graveyard = ['R000001'];
+      p1.servants = [];
+      p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:12};
+    }
+  }
+  setup.player1 = p1;
+  return setup;
+}
 SCENARIOS['collection-batch-01-zone-spells'] = {
   label: 'TEST — COLLECTION BATCH 01 zones', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch01Panel: true, testCardId: 'S000015',
   testSetup: {
@@ -5791,7 +5858,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
   const linkedKeyResolution = prstAutoPlayResolution?.handled ? {handled:false} : maybeResolveLinkedStoneKeyDraw(p, selectedEntry, {sourceCardId:options.sourceCardId || null});
   const evolutionRule = COLLECTION_BATCH_02_EVOLUTION?.[cardId] || null;
   const evolutionCanResolve = evolutionRule ? canResolveBatch02Evolution(p, cardId) : false;
-  const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDraw(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
+  const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDrawImmediate(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
   if (!linkedKeyResolution.handled && !evolutionCanResolve && !prstAutoPlayResolution?.handled) {
     hand.push(cardId);
     const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.batch14cOccurrenceKey || selectedEntry?.occurrenceId || selectedEntry?.batch14cDeckOccurrenceKey || null;
@@ -6996,14 +7063,31 @@ function applySelectedScenario() {
   renderAvatar(playerZoneSelector(bottomPlayer, 'avatar'), bottomPlayer);
 }
 
+function normalizeFrenchNotificationText(value) {
+  return String(value ?? '')
+    .replace(/[\u0020\u00a0]+([:;?!»])/g, '\u00a0$1')
+    .replace(/«[\u0020\u00a0]+/g, '«\u00a0');
+}
+
+function shouldNormalizeFrenchNotificationText(value) {
+  const raw = String(value ?? '');
+  if (raw.includes('\u00a0')) return true;
+  if (/^SORT JOUÉ\s*:/.test(raw)) return true;
+  if (typeof COLLECTION_BATCH_15D2_MESSAGES !== 'undefined'
+    && Object.values(COLLECTION_BATCH_15D2_MESSAGES).includes(raw)) return true;
+  return false;
+}
+
 function showNotif(txt, dur=2200) {
   const el = qs('#notif');
   if (notificationMessageTimer) clearTimeout(notificationMessageTimer);
-  el.textContent = txt; el.className = 'notif';
+  const rawMessage = String(txt ?? '');
+  const message = shouldNormalizeFrenchNotificationText(rawMessage) ? normalizeFrenchNotificationText(rawMessage) : rawMessage;
+  el.textContent = message; el.className = 'notif';
   void el.offsetWidth; el.className = 'notif show';
   const visibleDuration = Math.max(Number(dur) || 2200, 2200);
   notificationMessageTimer = setTimeout(() => {
-    if (el.textContent === txt && el.classList.contains('show')) el.className = 'notif';
+    if (el.textContent === message && el.classList.contains('show')) el.className = 'notif';
   }, visibleDuration);
   return new Promise(r => setTimeout(r, dur));
 }
@@ -12171,7 +12255,7 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
   if (cardId === 'GOB000010' && graveyardSupplyEntries(p).length < 1) {
     return {valid:false, reason:'no-supply-in-graveyard'};
   }
-  if ((cardId === 'S000009' || cardId === 'S000047') && !batch09FreeServantSlots(p).length) {
+  if (cardId === 'S000009' && !batch09FreeServantSlots(p).length) {
     return {valid:false, reason:'no-servant-slot'};
   }
   return {valid:true, reason:null};
@@ -13908,22 +13992,22 @@ function batch15DRegisterDragonReduction(player, occurrenceId) {
 }
 
 const COLLECTION_BATCH_15D2_MESSAGES = Object.freeze({
-  S000009_NONE: "LES GOBELINS N'ONT JAMAIS ÉTÉ CONNUS POUR LEUR FIABILITÉ. AUCUN N'EST VENU !",
-  S000009_ONE: "UN SEUL GOBELIN A RÉPONDU À L'APPEL. LES AUTRES SE SONT PEUT-ÊTRE PERDUS EN CHEMIN ?",
-  S000009_MANY: "LA RÉUNION EST UN SUCCÈS ! LES GOBELINS AFFLUENT DE TOUS CÔTÉS !",
-  S000013: "L'EXPÉRIENCE DU COMBAT CHANGE LES SIMPLES GUERRIERS EN REDOUTABLES VÉTÉRANS ET COMBATTANTS D'ÉLITE !",
-  S000014: "AUCUNE TRIBU ORC NE PEUT RÉSISTER À L'APPEL D'UN PILLAGE FACILE ET SANGLANT !",
-  S000023_HAND: "UN REJETON DU TISSEUR DE GIVRE RÉPOND À VOTRE APPEL !",
+  S000009_NONE: "LES GOBELINS N'ONT JAMAIS ÉTÉ CONNUS POUR LEUR FIABILITÉ. AUCUN N'EST VENU\u00a0!",
+  S000009_ONE: "UN SEUL GOBELIN A RÉPONDU À L'APPEL. LES AUTRES SE SONT PEUT-ÊTRE PERDUS EN CHEMIN\u00a0?",
+  S000009_MANY: "LA RÉUNION EST UN SUCCÈS\u00a0! LES GOBELINS AFFLUENT DE TOUS CÔTÉS\u00a0!",
+  S000013: "L'EXPÉRIENCE DU COMBAT CHANGE LES SIMPLES GUERRIERS EN REDOUTABLES VÉTÉRANS ET COMBATTANTS D'ÉLITE\u00a0!",
+  S000014: "AUCUNE TRIBU ORC NE PEUT RÉSISTER À L'APPEL D'UN PILLAGE FACILE ET SANGLANT\u00a0!",
+  S000023_HAND: "UN REJETON DU TISSEUR DE GIVRE RÉPOND À VOTRE APPEL\u00a0!",
   S000023_DECK: "LES DRAGONS VIENNENT HONORER LEUR PACTE SACRÉ.",
   S000023_FALLBACK: "LE CHAMP DE BATAILLE SE REFROIDIT SOUDAINEMENT, AMPLIFIANT LE POUVOIR DES ELFES DE GLACE.",
-  S000038: "VOUS CONNAISSEZ L'EXPRESSION, « DERRIÈRE CHAQUE GOBELIN S'EN CACHE UN ENCORE PLUS RETORS ? »",
-  S000047_NONE: "DES GOBELINS ONT BIEN ÉTÉ CATAPULTÉS QUELQUE PART, MAIS APPAREMMENT PAS SUR LE CHAMP DE BATAILLE. OUPS !",
-  S000047_MANY: "ATTENTION ! LES GOBELINS ONT ENVOYÉ DES SURINEURS TRANCHER DES TENDONS ET EXPOSER DES ENTRAILLES !",
-  S000052_SUMMON: "UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !",
-  S000052_FALLBACK: "UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE !",
-  S000057: "AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !",
-  S000058: "LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !",
-  S000059: "L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE !",
+  S000038: "VOUS CONNAISSEZ L'EXPRESSION, «\u00a0DERRIÈRE CHAQUE GOBELIN S'EN CACHE UN ENCORE PLUS RETORS\u00a0?\u00a0»",
+  S000047_NONE: "DES GOBELINS ONT BIEN ÉTÉ CATAPULTÉS QUELQUE PART, MAIS APPAREMMENT PAS SUR LE CHAMP DE BATAILLE. OUPS\u00a0!",
+  S000047_MANY: "ATTENTION\u00a0! LES GOBELINS ONT ENVOYÉ DES SURINEURS TRANCHER DES TENDONS ET EXPOSER DES ENTRAILLES\u00a0!",
+  S000052_SUMMON: "UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE\u00a0!",
+  S000052_FALLBACK: "UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE\u00a0!",
+  S000057: "AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE\u00a0!",
+  S000058: "LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR\u00a0!",
+  S000059: "L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE\u00a0!",
   S000060: "DÉSORMAIS PARFAITEMENT ÉQUIPÉ ET INSTRUIT, GABAR DEVIENT UN MAÎTRE-MAGICIEN ET UN INVOCATEUR DE RENOM."
 });
 
@@ -13956,6 +14040,8 @@ async function batch15D2AnimateTransfer(player, cardId, fromZone, toElement, tra
   el.dataset.batch15dTransfer = transfer || `${fromZone}-to-${options.toZone || 'target'}`;
   el.dataset.batch15dTransferSeq = transferSeq;
   el.dataset.batch15dSourceZone = fromZone || '';
+  el.dataset.batch15dSourceOwner = p.key || '';
+  el.dataset.batch15dDestinationOwner = p.key || '';
   el.dataset.batch15dCardId = cardId;
   el.dataset.cardId = cardId;
   el.style.backgroundImage = `url("${cardArtworkSrc(cardId, data.assetFolder || facFolder(data.fac || 'sort'))}")`;
@@ -20499,6 +20585,8 @@ function setupDragDrop() {
       const doorDrop = dragId === 'S000007' ? doorZoneSelectionFromDropTarget(e.target) : null;
       if (doorDrop) {
         playCard(dragId, doorDrop.slot, {zoneSelection:doorDrop.zoneSelection, handOccurrenceId:dragContext?.handOccurrenceId});
+      } else if (dragId === 'S000047') {
+        playCard(dragId, null, {handOccurrenceId:dragContext?.handOccurrenceId});
       } else {
         const servZone = qs(playerZoneSelector(currentPlayer, 'servants'));
         if (servZone) {
@@ -20506,8 +20594,8 @@ function setupDragDrop() {
           fake.className = 'slot';
           if (servZone.dataset) fake.dataset.player = currentPlayer;
           servZone.appendChild(fake);
-          playCard(dragId, fake, {handOccurrenceId:dragContext?.handOccurrenceId});
-          if (fake.parentNode) fake.remove();
+          Promise.resolve(playCard(dragId, fake, {handOccurrenceId:dragContext?.handOccurrenceId}))
+            .finally(() => { if (fake.parentNode) fake.remove(); });
         }
       }
     } else {
@@ -27568,6 +27656,29 @@ async function resolveBatch02EvolutionDraw(player, spellId) {
   return result;
 }
 
+function resolveBatch02EvolutionDrawImmediate(player, spellId) {
+  const p = playerState(player);
+  const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
+  if (!p || !rule) return {handled:false};
+  const source = findBatch02GabarSource(p, rule.source || rule.remove);
+  markBatch02VisualPhase('draw-evolution-spell', {playerId:p.key, spellId, immediate:true});
+  const removed = removeBatch02CardEverywhere(p, rule.remove);
+  if (source?.isConnected) pulseBatch02Gabar(source, 'evolution');
+  p.graveyard.push(spellId);
+  markBatch02VisualPhase('spell-to-graveyard', {playerId:p.key, spellId, immediate:true});
+  let destination = 'hand';
+  if (!addCardToHand(p, rule.create, {refresh:false})) {
+    p.drawPile.push(rule.create);
+    destination = 'deck-top';
+  }
+  markBatch02VisualPhase('next-form-created', {playerId:p.key, spellId, createdCardId:rule.create, destination, immediate:true});
+  refreshRuntimeZone(p, 'hand'); refreshRuntimeZone(p, 'deck'); refreshRuntimeZone(p, 'graveyard');
+  const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false, immediate:true};
+  recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
+  showNotif(COLLECTION_BATCH_15D2_MESSAGES[spellId] || `« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 2200);
+  return result;
+}
+
 async function summonBatch02ServantFromHand(player, cardId, sourceCardId) {
   const p = playerState(player);
   const index = p?.hand.indexOf(cardId) ?? -1;
@@ -29179,8 +29290,10 @@ function applyScenarioServantState(fc, entry={}) {
 }
 
 function applyScenarioTestSetup() {
-  const setup = activeScenario?.testSetup;
-  if (!setup) return;
+  const baseSetup = activeScenario?.testSetup;
+  if (!baseSetup) return;
+  const variant = new URLSearchParams(window.location.search).get('case') || '';
+  const setup = collectionBatch15DCaseSetup(baseSetup, variant);
   if (selectedScenarioId() === 'collection-batch-01-door-key') preloadDoorLockAssets();
   lastCostDiagnostic = null;
   lastPlayLegalityDiagnostic = null;
