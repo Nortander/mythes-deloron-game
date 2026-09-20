@@ -3168,6 +3168,30 @@ function collectionBatch15DCaseSetup(baseSetup, variant) {
       p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:12};
     }
   }
+  if (selectedScenarioId() === 'collection-batch-15d-gabar') {
+    const cases = {
+      s000057:{spell:'S000057', old:'H000032', next:'H000033'},
+      s000058:{spell:'S000058', old:'H000033', next:'H000034'},
+      s000059:{spell:'S000059', old:'H000034', next:'H000035'},
+      s000060:{spell:'S000060', old:'H000035', next:'H000036'}
+    };
+    const chosen = cases[String(variant || '').toLowerCase()] || null;
+    if (chosen) {
+      p1.hand = [];
+      p1.drawPile = [chosen.spell];
+      p1.graveyard = [];
+      p1.servants = [{id:chosen.old, atk:1, pdv:2, pdvMax:2, prepared:true}];
+      p1.startingDeckCardIds = [chosen.old, chosen.spell, chosen.next];
+      p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100};
+    } else if (String(variant || '').toLowerCase() === 'full-hand') {
+      p1.hand = ['H000001','H000002','H000003','H000004','H000005','H000006','H000007','H000008','H000009','H000010','H000011','H000012'];
+      p1.drawPile = ['S000057'];
+      p1.graveyard = [];
+      p1.servants = [{id:'H000032', atk:1, pdv:2, pdvMax:2, prepared:true}];
+      p1.startingDeckCardIds = ['H000032','S000057','H000033'];
+      p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100};
+    }
+  }
   setup.player1 = p1;
   return setup;
 }
@@ -14017,8 +14041,8 @@ function batch15D2ZoneElement(player, zone) {
   const p = playerState(player);
   if (!p || typeof document === 'undefined') return null;
   if (zone === 'hand') return qs(playerZoneSelector(p, 'hand'));
-  if (zone === 'graveyard') return qs(playerZoneSelector(p, 'graveyard'));
-  if (zone === 'deck') return document.getElementById(p.position === 'top' ? 'yriaDeckCount' : 'raithDeckCount') || qs(playerZoneSelector(p, 'deck')) || document.querySelector(p.position === 'top' ? '.dc-j2 .deck-stack' : '.dc-j1 .deck-stack');
+  if (zone === 'graveyard') return qs(playerZoneSelector(p, 'cemetery'));
+  if (zone === 'deck') return qs(playerSelectors(p).deckBack) || document.getElementById(playerSelectors(p).deckCount);
   if (zone === 'board') return qs(playerZoneSelector(p, 'servants'));
   if (zone === 'copy' || zone === 'generated' || zone === 'center') return document.querySelector('.terrain') || document.querySelector('.board-bg');
   return null;
@@ -18792,6 +18816,24 @@ document.addEventListener('mouseup', () => {
   if (!dragId) document.body.classList.remove('dragging-card');
 });
 
+document.addEventListener('click', e => {
+  if (selectedScenarioId() !== 'collection-batch-15d-gabar') return;
+  const p = playerState(currentPlayer);
+  if (!p) return;
+  const deckSelector = playerSelectors(p).deckBack;
+  const deck = e.target.closest(deckSelector);
+  if (!deck) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const result = drawCardFromRuntimeDeck(p, {refresh:false, sourceCardId:'collection-batch-15d-gabar-deck-click'});
+  refreshRuntimeZone(p, 'hand');
+  refreshRuntimeZone(p, 'deck');
+  refreshRuntimeZone(p, 'graveyard');
+  renderAllHands(result?.success ? p.key : null);
+  updateDeckCount(p);
+  if (result?.success && !isBatch15DGabarEvolutionSpell(result.cardId)) showNotif(`${playerName(p)} pioche\u00a0!`, 1200);
+}, true);
+
 // ── Gestionnaire de clic principal du plateau (GAME_BOARD_CLICK_HANDLER) ──
 document.addEventListener('click', e => {
   if (gameOver) return;
@@ -20585,18 +20627,8 @@ function setupDragDrop() {
       const doorDrop = dragId === 'S000007' ? doorZoneSelectionFromDropTarget(e.target) : null;
       if (doorDrop) {
         playCard(dragId, doorDrop.slot, {zoneSelection:doorDrop.zoneSelection, handOccurrenceId:dragContext?.handOccurrenceId});
-      } else if (dragId === 'S000047') {
-        playCard(dragId, null, {handOccurrenceId:dragContext?.handOccurrenceId});
       } else {
-        const servZone = qs(playerZoneSelector(currentPlayer, 'servants'));
-        if (servZone) {
-          const fake = document.createElement('div');
-          fake.className = 'slot';
-          if (servZone.dataset) fake.dataset.player = currentPlayer;
-          servZone.appendChild(fake);
-          Promise.resolve(playCard(dragId, fake, {handOccurrenceId:dragContext?.handOccurrenceId}))
-            .finally(() => { if (fake.parentNode) fake.remove(); });
-        }
+        playCard(dragId, null, {handOccurrenceId:dragContext?.handOccurrenceId});
       }
     } else {
       const trollNainTarget = dragId === 'TRL000015' ? e.target.closest('.fc:not([data-dead])') : null;

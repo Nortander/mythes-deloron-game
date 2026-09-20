@@ -94,6 +94,30 @@ test("Batch 15D scenarios stay hidden and spell texts use synchronized Sort rend
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+test("Batch 15D visual source anchors use the real owner deck and graveyard elements", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15DScenario(page, "collection-batch-15d-invocation");
+  const anchors = await page.evaluate(() => {
+    const same = (a, b) => !!a && !!b && a === b;
+    return {
+      player1DeckMatchesOwnerStack:same(batch15D2ZoneElement(player1, "deck"), qs(playerSelectors(player1).deckBack)),
+      player1DeckIsOpponentCounter:same(batch15D2ZoneElement(player1, "deck"), document.getElementById(playerSelectors(player2).deckCount)),
+      player2DeckMatchesOwnerStack:same(batch15D2ZoneElement(player2, "deck"), qs(playerSelectors(player2).deckBack)),
+      player2DeckIsOpponentCounter:same(batch15D2ZoneElement(player2, "deck"), document.getElementById(playerSelectors(player1).deckCount)),
+      player1GraveyardMatchesOwner:same(batch15D2ZoneElement(player1, "graveyard"), qs(playerZoneSelector(player1, "cemetery"))),
+      player2GraveyardMatchesOwner:same(batch15D2ZoneElement(player2, "graveyard"), qs(playerZoneSelector(player2, "cemetery")))
+    };
+  });
+  expect(anchors.player1DeckMatchesOwnerStack).toBe(true);
+  expect(anchors.player1DeckIsOpponentCounter).toBe(false);
+  expect(anchors.player2DeckMatchesOwnerStack).toBe(true);
+  expect(anchors.player2DeckIsOpponentCounter).toBe(false);
+  expect(anchors.player1GraveyardMatchesOwner).toBe(true);
+  expect(anchors.player2GraveyardMatchesOwner).toBe(true);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("S000009 scans the deck and summons the first three eligible low-cost Goblins", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15DScenario(page, "collection-batch-15d-invocation");

@@ -25,11 +25,53 @@ async function openBatch15DScenario(page, scenario, extra = "") {
 async function installBatch15D2Observer(page) {
   await page.evaluate(() => {
     window.__batch15d2Observed = [];
+    window.__batch15d4Evidence = {transfers:[], slotCounts:[], notifications:[]};
+    const rectSnapshot = element => {
+      const rect = element?.getBoundingClientRect?.();
+      if (!rect) return null;
+      return {left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2};
+    };
+    const zoneRect = (playerKey, zone) => {
+      const player = playerState(playerKey);
+      if (!player) return null;
+      const selector = zone === "deck" ? playerSelectors(player).deckBack : playerZoneSelector(player, zone === "graveyard" ? "cemetery" : "servants");
+      return rectSnapshot(qs(selector));
+    };
+    const distance = (a, b) => a && b ? Math.hypot(a.cx - b.cx, a.cy - b.cy) : null;
+    const slotSnapshot = () => {
+      for (const playerKey of ["player1", "player2"]) {
+        const player = playerState(playerKey);
+        const zone = player ? qs(playerZoneSelector(player, "servants")) : null;
+        const count = zone ? zone.querySelectorAll(":scope > .slot, :scope > .fc").length : 0;
+        window.__batch15d4Evidence.slotCounts.push({playerKey, count, at:performance.now()});
+      }
+    };
+    slotSnapshot();
     const readNode = node => {
       if (!node || node.nodeType !== Node.ELEMENT_NODE) return null;
       const element = node;
       const matches = element.matches?.("[data-batch15d-transfer],[data-batch15d-nain-pulse],[data-batch15d-hand-halo],[data-batch15d-deck-pulse],.batch15d-transfer-clone,.batch15d-nain-board-pulse,.batch15d-nain-hand-halo,.batch15d-nain-deck-pulse");
       if (!matches) return null;
+      if (element.classList?.contains("batch15d-transfer-clone")) {
+        const sourceOwner = element.dataset.batch15dSourceOwner;
+        const sourceZone = element.dataset.batch15dSourceZone;
+        const opponentKey = sourceOwner === "player1" ? "player2" : "player1";
+        const fromCenter = {
+          cx:parseFloat(element.style.getPropertyValue("--from-x")) + 46,
+          cy:parseFloat(element.style.getPropertyValue("--from-y")) + 64
+        };
+        const ownerRect = zoneRect(sourceOwner, sourceZone);
+        const opponentRect = zoneRect(opponentKey, sourceZone);
+        window.__batch15d4Evidence.transfers.push({
+          dataset:{...element.dataset},
+          fromCenter,
+          ownerRect,
+          opponentRect,
+          distanceToOwner:distance(fromCenter, ownerRect),
+          distanceToOpponent:distance(fromCenter, opponentRect),
+          at:performance.now()
+        });
+      }
       return {
         className:element.className || "",
         dataset:{...element.dataset},
@@ -49,11 +91,19 @@ async function installBatch15D2Observer(page) {
     window.__batch15d2Observer?.disconnect?.();
     window.__batch15d2Observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
+        slotSnapshot();
         mutation.addedNodes.forEach(remember);
         if (mutation.type === "attributes") remember(mutation.target);
       }
     });
     window.__batch15d2Observer.observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "data-batch15d-transfer", "data-batch15d-nain-pulse", "data-batch15d-hand-halo", "data-batch15d-deck-pulse"]});
+    const notif = document.querySelector("#notif");
+    window.__batch15d4NotificationObserver?.disconnect?.();
+    window.__batch15d4NotificationObserver = new MutationObserver(() => {
+      const text = notif?.textContent || "";
+      if (text) window.__batch15d4Evidence.notifications.push({text, at:performance.now()});
+    });
+    if (notif) window.__batch15d4NotificationObserver.observe(notif, {childList:true, characterData:true, subtree:true, attributes:true});
   });
 }
 
@@ -69,6 +119,24 @@ async function playSpellFromHand(page, cardId, waitMs = 5600) {
     target.dispatchEvent(new DragEvent("drop", {bubbles:true, cancelable:true, dataTransfer}));
   }, cardId);
   await page.waitForTimeout(waitMs);
+}
+
+async function dragHandCardToSelector(page, cardId, selector, waitMs = 1200) {
+  await expect(page.locator(`.hc[data-id="${cardId}"]`).first()).toBeVisible();
+  await page.evaluate(({cardId, selector}) => {
+    const card = document.querySelector(`.hc[data-id="${cardId}"]`);
+    const target = document.querySelector(selector);
+    if (!card || !target) throw new Error(`Unable to drag ${cardId} to ${selector}`);
+    const dataTransfer = new DataTransfer();
+    card.dispatchEvent(new DragEvent("dragstart", {bubbles:true, cancelable:true, dataTransfer}));
+    target.dispatchEvent(new DragEvent("dragover", {bubbles:true, cancelable:true, dataTransfer}));
+    target.dispatchEvent(new DragEvent("drop", {bubbles:true, cancelable:true, dataTransfer}));
+  }, {cardId, selector});
+  await page.waitForTimeout(waitMs);
+}
+
+async function collapseTestPanelIfVisible(page) {
+  await page.evaluate(() => document.querySelector('[data-testid="test-resource-panel-collapse"]')?.click());
 }
 
 async function state(page) {
@@ -95,6 +163,15 @@ function transferCount(result, transferName) {
     .map(event => event.dataset.batch15dTransferSeq || `${event.dataset.batch15dCardId}-${event.dataset.batch15dSourceZone}-${event.dataset.batch15dTransfer}`)).size;
 }
 
+function expectOwnerGeometry(transfer, expectedTransfer, expectedZone) {
+  expect(transfer?.dataset?.batch15dTransfer).toBe(expectedTransfer);
+  expect(transfer?.dataset?.batch15dSourceZone).toBe(expectedZone);
+  expect(transfer?.distanceToOwner).not.toBeNull();
+  expect(transfer?.distanceToOpponent).not.toBeNull();
+  expect(transfer.distanceToOwner).toBeLessThan(80);
+  expect(transfer.distanceToOpponent).toBeGreaterThan(transfer.distanceToOwner + 120);
+}
+
 test("S000009 uses owner deck transfers, alternate branches and no-break punctuation", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15DScenario(page, "collection-batch-15d-invocation");
@@ -119,6 +196,44 @@ test("S000009 uses owner deck transfers, alternate branches and no-break punctua
   expect(one.notification).toBe("UN SEUL GOBELIN A RÉPONDU À L'APPEL. LES AUTRES SE SONT PEUT-ÊTRE PERDUS EN CHEMIN ?");
   expectFrenchNoBreakSpaces(one.notification);
   expect(transferCount(one, "deck-to-board")).toBe(1);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000009 summit-one starts from the caster deck and never creates a seventh servant slot", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15DScenario(page, "collection-batch-15d-invocation", "&case=summit-one");
+  await playSpellFromHand(page, "S000009");
+  const evidence = await page.evaluate(() => window.__batch15d4Evidence);
+  const transfer = evidence.transfers.find(item => item.dataset.batch15dTransfer === "deck-to-board");
+  expectOwnerGeometry(transfer, "deck-to-board", "deck");
+  const player1MaxSlots = Math.max(...evidence.slotCounts.filter(item => item.playerKey === "player1").map(item => item.count));
+  expect(player1MaxSlots).toBeLessThanOrEqual(6);
+  await attachDiagnostics(testInfo, diagnostics);
+  await testInfo.attach("s000009-source-geometry", {contentType:"application/json", body:Buffer.from(JSON.stringify({transfer, slotCounts:evidence.slotCounts}, null, 2), "utf8")});
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("generic spell drops add no servant slot and servant drops still use a real slot", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  await openBatch15DScenario(page, "collection-batch-15d-invocation", "&case=summit-one");
+  await playSpellFromHand(page, "S000009");
+  const spellEvidence = await page.evaluate(() => window.__batch15d4Evidence);
+  expect(Math.max(...spellEvidence.slotCounts.filter(item => item.playerKey === "player1").map(item => item.count))).toBeLessThanOrEqual(6);
+
+  await openBatch15DScenario(page, "collection-batch-15d-invocation", "&case=summit-none");
+  await page.evaluate(() => {
+    player1.hand = ["H000001"];
+    player1.servants = [];
+    refreshRuntimeZone(player1, "hand");
+    refreshRuntimeZone(player1, "servants");
+    window.__batch15d4Evidence.slotCounts = [];
+  });
+  await dragHandCardToSelector(page, "H000001", "#yriaServants .slot");
+  const servant = await state(page);
+  const servantEvidence = await page.evaluate(() => window.__batch15d4Evidence);
+  expect(servant.board).toContain("H000001");
+  expect(Math.max(...servantEvidence.slotCounts.filter(item => item.playerKey === "player1").map(item => item.count))).toBeLessThanOrEqual(6);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
@@ -179,6 +294,32 @@ test("S000023 and S000052 expose source-specific transfers and exact Batch 15D2 
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
+test("S000023 and S000052 positive branches start from the caster deck or graveyard geometry", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+
+  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=pact-deck");
+  await playSpellFromHand(page, "S000023");
+  const pactDeck = await page.evaluate(() => window.__batch15d4Evidence);
+  const dragonTransfer = pactDeck.transfers.find(item => item.dataset.batch15dTransfer === "deck-to-hand");
+  expectOwnerGeometry(dragonTransfer, "deck-to-hand", "deck");
+
+  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=revenants-deck");
+  await playSpellFromHand(page, "S000052");
+  const revenantsDeck = await page.evaluate(() => window.__batch15d4Evidence);
+  const deckTransfer = revenantsDeck.transfers.find(item => item.dataset.batch15dTransfer === "deck-to-board");
+  expectOwnerGeometry(deckTransfer, "deck-to-board", "deck");
+
+  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=revenants-graveyard");
+  await playSpellFromHand(page, "S000052");
+  const revenantsGraveyard = await page.evaluate(() => window.__batch15d4Evidence);
+  const graveyardTransfer = revenantsGraveyard.transfers.find(item => item.dataset.batch15dTransfer === "graveyard-to-board");
+  expectOwnerGeometry(graveyardTransfer, "graveyard-to-board", "graveyard");
+
+  await attachDiagnostics(testInfo, diagnostics);
+  await testInfo.attach("source-geometry", {contentType:"application/json", body:Buffer.from(JSON.stringify({dragonTransfer, deckTransfer, graveyardTransfer}, null, 2), "utf8")});
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
 test("S000038, S000047 and normal Gabar draws use the exact Batch 15D2 messages", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15DScenario(page, "collection-batch-15d-replacement");
@@ -206,6 +347,46 @@ test("S000038, S000047 and normal Gabar draws use the exact Batch 15D2 messages"
   const gabar = await state(page);
   expect(gabar.notification).toBe("LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !");
   expect(gabar.hand).toContain("H000034");
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000057-S000060 Gabar variants resolve immediately from a real deck click without generic notifications", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  const cases = [
+    ["s000057", "H000032", "H000033", "AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !"],
+    ["s000058", "H000033", "H000034", "LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !"],
+    ["s000059", "H000034", "H000035", "L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE !"],
+    ["s000060", "H000035", "H000036", "DÉSORMAIS PARFAITEMENT ÉQUIPÉ ET INSTRUIT, GABAR DEVIENT UN MAÎTRE-MAGICIEN ET UN INVOCATEUR DE RENOM."]
+  ];
+  for (const [variant, oldGabar, newGabar, message] of cases) {
+    await openBatch15DScenario(page, "collection-batch-15d-gabar", `&case=${variant}`);
+    await collapseTestPanelIfVisible(page);
+    const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
+    const before = await state(page);
+    expect(before.deck.at(-1)).toBe(`S${variant.slice(1)}`);
+    expect(before.board).toContain(oldGabar);
+    await page.locator(deckSelector).click();
+    await page.waitForTimeout(900);
+    const after = await state(page);
+    const notifications = await page.evaluate(() => window.__batch15d4Evidence.notifications.map(item => item.text));
+    expect(after.board).not.toContain(oldGabar);
+    expect(after.hand).toContain(newGabar);
+    expect(after.notification).toBe(message);
+    expect(notifications.some(text => text.startsWith("SORT JOUÉ :"))).toBe(false);
+  }
+
+  await openBatch15DScenario(page, "collection-batch-15d-gabar", "&case=full-hand");
+  await collapseTestPanelIfVisible(page);
+  const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
+  await page.locator(deckSelector).click();
+  await page.waitForTimeout(900);
+  const fullHand = await state(page);
+  const fullHandNotifications = await page.evaluate(() => window.__batch15d4Evidence.notifications.map(item => item.text));
+  expect(fullHand.board).not.toContain("H000032");
+  expect(fullHand.hand).not.toContain("H000033");
+  expect(fullHand.deck.at(-1)).toBe("H000033");
+  expect(fullHandNotifications.some(text => text.startsWith("SORT JOUÉ :"))).toBe(false);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
