@@ -19,6 +19,59 @@ async function openBatch15AScenario(page, scenario) {
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
 }
 
+async function playSpellFromHand(page, cardId, waitMs = 3200) {
+  const card = page.locator(`.hc[data-id="${cardId}"]`).first();
+  await expect(card).toBeVisible();
+  await page.evaluate(async id => {
+    const card = document.querySelector(`.hc[data-id="${id}"]`);
+    if (!card) throw new Error(`Unable to find ${id} in hand`);
+    await playCard(id, null, {handOccurrenceId:card.dataset.handOccurrence || null});
+  }, cardId);
+  await page.waitForTimeout(waitMs);
+}
+
+async function installLeyPathsObserver(page) {
+  await page.evaluate(() => {
+    window.__collectionBatch15AEvents = [];
+    window.__leyPathsEvidence = {mutations:[], flights:[], notifications:[]};
+    const hand = () => qs(playerZoneSelector(player1, "hand"));
+    const snapshot = reason => {
+      const cards = [...(hand()?.querySelectorAll(".hc[data-id]") || [])].map((node, index) => {
+        const rect = node.getBoundingClientRect();
+        return {index, id:node.dataset.id, left:Math.round(rect.left), top:Math.round(rect.top), right:Math.round(rect.right), bottom:Math.round(rect.bottom)};
+      });
+      window.__leyPathsEvidence.mutations.push({reason, at:performance.now(), hand:[...player1.hand], cards});
+    };
+    snapshot("initial");
+    window.__leyPathsHandObserver?.disconnect?.();
+    window.__leyPathsHandObserver = new MutationObserver(() => snapshot("hand-mutation"));
+    const handNode = hand();
+    if (handNode) window.__leyPathsHandObserver.observe(handNode, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "style", "data-id"]});
+    window.__leyPathsFlightObserver?.disconnect?.();
+    window.__leyPathsFlightObserver = new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        mutation.addedNodes.forEach(node => {
+          if (node?.nodeType !== Node.ELEMENT_NODE) return;
+          const nodes = [node, ...(node.querySelectorAll?.("[data-batch09-cadaver-flight],.batch09-cadaver-flight,.batch15a-draw-flight,.batch10-card-flight") || [])];
+          for (const item of nodes) {
+            if (item.matches?.("[data-batch09-cadaver-flight],.batch09-cadaver-flight,.batch15a-draw-flight,.batch10-card-flight")) {
+              window.__leyPathsEvidence.flights.push({className:item.className || "", dataset:{...item.dataset}, text:item.textContent || "", at:performance.now()});
+            }
+          }
+        });
+      }
+    });
+    window.__leyPathsFlightObserver.observe(document.body, {childList:true, subtree:true});
+    const notif = document.querySelector("#notif");
+    window.__leyPathsNotifObserver?.disconnect?.();
+    window.__leyPathsNotifObserver = new MutationObserver(() => {
+      const text = notif?.textContent || "";
+      if (text) window.__leyPathsEvidence.notifications.push({text, at:performance.now()});
+    });
+    if (notif) window.__leyPathsNotifObserver.observe(notif, {childList:true, characterData:true, subtree:true, attributes:true});
+  });
+}
+
 test("Batch 15A scenarios stay hidden and runtime data is synchronized", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   for (const scenario of scenarios) {
@@ -321,6 +374,55 @@ test("S000029 S000037 S000043 draw only expected cards", async ({page}, testInfo
   expect(result.ley.handSizeAfterDraw).toBe(8);
   expect(result.taureau.drawn.sort()).toEqual(["B000015", "B000016", "B000017"].sort());
   await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000037 Chemins de Ley has separated visual scenarios, exact messages and no ghost hand movement", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+
+  await openBatch15AScenario(page, "collection-batch-15a-ley-paths-draw");
+  await installLeyPathsObserver(page);
+  await playSpellFromHand(page, "S000037", 5200);
+  const positive = await page.evaluate(() => ({
+    scenario:selectedScenarioId(),
+    hand:[...player1.hand],
+    goblinHandCount:player1.hand.filter(id => CARDS_DATA[id]?.fac === "gob").length,
+    deck:player1.drawPile.map(getRuntimeCardId),
+    notification:document.querySelector("#notif")?.textContent || "",
+    events:[...(window.__collectionBatch15AEvents || [])],
+    evidence:window.__leyPathsEvidence
+  }));
+  expect(positive.scenario).toBe("collection-batch-15a-ley-paths-draw");
+  expect(positive.hand).toHaveLength(8);
+  expect(positive.goblinHandCount).toBe(3);
+  expect(positive.events.filter(event => event.type === "draw-flight" && event.reason === "S000037-draw")).toHaveLength(3);
+  expect(positive.evidence.notifications.map(item => item.text)).toContain("LES CHEMINS DE LEY PERMETTENT AUX GOBELINS DE VOYAGER À TOUTE VITESSE !");
+  expect(positive.evidence.notifications.find(item => item.text.includes("CHEMINS DE LEY"))?.text).toContain("\u00a0!");
+  expect(positive.evidence.notifications.find(item => item.text.includes("CHEMINS DE LEY"))?.text).not.toContain("&nbsp;");
+  const finalPositiveMutation = positive.evidence.mutations.at(-1);
+  expect(finalPositiveMutation.hand).toEqual(positive.hand);
+  expect(finalPositiveMutation.cards.map(card => card.id)).toEqual(positive.hand);
+
+  await openBatch15AScenario(page, "collection-batch-15a-ley-paths-none");
+  await installLeyPathsObserver(page);
+  const beforeNone = await page.evaluate(() => ({hand:[...player1.hand], dom:[...document.querySelectorAll(".hand-j1 .hc[data-id]")].map(node => node.dataset.id)}));
+  await playSpellFromHand(page, "S000037", 3200);
+  const none = await page.evaluate(() => ({
+    scenario:selectedScenarioId(),
+    hand:[...player1.hand],
+    dom:[...document.querySelectorAll(".hand-j1 .hc[data-id]")].map(node => node.dataset.id),
+    notification:document.querySelector("#notif")?.textContent || "",
+    events:[...(window.__collectionBatch15AEvents || [])],
+    evidence:window.__leyPathsEvidence
+  }));
+  expect(none.scenario).toBe("collection-batch-15a-ley-paths-none");
+  expect(none.hand).toEqual(beforeNone.hand.filter(id => id !== "S000037"));
+  expect(none.dom).toEqual(beforeNone.dom.filter(id => id !== "S000037"));
+  expect(none.events.filter(event => event.type === "draw-flight" && event.reason === "S000037-draw")).toHaveLength(0);
+  expect(none.evidence.flights).toHaveLength(0);
+  expect(none.evidence.notifications.map(item => item.text)).toContain("QUELQUE CHOSE DOIT BLOQUER LES CHEMINS DE LEY, AUCUN GOBELIN NE SE MANIFESTE.");
+  await attachDiagnostics(testInfo, diagnostics);
+  await testInfo.attach("ley-paths-evidence", {contentType:"application/json", body:Buffer.from(JSON.stringify({positive, none}, null, 2), "utf8")});
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 

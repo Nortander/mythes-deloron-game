@@ -871,6 +871,12 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 .batch02-deck-addition-vfx strong{display:block;font-family:'Cinzel',serif;font-size:10px;color:#f4d58a;line-height:1.15}
 @keyframes batch02DeckAdd{0%{opacity:0;transform:translateY(18px) scale(.92)}18%{opacity:1;transform:translateY(0) scale(1)}82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(.96)}}
 .batch02-responsibility-pulse{animation:batch02ResponsibilityPulse 1.9s ease-out 1;box-shadow:0 0 0 4px rgba(38,196,236,.95),0 0 28px rgba(38,196,236,.92),0 0 54px rgba(38,196,236,.62),0 0 76px rgba(0,47,167,.38)!important;outline:2px solid rgba(38,196,236,.82);outline-offset:3px}
+.batch02-gabar-spell-presentation{position:fixed;inset:0;z-index:9997;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle at center,rgba(18,25,58,.58),rgba(4,6,18,.04) 62%,transparent 76%);animation:batch02GabarPresentationFade .9s ease-in-out both}
+.batch02-gabar-spell-presentation .fc{transform:scale(1.16);box-shadow:0 0 0 4px rgba(155,210,255,.96),0 0 32px rgba(120,190,255,.84),0 0 64px rgba(80,155,255,.46)!important}
+.batch02-gabar-arrival-halo{box-shadow:0 0 0 4px rgba(155,210,255,.96),0 0 30px rgba(120,190,255,.84),0 0 54px rgba(80,155,255,.5)!important;animation:batch02GabarArrivalHalo .95s ease-out 1}
+.batch02-gabar-deck-arrival-halo{position:relative;border-radius:28px;filter:drop-shadow(0 0 18px rgba(120,190,255,.9));animation:batch02GabarArrivalHalo .95s ease-out 1}
+@keyframes batch02GabarPresentationFade{0%{opacity:0;transform:scale(.92)}18%,76%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.06)}}
+@keyframes batch02GabarArrivalHalo{0%{filter:brightness(1.75) drop-shadow(0 0 22px rgba(155,210,255,.95));transform:translateY(-5px) scale(1.045)}70%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(120,190,255,.82));transform:translateY(0) scale(1.015)}100%{filter:none;transform:none}}
 .batch06-pestilence-vfx{position:absolute;inset:-7px;border-radius:12px;pointer-events:none;z-index:3;mix-blend-mode:screen;background:radial-gradient(circle at 30% 25%,rgba(205,111,255,.40),transparent 34%),radial-gradient(circle at 72% 62%,rgba(103,255,174,.22),transparent 36%);box-shadow:0 0 16px rgba(187,84,255,.58),0 0 28px rgba(79,236,174,.32);animation:batch06PestilenceMiasma 2.2s ease-in-out infinite;}
 .batch06-pestilence-vfx::after{content:'';position:absolute;left:14%;right:14%;top:12%;height:70%;border:2px solid rgba(215,126,255,.72);border-left-color:rgba(90,255,180,.52);border-radius:50%;filter:blur(.2px);transform:rotate(-18deg);animation:batch06PestilenceSerpent 1.8s ease-in-out infinite;}
 @keyframes batch06PestilenceMiasma{0%,100%{opacity:.62;transform:scale(.985)}50%{opacity:1;transform:scale(1.025)}}
@@ -2997,6 +3003,32 @@ SCENARIOS['collection-batch-15a-faction-draw-c'] = {
   label: 'TEST — COLLECTION BATCH 15A pioches de faction', participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'], fixedFirstParticipant: 0, hidden: true, showTestResourcePanel: true, showCollectionBatch15APanel: true, testCardId: 'S000029',
   testSetup: {
     player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000029','S000037','S000043'], drawPile:['S000027','EDG000005','S000029','EDG000006','EDG000007','GOB000001','S000038','GOB000002','GOB000003','B000015','B000016','B000017','B000001'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:20, lenya:20}, souls:0}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15a-ley-paths-draw'] = {
+  label: 'TEST — COLLECTION BATCH 15A Chemins de Ley / pioche',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  showCollectionBatch15APanel: true,
+  testCardId: 'S000037',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000037','H000001','H000005','S000004','R000010','H000006'], drawPile:['GOB000001','H000013','GOB000002','R000010','GOB000003'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:20, lenya:20}, souls:0}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15a-ley-paths-none'] = {
+  label: 'TEST — COLLECTION BATCH 15A Chemins de Ley / aucun Gobelin',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  showCollectionBatch15APanel: true,
+  testCardId: 'S000037',
+  testSetup: {
+    player1: {resources:{classical:{aria:80, lenya:80, selene:80, fer:80, bois:80, pierre:80, nourriture:80}, souls:80}, hand:['S000037','H000001','H000005','S000004'], drawPile:['H000013','R000010','EDG000001','S000038'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
     player2: {resources:{classical:{aria:20, lenya:20}, souls:0}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[], avatarHp:20, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
@@ -17195,10 +17227,28 @@ async function resolveSermentDesAnciens(player) {
 
 async function resolveCheminsDeLey(player) {
   const p = playerState(player);
+  if (!p) return {success:false, reason:'invalid-player', cardId:'S000037'};
+  const before = zoneInventorySnapshot(p);
   const handSizeAfterSpellLeaves = Math.max(0, playerHand(p).length);
   const targetHandSize = 8;
   const maxCount = Math.max(0, targetHandSize - handSizeAfterSpellLeaves);
-  return await drawMatchingCardsForSpell(player, {cardId:'S000037', maxCount, untilHandSize:targetHandSize, predicate:id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob', messageLabel:'Chemins de Ley', panelNote:{targetHandSize, handSizeAfterSpellLeaves, spellCountsTowardTarget:false}, sequenceDelayMs:500});
+  const predicate = id => CARDS_DATA[id]?.type === 'Serviteur' && CARDS_DATA[id]?.fac === 'gob';
+  const candidatesBefore = playerDrawPile(p).map(getRuntimeCardId).filter(predicate);
+  const results = [];
+  let count = 0;
+  while (count < maxCount && playerHand(p).length < targetHandSize) {
+    const result = drawCardFromRuntimeDeck(p, {predicate, refresh:false, sourceCardId:'S000037'});
+    results.push(result);
+    if (!result.success) break;
+    count++;
+    await batch15AFinalizeDrawArrival(p, result, 'S000037', {sourceZone:'deck', remainingSteps:maxCount - count + 1, reason:'S000037-draw'});
+  }
+  updateDeckCount(p);
+  const drawn = results.filter(result => result.success).map(result => result.cardId);
+  const diagnostic = {success:true, code:'ley-paths-resolved', reason:null, cardId:'S000037', drawn, count:drawn.length, results, candidatesBefore, handSizeBeforeDraw:handSizeAfterSpellLeaves, handSizeAfterDraw:playerHand(p).length, panelNote:{targetHandSize, handSizeAfterSpellLeaves, spellCountsTowardTarget:false}, before, after:zoneInventorySnapshot(p)};
+  recordZoneEffectDiagnostic('S000037', diagnostic);
+  showNotif(drawn.length > 0 ? 'LES CHEMINS DE LEY PERMETTENT AUX GOBELINS DE VOYAGER À TOUTE VITESSE\u00a0!' : 'QUELQUE CHOSE DOIT BLOQUER LES CHEMINS DE LEY, AUCUN GOBELIN NE SE MANIFESTE.', 7000);
+  return diagnostic;
 }
 
 function resolvePixiemanie(player) {
@@ -18825,13 +18875,7 @@ document.addEventListener('click', e => {
   if (!deck) return;
   e.preventDefault();
   e.stopPropagation();
-  const result = drawCardFromRuntimeDeck(p, {refresh:false, sourceCardId:'collection-batch-15d-gabar-deck-click'});
-  refreshRuntimeZone(p, 'hand');
-  refreshRuntimeZone(p, 'deck');
-  refreshRuntimeZone(p, 'graveyard');
-  renderAllHands(result?.success ? p.key : null);
-  updateDeckCount(p);
-  if (result?.success && !isBatch15DGabarEvolutionSpell(result.cardId)) showNotif(`${playerName(p)} pioche\u00a0!`, 1200);
+  void handleBatch15DGabarDeckClick(p);
 }, true);
 
 // ── Gestionnaire de clic principal du plateau (GAME_BOARD_CLICK_HANDLER) ──
@@ -27637,6 +27681,118 @@ function removeBatch02CardEverywhere(player, cardId) {
   collectionBatch02State.removedFromGame.push(...removed.map(item => ({playerId:p.key, cardId, ...item})));
   refreshRuntimeZone(p, 'hand'); refreshRuntimeZone(p, 'deck'); refreshRuntimeZone(p, 'graveyard');
   return removed;
+}
+
+function markBatch02GabarVisualStage(type, detail={}) {
+  markBatch02VisualPhase(type, detail);
+  document.body?.dispatchEvent(new CustomEvent('batch02-gabar-visual-phase', {detail:{type, phase:type, ...detail}}));
+}
+
+async function showBatch02GabarCenteredSpell(player, spellId) {
+  const p = playerState(player);
+  const overlay = document.createElement('div');
+  overlay.className = 'batch02-gabar-spell-presentation';
+  overlay.dataset.batch02GabarStage = 'spell-centered-start';
+  overlay.dataset.cardId = spellId;
+  overlay.dataset.playerId = p?.key || '';
+  overlay.innerHTML = buildFC(spellId, p?.key || currentPlayer);
+  document.body.appendChild(overlay);
+  markBatch02GabarVisualStage('spell-centered-start', {playerId:p?.key || null, spellId});
+  await waitBatch02VisualStep(1050);
+  markBatch02GabarVisualStage('spell-centered-end', {playerId:p?.key || null, spellId});
+  overlay.dataset.batch02GabarStage = 'spell-centered-end';
+  overlay.remove();
+}
+
+async function pulseAndRemoveBatch02OldGabar(player, cardId, spellId) {
+  const p = playerState(player);
+  const source = findBatch02GabarSource(p, cardId);
+  markBatch02GabarVisualStage('old-gabar-pulse-start', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source});
+  if (source?.isConnected) pulseBatch02Gabar(source, 'evolution');
+  await waitBatch02VisualStep(1550);
+  const removed = removeBatch02CardEverywhere(p, cardId);
+  markBatch02GabarVisualStage('old-gabar-removed', {playerId:p?.key || null, spellId, oldCardId:cardId, removedCount:removed.length});
+  return removed;
+}
+
+async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
+  const p = playerState(player);
+  let destination = 'hand';
+  const handIndexBefore = playerHand(p).length;
+  markBatch02GabarVisualStage('new-gabar-arrival-start', {playerId:p.key, spellId, newCardId:cardId, destination:'pending'});
+  if (addCardToHand(p, cardId, {refresh:false})) {
+    refreshRuntimeZone(p, 'hand');
+    const handCards = [...(qs(playerZoneSelector(p, 'hand'))?.querySelectorAll(`.hc[data-id="${cardId}"]`) || [])];
+    const node = handCards[handCards.length - 1] || qs(playerZoneSelector(p, 'hand'))?.querySelectorAll('.hc')?.[handIndexBefore] || null;
+    if (node) {
+      node.dataset.batch02NewGabarArrival = 'start';
+      node.classList.add('batch02-gabar-arrival-halo');
+    }
+    await waitBatch02VisualStep(980);
+    if (node) {
+      node.dataset.batch02NewGabarArrival = 'end';
+      node.classList.remove('batch02-gabar-arrival-halo');
+    }
+  } else {
+    p.drawPile.push(cardId);
+    destination = 'deck-top';
+    refreshRuntimeZone(p, 'deck');
+    const deck = qs(playerSelectors(p).deckBack);
+    if (deck) {
+      deck.dataset.batch02NewGabarArrival = 'start';
+      deck.classList.add('batch02-gabar-deck-arrival-halo');
+    }
+    await waitBatch02VisualStep(980);
+    if (deck) {
+      deck.dataset.batch02NewGabarArrival = 'end';
+      deck.classList.remove('batch02-gabar-deck-arrival-halo');
+    }
+  }
+  refreshRuntimeZone(p, 'hand');
+  refreshRuntimeZone(p, 'deck');
+  refreshRuntimeZone(p, 'graveyard');
+  markBatch02GabarVisualStage('new-gabar-arrival-end', {playerId:p.key, spellId, newCardId:cardId, destination});
+  return destination;
+}
+
+async function resolveBatch02EvolutionDrawAnimated(player, spellId) {
+  const p = playerState(player);
+  const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
+  if (!p || !rule) return {handled:false};
+  await showBatch02GabarCenteredSpell(p, spellId);
+  const removed = await pulseAndRemoveBatch02OldGabar(p, rule.remove, spellId);
+  p.graveyard.push(spellId);
+  markBatch02GabarVisualStage('spell-to-graveyard', {playerId:p.key, spellId});
+  refreshRuntimeZone(p, 'graveyard');
+  const destination = await addBatch02NewGabarWithArrival(p, rule.create, spellId);
+  const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false, animated:true};
+  recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
+  showNotif(COLLECTION_BATCH_15D2_MESSAGES[spellId] || `« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 2200);
+  return result;
+}
+
+async function handleBatch15DGabarDeckClick(player) {
+  const p = playerState(player);
+  const pile = playerDrawPile(p);
+  if (!p || !pile.length) return {success:false, reason:'deck-empty'};
+  const topIndex = pile.length - 1;
+  const selectedEntry = pile[topIndex];
+  const cardId = getRuntimeCardId(selectedEntry);
+  if (isBatch15DGabarEvolutionSpell(cardId) && canResolveBatch02Evolution(p, cardId)) {
+    pile.splice(topIndex, 1);
+    updateDeckCount(p);
+    const evolutionResolution = await resolveBatch02EvolutionDrawAnimated(p, cardId);
+    markBatch02GabarVisualStage('draw-action-complete', {playerId:p.key, spellId:cardId});
+    return {success:true, cardId, selectedEntry, evolutionResolution, deckSizeAfter:pile.length, handSizeAfter:playerHand(p).length};
+  }
+  const result = drawCardFromRuntimeDeck(p, {refresh:false, sourceCardId:'collection-batch-15d-gabar-deck-click'});
+  refreshRuntimeZone(p, 'hand');
+  refreshRuntimeZone(p, 'deck');
+  refreshRuntimeZone(p, 'graveyard');
+  renderAllHands(result?.success ? p.key : null);
+  updateDeckCount(p);
+  if (result?.success) showNotif(`${playerName(p)} pioche\u00a0!`, 1200);
+  return result;
 }
 
 async function summonBatch02Servant(player, cardId, {sourceCardId=null, insensibleTurns=0}={}) {
