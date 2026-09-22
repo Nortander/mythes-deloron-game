@@ -76,7 +76,9 @@ async function installBatch15D2Observer(page) {
         });
       }
       if (element.matches?.(".batch02-gabar-spell-presentation,[data-batch02-gabar-stage]")) {
-        recordGabar(element.dataset.batch02GabarStage || "gabar-visual-node", {dataset:{...element.dataset}, className:element.className || "", text:element.textContent || ""});
+        const rect = rectSnapshot(element);
+        const viewport = {width:window.innerWidth, height:window.innerHeight, cx:window.innerWidth / 2, cy:window.innerHeight / 2};
+        recordGabar(element.dataset.batch02GabarStage || "gabar-visual-node", {dataset:{...element.dataset}, className:element.className || "", text:element.textContent || "", rect, viewport});
       }
       if (element.matches?.(".batch02-responsibility-pulse,[data-batch02-responsibility-active]")) {
         recordGabar("old-gabar-pulse-start", {dataset:{...element.dataset}, cardId:element.dataset.id || null});
@@ -108,7 +110,7 @@ async function installBatch15D2Observer(page) {
         if (mutation.type === "attributes") remember(mutation.target);
       }
     });
-    window.__batch15d2Observer.observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "data-batch15d-transfer", "data-batch15d-nain-pulse", "data-batch15d-hand-halo", "data-batch15d-deck-pulse"]});
+    window.__batch15d2Observer.observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:["class", "data-batch15d-transfer", "data-batch15d-nain-pulse", "data-batch15d-hand-halo", "data-batch15d-deck-pulse", "data-batch02-gabar-stage", "data-batch02-responsibility-active", "data-batch02-new-gabar-arrival"]});
     document.body.addEventListener("batch02-gabar-visual-phase", event => recordGabar(event.detail?.phase || "custom-event", event.detail || {}));
     const notif = document.querySelector("#notif");
     window.__batch15d4NotificationObserver?.disconnect?.();
@@ -165,9 +167,21 @@ async function state(page) {
     observed:window.__batch15d2Observed || [],
     hand:playerHand(player1).map(getRuntimeCardId),
     deck:playerDrawPile(player1).map(getRuntimeCardId),
+    graveyard:player1.graveyard.map(getRuntimeCardId),
     board:livingServantCardsForPlayer(player1).map(fc => fc.dataset.id),
     runtimeMaxS000014:CARDS_DATA.S000014?.max ?? null
   }));
+}
+
+async function waitForLastGabarDrawPromise(page) {
+  const result = await page.evaluate(async () => {
+    const pending = window.__batch15d6LastGabarDrawPromise;
+    if (!pending || typeof pending.then !== "function") return {hasPromise:false};
+    return {hasPromise:true, result:await pending};
+  });
+  expect(result.hasPromise).toBe(true);
+  expect(result.result?.success).toBe(true);
+  return result.result;
 }
 
 function expectFrenchNoBreakSpaces(text) {
@@ -296,14 +310,14 @@ test("S000023 and S000052 expose source-specific transfers and exact Batch 15D2 
   expect(pacte.notification).toBe("UN REJETON DU TISSEUR DE GIVRE RÉPOND À VOTRE APPEL !");
   expect(pacte.observed.some(event => event.dataset.batch15dTransfer === "hand-to-board")).toBe(true);
 
-  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants");
+  await openBatch15DScenario(page, "collection-batch-15d-revenants-deck");
   await playSpellFromHand(page, "S000052");
   const revenants = await state(page);
   expect(revenants.notification).toBe("UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !");
   expect(revenants.observed.filter(event => event.dataset.batch15dTransfer === "deck-to-board").every(event => event.dataset.batch15dSourceOwner === "player1")).toBe(true);
   expect(transferCount(revenants, "deck-to-board")).toBe(3);
 
-  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=revenants-echo");
+  await openBatch15DScenario(page, "collection-batch-15d-revenants-echo");
   await playSpellFromHand(page, "S000052");
   const echo = await state(page);
   expect(echo.notification).toBe("UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE !");
@@ -322,13 +336,13 @@ test("S000023 and S000052 positive branches start from the caster deck or gravey
   const dragonTransfer = pactDeck.transfers.find(item => item.dataset.batch15dTransfer === "deck-to-hand");
   expectOwnerGeometry(dragonTransfer, "deck-to-hand", "deck");
 
-  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=revenants-deck");
+  await openBatch15DScenario(page, "collection-batch-15d-revenants-deck");
   await playSpellFromHand(page, "S000052");
   const revenantsDeck = await page.evaluate(() => window.__batch15d4Evidence);
   const deckTransfer = revenantsDeck.transfers.find(item => item.dataset.batch15dTransfer === "deck-to-board");
   expectOwnerGeometry(deckTransfer, "deck-to-board", "deck");
 
-  await openBatch15DScenario(page, "collection-batch-15d-pact-revenants", "&case=revenants-graveyard");
+  await openBatch15DScenario(page, "collection-batch-15d-revenants-graveyard");
   await playSpellFromHand(page, "S000052");
   const revenantsGraveyard = await page.evaluate(() => window.__batch15d4Evidence);
   const graveyardTransfer = revenantsGraveyard.transfers.find(item => item.dataset.batch15dTransfer === "graveyard-to-board");
@@ -386,11 +400,14 @@ test("S000057-S000060 Gabar variants resolve immediately from a real deck click 
     expect(before.deck.at(-1)).toBe(`S${variant.slice(1)}`);
     expect(before.board).toContain(oldGabar);
     await page.locator(deckSelector).click();
-    await page.waitForTimeout(5200);
+    const resolution = await waitForLastGabarDrawPromise(page);
     const after = await state(page);
     const notifications = await page.evaluate(() => window.__batch15d4Evidence.notifications.map(item => item.text));
+    expect(resolution.evolutionResolution?.success).toBe(true);
     expect(after.board).not.toContain(oldGabar);
     expect(after.hand).toContain(newGabar);
+    expect(after.deck).not.toContain(`S${variant.slice(1)}`);
+    expect(after.graveyard).not.toContain(`S${variant.slice(1)}`);
     expect(after.notification).toBe(message);
     expect(notifications.some(text => text.startsWith("SORT JOUÉ :"))).toBe(false);
   }
@@ -398,13 +415,18 @@ test("S000057-S000060 Gabar variants resolve immediately from a real deck click 
   await openBatch15DScenario(page, "collection-batch-15d-gabar", "&case=full-hand");
   await collapseTestPanelIfVisible(page);
   const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
+  const beforeFullHand = await state(page);
   await page.locator(deckSelector).click();
-  await page.waitForTimeout(5200);
+  const fullHandResolution = await waitForLastGabarDrawPromise(page);
   const fullHand = await state(page);
   const fullHandNotifications = await page.evaluate(() => window.__batch15d4Evidence.notifications.map(item => item.text));
+  expect(fullHandResolution.evolutionResolution?.destination).toBe("deck-top");
   expect(fullHand.board).not.toContain("H000032");
   expect(fullHand.hand).not.toContain("H000033");
+  expect(fullHand.hand).toEqual(beforeFullHand.hand);
   expect(fullHand.deck.at(-1)).toBe("H000033");
+  expect(fullHand.deck).not.toContain("S000057");
+  expect(fullHand.graveyard).not.toContain("S000057");
   expect(fullHandNotifications.some(text => text.startsWith("SORT JOUÉ :"))).toBe(false);
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
@@ -413,9 +435,11 @@ test("S000057-S000060 Gabar variants resolve immediately from a real deck click 
 test("S000057-S000060 Gabar draw choreography exposes every visual stage before the final message", async ({page}, testInfo) => {
   const diagnostics = attachPageDiagnostics(page);
   const expectedOrder = [
+    "draw-click",
     "spell-centered-start",
     "spell-centered-end",
     "old-gabar-pulse-start",
+    "old-gabar-pulse-end",
     "old-gabar-removed",
     "new-gabar-arrival-start",
     "new-gabar-arrival-end",
@@ -436,8 +460,7 @@ test("S000057-S000060 Gabar draw choreography exposes every visual stage before 
     expect(before.hand).not.toContain(newGabar);
     const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
     await page.locator(deckSelector).click();
-    await page.waitForTimeout(5200);
-    await page.evaluate(() => window.__batch15d4Evidence.gabarTimeline.push({type:"draw-action-complete", at:performance.now()}));
+    await waitForLastGabarDrawPromise(page);
     const after = await state(page);
     const evidence = await page.evaluate(() => window.__batch15d4Evidence);
     expect(after.board).not.toContain(oldGabar);
@@ -451,6 +474,12 @@ test("S000057-S000060 Gabar draw choreography exposes every visual stage before 
     const indexes = expectedOrder.map(type => timelineTypes.indexOf(type));
     expect(indexes.every(index => index >= 0)).toBe(true);
     expect(indexes).toEqual([...indexes].sort((a, b) => a - b));
+    const centered = evidence.gabarTimeline.find(item => item.type === "spell-centered-start" && item.rect);
+    expect(centered?.className).toContain("batch02-gabar-spell-presentation");
+    expect(centered?.rect?.width).toBeGreaterThan(80);
+    expect(centered?.rect?.height).toBeGreaterThan(100);
+    expect(Math.abs(centered.rect.cx - centered.viewport.cx)).toBeLessThan(centered.viewport.width * 0.18);
+    expect(Math.abs(centered.rect.cy - centered.viewport.cy)).toBeLessThan(centered.viewport.height * 0.18);
   }
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);

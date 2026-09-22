@@ -3124,6 +3124,42 @@ SCENARIOS['collection-batch-15d-pact-revenants'] = {
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005'], graveyard:[], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-15d-revenants-deck'] = {
+  label: 'TEST — COLLECTION BATCH 15D6 Retour des revenants — deck',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000052',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000052'], drawPile:['MV000001','MV000002','MV000025','MV000004','H000001'], graveyard:[], servants:[], avatarHp:25, startingDeckCardIds:['MV000001','MV000002','MV000025','MV000004','H000001'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','MV000001'], graveyard:['MV000002'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15d-revenants-graveyard'] = {
+  label: 'TEST — COLLECTION BATCH 15D6 Retour des revenants — cimetière',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000052',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000052'], drawPile:['H000001','R000001'], graveyard:['MV000001','MV000002','MV000025','MV000004'], servants:[], avatarHp:25, startingDeckCardIds:['H000001','R000001'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','MV000001'], graveyard:['MV000002'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
+SCENARIOS['collection-batch-15d-revenants-echo'] = {
+  label: 'TEST — COLLECTION BATCH 15D6 Retour des revenants — Échos',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'S000052',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:12}, hand:['S000052'], drawPile:['H000001','R000001'], graveyard:['R000001'], servants:[], avatarHp:25, startingDeckCardIds:['H000001','R000001'], initialSupplyCardId:'R000020', initialSupplyMultiplier:15},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','MV000001'], graveyard:['MV000002'], servants:[{id:'H000001',atk:3,pdv:4,pdvMax:4,prepared:true},{id:'H000005',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 SCENARIOS['collection-batch-15d-gabar'] = {
   label: 'TEST — COLLECTION BATCH 15D Gabar',
   participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
@@ -3139,6 +3175,10 @@ SCENARIOS['collection-batch-15d-gabar'] = {
 function collectionBatch15DCaseSetup(baseSetup, variant) {
   const setup = JSON.parse(JSON.stringify(baseSetup || {}));
   const p1 = setup.player1 || {};
+  const activeScenario = selectedScenarioId();
+  if (document.body && /^collection-batch-15d-revenants-/.test(activeScenario)) {
+    document.body.dataset.batch15dCase = activeScenario.replace('collection-batch-15d-', '');
+  }
   if (selectedScenarioId() === 'collection-batch-15d-invocation') {
     if (variant === 'summit-none') {
       p1.hand = ['S000009'];
@@ -18867,15 +18907,21 @@ document.addEventListener('mouseup', () => {
 });
 
 document.addEventListener('click', e => {
-  if (selectedScenarioId() !== 'collection-batch-15d-gabar') return;
   const p = playerState(currentPlayer);
   if (!p) return;
   const deckSelector = playerSelectors(p).deckBack;
   const deck = e.target.closest(deckSelector);
   if (!deck) return;
+  const pile = playerDrawPile(p);
+  const topCardId = getRuntimeCardId(pile[pile.length - 1]);
+  if (!isBatch15DGabarEvolutionSpell(topCardId) || !canResolveBatch02Evolution(p, topCardId)) return;
   e.preventDefault();
   e.stopPropagation();
-  void handleBatch15DGabarDeckClick(p);
+  window.__batch15d6LastGabarDrawPromise = handleBatch15DGabarDeckClick(p);
+  window.__batch15d6LastGabarDrawPromise.catch(error => {
+    console.error('Batch 15D6 Gabar draw failed', error);
+    showErr('La transformation de Gabar a été interrompue.');
+  });
 }, true);
 
 // ── Gestionnaire de clic principal du plateau (GAME_BOARD_CLICK_HANDLER) ──
@@ -27697,7 +27743,14 @@ async function showBatch02GabarCenteredSpell(player, spellId) {
   overlay.dataset.playerId = p?.key || '';
   overlay.innerHTML = buildFC(spellId, p?.key || currentPlayer);
   document.body.appendChild(overlay);
-  markBatch02GabarVisualStage('spell-centered-start', {playerId:p?.key || null, spellId});
+  const rect = overlay.getBoundingClientRect();
+  markBatch02GabarVisualStage('spell-centered-start', {
+    playerId:p?.key || null,
+    spellId,
+    className:overlay.className || '',
+    rect:{left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2},
+    viewport:{width:window.innerWidth, height:window.innerHeight, cx:window.innerWidth / 2, cy:window.innerHeight / 2}
+  });
   await waitBatch02VisualStep(1050);
   markBatch02GabarVisualStage('spell-centered-end', {playerId:p?.key || null, spellId});
   overlay.dataset.batch02GabarStage = 'spell-centered-end';
@@ -27710,6 +27763,7 @@ async function pulseAndRemoveBatch02OldGabar(player, cardId, spellId) {
   markBatch02GabarVisualStage('old-gabar-pulse-start', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source});
   if (source?.isConnected) pulseBatch02Gabar(source, 'evolution');
   await waitBatch02VisualStep(1550);
+  markBatch02GabarVisualStage('old-gabar-pulse-end', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source?.isConnected});
   const removed = removeBatch02CardEverywhere(p, cardId);
   markBatch02GabarVisualStage('old-gabar-removed', {playerId:p?.key || null, spellId, oldCardId:cardId, removedCount:removed.length});
   return removed;
@@ -27761,8 +27815,7 @@ async function resolveBatch02EvolutionDrawAnimated(player, spellId) {
   if (!p || !rule) return {handled:false};
   await showBatch02GabarCenteredSpell(p, spellId);
   const removed = await pulseAndRemoveBatch02OldGabar(p, rule.remove, spellId);
-  p.graveyard.push(spellId);
-  markBatch02GabarVisualStage('spell-to-graveyard', {playerId:p.key, spellId});
+  markBatch02GabarVisualStage('spell-removed-from-game', {playerId:p.key, spellId});
   refreshRuntimeZone(p, 'graveyard');
   const destination = await addBatch02NewGabarWithArrival(p, rule.create, spellId);
   const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false, animated:true};
@@ -27775,6 +27828,7 @@ async function handleBatch15DGabarDeckClick(player) {
   const p = playerState(player);
   const pile = playerDrawPile(p);
   if (!p || !pile.length) return {success:false, reason:'deck-empty'};
+  markBatch02GabarVisualStage('draw-click', {playerId:p.key, turnSequence, currentPlayer});
   const topIndex = pile.length - 1;
   const selectedEntry = pile[topIndex];
   const cardId = getRuntimeCardId(selectedEntry);

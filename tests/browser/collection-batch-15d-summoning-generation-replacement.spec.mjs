@@ -5,6 +5,9 @@ const scenarios = [
   "collection-batch-15d-invocation",
   "collection-batch-15d-replacement",
   "collection-batch-15d-pact-revenants",
+  "collection-batch-15d-revenants-deck",
+  "collection-batch-15d-revenants-graveyard",
+  "collection-batch-15d-revenants-echo",
   "collection-batch-15d-gabar"
 ];
 
@@ -50,6 +53,24 @@ function expectFrenchNoBreakSpaces(text) {
   expect(text).not.toMatch(/ [:\;\?\!»]/);
   expect(text).not.toMatch(/« /);
   expect(text).not.toContain("&nbsp;");
+}
+
+async function playSpellFromHand(page, cardId) {
+  await expect(page.locator(`.hc[data-id="${cardId}"]`).first()).toBeVisible();
+  await page.evaluate(id => {
+    const handZone = qs(playerZoneSelector(player1, "hand"));
+    const card = handZone?.querySelector(`.hc[data-id="${id}"]`);
+    const target = document.querySelector(".board-bg");
+    if (!card || !target) throw new Error(`Unable to drag ${id}`);
+    const dataTransfer = new DataTransfer();
+    card.dispatchEvent(new DragEvent("dragstart", {bubbles:true, cancelable:true, dataTransfer}));
+    target.dispatchEvent(new DragEvent("dragover", {bubbles:true, cancelable:true, dataTransfer}));
+    target.dispatchEvent(new DragEvent("drop", {bubbles:true, cancelable:true, dataTransfer}));
+    if (playerHand(player1).map(getRuntimeCardId).includes(id)) {
+      playCard(id, null, {handOccurrenceId:card.dataset.handOccurrence || null});
+    }
+  }, cardId);
+  await page.waitForTimeout(100);
 }
 
 test("Batch 15D scenarios stay hidden and spell texts use synchronized Sort rendering", async ({page}, testInfo) => {
@@ -441,6 +462,99 @@ test("S000052 summons distinct cheap undead from deck, then graveyard, then gran
   expect(visualEcho.transfers).toHaveLength(0);
   expect(visualEcho.notification).toBe("UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE !");
   expectFrenchNoBreakSpaces(visualEcho.notification);
+  await attachDiagnostics(testInfo, diagnostics);
+  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+});
+
+test("S000052 direct revenant scenarios are recognized and resolve only from real hand play", async ({page}, testInfo) => {
+  const diagnostics = attachPageDiagnostics(page);
+  const cases = [
+    {
+      scenario:"collection-batch-15d-revenants-deck",
+      expectedZone:"deck",
+      expectedMessage:"UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !",
+      expectEchoDelta:0
+    },
+    {
+      scenario:"collection-batch-15d-revenants-graveyard",
+      expectedZone:"graveyard",
+      expectedMessage:"UN SOMBRE RITUEL RAPPELLE DES SERVITEURS DE LA TOMBE !",
+      expectEchoDelta:0
+    },
+    {
+      scenario:"collection-batch-15d-revenants-echo",
+      expectedZone:null,
+      expectedMessage:"UN SOMBRE RITUEL PUISE DANS LES ÂMES DES DISPARUS ET EN TIRE DE L'ÉCHO À OUTRANCE !",
+      expectEchoDelta:5
+    }
+  ];
+  for (const item of cases) {
+    await openBatch15DScenario(page, item.scenario);
+    const before = await page.evaluate(() => ({
+      scenario:selectedScenarioId(),
+      caseId:document.body.dataset.batch15dCase || selectedScenarioId(),
+      hand:playerHand(player1).map(getRuntimeCardId),
+      deck:playerDrawPile(player1).map(getRuntimeCardId),
+      graveyard:player1.graveyard.map(getRuntimeCardId),
+      board:livingServantCardsForPlayer(player1).map(fc => fc.dataset.id),
+      souls:player1.resourceState.souls,
+      turn:turnSequence,
+      player:currentPlayer
+    }));
+    expect(before.scenario).toBe(item.scenario);
+    expect(before.caseId).toContain(item.scenario.replace("collection-batch-15d-", ""));
+    expect(before.hand).toEqual(["S000052"]);
+    expect(before.board).not.toEqual(expect.arrayContaining(["MV000001", "MV000002", "MV000025"]));
+    if (item.expectedZone === "deck") {
+      expect(before.deck).toEqual(expect.arrayContaining(["MV000001", "MV000002", "MV000025"]));
+      expect(before.graveyard.filter(id => id.startsWith("MV"))).toHaveLength(0);
+    } else if (item.expectedZone === "graveyard") {
+      expect(before.deck.some(id => id.startsWith("MV"))).toBe(false);
+      expect(before.graveyard).toEqual(expect.arrayContaining(["MV000001", "MV000002", "MV000025"]));
+    } else {
+      expect(before.deck.some(id => id.startsWith("MV"))).toBe(false);
+      expect(before.graveyard.some(id => id.startsWith("MV"))).toBe(false);
+    }
+    await playSpellFromHand(page, "S000052");
+    await expect.poll(() => page.evaluate(() => ({
+      notification:document.querySelector("#notif")?.textContent || "",
+      hand:playerHand(player1).map(getRuntimeCardId),
+      deck:playerDrawPile(player1).map(getRuntimeCardId),
+      graveyard:player1.graveyard.map(getRuntimeCardId),
+      board:livingServantCardsForPlayer(player1).map(fc => fc.dataset.id),
+      souls:player1.resourceState.souls,
+      turn:turnSequence,
+      player:currentPlayer,
+      transfers:[...(window.__batch15d2Observed || [])].filter(event => /to-board$/.test(event.dataset?.batch15dTransfer || ""))
+    })), {timeout:12000}).toMatchObject({
+      notification:item.expectedMessage,
+      turn:before.turn,
+      player:before.player
+    });
+    const after = await page.evaluate(() => ({
+      notification:document.querySelector("#notif")?.textContent || "",
+      hand:playerHand(player1).map(getRuntimeCardId),
+      deck:playerDrawPile(player1).map(getRuntimeCardId),
+      graveyard:player1.graveyard.map(getRuntimeCardId),
+      board:livingServantCardsForPlayer(player1).map(fc => fc.dataset.id),
+      souls:player1.resourceState.souls,
+      turn:turnSequence,
+      player:currentPlayer,
+      transfers:[...(window.__batch15d2Observed || [])].filter(event => /to-board$/.test(event.dataset?.batch15dTransfer || ""))
+    }));
+    expect(after.hand).not.toContain("S000052");
+    expect(after.notification).toBe(item.expectedMessage);
+    expectFrenchNoBreakSpaces(after.notification);
+    if (item.expectedZone) {
+      expect(after.board).toEqual(expect.arrayContaining(["MV000001", "MV000002", "MV000025"]));
+      expect(after.transfers.filter(event => event.dataset.batch15dSourceZone === item.expectedZone)).toHaveLength(3);
+      expect(after.souls - before.souls).not.toBe(5);
+    } else {
+      expect(after.board.filter(id => id.startsWith("MV"))).toHaveLength(0);
+      expect(after.transfers).toHaveLength(0);
+      expect(after.souls - before.souls).toBe(5);
+    }
+  }
   await attachDiagnostics(testInfo, diagnostics);
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
