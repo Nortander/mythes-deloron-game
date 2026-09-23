@@ -26,8 +26,27 @@ async function installBatch15D2Observer(page) {
   await page.evaluate(() => {
     window.__batch15d2Observed = [];
     window.__batch15d4Evidence = {transfers:[], slotCounts:[], notifications:[], gabarTimeline:[]};
+    window.__batch15d4NextTurnCalls = 0;
+    if (!window.__batch15d4OriginalNextTurn && typeof window.nextTurn === "function") {
+      window.__batch15d4OriginalNextTurn = window.nextTurn;
+      window.nextTurn = function batch15d4TrackedNextTurn(...args) {
+        window.__batch15d4NextTurnCalls += 1;
+        return window.__batch15d4OriginalNextTurn.apply(this, args);
+      };
+    }
+    const gabarZoneSnapshot = () => ({
+      currentPlayer,
+      turnSequence,
+      actionsLeft:player1?.actionsLeft ?? null,
+      nextTurnCalls:window.__batch15d4NextTurnCalls,
+      hand:playerHand(player1).map(getRuntimeCardId),
+      deck:playerDrawPile(player1).map(getRuntimeCardId),
+      graveyard:player1.graveyard.map(getRuntimeCardId),
+      board:livingServantCardsForPlayer(player1).map(fc => fc.dataset.id),
+      notifications:[...(window.__batch15d4Evidence?.notifications || [])].map(item => item.text)
+    });
     const recordGabar = (type, detail = {}) => {
-      window.__batch15d4Evidence.gabarTimeline.push({type, at:performance.now(), ...detail});
+      window.__batch15d4Evidence.gabarTimeline.push({type, at:performance.now(), ...gabarZoneSnapshot(), ...detail});
     };
     const rectSnapshot = element => {
       const rect = element?.getBoundingClientRect?.();
@@ -182,6 +201,155 @@ async function waitForLastGabarDrawPromise(page) {
   expect(result.hasPromise).toBe(true);
   expect(result.result?.success).toBe(true);
   return result.result;
+}
+
+async function clickPlayer1DeckAtVisibleCenter(page) {
+  const clickInfo = await page.evaluate(() => {
+    const deck = document.querySelector(playerSelectors(player1).deckBack);
+    if (!deck) return {ok:false, reason:"missing-deck"};
+    const rect = deck.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const topElement = document.elementFromPoint(cx, cy);
+    return {
+      ok:true,
+      cx,
+      cy,
+      deckRect:{left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height},
+      topElement:{
+        tag:topElement?.tagName || null,
+        id:topElement?.id || null,
+        className:String(topElement?.className || ""),
+        testid:topElement?.dataset?.testid || null,
+        cardId:topElement?.dataset?.id || topElement?.dataset?.cardId || null,
+        closestPlayer1Deck:!!topElement?.closest?.(playerSelectors(player1).deckBack)
+      }
+    };
+  });
+  expect(clickInfo.ok, JSON.stringify(clickInfo)).toBe(true);
+  await page.mouse.click(clickInfo.cx, clickInfo.cy);
+  return clickInfo;
+}
+
+async function clearGabarPreClickNotifications(page) {
+  await page.evaluate(() => {
+    const notif = document.querySelector("#notif");
+    if (notif) notif.textContent = "";
+    if (window.__batch15d4Evidence) {
+      window.__batch15d4Evidence.notifications = [];
+      window.__batch15d4Evidence.gabarTimeline = [];
+    }
+  });
+}
+
+const GABAR_DRAW_CASES = [
+  {
+    variant:"s000057",
+    spell:"S000057",
+    oldGabar:"H000032",
+    newGabar:"H000033",
+    message:"AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !",
+    destination:"hand"
+  },
+  {
+    variant:"s000058",
+    spell:"S000058",
+    oldGabar:"H000033",
+    newGabar:"H000034",
+    message:"LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !",
+    destination:"hand"
+  },
+  {
+    variant:"s000059",
+    spell:"S000059",
+    oldGabar:"H000034",
+    newGabar:"H000035",
+    message:"L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE !",
+    destination:"hand"
+  },
+  {
+    variant:"s000060",
+    spell:"S000060",
+    oldGabar:"H000035",
+    newGabar:"H000036",
+    message:"DÉSORMAIS PARFAITEMENT ÉQUIPÉ ET INSTRUIT, GABAR DEVIENT UN MAÎTRE-MAGICIEN ET UN INVOCATEUR DE RENOM.",
+    destination:"hand"
+  },
+  {
+    variant:"full-hand",
+    spell:"S000057",
+    oldGabar:"H000032",
+    newGabar:"H000033",
+    message:"AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !",
+    destination:"deck-top"
+  }
+];
+
+function firstTimelineEvent(evidence, type) {
+  return evidence.gabarTimeline.find(item => item.type === type);
+}
+
+function expectGabarIntermediatePhases(evidence, testCase) {
+  const expectedOrder = [
+    "draw-click",
+    "spell-centered-start",
+    "spell-centered-end",
+    "old-gabar-pulse-start",
+    "old-gabar-pulse-end",
+    "old-gabar-removed",
+    "new-gabar-arrival-start",
+    "new-gabar-arrival-end",
+    "resolution-message",
+    "draw-action-complete"
+  ];
+  const timelineTypes = evidence.gabarTimeline.map(item => item.type);
+  const indexes = expectedOrder.map(type => timelineTypes.indexOf(type));
+  expect(indexes.every(index => index >= 0), JSON.stringify({timelineTypes})).toBe(true);
+  expect(indexes).toEqual([...indexes].sort((a, b) => a - b));
+
+  const drawClick = firstTimelineEvent(evidence, "draw-click");
+  expect(drawClick.board).toContain(testCase.oldGabar);
+  expect(drawClick.deck).toContain(testCase.spell);
+  expect(drawClick.hand).not.toContain(testCase.newGabar);
+  expect(drawClick.notifications).toEqual([]);
+
+  const centered = firstTimelineEvent(evidence, "spell-centered-start");
+  expect(centered.className).toContain("batch02-gabar-spell-presentation");
+  expect(centered.deck).not.toContain(testCase.spell);
+  expect(centered.board).toContain(testCase.oldGabar);
+  expect(centered.hand).not.toContain(testCase.newGabar);
+  expect(centered.notifications).toEqual([]);
+  expect(centered.rect?.width).toBeGreaterThan(80);
+  expect(centered.rect?.height).toBeGreaterThan(100);
+  expect(Math.abs(centered.rect.cx - centered.viewport.cx)).toBeLessThan(centered.viewport.width * 0.18);
+  expect(Math.abs(centered.rect.cy - centered.viewport.cy)).toBeLessThan(centered.viewport.height * 0.18);
+
+  const pulse = firstTimelineEvent(evidence, "old-gabar-pulse-start");
+  expect(pulse.board).toContain(testCase.oldGabar);
+  expect(pulse.hand).not.toContain(testCase.newGabar);
+  expect(pulse.notifications).toEqual([]);
+
+  const removed = firstTimelineEvent(evidence, "old-gabar-removed");
+  expect(removed.board).not.toContain(testCase.oldGabar);
+  expect(removed.hand).not.toContain(testCase.newGabar);
+  expect(removed.notifications).toEqual([]);
+
+  const arrival = firstTimelineEvent(evidence, "new-gabar-arrival-start");
+  expect(arrival.board).not.toContain(testCase.oldGabar);
+  if (testCase.destination === "deck-top") {
+    expect(arrival.deck.at(-1)).toBe(testCase.newGabar);
+    expect(arrival.hand).not.toContain(testCase.newGabar);
+  } else {
+    expect(arrival.hand).toContain(testCase.newGabar);
+  }
+  expect(arrival.notifications).toEqual([]);
+
+  const message = firstTimelineEvent(evidence, "resolution-message");
+  expect(message.text).toBe(testCase.message);
+  expect(message.notifications).toEqual([testCase.message]);
+  expect(message.currentPlayer).toBe(drawClick.currentPlayer);
+  expect(message.turnSequence).toBe(drawClick.turnSequence);
+  expect(message.nextTurnCalls).toBe(0);
 }
 
 function expectFrenchNoBreakSpaces(text) {
@@ -384,103 +552,37 @@ test("S000038, S000047 and normal Gabar draws use the exact Batch 15D2 messages"
   expect(blockingConsoleErrors(diagnostics)).toEqual([]);
 });
 
-test("S000057-S000060 Gabar variants resolve immediately from a real deck click without generic notifications", async ({page}, testInfo) => {
-  const diagnostics = attachPageDiagnostics(page);
-  const cases = [
-    ["s000057", "H000032", "H000033", "AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !"],
-    ["s000058", "H000033", "H000034", "LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !"],
-    ["s000059", "H000034", "H000035", "L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE !"],
-    ["s000060", "H000035", "H000036", "DÉSORMAIS PARFAITEMENT ÉQUIPÉ ET INSTRUIT, GABAR DEVIENT UN MAÎTRE-MAGICIEN ET UN INVOCATEUR DE RENOM."]
-  ];
-  for (const [variant, oldGabar, newGabar, message] of cases) {
-    await openBatch15DScenario(page, "collection-batch-15d-gabar", `&case=${variant}`);
-    await collapseTestPanelIfVisible(page);
-    const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
+for (const gabarCase of GABAR_DRAW_CASES) {
+  test(`${gabarCase.spell} Gabar ${gabarCase.variant} follows the visible deck click and strict A-F chronology`, async ({page}, testInfo) => {
+    const diagnostics = attachPageDiagnostics(page);
+    await openBatch15DScenario(page, "collection-batch-15d-gabar", `&case=${gabarCase.variant}`);
     const before = await state(page);
-    expect(before.deck.at(-1)).toBe(`S${variant.slice(1)}`);
-    expect(before.board).toContain(oldGabar);
-    await page.locator(deckSelector).click();
+    expect(before.deck.at(-1)).toBe(gabarCase.spell);
+    expect(before.board).toContain(gabarCase.oldGabar);
+    expect(before.hand).not.toContain(gabarCase.newGabar);
+    await clearGabarPreClickNotifications(page);
+
+    const clickInfo = await clickPlayer1DeckAtVisibleCenter(page);
+    expect(clickInfo.topElement.closestPlayer1Deck, JSON.stringify(clickInfo)).toBe(true);
     const resolution = await waitForLastGabarDrawPromise(page);
     const after = await state(page);
-    const notifications = await page.evaluate(() => window.__batch15d4Evidence.notifications.map(item => item.text));
-    expect(resolution.evolutionResolution?.success).toBe(true);
-    expect(after.board).not.toContain(oldGabar);
-    expect(after.hand).toContain(newGabar);
-    expect(after.deck).not.toContain(`S${variant.slice(1)}`);
-    expect(after.graveyard).not.toContain(`S${variant.slice(1)}`);
-    expect(after.notification).toBe(message);
-    expect(notifications.some(text => text.startsWith("SORT JOUÉ :"))).toBe(false);
-  }
-
-  await openBatch15DScenario(page, "collection-batch-15d-gabar", "&case=full-hand");
-  await collapseTestPanelIfVisible(page);
-  const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
-  const beforeFullHand = await state(page);
-  await page.locator(deckSelector).click();
-  const fullHandResolution = await waitForLastGabarDrawPromise(page);
-  const fullHand = await state(page);
-  const fullHandNotifications = await page.evaluate(() => window.__batch15d4Evidence.notifications.map(item => item.text));
-  expect(fullHandResolution.evolutionResolution?.destination).toBe("deck-top");
-  expect(fullHand.board).not.toContain("H000032");
-  expect(fullHand.hand).not.toContain("H000033");
-  expect(fullHand.hand).toEqual(beforeFullHand.hand);
-  expect(fullHand.deck.at(-1)).toBe("H000033");
-  expect(fullHand.deck).not.toContain("S000057");
-  expect(fullHand.graveyard).not.toContain("S000057");
-  expect(fullHandNotifications.some(text => text.startsWith("SORT JOUÉ :"))).toBe(false);
-  await attachDiagnostics(testInfo, diagnostics);
-  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
-});
-
-test("S000057-S000060 Gabar draw choreography exposes every visual stage before the final message", async ({page}, testInfo) => {
-  const diagnostics = attachPageDiagnostics(page);
-  const expectedOrder = [
-    "draw-click",
-    "spell-centered-start",
-    "spell-centered-end",
-    "old-gabar-pulse-start",
-    "old-gabar-pulse-end",
-    "old-gabar-removed",
-    "new-gabar-arrival-start",
-    "new-gabar-arrival-end",
-    "resolution-message",
-    "draw-action-complete"
-  ];
-  const cases = [
-    ["s000057", "H000032", "H000033", "AVEC L'AUBE DE SOIE DE LUMIÈRE, GABAR PREND CONFIANCE !"],
-    ["s000058", "H000033", "H000034", "LE GRIMOIRE MAGIQUE DU MAÎTRE N'A PLUS DE SECRETS POUR GABAR !"],
-    ["s000059", "H000034", "H000035", "L'APPRENTISSAGE DE GABAR SE TERMINE AVEC L'OBTENTION DE SA PROPRE PLUME ENCHANTÉE !"],
-    ["s000060", "H000035", "H000036", "DÉSORMAIS PARFAITEMENT ÉQUIPÉ ET INSTRUIT, GABAR DEVIENT UN MAÎTRE-MAGICIEN ET UN INVOCATEUR DE RENOM."]
-  ];
-  for (const [variant, oldGabar, newGabar, message] of cases) {
-    await openBatch15DScenario(page, "collection-batch-15d-gabar", `&case=${variant}`);
-    await collapseTestPanelIfVisible(page);
-    const before = await state(page);
-    expect(before.board).toContain(oldGabar);
-    expect(before.hand).not.toContain(newGabar);
-    const deckSelector = await page.evaluate(() => playerSelectors(player1).deckBack);
-    await page.locator(deckSelector).click();
-    await waitForLastGabarDrawPromise(page);
-    const after = await state(page);
     const evidence = await page.evaluate(() => window.__batch15d4Evidence);
-    expect(after.board).not.toContain(oldGabar);
-    expect(after.hand).toContain(newGabar);
-    expect(after.notification).toBe(message);
-    expect(evidence.notifications.map(item => item.text)).toEqual([message]);
+    expect(resolution.evolutionResolution?.success).toBe(true);
+    expect(resolution.evolutionResolution?.destination).toBe(gabarCase.destination);
+    expect(after.board).not.toContain(gabarCase.oldGabar);
+    if (gabarCase.destination === "deck-top") {
+      expect(after.hand).toEqual(before.hand);
+      expect(after.deck.at(-1)).toBe(gabarCase.newGabar);
+    } else {
+      expect(after.hand).toContain(gabarCase.newGabar);
+    }
+    expect(after.deck).not.toContain(gabarCase.spell);
+    expect(after.graveyard).not.toContain(gabarCase.spell);
+    expect(after.notification).toBe(gabarCase.message);
+    expect(evidence.notifications.map(item => item.text)).toEqual([gabarCase.message]);
     expect(evidence.notifications.some(item => item.text.startsWith("SORT JOUÉ :"))).toBe(false);
-    const timelineTypes = evidence.gabarTimeline.map(item => item.type);
-    expect(timelineTypes).toEqual(expect.arrayContaining(expectedOrder));
-    expect(expectedOrder.map(type => timelineTypes.indexOf(type))).toEqual([...expectedOrder.keys()].map((_, index) => expect.any(Number)));
-    const indexes = expectedOrder.map(type => timelineTypes.indexOf(type));
-    expect(indexes.every(index => index >= 0)).toBe(true);
-    expect(indexes).toEqual([...indexes].sort((a, b) => a - b));
-    const centered = evidence.gabarTimeline.find(item => item.type === "spell-centered-start" && item.rect);
-    expect(centered?.className).toContain("batch02-gabar-spell-presentation");
-    expect(centered?.rect?.width).toBeGreaterThan(80);
-    expect(centered?.rect?.height).toBeGreaterThan(100);
-    expect(Math.abs(centered.rect.cx - centered.viewport.cx)).toBeLessThan(centered.viewport.width * 0.18);
-    expect(Math.abs(centered.rect.cy - centered.viewport.cy)).toBeLessThan(centered.viewport.height * 0.18);
-  }
-  await attachDiagnostics(testInfo, diagnostics);
-  expect(blockingConsoleErrors(diagnostics)).toEqual([]);
-});
+    expectGabarIntermediatePhases(evidence, gabarCase);
+    await attachDiagnostics(testInfo, diagnostics);
+    expect(blockingConsoleErrors(diagnostics)).toEqual([]);
+  });
+}

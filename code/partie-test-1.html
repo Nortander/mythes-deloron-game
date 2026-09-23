@@ -508,6 +508,7 @@ html,body{width:100%;height:100vh;overflow:hidden;background:#000;font-family:'C
 }
 .err-msg.show{animation:errAnim var(--err-duration, 4000ms) cubic-bezier(.23,1,.32,1) forwards;}
 .test-resource-panel{position:fixed;right:18px;bottom:18px;z-index:1800;width:310px;max-height:46vh;overflow:auto;background:rgba(8,5,3,0.94);border:1px solid rgba(200,168,75,0.72);border-radius:12px;color:#f7e4b5;box-shadow:0 12px 32px rgba(0,0,0,0.72);padding:12px 14px;font-family:"Crimson Pro",serif;font-size:13px;line-height:1.25;}
+body.collection-batch-15d-gabar-active .test-resource-panel{left:18px;right:auto;max-height:42vh}
 .test-resource-panel h2{margin:0 0 8px;font-family:"Cinzel",serif;font-size:12px;letter-spacing:.08em;color:var(--gold-lt)}
 .test-resource-panel dl{display:grid;grid-template-columns:1fr auto;gap:3px 10px;margin:8px 0}
 .test-resource-panel dt{color:#d9bf7a}.test-resource-panel dd{margin:0;font-weight:700;color:#fff1bd}
@@ -3176,6 +3177,7 @@ function collectionBatch15DCaseSetup(baseSetup, variant) {
   const setup = JSON.parse(JSON.stringify(baseSetup || {}));
   const p1 = setup.player1 || {};
   const activeScenario = selectedScenarioId();
+  document.body?.classList.toggle('collection-batch-15d-gabar-active', activeScenario === 'collection-batch-15d-gabar');
   if (document.body && /^collection-batch-15d-revenants-/.test(activeScenario)) {
     document.body.dataset.batch15dCase = activeScenario.replace('collection-batch-15d-', '');
   }
@@ -27678,7 +27680,7 @@ function isBatch15DProtectedGabarSpell(cardId) {
 function pulseBatch02Gabar(fc, reason='effet') {
   if (!fc || !fc.classList) return null;
   fc.classList.remove('batch02-responsibility-pulse');
-  void fc.offsetWidth;
+  fc.getBoundingClientRect();
   fc.classList.add('batch02-responsibility-pulse');
   fc.dataset.batch02Responsibility = reason;
   fc.dataset.batch02ResponsibilityActive = '1';
@@ -27734,6 +27736,31 @@ function markBatch02GabarVisualStage(type, detail={}) {
   document.body?.dispatchEvent(new CustomEvent('batch02-gabar-visual-phase', {detail:{type, phase:type, ...detail}}));
 }
 
+function waitBatch02AnimationEnd(element, fallbackMs=1000) {
+  return new Promise(resolve => {
+    if (!element || typeof element.addEventListener !== 'function') {
+      resolve({completed:false, reason:'missing-element'});
+      return;
+    }
+    let done = false;
+    let timeoutId = null;
+    const finish = (reason, event=null) => {
+      if (done) return;
+      if (event && event.target !== element && !element.contains(event.target)) return;
+      done = true;
+      element.removeEventListener('animationend', onAnimationEnd);
+      element.removeEventListener('transitionend', onTransitionEnd);
+      if (timeoutId) window.clearTimeout(timeoutId);
+      resolve({completed:reason === 'animationend' || reason === 'transitionend', reason});
+    };
+    const onAnimationEnd = event => finish('animationend', event);
+    const onTransitionEnd = event => finish('transitionend', event);
+    element.addEventListener('animationend', onAnimationEnd);
+    element.addEventListener('transitionend', onTransitionEnd);
+    timeoutId = window.setTimeout(() => finish('fallback-timeout'), Math.max(50, fallbackMs + 120));
+  });
+}
+
 async function showBatch02GabarCenteredSpell(player, spellId) {
   const p = playerState(player);
   const overlay = document.createElement('div');
@@ -27751,7 +27778,7 @@ async function showBatch02GabarCenteredSpell(player, spellId) {
     rect:{left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2},
     viewport:{width:window.innerWidth, height:window.innerHeight, cx:window.innerWidth / 2, cy:window.innerHeight / 2}
   });
-  await waitBatch02VisualStep(1050);
+  await waitBatch02AnimationEnd(overlay, 900);
   markBatch02GabarVisualStage('spell-centered-end', {playerId:p?.key || null, spellId});
   overlay.dataset.batch02GabarStage = 'spell-centered-end';
   overlay.remove();
@@ -27762,7 +27789,7 @@ async function pulseAndRemoveBatch02OldGabar(player, cardId, spellId) {
   const source = findBatch02GabarSource(p, cardId);
   markBatch02GabarVisualStage('old-gabar-pulse-start', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source});
   if (source?.isConnected) pulseBatch02Gabar(source, 'evolution');
-  await waitBatch02VisualStep(1550);
+  await waitBatch02AnimationEnd(source, 1900);
   markBatch02GabarVisualStage('old-gabar-pulse-end', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source?.isConnected});
   const removed = removeBatch02CardEverywhere(p, cardId);
   markBatch02GabarVisualStage('old-gabar-removed', {playerId:p?.key || null, spellId, oldCardId:cardId, removedCount:removed.length});
@@ -27773,7 +27800,6 @@ async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
   const p = playerState(player);
   let destination = 'hand';
   const handIndexBefore = playerHand(p).length;
-  markBatch02GabarVisualStage('new-gabar-arrival-start', {playerId:p.key, spellId, newCardId:cardId, destination:'pending'});
   if (addCardToHand(p, cardId, {refresh:false})) {
     refreshRuntimeZone(p, 'hand');
     const handCards = [...(qs(playerZoneSelector(p, 'hand'))?.querySelectorAll(`.hc[data-id="${cardId}"]`) || [])];
@@ -27782,7 +27808,8 @@ async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
       node.dataset.batch02NewGabarArrival = 'start';
       node.classList.add('batch02-gabar-arrival-halo');
     }
-    await waitBatch02VisualStep(980);
+    markBatch02GabarVisualStage('new-gabar-arrival-start', {playerId:p.key, spellId, newCardId:cardId, destination, visible:!!node});
+    await waitBatch02AnimationEnd(node, 950);
     if (node) {
       node.dataset.batch02NewGabarArrival = 'end';
       node.classList.remove('batch02-gabar-arrival-halo');
@@ -27796,7 +27823,8 @@ async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
       deck.dataset.batch02NewGabarArrival = 'start';
       deck.classList.add('batch02-gabar-deck-arrival-halo');
     }
-    await waitBatch02VisualStep(980);
+    markBatch02GabarVisualStage('new-gabar-arrival-start', {playerId:p.key, spellId, newCardId:cardId, destination, visible:!!deck});
+    await waitBatch02AnimationEnd(deck, 950);
     if (deck) {
       deck.dataset.batch02NewGabarArrival = 'end';
       deck.classList.remove('batch02-gabar-deck-arrival-halo');
@@ -27809,19 +27837,34 @@ async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
   return destination;
 }
 
-async function resolveBatch02EvolutionDrawAnimated(player, spellId) {
+async function resolveGabarEvolutionSequence(context={}) {
+  const player = context.player;
+  const spellId = context.spellId;
   const p = playerState(player);
   const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
   if (!p || !rule) return {handled:false};
+  markBatch02GabarVisualStage('draw-detected', {playerId:p.key, spellId});
+  markBatch02GabarVisualStage('spell-reveal-running', {playerId:p.key, spellId});
   await showBatch02GabarCenteredSpell(p, spellId);
+  markBatch02GabarVisualStage('spell-reveal-complete', {playerId:p.key, spellId});
+  markBatch02GabarVisualStage('old-form-pulse-running', {playerId:p.key, spellId, oldCardId:rule.remove});
   const removed = await pulseAndRemoveBatch02OldGabar(p, rule.remove, spellId);
   markBatch02GabarVisualStage('spell-removed-from-game', {playerId:p.key, spellId});
+  markBatch02GabarVisualStage('old-form-removed', {playerId:p.key, spellId, oldCardId:rule.remove});
   refreshRuntimeZone(p, 'graveyard');
+  markBatch02GabarVisualStage('new-form-arrival-running', {playerId:p.key, spellId, newCardId:rule.create});
   const destination = await addBatch02NewGabarWithArrival(p, rule.create, spellId);
+  markBatch02GabarVisualStage('new-form-arrived', {playerId:p.key, spellId, newCardId:rule.create, destination});
   const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false, animated:true};
   recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
   showNotif(COLLECTION_BATCH_15D2_MESSAGES[spellId] || `« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 2200);
+  markBatch02GabarVisualStage('resolution-message-shown', {playerId:p.key, spellId});
+  markBatch02GabarVisualStage('complete', {playerId:p.key, spellId});
   return result;
+}
+
+async function resolveBatch02EvolutionDrawAnimated(player, spellId) {
+  return resolveGabarEvolutionSequence({player, spellId});
 }
 
 async function handleBatch15DGabarDeckClick(player) {
