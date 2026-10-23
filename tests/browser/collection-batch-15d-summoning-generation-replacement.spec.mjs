@@ -563,7 +563,10 @@ test("S000057-S000060 evolve Gabar to hand or deck top and cannot be stolen or d
   const diagnostics = attachPageDiagnostics(page);
   await openBatch15DScenario(page, "collection-batch-15d-gabar");
   const handEvolution = await page.evaluate(async () => {
-    const resolved = await resolveBatch02EvolutionDraw(player1, "S000057");
+    const source = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000032");
+    player1.drawPile = [batch15DGabarGeneratedSpellEntry(player1, "S000057", "H000032", "H000033", source?.dataset.instance || null)];
+    refreshRuntimeZone(player1, "deck");
+    const resolved = await drawBatch15DGabarEvolutionFromDeck(player1, {source:"functional-real-draw", phase:"draw-click"});
     return {
       resolved,
       hand:playerHand(player1).map(getRuntimeCardId),
@@ -572,21 +575,27 @@ test("S000057-S000060 evolve Gabar to hand or deck top and cannot be stolen or d
     };
   });
   expect(handEvolution.resolved.success).toBe(true);
-  expect(handEvolution.resolved.destination).toBe("hand");
-  expect(handEvolution.resolved.autoSummoned).toBe(false);
+  expect(handEvolution.resolved.evolutionResolution?.destination).toBe("hand");
+  expect(handEvolution.resolved.evolutionResolution?.autoSummoned).toBe(false);
   expect(handEvolution.hand).toContain("H000033");
   expect(handEvolution.board).not.toContain("H000032");
   expect(handEvolution.board).not.toContain("H000033");
-  expect(handEvolution.graveyard).toContain("S000057");
+  expect(handEvolution.graveyard).not.toContain("S000057");
 
   await openBatch15DScenario(page, "collection-batch-15d-gabar");
   const fullHandEvolution = await page.evaluate(async () => {
     const fillers = ["H000001","H000002","H000003","H000004","H000005","H000006","H000007","H000008","H000009","H000010","H000011","H000012"];
+    const zone = qs(playerZoneSelector(player1, "servants"));
+    const slot = zone?.querySelector(".slot") || zone?.querySelector(".fc");
+    if (slot) slot.outerHTML = buildFC("H000033", player1.key);
+    const source = livingServantCardsForPlayer(player1).find(fc => fc.dataset.id === "H000033");
     player1.hand = fillers.slice(0, MAX_HAND);
-    player1.drawPile = [];
+    player1.batch03HandOccurrences = [];
+    ensureBatch03HandOccurrences(player1);
+    player1.drawPile = [batch15DGabarGeneratedSpellEntry(player1, "S000058", "H000033", "H000034", source?.dataset.instance || null)];
     refreshRuntimeZone(player1, "hand");
     refreshRuntimeZone(player1, "deck");
-    const resolved = await resolveBatch02EvolutionDraw(player1, "S000058");
+    const resolved = await drawBatch15DGabarEvolutionFromDeck(player1, {source:"functional-real-draw", phase:"draw-click"});
     return {
       resolved,
       hand:playerHand(player1).map(getRuntimeCardId),
@@ -594,7 +603,7 @@ test("S000057-S000060 evolve Gabar to hand or deck top and cannot be stolen or d
     };
   });
   expect(fullHandEvolution.resolved.success).toBe(true);
-  expect(fullHandEvolution.resolved.destination).toBe("deck-top");
+  expect(fullHandEvolution.resolved.evolutionResolution?.destination).toBe("deck-top");
   expect(fullHandEvolution.hand).not.toContain("H000034");
   expect(fullHandEvolution.deck.at(-1)).toBe("H000034");
 

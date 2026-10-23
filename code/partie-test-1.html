@@ -872,11 +872,16 @@ body.collection-batch-15d-gabar-active .test-resource-panel{left:18px;right:auto
 .batch02-deck-addition-vfx strong{display:block;font-family:'Cinzel',serif;font-size:10px;color:#f4d58a;line-height:1.15}
 @keyframes batch02DeckAdd{0%{opacity:0;transform:translateY(18px) scale(.92)}18%{opacity:1;transform:translateY(0) scale(1)}82%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(.96)}}
 .batch02-responsibility-pulse{animation:batch02ResponsibilityPulse 1.9s ease-out 1;box-shadow:0 0 0 4px rgba(38,196,236,.95),0 0 28px rgba(38,196,236,.92),0 0 54px rgba(38,196,236,.62),0 0 76px rgba(0,47,167,.38)!important;outline:2px solid rgba(38,196,236,.82);outline-offset:3px}
-.batch02-gabar-spell-presentation{position:fixed;inset:0;z-index:9997;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle at center,rgba(18,25,58,.58),rgba(4,6,18,.04) 62%,transparent 76%);animation:batch02GabarPresentationFade .9s ease-in-out both}
-.batch02-gabar-spell-presentation .fc{transform:scale(1.16);box-shadow:0 0 0 4px rgba(155,210,255,.96),0 0 32px rgba(120,190,255,.84),0 0 64px rgba(80,155,255,.46)!important}
+.batch02-gabar-spell-presentation{position:fixed;inset:0;z-index:9997;display:grid;place-items:center;pointer-events:none;background:radial-gradient(circle at center,rgba(54,18,86,.58),rgba(18,6,34,.22) 58%,transparent 76%);animation:batch02GabarPresentationFade .9s ease-in-out both}
+.batch02-gabar-spell-presentation .canonical-card-preview{width:min(360px,calc(100vw - 64px))!important;height:min(640px,62vh,calc(100vh - 72px))!important;max-height:calc(100vh - 72px)!important;border:2px solid rgba(213,154,255,.92)!important;box-shadow:0 0 0 4px rgba(167,92,238,.82),0 0 36px rgba(205,126,255,.92),0 0 76px rgba(126,56,210,.66),0 22px 54px rgba(0,0,0,.86)!important;filter:none!important;animation:batch02GabarSpellPortraitHalo .9s ease-in-out both}
+.batch02-gabar-spell-presentation .canonical-card-preview .fc-zoom{height:100%!important;max-height:100%!important;grid-template-rows:minmax(190px,35%) auto minmax(160px,1fr) auto!important}
+.batch02-gabar-spell-presentation .canonical-card-preview .fc-zoom-art .fz-img{object-fit:cover!important;object-position:center!important;background:linear-gradient(180deg,#1e0e34,#080210)}
+.batch02-gabar-spell-presentation .canonical-card-preview .fc-zoom-cost-z{min-height:48px}
+.batch02-gabar-spell-presentation .fc:not(.canonical-card-preview){transform:scale(1.16);box-shadow:0 0 0 4px rgba(167,92,238,.82),0 0 32px rgba(205,126,255,.84),0 0 64px rgba(126,56,210,.56)!important}
 .batch02-gabar-arrival-halo{box-shadow:0 0 0 4px rgba(155,210,255,.96),0 0 30px rgba(120,190,255,.84),0 0 54px rgba(80,155,255,.5)!important;animation:batch02GabarArrivalHalo .95s ease-out 1}
 .batch02-gabar-deck-arrival-halo{position:relative;border-radius:28px;filter:drop-shadow(0 0 18px rgba(120,190,255,.9));animation:batch02GabarArrivalHalo .95s ease-out 1}
 @keyframes batch02GabarPresentationFade{0%{opacity:0;transform:scale(.92)}18%,76%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.06)}}
+@keyframes batch02GabarSpellPortraitHalo{0%{filter:brightness(1.32) drop-shadow(0 0 12px rgba(213,154,255,.8));transform:translate(-50%,-50%) scale(.94)}18%,76%{filter:brightness(1.08) drop-shadow(0 0 24px rgba(205,126,255,.9));transform:translate(-50%,-50%) scale(1)}100%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(167,92,238,.7));transform:translate(-50%,-50%) scale(1.035)}}
 @keyframes batch02GabarArrivalHalo{0%{filter:brightness(1.75) drop-shadow(0 0 22px rgba(155,210,255,.95));transform:translateY(-5px) scale(1.045)}70%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(120,190,255,.82));transform:translateY(0) scale(1.015)}100%{filter:none;transform:none}}
 .batch06-pestilence-vfx{position:absolute;inset:-7px;border-radius:12px;pointer-events:none;z-index:3;mix-blend-mode:screen;background:radial-gradient(circle at 30% 25%,rgba(205,111,255,.40),transparent 34%),radial-gradient(circle at 72% 62%,rgba(103,255,174,.22),transparent 36%);box-shadow:0 0 16px rgba(187,84,255,.58),0 0 28px rgba(79,236,174,.32);animation:batch06PestilenceMiasma 2.2s ease-in-out infinite;}
 .batch06-pestilence-vfx::after{content:'';position:absolute;left:14%;right:14%;top:12%;height:70%;border:2px solid rgba(215,126,255,.72);border-left-color:rgba(90,255,180,.52);border-radius:50%;filter:blur(.2px);transform:rotate(-18deg);animation:batch06PestilenceSerpent 1.8s ease-in-out infinite;}
@@ -3173,11 +3178,23 @@ SCENARIOS['collection-batch-15d-gabar'] = {
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['S000058','H000013'], drawPile:['S000059','H000005'], graveyard:['S000060'], servants:[{id:'H000013',atk:5,pdv:5,pdvMax:5,prepared:true}], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+SCENARIOS['collection-batch-15d-gabar-cycle'] = {
+  label: 'TEST — COLLECTION BATCH 15D Gabar cycle unique',
+  participants: ['huvuImpl3Subject', 'huvuImpl3Opponent'],
+  fixedFirstParticipant: 0,
+  hidden: true,
+  showTestResourcePanel: true,
+  testCardId: 'H000032',
+  testSetup: {
+    player1: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000032'], drawPile:[], graveyard:[], servants:[], avatarHp:25, startingDeckCardIds:['H000032','H000033','H000034','H000035','H000036'], initialSupplyCardId:'R000020', initialSupplyMultiplier:100},
+    player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','MV000001'], graveyard:['MV000002'], servants:[], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
+  }
+};
 function collectionBatch15DCaseSetup(baseSetup, variant) {
   const setup = JSON.parse(JSON.stringify(baseSetup || {}));
   const p1 = setup.player1 || {};
   const activeScenario = selectedScenarioId();
-  document.body?.classList.toggle('collection-batch-15d-gabar-active', activeScenario === 'collection-batch-15d-gabar');
+  document.body?.classList.toggle('collection-batch-15d-gabar-active', activeScenario === 'collection-batch-15d-gabar' || activeScenario === 'collection-batch-15d-gabar-cycle');
   if (document.body && /^collection-batch-15d-revenants-/.test(activeScenario)) {
     document.body.dataset.batch15dCase = activeScenario.replace('collection-batch-15d-', '');
   }
@@ -3242,29 +3259,8 @@ function collectionBatch15DCaseSetup(baseSetup, variant) {
       p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:12};
     }
   }
-  if (selectedScenarioId() === 'collection-batch-15d-gabar') {
-    const cases = {
-      s000057:{spell:'S000057', old:'H000032', next:'H000033'},
-      s000058:{spell:'S000058', old:'H000033', next:'H000034'},
-      s000059:{spell:'S000059', old:'H000034', next:'H000035'},
-      s000060:{spell:'S000060', old:'H000035', next:'H000036'}
-    };
-    const chosen = cases[String(variant || '').toLowerCase()] || null;
-    if (chosen) {
-      p1.hand = [];
-      p1.drawPile = [chosen.spell];
-      p1.graveyard = [];
-      p1.servants = [{id:chosen.old, atk:1, pdv:2, pdvMax:2, prepared:true}];
-      p1.startingDeckCardIds = [chosen.old, chosen.spell, chosen.next];
-      p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100};
-    } else if (String(variant || '').toLowerCase() === 'full-hand') {
-      p1.hand = ['H000001','H000002','H000003','H000004','H000005','H000006','H000007','H000008','H000009','H000010','H000011','H000012'];
-      p1.drawPile = ['S000057'];
-      p1.graveyard = [];
-      p1.servants = [{id:'H000032', atk:1, pdv:2, pdvMax:2, prepared:true}];
-      p1.startingDeckCardIds = ['H000032','S000057','H000033'];
-      p1.resources = {classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100};
-    }
+  if (selectedScenarioId() === 'collection-batch-15d-gabar' && variant) {
+    document.body?.setAttribute('data-batch15d-gabar-case-ignored', String(variant));
   }
   setup.player1 = p1;
   return setup;
@@ -11426,6 +11422,96 @@ function renderBatch14FBelialTestControls(panel, snapshot) {
   });
 }
 
+function isCollectionBatch15DGabarCycleScenario() {
+  return selectedScenarioId() === 'collection-batch-15d-gabar-cycle';
+}
+
+function clearServantBoardToSlots(player) {
+  const p = playerState(player);
+  const zone = p ? qs(playerZoneSelector(p, 'servants')) : null;
+  if (!zone) return;
+  Array.from(zone.children).forEach(node => {
+    if (node.classList?.contains('slot')) return;
+    const slot = document.createElement('div');
+    slot.className = 'slot';
+    slot.dataset.player = p.key;
+    node.replaceWith(slot);
+  });
+}
+
+function resetBatch15DGabarCycleTestState() {
+  if (!isCollectionBatch15DGabarCycleScenario()) return;
+  const setup = SCENARIOS['collection-batch-15d-gabar-cycle']?.testSetup || {};
+  [player1, player2].forEach(p => {
+    const config = setup[p.key] || {};
+    p.hand = [...(config.hand || [])];
+    p.drawPile = [...(config.drawPile || [])];
+    p.graveyard = [...(config.graveyard || [])];
+    p.batch03HandOccurrences = [];
+    p.createdByEnchantress = [];
+    clearServantBoardToSlots(p);
+    if (config.resources) {
+      const classical = createEmptyClassicalResources();
+      Object.entries(config.resources.classical || {}).forEach(([key, value]) => {
+        const resource = normalizeResourceKey(key);
+        if (resource && RESOURCE_KEYS.includes(resource)) classical[resource] = Number(value || 0);
+      });
+      p.resourceState.classical = classical;
+      p.resourceState.souls = Number(config.resources.souls || 0);
+      p.resourceState.revision += 1;
+      recomputeClassicalResources(p);
+    }
+    if (config.avatarHp !== undefined) setAvatarHitPoints(p, config.avatarHp);
+    refreshRuntimeZone(p, 'hand');
+    refreshRuntimeZone(p, 'deck');
+    refreshRuntimeZone(p, 'graveyard');
+  });
+  collectionBatch02State.events = [];
+  collectionBatch02State.visualStages = [];
+  collectionBatch02State.removedFromGame = [];
+  activePlayer = player1;
+  currentPlayer = player1.key;
+  beginTurnState(player1);
+  player1.firstTurnStarted = true;
+  updateTestResourcePanel();
+  showNotif('Cycle Gabar réinitialisé.', 1200);
+}
+
+function prepareBatch15DGabarCycleFullHand() {
+  if (!isCollectionBatch15DGabarCycleScenario()) return;
+  const fillers = ['H000001','H000002','H000003','H000004','H000005','H000006','H000007','H000008','H000009','H000010','H000011','H000012'];
+  player1.hand = fillers.slice(0, MAX_HAND);
+  player1.batch03HandOccurrences = [];
+  ensureBatch03HandOccurrences(player1);
+  refreshRuntimeZone(player1, 'hand');
+  renderAllHands(player1.key);
+  updateTestResourcePanel();
+  markBatch02GabarVisualStage('full-hand-prepared', {playerId:player1.key, handSize:player1.hand.length, deckSize:player1.drawPile.length});
+  showNotif('Main pleine préparée pour Gabar.', 1200);
+}
+
+function renderBatch15DGabarCycleTestControls(panel) {
+  if (!panel || !isCollectionBatch15DGabarCycleScenario()) return;
+  const existing = panel.querySelector('[data-testid="batch15d-gabar-cycle-controls"]');
+  if (existing) existing.remove();
+  const control = document.createElement('section');
+  control.className = 'batch15d-gabar-cycle-controls';
+  control.dataset.testid = 'batch15d-gabar-cycle-controls';
+  control.innerHTML = `<h3>Cycle Gabar</h3>
+    <div class="batch15d-gabar-cycle-actions">
+      <button type="button" data-testid="batch15d-gabar-cycle-reset" data-batch15d-gabar-cycle-action="reset">Réinitialiser le cycle</button>
+      <button type="button" data-testid="batch15d-gabar-cycle-full-hand" data-batch15d-gabar-cycle-action="full-hand">Main pleine</button>
+    </div>
+    <p>Ces contrôles préparent uniquement l’état de test. La pioche reste le vrai clic sur le deck.</p>`;
+  panel.appendChild(control);
+  control.querySelectorAll('[data-batch15d-gabar-cycle-action]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.dataset.batch15dGabarCycleAction === 'reset') resetBatch15DGabarCycleTestState();
+      if (button.dataset.batch15dGabarCycleAction === 'full-hand') prepareBatch15DGabarCycleFullHand();
+    });
+  });
+}
+
 function updateTestResourcePanel() {
   const existing = document.querySelector('[data-testid="test-resource-panel"]');
   const restoreButton = document.querySelector('[data-testid="test-resource-panel-restore"]');
@@ -11473,6 +11559,7 @@ function updateTestResourcePanel() {
   ].find(([flag]) => activeScenario?.[flag])?.[1] || 'MODE TEST — RESSOURCES';
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   renderBatch14FBelialTestControls(panel, snapshot);
+  renderBatch15DGabarCycleTestControls(panel);
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
     testResourcePanelCollapsed = true;
@@ -14260,7 +14347,7 @@ async function triggerInitiative(cardId, player, context={}) {
   const batch05Initiative = await resolveBatch05Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch05Initiative?.handled) return batch05Initiative;
   if (['H000032','H000033','H000034','H000035'].includes(cardId)) {
-    return resolveBatch02Initiative(cardId, player);
+    return resolveBatch02Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   }
   const batch03Initiative = await resolveBatch03Initiative(cardId, player, {sourceFC, sourceInstanceId, traceId});
   if (batch03Initiative?.handled) return batch03Initiative;
@@ -21678,7 +21765,11 @@ async function runStartTurnPipeline(player) {
     } else {
       const capacity = getHandCapacityStatus(p);
       const topDeckCardId = getRuntimeCardId(playerDrawPile(p).at(-1));
-      if (!capacity.full || isPrstFavorCard(topDeckCardId)) {
+      if (isBatch15DGabarEvolutionSpell(topDeckCardId)) {
+        const drawResult = await drawBatch15DGabarEvolutionFromDeck(p, {source:'normal-start-draw', phase:'start-turn-draw'});
+        drawn = drawResult.success ? drawResult.cardId : null;
+        trace.drawResult = drawResult;
+      } else if (!capacity.full || isPrstFavorCard(topDeckCardId)) {
         const drawResult = drawCardFromDeck(p, () => true, {refresh:false, sourceCardId:'normal-start-draw'});
         drawn = drawResult.success ? drawResult.cardId : null;
         trace.drawResult = drawResult;
@@ -21701,7 +21792,10 @@ async function runStartTurnPipeline(player) {
   }
   trace.normalDrawResolved = !!state.normalDrawResolved;
 
-  renderAllHands();
+  // The awaited Gabar sequence has already rendered and animated its final hand.
+  // Only switch the other hand's visibility; do not recreate the arriving card.
+  if (isBatch15DGabarEvolutionSpell(drawn)) renderPlayerHand(opponentOf(p), {faceUp:false});
+  else renderAllHands();
   if (trace.ianna?.success && isBatch03IannaVisualScenario()) {
     const thief = opponentOf(p);
     renderPlayerHand(thief, {faceUp:true});
@@ -21785,7 +21879,7 @@ async function endTurnRuntime() {
       await showNotif(`C’est le tour de ${playerName(activePlayer)} !`);
     }
     const drawn = await startTurn(activePlayer);
-    renderAllHands(drawn ? activePlayer.key : null);
+    if (!isBatch15DGabarEvolutionSpell(drawn)) renderAllHands(drawn ? activePlayer.key : null);
     if (drawn && !isBatch15DGabarEvolutionSpell(drawn)) await showNotif(`${playerName(activePlayer)} pioche !`, hasPendingDoorKeyDrawVisuals(activePlayer) ? 2300 : 1200);
     await flushPendingDoorKeyDrawVisuals(activePlayer);
     updateCamouflageVFX();
@@ -27736,6 +27830,28 @@ function markBatch02GabarVisualStage(type, detail={}) {
   document.body?.dispatchEvent(new CustomEvent('batch02-gabar-visual-phase', {detail:{type, phase:type, ...detail}}));
 }
 
+let batch15DGabarOccurrenceSequence = 0;
+
+function batch15DGabarEvolutionMetadata(entry) {
+  return entry && typeof entry === 'object' ? (entry.batch15dGabarEvolution || null) : null;
+}
+
+function batch15DGabarGeneratedSpellEntry(player, spellId, oldGabarId, nextGabarId, sourceInstanceId=null) {
+  const p = playerState(player);
+  const sourceId = sourceInstanceId || `gabar-${p?.key || 'player'}-${++batch15DGabarOccurrenceSequence}`;
+  return {
+    cardId:spellId,
+    occurrenceId:`gabar-spell-${sourceId}-${spellId}-${++batch15DGabarOccurrenceSequence}`,
+    batch15dGabarEvolution:{
+      ownerId:p?.key || null,
+      sourceInstanceId:sourceId,
+      oldGabarId,
+      nextGabarId,
+      evolutionSpellId:spellId
+    }
+  };
+}
+
 function waitBatch02AnimationEnd(element, fallbackMs=1000) {
   return new Promise(resolve => {
     if (!element || typeof element.addEventListener !== 'function') {
@@ -27761,6 +27877,93 @@ function waitBatch02AnimationEnd(element, fallbackMs=1000) {
   });
 }
 
+function batch15DGabarZoneAnchor(player, zone, index=null, cardId=null, sourceInstanceId=null) {
+  const p = playerState(player);
+  if (!p) return null;
+  if (zone === 'board') return qs(playerZoneSelector(p, 'servants'))?.querySelector(sourceInstanceId ? `.fc[data-instance="${sourceInstanceId}"]` : `.fc[data-id="${cardId}"]`) || null;
+  if (zone === 'hand') {
+    const handEl = qs(playerZoneSelector(p, 'hand'));
+    if (sourceInstanceId) {
+      const byOccurrence = handEl?.querySelector(`[data-hand-occurrence="${CSS.escape(sourceInstanceId)}"]`);
+      if (byOccurrence) return byOccurrence;
+    }
+    return handEl?.querySelector(`.hc[data-id="${cardId}"]`) || handEl || null;
+  }
+  if (zone === 'deck') return qs(playerSelectors(p).deckBack) || document.getElementById(playerSelectors(p).deckCount);
+  if (zone === 'graveyard') return qs(playerZoneSelector(p, 'cemetery'));
+  return null;
+}
+
+function findBatch15DGabarSourceLocation(player, oldGabarId, sourceInstanceId=null) {
+  const p = playerState(player);
+  if (!p || !oldGabarId) return null;
+  const board = qs(playerZoneSelector(p, 'servants'));
+  const boardNode = sourceInstanceId
+    ? board?.querySelector(`.fc[data-instance="${sourceInstanceId}"][data-id="${oldGabarId}"]:not([data-dead])`)
+    : board?.querySelector(`.fc[data-id="${oldGabarId}"]:not([data-dead])`);
+  if (boardNode) return {zone:'board', cardId:oldGabarId, sourceInstanceId:boardNode.dataset.instance || sourceInstanceId || null, element:boardNode};
+
+  for (let index = 0; index < p.hand.length; index++) {
+    if (getRuntimeCardId(p.hand[index]) !== oldGabarId) continue;
+    const occurrenceId = batch03HandOccurrenceAt(p, index);
+    if (sourceInstanceId && occurrenceId !== sourceInstanceId) continue;
+    return {zone:'hand', index, cardId:oldGabarId, sourceInstanceId:occurrenceId || sourceInstanceId || null, element:batch15DGabarZoneAnchor(p, 'hand', index, oldGabarId, occurrenceId || sourceInstanceId)};
+  }
+  for (const zone of ['deck','graveyard']) {
+    const entries = zoneArrayForPlayer(p, zone) || [];
+    for (let index = 0; index < entries.length; index++) {
+      const entry = entries[index];
+      if (getRuntimeCardId(entry) !== oldGabarId) continue;
+      const occurrenceId = entry?.occurrenceId || entry?.batch15dGabarSourceInstanceId || entry?.batch03SourceInstance || null;
+      if (sourceInstanceId && occurrenceId !== sourceInstanceId) continue;
+      return {zone, index, cardId:oldGabarId, sourceInstanceId:occurrenceId || sourceInstanceId || null, element:batch15DGabarZoneAnchor(p, zone, index, oldGabarId, occurrenceId || sourceInstanceId)};
+    }
+  }
+  return null;
+}
+
+function removeBatch15DGabarSourceOccurrence(player, location, oldGabarId) {
+  const p = playerState(player);
+  if (!p || !location) return [];
+  if (location.zone === 'board' && location.element?.isConnected) {
+    const slot = document.createElement('div');
+    slot.className = 'slot';
+    slot.dataset.player = p.key;
+    const instance = location.element.dataset.instance || null;
+    location.element.replaceWith(slot);
+    return [{zone:'servants', instance, cardId:oldGabarId}];
+  }
+  const entries = zoneArrayForPlayer(p, location.zone);
+  if (!entries || location.index == null || location.index < 0 || location.index >= entries.length) return [];
+  const removed = entries.splice(location.index, 1)[0];
+  if (location.zone === 'hand') batch03RemoveHandOccurrenceAt(p, location.index);
+  return [{zone:location.zone, entry:removed, cardId:oldGabarId}];
+}
+
+const GABAR_EVOLUTION_SPELL_REVEAL_MS = 2500;
+let gabarEvolutionResolutionInProgress = false;
+
+function acquireGabarEvolutionResolutionLock(playerId, spellId) {
+  if (gabarEvolutionResolutionInProgress) return null;
+  gabarEvolutionResolutionInProgress = true;
+  closeCardPreview('gabar-evolution');
+  const wasInert = document.body.inert;
+  document.body.inert = true;
+  const events = ['pointerdown','pointerup','mousedown','mouseup','click','dblclick','auxclick','contextmenu','touchstart','touchend','keydown','keyup','dragstart','dragend','dragenter','dragover','dragleave','drop','beforeinput','input','change','submit'];
+  const ignoreInput = event => { event.preventDefault(); event.stopImmediatePropagation(); };
+  for (const type of events) window.addEventListener(type, ignoreInput, {capture:true, passive:false});
+  markBatch02GabarVisualStage('resolution-lock-acquired', {playerId, spellId});
+  let released = false;
+  return () => {
+    if (released) return;
+    released = true;
+    for (const type of events) window.removeEventListener(type, ignoreInput, true);
+    document.body.inert = wasInert;
+    gabarEvolutionResolutionInProgress = false;
+    markBatch02GabarVisualStage('resolution-lock-released', {playerId, spellId});
+  };
+}
+
 async function showBatch02GabarCenteredSpell(player, spellId) {
   const p = playerState(player);
   const overlay = document.createElement('div');
@@ -27768,31 +27971,106 @@ async function showBatch02GabarCenteredSpell(player, spellId) {
   overlay.dataset.batch02GabarStage = 'spell-centered-start';
   overlay.dataset.cardId = spellId;
   overlay.dataset.playerId = p?.key || '';
-  overlay.innerHTML = buildFC(spellId, p?.key || currentPlayer);
+  overlay.innerHTML = buildCanonicalCardPreview(spellId, {sourceType:'batch15d-gabar-evolution', playerId:p?.key || currentPlayer});
   document.body.appendChild(overlay);
-  const rect = overlay.getBoundingClientRect();
+  const revealedAt = performance.now();
+  const ownedAnimations = [];
+  try {
+  const card = overlay.querySelector('.canonical-card-preview') || overlay.firstElementChild || overlay;
+  const phases = [
+    [overlay, 'batch02GabarPresentationFade'],
+    [card, 'batch02GabarSpellPortraitHalo']
+  ].map(([element, name]) => {
+    const original = element.getAnimations().find(animation => animation.effect.target === element && animation.animationName === name);
+    if (!original) throw new Error(`Missing Gabar reveal animation: ${name}`);
+    const frames = original.effect.getKeyframes();
+    const timing = original.effect.getTiming();
+    const duration = Number(timing.duration);
+    original.cancel();
+    return {element, frames, timing, duration};
+  });
+  const animatePhase = (phase, from, to, duration, id) => {
+    const animation = phase.element.animate([
+      {...phase.frames[from], offset:0}, {...phase.frames[to], offset:1}
+    ], {duration, easing:phase.timing.easing, fill:'both'});
+    animation.id = id;
+    ownedAnimations.push(animation);
+    return animation;
+  };
+  const entries = phases.map(phase => animatePhase(phase, 0, 1, phase.duration * phase.frames[1].computedOffset, 'gabar-spell-entry'));
+  const childEntries = card.getAnimations({subtree:true}).filter(animation => animation.animationName === 'zoomIn');
+  const rect = card.getBoundingClientRect();
   markBatch02GabarVisualStage('spell-centered-start', {
     playerId:p?.key || null,
     spellId,
     className:overlay.className || '',
+    cardClassName:card.className || '',
     rect:{left:rect.left, top:rect.top, right:rect.right, bottom:rect.bottom, width:rect.width, height:rect.height, cx:rect.left + rect.width / 2, cy:rect.top + rect.height / 2},
     viewport:{width:window.innerWidth, height:window.innerHeight, cx:window.innerWidth / 2, cy:window.innerHeight / 2}
   });
-  await waitBatch02AnimationEnd(overlay, 900);
+  await Promise.all([...entries, ...childEntries].map(animation => animation.finished));
+  // Let the fully opaque, final-scale card paint before starting the read clock.
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  if (!overlay.isConnected || !card.isConnected) throw new Error('Gabar reveal removed during entry');
+  overlay.dataset.batch02GabarStage = 'spell-centered-readable';
+  markBatch02GabarVisualStage('spell-centered-readable', {playerId:p?.key || null, spellId});
+  // Entry is part of the 2.5-second presentation, not an extra hidden hold.
+  await waitBatch02VisualStep(Math.max(0, GABAR_EVOLUTION_SPELL_REVEAL_MS - (performance.now() - revealedAt)));
+  if (!overlay.isConnected || !card.isConnected) throw new Error('Gabar reveal removed during reading');
+  overlay.dataset.batch02GabarStage = 'spell-centered-exit';
+  markBatch02GabarVisualStage('spell-centered-exit', {playerId:p?.key || null, spellId});
+  const exits = phases.map(phase => {
+    const last = phase.frames.length - 1;
+    return animatePhase(phase, last - 1, last, 100, 'gabar-spell-exit');
+  });
+  // Only these exact exit effects can complete the reveal; child events cannot.
+  await Promise.all(exits.map(animation => animation.finished));
   markBatch02GabarVisualStage('spell-centered-end', {playerId:p?.key || null, spellId});
   overlay.dataset.batch02GabarStage = 'spell-centered-end';
-  overlay.remove();
+  } finally {
+    overlay.remove();
+    for (const animation of ownedAnimations) animation.cancel();
+  }
 }
 
-async function pulseAndRemoveBatch02OldGabar(player, cardId, spellId) {
+function paintBatch15DGabarPhase() {
+  return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+async function awaitBatch15DGabarPulse(element, className, animationName) {
+  if (!element?.isConnected) return;
+  const baseTransform = getComputedStyle(element).transform;
+  element.classList.add(className);
+  const animation = element.getAnimations().find(effect => effect.effect.target === element && effect.animationName === animationName);
+  if (!animation) throw new Error(`Missing Gabar pulse: ${animationName}`);
+  // Preserve the canonical hand arc through the last frame and class removal.
+  if (element.matches('.hc') && baseTransform !== 'none') {
+    animation.effect.setKeyframes(animation.effect.getKeyframes().map(frame => ({
+      ...frame, transform:`${baseTransform} ${frame.transform === 'none' ? '' : frame.transform}`.trim()
+    })));
+  }
+  try {
+    // No descendant transition, unrelated event or fallback timer can finish this.
+    await animation.finished;
+  } finally {
+    element.classList.remove(className);
+  }
+  await paintBatch15DGabarPhase();
+}
+
+async function pulseAndRemoveBatch02OldGabar(player, cardId, spellId, context={}) {
   const p = playerState(player);
-  const source = findBatch02GabarSource(p, cardId);
-  markBatch02GabarVisualStage('old-gabar-pulse-start', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source});
-  if (source?.isConnected) pulseBatch02Gabar(source, 'evolution');
-  await waitBatch02AnimationEnd(source, 1900);
-  markBatch02GabarVisualStage('old-gabar-pulse-end', {playerId:p?.key || null, spellId, oldCardId:cardId, visible:!!source?.isConnected});
-  const removed = removeBatch02CardEverywhere(p, cardId);
-  markBatch02GabarVisualStage('old-gabar-removed', {playerId:p?.key || null, spellId, oldCardId:cardId, removedCount:removed.length});
+  const sourceInstanceId = context.sourceInstanceId || null;
+  const location = findBatch15DGabarSourceLocation(p, cardId, sourceInstanceId);
+  const source = location?.element || null;
+  markBatch02GabarVisualStage('old-gabar-pulse-start', {playerId:p?.key || null, spellId, oldCardId:cardId, sourceInstanceId, zone:location?.zone || null, visible:!!source});
+  await awaitBatch15DGabarPulse(source, 'batch02-responsibility-pulse', 'batch02ResponsibilityPulse');
+  markBatch02GabarVisualStage('old-gabar-pulse-end', {playerId:p?.key || null, spellId, oldCardId:cardId, sourceInstanceId, zone:location?.zone || null, visible:!!source?.isConnected});
+  const removed = removeBatch15DGabarSourceOccurrence(p, location, cardId);
+  collectionBatch02State.removedFromGame.push(...removed.map(item => ({playerId:p.key, ...item})));
+  refreshRuntimeZone(p, 'hand'); refreshRuntimeZone(p, 'deck'); refreshRuntimeZone(p, 'graveyard'); refreshRuntimeZone(p, 'servants');
+  markBatch02GabarVisualStage('old-gabar-removed', {playerId:p?.key || null, spellId, oldCardId:cardId, sourceInstanceId, zone:location?.zone || null, removedCount:removed.length});
+  await paintBatch15DGabarPhase();
   return removed;
 }
 
@@ -27800,16 +28078,27 @@ async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
   const p = playerState(player);
   let destination = 'hand';
   const handIndexBefore = playerHand(p).length;
+  // Decode the real canonical images off-DOM, then adopt those exact loaded nodes
+  // synchronously into the final projection, before its first visible frame.
+  const prepared = document.createElement('div');
+  prepared.innerHTML = buildHC(cardId, p.key, false);
+  const preparedImages = [...prepared.querySelectorAll('img')];
+  await Promise.all(preparedImages.map(image => image.decode()));
   if (addCardToHand(p, cardId, {refresh:false})) {
     refreshRuntimeZone(p, 'hand');
     const handCards = [...(qs(playerZoneSelector(p, 'hand'))?.querySelectorAll(`.hc[data-id="${cardId}"]`) || [])];
     const node = handCards[handCards.length - 1] || qs(playerZoneSelector(p, 'hand'))?.querySelectorAll('.hc')?.[handIndexBefore] || null;
     if (node) {
+      [...node.querySelectorAll('img')].forEach((image, index) => image.replaceWith(preparedImages[index]));
+      const previousTransition = node.style.transition;
+      node.style.transition = 'none';
+      applyArc(qs(playerZoneSelector(p, 'hand')), p.position === 'top');
+      node.getBoundingClientRect();
+      node.style.transition = previousTransition;
       node.dataset.batch02NewGabarArrival = 'start';
-      node.classList.add('batch02-gabar-arrival-halo');
     }
     markBatch02GabarVisualStage('new-gabar-arrival-start', {playerId:p.key, spellId, newCardId:cardId, destination, visible:!!node});
-    await waitBatch02AnimationEnd(node, 950);
+    await awaitBatch15DGabarPulse(node, 'batch02-gabar-arrival-halo', 'batch02GabarArrivalHalo');
     if (node) {
       node.dataset.batch02NewGabarArrival = 'end';
       node.classList.remove('batch02-gabar-arrival-halo');
@@ -27821,16 +28110,14 @@ async function addBatch02NewGabarWithArrival(player, cardId, spellId) {
     const deck = qs(playerSelectors(p).deckBack);
     if (deck) {
       deck.dataset.batch02NewGabarArrival = 'start';
-      deck.classList.add('batch02-gabar-deck-arrival-halo');
     }
     markBatch02GabarVisualStage('new-gabar-arrival-start', {playerId:p.key, spellId, newCardId:cardId, destination, visible:!!deck});
-    await waitBatch02AnimationEnd(deck, 950);
+    await awaitBatch15DGabarPulse(deck, 'batch02-gabar-deck-arrival-halo', 'batch02GabarArrivalHalo');
     if (deck) {
       deck.dataset.batch02NewGabarArrival = 'end';
       deck.classList.remove('batch02-gabar-deck-arrival-halo');
     }
   }
-  refreshRuntimeZone(p, 'hand');
   refreshRuntimeZone(p, 'deck');
   refreshRuntimeZone(p, 'graveyard');
   markBatch02GabarVisualStage('new-gabar-arrival-end', {playerId:p.key, spellId, newCardId:cardId, destination});
@@ -27843,44 +28130,74 @@ async function resolveGabarEvolutionSequence(context={}) {
   const p = playerState(player);
   const rule = COLLECTION_BATCH_02_EVOLUTION[spellId];
   if (!p || !rule) return {handled:false};
-  markBatch02GabarVisualStage('draw-detected', {playerId:p.key, spellId});
-  markBatch02GabarVisualStage('spell-reveal-running', {playerId:p.key, spellId});
+  const metadata = context.metadata || batch15DGabarEvolutionMetadata(context.selectedEntry) || {};
+  const oldGabarId = metadata.oldGabarId || rule.remove;
+  const newGabarId = metadata.nextGabarId || rule.create;
+  const sourceInstanceId = metadata.sourceInstanceId || context.sourceInstanceId || null;
+  const release = acquireGabarEvolutionResolutionLock(p.key, spellId);
+  if (!release) return {handled:true, success:false, reason:'gabar-resolution-in-progress'};
+  try {
+  const oldSource = findBatch15DGabarSourceLocation(p, oldGabarId, sourceInstanceId)?.element;
+  // A prior Initiative/start-turn pulse must not continue behind the reveal.
+  oldSource?.classList.remove('batch02-responsibility-pulse');
+  markBatch02GabarVisualStage('draw-detected', {playerId:p.key, spellId, sourceInstanceId, oldGabarId, newGabarId});
+  markBatch02GabarVisualStage('spell-reveal-running', {playerId:p.key, spellId, sourceInstanceId});
   await showBatch02GabarCenteredSpell(p, spellId);
-  markBatch02GabarVisualStage('spell-reveal-complete', {playerId:p.key, spellId});
-  markBatch02GabarVisualStage('old-form-pulse-running', {playerId:p.key, spellId, oldCardId:rule.remove});
-  const removed = await pulseAndRemoveBatch02OldGabar(p, rule.remove, spellId);
+  await paintBatch15DGabarPhase();
+  markBatch02GabarVisualStage('spell-reveal-complete', {playerId:p.key, spellId, sourceInstanceId});
+  markBatch02GabarVisualStage('old-form-pulse-running', {playerId:p.key, spellId, oldCardId:oldGabarId, sourceInstanceId});
+  const removed = await pulseAndRemoveBatch02OldGabar(p, oldGabarId, spellId, {sourceInstanceId});
   markBatch02GabarVisualStage('spell-removed-from-game', {playerId:p.key, spellId});
-  markBatch02GabarVisualStage('old-form-removed', {playerId:p.key, spellId, oldCardId:rule.remove});
+  markBatch02GabarVisualStage('old-form-removed', {playerId:p.key, spellId, oldCardId:oldGabarId, sourceInstanceId});
   refreshRuntimeZone(p, 'graveyard');
-  markBatch02GabarVisualStage('new-form-arrival-running', {playerId:p.key, spellId, newCardId:rule.create});
-  const destination = await addBatch02NewGabarWithArrival(p, rule.create, spellId);
-  markBatch02GabarVisualStage('new-form-arrived', {playerId:p.key, spellId, newCardId:rule.create, destination});
-  const result = {handled:true, success:true, spellId, removedCardId:rule.remove, removedCount:removed.length, createdCardId:rule.create, destination, summoned:null, autoSummoned:false, animated:true};
+  markBatch02GabarVisualStage('new-form-arrival-running', {playerId:p.key, spellId, newCardId:newGabarId, sourceInstanceId});
+  const destination = await addBatch02NewGabarWithArrival(p, newGabarId, spellId);
+  markBatch02GabarVisualStage('new-form-arrived', {playerId:p.key, spellId, newCardId:newGabarId, destination, sourceInstanceId});
+  const result = {handled:true, success:true, spellId, removedCardId:oldGabarId, removedCount:removed.length, createdCardId:newGabarId, destination, summoned:null, autoSummoned:false, animated:true, sourceInstanceId};
   recordCollectionBatch02Event('evolution', {...result, playerId:p.key});
   showNotif(COLLECTION_BATCH_15D2_MESSAGES[spellId] || `« ${CARDS_DATA[spellId].name} » fait évoluer Gabar.`, 2200);
   markBatch02GabarVisualStage('resolution-message-shown', {playerId:p.key, spellId});
   markBatch02GabarVisualStage('complete', {playerId:p.key, spellId});
+  if (isCollectionBatch15DGabarCycleScenario() && p.key === currentPlayer) {
+    cardsPlayedThisTurn = 0;
+    markBatch02GabarVisualStage('cycle-play-limit-rearmed', {playerId:p.key, spellId});
+  }
   return result;
+  } finally {
+    release();
+  }
 }
 
-async function resolveBatch02EvolutionDrawAnimated(player, spellId) {
-  return resolveGabarEvolutionSequence({player, spellId});
+async function resolveBatch02EvolutionDrawAnimated(player, spellId, context={}) {
+  return resolveGabarEvolutionSequence({player, spellId, ...context});
 }
 
-async function handleBatch15DGabarDeckClick(player) {
+async function drawBatch15DGabarEvolutionFromDeck(player, context={}) {
   const p = playerState(player);
   const pile = playerDrawPile(p);
   if (!p || !pile.length) return {success:false, reason:'deck-empty'};
-  markBatch02GabarVisualStage('draw-click', {playerId:p.key, turnSequence, currentPlayer});
+  markBatch02GabarVisualStage(context.phase || 'draw-click', {playerId:p.key, turnSequence, currentPlayer, source:context.source || null});
   const topIndex = pile.length - 1;
   const selectedEntry = pile[topIndex];
   const cardId = getRuntimeCardId(selectedEntry);
   if (isBatch15DGabarEvolutionSpell(cardId) && canResolveBatch02Evolution(p, cardId)) {
     pile.splice(topIndex, 1);
     updateDeckCount(p);
-    const evolutionResolution = await resolveBatch02EvolutionDrawAnimated(p, cardId);
+    const metadata = batch15DGabarEvolutionMetadata(selectedEntry);
+    const evolutionResolution = await resolveBatch02EvolutionDrawAnimated(p, cardId, {selectedEntry, metadata, sourceInstanceId:metadata?.sourceInstanceId || null});
     markBatch02GabarVisualStage('draw-action-complete', {playerId:p.key, spellId:cardId});
-    return {success:true, cardId, selectedEntry, evolutionResolution, deckSizeAfter:pile.length, handSizeAfter:playerHand(p).length};
+    return {success:true, cardId, selectedEntry, evolutionResolution, deckSizeAfter:pile.length, handSizeAfter:playerHand(p).length, gabarEvolution:true};
+  }
+  return {success:false, reason:'not-gabar-evolution-top', cardId};
+}
+
+async function handleBatch15DGabarDeckClick(player) {
+  const p = playerState(player);
+  const pile = playerDrawPile(p);
+  if (!p || !pile.length) return {success:false, reason:'deck-empty'};
+  const cardId = getRuntimeCardId(pile[pile.length - 1]);
+  if (isBatch15DGabarEvolutionSpell(cardId) && canResolveBatch02Evolution(p, cardId)) {
+    return drawBatch15DGabarEvolutionFromDeck(p, {source:'manual-deck-click', phase:'draw-click'});
   }
   const result = drawCardFromRuntimeDeck(p, {refresh:false, sourceCardId:'collection-batch-15d-gabar-deck-click'});
   refreshRuntimeZone(p, 'hand');
@@ -27974,13 +28291,25 @@ async function summonBatch02ServantFromHand(player, cardId, sourceCardId) {
   return summonBatch02Servant(p, cardId, {sourceCardId});
 }
 
-async function resolveBatch02Initiative(cardId, player) {
+async function resolveBatch02Initiative(cardId, player, context={}) {
   const p = playerState(player);
-  const nextSpell = {H000032:'S000057',H000033:'S000058',H000034:'S000059',H000035:'S000060'}[cardId];
-  const gabarSource = findBatch02GabarSource(p, cardId) || qs(playerZoneSelector(p, 'servants'))?.querySelector(`.fc[data-id="${cardId}"]`);
+  const evolutionMap = {
+    H000032:{spell:'S000057', next:'H000033'},
+    H000033:{spell:'S000058', next:'H000034'},
+    H000034:{spell:'S000059', next:'H000035'},
+    H000035:{spell:'S000060', next:'H000036'}
+  };
+  const evolution = evolutionMap[cardId] || null;
+  const nextSpell = evolution?.spell || null;
+  const gabarSource = context.sourceFC || (context.sourceInstanceId ? document.querySelector(`.fc[data-instance="${context.sourceInstanceId}"]`) : null) || findBatch02GabarSource(p, cardId) || qs(playerZoneSelector(p, 'servants'))?.querySelector(`.fc[data-id="${cardId}"]`);
+  const sourceInstanceId = context.sourceInstanceId || gabarSource?.dataset.instance || null;
   if (gabarSource) pulseBatch02Gabar(gabarSource, 'initiative');
-  if (nextSpell) { p.drawPile.push(nextSpell); markBatch02VisualPhase('next-spell-to-deck', {playerId:p.key, sourceCardId:cardId, spellId:nextSpell}); showBatch02DeckAddition(p, nextSpell); }
-  const result = {success:true, cardId, addedToDeck:nextSpell || null, affected:[]};
+  if (nextSpell) {
+    p.drawPile.push(batch15DGabarGeneratedSpellEntry(p, nextSpell, cardId, evolution.next, sourceInstanceId));
+    markBatch02VisualPhase('next-spell-to-deck', {playerId:p.key, ownerId:p.key, sourceCardId:cardId, spellId:nextSpell, nextGabarId:evolution.next, sourceInstanceId});
+    showBatch02DeckAddition(p, nextSpell);
+  }
+  const result = {success:true, cardId, addedToDeck:nextSpell || null, nextGabarId:evolution?.next || null, sourceInstanceId, affected:[]};
   if (cardId === 'H000032') {
     const all = Array.from(document.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])'));
     for (const target of all) { await applyDamage(target, 1); result.affected.push(target.dataset.instance || target.dataset.id); }
@@ -28005,7 +28334,7 @@ async function resolveBatch02Initiative(cardId, player) {
   }
   updateDeckCount(p);
   if (gabarSource) pulseBatch02Gabar(gabarSource, 'initiative');
-  recordCollectionBatch02Event('initiative', {...result, playerId:p.key});
+  recordCollectionBatch02Event('initiative', {...result, playerId:p.key, ownerId:p.key});
   return result;
 }
 
