@@ -3190,6 +3190,25 @@ SCENARIOS['collection-batch-15d-gabar-cycle'] = {
     player2: {resources:{classical:{aria:100, lenya:100, selene:100, fer:100, bois:100, pierre:100, nourriture:100}, souls:100}, hand:['H000001'], drawPile:['H000005','MV000001'], graveyard:['MV000002'], servants:[], avatarHp:25, initialSupplyCardId:'R000020', initialSupplyMultiplier:15}
   }
 };
+// Hidden Batch 15E fixtures; all actions remain controlled by the player.
+SCENARIOS['collection-batch-15e-graveyard']={"label":"TEST — COLLECTION BATCH 15E graveyard","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000015","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000015","S000040"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
+SCENARIOS['collection-batch-15e-sacrifice']={"label":"TEST — COLLECTION BATCH 15E sacrifice","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000026","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000026","S000041","S000055"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true},{"id":"H000001","prepared":true},{"id":"MV000001","prepared":true},{"id":"H000036","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
+SCENARIOS['collection-batch-15e-resurrection-theft']={"label":"TEST — COLLECTION BATCH 15E resurrection-theft","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000022","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000022","S000051","S000056"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true},{"id":"H000001","prepared":true},{"id":"EN000002","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
+function collectionBatch15ECaseSetup(baseSetup,variant) {
+ const setup=JSON.parse(JSON.stringify(baseSetup));
+ if(!selectedScenarioId().startsWith('collection-batch-15e-')) return setup;
+ if(variant==='empty'){setup.player1.graveyard=[];setup.player2.graveyard=[];}
+ if(variant==='full-hand') setup.player1.hand=[...setup.player1.hand,...Array(12-setup.player1.hand.length).fill('H000005')];
+ if(variant==='full-board') setup.player1.servants=Array.from({length:6},()=>({id:'H000001',prepared:true}));
+ return setup;
+}
+function renderBatch15ETestControls(panel) {
+ if(!selectedScenarioId().startsWith('collection-batch-15e-')) return;
+ const controls=document.createElement('div');controls.dataset.testid='batch15e-cases';
+ controls.innerHTML='<p>15E : choisissez un état, puis jouez les cartes depuis la main. Les cas vides ou pleins rechargent uniquement ce scénario.</p>'+[['','État initial'],['empty','Cimetières vides'],['full-hand','Main pleine'],['full-board','Terrain plein']].map(([value,label])=>'<button type="button" data-batch15e-case="'+value+'">'+label+'</button>').join('');
+ controls.addEventListener('click',event=>{const button=event.target.closest('[data-batch15e-case]');if(!button)return;const url=new URL(location.href);url.searchParams.set('case',button.dataset.batch15eCase);location.href=url.href;});
+ panel.appendChild(controls);
+}
 function collectionBatch15DCaseSetup(baseSetup, variant) {
   const setup = JSON.parse(JSON.stringify(baseSetup || {}));
   const p1 = setup.player1 || {};
@@ -5255,12 +5274,13 @@ function playerHand(player) {
 function getHandCapacityStatus(player) {
   const p = playerState(player);
   const current = p ? playerHand(p).length : 0;
+  const reserved = Math.max(0,Number(p?.batch15eReservedHandSlots || 0));
   const maximum = MAX_HAND;
   return {
     current,
     maximum,
-    available: Math.max(0, maximum - current),
-    full: current >= maximum
+    available: Math.max(0, maximum - current - reserved),
+    full: current + reserved >= maximum
   };
 }
 
@@ -5613,10 +5633,202 @@ function renderDeckBacks() {
 // Total Raith deck : 50 cartes, main de départ 6 â†’ reste 44 dans le deck
 
 // ── Fonctions de gestion deck ──
+// Batch 15E keeps provenance beside the existing zone entries. Cards and
+// legacy primitive arrays retain their identity and public representation.
+const BATCH_15E_CARD_IDS = new Set(['S000015','S000022','S000026','S000040','S000041','S000051','S000055','S000056']);
+const collectionBatch15EState = {events:[], zoneTracks:new WeakMap(), handOrigins:new Map(), pendingAnimations:new Set(), sequence:0, active:null};
+function recordCollectionBatch15EEvent(type, detail={}) {
+  const event = {type, ...detail, turnSequence, at:performance.now()};
+  collectionBatch15EState.events.push(event);
+  return event;
+}
+function batch15EEntryIdentity(entry, ownerId) {
+  return {
+    cardId:getRuntimeCardId(entry),
+    occurrenceId:entry?.occurrenceId || entry?.batch07OccurrenceId || entry?.batch14cOccurrenceKey || `15e-occurrence-${++collectionBatch15EState.sequence}`,
+    originalOwnerId:entry?.originalOwnerId || entry?.ownerId || ownerId
+  };
+}
+function batch15ETrackZone(player, zone) {
+  const p = playerState(player), name = normalizeRuntimeZoneName(zone);
+  const entries = zoneArrayForPlayer(p, name);
+  if (!p || !Array.isArray(entries) || !['deck','graveyard'].includes(name)) return null;
+  const existing = collectionBatch15EState.zoneTracks.get(entries);
+  if (existing) return existing;
+  const track = {raw:entries, records:entries.map(entry=>batch15EEntryIdentity(entry,p.key)), playerId:p.key, zone:name};
+  const proxy = new Proxy(entries, {
+    get(target, key, receiver) {
+      if (key === 'push' || key === 'unshift') return (...items) => {
+        const identities = items.map(entry=>batch15EEntryIdentity(entry,p.key));
+        track.records[key](...identities);
+        return target[key](...items);
+      };
+      if (key === 'pop' || key === 'shift') return () => {track.records[key](); return target[key]();};
+      if (key === 'splice') return (...args) => {
+        if (!args.length) return [];
+        let start = Math.trunc(Number(args[0]) || 0);
+        start = start < 0 ? Math.max(0,target.length + start) : Math.min(target.length,start);
+        const count = args.length === 1 ? target.length - start : Math.min(target.length-start,Math.max(0,Math.trunc(Number(args[1])||0)));
+        const items = args.slice(2);
+        track.records.splice(start,count,...items.map(entry=>batch15EEntryIdentity(entry,p.key)));
+        return target.splice(start,count,...items);
+      };
+      if (key === 'reverse') return () => {target.reverse();track.records.reverse();return proxy;};
+      if (key === 'sort') return compare => {
+        const pairs = target.map((entry,index)=>({entry,meta:track.records[index]}));
+        pairs.sort((a,b)=>compare ? compare(a.entry,b.entry) : String(a.entry)<String(b.entry)?-1:String(a.entry)>String(b.entry)?1:0);
+        pairs.forEach((pair,index)=>{target[index]=pair.entry;track.records[index]=pair.meta;});
+        return proxy;
+      };
+      return Reflect.get(target,key,receiver);
+    }
+  });
+  track.proxy = proxy;
+  collectionBatch15EState.zoneTracks.set(proxy,track);
+  p[name === 'deck' ? 'drawPile' : 'graveyard'] = proxy;
+  return track;
+}
+function batch15EZoneIdentity(player, zone, index) {
+  const entries = zoneArrayForPlayer(player,zone);
+  const track = entries && collectionBatch15EState.zoneTracks.get(entries);
+  if (!track || index < 0 || index >= entries.length) return null;
+  const record = track.records[index];
+  if (!record || record.cardId !== getRuntimeCardId(entries[index])) track.records[index]=batch15EEntryIdentity(entries[index],track.playerId);
+  return track.records[index];
+}
+function batch15EAssignZoneIdentity(player, zone, index, identity) {
+  const track = batch15ETrackZone(player,zone);
+  if (track && index >= 0 && index < track.raw.length) track.records[index]={...identity};
+}
+function batch15ERegisterHandOrigin(player, index, identity) {
+  if (!identity || index < 0) return;
+  const p = playerState(player), occurrenceId = batch03HandOccurrenceAt(p,index);
+  collectionBatch15EState.handOrigins.set(occurrenceId,{...identity,occurrenceId});
+}
+function batch15EApplyBoardOrigin(fc, handOccurrenceId) {
+  const origin = collectionBatch15EState.handOrigins.get(handOccurrenceId);
+  if (!fc || !origin) return;
+  fc.dataset.batch15eOriginalOwner = origin.originalOwnerId;
+  fc.dataset.batch15eSourceOccurrence = origin.occurrenceId;
+  recordCollectionBatch15EEvent('occurrence-entered-board',{cardId:fc.dataset.id,occurrenceId:fc.dataset.instance,sourceOccurrenceId:origin.occurrenceId,originalOwnerId:origin.originalOwnerId,controllerId:fc.dataset.player});
+  collectionBatch15EState.handOrigins.delete(handOccurrenceId);
+}
+function batch15EText(value) {
+  return normalizeFrenchNotificationText(formatPlayerFacingCardText(String(value || '')))
+    .replace(/(\d)(\*?)[ \t]+(?=\p{L})/gu,'$1$2 ')
+    .replace(/([+−-])[ \t]+(\d)/g,'$1 $2');
+}
+function batch15ESpacingInHtml(html) {
+  const template=document.createElement('template');template.innerHTML=html;
+  const walker=document.createTreeWalker(template.content,NodeFilter.SHOW_TEXT);let node,previous='';
+  while((node=walker.nextNode())) {
+    let text=normalizeFrenchNotificationText(node.nodeValue).replace(/(\d)[ \t]+(?=\p{L})/gu,'$1 ').replace(/([+−-])[ \t]+(\d)/g,'$1$2');
+    if(/\d$/.test(previous)) text=text.replace(/^[ \t]+(?=\p{L})/u,' ');
+    node.nodeValue=text;if(text)previous=text;
+  }
+  return template.innerHTML;
+}
+function batch15EMessage(message, duration=2200) {
+  return showNotif(batch15EText(message),duration);
+}
+function batch15EGraveyardCandidates(player, cardId) {
+  const owner = cardId === 'S000022' ? opponentOf(player) : playerState(player);
+  batch15ETrackZone(owner,'graveyard');
+  const requirement = cardId === 'S000022' ? {type:'Serviteur',excludeKeywords:['Insensible']} : {type:'Serviteur'};
+  return zoneCardEntries(owner,'graveyard',requirement)
+    .filter(entry=>entry.cardId !== 'EDG000012')
+    .map(entry=>({...entry,...batch15EZoneIdentity(owner,'graveyard',entry.index)}));
+}
+async function batch15EFlight(cardId, fromPlayer, fromZone, toPlayer, toZone, identity=null, options={}) {
+  const reason = `batch15e-${++collectionBatch15EState.sequence}`;
+  const visible = showBatch11eZoneFlight(cardId,fromPlayer,fromZone,toPlayer,toZone,reason,options);
+  const flight = document.querySelector(`.batch09-cadaver-flight[data-flight-reason="batch11e-${reason}"]`);
+  const detail = {cardId,sourceOwner:playerKey(fromPlayer),destinationOwner:playerKey(toPlayer),sourceZone:fromZone,destinationZone:toZone,occurrenceId:identity?.occurrenceId || null,originalOwnerId:identity?.originalOwnerId || playerKey(fromPlayer),visible};
+  if (flight) {
+    Object.assign(flight.dataset,{batch15eTransfer:reason,sourceOwner:detail.sourceOwner,destinationOwner:detail.destinationOwner,sourceZone:fromZone,destinationZone:toZone,occurrenceId:detail.occurrenceId || ''});
+    flight.getBoundingClientRect();
+  }
+  recordCollectionBatch15EEvent('transfer-start',detail);
+  const animation = flight?.getAnimations().find(item=>item.effect?.target===flight);
+  if (animation) await animation.finished;
+  flight?.remove();
+  recordCollectionBatch15EEvent('transfer-end',detail);
+  return visible;
+}
+function batch15ECheckPlay(cardId, player) {
+  const p = playerState(player);
+  if (cardId === 'S000026') {
+    const count = zoneCardEntries(p,'graveyard',{type:'Serviteur',faction:'edg'}).length;
+    if (count < 10) return {valid:false,reason:'ancient-oath-graveyard-minimum',message:'Votre cimetière doit contenir au minimum 10 serviteurs de la faction « Elfes de glace ».'};
+  }
+  if (cardId === 'S000040') {
+    const pixies = zoneCardEntries(p,'graveyard',{cardIds:['EDB000012']}).length;
+    const availableAfterPlay = Math.max(0,MAX_HAND - playerHand(p).length + 1);
+    if (pixies > availableAfterPlay) return {valid:false,reason:'pixie-hand-capacity',message:'Votre main ne peut pas accueillir toutes les Pixies.'};
+  }
+  if (cardId === 'S000015') {
+    const servants=zoneCardEntries(p,'graveyard',{type:'Serviteur'});
+    if(servants.length && servants.every(entry=>entry.cardId==='EDG000012')) return {valid:false,reason:'no-valid-target',message:'Aucune cible valide n’est disponible.'};
+  }
+  return {valid:true};
+}
+async function playCard(cardId, slot, options={}) {
+  if (collectionBatch15EState.active) return {success:false,reason:'batch15e-resolution-in-progress'};
+  if (!BATCH_15E_CARD_IDS.has(cardId)) return playCardRuntime(cardId,slot,options);
+  const p = playerState(currentPlayer), check = batch15ECheckPlay(cardId,p);
+  if (!check.valid) {showErr(batch15EText(check.message));return {success:false,reason:check.reason};}
+  const endTurn = document.querySelector('#btnEndTurn'), disabled = endTurn?.disabled;
+  const blockInput = event => {
+    if (event.target?.closest?.('.sort-choice-overlay,.decision-compact-bar')) return;
+    event.preventDefault();event.stopImmediatePropagation();
+  };
+  collectionBatch15EState.active={cardId,playerId:p.key};
+  if (endTurn) endTurn.disabled=true;
+  for (const type of ['click','dblclick','dragstart','drop','keydown']) window.addEventListener(type,blockInput,{capture:true,passive:false});
+  recordCollectionBatch15EEvent('cast-start',{cardId,playerId:p.key});
+  try {
+    if (['S000015','S000022'].includes(cardId) && !options.zoneSelection) {
+      const validation = validateCardActionStart({player:p,cardId,slot,handOccurrenceId:options.handOccurrenceId || null});
+      if (!validation.valid) {
+        recordTestPlayLegalityDiagnostic(cardId,validation,'blocked-before-payment');
+        showErr(cardActionError(validation.reason,validation));
+        return options.returnValidation || options.returnActionValidation ? {success:false,reason:validation.reason,actionValidation:validation} : undefined;
+      }
+      const affordability = getCardAffordabilityResult(cardId,p,{handOccurrenceId:options.handOccurrenceId || null});
+      if (!affordability?.playable) {showErr(describeAffordabilityFailure(affordability));return {success:false,reason:'not-affordable'};}
+      const owner = cardId==='S000022' ? opponentOf(p) : p;
+      const candidates = batch15EGraveyardCandidates(p,cardId);
+      const snapshot = [...zoneArrayForPlayer(owner,'graveyard')];
+      const occurrenceSnapshot=snapshot.map((_,index)=>batch15EZoneIdentity(owner,'graveyard',index)?.occurrenceId);
+      const legalIndexes = new Set(candidates.map(item=>item.index));
+      const ineligibleCandidates = zoneCardEntries(owner,'graveyard').filter(item=>!legalIndexes.has(item.index));
+      const selected = await chooseZoneCards({title:CARDS_DATA[cardId].name,prompt:batch15EText(cardId==='S000022'?'Choisissez jusqu’à 5 serviteurs du cimetière adverse à transférer dans votre deck.':'Choisissez jusqu’à 3 serviteurs de votre cimetière à renvoyer dans votre deck.'),candidates,ineligibleCandidates,minCount:1,maxCount:cardId==='S000022'?5:3,canCancel:true,zoneLabel:cardId==='S000022'?'Cimetière adverse':'Votre cimetière'});
+      if (!selected.length) return {success:false,reason:'cancelled'};
+      const current = zoneArrayForPlayer(owner,'graveyard');
+      if (current.length!==snapshot.length || current.some((entry,index)=>entry!==snapshot[index] || batch15EZoneIdentity(owner,'graveyard',index)?.occurrenceId!==occurrenceSnapshot[index])) {
+        showErr('Le cimetière a changé. Recommencez la sélection.');
+        return {success:false,reason:'graveyard-selection-stale'};
+      }
+      options={...options,zoneSelection:{selectedIndexes:selected.map(entry=>entry.index),batch15eSourceOwner:owner.key,batch15eSnapshot:snapshot}};
+    }
+    const result = await playCardRuntime(cardId,slot,options);
+    await Promise.all([...collectionBatch15EState.pendingAnimations]);
+    return result;
+  } finally {
+    collectionBatch15EState.active=null;
+    for (const type of ['click','dblclick','dragstart','drop','keydown']) window.removeEventListener(type,blockInput,true);
+    if (endTurn) endTurn.disabled=disabled;
+    recordCollectionBatch15EEvent('cast-end',{cardId,playerId:p.key});
+  }
+}
+
+
 function shuffleDeck(deck) {
+  const provenance = collectionBatch15EState.zoneTracks.get(deck);
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
+    if (provenance) [provenance.records[i],provenance.records[j]]=[provenance.records[j],provenance.records[i]];
   }
   return deck;
 }
@@ -5933,6 +6145,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
     return result;
   }
 
+  const batch15eOrigin = batch15EZoneIdentity(p,'deck',index);
   const selectedEntry = pile.splice(index, 1)[0];
   const cardId = getRuntimeCardId(selectedEntry);
   if (!cardId) {
@@ -5943,6 +6156,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
   }
   if (capacity.full && !isPrstFavorCard(cardId) && !isBatch15DGabarEvolutionSpell(cardId)) {
     pile.splice(index, 0, selectedEntry);
+    if(batch15eOrigin) batch15EAssignZoneIdentity(p,'deck',index,batch15eOrigin);
     const result = {success:false, reason:'hand-full', deckSizeBefore, deckSizeAfter:pile.length, handSizeBefore, handSizeAfter:hand.length, capacity};
     traceHandFullRefusal(p, {caller:'drawCardFromRuntimeDeck', sourceCardId:options.sourceCardId || null});
     emitDrawTrace({...trace, capacity, selectedEntry, deckSizeAfter:pile.length, handSizeAfter:hand.length, result:'failure', reason:result.reason});
@@ -5955,8 +6169,9 @@ function drawCardFromRuntimeDeck(player, options={}) {
   const evolutionResolution = evolutionCanResolve ? resolveBatch02EvolutionDrawImmediate(p, cardId) : (evolutionRule ? {handled:false, success:false, reason:'missing-required-gabar-source', spellId:cardId, requiredSource:evolutionRule.source || evolutionRule.remove} : null);
   if (!linkedKeyResolution.handled && !evolutionCanResolve && !prstAutoPlayResolution?.handled) {
     hand.push(cardId);
-    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.batch14cOccurrenceKey || selectedEntry?.occurrenceId || selectedEntry?.batch14cDeckOccurrenceKey || null;
+    const occurrenceId = selectedEntry?.batch07OccurrenceId || selectedEntry?.batch14cOccurrenceKey || selectedEntry?.occurrenceId || selectedEntry?.batch14cDeckOccurrenceKey || batch15eOrigin?.occurrenceId || null;
     if (occurrenceId) batch03RegisterHandCard(p, hand.length - 1, occurrenceId);
+    if (batch15eOrigin) batch15ERegisterHandOrigin(p,hand.length-1,batch15eOrigin);
     if (selectedEntry?.batch07RuneServant) {
       const handOccurrenceId = batch03HandOccurrenceAt(p, hand.length - 1);
       markBatch07RuneHandOccurrence(p, handOccurrenceId, cardId, selectedEntry.batch07SourceCardId || 'AVS000013', {
@@ -6522,6 +6737,8 @@ function removeZoneEntry(player, zone, index) {
 function moveRuntimeZoneEntry({sourcePlayer, sourceZone, sourceIndex, targetPlayer, targetZone, targetPosition='top', reason='zone-effect'}={}) {
   const source = playerState(sourcePlayer);
   const target = playerState(targetPlayer);
+  const origin = batch15EZoneIdentity(source,sourceZone,sourceIndex);
+  if (origin && normalizeRuntimeZoneName(targetZone)==='hand' && getHandCapacityStatus(target).full) return {success:false,reason:'hand-full',cardId:origin.cardId};
   const before = {
     source:zoneInventorySnapshot(source),
     target:source?.key === target?.key ? null : zoneInventorySnapshot(target)
@@ -6531,7 +6748,16 @@ function moveRuntimeZoneEntry({sourcePlayer, sourceZone, sourceIndex, targetPlay
   if (!entry || !cardId) {
     return {success:false, code:'invalid-zone-entry', reason, sourcePlayer:source?.key || '', targetPlayer:target?.key || '', sourceZone:normalizeRuntimeZoneName(sourceZone), targetZone:normalizeRuntimeZoneName(targetZone), sourceIndex};
   }
-  addEntryToRuntimeZone(target, targetZone, entry, {position:targetPosition});
+  if (origin && normalizeRuntimeZoneName(targetZone)==='hand') {
+    addCardToHand(target,cardId,{refresh:true,occurrenceId:origin.occurrenceId});
+    batch15ERegisterHandOrigin(target,playerHand(target).length-1,origin);
+  } else {
+    addEntryToRuntimeZone(target, targetZone, entry, {position:targetPosition});
+    if (origin) {
+      const destination = zoneArrayForPlayer(target,targetZone);
+      batch15EAssignZoneIdentity(target,targetZone,targetZone==='deck'&&targetPosition==='bottom'?0:destination.length-1,origin);
+    }
+  }
   return {
     success:true,
     code:'zone-entry-moved',
@@ -6602,7 +6828,7 @@ function selectZoneEntriesFromSelection(candidates, selection, {max=1, min=1}={}
   };
 }
 
-function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={}) {
+function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1, canCancel=false, ineligibleCandidates=[], zoneLabel=''}={}) {
   const available = Array.from(candidates || []);
   if (typeof document === 'undefined' || !document.body) return Promise.resolve(available.slice(0, maxCount));
   if (!available.length) return Promise.resolve([]);
@@ -6613,21 +6839,25 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
     const selected = new Set();
     const cardsHTML = available.map((candidate, i) => {
       const id = candidate.cardId;
-      return `<div class="sort-choice-item" data-testid="zone-card-choice" data-card-id="${escapeHtml(id || '')}" data-zone-index="${candidate.index}" data-idx="${i}">
+      return `<div class="sort-choice-item" data-testid="zone-card-choice" data-card-id="${escapeHtml(id || '')}" data-zone-index="${candidate.index}" data-source-owner="${escapeHtml(candidate.ownerKey||'')}" data-occurrence-id="${escapeHtml(candidate.occurrenceId||'')}" data-idx="${i}">
         ${renderSelectionCard(id, playerState(candidate.ownerKey), {context:'zone-selection', occurrenceId:`${candidate.zone}:${candidate.index}`, selectable:true})}
       </div>`;
     }).join('');
+    const ineligibleHTML = ineligibleCandidates.map(candidate=>`<div class="sort-choice-item zone-card-ineligible" data-testid="zone-card-ineligible" data-card-id="${escapeHtml(candidate.cardId)}" aria-disabled="true" style="opacity:.45;pointer-events:none">${renderSelectionCard(candidate.cardId,playerState(candidate.ownerKey),{context:'zone-selection',selectable:false})}<span>Non éligible</span></div>`).join('');
     const modal = createMinimizableDecisionModal({
       decisionId:'zone-card-selection',
+      canCancel,
+      onCancel:()=>resolve([]),
       title:title || 'Selection de zone',
       compactLabel:`${title || 'Selection'} en attente`,
       panelClass:isIsgrimmRune ? 'zone-card-choice-panel isgrimm-rune-choice-panel' : (isApresCatastrophe ? 'zone-card-choice-panel apres-catastrophe-choice-panel' : 'zone-card-choice-panel'),
       bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
-        <div class="sort-choice-cards" data-testid="zone-card-choice-list">${cardsHTML}</div>
+        ${zoneLabel ? `<p data-testid="batch15e-source-zone">${escapeHtml(zoneLabel)}</p>` : ''}
+        <div class="sort-choice-cards" data-testid="zone-card-choice-list">${cardsHTML}${ineligibleHTML}</div>
         <button type="button" class="sort-choice-confirm" data-testid="zone-card-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
     });
     function update() {
-      modal.overlay?.querySelectorAll('.sort-choice-item').forEach((el, i) => {
+      modal.overlay?.querySelectorAll('[data-testid="zone-card-choice"]').forEach((el, i) => {
         el.classList.toggle('is-selected', selected.has(i));
         el.style.outline = selected.has(i) ? '2px solid #ff9a40' : '';
       });
@@ -6637,7 +6867,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
     modal.onRender = () => {
       const overlay = modal.overlay;
       if (!overlay) return;
-      overlay.querySelectorAll('.sort-choice-item').forEach((el, i) => {
+      overlay.querySelectorAll('[data-testid="zone-card-choice"]').forEach((el, i) => {
         el.addEventListener('click', () => {
           if (selected.has(i)) selected.delete(i);
           else if (maxCount === 1) { selected.clear(); selected.add(i); }
@@ -6646,6 +6876,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1}={})
         });
       });
       overlay.querySelector('.sort-choice-confirm')?.addEventListener('click', () => {
+        if (modal.resolved) return;
         const chosen = [...selected].map(index => available[index]).filter(Boolean);
         modal.close({selected:[...selected]});
         resolve(chosen);
@@ -8046,7 +8277,12 @@ function humanDescriptionAccentColor(card, fallbackColor) {
 }
 
 function renderZoomDescription(card, kwColor) {
+  const html=renderZoomDescriptionRuntime(card,kwColor);
+  return BATCH_15E_CARD_IDS.has(card?.id)?batch15ESpacingInHtml(html):html;
+}
+function renderZoomDescriptionRuntime(card, kwColor) {
   if (!card) return '';
+  if (BATCH_15E_CARD_IDS.has(card.id)) card={...card,cap:batch15EText(card.cap),detail:batch15EText(card.detail)};
   const descColor = humanDescriptionAccentColor(card, kwColor);
   if (card.type === 'Approvisionnement') {
     const loreText = supplyLoreText(card);
@@ -8669,13 +8905,18 @@ Object.assign(KDEF, KDEF_UPDATES);
 const RES_KWS = ['Pierre','Aria','Lenya','Fer','Nourriture','Sélène','me','Bois'];
 
 function buildHC(cardId, player, drawAnim=false) {
+  const html=buildHCRuntime(cardId,player,drawAnim);
+  return BATCH_15E_CARD_IDS.has(cardId)?batch15ESpacingInHtml(html):html;
+}
+function buildHCRuntime(cardId, player, drawAnim=false) {
   player = playerKey(player);
   const printed = CARDS_DATA[cardId];
   if (!printed) return '';
   printed.id ||= cardId;
   const handIndexForCost = (typeof buildHC.__handIndex === 'number') ? buildHC.__handIndex : null;
   const handOccurrenceForCost = batch03HandOccurrenceAt(player, handIndexForCost);
-  const d = batch08HandCardData(cardId, printed, player, handOccurrenceForCost);
+  const handData = batch08HandCardData(cardId, printed, player, handOccurrenceForCost);
+  const d = BATCH_15E_CARD_IDS.has(cardId) ? {...handData,cap:batch15EText(handData.cap),detail:batch15EText(handData.detail)} : handData;
   const col   = facColor(d.fac);
   const folder= d.assetFolder || facFolder(d.fac);
   const artworkSrc = d.batch08MaraborcCopy ? `../assets/${d.originalAssetFolder || folder}/${cardId}.png` : cardArtworkSrc(cardId, folder);
@@ -11357,7 +11598,7 @@ function describeAffordabilityDiagnostic(result) {
 let lastPlayLegalityDiagnostic = null;
 let lastCombatEffectDiagnostic = null;
 let lastZoneEffectDiagnostic = null;
-let testResourcePanelCollapsed = false;
+let testResourcePanelCollapsed = selectedScenarioId().startsWith('collection-batch-15e-');
 let testResourcePanelScrollTop = 0;
 function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
 function summarizeCostDefinition(cardId) { const definition = getCanonicalCostDefinition(cardId); if (!definition) return null; return {total: definition.total, allowedForTotal: [...(definition.allowedForTotal || [])], requirements: cloneCostDiagnostic(definition.requirements || []), conditions: cloneCostDiagnostic(definition.conditions || [])}; }
@@ -11560,6 +11801,7 @@ function updateTestResourcePanel() {
   panel.innerHTML = `<div class="test-resource-panel-header"><h2>${title}</h2><button type="button" class="test-resource-panel-collapse" data-testid="test-resource-panel-collapse" aria-label="Réduire le panneau de test">Réduire le panneau de test</button></div><div>Joueur actif : <strong data-testid="test-resource-player">${escapeHtml(resources.playerName || resources.player)}</strong></div><div>Carte testée : <span class="test-card" data-testid="test-resource-card" data-card-id="${escapeHtml(snapshot.testCardId || '')}">${escapeHtml(snapshot.testCardId || '')} — ${escapeHtml(card.name || '')}</span></div><dl>${classicalRows}<dt>Échos</dt><dd data-testid="test-resource-echo" data-value="${resources.souls}">${resources.souls}</dd></dl><div data-testid="test-resource-cost">${escapeHtml(formatCostDefinitionForPanel(diagnostic.costDefinition || snapshot.live?.costDefinition))}</div><pre data-testid="test-cost-diagnostic" data-code="${escapeHtml(diagnostic.code || '')}" data-public-message="${escapeHtml(diagnostic.publicMessage || '')}">${escapeHtml(JSON.stringify(diagnostic, null, 2))}</pre><pre data-testid="impl1-legality-diagnostic" data-code="${escapeHtml(snapshot.play?.code || '')}" data-public-message="${escapeHtml(snapshot.play?.publicMessage || '')}">${escapeHtml(JSON.stringify(snapshot.play || {}, null, 2))}</pre><pre data-testid="impl2-combat-diagnostic" data-code="${escapeHtml(snapshot.combat?.code || '')}">${escapeHtml(JSON.stringify(snapshot.combat || {}, null, 2))}</pre><pre data-testid="impl3-zone-diagnostic" data-code="${escapeHtml(snapshot.zone?.code || '')}">${escapeHtml(JSON.stringify(snapshot.zone || {}, null, 2))}</pre>`;
   renderBatch14FBelialTestControls(panel, snapshot);
   renderBatch15DGabarCycleTestControls(panel);
+  renderBatch15ETestControls(panel);
   panel.querySelector('[data-testid="test-resource-panel-collapse"]')?.addEventListener('click', () => {
     testResourcePanelScrollTop = panel.scrollTop || 0;
     testResourcePanelCollapsed = true;
@@ -13899,6 +14141,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
     sourceInstanceId = placedFC.dataset.instance;
   }
   if (placedFC && d.type === 'Serviteur') {
+    batch15EApplyBoardOrigin(placedFC,transaction.removedHandOccurrenceId || transaction.handOccurrenceId || null);
     applyBatch07BoardRuneFromHandOccurrence(placedFC, p, transaction.removedHandOccurrenceId || transaction.handOccurrenceId || null);
     applyBatch08MaraborcBoardOccurrence(placedFC, p, cardId, transaction.removedHandOccurrenceId || transaction.handOccurrenceId || null);
   }
@@ -13959,7 +14202,7 @@ function beginPrecommitSpellChoice(transaction) {
   }
 }
 
-async function playCard(cardId, slot, options={}) {
+async function playCardRuntime(cardId, slot, options={}) {
   const d = CARDS_DATA[cardId];
   if (!d) return;
   const p = playerState(currentPlayer);
@@ -14011,10 +14254,12 @@ async function playCard(cardId, slot, options={}) {
       minCount:targetRequirement?.min || 1,
       maxCount:targetRequirement?.max || 1,
       confirmLabel:targetChoiceCopy[2] || 'CONFIRMER',
-      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000031' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063') ? ' batch09-magic-choice-panel' : (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : (cardId === 'S000032' ? ' savoir-tribal-choice-panel' : (cardId === 'S000046' ? ' batch09-ca-casse-choice-panel' : ''))))
+      panelClass:'board-target-choice-panel batch03-spell-target-choice-panel' + ((cardId === 'S000001' || cardId === 'S000005' || cardId === 'S000031' || cardId === 'S000061' || cardId === 'S000062' || cardId === 'S000063') ? ' batch09-magic-choice-panel' : (cardId === 'S000056' ? ' deplacement-instantane-choice-panel' : (cardId === 'S000032' ? ' savoir-tribal-choice-panel' : (cardId === 'S000046' ? ' batch09-ca-casse-choice-panel' : '')))),
+      canCancel:cardId==='S000056'
     });
     if (chosen.length < (targetRequirement?.min || 1) || chosen.length > (targetRequirement?.max || 1)) {
       releasePaymentLock(p, cardId);
+      if (cardId==='S000056' && !chosen.length) return {success:false,reason:'cancelled'};
       showErr('Cette cible n\'est pas valide.');
       return {success:false, reason:'invalid-target-count'};
     }
@@ -14039,9 +14284,10 @@ async function playCard(cardId, slot, options={}) {
   const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection, handOccurrenceId, returnActionValidation};
   if (cardId === 'S000055' && !selectedTargetIds) {
     const targets = legalTargetsForRequirement(cardId, p).filter(target => !target.dataset.insensible);
-    const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel'});
+    const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel',canCancel:true});
     if (chosen.length !== 3) {
       releasePaymentLock(p, cardId);
+      if (!chosen.length) return {success:false,reason:'cancelled'};
       showErr('Vous devez choisir exactement 3 serviteurs alliés non Insensibles.');
       return {success:false, reason:'invalid-target-count'};
     }
@@ -15590,7 +15836,7 @@ async function resolveGalerieDesHorreurs(player, context={}) {
   const opponent = opponentOf(p);
   if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player'};
   const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
-  const candidates = zoneCardEntries(opponent, 'graveyard', {type:'Serviteur', excludeKeywords:['Insensible']});
+  const candidates = batch15EGraveyardCandidates(p,'S000022');
   if (!candidates.length) {
     const diagnostic = {success:false, code:'no-valid-zone-card', reason:'no-valid-target', cardId:'S000022', moved:[], before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
     recordZoneEffectDiagnostic('S000022', diagnostic);
@@ -15604,7 +15850,9 @@ async function resolveGalerieDesHorreurs(player, context={}) {
       prompt:'Choisissez jusqu’à 5 serviteurs du cimetière adverse à transférer dans votre deck.',
       candidates,
       minCount:1,
-      maxCount:5
+      maxCount:5,
+      canCancel:true,
+      zoneLabel:'Cimetière adverse'
     });
     selected = {allowed: chosen.length > 0, selected: chosen.slice(0, 5), code: chosen.length > 0 ? 'zone-selection-valid' : 'zone-selection-missing'};
   }
@@ -15616,7 +15864,9 @@ async function resolveGalerieDesHorreurs(player, context={}) {
   }
   const moved = [];
   const ordered = [...selected.selected].sort((a, b) => b.index - a.index);
-  ordered.forEach(candidate => {
+  for (const candidate of ordered) {
+    if (zoneArrayForPlayer(opponent,'graveyard')[candidate.index]!==candidate.entry) continue;
+    await batch15EFlight(candidate.cardId,opponent,'graveyard',p,'deck',batch15EZoneIdentity(opponent,'graveyard',candidate.index));
     const result = moveRuntimeZoneEntry({
       sourcePlayer:opponent,
       sourceZone:'graveyard',
@@ -15627,11 +15877,11 @@ async function resolveGalerieDesHorreurs(player, context={}) {
       reason:'galerie-des-horreurs'
     });
     if (result.success) moved.push({cardId:result.cardId, fromIndex:candidate.index});
-  });
+  }
   const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'S000022', reason:'galerie-des-horreurs'});
   const diagnostic = {success:true, code:'galerie-des-horreurs-resolved', reason:null, cardId:'S000022', moved, shuffled:true, shuffle, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
   recordZoneEffectDiagnostic('S000022', diagnostic);
-  showNotif(`Galerie des horreurs : ${moved.length} serviteur(s) transféré(s), deck remélangé.`, 1800);
+  batch15EMessage(`Galerie des horreurs : ${moved.length} serviteur(s) transféré(s), deck remélangé.`);
   return diagnostic;
 }
 
@@ -15696,7 +15946,7 @@ async function resolveApresLaCatastrophe(player, context={}) {
   const p = playerState(player);
   if (!p) return {success:false, code:'invalid-player', reason:'invalid-player'};
   const before = zoneInventorySnapshot(p);
-  const candidates = zoneCardEntries(p, 'graveyard', {type:'Serviteur'});
+  const candidates = batch15EGraveyardCandidates(p,'S000015');
   if (!candidates.length) {
     const diagnostic = {success:false, code:'own-graveyard-has-servant', reason:'no-valid-target', cardId:'S000015', moved:[], before, after:zoneInventorySnapshot(p)};
     recordZoneEffectDiagnostic('S000015', diagnostic);
@@ -15705,7 +15955,7 @@ async function resolveApresLaCatastrophe(player, context={}) {
   }
   let selected = selectZoneEntriesFromSelection(candidates, context.zoneSelection || {}, {min:1, max:3});
   if (!selected.allowed) {
-    const chosen = await chooseZoneCards({title:'Après la catastrophe', prompt:'Choisissez jusqu’à 3 serviteurs de votre cimetière à renvoyer dans votre deck.', candidates, minCount:1, maxCount:3});
+    const chosen = await chooseZoneCards({title:'Après la catastrophe', prompt:'Choisissez jusqu’à 3 serviteurs de votre cimetière à renvoyer dans votre deck.', candidates, minCount:1, maxCount:3,canCancel:true,zoneLabel:'Votre cimetière'});
     selected = {allowed:chosen.length > 0, selected:chosen.slice(0, 3), code:chosen.length > 0 ? 'zone-selection-valid' : 'zone-selection-missing'};
   }
   if (!selected.allowed || !selected.selected.length) {
@@ -15715,14 +15965,16 @@ async function resolveApresLaCatastrophe(player, context={}) {
     return diagnostic;
   }
   const moved = [];
-  [...selected.selected].sort((a,b) => b.index - a.index).forEach(candidate => {
+  for (const candidate of [...selected.selected].sort((a,b) => b.index - a.index)) {
+    if (zoneArrayForPlayer(p,'graveyard')[candidate.index]!==candidate.entry) continue;
+    await batch15EFlight(candidate.cardId,p,'graveyard',p,'deck',batch15EZoneIdentity(p,'graveyard',candidate.index));
     const result = moveRuntimeZoneEntry({sourcePlayer:p, sourceZone:'graveyard', sourceIndex:candidate.index, targetPlayer:p, targetZone:'deck', targetPosition:'bottom', reason:'apres-la-catastrophe'});
     if (result.success) moved.push({cardId:result.cardId, fromIndex:candidate.index});
-  });
+  }
   const shuffle = shuffleRuntimeDeck(p, {sourceCardId:'S000015', reason:'apres-la-catastrophe'});
   const diagnostic = {success:true, code:'apres-la-catastrophe-resolved', reason:null, cardId:'S000015', moved, shuffled:true, shuffle, before, after:zoneInventorySnapshot(p)};
   recordZoneEffectDiagnostic('S000015', diagnostic);
-  showNotif(`Après la catastrophe : ${moved.length} serviteur(s) retourné(s) dans le deck.`, 1800);
+  batch15EMessage(`Après la catastrophe : ${moved.length} serviteur(s) retourné(s) dans le deck.`);
   return diagnostic;
 }
 
@@ -17250,8 +17502,9 @@ function resolveDeplacementInstantane(player, context={}) {
 }
 
 async function tryBatch06DeplacementRescue(fc, context={}) {
+  if (fc?.dataset.batch15eRescuing==='1' || fc?.dataset.batch15eRescued==='1') return true;
   if (!fc || fc.dataset.batch06DeplacementInstantane !== '1') return false;
-  const owner = playerState(fc.dataset.player);
+  const owner = playerState(fc.dataset.batch06DeplacementSourcePlayer || fc.dataset.player);
   if (!owner || getHandCapacityStatus(owner).full) {
     recordCollectionBatch06Event('deplacement-rescue-refused', {reason:'hand-full-or-owner-missing', target:targetSummary(fc)});
     return false;
@@ -17259,6 +17512,11 @@ async function tryBatch06DeplacementRescue(fc, context={}) {
   const cardId = fc.dataset.id;
   const occurrenceId = fc.dataset.instance || null;
   const sourceBefore = targetSummary(fc);
+  const origin={cardId,occurrenceId,originalOwnerId:fc.dataset.batch15eOriginalOwner || fc.dataset.player};
+  fc.dataset.batch15eRescuing='1';
+  owner.batch15eReservedHandSlots=Number(owner.batch15eReservedHandSlots||0)+1;
+  let reservation=true;
+  try {
   delete fc.dataset.batch06DeplacementInstantane;
   delete fc.dataset.batch06DeplacementSourcePlayer;
   delete fc.dataset.batch06DeplacementOccurrenceId;
@@ -17268,8 +17526,15 @@ async function tryBatch06DeplacementRescue(fc, context={}) {
   if ((CARDS_DATA[cardId]?.kws || []).includes('Vengeance')) {
     await triggerVengeance(cardId, owner, fc, context.sourceFC || fc._killer || null);
   }
+  releaseBatch09TrollNainAttachment(fc);
+  await releaseBatch09CadaverStash(fc);
+  releaseBatch10LinkedEffects(fc);
+  await batch15EFlight(cardId,playerState(fc.dataset.player),'servants',owner,'hand',origin,{fromElement:fc});
   batch03RemoveBoardCardToSlot(fc);
+  owner.batch15eReservedHandSlots--;reservation=false;
   addCardToHand(owner, cardId, {refresh:true, occurrenceId});
+  batch15ERegisterHandOrigin(owner,playerHand(owner).length-1,origin);
+  fc.dataset.batch15eRescued='1';
   const modifier = registerRuntimeCostModifier(owner, {
     sourceId:'S000056',
     priority:300,
@@ -17280,8 +17545,12 @@ async function tryBatch06DeplacementRescue(fc, context={}) {
   renderAllHands();
   const result = {success:true, cardId:'S000056', rescuedCardId:cardId, occurrenceId, sourceBefore, ownerId:owner.key, costModifierId:modifier?.id || null, context};
   recordCollectionBatch06Event('deplacement-rescue', result);
-  showNotif((CARDS_DATA[cardId]?.name || cardId) + ' revient dans la main avec un coût de 0.', 1700);
+  batch15EMessage((CARDS_DATA[cardId]?.name || cardId) + ' revient dans la main avec un coût de 0.');
   return true;
+  } finally {
+    if(reservation) owner.batch15eReservedHandSlots--;
+    delete fc.dataset.batch15eRescuing;
+  }
 }
 
 function collectionBatch06RandomEnemyServant(player, sourceCardId, effectKind='damage') {
@@ -17325,10 +17594,15 @@ async function resolveSermentDesAnciens(player) {
   const p = playerState(player);
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000026'};
   const before = auditZoneInventories();
-  const board = [player1, player2].flatMap(owner => batch05LivingServants(owner));
+  const board = getAffectableTargets({sourcePlayer:p,sourceCardId:'S000026',isSpell:true,effectKind:'destroy',targets:[player1,player2].flatMap(owner=>batch05LivingServants(owner))});
+  const destroyed = [];
   for (const fc of [...board]) {
+    if (!fc.isConnected || fc.dataset.dead) continue;
     fc._killer = null;
-    await sendToCemetery(fc);
+    if (await tryBatch05RescueDestruction(fc,{sourceCardId:'S000026'})) continue;
+    destroyed.push(targetSummary(fc));
+    fc.dataset.dead='1';
+    await sendToCemetery(fc,{sourceCardId:'S000026',departureKind:'destruction'});
   }
   const discarded = [];
   for (let i = p.hand.length - 1; i >= 0; i--) {
@@ -17348,9 +17622,9 @@ async function resolveSermentDesAnciens(player) {
     tisseur.dataset.batch05AncientOathBonus = String(iceInGraveyard);
     batch05SetStats(tisseur, {atk:Number(CARDS_DATA.EDG000012.atk || 20) + iceInGraveyard, pdvMax:Number(CARDS_DATA.EDG000012.pdv || 20) + iceInGraveyard, preserveDamage:false});
   }
-  const result = {success:true, cardId:'S000026', playerId:p.key, destroyed:board.map(targetSummary), discarded, iceInGraveyard, summon, before, after:auditZoneInventories()};
+  const result = {success:true, cardId:'S000026', playerId:p.key, destroyed, discarded, iceInGraveyard, summon, before, after:auditZoneInventories()};
   recordCollectionBatch05Event('ancient-oath', result);
-  showNotif('Serment des anciens invoque le Tisseur de Givre.', 1800);
+  batch15EMessage(summon?.success ? 'Serment des anciens invoque le Tisseur de Givre.' : 'Aucun emplacement libre pour invoquer le Tisseur de Givre.');
   return result;
 }
 
@@ -17383,6 +17657,7 @@ async function resolveCheminsDeLey(player) {
 function resolvePixiemanie(player) {
   const p = playerState(player);
   const before = zoneInventorySnapshot(p);
+  batch15ETrackZone(p,'graveyard');
   const candidates = zoneCardEntries(p, 'graveyard', {cardIds:['EDB000012']});
   if (!candidates.length) {
     const diagnostic = {success:false, code:'own-graveyard-has-pixie', reason:'no-valid-target', cardId:'S000040', moved:[], before, after:zoneInventorySnapshot(p)};
@@ -17397,15 +17672,19 @@ function resolvePixiemanie(player) {
     showErr('Votre main ne peut pas accueillir toutes les Pixies.');
     return diagnostic;
   }
-  const moved = [];
+  const moved = [], flights=[];
   [...candidates].sort((a,b) => b.index - a.index).forEach(candidate => {
+    const origin = batch15EZoneIdentity(p,'graveyard',candidate.index);
+    flights.push(batch15EFlight(candidate.cardId,p,'graveyard',p,'hand',origin));
     const result = moveRuntimeZoneEntry({sourcePlayer:p, sourceZone:'graveyard', sourceIndex:candidate.index, targetPlayer:p, targetZone:'hand', reason:'pixiemanie'});
     if (result.success) moved.push({cardId:result.cardId, fromIndex:candidate.index});
   });
   refreshHand(p);
   const diagnostic = {success:true, code:'pixiemanie-resolved', reason:null, cardId:'S000040', moved, before, after:zoneInventorySnapshot(p)};
   recordZoneEffectDiagnostic('S000040', diagnostic);
-  showNotif(`Pixiemanie : ${moved.length} Pixie(s) reviennent en main.`, 1800);
+  const animation = Promise.all(flights).then(()=>batch15EMessage(`Pixiemanie : ${moved.length} Pixie(s) reviennent en main.`));
+  collectionBatch15EState.pendingAnimations.add(animation);
+  animation.finally(()=>collectionBatch15EState.pendingAnimations.delete(animation));
   return diagnostic;
 }
 
@@ -17420,22 +17699,24 @@ async function resolveRituelOcculte(player) {
   if (!p || !opponent) return {success:false, code:'invalid-player', reason:'invalid-player'};
   const before = {self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)};
   const stolen = [];
+  batch15ETrackZone(opponent,'graveyard');
+  batch15ETrackZone(p,'graveyard');
   const source = zoneArrayForPlayer(opponent, 'graveyard') || [];
   while (source.length) {
-    const entry = source.shift();
+    const origin = batch15EZoneIdentity(opponent,'graveyard',0);
+    const entry = source[0];
     const cardId = getRuntimeCardId(entry);
     if (cardId) {
       stolen.push(cardId);
-      showBatch11eZoneFlight(cardId, opponent, 'graveyard', p, 'graveyard', 'rituel-occulte-grave-transfer');
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await batch15EFlight(cardId,opponent,'graveyard',p,'graveyard',origin);
     }
-    addEntryToRuntimeZone(p, 'graveyard', entry);
+    moveRuntimeZoneEntry({sourcePlayer:opponent,sourceZone:'graveyard',sourceIndex:0,targetPlayer:p,targetZone:'graveyard',reason:'rituel-occulte'});
   }
   refreshCemeteryVisual(opponent);
   refreshCemeteryVisual(p);
   const diagnostic = {success:true, code:'rituel-occulte-resolved', reason:null, cardId:'S000051', moved:stolen, before, after:{self:zoneInventorySnapshot(p), opponent:zoneInventorySnapshot(opponent)}};
   recordZoneEffectDiagnostic('S000051', diagnostic);
-  showNotif("LA MAGIE NOIRE DÉPOSSÈDE L'ADVERSAIRE DU CONTENU DE SON CIMETIÈRE... AU BÉNÉFICE DU VÔTRE !", 2200);
+  batch15EMessage(stolen.length ? "LA MAGIE NOIRE DÉPOSSÈDE L'ADVERSAIRE DU CONTENU DE SON CIMETIÈRE... AU BÉNÉFICE DU VÔTRE !" : 'LE CIMETIÈRE ADVERSE EST VIDE.');
   return diagnostic;
 }
 
@@ -17536,7 +17817,7 @@ function resolveBatch11aEchoCaptureOnCemetery(victimOwner, fc, context={}) {
   const capturedEntry = {
     cardId,
     name:batch11aPublicCardName(cardId),
-    originalOwnerId:owner.key,
+    originalOwnerId:fc.dataset.batch15eOriginalOwner || owner.key,
     capturedBy:sourceCardId || 'unknown',
     capturedByInstanceId:requested?.sourceInstanceId || killer?.dataset?.instance || null,
     occurrenceId:fc.dataset.instance || null,
@@ -18604,29 +18885,12 @@ function batch11cRemoveCurrentGraveyard(player) {
 async function batch11cApplySacrificeDamage(player, targetFC, sourceCardId) {
   const p = playerState(player);
   if (!targetFC || targetFC.dataset.dead) return {success:false, reason:'invalid-target'};
-  const before = Number(targetFC.dataset.pdv || 0);
-  const maxPdv = Number(targetFC.dataset.pdvMax || before) || before;
-  const after = Math.max(0, before - 1);
-  targetFC.classList.add('anim-damage');
-  showDmgPopup(targetFC, '-1');
-  const pdvEl = targetFC.querySelector('.fc-pdv-val');
-  if (pdvEl) {
-    pdvEl.textContent = String(after);
-    pdvEl.className = after < maxPdv ? 'fc-pdv-val red' : 'fc-pdv-val';
-  }
-  targetFC.dataset.pdv = String(after);
-  updateRageState(targetFC);
-  await new Promise(resolve => setTimeout(resolve, 220));
-  targetFC.classList.remove('anim-damage');
-  const result = {success:true, targetBefore:{...targetSummary(targetFC), pdv:before}, targetAfter:{...targetSummary(targetFC), pdv:after}, died:false, echoAmount:0};
-  if (after <= 0) {
-    const amount = batch11bEchoAmountFromPrintedCost(targetFC.dataset.id);
-    result.died = true;
-    result.echoAmount = amount;
-    targetFC.dataset.dead = '1';
-    await sendToCemetery(targetFC, {killer:null, echoCapture:{collector:p, sourceCardId, sourceInstanceId:null, amount, silent:sourceCardId === 'S000041'}});
-    result.capturedVictims = batch11aCapturedVictims(p).map(entry => ({...entry}));
-  }
+  const targetBefore=targetSummary(targetFC), amount=batch11bEchoAmountFromPrintedCost(targetFC.dataset.id);
+  targetFC._killer=null;
+  await tryApplyAbilityDamage({sourcePlayer:p,targetFC,sourceCardId,amount:1,bypassInsensitive:true,echoCapture:{collector:p,sourceCardId,sourceInstanceId:null,amount,silent:sourceCardId==='S000041'}});
+  const died=targetFC.dataset.dead==='1' && targetFC.dataset.batch15eRescued!=='1';
+  const result={success:true,targetBefore,targetAfter:targetSummary(targetFC),died,echoAmount:died?amount:0};
+  if(died) result.capturedVictims=batch11aCapturedVictims(p).map(entry=>({...entry}));
   return result;
 }
 function batch11cRandomEnemyOrAvatar(player) {
@@ -18659,7 +18923,7 @@ async function resolvePuissanceDuSacrifice(player) {
   const killedCount = operations.filter(op => op.result?.died).length;
   const result = {success:true, code:'puissance-du-sacrifice-resolved', damagePoints:servantEntries.length, killedCount, removedOwnGraveyard, before, after:{player:batch11cZoneSummary(p), opponent:batch11cZoneSummary(opponentOf(p))}, operations};
   recordCollectionBatch11cEvent('puissance-du-sacrifice', result);
-  showNotif("LES ÉCHOS VENGEURS DE VOS SERVITEURS SACRIFIÉS SÈMENT LA MORT CHEZ VOS ENNEMIS ET VOUS RESSOURCENT D'AUTANT !", 2000);
+  batch15EMessage(killedCount ? "LES ÉCHOS VENGEURS DE VOS SERVITEURS SACRIFIÉS SÈMENT LA MORT CHEZ VOS ENNEMIS ET VOUS RESSOURCENT D'AUTANT !" : 'LES DÉGÂTS SONT RÉSOLUS. LE CONTENU DE VOTRE CIMETIÈRE EST RETIRÉ DE LA PARTIE.');
   return result;
 }
 function batch11cEligibleZoneEntries(player, zone) { return zoneCardEntries(player, zone, {type:'Serviteur', faction:'mvs'}).filter(entry => batch11cIsLowCostUndeadServant(entry.cardId)); }
@@ -19555,7 +19819,7 @@ async function sendToCemetery(fc, options={}) {
   }
 
   if (goesToCemetery && !placedAtDeckBottom) {
-    const cemeteryPlayer = playerState(options.destinationPlayer || options.cemeteryPlayer || player) || playerState(player);
+    const cemeteryPlayer = playerState(options.destinationPlayer || options.cemeteryPlayer || fc.dataset.batch15eOriginalOwner || player) || playerState(player);
     if (d.type === 'Serviteur' && player) {
       const graveyardOwner = cemeteryPlayer;
       if (graveyardOwner && fc.dataset.cemeteryRecorded !== '1') {
@@ -19569,6 +19833,7 @@ async function sendToCemetery(fc, options={}) {
             }
           : null;
         graveyardOwner.graveyard.push(maraborcEntry || cardId);
+        if(fc.dataset.batch15eOriginalOwner) batch15EAssignZoneIdentity(graveyardOwner,'graveyard',graveyardOwner.graveyard.length-1,{cardId,occurrenceId:fc.dataset.instance,originalOwnerId:fc.dataset.batch15eOriginalOwner});
         fc.dataset.cemeteryRecorded = '1';
       }
     }
@@ -20105,7 +20370,7 @@ function applyHealerEffect() {
   });
 }
 
-function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, panelClass='board-target-choice-panel', confirmLabel='CONFIRMER'}={}) {
+function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, panelClass='board-target-choice-panel', confirmLabel='CONFIRMER',canCancel=false}={}) {
   const available = Array.from(targets || []).filter(fc => fc && !fc.dataset.dead);
   if (typeof document === 'undefined' || !document.body) return Promise.resolve(available.slice(0, maxCount));
   if (!available.length) return Promise.resolve([]);
@@ -20119,6 +20384,8 @@ function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, pan
     }).join('');
     const modal = createMinimizableDecisionModal({
       decisionId:'board-target-selection',
+      canCancel,
+      onCancel:()=>resolve([]),
       title:title || 'Sélection',
       compactLabel:`${title || 'Sélection'} en attente`,
       panelClass,
@@ -21894,6 +22161,7 @@ async function endTurnRuntime() {
 }
 
 async function endTurn() {
+  if(collectionBatch15EState.active) return {success:false,reason:'batch15e-resolution-in-progress'};
   return endTurnRuntime();
 }
 
@@ -28343,14 +28611,18 @@ async function resolveTriangleDesTenebres(player, context={}) {
   const audit = evaluateTargetRequirement('S000055', {player:p, selectedTargetIds:context.selectedTargetIds || []});
   if (!audit.allowed || audit.selectedTargets.length !== 3) return {success:false, reason:audit.code || 'invalid-target', targetAudit:audit};
   const refs = resolveBoardTargetReferences(context.selectedTargetIds);
-  for (const target of refs) await sendToCemetery(target);
+  const sacrificed=refs.map(targetSummary);
+  for (const target of refs) {
+    recordCollectionBatch15EEvent('sacrifice',{cardId:target.dataset.id,occurrenceId:target.dataset.instance,sourceOwner:target.dataset.player,sourceZone:'servants',destinationZone:'graveyard'});
+    target.dataset.dead='1';
+    await sendToCemetery(target,{sourceCardId:'S000055',departureKind:'sacrifice'});
+  }
   const echoes = changeSouls(p, 10, 'triangle-des-tenebres');
   const summon = await summonBatch02Servant(p, 'MV000024', {sourceCardId:'S000055', insensibleTurns:3});
-  if (!summon.success) return {success:false, reason:summon.reason, sacrificed:refs.map(targetSummary), echoes};
-  collectionBatch02State.triangleEffects.push({playerId:p.key, instanceId:summon.instanceId, remainingOwnerTurns:3, createdTurnSequence:turnSequence});
-  const result = {success:true, sacrificed:refs.map(targetSummary), echoes, summon};
+  if (summon.success) collectionBatch02State.triangleEffects.push({playerId:p.key, instanceId:summon.instanceId, remainingOwnerTurns:3, createdTurnSequence:turnSequence});
+  const result = {success:true, sacrificed, echoes, summon};
   recordCollectionBatch02Event('triangle', {...result, playerId:p.key});
-  showNotif("TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !", 2200);
+  batch15EMessage(summon.success ? "TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !" : 'TRIANGLE DES TÉNÈBRES : 10 ÉCHOS GÉNÉRÉS, AUCUN EMPLACEMENT LIBRE POUR MORGHAST.');
   return result;
 }
 
@@ -29907,7 +30179,7 @@ function applyScenarioTestSetup() {
   const baseSetup = activeScenario?.testSetup;
   if (!baseSetup) return;
   const variant = new URLSearchParams(window.location.search).get('case') || '';
-  const setup = collectionBatch15DCaseSetup(baseSetup, variant);
+  const setup = selectedScenarioId().startsWith('collection-batch-15e-') ? collectionBatch15ECaseSetup(baseSetup,variant) : collectionBatch15DCaseSetup(baseSetup, variant);
   if (selectedScenarioId() === 'collection-batch-01-door-key') preloadDoorLockAssets();
   lastCostDiagnostic = null;
   lastPlayLegalityDiagnostic = null;
@@ -30261,6 +30533,179 @@ function adaptAllDescriptions() {
   });
 }
 
+// Batch 15E — export 2026-09-13, eight bounded canonical definitions.
+for (const [id,patch] of [
+  [
+    "S000015",
+    {
+      "id": "S000015",
+      "name": "Après la catastrophe",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe des bois",
+      "canonicalCondition": "Nécessite d'avoir au minimum 1 serviteur dans votre cimetière.",
+      "cost": 3,
+      "kws": [
+        "Lenya"
+      ],
+      "cap": "Choisissez jusqu'à *3* serviteurs de votre cimetière et renvoyez-les dans votre deck, puis, mélangez le deck.",
+      "detail": "Choisissez jusqu'à *3* serviteurs de votre cimetière et renvoyez-les dans votre deck, puis, mélangez le deck.",
+      "cond": "Nécessite d'avoir au minimum *1* serviteur dans votre cimetière.",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000022",
+    {
+      "id": "S000022",
+      "name": "Galerie des horreurs",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "Le cimetière du joueur adverse doit contenir au minimum 1 serviteur.",
+      "cost": 8,
+      "kws": [
+        "Aria",
+        "Sélène",
+        "Écho",
+        "Lenya"
+      ],
+      "cap": "Choisit jusqu'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé.",
+      "detail": "Choisit jusqu'à *5* serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé. Les serviteurs ayant la capacité spéciale [Insensible] ne peuvent être sélectionnés par ce sort.",
+      "cond": "Le cimetière du joueur adverse doit contenir au minimum *1* serviteur.",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000026",
+    {
+      "id": "S000026",
+      "name": "Serment des anciens",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe de glace",
+      "canonicalCondition": "Votre cimetière doit contenir au minimum 10 serviteurs de la faction « Elfes de glace ».",
+      "cost": 15,
+      "kws": [
+        "Aria",
+        "Lenya",
+        "Nourriture",
+        "Bois",
+        "Fer"
+      ],
+      "cap": "Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère *+1* ATK/ *+1* PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.",
+      "detail": "Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère *+1* ATK/ *+1* PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.",
+      "cond": "Votre cimetière doit contenir au minimum *10* serviteurs de la faction « Elfes de glace ».",
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000040",
+    {
+      "id": "S000040",
+      "name": "Pixiemanie",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe des bois",
+      "canonicalCondition": "Nécessite d'avoir au moins 1 carte « Pixie » [ID = EDB000012] actuellement dans votre cimetière.",
+      "cost": 10,
+      "kws": [
+        "Lenya",
+        "Nourriture"
+      ],
+      "cap": "Renvoie toutes les « Pixies » de votre cimetière à votre main.",
+      "detail": "Renvoie toutes les « Pixies » de votre cimetière à votre main.",
+      "cond": "Nécessite d'avoir au moins *1* carte « Pixie » actuellement dans votre cimetière.",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000041",
+    {
+      "id": "S000041",
+      "name": "Puissance du sacrifice",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Mort-vivant",
+      "canonicalCondition": "Nécessite au moins 1 serviteur dans votre cimetière.",
+      "cost": 0,
+      "kws": [
+        "Insensible",
+        "Écho",
+        "Approvisionnement"
+      ],
+      "cap": "Pour chaque serviteur actuellement dans votre cimetière, inflige *1* point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit *1* ou plusieurs serviteurs, génère *1 à 3* Échos par victime.",
+      "detail": "Pour chaque serviteur actuellement dans votre cimetière, inflige *1* point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre [Insensible]. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit *1* ou plusieurs serviteurs, génère *1 à 3* Échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement.",
+      "cond": "Nécessite au moins *1* serviteur dans votre cimetière.",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000051",
+    {
+      "id": "S000051",
+      "name": "Rituel occulte",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Mort-vivant",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "kws": [
+        "Aria"
+      ],
+      "cap": "Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",
+      "detail": "Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000055",
+    {
+      "id": "S000055",
+      "name": "Triangle des ténèbres",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "Avoir au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",
+      "cost": 0,
+      "kws": [
+        "Insensible",
+        "Écho"
+      ],
+      "cap": "Choisissez *3* serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10 Échos* et invoque « Morghast L'Os-tentatoire ». Pendant vos *3* prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",
+      "detail": "Choisissez *3* serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère *10* Échos et invoque « Morghast L'Os-tentatoire ». Pendant vos *3* prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité [Insensible].",
+      "cond": "Avoir au moins *3* serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].",
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000056",
+    {
+      "id": "S000056",
+      "name": "Déplacement instantané",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 4,
+      "kws": [
+        "Lenya",
+        "Aria",
+        "Écho",
+        "Vengeance"
+      ],
+      "cap": "Marquez *1* serviteur allié. La première fois qu'il devrait être détruit, renvoyez-le dans votre main et fixez son coût en ressources à *0*. Si le serviteur sauvé possède une capacité spéciale [Vengeance], celle-ci se déclenche comme s'il avait été détruit.",
+      "detail": "Marquez *1* serviteur allié. La première fois qu'il devrait être détruit, renvoyez-le dans votre main et fixez son coût en ressources à *0*. Si le serviteur sauvé possède une capacité spéciale [Vengeance], celle-ci se déclenche comme s'il avait été détruit.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ]
+]) Object.assign(CARDS_DATA[id],patch);
+EXTRA_CARD_COST_DEFINITIONS.S000026=createCostDefinition(15,['aria','lenya','nourriture','bois','fer'],[{kind:'oneOf',amount:5,options:[{resource:'aria',amount:5},{resource:'lenya',amount:5}]}],[{kind:'text',text:'Votre cimetière doit contenir au minimum 10 serviteurs de la faction « Elfes de glace ».',implemented:true}]);
+
+// Preserve the established raw-data API; player renderers apply French spacing.
+CARDS_DATA.S000055.cond='Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].';
 window.addEventListener('load', playIntro);
 document.getElementById('btnEndTurn').addEventListener('click', endTurn);
 </script>

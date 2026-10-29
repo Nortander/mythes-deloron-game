@@ -50,7 +50,7 @@
     "echoGain": 10,
     "summon": "MV000024",
     "insensibleOwnerTurns": 3,
-    "publicMessage": "TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !"
+    "publicMessage": "TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !"
   },
   "startTurnSummons": {
     "H000035": "DIV000005",

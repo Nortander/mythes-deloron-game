@@ -1,0 +1,350 @@
+import {expect,test} from '@playwright/test';
+import {attachDiagnostics,attachPageDiagnostics} from './helpers/eloron-ui.mjs';
+test.setTimeout(90000);
+const graveyardScenario='collection-batch-15e-graveyard';
+const sacrificeScenario='collection-batch-15e-sacrifice';
+const theftScenario='collection-batch-15e-resurrection-theft';
+const ids=['S000015','S000022','S000026','S000040','S000041','S000051','S000055','S000056'];
+
+async function boot(page,setup={},scenario=graveyardScenario){
+ await page.addInitScript(()=>{const values=[0,.1,0];let i=0;const native=Math.random.bind(Math);Math.random=()=>i<values.length?values[i++]:native();});
+ await page.goto('/code/partie-test-1.html?scenario='+scenario);
+ expect(await page.evaluate(()=>selectedScenarioId())).toBe(scenario);
+ await page.waitForFunction(()=>document.querySelector('#btnEndTurn')?.classList.contains('vis')&&!turnTransitionInProgress);
+ await page.evaluate(setup=>{
+  window.__mythesRandom=()=>0;
+  for(const p of [player1,player2]){
+   const input=setup[p.key]||{};
+   p.hand=input.hand||[];p.drawPile=input.deck||[];p.graveyard=input.graveyard||[];
+   p.batch03HandOccurrences=[];p.startingDeckCardIds=input.startingDeck||[];
+   p.resourceState.classical={aria:100,lenya:100,selene:100,fer:100,bois:100,pierre:100,nourriture:100};
+   p.resourceState.souls=input.souls??20;p.resourceState.revision++;
+   if(!(p.supplies||[]).some(supply=>supply.cardId==='R000020')){
+    const supplyZone=qs(playerZoneSelector(p,'appro')),slot=supplyZone?.querySelector('.slot-appro');
+    if(slot){slot.outerHTML=buildFC('R000020',p.key);registerSupplyInstance(p,supplyZone.querySelector('.fc[data-id="R000020"]'));}
+   }
+   for(const supply of p.supplies||[]){
+    const vector=input.classical?{...createEmptyClassicalResources(),...input.classical}:createCheatCollectorVector(100);
+    supply.currentProduction={...vector};supply.productionState||={};supply.productionState.currentVector={...vector};
+   }
+   projectSoulState(p);recomputeClassicalResources(p);
+   const zone=qs(playerZoneSelector(p,'servants'));
+   zone.innerHTML=Array.from({length:6},()=>'<div class="slot" data-player="'+p.key+'"></div>').join('');
+   for(const entry of input.board||[]){
+    const slot=zone.querySelector('.slot');slot.outerHTML=buildFC(entry.id,p.key);
+    const fc=[...zone.querySelectorAll('.fc')].at(-1);
+    if(entry.instance)fc.dataset.instance=entry.instance;
+    if(entry.atk!==undefined||entry.pdv!==undefined||entry.pdvMax!==undefined)batch03UpdateStats(fc,{atk:entry.atk??Number(fc.dataset.atk),pdv:entry.pdv??Number(fc.dataset.pdv),pdvMax:entry.pdvMax??Number(fc.dataset.pdvMax)});
+    Object.assign(fc.dataset,entry.flags||{});fc.removeAttribute('data-new');fc.querySelector('.fc-new-badge')?.remove();
+   }
+   refreshRuntimeZone(p,'hand');refreshRuntimeZone(p,'deck');refreshRuntimeZone(p,'graveyard');
+  }
+  currentPlayer=player1.key;activePlayer=player1;cardsPlayedThisTurn=0;
+  const notification=document.querySelector('#notif');if(notification)notification.textContent='';
+  const error=document.querySelector('#errMsg');if(error)error.textContent='';
+  document.querySelector('[data-testid="test-resource-panel-collapse"]')?.click();
+  window.__batch15eUIActions=[];
+  window.__batch15eFlights=[];
+  new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes){if(node.nodeType===1&&node.dataset.batch15eTransfer)window.__batch15eFlights.push({...node.dataset,animated:node.getAnimations().length>0});}}).observe(document.body,{childList:true,subtree:true});
+  const original=playCard;
+  playCard=function(...args){
+   const action={cardId:args[0],done:false};window.__batch15eUIActions.push(action);
+   const promise=original.apply(this,args);window.__batch15eLastAction=action;
+   Promise.resolve(promise).then(result=>{action.done=true;action.success=result?.success;action.reason=result?.reason;},error=>{action.done=true;action.error=String(error);});
+   return promise;
+  };
+ },setup);
+}
+
+async function playUI(page,cardId){
+ await expect(page.locator('.hc[data-id="'+cardId+'"]').first()).toBeVisible();
+ const before=await page.evaluate(()=>window.__batch15eUIActions.length);
+ await page.evaluate(cardId=>{
+  const card=document.querySelector('.hand-j1 .hc[data-id="'+cardId+'"]')||document.querySelector('.hc[data-id="'+cardId+'"]');
+  const target=CARDS_DATA[cardId].type==='Serviteur'?qs(playerZoneSelector(player1,'servants')+' .slot'):document.querySelector('.board-bg'),transfer=new DataTransfer();
+  card.dispatchEvent(new DragEvent('dragstart',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+  target.dispatchEvent(new DragEvent('dragover',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+  target.dispatchEvent(new DragEvent('drop',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+  card.dispatchEvent(new DragEvent('dragend',{bubbles:true,cancelable:true,dataTransfer:transfer}));
+ },cardId);
+ await expect.poll(()=>page.evaluate(()=>window.__batch15eUIActions.length)).toBeGreaterThan(before);
+}
+async function settled(page){await page.waitForFunction(()=>window.__batch15eLastAction?.done);expect(await page.evaluate(()=>window.__batch15eLastAction?.error)).toBeUndefined();}
+async function state(page){return page.evaluate(()=>{
+ const summarize=p=>({hand:playerHand(p).map(getRuntimeCardId),handOccurrences:[...ensureBatch03HandOccurrences(p)],deck:playerDrawPile(p).map(getRuntimeCardId),graveyard:p.graveyard.map(getRuntimeCardId),board:livingServantCardsForPlayer(p).map(targetSummary),souls:p.resourceState.souls});
+ return {player1:summarize(player1),player2:summarize(player2),plays:cardsPlayedThisTurn,message:document.querySelector('#notif')?.textContent||'',error:document.querySelector('#errMsg')?.textContent||'',actions:window.__batch15eUIActions?.map(({cardId,done,reason})=>({cardId,done,reason}))};
+});}
+async function evidence(page,testInfo,label){const value=await state(page);await testInfo.attach(label,{body:Buffer.from(JSON.stringify(value,null,2)),contentType:'application/json'});return value;}
+
+for(const cardId of ['S000015','S000022'])test(cardId+' UI keeps the spell and its cost until cancellable graveyard selection is confirmed',async({page},testInfo)=>{
+ const diagnostics=attachPageDiagnostics(page);
+ await boot(page,{player1:{hand:[cardId],graveyard:['H000001','H000005']},player2:{graveyard:['H000001','H000005']}},cardId==='S000022'?theftScenario:graveyardScenario);
+ const before=await state(page);await playUI(page,cardId);
+ await expect(page.getByTestId('zone-card-choice').first()).toBeVisible();
+ const pending=await evidence(page,testInfo,'pending-before-confirmation');
+ expect(pending.player1.hand,'opening the graveyard selector must not consume the spell').toEqual(before.player1.hand);
+ expect(pending.plays).toBe(before.plays);expect(pending.player1.souls).toBe(before.player1.souls);
+ await page.locator('.sort-choice-cancel-button').click();await settled(page);
+ const after=await state(page);
+ expect(after.player1).toEqual(before.player1);expect(after.player2).toEqual(before.player2);expect(after.plays).toBe(0);
+ await attachDiagnostics(testInfo,diagnostics);expect(diagnostics.pageErrors).toEqual([]);
+});
+
+test('S000026 UI refuses the oath before payment without ten ice servants in its own graveyard',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000026','H000005'],board:[{id:'H000001'}]}},sacrificeScenario);
+ expect(await page.evaluate(()=>getCardAffordabilityResult('S000026',player1).playable),'fixture provides actual registered supplies').toBe(true);
+ const before=await state(page);await playUI(page,'S000026');await settled(page);
+ const after=await evidence(page,testInfo,'oath-refusal');
+ expect(after.player1.hand,'the canonical ten-servant prerequisite must gate the real UI').toEqual(before.player1.hand);
+ expect(after.player1.board).toEqual(before.player1.board);expect(after.plays).toBe(0);
+ expect(after.error).toMatch(/10|dix/i);
+});
+
+test('S000040 UI refuses before consuming Pixiemanie when not all Pixies fit after the spell leaves hand',async({page},testInfo)=>{
+ const hand=['S000040',...Array(11).fill('H000001')];
+ await boot(page,{player1:{hand,graveyard:['EDB000012','EDB000012']}});
+ expect(await page.evaluate(()=>getCardAffordabilityResult('S000040',player1).playable),'fixture provides actual registered supplies').toBe(true);
+ const before=await state(page);await playUI(page,'S000040');await settled(page);
+ const after=await evidence(page,testInfo,'pixie-capacity-refusal');
+ expect(after.player1.hand,'an impossible all-Pixies return must not eat the spell').toEqual(before.player1.hand);
+ expect(after.player1.graveyard).toEqual(before.player1.graveyard);expect(after.plays).toBe(0);
+ expect(after.error).toMatch(/Pixies|main/i);
+});
+
+test('S000041 UI damage honors the marked victim rescue instead of capturing a servant that survived',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000041'],graveyard:['H000005']},player2:{hand:[],board:[{id:'H000001',pdv:1,flags:{batch06DeplacementInstantane:'1',batch06DeplacementSourcePlayer:'player2'}}]}},sacrificeScenario);
+ await playUI(page,'S000041');await settled(page);const after=await evidence(page,testInfo,'sacrifice-power-rescue');
+ expect(after.player2.hand,'Puissance must use the real damage/death pipeline including rescue').toContain('H000001');
+ expect(after.player1.graveyard).toEqual(['S000041']);
+});
+
+test('S000051 UI reports an empty enemy graveyard without announcing a theft',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000051']},player2:{graveyard:[]}},theftScenario);
+ await playUI(page,'S000051');await settled(page);const after=await evidence(page,testInfo,'empty-ritual');
+ expect(after.message).toBe('LE CIMETIÈRE ADVERSE EST VIDE.');
+ expect(after.player1.graveyard).toEqual(['S000051']);expect(after.player2.graveyard).toEqual([]);
+});
+
+test('S000055 UI sacrifice selection can be cancelled with no departure, reward or payment',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000055'],board:[{id:'H000001'},{id:'H000005'},{id:'H000006'},{id:'H000036'}]}},sacrificeScenario);
+ const before=await state(page);await playUI(page,'S000055');
+ await expect(page.getByTestId('board-target-choice')).toHaveCount(3);
+ await expect(page.locator('.sort-choice-cancel-button'),'sacrifice confirmation needs a real cancellation path').toBeVisible({timeout:1500});
+ await page.getByTestId('board-target-choice').nth(0).click();await page.locator('.sort-choice-cancel-button').click();await settled(page);
+ const after=await evidence(page,testInfo,'cancelled-sacrifice');
+ expect(after.player1).toEqual(before.player1);expect(after.plays).toBe(0);
+});
+
+test('S000056 UI single-target selection replaces A with B and can cancel without marking either',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000056'],board:[{id:'H000001'},{id:'H000001'}]}},theftScenario);
+ const before=await state(page);await playUI(page,'S000056');
+ await page.getByTestId('board-target-choice').nth(0).click();await page.getByTestId('board-target-choice').nth(1).click();
+ await expect(page.locator('[data-testid="board-target-choice"].is-selected')).toHaveCount(1);
+ await expect(page.getByTestId('board-target-choice').nth(1)).toHaveClass(/is-selected/);
+ await expect(page.locator('.sort-choice-cancel-button'),'the mark selector must be cancellable').toBeVisible({timeout:1500});
+ await page.locator('.sort-choice-cancel-button').click();await settled(page);
+ const after=await evidence(page,testInfo,'cancelled-mark');expect(after.player1).toEqual(before.player1);expect(after.plays).toBe(0);
+});
+
+test('S000026 hand text highlights canonical numbers with the Sort charter',async({page})=>{
+ await boot(page,{player1:{hand:['S000026']}},sacrificeScenario);
+ const strong=page.locator('.hc[data-id="S000026"] strong.kv');
+ expect(await strong.count(),'the oath text must highlight its canonical +1 values').toBeGreaterThan(0);
+});
+
+test('S000026 UI accepts the canonical Aria alternative without also demanding Lenya',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000026'],graveyard:Array(10).fill('EDG000001'),classical:{aria:5,fer:10}}},sacrificeScenario);
+ await playUI(page,'S000026');await settled(page);
+ const after=await evidence(page,testInfo,'oath-aria-alternative');
+ expect(after.player1.board.map(card=>card.id),'15 total with five Aria is an alternative to five Lenya, not an AND requirement').toContain('EDG000012');
+ expect(after.player1.graveyard.filter(id=>id==='S000026')).toHaveLength(1);
+});
+
+// Positive cases below derive from Cartes et description rows 271, 278, 282,
+// 296, 297, 307, 311 and 312 of the read-only 2026-09-13 export.
+async function confirmZones(page,indexes){for(const index of indexes)await page.getByTestId('zone-card-choice').nth(index).click();await page.getByTestId('zone-card-confirm').click();await settled(page);}
+async function confirmBoard(page,indexes){for(const index of indexes)await page.getByTestId('board-target-choice').nth(index).click();await page.getByTestId('board-target-confirm').click();await settled(page);}
+async function transfers(page){return page.evaluate(()=>({observed:window.__batch15eFlights,events:collectionBatch15EState.events.filter(e=>e.type.startsWith('transfer-')),ghosts:document.querySelectorAll('[data-batch15e-transfer]').length}));}
+const entry=(cardId,occurrenceId,originalOwnerId='player1')=>({cardId,occurrenceId,originalOwnerId});
+
+for(const scenario of [graveyardScenario,sacrificeScenario,theftScenario])test('15E hidden scenario and boundary controls '+scenario,async({page},testInfo)=>{
+ const diagnostics=attachPageDiagnostics(page);
+ await page.goto('/code/partie-test-1.html?scenario='+scenario);
+ await page.waitForFunction(()=>document.querySelector('#btnEndTurn')?.classList.contains('vis')&&!turnTransitionInProgress);
+ expect(await page.evaluate(()=>({id:selectedScenarioId(),hidden:activeScenario.hidden,plays:cardsPlayedThisTurn}))).toEqual({id:scenario,hidden:true,plays:0});
+ const hands=await page.evaluate(()=>playerHand(player1));expect(hands.length).toBeGreaterThan(0);expect(hands.every(id=>ids.includes(id)), 'only the declared 15E cards are offered').toBe(true);
+ await expect(page.getByTestId('test-resource-panel-restore')).toBeVisible();
+ await page.screenshot({path:testInfo.outputPath('initial-15e.png')});
+ await expect(page.getByTestId('test-resource-panel-collapse')).toHaveCount(0);
+ for(const variant of ['empty','full-hand','full-board']){
+  await page.goto('/code/partie-test-1.html?scenario='+scenario+'&case='+variant);
+  await page.waitForFunction(()=>document.querySelector('#btnEndTurn')?.classList.contains('vis')&&!turnTransitionInProgress);
+  const zones=await page.evaluate(()=>({hand:playerHand(player1).length,board:livingServantCardsForPlayer(player1).length,cem:player1.graveyard.length,enemy:player2.graveyard.length}));
+  if(variant==='empty')expect([zones.cem,zones.enemy]).toEqual([0,0]);
+  if(variant==='full-hand')expect(zones.hand).toBe(12);
+  if(variant==='full-board')expect(zones.board).toBe(6);
+ }
+ await attachDiagnostics(testInfo,diagnostics);expect(diagnostics.pageErrors).toEqual([]);
+});
+
+test('S000015 UI moves the selected duplicate from its own cemetery, excludes Tisseur, and uses the real source animation',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000015'],graveyard:[entry('H000001','own-a'),entry('H000001','own-b'),'EDG000012','R000010']},player2:{graveyard:[entry('H000001','enemy-a','player2')]}});
+ const before=await state(page);await playUI(page,'S000015');
+ await expect(page.getByTestId('zone-card-choice')).toHaveCount(2);await expect(page.getByTestId('zone-card-ineligible')).toHaveCount(2);
+ await expect(page.getByTestId('batch15e-source-zone')).toHaveText('Votre cimetière');
+ await expect(page.getByTestId('zone-card-choice').nth(1)).toHaveAttribute('data-occurrence-id','own-b');
+ await confirmZones(page,[1]);const after=await evidence(page,testInfo,'exact-own-occurrence');
+ expect(after.player1.deck).toEqual(['H000001']);expect(after.player1.graveyard).toEqual(['H000001','EDG000012','R000010','S000015']);expect(after.player2).toEqual(before.player2);
+ expect(after.plays).toBe(1);expect(after.player1.souls).toBe(before.player1.souls);
+ expect(await page.evaluate(()=>batch15EZoneIdentity(player1,'deck',0))).toMatchObject({occurrenceId:'own-b',originalOwnerId:'player1'});
+ const fx=await transfers(page);expect(fx.observed).toHaveLength(1);expect(fx.observed[0]).toMatchObject({sourceOwner:'player1',destinationOwner:'player1',sourceZone:'graveyard',destinationZone:'deck',occurrenceId:'own-b',animated:true});expect(fx.ghosts).toBe(0);
+ expect(after.message).toBe('Après la catastrophe : 1 serviteur(s) retourné(s) dans le deck.');
+});
+
+test('S000022 UI steals exactly the second duplicate; original owner survives shuffle, draw, real replay and future death',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000022'],classical:{},souls:20},player2:{graveyard:[entry('H000001','enemy-a','player2'),entry('H000001','enemy-b','player2'),'H000036','R000010']}},theftScenario);
+ const globalBefore=await page.evaluate(()=>JSON.stringify(CARDS_DATA.H000001));
+ await playUI(page,'S000022');await expect(page.getByTestId('zone-card-choice')).toHaveCount(2);await expect(page.getByTestId('zone-card-ineligible')).toHaveCount(2);
+ await expect(page.getByTestId('batch15e-source-zone')).toHaveText('Cimetière adverse');await confirmZones(page,[1]);
+ let after=await state(page);expect(after.player2.graveyard).toEqual(['H000001','H000036','R000010']);expect(after.player1.deck).toEqual(['H000001']);expect(after.player1.souls).toBe(12);
+ expect(after.message).toBe('Galerie des horreurs : 1 serviteur(s) transféré(s), deck remélangé.');
+ expect(await page.evaluate(()=>batch15EZoneIdentity(player1,'deck',0))).toMatchObject({occurrenceId:'enemy-b',originalOwnerId:'player2'});
+ await page.evaluate(()=>{drawCardFromRuntimeDeck(player1,{sourceCardId:'15e-follow-up-proof'});for(const supply of player1.supplies){supply.currentProduction=createCheatCollectorVector(100);supply.productionState.currentVector={...supply.currentProduction};}recomputeClassicalResources(player1);});
+ await playUI(page,'H000001');await settled(page);
+ const provenance=await page.evaluate(()=>{const fc=findBoardCard(player1,'H000001');return {...fc.dataset};});
+ expect(provenance).toMatchObject({player:'player1',batch15eOriginalOwner:'player2',batch15eSourceOccurrence:'enemy-b'});
+ await page.evaluate(async()=>{const fc=findBoardCard(player1,'H000001');await applyDamage(fc,999);});
+ after=await evidence(page,testInfo,'future-death-original-owner');expect(after.player1.graveyard).toEqual(['S000022']);expect(after.player2.graveyard.filter(id=>id==='H000001')).toHaveLength(2);
+ expect(await page.evaluate(()=>JSON.stringify(CARDS_DATA.H000001))).toBe(globalBefore);
+ const fx=await transfers(page);expect(fx.observed[0]).toMatchObject({sourceOwner:'player2',destinationOwner:'player1',sourceZone:'graveyard',destinationZone:'deck',occurrenceId:'enemy-b',animated:true});expect(fx.ghosts).toBe(0);
+});
+
+for(const cardId of ['S000015','S000022'])test(cardId+' UI refuses a stale cemetery selection without cost or wrong-copy movement',async({page})=>{
+ await boot(page,{player1:{hand:[cardId],graveyard:['H000001','H000005']},player2:{graveyard:['H000001','H000005']}},cardId==='S000022'?theftScenario:graveyardScenario);
+ await playUI(page,cardId);await page.getByTestId('zone-card-choice').nth(0).click();
+ await page.evaluate(cardId=>(cardId==='S000022'?player2:player1).graveyard.shift(),cardId);
+ await page.getByTestId('zone-card-confirm').click();await settled(page);
+ const after=await state(page);expect(after.player1.hand).toEqual([cardId]);expect(after.player1.deck).toEqual([]);expect(after.plays).toBe(0);expect(after.error).toBe('Le cimetière a changé. Recommencez la sélection.');
+});
+
+test('S000026 UI respects enemy Insensible, destroys allies, discards hand, and computes the canonical Tisseur bonus after departures',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000026','H000005'],graveyard:Array(10).fill('EDG000001'),board:[{id:'EDG000001'},{id:'H000036'}]},player2:{board:[{id:'H000001'},{id:'H000036'}]}},sacrificeScenario);
+ await playUI(page,'S000026');await settled(page);const after=await evidence(page,testInfo,'oath-ui-resolution');
+ expect(after.player1.hand).toEqual([]);expect(after.player1.board.map(c=>c.id)).toEqual(['EDG000012']);expect(after.player2.board.map(c=>c.id)).toEqual(['H000036']);expect(after.player2.graveyard).toEqual(['H000001']);
+ expect(after.message).toBe('Serment des anciens invoque le Tisseur de Givre.');
+ expect(after.player1.graveyard.filter(id=>id==='EDG000001')).toHaveLength(11);expect(after.player1.graveyard).toEqual(expect.arrayContaining(['H000036','H000005','S000026']));
+ const stats=await page.evaluate(()=>{const fc=findBoardCard(player1,'EDG000012');return {atk:Number(fc.dataset.atk),hp:Number(fc.dataset.pdv),max:Number(fc.dataset.pdvMax),base:CARDS_DATA.EDG000012};});
+ expect(stats.atk).toBe(stats.base.atk+11);expect(stats.hp).toBe(stats.base.pdv+11);expect(stats.max).toBe(stats.hp);expect(after.plays).toBe(1);
+});
+
+test('S000040 UI returns every exact Pixie with clean replay and Initiative only on the real hand play',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000040'],graveyard:[{...entry('EDB000012','pixie-a'),pdv:1,frozen:3,petrified:1,buff:99},{...entry('EDB000012','pixie-b'),pdv:1},'H000001']}});
+ const base=await page.evaluate(()=>({...CARDS_DATA.EDB000012}));await playUI(page,'S000040');await settled(page);
+ let after=await state(page);expect(after.player1.hand).toEqual(['EDB000012','EDB000012']);expect(after.player1.handOccurrences.sort()).toEqual(['pixie-a','pixie-b']);expect(after.player1.board).toEqual([]);expect(after.player1.graveyard).toEqual(['H000001','S000040']);
+ expect(after.message).toBe('Pixiemanie : 2 Pixie(s) reviennent en main.');
+ const fx=await transfers(page);expect(fx.observed).toHaveLength(2);expect(fx.observed.every(f=>f.sourceOwner==='player1'&&f.destinationOwner==='player1'&&f.sourceZone==='graveyard'&&f.destinationZone==='hand'&&f.animated)).toBe(true);expect(fx.ghosts).toBe(0);
+ await playUI(page,'EDB000012');await settled(page);
+ const replay=await page.evaluate(()=>livingServantCardsForPlayer(player1).map(fc=>({...fc.dataset})));
+ expect(replay.length).toBeGreaterThan(0);for(const fc of replay){expect(Number(fc.pdv)).toBe(base.pdv);expect(Number(fc.pdvMax)).toBe(base.pdv);expect(fc.frozen).toBeUndefined();expect(fc.petrified).toBeUndefined();expect(fc.buff).toBeUndefined();}
+ await evidence(page,testInfo,'clean-pixie-replay');
+});
+
+test('S000041 UI bypasses Insensible, grants printed-cost victim Echoes once, and exiles only its current cemetery',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000041'],graveyard:['H000005','R000010'],souls:0},player2:{graveyard:['H000006'],board:[{id:'H000001',pdv:1,flags:{insensible:'1',batch15eOriginalOwner:'player1'}}]}},sacrificeScenario);
+ const expected=await page.evaluate(()=>batch11bEchoAmountFromPrintedCost('H000001'));
+ await playUI(page,'S000041');await settled(page);const after=await evidence(page,testInfo,'echo-capture-once');expect(after.player1.graveyard).toEqual(['S000041']);expect(after.player2.graveyard).toEqual(['H000006']);expect(after.player2.board).toEqual([]);expect(after.player1.souls).toBe(expected);
+ expect(await page.evaluate(()=>batch11aCapturedVictims(player1).filter(c=>c.cardId==='H000001'))).toHaveLength(1);expect(after.message).toContain('D’AUTANT'.replace('’',"'"));expect(after.message).toContain(' !');
+ expect(await page.evaluate(()=>batch11aCapturedVictims(player1)[0].originalOwnerId)).toBe('player1');
+ expect(after.message).toBe("LES ÉCHOS VENGEURS DE VOS SERVITEURS SACRIFIÉS SÈMENT LA MORT CHEZ VOS ENNEMIS ET VOUS RESSOURCENT D'AUTANT !");
+});
+
+test('S000051 UI transfers the entire adversary cemetery including duplicate servants, spells and supplies with provenance',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000051'],graveyard:['H000005']},player2:{graveyard:[entry('H000001','ritual-a','player2'),entry('H000001','ritual-b','player2'),'S000056','R000010']}},theftScenario);
+ await playUI(page,'S000051');await settled(page);const after=await evidence(page,testInfo,'ritual-whole-cemetery');expect(after.player2.graveyard).toEqual([]);expect(after.player1.graveyard).toEqual(['H000005','H000001','H000001','S000056','R000010','S000051']);expect(after.plays).toBe(1);
+ expect(after.message).toBe("LA MAGIE NOIRE DÉPOSSÈDE L'ADVERSAIRE DU CONTENU DE SON CIMETIÈRE... AU BÉNÉFICE DU VÔTRE !");
+ const origins=await page.evaluate(()=>[1,2,3,4].map(i=>batch15EZoneIdentity(player1,'graveyard',i)));expect(origins.every(e=>e.originalOwnerId==='player2')).toBe(true);expect(origins.slice(0,2).map(e=>e.occurrenceId)).toEqual(['ritual-a','ritual-b']);
+ const fx=await transfers(page);expect(fx.observed).toHaveLength(4);expect(fx.observed.every(f=>f.sourceOwner==='player2'&&f.destinationOwner==='player1'&&f.sourceZone==='graveyard'&&f.destinationZone==='graveyard'&&f.animated)).toBe(true);expect(fx.ghosts).toBe(0);expect(after.message).toContain(' !');
+});
+
+test('S000055 UI sacrifices exactly three duplicate occurrences, fires Vengeance once, ignores a rescue mark, rewards once and expires after three future owner turns',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000055'],board:[{id:'H000001',instance:'triangle-a',flags:{batch06DeplacementInstantane:'1',batch06DeplacementSourcePlayer:'player1'}},{id:'H000001',instance:'triangle-b'},{id:'EN000002',instance:'triangle-vengeance'},{id:'H000036',instance:'ineligible'}],souls:0},player2:{board:[{id:'H000005',pdv:30,pdvMax:30}]}},sacrificeScenario);
+ await page.evaluate(()=>{window.__vengeances=[];const native=triggerVengeance;triggerVengeance=async function(id,...args){window.__vengeances.push(id);return native.call(this,id,...args);};});
+ await playUI(page,'S000055');await expect(page.getByTestId('board-target-choice')).toHaveCount(3);await confirmBoard(page,[0,1,2]);
+ const after=await evidence(page,testInfo,'confirmed-sacrifice');expect(after.player1.hand).toEqual([]);expect(after.player1.board.map(c=>c.id).sort()).toEqual(['H000036','MV000024'].sort());expect(after.player1.graveyard.filter(id=>id==='H000001')).toHaveLength(2);expect(after.player1.graveyard).toContain('EN000002');expect(after.player1.souls).toBe(10);
+ expect(await page.evaluate(()=>window.__vengeances.filter(id=>id==='EN000002').length)).toBe(1);
+ const expiry=await page.evaluate(()=>{const fc=findBoardCard(player1,'MV000024'),values=[Number(fc.dataset.temporaryInsensibleTurns)];resolveBatch02OwnerTurnExpiration(player1);values.push(Number(fc.dataset.temporaryInsensibleTurns));for(let i=0;i<3;i++){turnSequence++;resolveBatch02OwnerTurnExpiration(player2);values.push(Number(fc.dataset.temporaryInsensibleTurns));resolveBatch02OwnerTurnExpiration(player1);values.push(Number(fc.dataset.temporaryInsensibleTurns));}return {values,insensible:fc.dataset.insensible,departures:collectionBatch15EState.events.filter(e=>e.type==='sacrifice').map(e=>e.occurrenceId)};});
+ expect(expiry.values).toEqual([3,3,3,2,2,1,1,0]);expect(expiry.insensible).toBeUndefined();expect(expiry.departures).toEqual(['triangle-a','triangle-b','triangle-vengeance']);expect(after.message).toContain('TÉNÈBRES :');expect(after.message).toContain(' !');
+ expect(after.message).toBe("TRIANGLE DES TÉNÈBRES : UN GÉANT D'OSSEMENTS APPARAÎT AU MILIEU D'UN TOURBILLON D'ÉCHOS !");
+});
+
+test('S000056 UI marks only B, concurrent lethal attempts rescue once, Vengeance fires once, and only that returned occurrence costs zero',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000056','EN000002'],board:[{id:'EN000002',instance:'unmarked'},{id:'EN000002',instance:'marked',flags:{frozen:'2',petrified:'1'}}]},player2:{board:[{id:'H000005',pdv:30,pdvMax:30}]}},theftScenario);
+ await playUI(page,'S000056');await page.getByTestId('board-target-choice').nth(0).click();await confirmBoard(page,[1]);
+ expect((await state(page)).message).toBe('Déplacement instantané protège ce serviteur de sa prochaine destruction.');
+ expect(await page.evaluate(()=>livingServantCardsForPlayer(player1).map(fc=>({id:fc.dataset.instance,mark:fc.dataset.batch06DeplacementInstantane})))).toEqual([{id:'unmarked',mark:undefined},{id:'marked',mark:'1'}]);
+ await page.evaluate(async()=>{const fc=document.querySelector('.fc[data-instance="marked"]');window.__vengeances=[];const native=triggerVengeance;triggerVengeance=async function(id,...args){window.__vengeances.push(id);return native.call(this,id,...args);};await Promise.all([tryBatch06DeplacementRescue(fc),tryBatch06DeplacementRescue(fc)]);});
+ const costs=await page.evaluate(()=>playerHand(player1).map((id,i)=>({id,occurrenceId:batch03HandOccurrenceAt(player1,i),cost:resolveCardCost({player:player1,cardId:id,context:{handOccurrenceId:batch03HandOccurrenceAt(player1,i)}}).effectiveCost.total})));
+ expect(costs.find(c=>c.occurrenceId==='marked')?.cost).toBe(0);expect(costs.find(c=>c.occurrenceId!=='marked')?.cost).toBeGreaterThan(0);expect(await page.evaluate(()=>window.__vengeances.filter(id=>id==='EN000002').length)).toBe(1);
+ // Move the actual rescued hand card to the first position using its paired
+ // occurrence metadata, then drag it through the normal hand UI.
+ await page.evaluate(()=>{const i=ensureBatch03HandOccurrences(player1).indexOf('marked');const id=player1.hand.splice(i,1)[0],occ=player1.batch03HandOccurrences.splice(i,1)[0];player1.hand.unshift(id);player1.batch03HandOccurrences.unshift(occ);refreshHand(player1);});
+ await playUI(page,'EN000002');await settled(page);
+ const replay=await page.evaluate(()=>({...document.querySelector('.fc[data-instance="marked"]').dataset}));expect(replay.frozen).toBeUndefined();expect(replay.petrified).toBeUndefined();expect(replay.batch06DeplacementInstantane).toBeUndefined();expect(Number(replay.pdv)).toBe(await page.evaluate(()=>CARDS_DATA.EN000002.pdv));
+ await evidence(page,testInfo,'clean-free-return');
+});
+
+for(const cardId of ['S000015','S000022','S000040','S000041','S000055','S000056'])test(cardId+' UI no eligible target leaves the hand and payment unchanged',async({page})=>{
+ await boot(page,{player1:{hand:[cardId]},player2:{graveyard:['R000010','H000036']}},cardId==='S000022'||cardId==='S000056'?theftScenario:graveyardScenario);
+ const before=await state(page);await playUI(page,cardId);await settled(page);const after=await state(page);expect(after.player1).toEqual(before.player1);expect(after.plays).toBe(0);
+});
+
+test('15E French DOM typography and spell highlights survive narrow wrapping, hand previews and Collection enlarged cards',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:ids}});
+ const hand=await page.evaluate(ids=>ids.map(id=>{const card=document.querySelector('.hc[data-id="'+id+'"]');openCardPreview(card,{sourceType:'hand',playerId:'player1',sourceElement:card});const preview=document.querySelector('#card-preview-layer');return {id,text:card.textContent,preview:preview?.textContent||'',strong:card.querySelectorAll('strong.kv').length,fac:CARDS_DATA[id].fac,faction:CARDS_DATA[id].canonicalFaction};}),ids);
+ for(const value of hand){expect(value.fac).toBe('sort');expect(value.text).not.toMatch(/\[ID\s*=|\\u00a0/i);expect(value.preview).not.toMatch(/\[ID\s*=|\\u00a0/i);expect(value.text).not.toMatch(/ [;:?!]/);if(value.id==='S000026'){expect(value.text).toContain('+1 ATK');expect(value.preview).toContain('+1 ATK');}}
+ expect(hand.find(c=>c.id==='S000026').strong).toBeGreaterThan(0);
+ const wrapping=await page.evaluate(()=>{const message='Attention ! Coût : 2 Échos. +3 PDV';batch15EMessage(message);const box=document.querySelector('#notif');box.style.width='90px';box.style.whiteSpace='normal';const text=box.firstChild,range=document.createRange();const rect=i=>{range.setStart(text,i);range.setEnd(text,i+1);return range.getBoundingClientRect().top;};return {text:box.textContent,breaks:[...message].flatMap((c,i)=>':;?!'.includes(c)&&rect(i)!==rect(i-2)?[c]:[])};});
+ expect(wrapping.text).toBe('Attention ! Coût : 2 Échos. +3 PDV');expect(wrapping.breaks).toEqual([]);await testInfo.attach('typography',{body:Buffer.from(JSON.stringify({hand,wrapping},null,2)),contentType:'application/json'});
+ await page.goto('/code/collection.html');await expect(page.locator('#cardsGrid')).toBeVisible();
+ for(const id of ids){await page.locator('#searchInput').fill(id);await page.locator('.ccard[data-card-id="'+id+'"]').first().click();await expect(page.locator('#modalOverlay')).toHaveClass(/open/);const value=await page.evaluate(id=>({id,text:document.querySelector('#modalDesc').textContent,desc:CARDS.find(c=>c.id===id).desc,faction:CARDS.find(c=>c.id===id).faction,type:CARDS.find(c=>c.id===id).type}),id);expect(value.type).toBe('Sort');expect(value.text).not.toMatch(/\[ID\s*=|\\u00a0| [;:?!]/i);if(id==='S000026'){expect(value.desc).toContain('strong class="kv"');expect(value.text).toContain('+1 ATK');}await page.keyboard.press('Escape');}
+});
+
+
+test('S000055 UI full board frees real slots and blocks concurrent repeated resolution and end-turn',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000055'],board:Array.from({length:6},(_,i)=>({id:'H000001',instance:'full-'+i})),souls:0}},sacrificeScenario);
+ await playUI(page,'S000055');
+ const refusals=await page.evaluate(async()=>{const action=window.__batch15eLastAction;const results=await Promise.all([playCard('S000055'),playCard('S000055'),endTurn()]);window.__batch15eLastAction=action;return results.map(r=>r.reason);});
+ expect(refusals).toEqual(Array(3).fill('batch15e-resolution-in-progress'));
+ await confirmBoard(page,[1,3,5]);const after=await evidence(page,testInfo,'full-board-single-resolution');expect(after.player1.board).toHaveLength(4);expect(after.player1.graveyard.filter(id=>id==='H000001')).toHaveLength(3);expect(after.player1.graveyard.filter(id=>id==='S000055')).toHaveLength(1);expect(after.player1.souls).toBe(10);expect(after.plays).toBe(1);
+ expect(after.player1.board.filter(c=>c.id==='H000001').map(c=>c.instance).sort()).toEqual(['full-0','full-2','full-4']);
+ expect(await page.evaluate(()=>document.querySelectorAll(playerZoneSelector(player1,'servants')+' .slot').length)).toBe(2);
+});
+
+test('S000056 real UI mark cannot rescue into a full hand and produces no free duplicate',async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000056'],board:[{id:'H000001',instance:'full-hand-victim'}]}},theftScenario);
+ await playUI(page,'S000056');await confirmBoard(page,[0]);
+ await page.evaluate(async()=>{for(let i=0;i<12;i++)addCardToHand(player1,'H000005',{refresh:false});refreshHand(player1);await applyDamage(document.querySelector('.fc[data-instance="full-hand-victim"]'),999);});
+ const after=await evidence(page,testInfo,'full-hand-refused-rescue');expect(after.player1.hand).toHaveLength(12);expect(after.player1.hand).not.toContain('H000001');expect(after.player1.graveyard).toEqual(['S000056','H000001']);expect(after.player1.board).toEqual([]);
+ expect(await page.evaluate(()=>(player1.costModifierState?.active||[]).filter(m=>m.sourceId==='S000056'))).toEqual([]);
+});
+
+test('S000055 stale board selection consumes no spell and never substitutes an identical copy',async({page})=>{
+ await boot(page,{player1:{hand:['S000055'],board:Array.from({length:4},(_,i)=>({id:'H000001',instance:'stale-'+i})),souls:0}},sacrificeScenario);
+ await playUI(page,'S000055');for(const i of [0,1,2])await page.getByTestId('board-target-choice').nth(i).click();
+ await page.evaluate(()=>batch03RemoveBoardCardToSlot(document.querySelector('.fc[data-instance="stale-1"]')));
+ await page.getByTestId('board-target-confirm').click();await settled(page);const after=await state(page);expect(after.player1.hand).toEqual(['S000055']);expect(after.player1.graveyard).toEqual([]);expect(after.player1.souls).toBe(0);expect(after.plays).toBe(0);expect(after.player1.board.map(c=>c.instance)).toEqual(['stale-0','stale-2','stale-3']);
+});
+
+
+test('S000022 UI duplicate primitive occurrences invalidate a reordered graveyard before confirmation',async({page})=>{
+ await boot(page,{player1:{hand:['S000022']},player2:{graveyard:['H000001','H000001']}},theftScenario);
+ await playUI(page,'S000022');await page.getByTestId('zone-card-choice').nth(1).click();await page.evaluate(()=>player2.graveyard.reverse());await page.getByTestId('zone-card-confirm').click();await settled(page);
+ const after=await state(page);expect(after.player1.hand).toEqual(['S000022']);expect(after.player1.deck).toEqual([]);expect(after.player2.graveyard).toEqual(['H000001','H000001']);expect(after.plays).toBe(0);expect(after.error).toBe('Le cimetière a changé. Recommencez la sélection.');
+});
+
+test('S000022 UI theft preserves original owner and occurrence after a full-hand draw refusal',async({page})=>{
+ await boot(page,{player1:{hand:['S000022']},player2:{graveyard:['H000001','H000001']}},theftScenario);
+ await playUI(page,'S000022');await confirmZones(page,[1]);
+ const result=await page.evaluate(()=>{const before={...batch15EZoneIdentity(player1,'deck',0)};for(let i=0;i<12;i++)addCardToHand(player1,'H000005',{refresh:false});const draw=drawCardFromRuntimeDeck(player1);return {before,after:batch15EZoneIdentity(player1,'deck',0),reason:draw.reason,hand:playerHand(player1).length};});
+ expect(result.reason).toBe('hand-full');expect(result.hand).toBe(12);expect(result.before.originalOwnerId).toBe('player2');expect(result.after).toEqual(result.before);
+});

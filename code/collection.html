@@ -2789,6 +2789,16 @@ function resolvePublicCardReferences(rawText){
   });
   return{htmlOrTokens,resolvedIds:[...new Set(resolvedIds)],unresolvedIds:[...new Set(unresolvedIds)]};
 }
+function batch15ESpacingInHtml(html){
+  const template=document.createElement('template');template.innerHTML=html;
+  const walker=document.createTreeWalker(template.content,NodeFilter.SHOW_TEXT);let node,previous='';
+  while((node=walker.nextNode())){
+    let text=node.nodeValue.replace(/[ \u00a0]+([:;?!])/g,' $1').replace(/(\d)[ \t]+(?=\p{L})/gu,'$1 ').replace(/([+−-])[ \t]+(\d)/g,'$1$2');
+    if(/\d$/.test(previous))text=text.replace(/^[ \t]+(?=\p{L})/u,' ');
+    node.nodeValue=text;if(text)previous=text;
+  }
+  return template.innerHTML;
+}
 function formatPlayerFacingCardText(rawText,cardModel=null,options={}){
   const resolved=resolvePublicCardReferences(normalizeFrenchTypography(rawText));
   let html=stripTechnicalIdsForDisplay(resolved.htmlOrTokens);
@@ -2986,7 +2996,8 @@ function formatPlayerFacingCardText(rawText,cardModel=null,options={}){
   const formatted=CardRenderingCore.formatPlayerFacingCardText(rawText,cardModel,{...options,cardLookup:buildCollectionCanonicalCardLookup()});
   const decorate=html=>{
     const marked=applyCollectionKeywordMarkers(html);
-    return enforceFrenchPunctuationSpacingInHtml(enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked)));
+    const result=enforceFrenchPunctuationSpacingInHtml(enforceKeywordColonSpacing(options.highlightNumbers===false?marked:highlightPublicNumbersInHtml(marked)));
+    return ['S000015','S000022','S000026','S000040','S000041','S000051','S000055','S000056'].includes(cardModel?.id)?batch15ESpacingInHtml(result):result;
   };
   return options.tokens&&formatted&&typeof formatted==='object'
     ? {...formatted,html:decorate(formatted.html)}
@@ -3238,6 +3249,159 @@ function applyCollectionStaticSync20260622(){
 }
 
 applyCollectionStaticSync20260622();
+// Batch 15E canonical text, faction, cost and collection limits.
+for(const [id,patch] of [
+  [
+    "S000015",
+    {
+      "name": "Après la catastrophe",
+      "type": "Sort",
+      "faction": "Elfe des bois",
+      "cost": 3,
+      "kw": [
+        "Lenya"
+      ],
+      "desc": "Choisissez jusqu'à <strong class=\"kv\">3</strong> serviteurs de votre cimetière et renvoyez-les dans votre deck, puis, mélangez le deck.",
+      "detail": "Choisissez jusqu'à <strong class=\"kv\">3</strong> serviteurs de votre cimetière et renvoyez-les dans votre deck, puis, mélangez le deck.",
+      "cond": "Nécessite d'avoir au minimum <strong class=\"kv\">1</strong> serviteur dans votre cimetière.",
+      "useDetail": true,
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000022",
+    {
+      "name": "Galerie des horreurs",
+      "type": "Sort",
+      "faction": "/",
+      "cost": 8,
+      "kw": [
+        "Aria",
+        "Sélène",
+        "Écho",
+        "Lenya"
+      ],
+      "desc": "Choisit jusqu'à <strong class=\"kv\">5</strong> serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé.",
+      "detail": "Choisit jusqu'à <strong class=\"kv\">5</strong> serviteurs du cimetière adverse qui sont transférés dans votre deck. Après quoi, votre deck est remélangé. Les serviteurs ayant la capacité spéciale <em>Insensible</em> ne peuvent être sélectionnés par ce sort.",
+      "cond": "Le cimetière du joueur adverse doit contenir au minimum <strong class=\"kv\">1</strong> serviteur.",
+      "useDetail": true,
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000026",
+    {
+      "name": "Serment des anciens",
+      "type": "Sort",
+      "faction": "Elfe de glace",
+      "cost": 15,
+      "kw": [
+        "Aria",
+        "Lenya",
+        "Nourriture",
+        "Bois",
+        "Fer"
+      ],
+      "desc": "Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère <strong class=\"kv\">+1</strong> ATK/ <strong class=\"kv\">+1</strong> PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.",
+      "detail": "Détruit tous les serviteurs présents sur le plateau, alliés comme adversaires et vous défausse de votre main. Invoque « Le Tisseur de Givre » de votre côté du terrain. Lui confère <strong class=\"kv\">+1</strong> ATK/ <strong class=\"kv\">+1</strong> PDV pour chaque serviteur de la faction « Elfes de glace » dans votre cimetière.",
+      "cond": "Votre cimetière doit contenir au minimum <strong class=\"kv\">10</strong> serviteurs de la faction « Elfes de glace ».",
+      "useDetail": true,
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000040",
+    {
+      "name": "Pixiemanie",
+      "type": "Sort",
+      "faction": "Elfe des bois",
+      "cost": 10,
+      "kw": [
+        "Lenya",
+        "Nourriture"
+      ],
+      "desc": "Renvoie toutes les « Pixies » de votre cimetière à votre main.",
+      "detail": "Renvoie toutes les « Pixies » de votre cimetière à votre main.",
+      "cond": "Nécessite d'avoir au moins <strong class=\"kv\">1</strong> carte « Pixie » actuellement dans votre cimetière.",
+      "useDetail": true,
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000041",
+    {
+      "name": "Puissance du sacrifice",
+      "type": "Sort",
+      "faction": "Mort-vivant",
+      "cost": 0,
+      "kw": [
+        "Insensible",
+        "Écho",
+        "Approvisionnement"
+      ],
+      "desc": "Pour chaque serviteur actuellement dans votre cimetière, inflige <strong class=\"kv\">1</strong> point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre <em>Insensible</em>. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit <strong class=\"kv\">1</strong> ou plusieurs serviteurs, génère <strong class=\"kv\">1 à 3</strong> Échos par victime.",
+      "detail": "Pour chaque serviteur actuellement dans votre cimetière, inflige <strong class=\"kv\">1</strong> point de dégât à un adversaire aléatoire puis retire définitivement le contenu actuel de votre cimetière de la partie. Ces effets passent outre <em>Insensible</em>. Peut cibler l'avatar adverse. Si « Puissance du sacrifice » détruit <strong class=\"kv\">1</strong> ou plusieurs serviteurs, génère <strong class=\"kv\">1 à 3</strong> Échos par victime. Ajoute alors la ou les victimes sous votre pile d'approvisionnement.",
+      "cond": "Nécessite au moins <strong class=\"kv\">1</strong> serviteur dans votre cimetière.",
+      "useDetail": true,
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000051",
+    {
+      "name": "Rituel occulte",
+      "type": "Sort",
+      "faction": "Mort-vivant",
+      "cost": 5,
+      "kw": [
+        "Aria"
+      ],
+      "desc": "Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre.",
+      "detail": "Vole le contenu actuel du cimetière adverse et l'ajoute au vôtre. Réinitialise le cimetière adverse.",
+      "cond": "",
+      "useDetail": true,
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000055",
+    {
+      "name": "Triangle des ténèbres",
+      "type": "Sort",
+      "faction": "/",
+      "cost": 0,
+      "kw": [
+        "Insensible",
+        "Écho"
+      ],
+      "desc": "Choisissez <strong class=\"kv\">3</strong> serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère <strong class=\"kv\">10</strong> Échos et invoque « Morghast L'Os-tentatoire ». Pendant vos <strong class=\"kv\">3</strong> prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité <em>Insensible</em>.",
+      "detail": "Choisissez <strong class=\"kv\">3</strong> serviteurs alliés de votre côté du terrain : ils sont envoyés au cimetière. En retour, génère <strong class=\"kv\">10</strong> Échos et invoque « Morghast L'Os-tentatoire ». Pendant vos <strong class=\"kv\">3</strong> prochains tours, « Morghast L'Os-tentatoire » bénéficie de la capacité <em>Insensible</em>.",
+      "cond": "Avoir au moins <strong class=\"kv\">3</strong> serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale <em>Insensible</em>.",
+      "useDetail": true,
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000056",
+    {
+      "name": "Déplacement instantané",
+      "type": "Sort",
+      "faction": "/",
+      "cost": 4,
+      "kw": [
+        "Lenya",
+        "Aria",
+        "Écho",
+        "Vengeance"
+      ],
+      "desc": "Marquez <strong class=\"kv\">1</strong> serviteur allié. La première fois qu'il devrait être détruit, renvoyez-le dans votre main et fixez son coût en ressources à <strong class=\"kv\">0</strong>. Si le serviteur sauvé possède une capacité spéciale <em>Vengeance</em>, celle-ci se déclenche comme s'il avait été détruit.",
+      "detail": "Marquez <strong class=\"kv\">1</strong> serviteur allié. La première fois qu'il devrait être détruit, renvoyez-le dans votre main et fixez son coût en ressources à <strong class=\"kv\">0</strong>. Si le serviteur sauvé possède une capacité spéciale <em>Vengeance</em>, celle-ci se déclenche comme s'il avait été détruit.",
+      "cond": "",
+      "useDetail": true,
+      "maxOwned": 2
+    }
+  ]
+]) {const card=CARDS.find(c=>c.id===id);if(card)Object.assign(card,patch);}
 hydrateCollectionCatalogClassification();
 hydrateCollectionDerivedData();
 init();
