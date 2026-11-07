@@ -922,6 +922,7 @@ body.collection-batch-15d-gabar-active .test-resource-panel{left:18px;right:auto
 .selection-card.is-missing{justify-content:center;min-height:184px;padding:10px;border-style:dashed;box-sizing:border-box}
 .selection-card-art{position:relative;height:84px;background:#120a08;overflow:hidden;}
 .selection-card-art img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+.selection-card-art>.selection-card-faction{position:absolute;top:5px;left:5px;width:20px;height:20px;object-fit:contain;z-index:2;pointer-events:none;filter:drop-shadow(0 1px 2px #000)}
 .selection-card-stats{position:absolute;left:4px;right:4px;bottom:4px;display:flex;justify-content:space-between;pointer-events:none;}
 .selection-card-stat{position:relative;width:23px;height:23px;display:flex;align-items:center;justify-content:center;}
 .selection-card-stat img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;}
@@ -1553,14 +1554,14 @@ body.dragging-card .hc.dragging {
 .fc.appro-fc .fz-desc-text.fz-lore-text,.fc.appro-fc .fz-desc-text.fz-lore-text em.card-lore-text{color:#0e0c08!important;font-style:italic!important;font-weight:400!important;text-decoration:none!important;}
 
 /* Variables (kv) : même couleur que les mots-clefs de la faction */
-.hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv { color:#2a5a10; }
-.hc.edn .hc-desc-text strong.kv, .fc.edn-fc .fz-desc-text strong.kv { color:#d080e8; }
-.hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv { color:#2a8fd4; }
-.hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv { color:#002fa7; }
-.hc.mvs .hc-desc-text strong.kv, .fc.mvs-fc .fz-desc-text strong.kv { color:#d080e8; }
-.hc.div .hc-desc-text strong.kv, .fc.div-fc .fz-desc-text strong.kv { color:#5a1a8a; }
-.fc.sort-fc .fz-desc-text strong.kv { color:#5a1a8a; }
-.fc.appro-fc .fz-desc-text strong.kv { color:#8a6820; }
+.hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv,.selection-card.edb-fc .selection-card-text strong.kv { color:#2a5a10; }
+.hc.edn .hc-desc-text strong.kv, .fc.edn-fc .fz-desc-text strong.kv,.selection-card.edn-fc .selection-card-text strong.kv { color:#d080e8; }
+.hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv,.selection-card.edg-fc .selection-card-text strong.kv { color:#2a8fd4; }
+.hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv,.selection-card.hum-fc .selection-card-text strong.kv { color:#002fa7; }
+.hc.mvs .hc-desc-text strong.kv, .fc.mvs-fc .fz-desc-text strong.kv,.selection-card.mvs-fc .selection-card-text strong.kv { color:#d080e8; }
+.hc.div .hc-desc-text strong.kv, .fc.div-fc .fz-desc-text strong.kv,.selection-card.div-fc .selection-card-text strong.kv { color:#5a1a8a; }
+.fc.sort-fc .fz-desc-text strong.kv,.selection-card.sort-fc .selection-card-text strong.kv { color:#5a1a8a; }
+.fc.appro-fc .fz-desc-text strong.kv,.selection-card.appro-fc .selection-card-text strong.kv { color:#8a6820; }
 
 /* Séparateur de ressources "ou"/"+" */
 .res-sep { font-size:9px; color:#c8b898; margin:0 2px; font-weight:700; align-self:center; font-family:'Cinzel',serif; }
@@ -1812,7 +1813,7 @@ body.dragging-card .hc.dragging {
 .fc.orc-fc .fc-zoom-name-b{background:linear-gradient(180deg,#4a0800,#3a0400 50%,#4a0800);}
 .fc.orc-fc .fz-desc-inner{background:linear-gradient(155deg,#2e0c08,#1e0806);}
 .fc.orc-fc .fz-desc-text{color:#d4a888;}
-.fc.orc-fc .fz-desc-text em,.fc.orc-fc .fz-desc-text strong.kv{color:#e87040;}
+.fc.orc-fc .fz-desc-text em,.fc.orc-fc .fz-desc-text strong.kv,.selection-card.orc-fc .selection-card-text strong.kv{color:#e87040;}
 .fc.orc-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#4a0800,#3a0400);}
 
 .fc.bet-fc .fi{border-color:#7a3c10;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(180,120,48,0.45);}
@@ -1820,7 +1821,7 @@ body.dragging-card .hc.dragging {
 .fc.bet-fc .fc-zoom-name-b{background:linear-gradient(180deg,#301404,#1e0c02 50%,#301404);}
 .fc.bet-fc .fz-desc-inner{background:linear-gradient(155deg,#4a2a08,#281002);}
 .fc.bet-fc .fz-desc-text{color:#d8b870;}
-.fc.bet-fc .fz-desc-text em,.fc.bet-fc .fz-desc-text strong.kv{color:#c89040;}
+.fc.bet-fc .fz-desc-text em,.fc.bet-fc .fz-desc-text strong.kv,.selection-card.bet-fc .selection-card-text strong.kv{color:#c89040;}
 .fc.bet-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#301404,#1e0c02);}
 
 .fc.gob-fc .fi{border-color:#5c4010;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(140,108,24,0.4);}
@@ -1828,7 +1829,7 @@ body.dragging-card .hc.dragging {
 .fc.gob-fc .fc-zoom-name-b{background:linear-gradient(180deg,#201402,#160e02 50%,#201402);}
 .fc.gob-fc .fz-desc-inner{background:linear-gradient(155deg,#2e2208,#1a1402);}
 .fc.gob-fc .fz-desc-text{color:#d4b060;}
-.fc.gob-fc .fz-desc-text em,.fc.gob-fc .fz-desc-text strong.kv,
+.fc.gob-fc .fz-desc-text em,.fc.gob-fc .fz-desc-text strong.kv,.selection-card.gob-fc .selection-card-text strong.kv,
 .fc.gob-fc .fz-desc-text .canonical-keyword-inline,
 .fc.gob-fc .fz-desc-text .card-keyword,
 .fc.gob-fc .fz-desc-text .card-named-ability,
@@ -1846,7 +1847,7 @@ body.dragging-card .hc.dragging {
 .fc.nain-fc .fc-zoom-name-b{background:linear-gradient(180deg,#1e2030,#141620 50%,#1e2030);}
 .fc.nain-fc .fz-desc-inner{background:linear-gradient(155deg,#d8dce8,#b4b8cc);}
 .fc.nain-fc .fz-desc-text{color:#0e0e14;}
-.fc.nain-fc .fz-desc-text em,.fc.nain-fc .fz-desc-text strong.kv{color:#2a3448;}
+.fc.nain-fc .fz-desc-text em,.fc.nain-fc .fz-desc-text strong.kv,.selection-card.nain-fc .selection-card-text strong.kv{color:#2a3448;}
 .fc.nain-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1e2030,#141620);}
 
 .fc.trl-fc{--card-faction-color:#e0a840;--card-border:#7a3c10;background:linear-gradient(170deg,#4a2008,#100802);border-radius:12px;box-shadow:0 0 0 1px rgba(122,60,16,.72),inset 0 0 18px rgba(180,120,48,.2),0 8px 18px rgba(0,0,0,.34);}
@@ -1855,7 +1856,7 @@ body.dragging-card .hc.dragging {
 .fc.trl-fc .fc-zoom-name-b{background:linear-gradient(180deg,#281e04,#1a1202 50%,#281e04);}
 .fc.trl-fc .fz-desc-inner{background:linear-gradient(155deg,#4a2a08,#281002);}
 .fc.trl-fc .fz-desc-text{color:#d8b870;}
-.fc.trl-fc .fz-desc-text em,.fc.trl-fc .fz-desc-text strong.kv{color:#e0a840;}
+.fc.trl-fc .fz-desc-text em,.fc.trl-fc .fz-desc-text strong.kv,.selection-card.trl-fc .selection-card-text strong.kv{color:#e0a840;}
 .fc.trl-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#281e04,#1a1202);}
 
 .fc.div-fc .fi{border-color:#6a1020;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(160,20,40,0.4);}
@@ -1863,7 +1864,7 @@ body.dragging-card .hc.dragging {
 .fc.div-fc .fc-zoom-name-b{background:linear-gradient(180deg,#1a1a1e,#0e0e12 50%,#1a1a1e);}
 .fc.div-fc .fz-desc-inner{background:linear-gradient(155deg,#2a1018,#1a0810);}
 .fc.div-fc .fz-desc-text{color:#c8a0a8;}
-.fc.div-fc .fz-desc-text em,.fc.div-fc .fz-desc-text strong.kv{color:#e06080;}
+.fc.div-fc .fz-desc-text em,.fc.div-fc .fz-desc-text strong.kv,.selection-card.div-fc .selection-card-text strong.kv{color:#e06080;}
 .fc.div-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1a1a1e,#0e0e12);}
 
 .fc.appro-fc .fi{border-color:#7a7060;box-shadow:0 0 0 1.5px rgba(0,0,0,0.85),0 0 12px rgba(200,168,75,0.25);}
@@ -1911,7 +1912,7 @@ body.dragging-card .hc.dragging {
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
 .canonical-card-preview.hum-fc{--card-dark:#0f1a3a;--card-border:#26c4ec;--card-faction-color:#002fa7;--card-kw:#002fa7}
-.hc.hum .hc-desc-text .canonical-keyword-inline,.hc.hum .hc-desc-text strong.kv,.hc.hum .hc-desc-text .card-keyword,.hc.hum .hc-desc-text .card-named-ability,.fc.hum-fc .fz-desc-text .canonical-keyword-inline,.fc.hum-fc .fz-desc-text strong.kv,.fc.hum-fc .fz-desc-text .card-keyword,.fc.hum-fc .fz-desc-text .card-named-ability,.canonical-card-preview.hum-fc .fz-desc-text .canonical-keyword-inline,.canonical-card-preview.hum-fc .fz-desc-text strong.kv,.canonical-card-preview.hum-fc .fz-desc-text .card-keyword,.canonical-card-preview.hum-fc .fz-desc-text .card-named-ability{color:#002fa7!important}
+.hc.hum .hc-desc-text .canonical-keyword-inline,.hc.hum .hc-desc-text strong.kv,.hc.hum .hc-desc-text .card-keyword,.hc.hum .hc-desc-text .card-named-ability,.fc.hum-fc .fz-desc-text .canonical-keyword-inline,.fc.hum-fc .fz-desc-text strong.kv,.selection-card.hum-fc .selection-card-text strong.kv,.fc.hum-fc .fz-desc-text .card-keyword,.fc.hum-fc .fz-desc-text .card-named-ability,.canonical-card-preview.hum-fc .fz-desc-text .canonical-keyword-inline,.canonical-card-preview.hum-fc .fz-desc-text strong.kv,.canonical-card-preview.hum-fc .fz-desc-text .card-keyword,.canonical-card-preview.hum-fc .fz-desc-text .card-named-ability{color:#002fa7!important}
 .canonical-card-preview.sort-fc{--card-dark:#1e0e34;--card-border:#6a3a9a;--card-faction-color:#6a3a9a;--card-kw:#6a3a9a}
 .canonical-card-preview.sort-fc .fc-zoom{background:linear-gradient(170deg,#2e1a4a,#0e0618)!important}
 .canonical-card-preview.sort-fc .fc-zoom-name-b,.canonical-card-preview.sort-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1e0e34,#150a28 50%,#1e0e34)!important}
@@ -1983,12 +1984,11 @@ body.dragging-card .hc.dragging {
 /* Batch 15E2: opt-in presentation for the four existing selection dialogs. */
 .sort-choice-panel.batch15e2-selection{box-sizing:border-box;width:min(860px,calc(100vw - 32px));max-width:calc(100vw - 32px)!important;max-height:calc(100dvh - 32px);padding:18px 24px;gap:12px}
 .batch15e2-selection .decision-modal-header{margin:0}
-.batch15e2-selection [data-testid="batch15e-source-zone"]{margin:0;color:#c8b898;font-family:'Crimson Pro',serif;font-size:13px}
-.batch15e2-selection .sort-choice-cards{box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,144px);justify-content:center;align-items:start;gap:20px;width:100%;max-width:100%;max-height:min(48vh,430px)!important;overflow-y:auto!important;overflow-x:hidden!important;padding:12px 8px!important;scrollbar-width:thin;scrollbar-color:#c8a84b rgba(18,9,4,.85);scrollbar-gutter:stable}
-.batch15e2-selection .sort-choice-item{width:144px;transform:none!important}
+.batch15e2-selection .sort-choice-cards{box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,144px);justify-content:center;align-items:start;gap:20px;width:100%;max-width:100%;max-height:min(48vh,430px)!important;overflow-y:auto!important;overflow-x:hidden!important;padding:20px 16px!important;scroll-padding:20px 16px;scrollbar-width:thin;scrollbar-color:#c8a84b rgba(18,9,4,.85);scrollbar-gutter:stable}
+.batch15e2-selection .sort-choice-item{position:relative;width:144px;z-index:1;transform-origin:center;scroll-margin:20px 16px}
+.batch15e2-selection .sort-choice-item:hover,.batch15e2-selection .sort-choice-item:focus-visible{transform:translateY(-6px) scale(1.04);z-index:30}
 .batch15e2-selection .selection-card{box-sizing:border-box;width:144px;height:228px;min-height:228px}
 .batch15e2-selection .selection-card-art{height:100px;min-height:100px;flex:0 0 100px}
-.batch15e2-selection .selection-card-art>img{object-fit:contain}
 .batch15e2-selection .selection-card-name{height:30px;min-height:30px;box-sizing:border-box;overflow:hidden}
 .batch15e2-selection .selection-card-cost{height:28px;min-height:28px;flex:0 0 28px;box-sizing:border-box}
 .batch15e2-selection .selection-card-text{min-height:0;max-height:none;flex:1;overflow:hidden}
@@ -5783,23 +5783,15 @@ const COLLECTION_BATCH_15E2_MESSAGES={
   "survivors": "TOUT N'EST PAS PERDU ! VOS ÉCLAIREURS ONT RAMENÉ ET SOIGNÉ DES RESCAPÉS DE LA CATASTROPHE.",
   "noSurvivors": "VOS ÉCLAIREURS N'ONT PU QUE CONSTATER L'ÉTENDUE DES DÉGÂTS : SUR PLACE, IL N'Y AVAIT PLUS RIEN À SAUVER..."
 };
-const COLLECTION_BATCH_15E2_DEPLACEMENT_TEXT="Bénéficie de Déplacement instantané : la *1ère* fois que ce serviteur devrait être détruit, il déclenche sa capacité [Vengeance] puis est renvoyé dans la main de son propriétaire au lieu du cimetière et peut dès lors être rejoué gratuitement.";
+const COLLECTION_BATCH_15E2_DEPLACEMENT_TEXT="Bénéficie de *Déplacement instantané* : la *1ère* fois que ce serviteur devrait être détruit, il déclenche sa capacité [Vengeance] puis est renvoyé dans la main de son propriétaire au lieu du cimetière et peut dès lors être rejoué gratuitement.";
 function batch15E2Notify(key) {
  const result=batch15EMessage(COLLECTION_BATCH_15E2_MESSAGES[key] || key);
  document.querySelector('#notif')?.classList.add('batch15e2-feedback');
  return result;
 }
-function bindBatch15E2ChoicePreviews(modal, sourceForItem) {
+function prepareBatch15ESelectionFocus(modal) {
  if(!modal.polishedSelection || !modal.overlay) return;
- const grid=modal.overlay.querySelector('.sort-choice-cards');
- for(const item of grid.querySelectorAll('[data-testid="zone-card-choice"],[data-testid="board-target-choice"]')) {
-  item.tabIndex=0;
-  const open=()=>{const source=sourceForItem(item);if(source)openCardPreview(source.cardId,{...source,sourceType:'decision-selection',decisionElement:item});};
-  item.addEventListener('pointerenter',open);item.addEventListener('focusin',open);
-  item.addEventListener('pointerleave',()=>closeCardPreview('decision-selection-leave'));
-  item.addEventListener('focusout',()=>closeCardPreview('decision-selection-blur'));
- }
- grid.addEventListener('scroll',()=>closeCardPreview('decision-selection-scroll'),{passive:true});
+ modal.overlay.querySelectorAll('[data-testid="zone-card-choice"],[data-testid="board-target-choice"]').forEach(item=>{item.tabIndex=0;});
 }
 
 function batch15ECheckPlay(cardId, player) {
@@ -6904,8 +6896,8 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1, can
       polishedSelection,
       panelClass:isIsgrimmRune ? 'zone-card-choice-panel isgrimm-rune-choice-panel' : (isApresCatastrophe ? 'zone-card-choice-panel apres-catastrophe-choice-panel' : 'zone-card-choice-panel'),
       bodyHtml:`<div style="font-family:'Crimson Pro',serif;font-size:13px;color:#c8b898;margin-bottom:12px;text-align:center">${escapeHtml(prompt || '')}</div>
-        ${zoneLabel ? `<p data-testid="batch15e-source-zone">${escapeHtml(zoneLabel)}</p>` : ''}
-        <div class="sort-choice-cards" data-testid="zone-card-choice-list">${cardsHTML}${ineligibleHTML}</div>
+        ${zoneLabel && !polishedSelection ? `<p data-testid="batch15e-source-zone">${escapeHtml(zoneLabel)}</p>` : ''}
+        <div class="sort-choice-cards" data-testid="zone-card-choice-list"${zoneLabel ? ` aria-label="${escapeHtml(zoneLabel)}"` : ''}>${cardsHTML}${ineligibleHTML}</div>
         <button type="button" class="sort-choice-confirm" data-testid="zone-card-confirm" disabled style="font-family:'Cinzel',serif;font-size:10px;color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);border-radius:8px;padding:8px 20px;margin-top:12px;cursor:pointer">CONFIRMER</button>`
     });
     function update() {
@@ -6933,7 +6925,7 @@ function chooseZoneCards({title, prompt, candidates, maxCount=1, minCount=1, can
         modal.close({selected:[...selected]});
         resolve(chosen);
       });
-      bindBatch15E2ChoicePreviews(modal,item=>{const candidate=available[Number(item.dataset.idx)];return candidate?{cardId:candidate.cardId,playerId:candidate.ownerKey,sourceElement:item}:null;});
+      prepareBatch15ESelectionFocus(modal);
       update();
     };
     modal.onRender();
@@ -8331,7 +8323,7 @@ function humanDescriptionAccentColor(card, fallbackColor) {
 
 function renderZoomDescription(card, kwColor) {
   const html=renderZoomDescriptionRuntime(card,kwColor);
-  return (BATCH_15E_CARD_IDS.has(card?.id) || card?.batch03DynamicStatusText && card.cap?.includes('Bénéficie de Déplacement instantané'))?batch15ESpacingInHtml(html):html;
+  return (BATCH_15E_CARD_IDS.has(card?.id) || card?.batch03DynamicStatusText && card.cap?.includes('Bénéficie de *Déplacement instantané*'))?batch15ESpacingInHtml(html):html;
 }
 function renderZoomDescriptionRuntime(card, kwColor) {
   if (!card) return '';
@@ -9422,12 +9414,11 @@ function scheduleCloseCardPreview(reason='pointerout') {
 function openCardPreview(cardOrId, sourceContext={}) {
   const cardId = typeof cardOrId === 'string' ? cardOrId : cardOrId?.id || cardOrId?.cardId || cardOrId?.dataset?.id;
   if (!cardId || !CARDS_DATA[cardId]) return null;
-  const decisionPreview=sourceContext.sourceType==='decision-selection' && sourceContext.decisionElement?.closest('.batch15e2-selection') && pendingDecisionModal?.overlay?.contains(sourceContext.decisionElement);
-  if (!decisionPreview && typeof hasBlockingDecision === 'function' && hasBlockingDecision()) {
+  if (typeof hasBlockingDecision === 'function' && hasBlockingDecision()) {
     suspendCardPreviewsForDecision(sourceContext.origin || 'blocking-decision');
     return {opened:false, reason:'decision-modal-open', cardId};
   }
-  if (isPreviewSuppressed() && !decisionPreview) {
+  if (isPreviewSuppressed()) {
     tracePreviewLifecycle('open-suppressed', cardId, {origin:sourceContext.origin || 'suppressed'});
     return {opened:false, reason:'preview-suppressed', cardId};
   }
@@ -14348,7 +14339,7 @@ async function playCardRuntime(cardId, slot, options={}) {
   const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection, handOccurrenceId, returnActionValidation};
   if (cardId === 'S000055' && !selectedTargetIds) {
     const targets = legalTargetsForRequirement(cardId, p).filter(target => !target.dataset.insensible);
-    const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel',canCancel:true});
+    const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres.', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel',canCancel:true});
     if (chosen.length !== 3) {
       releasePaymentLock(p, cardId);
       if (!chosen.length) return {success:false,reason:'cancelled'};
@@ -15220,6 +15211,7 @@ function renderDecisionCard(cardId, {occurrenceId=null, context='selection', sel
   }
   const folder = d.assetFolder || facFolder(d.fac);
   const col = facColor(d.fac);
+  const iconFile = factionIconFile(d);
   const stats = d.atk != null || d.pdv != null
     ? `<div class="selection-card-stats">
         <div class="selection-card-stat"><img src="${GH}/icones/IC00000ATK.png" alt=""><span>${d.atk ?? '-'}</span></div>
@@ -15229,9 +15221,10 @@ function renderDecisionCard(cardId, {occurrenceId=null, context='selection', sel
   const text = d.cap || d.detail || d.lore || '';
   const rawFormattedText = formatPlayerFacingCardText(text, getCanonicalCardDisplayModel(cardId));
   const formattedText=sourceElement?.dataset?.batch06DeplacementInstantane==='1'?batch15ESpacingInHtml(rawFormattedText):rawFormattedText;
-  return `<div class="selection-card${selectable ? ' is-selectable' : ''}" ${sourceElement?.dataset?.batch06DeplacementInstantane==='1'?`style="--card-faction-color:${humanDescriptionAccentColor(d,col)};--card-kw:${humanDescriptionAccentColor(d,col)}"`:''} data-selection-context="${escapeHtml(context)}"${occurrenceId ? ` data-occurrence-id="${escapeHtml(occurrenceId)}"` : ''}>
+  return `<div class="selection-card${selectable ? ' is-selectable' : ''}${sourceElement?.dataset?.batch06DeplacementInstantane==='1'?' '+facCls(d.fac):''}" ${sourceElement?.dataset?.batch06DeplacementInstantane==='1'?`style="--card-faction-color:${humanDescriptionAccentColor(d,col)};--card-kw:${humanDescriptionAccentColor(d,col)}"`:''} data-selection-context="${escapeHtml(context)}"${occurrenceId ? ` data-occurrence-id="${escapeHtml(occurrenceId)}"` : ''}>
     <div class="selection-card-art">
-      <img src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.opacity='0.12';this.removeAttribute('src')">
+      <img class="selection-card-illustration" src="${cardArtworkSrc(cardId, folder)}" alt="" onerror="this.style.opacity='0.12';this.removeAttribute('src')">
+      ${iconFile ? `<img class="selection-card-faction" src="${GH}/icones/${iconFile}" alt="">` : ''}
       ${stats}
     </div>
     <div class="selection-card-name">${escapeHtml(d.name || 'Carte inconnue')}</div>
@@ -20485,7 +20478,7 @@ function chooseBoardTargets({title, prompt, targets, maxCount=1, minCount=1, pan
         modal.close({selected:[...selected]});
         resolve(chosen);
       });
-      bindBatch15E2ChoicePreviews(modal,item=>{const fc=available[Number(item.dataset.idx)];return fc?{cardId:fc.dataset.id,playerId:fc.dataset.player,sourceElement:fc}:null;});
+      prepareBatch15ESelectionFocus(modal);
       update();
     };
     modal.onRender();

@@ -191,7 +191,7 @@ test('S000015 UI moves the selected duplicate from its own cemetery, excludes Ti
  await boot(page,{player1:{hand:['S000015'],graveyard:[entry('H000001','own-a'),entry('H000001','own-b'),'EDG000012','R000010']},player2:{graveyard:[entry('H000001','enemy-a','player2')]}});
  const before=await state(page);await playUI(page,'S000015');
  await expect(page.getByTestId('zone-card-choice')).toHaveCount(2);await expect(page.getByTestId('zone-card-ineligible')).toHaveCount(2);
- await expect(page.getByTestId('batch15e-source-zone')).toHaveText('Votre cimetière');
+ await expect(page.getByTestId('batch15e-source-zone')).toHaveCount(0);await expect(page.locator('.sort-choice-cards')).toHaveAttribute('aria-label','Votre cimetière');
  await expect(page.getByTestId('zone-card-choice').nth(1)).toHaveAttribute('data-occurrence-id','own-b');
  await confirmZones(page,[1]);const after=await evidence(page,testInfo,'exact-own-occurrence');
  expect(after.player1.deck).toEqual(['H000001']);expect(after.player1.graveyard).toEqual(['H000001','EDG000012','R000010','S000015']);expect(after.player2).toEqual(before.player2);
@@ -205,7 +205,7 @@ test('S000022 UI steals exactly the second duplicate; original owner survives sh
  await boot(page,{player1:{hand:['S000022'],classical:{},souls:20},player2:{graveyard:[entry('H000001','enemy-a','player2'),entry('H000001','enemy-b','player2'),'H000036','R000010']}},theftScenario);
  const globalBefore=await page.evaluate(()=>JSON.stringify(CARDS_DATA.H000001));
  await playUI(page,'S000022');await expect(page.getByTestId('zone-card-choice')).toHaveCount(2);await expect(page.getByTestId('zone-card-ineligible')).toHaveCount(0);
- await expect(page.getByTestId('batch15e-source-zone')).toHaveText('Cimetière adverse');await confirmZones(page,[1]);
+ await expect(page.getByTestId('batch15e-source-zone')).toHaveCount(0);await expect(page.locator('.sort-choice-cards')).toHaveAttribute('aria-label','Cimetière adverse');await confirmZones(page,[1]);
  let after=await state(page);expect(after.player2.graveyard).toEqual(['H000001','H000036','R000010']);expect(after.player1.deck).toEqual(['H000001']);expect(after.player1.souls).toBe(12);
  expect(after.message).toBe(e2Messages.gallery);
  expect(await page.evaluate(()=>batch15EZoneIdentity(player1,'deck',0))).toMatchObject({occurrenceId:'enemy-b',originalOwnerId:'player2'});
@@ -381,12 +381,8 @@ test('15E2 Gallery exact subtitle and only eligible rendered servants, no Aria a
 for(const id of ['S000015','S000022','S000055','S000056'])test('15E2 '+id+' hover stays visible at grid edges before and after real scrolling',async({page},testInfo)=>{
  const items=await e2Choice(page,id),grid=page.locator('.sort-choice-cards');
  const metrics=await grid.evaluate(e=>({scroll:e.scrollHeight,client:e.clientHeight,width:getComputedStyle(e).scrollbarWidth,color:getComputedStyle(e).scrollbarColor}));expect(metrics.scroll).toBeGreaterThan(metrics.client);expect(metrics.width).toBe('thin');expect(metrics.color).toContain('200, 168, 75');
- const count=await items.count();for(const index of [...new Set([0,Math.min(3,count-1),Math.max(0,count-4),count-1])]){
-  await items.nth(index).scrollIntoViewIfNeeded();await items.nth(index).hover();await expect(page.locator('#card-preview-layer.preview-open .canonical-card-preview')).toBeVisible();
-  const visible=await page.locator('#card-preview-layer .canonical-card-preview').evaluate(e=>{const r=e.getBoundingClientRect(),point=document.elementsFromPoint(r.left+8,r.top+8);return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,viewport:{w:innerWidth,h:innerHeight},portal:e.closest('#card-preview-layer')?.parentElement===document.body};});
-  expect(visible.left).toBeGreaterThanOrEqual(8);expect(visible.top).toBeGreaterThanOrEqual(8);expect(visible.right).toBeLessThanOrEqual(visible.viewport.w-8);expect(visible.bottom).toBeLessThanOrEqual(visible.viewport.h-8);expect(visible.portal).toBe(true);
- }
- await page.screenshot({path:testInfo.outputPath('hover-last-row.png')});await page.locator('.sort-choice-cancel-button').hover();await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);await page.locator('.sort-choice-cancel-button').click();await settled(page);
+ await e3LocalHoverProof(page,items,testInfo);
+ await page.locator('.sort-choice-cancel-button').hover();await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);await page.locator('.sort-choice-cancel-button').click();await settled(page);
 });
 
 test('15E2 displacement description is occurrence-only, faction-colored and interactive; no 1 marker; real rescue cleans it',async({page},testInfo)=>{
@@ -426,3 +422,38 @@ async function e2NotificationGeometry(page){
 }
 
 test.afterEach(async({page},testInfo)=>{if(testInfo.status===testInfo.expectedStatus)return;try{const snapshot=await page.evaluate(()=>({actions:window.__batch15eUIActions,events:collectionBatch15EState.events,flights:[...document.querySelectorAll('.batch09-cadaver-flight')].map(e=>({...e.dataset,animations:e.getAnimations().map(a=>({state:a.playState,time:a.currentTime}))}))}));await testInfo.attach('15e-failure-runtime',{body:Buffer.from(JSON.stringify(snapshot,null,2)),contentType:'application/json'});}catch{}});
+
+// Batch 15E3 strengthens the existing hover cases and adds target-theme/art/icon/label/punctuation proofs.
+async function e3LocalHoverProof(page,items,testInfo){
+ const grid=page.locator('.sort-choice-cards'),count=await items.count();
+ const edges=await items.evaluateAll(nodes=>{const rows=new Map();nodes.forEach((e,i)=>{const y=Math.round(e.getBoundingClientRect().top);if(!rows.has(y))rows.set(y,[]);rows.get(y).push(i)});const list=[...rows.values()];return [...new Set([list[0][0],list[0].at(-1),list.at(-1)[0],list.at(-1).at(-1)])]});
+ for(const index of edges){
+  await page.locator('.sort-choice-title').hover();await items.nth(index).scrollIntoViewIfNeeded();const base=await items.nth(index).locator('.selection-card').boundingBox();await items.nth(index).hover();
+  await page.screenshot({path:testInfo.outputPath('hover-edge-'+index+'.png')});
+  await expect.poll(async()=>{const r=await items.nth(index).locator('.selection-card').boundingBox();return r.width/base.width}).toBeGreaterThan(1.03);
+  const r=await items.nth(index).locator('.selection-card').boundingBox(),g=await grid.boundingBox();expect(r.width/base.width).toBeLessThan(1.05);expect(Math.abs((r.x+r.width/2)-(base.x+base.width/2))).toBeLessThan(10);expect(Math.abs(r.y-base.y)).toBeLessThan(15);
+  await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);
+  expect(r.x).toBeGreaterThanOrEqual(g.x);expect(r.y).toBeGreaterThanOrEqual(g.y);expect(r.x+r.width).toBeLessThanOrEqual(g.x+g.width);expect(r.y+r.height).toBeLessThanOrEqual(g.y+g.height);
+  const corners=await items.nth(index).evaluate(item=>{const r=item.querySelector('.selection-card').getBoundingClientRect();return [[r.left+4,r.top+4],[r.right-4,r.top+4],[r.left+4,r.bottom-4],[r.right-4,r.bottom-4]].map(([x,y])=>item.contains(document.elementFromPoint(x,y)))});expect(corners).toEqual([true,true,true,true]);
+  await items.nth(index).hover();expect((await items.nth(index).locator('.selection-card').boundingBox()).y).toBeCloseTo(r.y,0);
+ }
+ await page.screenshot({path:testInfo.outputPath('hover-last-row.png')});
+}
+for(const id of ['S000015','S000022','S000055','S000056'])test('15E3 '+id+' artwork truly fills its frame and every offered faction icon is loaded and visible',async({page},testInfo)=>{
+ const items=await e2Choice(page,id);await page.locator('.selection-card-art img').evaluateAll(nodes=>Promise.all(nodes.map(e=>e.decode().catch(()=>{}))));await page.screenshot({path:testInfo.outputPath('art-and-factions.png')});
+ const cards=await items.evaluateAll(nodes=>nodes.map(item=>{const card=item.querySelector('.selection-card'),art=card.querySelector('.selection-card-art'),image=art.querySelector(':scope>img:not(.selection-card-faction)'),icon=art.querySelector('.selection-card-faction'),b=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom}},a=b(art),i=b(image),fit=getComputedStyle(image).objectFit,scale=fit==='cover'?Math.max(i.w/image.naturalWidth,i.h/image.naturalHeight):Math.min(i.w/image.naturalWidth,i.h/image.naturalHeight),cardId=item.dataset.cardId||item.dataset.targetId;return {id:cardId,fac:CARDS_DATA[cardId].fac,art:a,image:i,natural:[image.naturalWidth,image.naturalHeight],paintedWidth:image.naturalWidth*scale,fit,icon:icon?{src:icon.getAttribute('src'),loaded:icon.complete&&icon.naturalWidth>0,box:b(icon)}:null,expected:factionIconFile(CARDS_DATA[cardId])}}));
+ await testInfo.attach('loaded-card-geometry',{body:Buffer.from(JSON.stringify(cards,null,2)),contentType:'application/json'});expect(new Set(cards.map(c=>c.fac)).size).toBeGreaterThan(1);
+ for(const c of cards){expect(c.natural[0]).toBeGreaterThan(0);expect(c.image.w).toBeCloseTo(c.art.w,0);expect(c.paintedWidth).toBeGreaterThanOrEqual(c.art.w-.5);expect(c.fit).not.toBe('fill');expect(c.icon).not.toBeNull();expect(c.icon.loaded).toBe(true);expect(c.icon.src).toContain('/icones/'+c.expected);expect(c.icon.box.x).toBeGreaterThanOrEqual(c.art.x);expect(c.icon.box.x+c.icon.box.w).toBeLessThan(c.art.x+c.art.w/2);expect(c.icon.box.y).toBeGreaterThanOrEqual(c.art.y);expect(c.icon.box.bottom).toBeLessThan(c.art.y+c.art.h/2)}
+ await page.locator('.sort-choice-cancel-button').click();await settled(page);
+});
+for(const [id,owner]of [['S000015','player1'],['S000022','player2']])test('15E3 '+id+' removes redundant visible cemetery line while preserving source ownership',async({page})=>{
+ const items=await e2Choice(page,id);await expect(page.getByTestId('batch15e-source-zone')).toHaveCount(0);await expect(page.locator('.sort-choice-title')).toHaveText(await page.evaluate(id=>CARDS_DATA[id].name,id));if(id==='S000022')expect(flat(await page.locator('.sort-choice-panel').innerText())).toContain(flat(e2Subtitle));else await expect(page.locator('.sort-choice-panel')).toContainText('Choisissez');expect(await items.evaluateAll(nodes=>[...new Set(nodes.map(e=>e.dataset.sourceOwner))])).toEqual([owner]);await confirmZones(page,[0]);const after=await state(page);expect(after.player1.deck).toHaveLength(1);expect(after.message).toBe(id==='S000022'?e2Messages.gallery:e2Messages.survivors);
+});
+test('15E3 Triangle prompt keeps its exact wording with final period',async({page})=>{await e2Choice(page,'S000055');await expect(page.getByTestId('board-target-prompt')).toHaveText('Offrez trois vies en sacrifice au Triangle des ténèbres.');await page.locator('.sort-choice-cancel-button').click();await settled(page)});
+for(const target of ['H000009','N000004','GOB000001'])test('15E3 attached spell title inherits actual target renderer theme '+target,async({page},testInfo)=>{
+ await boot(page,{player1:{hand:['S000056','S000056'],board:[{id:target,instance:'theme-marked'},{id:target,instance:'theme-other'}]}},theftScenario);await page.evaluate(()=>applyGel(document.querySelector('.fc[data-instance="theme-marked"]'),2));const marked=page.locator('.fc[data-instance="theme-marked"]'),other=page.locator('.fc[data-instance="theme-other"]');await marked.hover();await expect(page.locator('#card-preview-layer .kv').filter({hasText:'2'})).toHaveCount(1);const expected=await page.locator('#card-preview-layer .kv').filter({hasText:'2'}).evaluate(e=>getComputedStyle(e).color),canonical=await page.evaluate(id=>JSON.stringify(CARDS_DATA[id]),target);
+ await playUI(page,'S000056');await confirmBoard(page,[0]);await marked.hover();const title=page.locator('#card-preview-layer .fz-desc-inner strong.kv').filter({hasText:/^Déplacement\sinstantané$/});await expect(title).toHaveCount(1);expect(await title.evaluate(e=>getComputedStyle(e).color)).toBe(expected);expect(flat(await page.locator('#card-preview-layer .fz-desc-inner').innerText())).toContain(flat(e2Dynamic));await expect(page.locator('#card-preview-layer .canonical-card-preview [data-keyword="Vengeance"]')).toHaveCount(1);await expect(page.locator('#card-preview-layer .canonical-keyword-tooltip').filter({hasText:'Vengeance'})).toHaveCount(1);
+ await other.hover();await expect(page.locator('#card-preview-layer')).not.toContainText('Bénéficie de Déplacement instantané');
+ await playUI(page,'S000056');const offered=page.getByTestId('board-target-choice').first().locator('.selection-card-text strong.kv').filter({hasText:/^Déplacement\sinstantané$/});await expect(offered).toHaveCount(1);expect(await offered.evaluate(e=>getComputedStyle(e).color)).toBe(expected);await page.locator('.sort-choice-cancel-button').click();await settled(page);
+ await page.evaluate(()=>applyDamage(document.querySelector('.fc[data-instance="theme-marked"]'),999));await expect(marked).toHaveCount(0);await page.locator('.hc[data-id="'+target+'"]').hover();await expect(page.locator('#card-preview-layer')).not.toContainText('Bénéficie de Déplacement instantané');expect(await page.evaluate(id=>JSON.stringify(CARDS_DATA[id]),target)).toBe(canonical);await testInfo.attach('canonical-target-theme',{body:Buffer.from(JSON.stringify({target,expected})),contentType:'application/json'});
+});
