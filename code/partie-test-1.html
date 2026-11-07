@@ -5840,9 +5840,7 @@ async function playCard(cardId, slot, options={}) {
       const candidates = batch15EGraveyardCandidates(p,cardId);
       const snapshot = [...zoneArrayForPlayer(owner,'graveyard')];
       const occurrenceSnapshot=snapshot.map((_,index)=>batch15EZoneIdentity(owner,'graveyard',index)?.occurrenceId);
-      const legalIndexes = new Set(candidates.map(item=>item.index));
-      const ineligibleCandidates = cardId==='S000022'?[]:zoneCardEntries(owner,'graveyard').filter(item=>!legalIndexes.has(item.index));
-      const selected = await chooseZoneCards({title:CARDS_DATA[cardId].name,prompt:batch15EText(cardId==='S000022'?"Choisissez jusqu'à 5 serviteurs à déterrer du cimetière adverse pour votre armée.":'Choisissez jusqu’à 3 serviteurs de votre cimetière à renvoyer dans votre deck.'),candidates,ineligibleCandidates,minCount:1,maxCount:cardId==='S000022'?5:3,canCancel:true,zoneLabel:cardId==='S000022'?'Cimetière adverse':'Votre cimetière'});
+      const selected = await chooseZoneCards({title:CARDS_DATA[cardId].name,prompt:batch15EText(cardId==='S000022'?"Choisissez jusqu'à 5 serviteurs à déterrer du cimetière adverse pour votre armée.":'Choisissez jusqu’à 3 serviteurs de votre cimetière à renvoyer dans votre deck.'),candidates,minCount:1,maxCount:cardId==='S000022'?5:3,canCancel:true,zoneLabel:cardId==='S000022'?'Cimetière adverse':'Votre cimetière'});
       if (!selected.length) return {success:false,reason:'cancelled'};
       const current = zoneArrayForPlayer(owner,'graveyard');
       const legalNow=new Set(batch15EGraveyardCandidates(p,cardId).map(entry=>entry.occurrenceId));
