@@ -816,7 +816,7 @@ test("Batch-05E locks snow bonus, exact text highlights and visual effect timing
   const diagnostics = diagnosticsFor(page);
   await openScenario(page, "collection-batch-05-chute-de-neige");
   const snowAudit = await page.evaluate(async () => {
-    const cap = id => CARDS_DATA[id]?.cap || "";
+    const cap = id => batch15fColdCardData(id, CARDS_DATA[id], player1)?.cap || "";
     const beforeCaps = {
       EDG000001:cap("EDG000001"),
       EDG000004:cap("EDG000004"),

@@ -1999,6 +1999,8 @@ body.dragging-card .hc.dragging {
 .batch15e2-choice-actions .sort-choice-cancel-button{color:#f2d58a;background:rgba(30,18,8,.95);border:1px solid rgba(200,168,75,.55);box-shadow:none;text-shadow:none}
 .notif.batch15e2-feedback{box-sizing:border-box;width:min(980px,calc(100vw - 48px));max-width:calc(100vw - 48px);padding:18px 26px;font-size:clamp(13px,1.5vw,22px);letter-spacing:.06em;line-height:1.5;white-space:normal;overflow-wrap:normal}
 
+.batch15f-avatar-selection .sort-choice-prompt{color:#e5d9bd;font-size:12px;line-height:1.5;text-align:center}
+.batch15f-avatar-selection .batch15f-avatar-details{max-height:18vh;overflow-y:auto;color:#e5d9bd;font-size:12px;line-height:1.5;scrollbar-width:thin;scrollbar-color:#c8a84b rgba(18,9,4,.85)}
 </style>
 </head>
 <body>
@@ -3211,6 +3213,10 @@ SCENARIOS['collection-batch-15d-gabar-cycle'] = {
   }
 };
 // Hidden Batch 15E fixtures; all actions remain controlled by the player.
+
+SCENARIOS['collection-batch-15f-buffs-costs']={"label":"TEST — COLLECTION BATCH 15F buffs-costs","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000012","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000012","S000018","S000024","S000048","N000013","EDB000005","TRL000002"],"servants":[{"id":"N000013","prepared":true},{"id":"EDB000005","prepared":true},{"id":"ORC000005","prepared":true},{"id":"GOB000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["H000005","EDG000001"],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
+SCENARIOS['collection-batch-15f-turn-effects']={"label":"TEST — COLLECTION BATCH 15F turn-effects","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000027","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000027","S000033","S000039","S000042","S000049","EDG000001","EDB000002"],"servants":[{"id":"EDB000005","prepared":true},{"id":"MV000025","prepared":true},{"id":"GOB000006","prepared":true},{"id":"N000013","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["H000005","EDG000001"],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
+SCENARIOS['collection-batch-15f-persistent-reset']={"label":"TEST — COLLECTION BATCH 15F persistent-reset","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000016","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":15,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000016","S000045","S000050","R000003","R000004","H000005"],"servants":[{"id":"AVS000001","prepared":true},{"id":"MV000025","prepared":true},{"id":"N000013","prepared":true}],"testSupplies":["R000003","R000003","R000003","R000004","R000004"]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["H000005","EDG000001"],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
 SCENARIOS['collection-batch-15e-graveyard']={"label":"TEST — COLLECTION BATCH 15E graveyard","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000015","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000015","S000040"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
 SCENARIOS['collection-batch-15e-sacrifice']={"label":"TEST — COLLECTION BATCH 15E sacrifice","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000026","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000026","S000041","S000055"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true},{"id":"H000001","prepared":true},{"id":"MV000001","prepared":true},{"id":"H000036","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
 SCENARIOS['collection-batch-15e-resurrection-theft']={"label":"TEST — COLLECTION BATCH 15E resurrection-theft","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000022","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000022","S000051","S000056"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true},{"id":"H000001","prepared":true},{"id":"EN000002","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
@@ -5655,6 +5661,88 @@ function renderDeckBacks() {
 // ── Fonctions de gestion deck ──
 // Batch 15E keeps provenance beside the existing zone entries. Cards and
 // legacy primitive arrays retain their identity and public representation.
+
+// 15F shares draw provenance with the existing synchronous draw pipeline.
+const BATCH_15F_CARD_IDS=new Set(['S000012','S000016','S000018','S000024','S000027','S000033','S000039','S000042','S000045','S000048','S000049','S000050']);
+const batch15fDrawTasks=new Set();
+const batch15fDrawErrors=[];
+let batch15fCurrentDrawChain=null;
+function batch15fTrackDrawTask(task){
+  const pending=Promise.resolve().then(task);batch15fDrawTasks.add(pending);
+  pending.then(()=>batch15fDrawTasks.delete(pending),error=>{batch15fDrawTasks.delete(pending);batch15fDrawErrors.push(error);});return pending;
+}
+async function batch15fDrainDraws(){
+  while(batch15fDrawTasks.size)await Promise.allSettled([...batch15fDrawTasks]);
+  if(batch15fDrawErrors.length)throw new AggregateError(batch15fDrawErrors.splice(0),'La chaîne de pioche a été interrompue');
+}
+function batch15fNotifyDraw(drawer,result,options={}){
+  options={...options,batch15fDrawChain:options.batch15fDrawChain||batch15fCurrentDrawChain||{portalOwners:new Set()}};
+  batch15fQueuePortal(drawer,result,options);return queueBatch14DEreonDrawBonus(drawer,result,options);
+}
+function batch15fQueuePortal(drawer,result,options){
+  const owner=opponentOf(drawer),chain=options.batch15fDrawChain;
+  if(!result?.success||!owner?.batch15fPortal||!chain||chain.portalOwners.has(owner.key))return;
+  chain.portalOwners.add(owner.key);
+  const generation=owner.batch15fGeneration||0;
+  batch15fTrackDrawTask(async()=>{
+    if(playerState(owner.key)!==owner||(owner.batch15fGeneration||0)!==generation||!owner.batch15fPortal)return;
+    const bonus=drawCardFromRuntimeDeck(owner,{sourceCardId:'S000016',batch15fDrawChain:chain,refresh:true});
+    if(bonus.success){
+      createBatch14DHandFlight(owner,bonus.cardId,{origin:'deck',reason:'portal',faceUp:owner.key===currentPlayer});
+      const flights=[...document.querySelectorAll('.batch14d-hand-flight')].filter(el=>el.dataset.ownerId===owner.key&&el.dataset.flightReason==='portal');
+      await Promise.all(flights.flatMap(el=>el.getAnimations()).map(animation=>animation.finished.catch(()=>{})));
+    }
+  });
+}
+function batch15fAvatarOptions(player){
+  const p=playerState(player),current=CHARACTER_DEFS[p?.characterId];
+  const seen=new Set(current?[current.portrait]:[]);
+  const valid=Object.values(CHARACTER_DEFS).filter(def=>{
+    if(!Array.isArray(def.deck)||def.deck.length!==60||def.deck.some(id=>!CARDS_DATA[getRuntimeCardId(id)])||!def.portrait||seen.has(def.portrait))return false;
+    seen.add(def.portrait);return true;
+  });
+  return valid;
+}
+function batch15fChooseAvatar(p){
+  const pool=batch15fAvatarOptions(p);if(pool.length<3)throw new Error('Renforts : moins de trois decks complets disponibles');
+  shuffleDeck(pool);const options=pool.slice(0,3);
+  return new Promise(resolve=>{
+    let selected=null;
+    const bodyHtml='<p class="sort-choice-prompt">Choisissez votre nouvel avatar. Votre armée sera remplacée.</p><div class="sort-choice-cards">'+options.map(def=>'<button type="button" class="sort-choice-item" data-testid="batch15f-avatar-choice" data-avatar-id="'+escapeHtml(def.characterId)+'" data-deck-size="60"><div class="selection-card"><div class="selection-card-art"><img class="selection-card-illustration" src="'+GH+'/avatars-portraits/'+def.portrait+'" alt=""><img class="selection-card-faction" src="'+GH+'/icones/'+factionIconFile({fac:def.avatarCap})+'" alt=""><div class="selection-card-stats"><div class="selection-card-stat"><img src="'+GH+'/icones/IC00000ATK.png" alt="Attaque"><span>5</span></div><div class="selection-card-stat"><img src="'+GH+'/icones/IC00000PDV.png" alt="Points de vie"><span>50</span></div></div></div><div class="selection-card-name">'+escapeHtml(def.name)+'</div><div class="selection-card-meta">Avatar</div><div class="selection-card-text">Consultez sa capacité après sélection.</div></div></button>').join('')+'</div><div class="batch15f-avatar-details" aria-live="polite"></div><button type="button" class="sort-choice-confirm" disabled>CONFIRMER</button>';
+    const modal=createMinimizableDecisionModal({decisionId:'batch15f-avatar',title:'Renforts inespérés',bodyHtml,ownerPlayerId:p.key,compactLabel:'Choisir un avatar',panelClass:'batch15f-avatar-selection',canCancel:true,polishedSelection:true,onCancel:()=>resolve(null)});
+    modal.onRender=()=>{
+      const buttons=[...modal.overlay.querySelectorAll('[data-avatar-id]')],confirm=modal.overlay.querySelector('.sort-choice-confirm');
+      buttons.forEach(button=>{button.classList.toggle('selected',selected?.characterId===button.dataset.avatarId);button.addEventListener('click',()=>{selected=options.find(def=>def.characterId===button.dataset.avatarId);buttons.forEach(b=>b.classList.toggle('selected',b===button));confirm.disabled=false;modal.overlay.querySelector('.batch15f-avatar-details').innerHTML=selected.tip;});});
+      modal.overlay.querySelector('.batch15f-avatar-details').innerHTML=selected?.tip||'';
+      confirm.disabled=!selected;confirm.addEventListener('click',()=>{if(!selected)return;modal.close({selected});resolve(selected);});
+    };
+    modal.onRender();
+  });
+}
+async function resolveBatch15fRenforts(player,def){
+  const p=playerState(player);
+  if(!p||!def||!batch15fAvatarOptions(p).some(option=>option===def))throw new Error('Renforts : choix devenu invalide');
+  const retired=[...p.hand,...playerDrawPile(p),...p.graveyard,...livingServantCardsForPlayer(p).map(fc=>fc.dataset.id),...(p.supplies||[]).map(instance=>instance.cardId)];
+  const preserved={removedFromGame:[...(p.removedFromGame||[]),...retired],turnState:p.turnState,firstTurnStarted:p.firstTurnStarted,resourceTimingMarkers:p.resourceTimingMarkers,batch15fGeneration:(p.batch15fGeneration||0)+1};
+  for(const fc of [...livingServantCardsForPlayer(p)]){releaseBatch10LinkedEffects(fc);const slot=document.createElement('div');slot.className='slot';slot.dataset.player=p.key;fc.replaceWith(slot);}
+  for(const fc of [...qs(playerZoneSelector(p,'appro')).querySelectorAll('.fc')])replaceSupplyElementWithSlot(fc);
+  resetBatch14CExtraServantSlots(p);
+  ongoingEffects.meteores=ongoingEffects.meteores.filter(effect=>effect.sourcePlayerId!==p.key);
+  const oldCharacterId=p.characterId;
+  const fresh=createRuntimePlayer(def,p.key,p.position,p.back);fresh.resourceState.souls=0;fresh.resourceState.revision=Number(p.resourceState?.revision||0)+1;
+  for(const key of Object.keys(p))delete p[key];Object.assign(p,fresh,preserved);
+  if(playersByCharacter[oldCharacterId]===p)delete playersByCharacter[oldCharacterId];
+  if(!playersByCharacter[p.characterId]||playersByCharacter[p.characterId]===p)playersByCharacter[p.characterId]=p;
+  AVATAR_CAP[p.key]=p.avatarCap;renderAvatar(playerZoneSelector(p,'avatar'),def);shuffleDeck(p.drawPile);
+  updateBatch08AvatarLockFeedback();
+  for(const zone of ['hand','deck','graveyard'])refreshRuntimeZone(p,zone);
+  recomputeClassicalResources(p);projectSoulState(p);
+  const draws=[];for(let i=0;i<5;i++)draws.push(drawCardFromRuntimeDeck(p,{sourceCardId:'S000050',refresh:false}));
+  await batch15fDrainDraws();renderAllHands();refreshCemeteryVisual(p);syncBatch05Passives();
+  showNotif(batch15EText('Vos renforts sont arrivés : '+p.name+', 50 PV et '+draws.filter(result=>result.success).length+' cartes piochées.'),2200);
+  return {success:true,cardId:'S000050',avatarId:p.characterId,retired:retired.length,drawn:draws.filter(result=>result.success).length};
+}
+
 const BATCH_15E_CARD_IDS = new Set(['S000015','S000022','S000026','S000040','S000041','S000051','S000055','S000056']);
 const collectionBatch15EState = {events:[], zoneTracks:new WeakMap(), handOrigins:new Map(), pendingAnimations:new Set(), sequence:0, active:null};
 function recordCollectionBatch15EEvent(type, detail={}) {
@@ -5813,8 +5901,10 @@ function batch15ECheckPlay(cardId, player) {
 }
 async function playCard(cardId, slot, options={}) {
   if (collectionBatch15EState.active) return {success:false,reason:'batch15e-resolution-in-progress'};
-  if (!BATCH_15E_CARD_IDS.has(cardId)) return playCardRuntime(cardId,slot,options);
-  const p = playerState(currentPlayer), check = batch15ECheckPlay(cardId,p);
+  if (!BATCH_15E_CARD_IDS.has(cardId)&&!BATCH_15F_CARD_IDS.has(cardId)) {
+    const result=await playCardRuntime(cardId,slot,options);await batch15fDrainDraws();return result;
+  }
+  const p = playerState(currentPlayer), check = BATCH_15E_CARD_IDS.has(cardId)?batch15ECheckPlay(cardId,p):{valid:true};
   if (!check.valid) {showErr(batch15EText(check.message));if(cardId==='S000040')batch15E2Notify('noPixies');if(cardId==='S000015')batch15E2Notify('noSurvivors');return {success:false,reason:check.reason};}
   const endTurn = document.querySelector('#btnEndTurn'), disabled = endTurn?.disabled;
   const blockInput = event => {
@@ -5826,6 +5916,14 @@ async function playCard(cardId, slot, options={}) {
   for (const type of ['click','dblclick','dragstart','drop','keydown']) window.addEventListener(type,blockInput,{capture:true,passive:false});
   recordCollectionBatch15EEvent('cast-start',{cardId,playerId:p.key});
   try {
+    if(cardId==='S000050'){
+      const validation=validateCardActionStart({player:p,cardId,slot,handOccurrenceId:options.handOccurrenceId||null});
+      if(!validation.valid){showErr(cardActionError(validation.reason,validation));return {success:false,reason:validation.reason};}
+      const affordability=getCardAffordabilityResult(cardId,p,{handOccurrenceId:options.handOccurrenceId||null});
+      if(!affordability?.playable){showErr(describeAffordabilityFailure(affordability));return {success:false,reason:'not-affordable'};}
+      const selected=await batch15fChooseAvatar(p);if(!selected)return {success:false,reason:'cancelled'};
+      options={...options,batch15fAvatar:selected};
+    }
     if (['S000015','S000022'].includes(cardId) && !options.zoneSelection) {
       const validation = validateCardActionStart({player:p,cardId,slot,handOccurrenceId:options.handOccurrenceId || null});
       if (!validation.valid) {
@@ -5852,6 +5950,7 @@ async function playCard(cardId, slot, options={}) {
     }
     const result = await playCardRuntime(cardId,slot,options);
     if(cardId==='S000040' && !result?.success && !zoneCardEntries(p,'graveyard',{cardIds:['EDB000012']}).length)batch15E2Notify('noPixies');
+    await batch15fDrainDraws();
     await Promise.all([...collectionBatch15EState.pendingAnimations]);
     return result;
   } finally {
@@ -6130,6 +6229,10 @@ function finalizeInitiativeHandRender(player, cardId, traceId, sourceInstanceId=
 }
 
 function drawCardFromRuntimeDeck(player, options={}) {
+  const previousChain=batch15fCurrentDrawChain;
+  options={...options,batch15fDrawChain:options.batch15fDrawChain||previousChain||{portalOwners:new Set()}};
+  batch15fCurrentDrawChain=options.batch15fDrawChain;
+  try {
   const p = playerState(player);
   const baseTrace = {
     sourceCardId: options.sourceCardId || null,
@@ -6253,7 +6356,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
     previousHandSize: handSizeBefore,
     newHandSize: hand.length
   };
-  const prstEreonBonus = queueBatch14DEreonDrawBonus(p, result, options);
+  const prstEreonBonus=batch15fNotifyDraw(p,result,options);
   if (prstEreonBonus) result.prstEreonBonus = prstEreonBonus;
   emitDrawTrace({
     ...trace,
@@ -6267,6 +6370,7 @@ function drawCardFromRuntimeDeck(player, options={}) {
     reason:null
   });
   return result;
+  } finally {batch15fCurrentDrawChain=previousChain;}
 }
 
 function drawCardFromDeck(player, predicate=()=>true, options={}) {
@@ -7522,10 +7626,14 @@ function botanicalStackForCard(player, cardId) {
   return isBotanicalStackableSupply(cardId) ? state.stacks[cardId] : null;
 }
 
-function botanicalStackById(player, stackId) {
-  if (!stackId) return null;
-  const stacks = ensureBotanicalGardenState(player).stacks || {};
-  return Object.values(stacks).find(stack => stack?.stackId === stackId) || null;
+function botanicalStacks(player,cardId=null) {
+  const state=ensureBotanicalGardenState(player);
+  return [...Object.values(state.stacks||{}),...(state.overflowStacks||[])].filter(stack=>stack && (!cardId||stack.cardId===cardId));
+}
+function botanicalStackHasSpace(stack){return !!stack && (stack.cardId!=='R000003'||stack.memberInstanceIds.length<3);}
+function botanicalJoinableStack(player,cardId){return botanicalStacks(player,cardId).find(botanicalStackHasSpace)||null;}
+function botanicalStackById(player,stackId){
+  return stackId?botanicalStacks(player).find(stack=>stack.stackId===stackId)||null:null;
 }
 
 function botanicalStackMembers(player, stack) {
@@ -7559,13 +7667,14 @@ function createBotanicalStack(player, cardId, anchorInstance, anchorFC=null) {
   if (!p || !isBotanicalStackableSupply(cardId) || !anchorInstance) return null;
   const state = ensureBotanicalGardenState(p);
   const stack = {
-    stackId: `${BOTANICAL_STACK_PREFIX}-${cardId}-${p.key}`,
+    stackId: `${BOTANICAL_STACK_PREFIX}-${cardId}-${p.key}-${anchorInstance.instanceId}`,
     cardId,
     slotIndex: Math.max(0, supplySlotIndex(p, anchorFC)),
     anchorInstanceId: anchorInstance.instanceId,
     memberInstanceIds: []
   };
-  state.stacks[cardId] = stack;
+  if(!state.stacks[cardId])state.stacks[cardId]=stack;
+  else (state.overflowStacks||=[]).push(stack);
   attachInstanceToBotanicalStack(p, anchorInstance, stack);
   return stack;
 }
@@ -7591,7 +7700,12 @@ function detachInstanceFromBotanicalStack(player, instance) {
   }
   delete instance.botanicalStackId;
   if (!stack.memberInstanceIds.length) {
-    ensureBotanicalGardenState(p).stacks[stack.cardId] = null;
+    const state=ensureBotanicalGardenState(p);
+    state.overflowStacks=(state.overflowStacks||[]).filter(item=>item!==stack);
+    if(state.stacks[stack.cardId]===stack){
+      const successor=state.overflowStacks.find(item=>item.cardId===stack.cardId)||null;
+      state.stacks[stack.cardId]=successor;state.overflowStacks=state.overflowStacks.filter(item=>item!==successor);
+    }
   }
   return stack;
 }
@@ -7621,7 +7735,8 @@ function projectBotanicalStack(player, stack, fc=null) {
   target.dataset.botanicalStack = stack.stackId;
   target.dataset.botanicalCard = stack.cardId;
   target.dataset.botanicalCount = String(members.length);
-  const vector = compactProductionVector(botanicalStackVector(p, stack));
+  const baseVector=botanicalStackVector(p,stack);
+  const vector=compactProductionVector(hasActivePrstFavor(p,'PRST000002')?Object.fromEntries(RESOURCE_KEYS.map(key=>[key,Number(baseVector[key]||0)*2])):baseVector);
   const entries = supplyProductionEntries(vector);
   target.dataset.res = String(entries.reduce((sum, entry) => sum + entry.amount, 0));
   target.dataset.resType = entries.map(entry => entry.key).join('|');
@@ -7642,35 +7757,22 @@ function projectBotanicalStack(player, stack, fc=null) {
   badge.textContent = `×${members.length}`;
 }
 
-function compactBotanicalStack(player, cardId) {
-  const p = playerState(player);
-  if (!p || !isBotanicalStackableSupply(cardId)) return null;
-  const state = ensureBotanicalGardenState(p);
-  const instances = (p.supplies || []).filter(instance => instance.cardId === cardId);
-  if (!instances.length) {
-    state.stacks[cardId] = null;
-    return null;
+function compactBotanicalStack(player,cardId){
+  const p=playerState(player);if(!p||!isBotanicalStackableSupply(cardId))return null;
+  const state=ensureBotanicalGardenState(p),zone=qs(playerZoneSelector(p,'appro'));
+  const members=(p.supplies||[]).filter(item=>item.cardId===cardId);
+  // Remove the former anchors only, retaining every runtime occurrence and each production vector.
+  for(const fc of [...zone.querySelectorAll('.fc')].filter(fc=>fc.dataset.id===cardId))replaceSupplyElementWithSlot(fc);
+  state.stacks[cardId]=null;state.overflowStacks=(state.overflowStacks||[]).filter(item=>item.cardId!==cardId);
+  const size=cardId==='R000003'?3:Math.max(1,members.length);
+  for(let start=0;start<members.length;start+=size){
+    const group=members.slice(start,start+size),slot=zone.querySelector('.slot-appro');
+    if(!slot)throw new Error('Botanical stack has no real supply slot');
+    const index=[...zone.children].indexOf(slot);slot.outerHTML=buildFC(cardId,p.key);const fc=zone.children[index];
+    const stack=createBotanicalStack(p,cardId,group[0],fc);
+    group.slice(1).forEach(instance=>attachInstanceToBotanicalStack(p,instance,stack));projectBotanicalStack(p,stack,fc);
   }
-  const sorted = instances
-    .map(instance => ({instance, fc:findSupplyInstanceElement(p, instance)}))
-    .sort((a, b) => supplySlotIndex(p, a.fc) - supplySlotIndex(p, b.fc));
-  const anchor = sorted[0];
-  const stack = state.stacks[cardId] || {
-    stackId: `${BOTANICAL_STACK_PREFIX}-${cardId}-${p.key}`,
-    cardId,
-    slotIndex: supplySlotIndex(p, anchor.fc),
-    anchorInstanceId: anchor.instance.instanceId,
-    memberInstanceIds: []
-  };
-  stack.memberInstanceIds = [];
-  stack.anchorInstanceId = anchor.instance.instanceId;
-  state.stacks[cardId] = stack;
-  sorted.forEach(({instance, fc}, index) => {
-    attachInstanceToBotanicalStack(p, instance, stack);
-    if (index > 0 && fc?.isConnected) replaceSupplyElementWithSlot(fc);
-  });
-  projectBotanicalStack(p, stack, anchor.fc);
-  return stack;
+  return state.stacks[cardId];
 }
 
 function resourceVectorsEqual(a, b) {
@@ -7946,7 +8048,7 @@ function sendSupplyInstanceToCemetery(player, instanceId, options={}) {
     if (stack) {
       const wasAnchor = stack.anchorInstanceId === removed.instance.instanceId;
       detachInstanceFromBotanicalStack(p, removed.instance);
-      const nextStack = botanicalStackForCard(p, cardId);
+      const nextStack = botanicalStackById(p,stack.stackId);
       if (nextStack) {
         if (wasAnchor && fc?.isConnected) {
           fc.dataset.supplyInstance = nextStack.anchorInstanceId;
@@ -8126,7 +8228,7 @@ function registerSupplyInstance(player, fc) {
   const instance = createSupplyRuntimeInstance(p, cardId, fc);
   const botanicalState = ensureBotanicalGardenState(p);
   if (botanicalState.enabled && isBotanicalStackableSupply(cardId)) {
-    const existingStack = botanicalState.stacks[cardId];
+    const existingStack = botanicalJoinableStack(p,cardId);
     if (existingStack) {
       attachInstanceToBotanicalStack(p, instance, existingStack);
       if (fc?.isConnected) replaceSupplyElementWithSlot(fc);
@@ -8321,11 +8423,11 @@ function humanDescriptionAccentColor(card, fallbackColor) {
 
 function renderZoomDescription(card, kwColor) {
   const html=renderZoomDescriptionRuntime(card,kwColor);
-  return (BATCH_15E_CARD_IDS.has(card?.id) || card?.batch03DynamicStatusText && card.cap?.includes('Bénéficie de *Déplacement instantané*'))?batch15ESpacingInHtml(html):html;
+  return ((BATCH_15E_CARD_IDS.has(card?.id)||BATCH_15F_CARD_IDS.has(card?.id)) || card?.batch03DynamicStatusText && card.cap?.includes('Bénéficie de *Déplacement instantané*'))?batch15ESpacingInHtml(html):html;
 }
 function renderZoomDescriptionRuntime(card, kwColor) {
   if (!card) return '';
-  if (BATCH_15E_CARD_IDS.has(card.id)) card={...card,cap:batch15EText(card.cap),detail:batch15EText(card.detail)};
+  if (BATCH_15E_CARD_IDS.has(card.id)||BATCH_15F_CARD_IDS.has(card.id)) card={...card,cap:batch15EText(card.cap),detail:batch15EText(card.detail)};
   const descColor = humanDescriptionAccentColor(card, kwColor);
   if (card.type === 'Approvisionnement') {
     const loreText = supplyLoreText(card);
@@ -8949,7 +9051,7 @@ const RES_KWS = ['Pierre','Aria','Lenya','Fer','Nourriture','Sélène','me','Boi
 
 function buildHC(cardId, player, drawAnim=false) {
   const html=buildHCRuntime(cardId,player,drawAnim);
-  return BATCH_15E_CARD_IDS.has(cardId)?batch15ESpacingInHtml(html):html;
+  return (BATCH_15E_CARD_IDS.has(cardId)||BATCH_15F_CARD_IDS.has(cardId))?batch15ESpacingInHtml(html):html;
 }
 function buildHCRuntime(cardId, player, drawAnim=false) {
   player = playerKey(player);
@@ -8958,8 +9060,8 @@ function buildHCRuntime(cardId, player, drawAnim=false) {
   printed.id ||= cardId;
   const handIndexForCost = (typeof buildHC.__handIndex === 'number') ? buildHC.__handIndex : null;
   const handOccurrenceForCost = batch03HandOccurrenceAt(player, handIndexForCost);
-  const handData = batch08HandCardData(cardId, printed, player, handOccurrenceForCost);
-  const d = BATCH_15E_CARD_IDS.has(cardId) ? {...handData,cap:batch15EText(handData.cap),detail:batch15EText(handData.detail)} : handData;
+  const handData = batch15fColdCardData(cardId,batch08HandCardData(cardId, printed, player, handOccurrenceForCost),player);
+  const d = (BATCH_15E_CARD_IDS.has(cardId)||BATCH_15F_CARD_IDS.has(cardId)) ? {...handData,cap:batch15EText(handData.cap),detail:batch15EText(handData.detail)} : handData;
   const col   = facColor(d.fac);
   const folder= d.assetFolder || facFolder(d.fac);
   const artworkSrc = d.batch08MaraborcCopy ? `../assets/${d.originalAssetFolder || folder}/${cardId}.png` : cardArtworkSrc(cardId, folder);
@@ -9233,6 +9335,7 @@ function batch03DynamicStatusTexts(fc) {
 }
 
 function batch03PreviewCardData(cardId, data, sourceContext={}) {
+  data=batch15fColdCardData(cardId,data,sourceContext.sourceElement?.dataset?.player||sourceContext.player);
   const lines = batch03DynamicStatusTexts(sourceContext.sourceElement);
   if (!lines.length) return data;
   const fc = sourceContext.sourceElement;
@@ -11135,7 +11238,10 @@ function resolveCostModifiers(printedCost, modifiers=[], context={}) {
           } else if (operationType === 'adjustRequirement') {
             effective.requirements = effective.requirements.map(requirement => {
               if (!operationMatchesRequirement(operation, requirement)) return {...requirement};
-              return {...requirement, amount:Math.max(0, Number(requirement.amount || 0) + (Number(operation.amount) || 0))};
+              const delta=Number(operation.amount)||0;
+              if(['S000016','S000024'].includes(modifier.sourceId)&&requirement.kind==='compatiblePool')return {...requirement,amount:Math.max(0,Number(requirement.requiredAmount??requirement.amount??0)+delta),requiredAmount:Math.max(0,Number(requirement.requiredAmount??requirement.amount??0)+delta)};
+              if(['S000016','S000024'].includes(modifier.sourceId)&&requirement.kind==='oneOf')return {...requirement,options:requirement.options.map(option=>({...option,amount:Math.max(0,Number(option.amount||0)+delta)}))};
+              return {...requirement, amount:Math.max(0, Number(requirement.amount || 0) + delta)};
             });
           } else if (operationType === 'restrictAllowedResources') {
             const allowed = new Set((operation.resources || []).map(normalizeResourceKey).filter(Boolean));
@@ -11646,7 +11752,7 @@ function describeAffordabilityDiagnostic(result) {
 let lastPlayLegalityDiagnostic = null;
 let lastCombatEffectDiagnostic = null;
 let lastZoneEffectDiagnostic = null;
-let testResourcePanelCollapsed = selectedScenarioId().startsWith('collection-batch-15e-');
+let testResourcePanelCollapsed = /^collection-batch-15[ef]-/.test(selectedScenarioId());
 let testResourcePanelScrollTop = 0;
 function cloneCostDiagnostic(value) { try { return JSON.parse(JSON.stringify(value ?? null)); } catch(e) { return null; } }
 function summarizeCostDefinition(cardId) { const definition = getCanonicalCostDefinition(cardId); if (!definition) return null; return {total: definition.total, allowedForTotal: [...(definition.allowedForTotal || [])], requirements: cloneCostDiagnostic(definition.requirements || []), conditions: cloneCostDiagnostic(definition.conditions || [])}; }
@@ -12186,6 +12292,14 @@ function evaluateInvocationExpression(expression, context) {
 function evaluateInvocationCondition(cardOrId, context={}) {
   const cardId = typeof cardOrId === 'string' ? cardOrId : (cardOrId?.id || context.cardId);
   const card = typeof cardOrId === 'string' ? CARDS_DATA[cardId] : cardOrId;
+  if (cardId === 'S000016' || cardId === 'S000050') {
+    const p=playerState(context.player);
+    const allowed=!!p && (cardId==='S000016'
+      ? livingServantCardsForPlayer(p).some(fc=>/^AVS0000(?:0[1-9]|1[0-4])$/.test(fc.dataset.id) && !fc.dataset.dead)
+      : batch09AvatarHp(p)<=15);
+    const message=cardId==='S000016'?'Un Mage du Cercle doit être présent de votre côté du terrain.':'Votre avatar doit avoir 15 PV ou moins.';
+    return {cardId,allowed,code:allowed?'condition-satisfied':'condition-failed',message:allowed?'':message,invocationConditionText:message,unmet:allowed?[]:[message]};
+  }
   const rule = invocationConditionRule(cardId || card);
   if (!rule) return {cardId, allowed:true, code:'no-condition', message:'', unmet:[]};
   const result = evaluateInvocationExpression(rule.condition, {...context, cardId, card});
@@ -12685,7 +12799,8 @@ function validateCardActionStart({player, cardId, slot, selectedTargetIds=null, 
       ensureBotanicalGardenState(p).enabled &&
       botanicalStackForCard(p, cardId) &&
       slot?.isConnected &&
-      slot.dataset?.botanicalCard === cardId;
+      slot.dataset?.botanicalCard === cardId &&
+      botanicalStackHasSpace(botanicalStackById(p,slot.dataset.botanicalStack));
     if (!botanicalStackTarget && (!slot?.isConnected || (!slot.classList.contains('slot') && !slot.classList.contains('slot-appro')))) {
       return {valid:false, reason:'invalid-slot'};
     }
@@ -12964,12 +13079,14 @@ function createBatch14DHandFlight(player, cardId, {origin='center', reason='effe
 }
 function renderBatch14DDelayedHandArrival(player, cardId, {reason='effect', delayMs=650}={}) {
   const p = playerState(player);
-  setTimeout(() => {
-    if (!p) return;
+  const generation=p?.batch15fGeneration||0;
+  batch15fTrackDrawTask(()=>new Promise(resolve=>setTimeout(() => {
+    if (!p||playerState(p.key)!==p||(p.batch15fGeneration||0)!==generation){resolve();return;}
     renderPlayerHand(p, {faceUp:p.key === currentPlayer, drawLast:true});
     applyBatch14DEreonHandHalo(p, cardId);
     recordCollectionBatch14DEvent('hand-arrival-rendered', {playerId:p.key, cardId, reason, faceUp:p.key === currentPlayer});
-  }, delayMs);
+    resolve();
+  }, delayMs)));
   return true;
 }
 function queueBatch14DEreonDrawBonus(drawingPlayer, drawResult, options={}) {
@@ -12980,17 +13097,22 @@ function queueBatch14DEreonDrawBonus(drawingPlayer, drawResult, options={}) {
   const batches = owners.map(owner => {
     const batch = {ownerId:owner.key, triggeringPlayerId:drawer.key, triggeringCardId:drawResult.cardId, scheduled:2, draws:[]};
     recordCollectionBatch14DEvent('ereon-bonus-scheduled', batch);
+    const generation=owner.batch15fGeneration||0;
     [0, 500].forEach((delay, index) => {
-      setTimeout(() => {
-        const bonus = drawCardFromRuntimeDeck(owner, {refresh:false, sourceCardId:'PRST000006', suppressPrstEreonBonus:true, suppressPrstActivationMessage:true, predicate:candidateId => !(candidateId === 'PRST000006' && hasActivePrstFavor(owner, 'PRST000006'))});
+      batch15fTrackDrawTask(async()=>{
+        await new Promise(resolve=>setTimeout(resolve,delay));
+        if(playerState(owner.key)!==owner||(owner.batch15fGeneration||0)!==generation||!hasActivePrstFavor(owner,'PRST000006'))return;
+        const bonus = drawCardFromRuntimeDeck(owner, {refresh:false, batch15fDrawChain:options.batch15fDrawChain, sourceCardId:'PRST000006', suppressPrstEreonBonus:true, suppressPrstActivationMessage:true, predicate:candidateId => !(candidateId === 'PRST000006' && hasActivePrstFavor(owner, 'PRST000006'))});
         if (bonus?.success) {
           createBatch14DHandFlight(owner, bonus.cardId, {origin:'deck', reason:'ereon', faceUp:owner.key === currentPlayer});
           renderBatch14DDelayedHandArrival(owner, bonus.cardId, {reason:'ereon', delayMs:650});
+          const flight=[...document.querySelectorAll('.batch14d-hand-flight')].filter(el=>el.dataset.ownerId===owner.key&&el.dataset.flightReason==='ereon').at(-1);
+          if(flight)batch15fTrackDrawTask(()=>Promise.all(flight.getAnimations().map(animation=>animation.finished.catch(()=>{}))));
         }
         const payload = {ownerId:owner.key, triggeringPlayerId:drawer.key, index:index + 1, delayMs:delay, draw:bonus};
         batch.draws.push(payload);
         recordCollectionBatch14DEvent('ereon-bonus-draw', payload);
-      }, delay);
+      });
     });
     return batch;
   });
@@ -13156,7 +13278,8 @@ function ensureBatch14CElenServantSlots(player) {
 }
 function batch14CEffectiveSupplyProduction(player, instance) {
   const p = playerState(player);
-  const vector = compactProductionVector(instance?.currentProduction || {});
+  const stack=instance?.botanicalStackId?botanicalStackById(p,instance.botanicalStackId):null;
+  const vector=stack?(stack.anchorInstanceId===instance.instanceId?compactProductionVector(botanicalStackVector(p,stack)):{}):compactProductionVector(instance?.currentProduction||{});
   if (!p || !hasActivePrstFavor(p, 'PRST000002')) return vector;
   const doubled = {};
   RESOURCE_KEYS.forEach(key => { doubled[key] = Number(vector[key] || 0) * 2; });
@@ -14142,7 +14265,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
       recordCommittedSpell(cardId, p);
       spellResolution = await (resolveSpell() || {success:true});
     } else {
-      spellResolution = await triggerSort(cardId, p, {selectedTargetIds, zoneSelection});
+      spellResolution = await triggerSort(cardId, p, {selectedTargetIds, zoneSelection,batch15fAvatar:transaction.batch15fAvatar});
     }
     const spellRemovedFromGame = isPrstFavorCard(cardId) && spellResolution?.success !== false
       ? moveResolvedSpellToRemovedFromGame(cardId, p)
@@ -14167,7 +14290,7 @@ async function commitCardPlay(transaction, {resolveSpell=null}={}) {
   }
   const botanicalState = ensureBotanicalGardenState(p);
   const botanicalStack = d.type === 'Approvisionnement' && isBotanicalStackableSupply(cardId)
-    ? botanicalState.stacks[cardId]
+    ? botanicalStackById(p,slot?.dataset?.botanicalStack)
     : null;
   if (botanicalState.enabled && botanicalStack && slot?.dataset?.botanicalCard === cardId) {
     const instance = createSupplyRuntimeInstance(p, cardId, null);
@@ -14334,7 +14457,7 @@ async function playCardRuntime(cardId, slot, options={}) {
     showErr(describeAffordabilityFailure(affordability));
     return;
   }
-  const transaction = {player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection, handOccurrenceId, returnActionValidation};
+  const transaction = {batch15fAvatar:options.batch15fAvatar||null,player:p, cardId, slot, card:d, affordability, selectedTargetIds, zoneSelection, handOccurrenceId, returnActionValidation};
   if (cardId === 'S000055' && !selectedTargetIds) {
     const targets = legalTargetsForRequirement(cardId, p).filter(target => !target.dataset.insensible);
     const chosen = await chooseBoardTargets({title:'Triangle des ténèbres', prompt:'Offrez trois vies en sacrifice au Triangle des ténèbres.', targets, minCount:3, maxCount:3, panelClass:'board-target-choice-panel triangle-sacrifice-choice-panel',canCancel:true});
@@ -14385,7 +14508,7 @@ function activatePersistentCostReduction(player, sourceId, amount, criteria) {
     priority: 200,
     duration: 'permanent',
     criteria,
-    operations: [{type:'adjustTotal', amount}]
+    operations: [{type:'adjustRequirement',amount},{type:'adjustTotal', amount}]
   });
   if (modifier) renderAllHands();
   return modifier;
@@ -15000,14 +15123,16 @@ async function triggerSort(cardId, player, context={}) {
   updateCamouflageVFX();
   if (isPrstFavorCard(cardId)) return activatePrstFavorCore(cardId, player, {...context, source:context.source || 'manual'});
   switch(cardId) {
+    case 'S000050':return await resolveBatch15fRenforts(player,context.batch15fAvatar);
     case 'S000016':
+      playerState(player).batch15fPortal=true;
       activatePersistentCostReduction(
         player,
         'S000016',
         -4,
         {cardTypes:['Serviteur']}
       );
-      showNotif('Portail actif réduit de 4 le coût de vos serviteurs.', 1500);
+      showNotif('Portail actif réduit de 4 le coût de vos serviteurs et répond aux pioches adverses.', 1800);
       break;
     case 'S000023':
       return await resolvePacteMillenaireCostEffects(player);
@@ -17457,19 +17582,13 @@ function clearBatch06Disease(fc, reason='healed') {
 }
 
 function batch06ApplyAttackExhaustion(attacker) {
-  if (attacker?.dataset?.batch06ExtraAttack === '1' && isBatch06ElfServant(attacker)) {
-    delete attacker.dataset.batch06ExtraAttack;
-    attacker.dataset.batch06ExtraAttackConsumed = '1';
-    attacker.classList.remove('fc-exhausted');
-    delete attacker.dataset.exhausted;
-    recordCollectionBatch06Event('extra-attack-consumed', {attacker:targetSummary(attacker)});
-    return true;
-  }
-  if (attacker) {
-    attacker.dataset.exhausted = '1';
-    attacker.classList.add('fc-exhausted');
-  }
-  return false;
+  if (!attacker) return false;
+  const d=attacker.dataset;
+  const count=d.batch15fAttackTurn===String(turnSequence)?Number(d.batch15fAttacks||0)+1:1;
+  d.batch15fAttackTurn=String(turnSequence);d.batch15fAttacks=String(count);
+  const extra=d.batch06ExtraAttack==='1' && isBatch06ElfServant(attacker) && count<2;
+  if(extra){delete d.batch06ExtraAttack;delete d.exhausted;attacker.classList.remove('fc-exhausted');d.batch06ExtraAttackConsumed='1';recordCollectionBatch06Event('extra-attack-consumed',{attacker:targetSummary(attacker)});return true;}
+  d.exhausted='1';attacker.classList.add('fc-exhausted');return false;
 }
 
 function resolveVivaciteElfique(player) {
@@ -17477,9 +17596,10 @@ function resolveVivaciteElfique(player) {
   if (!p) return {success:false, reason:'invalid-player', cardId:'S000039'};
   const servants = livingServantCardsForPlayer(p).filter(isBatch06ElfServant);
   servants.forEach(fc => {
-    fc.dataset.batch06ExtraAttack = '1';
-    delete fc.dataset.exhausted;
-    fc.classList.remove('fc-exhausted');
+    const spent=fc.dataset.batch15fAttackTurn===String(turnSequence)?Number(fc.dataset.batch15fAttacks||0):0;
+    fc.dataset.batch15fAttackTurn=String(turnSequence);fc.dataset.batch15fAttacks=String(spent);
+    fc.dataset.batch06ExtraAttack='1';
+    if(spent<2){delete fc.dataset.exhausted;fc.classList.remove('fc-exhausted');}
     pulseBatch03Ability(fc, 'vivacite-elfique', {passive:false, move:false});
   });
   const result = {success:true, cardId:'S000039', playerId:p.key, affected:servants.map(targetSummary)};
@@ -17506,6 +17626,7 @@ function isBatch06MachiavelismeActive(player) {
 async function resolveBatch06MachiavelismeAfterVengeance(player, sourceCardId, dyingFC, context={}) {
   const p = playerState(player);
   if (!isBatch06MachiavelismeActive(p) || context.machiavelismeBonusApplied) return null;
+  context.machiavelismeBonusApplied=true;
   const target = collectionBatch06RandomEnemyServant(p, 'S000049', 'damage');
   if (!target) {
     const miss = {success:false, cardId:'S000049', sourceCardId, reason:'no-valid-target'};
@@ -18755,8 +18876,13 @@ async function resolveBatch11eEclipseSolaire(player) {
     const delta = fac === 'mvs' ? 3 : (fac === 'edn' ? 2 : (fac === 'hum' ? -3 : (fac === 'nain' ? -2 : 0)));
     if (!delta) continue;
     const currentAtk = Number(fc.dataset.atk || 0) || 0;
-    fc.dataset.batch11eEclipseDelta = String(delta);
-    batch03UpdateStats(fc, {atk:Math.max(0, currentAtk + delta)});
+    const previous=Number(fc.dataset.batch11eEclipseDelta||0);
+    const previousApplied=Number(fc.dataset.batch15fEclipseApplied||0);
+    const unmodified=currentAtk-previousApplied;
+    fc.dataset.batch11eEclipseDelta=String(previous+delta);
+    const next=Math.max(0,unmodified+previous+delta);
+    fc.dataset.batch15fEclipseApplied=String(next-unmodified);
+    batch03UpdateStats(fc,{atk:next});
     fc.querySelector('.fc-atk-val')?.classList.add(delta > 0 ? 'batch11e-stat-buff' : 'batch11e-stat-nerf');
     affected.push({target:targetSummary(fc), delta});
   }
@@ -18768,9 +18894,10 @@ async function resolveBatch11eEclipseSolaire(player) {
 function expireBatch11eEclipseSolaire() {
   const expired = [];
   document.querySelectorAll('.fc[data-batch11e-eclipse-delta]').forEach(fc => {
-    const delta = Number(fc.dataset.batch11eEclipseDelta || 0) || 0;
+    const delta = Number(fc.dataset.batch15fEclipseApplied || 0) || 0;
     const currentAtk = Number(fc.dataset.atk || 0) || 0;
     delete fc.dataset.batch11eEclipseDelta;
+    delete fc.dataset.batch15fEclipseApplied;
     batch03UpdateStats(fc, {atk:Math.max(0, currentAtk - delta)});
     fc.querySelector('.fc-atk-val')?.classList.remove('batch11e-stat-buff','batch11e-stat-nerf');
     expired.push(targetSummary(fc));
@@ -19572,6 +19699,7 @@ async function resolveCombat(attacker, targetFC) {
   if (!batch08ApplyAttackExhaustion(attacker, {targetDied:defDied, firstBoarAttack:batch08Plan.firstBoarAttack})) batch06ApplyAttackExhaustion(attacker);
   batch10ApplyAttackExhaustion(attacker, {targetDied:defDied});
 
+  await batch15fDrainDraws();
   cancelAttack(); // Guérisseur déclenché en fin de tour uniquement
 }
 
@@ -19579,6 +19707,7 @@ async function resolveCombat(attacker, targetFC) {
 async function applyDamage(fc, amount, options={}) {
   if (!fc || !amount || amount <= 0) return false;
   if (fc.dataset.dead) return true;
+  try {
   amount = adjustBatch03IncomingDamage(fc, amount);
   const batch07DamageAdjustment = adjustBatch07IncomingDamage(fc, amount);
   amount = batch07DamageAdjustment.amount;
@@ -19608,6 +19737,12 @@ async function applyDamage(fc, amount, options={}) {
   pdvEl.className   = displayPdv < maxPdv ? 'fc-pdv-val red' : 'fc-pdv-val';
   fc.dataset.pdv    = displayPdv;
   updateRageState(fc);
+  const blessedSource=fc._killer;
+  if (damageApplied>0 && newPdv>0 && blessedSource &&
+      playerState(blessedSource.dataset.player)?.batch03BlessedSwordsTurn===turnSequence &&
+      isBatch03UndeadServant(fc) && CARDS_DATA[blessedSource.dataset.id]?.type==='Serviteur') {
+    applyBatch03DivineWrath(fc,playerState(blessedSource.dataset.player),{sourceCardId:'S000033',sourceInstanceId:blessedSource.dataset.instance,reason:'blessed-swords-damage'});
+  }
   const batch09DamageContext = {...(fc._batch09DamageContext || {}), amount, damageApplied, newPdv, sourceFC:fc._killer || null};
   await triggerBatch03DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
   await triggerBatch05DamageReceivedHooks(fc, {amount, newPdv, sourceFC:fc._killer || null});
@@ -19630,6 +19765,7 @@ async function applyDamage(fc, amount, options={}) {
     return true;
   }
   return false;
+  } finally {delete fc._killer;}
 }
 
 async function tryBatch05RescueDestruction(fc, context={}) {
@@ -19686,35 +19822,17 @@ function showDmgPopup(fc, text) {
   setTimeout(() => pop.remove(), 1100);
 }
 
-async function triggerUramGrantedVengeance(player, dyingFC) {
-  const owner = playerState(player);
-  if (!owner || owner.characterId !== 'uram' || !dyingFC) return;
-  const dyingCard = CARDS_DATA[dyingFC.dataset.id];
-  if (!dyingCard || dyingCard.type !== 'Serviteur') return;
-
-  const adverseZone = qs(playerZoneSelector(opponentOf(owner), 'servants'));
-  const candidates = Array.from(adverseZone?.querySelectorAll('.fc:not([data-type="appro"]):not([data-dead])') || []);
-  if (!candidates.length) return;
-
-  const validTargets = getAffectableTargets({
-    sourcePlayer: owner,
-    targets: candidates,
-    sourceCardId: 'AVP000007',
-    effectKind: 'damage',
-    isAbility: true
-  });
-  if (!validTargets.length) {
-    showInsensitiveFailureVfx(candidates);
-    return;
+async function triggerUramGrantedVengeance(player,dyingFC){
+  const owner=playerState(player);if(!owner||owner.characterId!=='uram'||CARDS_DATA[dyingFC?.dataset?.id]?.type!=='Serviteur')return;
+  const repeat=isBatch06MachiavelismeActive(owner)&&isBatch10GoblinServant(dyingFC)?2:1;
+  for(let execution=0;execution<repeat;execution++){
+    const candidates=livingServantCardsForPlayer(opponentOf(owner));
+    const valid=getAffectableTargets({sourcePlayer:owner,targets:candidates,sourceCardId:'AVP000007',effectKind:'damage',isAbility:true});
+    const target=valid.length?valid[Math.floor(gameRandom()*valid.length)]:null;
+    if(target)await tryApplyAbilityDamage({sourcePlayer:owner,targetFC:target,sourceCardId:'AVP000007',amount:2});
+    else if(candidates.length)showInsensitiveFailureVfx(candidates);
+    await resolveBatch06MachiavelismeAfterVengeance(owner,'AVP000007',dyingFC,{});
   }
-
-  const target = validTargets[Math.floor(Math.random() * validTargets.length)];
-  await tryApplyAbilityDamage({
-    sourcePlayer: owner,
-    targetFC: target,
-    sourceCardId: 'AVP000007',
-    amount: 2
-  });
 }
 
 function shouldDelayDestroyAnimationForVengeanceFeedback(cardId) {
@@ -19946,6 +20064,7 @@ function refreshCemeteryVisual(player) {
 }
 
 async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
+  try {
   if (cardId === 'MV000025') {
     pulseBatch03Ability(dyingFC, 'vengeance', {move:true});
     const gain = addSoulToAppro(player, 1);
@@ -20175,6 +20294,9 @@ async function triggerVengeance(cardId, player, dyingFC, killer, context={}) {
       await tryApplyAbilityDamage({ sourcePlayer: player, targetFC: target, sourceCardId: cardId, amount: 1 });
     }
   }
+  } finally {
+    if (!['GOB000006','GOB000012'].includes(cardId)) await resolveBatch06MachiavelismeAfterVengeance(player,cardId,dyingFC,context);
+  }
 }
 
 // ── Gel ──
@@ -20380,6 +20502,7 @@ async function attackAvatar(attacker, adversePlayer) {
   if (attacker.dataset.id !== 'GOB000020') await applyDamage(attacker, 5);
 
   batch06ApplyAttackExhaustion(attacker);
+  await batch15fDrainDraws();
   cancelAttack();
 }
 
@@ -21303,6 +21426,9 @@ function refreshAdverseHandBacks(player) {
 }
 
 function cleanTurnState(player) {
+  const owner=playerState(player);
+  if(owner?.batch03BlessedSwordsTurn===turnSequence){delete owner.batch03BlessedSwordsTurn;clearBatch03BlessedSwordsMarkers(owner);}
+  if(owner)delete owner.batch06MachiavelismeTurnSequence;
   const servSel = playerZoneSelector(player, 'servants');
   qsa(`${servSel} .fc-new-badge`).forEach(b=>b.remove());
   qsa(`${servSel} [data-new]`).forEach(fc=>{ fc.removeAttribute('data-new'); fc.querySelectorAll('[data-prepares]').forEach(el=>el.remove()); });
@@ -21886,8 +22012,8 @@ function resolveBotanicalGardens(player) {
     .length;
   renderAllHands();
   updateVoluntarySupplyDiscardAvailability();
-  showNotif(`Jardins botaniques actifs : ${added} carte(s) ajoutee(s) a votre main.`, 1600);
-  return {stacks, added};
+  showNotif(batch15EText(`Jardins botaniques actifs : ${added} carte(s) ajoutée(s) à votre main.`),1600);
+  return {success:true,stacks:botanicalStacks(p).length, added};
 }
 
 async function startTurn(player) {
@@ -22222,7 +22348,7 @@ async function endTurnRuntime() {
 
 async function endTurn() {
   if(collectionBatch15EState.active) return {success:false,reason:'batch15e-resolution-in-progress'};
-  return endTurnRuntime();
+  await batch15fDrainDraws();const result=await endTurnRuntime();await batch15fDrainDraws();return result;
 }
 
 // ════════════════════════════════════════════════════════════
@@ -25859,10 +25985,10 @@ function batch05MarkedTours(value) { return value > 1 ? '*' + value + '* tours' 
 function batch05SnowfallGlobalBonus() {
   return Math.max(Number(player1?.batch05SnowfallBonus || 0), Number(player2?.batch05SnowfallBonus || 0));
 }
-function refreshBatch05SnowfallDynamicTexts() {
-  const bonus = batch05SnowfallGlobalBonus();
+function batch15fColdCardData(cardId,data,player) {
+  const bonus=Number(playerState(player)?.batch05SnowfallBonus||0);
   const t = base => batch05MarkedTours(Number(base || 1) + bonus);
-  Object.assign(CARDS_DATA, {
+  const patches={
     EDB000002:{...CARDS_DATA.EDB000002, cap:`[Initiative] Inflige [Gel] pendant ${t(1)} à un serviteur adverse aléatoire. Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant ${t(2)}.`, detail:`[Initiative] Inflige [Gel] pendant ${t(1)} à un serviteur adverse aléatoire. Chaque fois que ce serviteur attaque, inflige [Coup de glace] à sa cible pendant ${t(2)}.`},
     EDB000007:{...CARDS_DATA.EDB000007, cap:`Chaque fois que ce serviteur attaque, il a *50 %* de chance d'infliger [Coup de glace] pendant ${t(1)} à sa cible.`, detail:`Chaque fois que ce serviteur attaque, il a *50 %* de chance d'infliger [Coup de glace] pendant ${t(1)} à sa cible.`},
     EDG000001:{...CARDS_DATA.EDG000001, cap:`[Initiative] Inflige [Coup de glace] pendant ${t(3)} à un serviteur adverse aléatoire. Chaque fois que ce serviteur attaque, il inflige [Coup de glace] pendant ${t(1)} à sa cible.`, detail:`[Sang-froid] [Initiative] Inflige [Coup de glace] à un serviteur adverse pendant ${t(3)}. Inflige également [Coup de glace] pendant ${t(1)} à la cible chaque fois que ce serviteur inflige des dégâts.`},
@@ -25873,7 +25999,11 @@ function refreshBatch05SnowfallDynamicTexts() {
     DIV000007:{...CARDS_DATA.DIV000007, cap:`Chaque fois que cet Élémentaire de glace attaque, il a *50 %* de chance d'infliger [Gel] pendant ${t(1)} à sa cible.`, detail:`Chaque fois que cet Élémentaire de glace attaque, il a *50 %* de chance d'infliger [Gel] pendant ${t(1)} à sa cible.`},
     DIV000010:{...CARDS_DATA.DIV000010, cap:`Chaque fois que ce Golem du froid attaque, il inflige [Coup de glace] pendant ${t(2)} à sa cible.`, detail:`Chaque fois que ce Golem du froid attaque, il inflige [Coup de glace] pendant ${t(2)} à sa cible.`},
     S000011:{...CARDS_DATA.S000011, cap:`Les *3* prochains serviteurs invoqués par votre adversaire subissent [Coup de glace] pendant ${t(2)}.`}
-  });
+  };
+  const patch=patches[cardId];return patch?{...data,cap:patch.cap,detail:patch.detail||patch.cap}:data;
+}
+function refreshBatch05SnowfallDynamicTexts() {
+  // Cold descriptions are projected per owner; never rewrite the shared card catalog.
 }
 refreshBatch05SnowfallDynamicTexts();
 
@@ -27128,7 +27258,7 @@ async function triggerBatch10Vengeance(cardId, player, dyingFC, killer, context=
   const machiavelisme = await resolveBatch06MachiavelismeAfterVengeance(p, cardId, dyingFC, context);
   let repeat = null;
   if (isBatch06MachiavelismeActive(p) && isBatch10GoblinServant(cardId) && !context.batch10MachiavelismeRepeat) {
-    repeat = await triggerBatch10Vengeance(cardId, p, dyingFC, killer, {...context, batch10MachiavelismeRepeat:true});
+    repeat = await triggerBatch10Vengeance(cardId, p, dyingFC, killer, {...context, machiavelismeBonusApplied:false, batch10MachiavelismeRepeat:true});
   }
   const result = {success:true, cardId, destination:'graveyard', results, machiavelisme, repeat};
   recordCollectionBatch10Event('goblin-vengeance', result);
@@ -27365,7 +27495,7 @@ function isBatch05IceElf(value) { return CARDS_DATA[batch05CardId(value)]?.fac =
 function batch05LivingServants(player) { return livingServantCardsForPlayer(player).filter(fc => !fc.dataset.dead); }
 function batch05BaseStat(fc, stat) {
   const key = stat === 'atk' ? 'batch05BaseAtk' : 'batch05BasePdvMax';
-  if (!fc.dataset[key]) fc.dataset[key] = String(stat === 'atk' ? (Number(fc.dataset.atk || CARDS_DATA[fc.dataset.id]?.atk || 0) || 0) : (Number(fc.dataset.pdvMax || CARDS_DATA[fc.dataset.id]?.pdv || 1) || 1));
+  if (!fc.dataset[key]) fc.dataset[key] = String(stat === 'atk' ? (Number(fc.dataset.atk ?? CARDS_DATA[fc.dataset.id]?.atk ?? 0) - Number(fc.dataset.batch15fEclipseApplied || 0)) : (Number(fc.dataset.pdvMax || CARDS_DATA[fc.dataset.id]?.pdv || 1) || 1));
   return Number(fc.dataset[key] || 0);
 }
 function batch05SetStats(fc, {atk=null, pdvMax=null, preserveDamage=true}={}) {
@@ -27375,7 +27505,9 @@ function batch05SetStats(fc, {atk=null, pdvMax=null, preserveDamage=true}={}) {
   const baseAtk = batch05BaseStat(fc, 'atk');
   const baseMax = batch05BaseStat(fc, 'pdvMax');
   if (atk != null) {
-    const nextAtk = Math.max(0, Number(atk) || 0);
+    const plainAtk=Number(atk)||0;
+    const nextAtk = Math.max(0,plainAtk+Number(fc.dataset.batch11eEclipseDelta||0));
+    if(fc.dataset.batch11eEclipseDelta)fc.dataset.batch15fEclipseApplied=String(nextAtk-plainAtk);
     fc.dataset.atk = String(nextAtk);
     if ((CARDS_DATA[fc.dataset.id]?.kws || []).includes('Rage') || fc.dataset.batch08TotemRage === '1') fc.dataset.rageBaseAtk = String(nextAtk);
     fc.querySelectorAll('.fc-atk-val').forEach(el => { el.textContent = String(nextAtk); el.className = nextAtk > baseAtk ? 'fc-atk-val grn' : 'fc-atk-val'; });
@@ -28513,6 +28645,8 @@ async function drawBatch15DGabarEvolutionFromDeck(player, context={}) {
     updateDeckCount(p);
     const metadata = batch15DGabarEvolutionMetadata(selectedEntry);
     const evolutionResolution = await resolveBatch02EvolutionDrawAnimated(p, cardId, {selectedEntry, metadata, sourceInstanceId:metadata?.sourceInstanceId || null});
+    batch15fNotifyDraw(p,{success:true,cardId},{sourceCardId:context.source||'gabar-draw',batch15fDrawChain:context.batch15fDrawChain});
+    await batch15fDrainDraws();
     markBatch02GabarVisualStage('draw-action-complete', {playerId:p.key, spellId:cardId});
     return {success:true, cardId, selectedEntry, evolutionResolution, deckSizeAfter:pile.length, handSizeAfter:playerHand(p).length, gabarEvolution:true};
   }
@@ -28533,6 +28667,7 @@ async function handleBatch15DGabarDeckClick(player) {
   refreshRuntimeZone(p, 'graveyard');
   renderAllHands(result?.success ? p.key : null);
   updateDeckCount(p);
+  await batch15fDrainDraws();
   if (result?.success) showNotif(`${playerName(p)} pioche\u00a0!`, 1200);
   return result;
 }
@@ -29568,9 +29703,6 @@ async function triggerBatch03CombatHooks(attacker, targetFC, context={}) {
       results.push({type:'bronze-colossus-discard', discarded});
     }
   }
-  if (player?.batch03BlessedSwordsTurn === turnSequence && context.phase === 'attack' && isBatch03UndeadServant(targetFC) && !targetFC.dataset.dead) {
-    results.push({type:'blessed-swords-divine-wrath', applied:applyBatch03DivineWrath(targetFC, player, {sourceCardId:'S000033', sourceInstanceId:attacker.dataset.instance, reason:'blessed-swords-combat'})});
-  }
   if (aid === 'DIV000004' && context.phase === 'attack') {
     if (!context.targetDied && !targetFC.dataset.dead && canAffectTarget({sourcePlayer:player, targetFC, sourceCardId:'DIV000004', effectKind:'hypnosis', isAbility:true})) {
       const applied = applyBatch04Hypnosis(targetFC, {untilDamage:true, sourceCardId:'DIV000004'});
@@ -30240,6 +30372,9 @@ function applyScenarioTestSetup() {
   if (!baseSetup) return;
   const variant = new URLSearchParams(window.location.search).get('case') || '';
   const setup = selectedScenarioId().startsWith('collection-batch-15e-') ? collectionBatch15ECaseSetup(baseSetup,variant) : collectionBatch15DCaseSetup(baseSetup, variant);
+  if(selectedScenarioId().startsWith('collection-batch-15f-')){
+    if(variant==='hp16')setup.player1.avatarHp=16;
+  }
   if (selectedScenarioId() === 'collection-batch-01-door-key') preloadDoorLockAssets();
   lastCostDiagnostic = null;
   lastPlayLegalityDiagnostic = null;
@@ -30257,6 +30392,8 @@ function applyScenarioTestSetup() {
   [player1, player2].forEach(p => {
     const config = setup[p.key];
     if (!p || !config) return;
+    p.batch15fGeneration=(p.batch15fGeneration||0)+1;
+    p.batch15fPortal=false;
     p.removedFromGame = [];
     p.prstFavors = {};
     p.batch14fBelialFavor = false;
@@ -30314,6 +30451,7 @@ function applyScenarioTestSetup() {
         slot.outerHTML = buildFC(cardId, p.key);
         const placed = parent && slotIndex >= 0 ? parent.children[slotIndex] : null;
         if (placed && typeof entry === 'object') applyScenarioServantState(placed, entry);
+        if(placed && entry?.prepared && selectedScenarioId().startsWith('collection-batch-15f-')) placed.querySelector('.fc-new-badge')?.remove();
       });
     }
     if (config.initialSupplyCardId) {
@@ -30333,6 +30471,10 @@ function applyScenarioTestSetup() {
           recomputeClassicalResources(p);
         }
       }
+    }
+    for(const id of config.testSupplies||[]){
+      const zone=qs(playerZoneSelector(p,'appro')),slot=zone.querySelector('.slot-appro');if(!slot)break;
+      const index=[...zone.children].indexOf(slot);slot.outerHTML=buildFC(id,p.key);registerSupplyInstance(p,zone.children[index]);
     }
     if (config.avatarHp !== undefined) {
       setAvatarHitPoints(p, config.avatarHp);
@@ -30766,6 +30908,196 @@ EXTRA_CARD_COST_DEFINITIONS.S000026=createCostDefinition(15,['aria','lenya','nou
 
 // Preserve the established raw-data API; player renderers apply French spacing.
 CARDS_DATA.S000055.cond='Vous devez posséder au moins 3 serviteurs de votre côté du terrain, hors serviteurs ayant la capacité spéciale [Insensible].';
+
+// Batch 15F — source canonique du 13 septembre 2026.
+const BATCH_15F_CANONICAL=[
+  [
+    "S000012",
+    {
+      "name": "Fruits de l'entraînement",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Nain",
+      "canonicalCondition": "/",
+      "cost": 2,
+      "cap": "Donne *+2 ATK*/ *+1 PDV* à tous vos serviteurs nains sur le terrain.",
+      "detail": "Donne *+2 ATK*/ *+1 PDV* à tous vos serviteurs nains sur le terrain.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000016",
+    {
+      "name": "Portail actif",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Non-affiliés",
+      "canonicalCondition": "Un Mage du Cercle doit être présent de votre côté du terrain.",
+      "cost": 12,
+      "cap": "Pendant le reste de la partie, vos serviteurs coûtent *4* unités de ressources en moins. De plus, vous piochez *1* carte supplémentaire chaque fois que votre adversaire pioche.",
+      "detail": "Pendant le reste de la partie, vos serviteurs coûtent *4* unités de ressources en moins. De plus, vous piochez *1* carte supplémentaire chaque fois que votre adversaire pioche.",
+      "cond": "Un Mage du Cercle doit être présent de votre côté du terrain.",
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000018",
+    {
+      "name": "Artisanat elfique",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe des bois",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Elfes de bois gagnent *+1 ATK*/ *+2 PDV*.",
+      "detail": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Elfes de bois gagnent *+1 ATK*/ *+2 PDV*.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000024",
+    {
+      "name": "Secrets de forge",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Nain",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des « Nains » coûtent *1* ressource en moins et ajoutent *+1* à leur montant de points de vie maximal.",
+      "detail": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des « Nains » coûtent *1* ressource en moins et ajoutent *+1* à leur montant de points de vie maximal.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000027",
+    {
+      "name": "Chute de neige",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe de glace",
+      "canonicalCondition": "/",
+      "cost": 8,
+      "cap": "Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.",
+      "detail": "Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.",
+      "cond": "",
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000033",
+    {
+      "name": "Épées bénies",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Humain",
+      "canonicalCondition": "/",
+      "cost": 4,
+      "cap": "Jusqu'à la fin de votre tour, tous vos serviteurs infligent [Colère divine] aux morts-vivants auxquels ils infligent des dégâts.",
+      "detail": "Jusqu'à la fin de votre tour, tous vos serviteurs infligent [Colère divine] aux morts-vivants auxquels ils infligent des dégâts.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000039",
+    {
+      "name": "Vivacité elfique",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 6,
+      "cap": "Jusqu'à la fin de votre tour, tous vos serviteurs des factions « Elfes des bois », « Elfes de glace » et « Elfes noirs » peuvent attaquer une *seconde fois*.",
+      "detail": "Jusqu'à la fin de votre tour, tous vos serviteurs des factions « Elfes des bois », « Elfes de glace » et « Elfes noirs » peuvent attaquer une *seconde fois*.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000042",
+    {
+      "name": "Éclipse solaire",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Mort-vivant",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.",
+      "detail": "Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000045",
+    {
+      "name": "Jardins botaniques",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe des bois",
+      "canonicalCondition": "/",
+      "cost": 6,
+      "cap": "Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à une pile correspondante. Les « Buissons à baies » se regroupent par *3* : chaque pile de *3* produit *5* Nourriture. Un nouveau Buisson rejoint une pile de moins de *3* ou occupe un nouvel emplacement libre. Ajoute *1* carte « Herboristerie » et *2* cartes « Buissons à baies » à votre main.",
+      "detail": "Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à une pile correspondante. Les « Buissons à baies » se regroupent par *3* : chaque pile de *3* produit *5* Nourriture. Un nouveau Buisson rejoint une pile de moins de *3* ou occupe un nouvel emplacement libre. Ajoute *1* carte « Herboristerie » et *2* cartes « Buissons à baies » à votre main.",
+      "cond": "",
+      "maxOwned": 1,
+      "related": [
+        "R000004",
+        "R000003"
+      ]
+    }
+  ],
+  [
+    "S000048",
+    {
+      "name": "Grande horde",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 6,
+      "cap": "Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes.",
+      "detail": "Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000049",
+    {
+      "name": "Machiavélisme",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Gobelin",
+      "canonicalCondition": "/",
+      "cost": 3,
+      "cap": "Jusqu'à la fin de votre tour, chaque capacité [Vengeance] déclenchée par un serviteur allié inflige *2* points de dégâts supplémentaires à *1* serviteur adverse aléatoire. Les capacités [Vengeance] de vos serviteurs gobelins se déclenchent une seconde fois ce tour.",
+      "detail": "Jusqu'à la fin de votre tour, chaque capacité [Vengeance] déclenchée par un serviteur allié inflige *2* points de dégâts supplémentaires à *1* serviteur adverse aléatoire. Les capacités [Vengeance] de vos serviteurs gobelins se déclenchent une seconde fois ce tour.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000050",
+    {
+      "name": "Renforts inespérés",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "Votre avatar doit avoir 15 PV ou moins.",
+      "cost": 8,
+      "cap": "Abandonnez votre avatar, votre deck, votre cimetière et votre main. Recevez un avatar et un deck de test aléatoires, puis repartez avec une nouvelle main.",
+      "detail": "Votre main, votre deck et le contenu de votre cimetière sont retirés de la partie. De même pour vos serviteurs sur le terrain et pour vos cartes d'approvisionnement. Choisissez *1* avatar différent du vôtre parmi *3* options aléatoires et obtenez *1* deck de test complet associé à ce nouvel avatar. Mélangez le nouveau deck et piochez *5* cartes. Les effets permanents déjà obtenus prennent fin. Vous continuez la partie avec *50* points de vie.",
+      "cond": "Votre avatar doit avoir *15* PV ou moins.",
+      "maxOwned": 1
+    }
+  ]
+];
+for(const [id,patch]of BATCH_15F_CANONICAL)Object.assign(CARDS_DATA[id],patch,{invocationConditionText:patch.cond});
+EXTRA_CARD_COST_DEFINITIONS.S000016=createCompatiblePoolCostDefinition(12,['aria','lenya','soul'],[]);
 window.addEventListener('load', playIntro);
 document.getElementById('btnEndTurn').addEventListener('click', endTurn);
 </script>

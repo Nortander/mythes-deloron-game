@@ -1257,7 +1257,7 @@ const COLLECTION_COST_DEFINITIONS = Object.freeze({
   'S000013': {"total":4,"groups":[{"op":null,"resources":[{"key":"fer","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"nourriture","amount":1,"explicit":false}]}]},
   'S000014': {"total":5,"groups":[{"op":null,"resources":[{"key":"nourriture","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"fer","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"bois","amount":1,"explicit":false}]}]},
   'S000015': {"total":3,"groups":[{"op":null,"resources":[{"key":"lenya","amount":3,"explicit":true}]}]},
-  'S000016': {"total":12,"groups":[{"op":null,"resources":[{"key":"aria","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"soul","amount":1,"explicit":false}]}]},
+  'S000016': {"total":12,"groups":[{"op":null,"resources":[{"key":"aria","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"soul","amount":1,"explicit":false}]}]},
   'S000017': {"total":3,"groups":[{"op":null,"resources":[{"key":"aria","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"lenya","amount":1,"explicit":false}]}]},
   'S000018': {"total":5,"groups":[{"op":null,"resources":[{"key":"fer","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"bois","amount":1,"explicit":false}]},{"op":"+","resources":[{"key":"lenya","amount":3,"explicit":true}]}]},
   'S000019': {"total":3,"groups":[{"op":null,"resources":[{"key":"aria","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"lenya","amount":1,"explicit":false}]},{"op":"ou","resources":[{"key":"soul","amount":1,"explicit":false}]}]},
@@ -3402,6 +3402,195 @@ for(const [id,patch] of [
     }
   ]
 ]) {const card=CARDS.find(c=>c.id===id);if(card)Object.assign(card,patch);}
+
+// Batch 15F — source canonique du 13 septembre 2026.
+const BATCH_15F_CANONICAL=[
+  [
+    "S000012",
+    {
+      "name": "Fruits de l'entraînement",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Nain",
+      "canonicalCondition": "/",
+      "cost": 2,
+      "cap": "Donne *+2 ATK*/ *+1 PDV* à tous vos serviteurs nains sur le terrain.",
+      "detail": "Donne *+2 ATK*/ *+1 PDV* à tous vos serviteurs nains sur le terrain.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000016",
+    {
+      "name": "Portail actif",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Non-affiliés",
+      "canonicalCondition": "Un Mage du Cercle doit être présent de votre côté du terrain.",
+      "cost": 12,
+      "cap": "Pendant le reste de la partie, vos serviteurs coûtent *4* unités de ressources en moins. De plus, vous piochez *1* carte supplémentaire chaque fois que votre adversaire pioche.",
+      "detail": "Pendant le reste de la partie, vos serviteurs coûtent *4* unités de ressources en moins. De plus, vous piochez *1* carte supplémentaire chaque fois que votre adversaire pioche.",
+      "cond": "Un Mage du Cercle doit être présent de votre côté du terrain.",
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000018",
+    {
+      "name": "Artisanat elfique",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe des bois",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Elfes de bois gagnent *+1 ATK*/ *+2 PDV*.",
+      "detail": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des Elfes de bois gagnent *+1 ATK*/ *+2 PDV*.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000024",
+    {
+      "name": "Secrets de forge",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Nain",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des « Nains » coûtent *1* ressource en moins et ajoutent *+1* à leur montant de points de vie maximal.",
+      "detail": "Jusqu'à la fin de la partie, tous vos serviteurs de la faction des « Nains » coûtent *1* ressource en moins et ajoutent *+1* à leur montant de points de vie maximal.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000027",
+    {
+      "name": "Chute de neige",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe de glace",
+      "canonicalCondition": "/",
+      "cost": 8,
+      "cap": "Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.",
+      "detail": "Jusqu'à la fin de la partie, vos effets de [Coup de glace] et de [Gel] durent *1 tour* de plus.",
+      "cond": "",
+      "maxOwned": 1
+    }
+  ],
+  [
+    "S000033",
+    {
+      "name": "Épées bénies",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Humain",
+      "canonicalCondition": "/",
+      "cost": 4,
+      "cap": "Jusqu'à la fin de votre tour, tous vos serviteurs infligent [Colère divine] aux morts-vivants auxquels ils infligent des dégâts.",
+      "detail": "Jusqu'à la fin de votre tour, tous vos serviteurs infligent [Colère divine] aux morts-vivants auxquels ils infligent des dégâts.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000039",
+    {
+      "name": "Vivacité elfique",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 6,
+      "cap": "Jusqu'à la fin de votre tour, tous vos serviteurs des factions « Elfes des bois », « Elfes de glace » et « Elfes noirs » peuvent attaquer une *seconde fois*.",
+      "detail": "Jusqu'à la fin de votre tour, tous vos serviteurs des factions « Elfes des bois », « Elfes de glace » et « Elfes noirs » peuvent attaquer une *seconde fois*.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000042",
+    {
+      "name": "Éclipse solaire",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Mort-vivant",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.",
+      "detail": "Jusqu'à la fin de ce tour, accroît l'attaque de tous les serviteurs de la faction des morts-vivants de *3* ; accroît l'attaque de tous les serviteurs elfes noirs de *2*. Toujours jusqu'à la fin de ce tour, réduit de *3* l'attaque des serviteurs humains ; diminue de *2* l'attaque des serviteurs nains.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000045",
+    {
+      "name": "Jardins botaniques",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe des bois",
+      "canonicalCondition": "/",
+      "cost": 6,
+      "cap": "Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à une pile correspondante. Les « Buissons à baies » se regroupent par *3* : chaque pile de *3* produit *5* Nourriture. Un nouveau Buisson rejoint une pile de moins de *3* ou occupe un nouvel emplacement libre. Ajoute *1* carte « Herboristerie » et *2* cartes « Buissons à baies » à votre main.",
+      "detail": "Toutes vos cartes « Herboristerie » et « Buissons à baies » actuellement sur le terrain fusionnent en piles distinctes, libérant des emplacements d'approvisionnement sans perte de ressources. Désormais, chaque nouvelle « Herboristerie » et chaque nouveau « Buissons à baies » viendra s'ajouter à une pile correspondante. Les « Buissons à baies » se regroupent par *3* : chaque pile de *3* produit *5* Nourriture. Un nouveau Buisson rejoint une pile de moins de *3* ou occupe un nouvel emplacement libre. Ajoute *1* carte « Herboristerie » et *2* cartes « Buissons à baies » à votre main.",
+      "cond": "",
+      "maxOwned": 1,
+      "related": [
+        "R000004",
+        "R000003"
+      ]
+    }
+  ],
+  [
+    "S000048",
+    {
+      "name": "Grande horde",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 6,
+      "cap": "Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes.",
+      "detail": "Jusqu'à la fin de la partie, vos serviteurs orcs gagnent *+1 ATK* et vos serviteurs trolls et gobelins gagnent *+1 PDV*. Si votre deck contient également au moins *1* serviteur humain, piochez *2* cartes.",
+      "cond": "",
+      "maxOwned": 2
+    }
+  ],
+  [
+    "S000049",
+    {
+      "name": "Machiavélisme",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Gobelin",
+      "canonicalCondition": "/",
+      "cost": 3,
+      "cap": "Jusqu'à la fin de votre tour, chaque capacité [Vengeance] déclenchée par un serviteur allié inflige *2* points de dégâts supplémentaires à *1* serviteur adverse aléatoire. Les capacités [Vengeance] de vos serviteurs gobelins se déclenchent une seconde fois ce tour.",
+      "detail": "Jusqu'à la fin de votre tour, chaque capacité [Vengeance] déclenchée par un serviteur allié inflige *2* points de dégâts supplémentaires à *1* serviteur adverse aléatoire. Les capacités [Vengeance] de vos serviteurs gobelins se déclenchent une seconde fois ce tour.",
+      "cond": "",
+      "maxOwned": 3
+    }
+  ],
+  [
+    "S000050",
+    {
+      "name": "Renforts inespérés",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "Votre avatar doit avoir 15 PV ou moins.",
+      "cost": 8,
+      "cap": "Abandonnez votre avatar, votre deck, votre cimetière et votre main. Recevez un avatar et un deck de test aléatoires, puis repartez avec une nouvelle main.",
+      "detail": "Votre main, votre deck et le contenu de votre cimetière sont retirés de la partie. De même pour vos serviteurs sur le terrain et pour vos cartes d'approvisionnement. Choisissez *1* avatar différent du vôtre parmi *3* options aléatoires et obtenez *1* deck de test complet associé à ce nouvel avatar. Mélangez le nouveau deck et piochez *5* cartes. Les effets permanents déjà obtenus prennent fin. Vous continuez la partie avec *50* points de vie.",
+      "cond": "Votre avatar doit avoir *15* PV ou moins.",
+      "maxOwned": 1
+    }
+  ]
+];
+for(const [id,patch]of BATCH_15F_CANONICAL){const card=CARDS.find(card=>card.id===id);if(card)Object.assign(card,patch,{desc:patch.cap,faction:patch.canonicalFaction});}
 hydrateCollectionCatalogClassification();
 hydrateCollectionDerivedData();
 init();

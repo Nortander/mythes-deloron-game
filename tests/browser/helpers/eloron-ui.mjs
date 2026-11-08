@@ -107,7 +107,7 @@ export async function closeCollectionModal(page) {
   }
 }
 
-async function installRandomSequence(page, values) {
+export async function installRandomSequence(page, values) {
   if (!Array.isArray(values) || values.length === 0) return;
   await page.addInitScript((sequence) => {
     const nativeRandom = Math.random.bind(Math);
