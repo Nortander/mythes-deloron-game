@@ -424,18 +424,54 @@ async function e2NotificationGeometry(page){
 test.afterEach(async({page},testInfo)=>{if(testInfo.status===testInfo.expectedStatus)return;try{const snapshot=await page.evaluate(()=>({actions:window.__batch15eUIActions,events:collectionBatch15EState.events,flights:[...document.querySelectorAll('.batch09-cadaver-flight')].map(e=>({...e.dataset,animations:e.getAnimations().map(a=>({state:a.playState,time:a.currentTime}))}))}));await testInfo.attach('15e-failure-runtime',{body:Buffer.from(JSON.stringify(snapshot,null,2)),contentType:'application/json'});}catch{}});
 
 // Batch 15E3 strengthens the existing hover cases and adds target-theme/art/icon/label/punctuation proofs.
+// A >1.03 width ratio can occur at ~133ms of the 200ms scale(1.04)
+// transition. Compare settled geometry, without changing the 0.5px tolerance.
+async function waitForSelectionTransforms(page){
+ const frames=await page.locator('.batch15e2-selection').evaluate(async panel=>{
+  let timer,expired=false;
+  const frame=()=>new Promise(requestAnimationFrame);
+  const observe=async()=>{
+   for(;;){
+    await frame();
+    if(expired)throw new Error('Selection transform transition timed out');
+    const transitions=[...panel.querySelectorAll('.sort-choice-item')].flatMap(item=>{
+     getComputedStyle(item).transform;
+     return item.getAnimations().filter(animation=>animation instanceof CSSTransition && animation.effect?.target===item && animation.transitionProperty==='transform' && animation.playState!=='finished');
+    });
+    if(!transitions.length)break;
+    await Promise.all(transitions.map(animation=>animation.finished));
+   }
+   const samples=[];
+   for(let i=0;i<3;i++){
+    await frame();
+    samples.push([...panel.querySelectorAll('.selection-card')].flatMap(card=>{const r=card.getBoundingClientRect();return [r.x,r.y,r.width,r.height]}));
+   }
+   return samples;
+  };
+  try{return await Promise.race([observe(),new Promise((_,reject)=>{timer=setTimeout(()=>{expired=true;reject(new Error('Selection transform did not finish within 2000ms'));},2000);})]);}
+  finally{clearTimeout(timer);}
+ });
+ for(const sample of frames.slice(1)){
+  expect(sample).toHaveLength(frames[0].length);
+  sample.forEach((value,index)=>expect(value).toBeCloseTo(frames[0][index],0));
+ }
+}
 async function e3LocalHoverProof(page,items,testInfo){
  const grid=page.locator('.sort-choice-cards'),count=await items.count();
  const edges=await items.evaluateAll(nodes=>{const rows=new Map();nodes.forEach((e,i)=>{const y=Math.round(e.getBoundingClientRect().top);if(!rows.has(y))rows.set(y,[]);rows.get(y).push(i)});const list=[...rows.values()];return [...new Set([list[0][0],list[0].at(-1),list.at(-1)[0],list.at(-1).at(-1)])]});
  for(const index of edges){
-  await page.locator('.sort-choice-title').hover();await items.nth(index).scrollIntoViewIfNeeded();const base=await items.nth(index).locator('.selection-card').boundingBox();await items.nth(index).hover();
+  await page.locator('.sort-choice-title').hover();await waitForSelectionTransforms(page);await items.nth(index).scrollIntoViewIfNeeded();await waitForSelectionTransforms(page);
+  // The grid and untransformed layout offsets must stay fixed while its card grows.
+  const layout=()=>grid.evaluate(e=>{const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height,e.scrollTop,e.scrollLeft,...[...e.querySelectorAll('.sort-choice-item')].flatMap(item=>[item.offsetLeft,item.offsetTop,item.offsetWidth,item.offsetHeight])]});
+  const layoutBefore=await layout(),base=await items.nth(index).locator('.selection-card').boundingBox();await items.nth(index).hover();await waitForSelectionTransforms(page);
   await page.screenshot({path:testInfo.outputPath('hover-edge-'+index+'.png')});
   await expect.poll(async()=>{const r=await items.nth(index).locator('.selection-card').boundingBox();return r.width/base.width}).toBeGreaterThan(1.03);
   const r=await items.nth(index).locator('.selection-card').boundingBox(),g=await grid.boundingBox();expect(r.width/base.width).toBeLessThan(1.05);expect(Math.abs((r.x+r.width/2)-(base.x+base.width/2))).toBeLessThan(10);expect(Math.abs(r.y-base.y)).toBeLessThan(15);
   await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);
   expect(r.x).toBeGreaterThanOrEqual(g.x);expect(r.y).toBeGreaterThanOrEqual(g.y);expect(r.x+r.width).toBeLessThanOrEqual(g.x+g.width);expect(r.y+r.height).toBeLessThanOrEqual(g.y+g.height);
   const corners=await items.nth(index).evaluate(item=>{const r=item.querySelector('.selection-card').getBoundingClientRect();return [[r.left+4,r.top+4],[r.right-4,r.top+4],[r.left+4,r.bottom-4],[r.right-4,r.bottom-4]].map(([x,y])=>item.contains(document.elementFromPoint(x,y)))});expect(corners).toEqual([true,true,true,true]);
-  await items.nth(index).hover();expect((await items.nth(index).locator('.selection-card').boundingBox()).y).toBeCloseTo(r.y,0);
+  await items.nth(index).hover();await waitForSelectionTransforms(page);expect((await items.nth(index).locator('.selection-card').boundingBox()).y).toBeCloseTo(r.y,0);
+  const layoutAfter=await layout();expect(layoutAfter).toHaveLength(layoutBefore.length);layoutAfter.forEach((value,i)=>expect(value).toBeCloseTo(layoutBefore[i],0));
  }
  await page.screenshot({path:testInfo.outputPath('hover-last-row.png')});
 }
