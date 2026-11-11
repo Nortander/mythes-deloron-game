@@ -1554,7 +1554,9 @@ body.dragging-card .hc.dragging {
 .fc.appro-fc .fz-desc-text.fz-lore-text,.fc.appro-fc .fz-desc-text.fz-lore-text em.card-lore-text{color:#0e0c08!important;font-style:italic!important;font-weight:400!important;text-decoration:none!important;}
 
 /* Variables (kv) : même couleur que les mots-clefs de la faction */
-.hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv,.selection-card.edb-fc .selection-card-text strong.kv { color:#2a5a10; }
+.hc.edb,.fc.edb-fc,.selection-card.edb-fc{--card-emphasis-color:#2a5a10}
+.hc.nain,.fc.nain-fc,.selection-card.nain-fc{--card-emphasis-color:#2a3448}
+.hc.edb .hc-desc-text strong.kv, .fc.edb-fc .fz-desc-text strong.kv,.selection-card.edb-fc .selection-card-text strong.kv { color:var(--card-emphasis-color); }
 .hc.edn .hc-desc-text strong.kv, .fc.edn-fc .fz-desc-text strong.kv,.selection-card.edn-fc .selection-card-text strong.kv { color:#d080e8; }
 .hc.edg .hc-desc-text strong.kv, .fc.edg-fc .fz-desc-text strong.kv,.selection-card.edg-fc .selection-card-text strong.kv { color:#2a8fd4; }
 .hc.hum .hc-desc-text strong.kv, .fc.hum-fc .fz-desc-text strong.kv,.selection-card.hum-fc .selection-card-text strong.kv { color:#002fa7; }
@@ -1726,7 +1728,7 @@ body.dragging-card .hc.dragging {
 .hc.nain .hc-name-b{background:linear-gradient(180deg,#1e2030,#141620 50%,#1e2030);}
 .hc.nain .hc-desc-inner{background:linear-gradient(155deg,#d8dce8,#b4b8cc);}
 .hc.nain .hc-desc-text{color:#0e0e14;}
-.hc.nain .hc-desc-text em,.hc.nain .hc-desc-text strong.kv{color:#2a3448;}
+.hc.nain .hc-desc-text em,.hc.nain .hc-desc-text strong.kv{color:var(--card-emphasis-color);}
 .hc.nain .hc-cost-z{background:linear-gradient(180deg,#1e2030,#141620);}
 
 .hc.trl .hc-frame{background:linear-gradient(170deg,#4a2008,#100802);}
@@ -1847,7 +1849,7 @@ body.dragging-card .hc.dragging {
 .fc.nain-fc .fc-zoom-name-b{background:linear-gradient(180deg,#1e2030,#141620 50%,#1e2030);}
 .fc.nain-fc .fz-desc-inner{background:linear-gradient(155deg,#d8dce8,#b4b8cc);}
 .fc.nain-fc .fz-desc-text{color:#0e0e14;}
-.fc.nain-fc .fz-desc-text em,.fc.nain-fc .fz-desc-text strong.kv,.selection-card.nain-fc .selection-card-text strong.kv{color:#2a3448;}
+.fc.nain-fc .fz-desc-text em,.fc.nain-fc .fz-desc-text strong.kv,.selection-card.nain-fc .selection-card-text strong.kv{color:var(--card-emphasis-color);}
 .fc.nain-fc .fc-zoom-cost-z{background:linear-gradient(180deg,#1e2030,#141620);}
 
 .fc.trl-fc{--card-faction-color:#e0a840;--card-border:#7a3c10;background:linear-gradient(170deg,#4a2008,#100802);border-radius:12px;box-shadow:0 0 0 1px rgba(122,60,16,.72),inset 0 0 18px rgba(180,120,48,.2),0 8px 18px rgba(0,0,0,.34);}
@@ -1911,6 +1913,7 @@ body.dragging-card .hc.dragging {
 .canonical-card-preview .fz-name{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.08;font-size:clamp(9px,3.1vw,12px);padding:0 10px;}
 .canonical-keyword-inline{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .hc-desc-text .card-keyword,.hc-desc-text .card-named-ability,.fz-desc-text .card-keyword,.fz-desc-text .card-named-ability{font-style:normal;font-weight:700;text-decoration:underline;text-underline-offset:2px;color:var(--card-faction-color,currentColor)}
+.fc.edb-fc .fz-desc-text[data-blessed-swords] [data-token="Colère divine"],.fc.nain-fc .fz-desc-text[data-blessed-swords] [data-token="Colère divine"]{color:var(--card-emphasis-color)}
 .canonical-card-preview.hum-fc{--card-dark:#0f1a3a;--card-border:#26c4ec;--card-faction-color:#002fa7;--card-kw:#002fa7}
 .hc.hum .hc-desc-text .canonical-keyword-inline,.hc.hum .hc-desc-text strong.kv,.hc.hum .hc-desc-text .card-keyword,.hc.hum .hc-desc-text .card-named-ability,.fc.hum-fc .fz-desc-text .canonical-keyword-inline,.fc.hum-fc .fz-desc-text strong.kv,.selection-card.hum-fc .selection-card-text strong.kv,.fc.hum-fc .fz-desc-text .card-keyword,.fc.hum-fc .fz-desc-text .card-named-ability,.canonical-card-preview.hum-fc .fz-desc-text .canonical-keyword-inline,.canonical-card-preview.hum-fc .fz-desc-text strong.kv,.canonical-card-preview.hum-fc .fz-desc-text .card-keyword,.canonical-card-preview.hum-fc .fz-desc-text .card-named-ability{color:#002fa7!important}
 .canonical-card-preview.sort-fc{--card-dark:#1e0e34;--card-border:#6a3a9a;--card-faction-color:#6a3a9a;--card-kw:#6a3a9a}
@@ -2169,8 +2172,8 @@ if (!globalThis.CardRenderingCore) {
   throw new Error("CardRenderingCore indisponible");
 }
 const GH='https://raw.githubusercontent.com/Nortander/mythes-deloron-assets/main';
-const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['B000005','B000018','B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017','H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
-const LOCAL_ASSET_VERSION_BY_ID = Object.freeze({B000005:'20260822'});
+const COLLECTION_BATCH_02_LOCAL_ASSET_IDS = new Set(['R000004','B000005','B000018','B000019','DIV000017','EDG000014','EDG000015','EDG000016','EDG000017','H000032','H000033','H000034','H000035','H000036','S000055','S000057','S000058','S000059','S000060','MV000024','MV000001','DIV000005','DIV000008','AVS000009','AVS000012','EN000001','EN000002','EN000003','EN000004','EN000005','EN000006','EN000007','EN000008','EN000009','EN000010','EN000011','EN000012','S000039','S000056','S000061','S000062','S000063','AVS000013','N000001','N000002','N000003','N000004','N000005','N000006','N000007','N000008','N000009','N000010','N000011','N000012','N000013','N000014','N000015','S000012','S000013','S000024','S000054','AVS000006','B000003','B000004','ORC000001','ORC000002','ORC000003','ORC000004','ORC000005','ORC000006','ORC000007','ORC000008','ORC000009','ORC000010','ORC000011','ORC000012','ORC000013','ORC000014','ORC000015','ORC000016','ORC000017','ORC000018','ORC000019','ORC000020','S000014','S000032','PRST000004','PRST000005','R000026','S000046','S000048','TRL000001','TRL000002','TRL000003','TRL000004','TRL000005','TRL000006','TRL000007','TRL000008','TRL000009','TRL000010','TRL000011','TRL000012','TRL000013','TRL000014','TRL000015','TRL000016','TRL000017','TRL000018','TRL000019','TRL000020','GOB000001','GOB000002','GOB000003','GOB000004','GOB000005','GOB000006','GOB000007','GOB000008','GOB000009','GOB000010','GOB000011','GOB000012','GOB000013','GOB000014','GOB000015','GOB000016','GOB000017','GOB000018','GOB000019','GOB000020','S000009','S000037','S000038','S000047','S000049']);
+const LOCAL_ASSET_VERSION_BY_ID = Object.freeze({B000005:'20260822',R000004:'b6e854c5a55e'});
 function cardArtworkSrc(cardId, folder=null) {
   const id = String(cardId || '');
   const data = typeof CARDS_DATA !== 'undefined' ? CARDS_DATA[id] : null;
@@ -3227,9 +3230,9 @@ SCENARIOS['collection-batch-15d-gabar-cycle'] = {
 };
 // Hidden Batch 15E fixtures; all actions remain controlled by the player.
 
-SCENARIOS['collection-batch-15f-buffs-costs']={"label":"TEST — COLLECTION BATCH 15F buffs-costs","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000012","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000012","S000024","S000048","N000013","EDB000005","TRL000002"],"servants":[{"id":"N000013","prepared":true},{"id":"EDB000005","prepared":true},{"id":"ORC000005","prepared":true},{"id":"GOB000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["H000005","EDG000001"],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
-SCENARIOS['collection-batch-15f-turn-effects']={"label":"TEST — COLLECTION BATCH 15F turn-effects","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000027","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000027","S000033","S000039","S000049","EDG000001","EDB000002"],"servants":[{"id":"EDB000005","prepared":true},{"id":"MV000025","prepared":true},{"id":"GOB000006","prepared":true},{"id":"N000013","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["H000005","EDG000001"],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
-SCENARIOS['collection-batch-15f-persistent-reset']={"label":"TEST — COLLECTION BATCH 15F persistent-reset","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000016","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":15,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000016","S000045","S000050","R000003","R000004","H000005"],"servants":[{"id":"AVS000001","prepared":true},{"id":"MV000025","prepared":true},{"id":"N000013","prepared":true}],"testSupplies":["R000003","R000003","R000004","R000004"]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["H000005","EDG000001"],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
+SCENARIOS['collection-batch-15f-buffs-costs']={"label":"TEST — COLLECTION BATCH 15F buffs-costs","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000048","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000048"],"servants":[{"id":"ORC000005","prepared":true},{"id":"GOB000001","prepared":true},{"id":"TRL000002","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":[],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
+SCENARIOS['collection-batch-15f-turn-effects']={"label":"TEST — COLLECTION BATCH 15F turn-effects","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000033","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000033"],"servants":[{"id":"EDB000005","prepared":true},{"id":"N000013","prepared":true},{"id":"MV000025","prepared":true},{"id":"GOB000006","prepared":true},{"id":"EDG000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":[],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
+SCENARIOS['collection-batch-15f-persistent-reset']={"label":"TEST — COLLECTION BATCH 15F persistent-reset","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000045","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":15,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000045"],"servants":[{"id":"H000005","prepared":true}],"testSupplies":["R000003","R000003","R000004","R000004"]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":[],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
 SCENARIOS['collection-batch-15e-graveyard']={"label":"TEST — COLLECTION BATCH 15E graveyard","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000015","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000015","S000040"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
 SCENARIOS['collection-batch-15e-sacrifice']={"label":"TEST — COLLECTION BATCH 15E sacrifice","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000026","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000026","S000041","S000055"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true},{"id":"H000001","prepared":true},{"id":"MV000001","prepared":true},{"id":"H000036","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
 SCENARIOS['collection-batch-15e-resurrection-theft']={"label":"TEST — COLLECTION BATCH 15E resurrection-theft","participants":["huvuImpl3Subject","huvuImpl3Opponent"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000022","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["S000022","S000051","S000056"],"drawPile":["H000005","EDB000012","H000006"],"graveyard":["EDB000012","EDB000012","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","EDG000001","H000001","H000036","R000010"],"servants":[{"id":"H000001","prepared":true},{"id":"H000001","prepared":true},{"id":"EN000002","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":30},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"hand":["H000001"],"drawPile":["H000006","H000005"],"graveyard":["H000001","H000001","MV000001","EDB000012","H000036","R000010"],"servants":[{"id":"H000001","pdv":1,"pdvMax":5,"prepared":true},{"id":"H000036","prepared":true}]}}};
@@ -5612,6 +5615,7 @@ function resolveVfxImageUrl(vfxId) {
   if (vfxId === 'VFX000013') return '../assets/effets-speciaux/VFX000013.png';
   if (vfxId === 'VFX000014') return '../assets/effets-speciaux/VFX000014.png';
   if (vfxId === 'VFX000015') return '../assets/effets-speciaux/VFX000015.png';
+  if (vfxId === 'VFX000016') return '../assets/effets-speciaux/VFX000016.png';
   return `${GH}/effets-speciaux/${vfxId}.png`;
 }
 
@@ -5755,13 +5759,24 @@ async function batch15fAnimateHandArrival(player,result,{origin='deck',reason='e
   if(flight){flight.getBoundingClientRect();await Promise.all(flight.getAnimations().map(animation=>animation.finished.catch(()=>{})));flight.remove();}
   await faceReady;
   if(playerState(p.key)!==p||(p.batch15fGeneration||0)!==generation)return false;
-  renderPlayerHand(p,{faceUp:p.key===currentPlayer});
+  const grouped=reason==='gardens'||reason==='horde';
+  renderPlayerHand(p,{faceUp:p.key===currentPlayer,preserveLayout:grouped});
   const hand=qs(playerZoneSelector(p,'hand')),node=[...hand.querySelectorAll('.hc,.hc-back')].at(-1);
   if(node){node.classList.add('batch15f2-arrival');node.dataset.flightReason=reason;node.dataset.ownerId=p.key;node.dataset.cardId=result.cardId;
     const arrival=node.animate([{boxShadow:'0 0 24px rgba(180,90,255,.9)'},{boxShadow:'0 0 0 rgba(180,90,255,0)'}],{duration:300,easing:'ease-out'});
     await arrival.finished;node.classList.remove('batch15f2-arrival');delete node.dataset.flightReason;delete node.dataset.ownerId;delete node.dataset.cardId;
   }
+  // Keep this exact resolved hand stable across subsequent projections, including notifications.
+  if(grouped)hand.batch15fSettledOccurrences=JSON.stringify(ensureBatch03HandOccurrences(p));
   return true;
+}
+async function batch15fFinishHandArrivalGroup(player,accepted){
+  const p=playerState(player),hand=p&&qs(playerZoneSelector(p,'hand'));if(!hand)return;
+  if(accepted){
+    delete hand.batch15fSettledOccurrences;
+    await new Promise(resolve=>renderPlayerHand(p,{faceUp:p.key===currentPlayer,onLayoutReady:resolve}));
+  }
+  hand.batch15fSettledOccurrences=JSON.stringify(ensureBatch03HandOccurrences(p));
 }
 async function batch15fAppear(element){
   if(!element)return;const animation=element.animate([{opacity:0,filter:'brightness(1.8) drop-shadow(0 0 20px rgba(180,90,255,.9))'},{opacity:1,filter:'none'}],{duration:650,easing:'ease-out'});await animation.finished;
@@ -7772,7 +7787,8 @@ function batch15fBotanicalView(fc){
   const p=playerState(fc.dataset.player),stack=botanicalStackById(p,fc.dataset.botanicalStack);if(!stack)return null;
   const base=botanicalStackVector(p,stack),vector=compactProductionVector(hasActivePrstFavor(p,'PRST000002')?Object.fromEntries(RESOURCE_KEYS.map(key=>[key,Number(base[key]||0)*2])):base);
   const printed=productionInitialVector(supplyDefinition(stack.cardId)?.production);
-  return {vector,printed,artwork:stack.cardId==='R000003'&&Number(vector.nourriture||0)>=2?resolveVfxImageUrl('VFX000015'):null};
+  return {vector,printed,artwork:stack.cardId==='R000003'&&Number(vector.nourriture||0)>=2?resolveVfxImageUrl('VFX000015'):
+    stack.cardId==='R000004'&&Number(vector.lenya||0)>=3?resolveVfxImageUrl('VFX000016'):null};
 }
 function projectBotanicalStack(player, stack, fc=null) {
   const p = playerState(player);
@@ -8499,7 +8515,8 @@ function renderZoomDescriptionRuntime(card, kwColor) {
     return `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(text))}</em></p>`;
   }
   const mechanicalText = !isEmptyCardText(card.detail) ? card.detail : card.cap;
-  const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text">${fmtDesc(formatPlayerFacingCardText(batch08DisplayCardText(card, mechanicalText)), descColor)}</p>` : '';
+  const blessed=card.batch15fBlessedSwords;
+  const cap = !isEmptyCardText(mechanicalText) ? `<p class="fz-desc-text"${blessed?' data-blessed-swords="1"':''}>${fmtDesc(formatPlayerFacingCardText(batch08DisplayCardText(card, mechanicalText)), descColor)}</p>` : '';
   const lore = !isEmptyCardText(card.lore) ? `<p class="fz-desc-text fz-lore-text"><em class="card-lore-text">${fmtLore(formatPlayerFacingCardText(card.lore))}</em></p>` : '';
   return cap + lore;
 }
@@ -9405,7 +9422,7 @@ function batch03PreviewCardData(cardId, data, sourceContext={}) {
   const cap = String(runtimeData.cap || '').trim();
   const suffix = lines.join(' ');
   const separator = cap ? ' ' : '';
-  return {...runtimeData, cap: cap + separator + suffix, detail: String(runtimeData.detail || cap || '') + separator + suffix, batch03DynamicStatusText:true};
+  return {...runtimeData, cap: cap + separator + suffix, detail: String(runtimeData.detail || cap || '') + separator + suffix, batch03DynamicStatusText:true, batch15fBlessedSwords:Number(fc?.dataset?.batch03BlessedSwordsTurns||0)>0};
 }
 
 function batch10PreviewCardData(cardId, data, sourceContext={}) {
@@ -11106,7 +11123,7 @@ function buildFC(cardId, player) {
     const approResHTML = renderSupplyProductionHTML(initialVector, 'fixed')
       || `<div class="fc-appro-res"><img src="${GH}/icones/${d.res_ico}.png"><span class="fc-res-num">${d.res_val}</span></div>`;
     return `<div class="fc ${cls}" data-id="${cardId}" data-player="${player}" data-type="appro" data-res="${totalProduction}" ${resTypeAttr}>
-      <img class="fi" src="${GH}/approvisionnement/${cardId}.png" alt="">
+      <img class="fi" src="${cardId === 'R000004' ? cardArtworkSrc(cardId, folder) : GH + '/approvisionnement/' + cardId + '.png'}" alt="">
       ${approResHTML}
     </div>`;
   }
@@ -21371,7 +21388,7 @@ function clearHandProjection(handEl) {
   traceHandMutation(handEl, 'clearHandProjection:after', {childCount:handEl.children.length});
 }
 
-function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
+function renderPlayerHand(player, {faceUp=null, drawLast=false, preserveLayout=false,onLayoutReady=null}={}) {
   const p = playerState(player);
   if (!p) return null;
   const handEl = qs(playerZoneSelector(p, 'hand'));
@@ -21379,6 +21396,18 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
   const hand = playerHand(p);
   const batch15AVisibility = batch15AHandVisibility(p, currentPlayer);
   const showFace = faceUp === null ? (p.key === currentPlayer || batch15AVisibility.all) : (!!faceUp || batch15AVisibility.all);
+  const occurrences=JSON.stringify(ensureBatch03HandOccurrences(p));
+  const stableLayout=preserveLayout||handEl.batch15fSettledOccurrences===occurrences;
+  if(!stableLayout)delete handEl.batch15fSettledOccurrences;
+  const isTop=p.position==='top';
+  const arcFace=!isTop;
+  const arcCount=stableLayout?hand.filter((id,index)=>(showFace||batch15AVisibility.occurrences.has(batch03HandOccurrenceAt(p,index)))===arcFace).length:0;
+  let arcIndex=0;
+  const seedArc=node=>{
+    if(!stableLayout||!node.matches(isTop?'.hc-back,.hc-mini':'.hc'))return;
+    node.style.transform=handCardArcTransform(arcIndex++,arcCount,isTop);
+    node.style.transformOrigin=isTop?'top center':'bottom center';
+  };
   const renderToken = String(++handProjectionSequence);
   handEl.dataset.renderToken = renderToken;
   handEl.dataset.playerId = p.key;
@@ -21423,6 +21452,7 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
           }, remainingMs);
         }
         markCanonicalHandNode(hc, p, renderToken, 'face', id);
+        seedArc(hc);
         handEl.appendChild(hc);
         traceHandMutation(handEl, 'renderPlayerHand:append-face', {cardId:id, renderToken});
       }
@@ -21442,6 +21472,7 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
           hc.dataset.handOccurrence = occurrenceId;
           hc.dataset.batch15aHandReveal = batch15AVisibility.reason || 'partial';
           markCanonicalHandNode(hc, p, renderToken, 'face', id);
+          seedArc(hc);
           handEl.appendChild(hc);
           traceHandMutation(handEl, 'renderPlayerHand:append-partial-reveal', {cardId:id, renderToken});
         }
@@ -21450,6 +21481,7 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
         el.className = 'hc-back';
         el.innerHTML = `<img src="${p.back}" alt="">`;
         markCanonicalHandNode(el, p, renderToken, 'back');
+        seedArc(el);
         handEl.appendChild(el);
         traceHandMutation(handEl, 'renderPlayerHand:append-back', {renderToken});
       }
@@ -21459,10 +21491,14 @@ function renderPlayerHand(player, {faceUp=null, drawLast=false}={}) {
   handEl.classList.toggle('hand-at-capacity', capacity.full);
   handEl.classList.toggle('hand-compact-layout', needsCompactLayout);
   handEl.classList.add('vis');
+  if(stableLayout)applyArc(handEl,isTop,{stableLayout:true});
+  // A projection of a settled grouped arrival starts at its final fan layout.
+  // Other arrival paths retain their existing animated fan feedback.
   setTimeout(() => {
     traceHandMutation(handEl, 'setTimeout:applyArc', {renderToken});
-    if (handEl.dataset.renderToken !== renderToken) return;
-    applyArc(handEl, p.position === 'top');
+    if (handEl.dataset.renderToken !== renderToken) {onLayoutReady?.();return;}
+    applyArc(handEl, p.position === 'top',{stableLayout});
+    if(onLayoutReady){handEl.getBoundingClientRect();Promise.all(handEl.getAnimations({subtree:true}).filter(a=>a instanceof CSSTransition&&a.transitionProperty==='transform').map(a=>a.finished.catch(()=>{}))).then(onLayoutReady);}
   }, 60);
   return auditHandProjection(p);
 }
@@ -22079,7 +22115,7 @@ async function resolveBotanicalGardens(player) {
   for(const fc of anchors){fc.style.setProperty('--batch04-pulse-color','rgba(180,90,255,.98)');pulseBatch03Ability(fc,'botanical-created',{move:false});fc.style.setProperty('--batch04-pulse-color','rgba(180,90,255,.98)');}
   await Promise.all(anchors.flatMap(fc=>fc.getAnimations()).map(animation=>animation.finished.catch(()=>{})));
   let added=0;for(const cardId of ['R000004','R000003','R000003']){const before=p.hand.length;if(!addCardToHand(p,cardId,{refresh:false}))continue;added++;await batch15fAnimateHandArrival(p,{success:true,cardId,handSizeBefore:before,handSizeAfter:p.hand.length},{origin:'center',reason:'gardens'});}
-  renderAllHands();
+  await batch15fFinishHandArrivalGroup(p,added);
   updateVoluntarySupplyDiscardAvailability();
   showNotif(BATCH_15F_FEEDBACK_MESSAGES.S000045,2000);
   return {success:true,stacks:botanicalStacks(p).length, added};
@@ -22540,8 +22576,16 @@ function addHistEntry(cardId, fac) {
 // ════════════════════════════════════════════════════════════
 // ── ARC DE CERCLE ──
 // ════════════════════════════════════════════════════════════
-function applyArc(containerEl, isTop) {
+function handCardArcTransform(index,count,isTop){
+  const maxAngle=Math.min((count-1)*4.5,30);
+  const angle=count===1?0:-maxAngle/2+(index/(count-1))*maxAngle;
+  const lift=Math.round(80*(1-Math.cos(Math.abs(angle)*Math.PI/180)));
+  return 'rotate('+angle+'deg) translateY('+(isTop?lift:-lift)+'px)';
+}
+function applyArc(containerEl, isTop, {stableLayout=false}={}) {
   if (!containerEl) return;
+  const settledPlayer=containerEl.batch15fSettledOccurrences&&playerState(containerEl.dataset.playerId);
+  stableLayout ||= !!settledPlayer&&containerEl.batch15fSettledOccurrences===JSON.stringify(ensureBatch03HandOccurrences(settledPlayer));
   const selector = isTop ? '.hc-back,.hc-mini' : '.hc';
   const renderToken = containerEl.dataset.renderToken || '';
   const cards = Array.from(containerEl.children).filter(el =>
@@ -22551,24 +22595,19 @@ function applyArc(containerEl, isTop) {
   );
   const n = cards.length;
   if (!n) return;
-  const maxAngle = Math.min((n-1)*4.5, 30);
-  const startAngle = -(maxAngle/2);
   const containerRect = containerEl.getBoundingClientRect();
   const cardRect = cards[0]?.getBoundingClientRect();
-  const cardWidth = cardRect?.width || (isTop ? 58 : 120);
+  const cardWidth = (stableLayout?cards[0]?.offsetWidth:cardRect?.width) || (isTop ? 58 : 120);
   const availableWidth = Math.max(0, containerRect.width - 18);
   const requiredOverlap = n > 1 ? (availableWidth - (cardWidth * n)) / (n - 1) : 0;
   const margin = n > 1 ? Math.max(isTop ? -24 : -52, Math.min(isTop ? -8 : -12, requiredOverlap)) : 0;
   cards.forEach((c, i) => {
     const t = n===1 ? 0 : i/(n-1);
-    const angle = n===1 ? 0 : startAngle + t*maxAngle;
-    const absRad = Math.abs(angle)*Math.PI/180;
-    const yLift = Math.round(80*(1-Math.cos(absRad)));
     if (isTop) {
-      c.style.transform = `rotate(${angle}deg) translateY(${yLift}px)`;
+      c.style.transform = handCardArcTransform(i,n,true);
       c.style.transformOrigin = 'top center';
     } else {
-      c.style.transform = `rotate(${angle}deg) translateY(${-yLift}px)`;
+      c.style.transform = handCardArcTransform(i,n,false);
       c.style.transformOrigin = 'bottom center';
     }
     const edgePriority = n === 1 ? 100 : Math.round(Math.abs(t - 0.5) * 100);
@@ -26401,18 +26440,20 @@ function activateBatch09Mugwa(player) {
 async function activateBatch09GrandeHorde(player) {
   const p = playerState(player);
   if (!p) return {success:false};
+  const hand=qs(playerZoneSelector(p,'hand'));
+  if(hand)hand.batch15fSettledOccurrences=JSON.stringify(ensureBatch03HandOccurrences(p));
   p.batch09GrandeHorde = true;
   syncBatch05Passives();
-  let drawn = 0;
+  let drawn = 0, handArrivals = 0;
   const hasHuman = playerDrawPile(p).some(id => CARDS_DATA[getRuntimeCardId(id)]?.type === 'Serviteur' && CARDS_DATA[getRuntimeCardId(id)]?.fac === 'hum');
   if (hasHuman) {
     for (let i = 0; i < 2; i++) {
       const result = drawCardFromRuntimeDeck(p, {sourceCardId:'S000048', refresh:false});
-      if (result.success){drawn++;await batch15fAnimateHandArrival(p,result,{origin:'deck',reason:'horde'});}
+      if (result.success){drawn++;if(await batch15fAnimateHandArrival(p,result,{origin:'deck',reason:'horde'}))handArrivals++;}
     }
-    renderAllHands();
     updateDeckCount(p);
   }
+  await batch15fFinishHandArrivalGroup(p,handArrivals);
   recordCollectionBatch09Event('grande-horde-activated', {playerId:p.key, drawn});
   showNotif('Vos serviteurs trolls, orcs et gobelins se battent sous la bannière de la horde !', 1700);
   return {success:true, playerId:p.key, drawn};
