@@ -107,13 +107,28 @@ export async function closeCollectionModal(page) {
   }
 }
 
-export async function installRandomSequence(page, values) {
+export async function installRandomSequence(page, values, {duringFunction=null}={}) {
   if (!Array.isArray(values) || values.length === 0) return;
-  await page.addInitScript((sequence) => {
-    const nativeRandom = Math.random.bind(Math);
-    let index = 0;
-    Math.random = () => (index < sequence.length ? sequence[index++] : nativeRandom());
-  }, values);
+  const install = ({sequence, functionName}) => {
+    const withSequence = callback => {
+      const nativeRandom = Math.random.bind(Math);
+      let index = 0;
+      Math.random = () => (index < sequence.length ? sequence[index++] : nativeRandom());
+      if (!callback) return;
+      try { return callback(); } finally { Math.random = nativeRandom; }
+    };
+    if (!functionName) { withSequence(); return; }
+    const original = globalThis[functionName];
+    if (typeof original !== 'function') throw new Error('Missing synchronous RNG target: ' + functionName);
+    globalThis[functionName] = function(...args) {
+      globalThis[functionName] = original;
+      return withSequence(() => original.apply(this, args));
+    };
+  };
+  const payload = {sequence:values, functionName:duringFunction};
+  // Scope a finite sequence to one synchronous call without affecting music or later actions.
+  if (duringFunction) await page.evaluate(install, payload);
+  else await page.addInitScript(install, payload);
 }
 
 export async function waitForVisibleHandStable(page) {
