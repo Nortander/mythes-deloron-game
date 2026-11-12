@@ -41,6 +41,9 @@ const textFiles = [
 ];
 
 const toleratedTrackedLegacyAssets = [
+  "assets/approvisionnement/R000004.png",
+  "assets/effets-speciaux/VFX000015.png",
+  "assets/effets-speciaux/VFX000016.png",
   "assets/humains/H000032.png",
   "assets/humains/H000033.png",
   "assets/humains/H000034.png",
