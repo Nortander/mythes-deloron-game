@@ -3591,6 +3591,107 @@ const BATCH_15F_CANONICAL=[
   ]
 ];
 for(const [id,patch]of BATCH_15F_CANONICAL){const card=CARDS.find(card=>card.id===id);if(card)Object.assign(card,patch,{desc:patch.cap,faction:patch.canonicalFaction});}
+
+// Batch15G canonical rows, explicit rule arbitrations are recorded in local proofs.
+const BATCH_15G_CANONICAL=[
+  [
+    "S000011",
+    {
+      "name": "Mur de glace",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "Elfe de glace",
+      "canonicalCondition": "/",
+      "cost": 3,
+      "cap": "Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main subissent chacun [Coup de glace] pendant *2* tours.",
+      "detail": "Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main (ne possédant pas le mot-clef [Sang-froid]) subissent chacun [Coup de glace] pendant *2* tours.",
+      "cond": "",
+      "maxOwned": 3,
+      "fico": "FCT00000EDG.png"
+    }
+  ],
+  [
+    "S000035",
+    {
+      "name": "Météores",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 8,
+      "cap": "Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant *3* tours.",
+      "detail": "Inflige [Embrasement] à des serviteurs aléatoires (ennemis comme alliés), à chaque fin de tour, pendant *3* tours. Un même serviteur ne peut pas être affecté *2* fois sur un même tour. En revanche, « Météores » peut cibler de *1* à *12* cibles différentes, chaque tour. Les serviteurs ennemis ont *75%* de chance en plus de subir des dégâts. Si un serviteur déjà affecté par [Embrasement] est touché par « Météores », réinitialise la durée d'[Embrasement].",
+      "cond": "",
+      "maxOwned": 2,
+      "fico": null
+    }
+  ],
+  [
+    "S000036",
+    {
+      "name": "Crocs de l'Hiver",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 8,
+      "cap": "Inflige instantanément *1* à *4* points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant *2* tours à un nombre aléatoire de serviteurs, alliés comme ennemis.",
+      "detail": "Inflige instantanément *1* à *4* points de dégâts à chaque serviteur sur le plateau, puis applique [Coup de glace] pendant *2* tours à un nombre aléatoire de serviteurs, alliés comme ennemis. Un même serviteur ne peut pas être affecté deux fois sur un même tour ni non plus s'il est déjà affecté par [Gel] ou [Coup de glace]. En revanche, « Crocs de l'Hiver » peut cibler de *1* à *12* cibles différentes au lancement. Les serviteurs ennemis ont *75%* de chance en plus de subir des dégâts.",
+      "cond": "",
+      "maxOwned": 2,
+      "fico": null
+    }
+  ],
+  [
+    "S000053",
+    {
+      "name": "Chaud-froid",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 7,
+      "cap": "Applique [Coup de glace] pendant *1* tour à tous les serviteurs adverses actuellement sur le terrain, puis applique [Gel] à tous les serviteurs que votre adversaire invoque lors de son prochain tour (de sa main ou par l'effet d'une carte, peu importe) pendant *1* tour également. Le tour encore suivant de votre adversaire, applique [Embrasement] à un maximum de *3* serviteurs ennemis aléatoires.",
+      "detail": "Applique [Coup de glace] pendant *1* tour à tous les serviteurs adverses actuellement sur le terrain, puis applique [Gel] à tous les serviteurs que votre adversaire invoque lors de son prochain tour (de sa main ou par l'effet d'une carte, peu importe) pendant *1* tour également. Le tour encore suivant de votre adversaire, applique [Embrasement] à un maximum de *3* serviteurs ennemis aléatoires.",
+      "cond": "",
+      "maxOwned": 2,
+      "fico": null
+    }
+  ],
+  [
+    "S000054",
+    {
+      "name": "Boute-flammes",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 5,
+      "cap": "Confère [Sang ardent] à tous vos serviteurs nains actuellement sur le terrain. Si certains sont déjà affectés par [Embrasement], supprimez-le. Jusqu'à la fin de la partie, vos autres serviteurs nains ne subissent plus que les dégâts initiaux d'[Embrasement], et plus les dégâts périodiques de l'effet.",
+      "detail": "Confère [Sang ardent] à tous vos serviteurs nains actuellement sur le terrain. Si certains sont déjà affectés par [Embrasement], supprimez-le. Jusqu'à la fin de la partie, vos autres serviteurs nains ne subissent plus que les dégâts initiaux d'[Embrasement], et plus les dégâts périodiques de l'effet.",
+      "cond": "",
+      "maxOwned": 0,
+      "fico": null
+    }
+  ],
+  [
+    "S000062",
+    {
+      "name": "Déferlante de flammes",
+      "type": "Sort",
+      "fac": "sort",
+      "canonicalFaction": "/",
+      "canonicalCondition": "/",
+      "cost": 3,
+      "cap": "Choisissez *1* serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",
+      "detail": "Choisissez *1* serviteur adverse et infligez-lui ainsi qu'aux serviteurs directement adjacents [Embrasement].",
+      "cond": "",
+      "maxOwned": 3,
+      "fico": null
+    }
+  ]
+];
+for(const[id,patch]of BATCH_15G_CANONICAL){const card=CARDS.find(card=>card.id===id);if(card)Object.assign(card,patch,{desc:patch.cap,faction:patch.canonicalFaction});}
 hydrateCollectionCatalogClassification();
 hydrateCollectionDerivedData();
 init();

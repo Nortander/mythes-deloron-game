@@ -10,6 +10,7 @@ async function openScenario(page, scenario) {
   await expect.poll(() => page.evaluate(() => selectedScenarioId())).toBe(scenario);
   await expect(page.getByTestId("test-resource-panel")).toBeVisible();
   await page.waitForSelector(".history.vis", {timeout: 20000});
+  await page.waitForSelector("#btnEndTurn.vis", {timeout: 20000});
   await page.waitForTimeout(150);
 }
 
