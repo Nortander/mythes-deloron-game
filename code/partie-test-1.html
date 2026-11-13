@@ -2021,6 +2021,12 @@ body.dragging-card .hc.dragging {
 /* Ongoing spell counters reuse the canonical status-counter projection. */
 .av-portrait>[data-batch03-status-counter="ice-wall"],.av-portrait>[data-batch03-status-counter="meteors"],.av-portrait>[data-batch03-status-counter="hot-cold"]{pointer-events:auto;border-radius:50%;border:1px solid rgba(180,140,230,.9);background:rgba(20,10,34,.94);color:#fff2dc;text-shadow:0 1px 3px #000;box-shadow:0 0 9px rgba(160,90,225,.6)}
 .av-portrait>[data-batch03-status-counter="ice-wall"]{border-color:#8cd7f3}.av-portrait>[data-batch03-status-counter="meteors"]{border-color:#ff9840}
+
+/* Opt-in15G pulses coexist with the existing damage/burn flashes, including lethal impacts. */
+.fc.batch15g-rendered-pulse.batch03-ability-pulse{animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1)}
+.fc.batch15g-rendered-pulse.batch03-ability-pulse.anim-damage{animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1),damageFlash .5s ease-out;animation-composition:replace,add}
+.fc.batch15g-rendered-pulse.batch03-ability-pulse.fc-burn-flash{animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1),burnFlash .7s ease-out;animation-composition:replace,add}
+.fc.batch15g-rendered-pulse.batch03-ability-pulse.anim-damage.fc-burn-flash{animation:batch03AbilityPulse 1.05s cubic-bezier(.2,.85,.25,1),damageFlash .5s ease-out,burnFlash .7s ease-out;animation-composition:replace,add,add}
 </style>
 </head>
 <body>
@@ -3234,8 +3240,8 @@ SCENARIOS['collection-batch-15d-gabar-cycle'] = {
 };
 // Hidden Batch 15E fixtures; all actions remain controlled by the player.
 
-SCENARIOS['collection-batch-15g-ice-counters']={"label":"TEST — COLLECTION BATCH 15G ice-counters","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000011","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["S000011","S000036"],"servants":[{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["EDG000001","H000001","H000005","H000006"],"servants":[{"id":"EDG000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000005","pdv":60,"pdvMax":60,"prepared":true}]}}};
-SCENARIOS['collection-batch-15g-fire-waves']={"label":"TEST — COLLECTION BATCH 15G fire-waves","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000035","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["S000035","S000062"],"servants":[{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":[],"servants":[{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000005","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000006","pdv":60,"pdvMax":60,"prepared":true}]}}};
+SCENARIOS['collection-batch-15g-ice-counters']={"label":"TEST — COLLECTION BATCH 15G ice-counters","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000011","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["S000011","S000036"],"servants":[{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["H000036","EDG000001","H000005","H000006","EDB000013"],"servants":[{"id":"EDG000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","prepared":true}]}}};
+SCENARIOS['collection-batch-15g-fire-waves']={"label":"TEST — COLLECTION BATCH 15G fire-waves","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000035","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["S000035"],"servants":[{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":[],"servants":[{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000005","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000015","pdv":60,"pdvMax":60,"prepared":true}]}}};
 SCENARIOS['collection-batch-15g-hot-cold-dwarves']={"label":"TEST — COLLECTION BATCH 15G hot-cold-dwarves","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000053","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["S000053","S000054","N000003"],"servants":[{"id":"N000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","H000006","N000013","H000001","H000005","EDG000001","H000006","H000001"],"graveyard":[],"hand":["S000062","S000062","H000001","S000014","EDG000001"],"servants":[{"id":"H000005","pdv":60,"pdvMax":60,"prepared":true},{"id":"EDG000001","pdv":60,"pdvMax":60,"prepared":true}]}}};
 SCENARIOS['collection-batch-15f-buffs-costs']={"label":"TEST — COLLECTION BATCH 15F buffs-costs","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000048","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000048"],"servants":[{"id":"ORC000005","prepared":true},{"id":"GOB000001","prepared":true},{"id":"TRL000002","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":[],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
 SCENARIOS['collection-batch-15f-turn-effects']={"label":"TEST — COLLECTION BATCH 15F turn-effects","participants":["rohen","raith"],"fixedFirstParticipant":0,"hidden":true,"showTestResourcePanel":true,"testCardId":"S000033","testSetup":{"player1":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":["S000033"],"servants":[{"id":"EDB000005","prepared":true},{"id":"N000013","prepared":true},{"id":"MV000025","prepared":true},{"id":"GOB000006","prepared":true},{"id":"EDG000001","prepared":true}]},"player2":{"resources":{"classical":{"aria":100,"lenya":100,"selene":100,"fer":100,"bois":100,"pierre":100,"nourriture":100},"souls":50},"avatarHp":50,"initialSupplyCardId":"R000020","initialSupplyMultiplier":100,"drawPile":["H000005","EDB000005","N000013","H000006","EDG000001","R000003","H000005","GOB000006"],"graveyard":["EDB000005","N000013"],"hand":[],"servants":[{"id":"MV000007","pdv":60,"pdvMax":60,"prepared":true},{"id":"EN000002","pdv":60,"pdvMax":60,"prepared":true},{"id":"H000001","pdv":60,"pdvMax":60,"prepared":true},{"id":"N000013","pdv":60,"pdvMax":60,"prepared":true}]}}};
@@ -5741,24 +5747,45 @@ function resolveBatch15gMeteores(player){
   showNotif(batch15EText(playerName(p)+' invoque une pluie de météores sur le champ de bataille.'),1800);
   return {success:true,cardId:'S000035',remainingWaves:3};
 }
+function batch15gRenderedPulse(fc,reason){
+  if(!fc?.isConnected||fc.dataset.dead)return false;
+  const token={};fc._batch15gRenderedPulseToken=token;fc.classList.add('batch15g-rendered-pulse');
+  const applied=pulseBatch03Ability(fc,reason,{move:false});
+  requestAnimationFrame(()=>{
+    const animation=fc.getAnimations().find(a=>a.animationName==='batch03AbilityPulse');
+    const cleanup=()=>{if(fc._batch15gRenderedPulseToken===token){fc.classList.remove('batch15g-rendered-pulse');delete fc._batch15gRenderedPulseToken;}};
+    if(animation)animation.finished.then(cleanup,cleanup);else cleanup();
+  });
+  return applied;
+}
+async function batch15gFinishPulses(targets){
+  await new Promise(requestAnimationFrame);
+  const actual=[...new Set(targets)].filter(fc=>fc?.isConnected&&!fc.dataset.dead);
+  await Promise.all(actual.flatMap(fc=>fc.getAnimations()).filter(a=>a.animationName==='batch03AbilityPulse').map(a=>a.finished.catch(()=>{})));
+}
 async function resolveBatch15gCrocs(player){
   const p=playerState(player),targets=[player1,player2].flatMap(livingServantCardsForPlayer).filter(fc=>canAffectTarget({sourcePlayer:p,targetFC:fc,sourceCardId:'S000036',effectKind:'damage',isAbility:true}));
-  await batch15gPulseTargets(targets,'crocs-damage');
-  const damage=[];for(const fc of targets){if(fc.dataset.dead||!fc.isConnected)continue;const amount=1+Math.floor(gameRandom()*4);damage.push({target:targetSummary(fc),amount,died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:fc,sourceCardId:'S000036',amount,directSpellDamage:true})});}
+  const impacted=new Set(),damage=[];
+  for(const fc of targets){
+    if(fc.dataset.dead||!fc.isConnected)continue;
+    const amount=1+Math.floor(gameRandom()*4);
+    damage.push({target:targetSummary(fc),amount,died:await tryApplyAbilityDamage({sourcePlayer:p,targetFC:fc,sourceCardId:'S000036',amount,directSpellDamage:true,onDamageRendered:hit=>{if(batch15gRenderedPulse(hit,'crocs-damage'))impacted.add(hit);}})});
+  }
+  await batch15gFinishPulses(impacted);
   const candidates=[player1,player2].flatMap(livingServantCardsForPlayer).filter(fc=>!fc.dataset.frozen&&!fc.dataset.frozen_cdg&&!hasSangFroid(fc)&&canAffectTarget({sourcePlayer:p,targetFC:fc,sourceCardId:'S000036',effectKind:'cdg',isAbility:true}));
   const count=candidates.length?1+Math.floor(gameRandom()*Math.min(12,candidates.length)):0;
   const chosen=weightedSampleWithoutReplacement(candidates.map(fc=>({fc,weight:fc.dataset.player===p.key?1:1.75})),count);
-  await batch15gPulseTargets(chosen,'crocs-cold');
-  const cold=chosen.map(fc=>({target:targetSummary(fc),applied:tryApplyGel({sourcePlayer:p,targetFC:fc,sourceCardId:'S000036',turns:2,type:'cdg'})}));
+  const cold=chosen.map(fc=>{const target=targetSummary(fc),applied=tryApplyGel({sourcePlayer:p,targetFC:fc,sourceCardId:'S000036',turns:2,type:'cdg'});if(applied)batch15gRenderedPulse(fc,'crocs-cold');return {target,applied};});
+  await batch15gFinishPulses(chosen);
   const result={success:true,cardId:'S000036',damage,cold};recordBatch15GEvent('crocs-resolved',result);
-  showNotif(batch15EText('Les Crocs de l’Hiver frappent le champ de bataille !'),1800);return result;
+  showNotif("D'IMMENSES PICS DE GLACE S'ÉCRASENT PARTOUT SUR LE CHAMP DE BATAILLE DEPUIS LES CIEUX !",1800);return result;
 }
 async function resolveBatch15gChaudFroid(player){
   const p=playerState(player),target=opponentOf(p),targets=livingServantCardsForPlayer(target).filter(fc=>!hasSangFroid(fc)&&canAffectTarget({sourcePlayer:p,targetFC:fc,sourceCardId:'S000053',effectKind:'cdg',isAbility:true}));
-  await batch15gPulseTargets(targets,'chaud-froid-initial');
-  const cold=targets.map(fc=>({target:targetSummary(fc),applied:tryApplyGel({sourcePlayer:p,targetFC:fc,sourceCardId:'S000053',turns:1,type:'cdg'})}));
+  const cold=targets.map(fc=>{const target=targetSummary(fc),applied=tryApplyGel({sourcePlayer:p,targetFC:fc,sourceCardId:'S000053',turns:1,type:'cdg'});if(applied)batch15gRenderedPulse(fc,'chaud-froid-initial');return {target,applied};});
+  await batch15gFinishPulses(targets);
   (ongoingEffects.chaudFroid||=[]).push({sourcePlayerId:p.key,targetPlayerId:target.key,sourceGeneration:Number(p.batch15fGeneration||0),targetGeneration:Number(target.batch15fGeneration||0),phase:'waiting-freeze',createdTurnSequence:turnSequence,lastAdvancedTurn:null});batch15gSyncCounters();
-  recordBatch15GEvent('hot-cold-cast',{playerId:p.key,targetPlayerId:target.key,cold});showNotif('Chaud-froid glace vos adversaires et prépare les tours suivants.',1800);return {success:true,cardId:'S000053',cold};
+  recordBatch15GEvent('hot-cold-cast',{playerId:p.key,targetPlayerId:target.key,cold});showNotif("L'UTILISATION DES MAGIES DE FEU ET DE GLACE EN ALTERNANCE SÈME LA PAGAILLE SUR LE CHAMP DE BATAILLE !",1800);return {success:true,cardId:'S000053',cold};
 }
 async function resolveBatch15gHotColdStart(player){
   const p=playerState(player);batch15gPruneEffects();
@@ -5767,12 +5794,12 @@ async function resolveBatch15gHotColdStart(player){
     effect.lastAdvancedTurn=turnSequence;
     if(effect.phase==='waiting-freeze'){
       effect.phase='freeze';effect.freezeTurnSequence=turnSequence;recordBatch15GEvent('hot-cold-freeze-window',{sourcePlayerId:effect.sourcePlayerId,targetPlayerId:p.key});
-      await showNotif('Chaud-froid : les nouvelles invocations adverses subiront Gel pendant ce tour.',1800);
     }else if(effect.phase==='fire-pending'){
       effect.phase='done';const source=playerState(effect.sourcePlayerId),candidates=livingServantCardsForPlayer(p).filter(fc=>!hasSangArdent(fc)&&canAffectTarget({sourcePlayer:source,targetFC:fc,sourceCardId:'S000053',effectKind:'embrasement',isAbility:true}));
-      const chosen=weightedSampleWithoutReplacement(candidates.map(fc=>({fc,weight:1})),Math.min(3,candidates.length));await batch15gPulseTargets(chosen,'chaud-froid-fire');
-      const results=[];for(const fc of chosen)results.push(await applyEmbrasement(fc,{sourcePlayer:source,sourceCardId:'S000053',reason:'chaud-froid'}));
-      recordBatch15GEvent('hot-cold-fire',{sourcePlayerId:source.key,targetPlayerId:p.key,targets:chosen.map(targetSummary),results});await showNotif(chosen.length?'Chaud-froid embrase les rangs adverses !':'Chaud-froid ne trouve aucune cible à embraser.',1800);
+      const chosen=weightedSampleWithoutReplacement(candidates.map(fc=>({fc,weight:1})),Math.min(3,candidates.length));
+      const results=[];for(const fc of chosen)results.push(await applyEmbrasement(fc,{sourcePlayer:source,sourceCardId:'S000053',reason:'chaud-froid',onEffectRendered:hit=>batch15gRenderedPulse(hit,'chaud-froid-fire')}));
+      await batch15gFinishPulses(chosen);
+      recordBatch15GEvent('hot-cold-fire',{sourcePlayerId:source.key,targetPlayerId:p.key,targets:chosen.map(targetSummary),results});
     }
   }batch15gSyncCounters();
 }
@@ -5781,10 +5808,12 @@ function batch15gOnSummon(player,fc){
   batch15gPruneEffects();const effect=ongoingEffects.chaudFroid.find(e=>e.targetPlayerId===p.key&&e.phase==='freeze'&&e.freezeTurnSequence===turnSequence&&playerKey(activePlayer)===p.key);
   if(!effect)return null;
   fc.dataset.batch15gEntryColdTurn=String(turnSequence);const source=playerState(effect.sourcePlayerId);
-  const eligible=!hasSangFroid(fc)&&canAffectTarget({sourcePlayer:source,targetFC:fc,sourceCardId:'S000053',effectKind:'gel',isAbility:true});
-  if(eligible)pulseBatch03Ability(fc,'chaud-froid-entry',{move:false});
-  const applied=tryApplyGel({sourcePlayer:source,targetFC:fc,sourceCardId:'S000053',turns:1,type:'gel'});return recordBatch15GEvent('hot-cold-entry',{target:targetSummary(fc),applied});
+  const applied=tryApplyGel({sourcePlayer:source,targetFC:fc,sourceCardId:'S000053',turns:1,type:'gel'});
+  // Coup de glace dominates Gel: preserve the cold rule and pulse only a rendered Gel.
+  if(applied&&Number(fc.dataset.frozen||0)>0&&!Number(fc.dataset.frozen_cdg||0))batch15gRenderedPulse(fc,'chaud-froid-entry');
+  return recordBatch15GEvent('hot-cold-entry',{target:targetSummary(fc),applied});
 }
+
 function batch15gCloseOwnerTurn(player){
   const key=playerKey(player);for(const effect of ongoingEffects.chaudFroid||[])if(effect.targetPlayerId===key&&effect.phase==='freeze'&&effect.freezeTurnSequence===turnSequence)effect.phase='fire-pending';batch15gSyncCounters();
 }
@@ -7378,6 +7407,7 @@ async function tryApplyAbilityDamage({
   bypassInsensitive = false,
   directSpellDamage = false,
   directSpecialAbilityDamage = false,
+  onDamageRendered = null,
   echoCapture = null
 } = {}) {
   if (canAffectTarget({
@@ -7398,7 +7428,7 @@ async function tryApplyAbilityDamage({
     let died;
     try {
       if (echoCapture) targetFC._batch11EchoCaptureContext = echoCapture;
-      died = await applyDamage(targetFC, amount);
+      died = await applyDamage(targetFC, amount, typeof onDamageRendered==='function' ? {onDamageRendered} : undefined);
     } finally {
       delete targetFC._batch09DamageContext;
       delete targetFC._batch11EchoCaptureContext;
@@ -7508,10 +7538,15 @@ async function applyEmbrasement(targetFC, context={}) {
     refreshDuration = false,
     rejectIfAlreadyBurning = false,
     reason = 'card-effect',
-    bypassInsensitive = false
+    bypassInsensitive = false,
+    onEffectRendered = null
   } = context;
   const targetInstanceId = ensureServantInstanceId(targetFC);
   const wasAlreadyBurning = !!burnState(targetFC);
+  // Optional presentation hook: first actual damage render, or the status render if damage was absorbed.
+  let effectRendered=false;
+  const rendered=fc=>{if(effectRendered||typeof onEffectRendered!=='function')return;effectRendered=true;onEffectRendered(fc);};
+  const visualOptions=typeof onEffectRendered==='function'?{onDamageRendered:rendered}:undefined;
   const result = {
     success:false,
     reason:null,
@@ -7551,7 +7586,7 @@ async function applyEmbrasement(targetFC, context={}) {
   targetFC.classList.add('fc-burn-flash');
   setTimeout(() => targetFC.classList.remove('fc-burn-flash'), 800);
   result.immediateDamageDealt = EMBRASEMENT_INITIAL_DAMAGE;
-  result.targetDestroyed = await applyDamage(targetFC, EMBRASEMENT_INITIAL_DAMAGE);
+  result.targetDestroyed = await applyDamage(targetFC, EMBRASEMENT_INITIAL_DAMAGE, visualOptions);
   if (result.targetDestroyed || targetFC.dataset.dead) {
     result.success = true;
     result.reason = 'destroyed-by-initial-damage';
@@ -7562,7 +7597,7 @@ async function applyEmbrasement(targetFC, context={}) {
   result.coldDamageReleased = cold.condensedDamage;
   if (cold.condensedDamage > 0) {
     if (sourceFC) targetFC._killer = sourceFC;
-    result.targetDestroyed = await applyDamage(targetFC, cold.condensedDamage);
+    result.targetDestroyed = await applyDamage(targetFC, cold.condensedDamage, visualOptions);
     if (result.targetDestroyed || targetFC.dataset.dead) {
       clearBurnState(targetFC);
       result.success = true;
@@ -7581,6 +7616,7 @@ async function applyEmbrasement(targetFC, context={}) {
   targetFC.dataset.burningSourceCard = sourceCardId || '';
   targetFC.dataset.burningSourceInstance = sourceInstanceId || sourceFC?.dataset?.instance || '';
   projectBurnState(targetFC);
+  rendered(targetFC);
   result.statusApplied = true;
   result.success = true;
   result.reason = wasAlreadyBurning && !refreshDuration ? 'reapplied-without-refresh' : 'applied';
@@ -16548,7 +16584,10 @@ function grantBatch07SangArdent(fc, sourceCardId='S000054') {
   fc.dataset.batch07SangArdent = '1';
   fc.dataset.batch07SangArdentSource = sourceCardId;
   clearBurnState(fc);
-  createBatch03StatusCounter(fc, 'sang-ardent', '∞', 'Sang ardent');
+  if(sourceCardId==='S000054'){
+    fc.querySelectorAll('[data-batch03-status-counter="sang-ardent"]').forEach(node=>node.remove());
+    layoutStatusCountersForCard(fc);
+  }else createBatch03StatusCounter(fc,'sang-ardent','∞','Sang ardent');
   return true;
 }
 
@@ -19914,6 +19953,7 @@ async function applyDamage(fc, amount, options={}) {
   pdvEl.className   = displayPdv < maxPdv ? 'fc-pdv-val red' : 'fc-pdv-val';
   fc.dataset.pdv    = displayPdv;
   updateRageState(fc);
+  if(damageApplied>0&&typeof options.onDamageRendered==='function')options.onDamageRendered(fc,{before:curPdv,after:displayPdv,amount:damageApplied});
   const blessedSource=fc._killer;
   if (damageApplied>0 && newPdv>0 && blessedSource &&
       playerState(blessedSource.dataset.player)?.batch03BlessedSwordsTurn===turnSequence &&
@@ -20994,7 +21034,8 @@ async function resolveMeteoresEndOfTurn(turnPlayer=activePlayer) {
     const source=playerState(effect.sourcePlayerId),candidates=[player1,player2].flatMap(livingServantCardsForPlayer).filter(fc=>!hasSangArdent(fc)&&canAffectTarget({sourcePlayer:source,targetFC:fc,sourceCardId:'S000035',effectKind:'embrasement',isAbility:true}));
     const count=candidates.length?1+Math.floor(Math.random()*Math.min(12,candidates.length)):0;
     const targets=weightedSampleWithoutReplacement(candidates.map(fc=>({fc,weight:fc.dataset.player===source.key?1:1.75})),count);
-    await batch15gPulseTargets(targets,'meteors');const results=[];for(const target of targets){showMeteorImpactVfx(target);results.push(await applyEmbrasement(target,{sourcePlayer:source,sourceCardId:'S000035',refreshDuration:true,reason:'meteores'}));}
+    const results=[];for(const target of targets)results.push(await applyEmbrasement(target,{sourcePlayer:source,sourceCardId:'S000035',refreshDuration:true,reason:'meteores',onEffectRendered:hit=>{showMeteorImpactVfx(hit);batch15gRenderedPulse(hit,'meteors');}}));
+    await batch15gFinishPulses(targets);
     recordBatch15GEvent('meteors-wave',{sourcePlayerId:source.key,remainingWaves:effect.remainingWaves,targets:targets.map(targetSummary),results});
     batch15gSyncCounters();if(effect.remainingWaves>0)await showMeteoresStartTurnMessage(source);else showNotif('La pluie de météores s’achève.',1800);
   }batch15gSyncCounters();return {waves};
@@ -26178,7 +26219,7 @@ function batch15fColdCardData(cardId,data,player) {
     EDG000012:{...CARDS_DATA.EDG000012, cap:`[Insensible] [Rempart] Chaque fois qu'il subit des dégâts, invoque aléatoirement *1 Golem du froid* ou *1 Jeune dragon des neiges* de votre côté du terrain. À la fin de chacun de vos tours, chaque serviteur adverse a *33 %* de chance de subir aléatoirement [Gel] pendant ${t(2)} ou [Coup de glace] pendant ${t(1)}. Ce serviteur ne peut attaquer directement un avatar. Tant que « Le Tisseur de Givre » est sur le terrain, vous ne pouvez piocher de carte de votre deck ni invoquer aucun serviteur, autrement que par la capacité spéciale de celui-ci.`},
     DIV000007:{...CARDS_DATA.DIV000007, cap:`Chaque fois que cet Élémentaire de glace attaque, il a *50 %* de chance d'infliger [Gel] pendant ${t(1)} à sa cible.`, detail:`Chaque fois que cet Élémentaire de glace attaque, il a *50 %* de chance d'infliger [Gel] pendant ${t(1)} à sa cible.`},
     DIV000010:{...CARDS_DATA.DIV000010, cap:`Chaque fois que ce Golem du froid attaque, il inflige [Coup de glace] pendant ${t(2)} à sa cible.`, detail:`Chaque fois que ce Golem du froid attaque, il inflige [Coup de glace] pendant ${t(2)} à sa cible.`},
-    S000011:{...CARDS_DATA.S000011,cap:`Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main subissent chacun [Coup de glace] pendant ${t(2)}.`,detail:`Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main (ne possédant pas le mot-clef [Sang-froid]) subissent chacun [Coup de glace] pendant ${t(2)}.`}
+    S000011:{...CARDS_DATA.S000011,cap:`Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main subissent chacun [Coup de glace] pendant ${t(2)}.`,detail:`Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main consomment chacun *1* charge, même avec [Insensible] ou [Sang-froid]. Ceux qui ne sont pas protégés subissent [Coup de glace] pendant ${t(2)}.`}
   };
   const patch=patches[cardId];return patch?{...data,cap:patch.cap,detail:patch.detail||patch.cap}:data;
 }
@@ -28135,15 +28176,13 @@ function resolveMurDeGlace(player) {
   const p=playerState(player),target=opponentOf(p);
   target.batch05IceWallCharges=Number(target.batch05IceWallCharges||0)+3;target.batch05IceWallSourcePlayer=p.key;target.batch15gIceWallSourceGeneration=Number(p.batch15fGeneration||0);
   batch15gSyncCounters();const result={success:true,cardId:'S000011',targetPlayerId:target.key,remainingCharges:target.batch05IceWallCharges};recordCollectionBatch05Event('ice-wall-armed',result);
-  showNotif('Mur de glace attend les trois prochains serviteurs adverses éligibles invoqués depuis la main.',1800);return result;
+  showNotif("UN PIÈGE GLACIAL N'ATTEND QUE QUELQUES SERVITEURS IMPRUDENTS POUR SE DÉCLENCHER...",1800);return result;
 }
 
 function applyBatch05IceWallToSummon(player,fc) {
   const p=playerState(player);if(!p||!fc||Number(p.batch05IceWallCharges||0)<=0)return null;
-  if(hasSangFroid(fc)){showResistVfx(fc,'Sang-froid');return {success:false,reason:'sang-froid-excluded',remainingCharges:p.batch05IceWallCharges};}
   p.batch05IceWallCharges=Math.max(0,Number(p.batch05IceWallCharges||0)-1);const source=playerState(p.batch05IceWallSourcePlayer)||opponentOf(p);
-  const eligible=canAffectTarget({sourcePlayer:source,targetFC:fc,sourceCardId:'S000011',effectKind:'cdg',isAbility:true});if(eligible)pulseBatch03Ability(fc,'ice-wall',{move:false});
-  const applied=tryApplyGel({sourcePlayer:source,targetFC:fc,sourceCardId:'S000011',turns:2,type:'cdg'});batch15gSyncCounters();
+  const applied=tryApplyGel({sourcePlayer:source,targetFC:fc,sourceCardId:'S000011',turns:2,type:'cdg'});if(applied)batch15gRenderedPulse(fc,'ice-wall');batch15gSyncCounters();
   const result={success:applied,cardId:'S000011',target:targetSummary(fc),targetPlayerId:p.key,remainingCharges:p.batch05IceWallCharges};recordCollectionBatch05Event('ice-wall-trigger',result);return result;
 }
 
@@ -31293,7 +31332,7 @@ const BATCH_15G_CANONICAL=[
       "canonicalCondition": "/",
       "cost": 3,
       "cap": "Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main subissent chacun [Coup de glace] pendant *2* tours.",
-      "detail": "Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main (ne possédant pas le mot-clef [Sang-froid]) subissent chacun [Coup de glace] pendant *2* tours.",
+      "detail": "Les *3* prochains serviteurs invoqués par votre adversaire depuis sa main consomment chacun *1* charge, même avec [Insensible] ou [Sang-froid]. Ceux qui ne sont pas protégés subissent [Coup de glace] pendant *2* tours.",
       "cond": "",
       "maxOwned": 3,
       "fico": "FCT00000EDG.png"
