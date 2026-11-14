@@ -73,7 +73,7 @@ test('15G Deferlante shows only eligible occurrences with local unclipped hover 
 
 test('15G Deferlante refuses no valid target without paying',async({page})=>{await boot(page,{player1:{hand:['S000062']},player2:{board:[{id:'H000036',flags:{insensible:'1'}}]}});const before=await snapshot(page);await play(page,'S000062');const after=await snapshot(page);for(const key of ['hand','deck','graveyard','souls','resources','plays'])expect(after[key]).toEqual(before[key]);await expect(page.getByTestId('board-target-choice')).toHaveCount(0);});
 
-for(const [scene,hand]of [['ice-counters',['S000011','S000036']],['fire-waves',['S000035']],['hot-cold-dwarves',['S000053','S000054','N000003']]])test('15G hidden scene starts clean and playable '+scene,async({page},info)=>{await installRandomSequence(page,FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM);await page.goto('/code/partie-test-1.html?scenario=collection-batch-15g-'+scene);await page.waitForFunction(()=>document.querySelector('#btnEndTurn')?.classList.contains('vis')&&!turnTransitionInProgress);expect(await page.evaluate(()=>player1.hand)).toEqual(hand);expect(await page.evaluate(()=>SCENARIOS[selectedScenarioId()].hidden)).toBe(true);expect(await page.evaluate(()=>livingServantCardsForPlayer(player1).concat(livingServantCardsForPlayer(player2)).every(fc=>!fc.dataset.burning&&!fc.dataset.frozen&&!fc.dataset.frozen_cdg))).toBe(true);await expect(page.getByTestId('test-resource-panel')).not.toBeVisible();await page.screenshot({path:info.outputPath(scene+'-initial.png')});});
+for(const [scene,hand]of [['ice-counters',['S000011','S000036']],['fire-waves',['S000035','S000062']],['hot-cold-dwarves',['S000053','S000054','N000003']]])test('15G hidden scene starts clean and playable '+scene,async({page},info)=>{await installRandomSequence(page,FIRST_SCENARIO_PARTICIPANT_VISIBLE_RANDOM);await page.goto('/code/partie-test-1.html?scenario=collection-batch-15g-'+scene);await page.waitForFunction(()=>document.querySelector('#btnEndTurn')?.classList.contains('vis')&&!turnTransitionInProgress);expect(await page.evaluate(()=>player1.hand)).toEqual(hand);expect(await page.evaluate(()=>SCENARIOS[selectedScenarioId()].hidden)).toBe(true);expect(await page.evaluate(()=>livingServantCardsForPlayer(player1).concat(livingServantCardsForPlayer(player2)).every(fc=>!fc.dataset.burning&&!fc.dataset.frozen&&!fc.dataset.frozen_cdg))).toBe(true);await expect(page.getByTestId('test-resource-panel')).not.toBeVisible();await page.screenshot({path:info.outputPath(scene+'-initial.png')});});
 
 test('15G RED Crocs expanded player text states its arbitrated single launch',async({page})=>{await boot(page,{player1:{hand:['S000036']}});await page.locator('.hc[data-id="S000036"]').hover();const description=page.locator('#card-preview-layer.preview-open .fz-desc-text');await expect(description).toBeVisible();await expect(description).not.toContainText('chaque tour');});
 
@@ -131,3 +131,68 @@ test('15G2 sync lethal Crocs keeps its damage pulse on the bear and never transf
 
 
 test('15G2 Chaud-froid entry does not claim a Gel impact ignored under an actual Ice Wall Coup de glace',async({page},info)=>{await boot(page,{player1:{hand:['S000011','S000053']},player2:{hand:['H000005']}});await play(page,'S000011');await play(page,'S000053');await turn(page);await observeG2Frames(page);await play(page,'H000005');await page.waitForFunction(()=>__g2Frames.some(f=>f.visible));const data=await g2Evidence(page,info,'dominant-cold-entry');expect((await board(page))[0]).toMatchObject({cdg:2,gel:0});await expectG2Wall(page,2);expect(firstG2Pulses(data,'chaud-froid-entry')).toEqual([]);const actual=firstG2Pulses(data,'ice-wall');expect(actual).toHaveLength(1);expect(actual[0].cdg).toBe(2);expect(actual[0].ice).toContain('2')});
+
+// 15G3 measures real notification paint order without changing animations or moving the hover source.
+const G3_DEFERLANTE="DES GERBES DE FEU CONJURÉES IMMOLENT DE PAUVRES SERVITEURS !";
+const G3_METEOR_CONTINUATION="D'INNOMBRABLES BOULES DE FEU CONTINUENT DE TOMBER PARTOUT !";
+const g3MeteorLaunch=name=>name.toLocaleUpperCase('fr-FR')+" APPELLE UNE PLUIE DE MÉTÉORITES SUR LE CHAMP DE BATAILLE !";
+async function installG3Observation(page){
+ await page.evaluate(()=>{
+  window.__g3Notifications=[];window.__g3LastPointer=null;
+  document.addEventListener('pointermove',e=>window.__g3LastPointer={x:e.clientX,y:e.clientY},{passive:true});
+  new MutationObserver(()=>{const n=qs('#notif');__g3Notifications.push({at:performance.now(),text:n.textContent,rendered:n.textContent.toLocaleUpperCase('fr-FR'),turn:turnSequence,current:currentPlayer,resolvedWaves:collectionBatch15GState.events.filter(e=>e.type==='meteors-wave').map(e=>e.remainingWaves),waves:ongoingEffects.meteores.map(e=>({source:e.sourcePlayerId,remaining:e.remainingWaves,resolved:e.wavesResolved}))})}).observe(qs('#notif'),{childList:true});
+  window.__g3PaintProbe=()=>{
+   const n=qs('#notif'),preview=qs('#card-preview-layer.preview-open .canonical-card-preview'),range=document.createRange();range.selectNodeContents(n);
+   const nr=n.getBoundingClientRect(),pr=preview?.getBoundingClientRect(),rects=[...range.getClientRects()].filter(r=>r.width>0&&r.height>0),points=[];
+   for(const r of rects){const xs=[r.left+1,r.right-1];for(let x=r.left+12;x<r.right-1;x+=24)xs.push(x);for(const x of xs)for(const y of [r.top+1,(r.top+r.bottom)/2,r.bottom-1])points.push({x,y});}
+   // Both painted layers intentionally ignore pointers. Enable only their own boxes for synchronous hit-testing,
+   // then restore their exact inline attributes before the next paint or any user input. No z-index is changed.
+   const changed=[n,...(preview?[preview]:[])].map(el=>({el,style:el.getAttribute('style')}));let samples;
+   try{for(const {el}of changed)el.style.setProperty('pointer-events','auto','important');samples=points.map(p=>{const stack=document.elementsFromPoint(p.x,p.y),top=stack[0];return {...p,inViewport:p.x>=0&&p.y>=0&&p.x<innerWidth&&p.y<innerHeight,top:top?.id||top?.className||top?.tagName,notificationOnTop:top===n||n.contains(top),coveredByPreview:!!preview&&(top===preview||preview.contains(top))};});}
+   finally{for(const {el,style}of changed)if(style===null)el.removeAttribute('style');else el.setAttribute('style',style);}
+   const ancestors=el=>{const out=[];for(let a=el;a;a=a.parentElement){const s=getComputedStyle(a);out.push({tag:a.tagName,id:a.id,classes:a.className,z:s.zIndex,position:s.position,transform:s.transform,filter:s.filter,opacity:s.opacity,isolation:s.isolation});}return out;};
+   const a=n.getAnimations().find(a=>a.animationName==='notifAnim');
+   return {at:performance.now(),text:n.textContent,rendered:n.textContent.toLocaleUpperCase('fr-FR'),notification:nr.toJSON(),textRects:rects.map(r=>r.toJSON()),preview:pr?.toJSON()||null,previewId:preview?.dataset.previewCardId||null,previewOpacity:preview?getComputedStyle(preview.querySelector('.fc-zoom')).opacity:null,overlap:!!pr&&nr.left<pr.right&&nr.right>pr.left&&nr.top<pr.bottom&&nr.bottom>pr.top,pointer:__g3LastPointer,hovered:[...document.querySelectorAll('.fc:hover')].filter(c=>!c.closest('#card-preview-layer')).map(c=>({id:c.dataset.id,player:c.dataset.player})),samples,hidden:samples.filter(p=>!p.notificationOnTop),clipped:samples.filter(p=>!p.inViewport),duration:a?.effect.getTiming().duration,progress:a?.currentTime,opacity:getComputedStyle(n).opacity,pointerEvents:getComputedStyle(n).pointerEvents,ancestors:{notification:ancestors(n),preview:preview?ancestors(preview):[]}};
+  };
+ });
+}
+async function g3Hover(page,owner='player1',id='H000001'){
+ const source=page.locator('.fc[data-player="'+owner+'"][data-id="'+id+'"]').filter({hasNot:page.locator('[data-preview-card-id]')}).first();
+ await source.hover();await page.waitForFunction(id=>{const c=qs('#card-preview-layer.preview-open .canonical-card-preview[data-preview-card-id="'+id+'"]');return c&&getComputedStyle(c.querySelector('.fc-zoom')).opacity==='1'},id);
+ await page.evaluate(async()=>{const c=qs('#card-preview-layer .canonical-card-preview');await Promise.all([...c.querySelectorAll('img')].map(i=>i.decode()));if([...c.querySelectorAll('img')].some(i=>!i.naturalWidth))throw Error('Preview artwork missing');});
+ return source;
+}
+async function g3PaintEvidence(page,info,label,{capture=true}={}){
+ await page.waitForFunction(()=>{const n=qs('#notif');return n.classList.contains('show')&&getComputedStyle(n).opacity==='1'});
+ const data=await page.evaluate(()=>__g3PaintProbe());writeFileSync(info.outputPath(label+'-paint-order.json'),JSON.stringify(data,null,2));await info.attach(label+'-paint-order',{body:Buffer.from(JSON.stringify(data,null,2)),contentType:'application/json'});if(capture)await page.screenshot({path:info.outputPath(label+'.png')});
+ expect(data.preview).toBeTruthy();expect(data.previewOpacity).toBe('1');expect(data.overlap).toBe(true);expect(data.hovered.length).toBeGreaterThan(0);expect(data.samples.length).toBeGreaterThan(12);expect(data.clipped).toEqual([]);expect(data.duration).toBe(2200);expect(data.pointerEvents).toBe('none');
+ expect(data.hidden, 'Every sampled part of every actual message line must paint above the overlapping hover preview').toEqual([]);return data;
+}
+async function g3WaitNotificationGone(page){await page.waitForFunction(()=>{const n=qs('#notif');return !n.classList.contains('show')&&getComputedStyle(n).opacity==='0'});}
+
+test('15G3 Deferlante exact new notification preserves selected neighbors and Insensible',async({page},info)=>{
+ await boot(page,{player1:{hand:['S000062']},player2:{board:[{id:'H000001',hp:60,max:60},{id:'H000036',hp:60,max:60},{id:'H000005',hp:60,max:60},{id:'H000006',hp:60,max:60}]}});await installG3Observation(page);
+ await cast(page,'S000062');await page.locator('[data-testid="board-target-choice"][data-target-id="H000005"]').click();await page.getByTestId('board-target-confirm').click();await settled(page);
+ expect((await board(page)).map(c=>({hp:c.hp,burn:c.burn}))).toEqual([{hp:60,burn:0},{hp:60,burn:0},{hp:57,burn:3},{hp:57,burn:3}]);
+ const messages=await page.evaluate(()=>__g3Notifications);await info.attach('deferlante-notifications',{body:Buffer.from(JSON.stringify(messages)),contentType:'application/json'});expect((await snapshot(page)).message.toLocaleUpperCase('fr-FR')).toBe(G3_DEFERLANTE);expect(messages.some(m=>/flammes frappent|feu frappe/i.test(m.text))).toBe(false);
+});
+for(const owner of ['player1','player2'])test('15G3 Meteor exact launch names its real caster '+owner,async({page})=>{
+ await boot(page,{[owner]:{hand:['S000035']}});if(owner==='player2')await turn(page);const names=await page.evaluate(owner=>({source:playerName(playerState(owner)),other:playerName(opponentOf(playerState(owner)))}),owner);expect(names.source).not.toBe(names.other);await play(page,'S000035');
+ const message=(await snapshot(page)).message.toLocaleUpperCase('fr-FR');expect(message).toBe(g3MeteorLaunch(names.source));expect(message).not.toContain('<NOM_AVATAR');expect(message).not.toContain(names.other.toLocaleUpperCase('fr-FR'));
+});
+
+test('15G3 Meteor exact continuation keeps the two other messages and all four trigger phases once',async({page},info)=>{
+ await boot(page,{player1:{hand:['S000035'],board:[{id:'H000001',hp:100,max:100}]},player2:{board:[{id:'H000005',hp:100,max:100}]}});await installG3Observation(page);const name=await page.evaluate(()=>playerName(player1));await play(page,'S000035');await turn(page);await turn(page);await turn(page);
+ const events=await page.evaluate(()=>__g3Notifications),meteor=events.filter(e=>/météor|boules de feu/i.test(e.text));await info.attach('all-meteor-messages-and-phases',{body:Buffer.from(JSON.stringify(meteor,null,2)),contentType:'application/json'});
+ expect(meteor.map(e=>e.rendered)).toEqual([g3MeteorLaunch(name),G3_METEOR_CONTINUATION,'DES MÉTÉORITES EMBRASENT ENCORE LE CIEL — COURAGE, CE SONT LES DERNIÈRES !','LA PLUIE DE MÉTÉORES S’ACHÈVE.']);expect(meteor.slice(0,3).map(e=>e.waves[0].remaining)).toEqual([3,2,1]);expect(meteor.slice(0,3).map(e=>e.waves[0].resolved)).toEqual([0,1,2]);expect(meteor[3].waves).toEqual([]);expect(meteor.map(e=>e.resolvedWaves)).toEqual([[],[2],[2,1],[2,1,0]]);expect(events.some(e=>/invoque une pluie de météores|des météores continuent/i.test(e.text))).toBe(false);
+});
+
+test('15G3 Meteor launch notification paints every line over the real hover preview and survives rehover',async({page},info)=>{
+ await boot(page,{player1:{hand:['S000035'],board:[{id:'H000001',hp:100,max:100}]},player2:{board:[{id:'H000005',hp:100,max:100}]}});await installG3Observation(page);await play(page,'S000035');await g3Hover(page);const first=await g3PaintEvidence(page,info,'meteor-launch-hover',{capture:false});
+ await page.mouse.move(30,700);await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);await g3Hover(page);const again=await g3PaintEvidence(page,info,'meteor-launch-rehover');expect(again.text).toBe(first.text);expect(again.progress).toBeGreaterThan(first.progress);expect(again.duration).toBe(first.duration);await g3WaitNotificationGone(page);await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(1);await page.mouse.move(30,700);await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);await page.locator('#btnEndTurn').click();await page.waitForFunction(()=>!turnTransitionInProgress&&currentPlayer===player2.key);
+});
+
+test('15G3 Meteor deferred notification paints every line while pointer stays over the real card',async({page},info)=>{
+ await boot(page,{player1:{hand:['S000035'],board:[{id:'H000001',hp:100,max:100}]},player2:{board:[{id:'H000005',hp:100,max:100}]}});await installG3Observation(page);await play(page,'S000035');await g3WaitNotificationGone(page);await g3Hover(page);await page.locator('#btnEndTurn').focus();await page.keyboard.press('Enter');
+ await page.waitForFunction(()=>/des météores continuent|d'innombrables boules de feu/i.test(qs('#notif').textContent));const evidence=await g3PaintEvidence(page,info,'meteor-deferred-hover');expect(evidence.hovered).toContainEqual({id:'H000001',player:'player1'});expect(evidence.pointerEvents).toBe('none');await page.waitForFunction(()=>!turnTransitionInProgress&&currentPlayer===player2.key);await page.mouse.move(30,700);await expect(page.locator('#card-preview-layer.preview-open')).toHaveCount(0);
+});
