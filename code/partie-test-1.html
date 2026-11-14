@@ -5741,9 +5741,27 @@ async function batch15gPulseTargets(targets,reason){
   await new Promise(requestAnimationFrame);
   await Promise.all(actual.flatMap(fc=>fc.getAnimations()).filter(a=>a.animationName==='batch03AbilityPulse').map(a=>a.finished.catch(()=>{})));
 }
-function resolveBatch15gMeteores(player){
+async function resolveBatch15gMeteores(player){
   const p=playerState(player),effect={sourcePlayerId:p.key,sourceAvatarName:playerName(p),sourceCardId:'S000035',sourceGeneration:Number(p.batch15fGeneration||0),remainingWaves:3,wavesResolved:0,createdTurnSequence:turnSequence,lastResolvedTurnSequence:null,lastStartMessageTurn:null,continuationMessageShownForTurn:null,continuationMessageShownAtTurn:null,finalMessageShownAtTurn:null,launchMessageCount:1,continuationMessageCount:0,finalMessageCount:0,resolvedOnOpponentTurn:false,resolvedTurnSequences:[]};
   ongoingEffects.meteores.push(effect);batch15gSyncCounters();
+  // Only this cast has an automatic, bounded reveal; free hover keeps its normal lifecycle.
+  const presentation=document.createElement('div');
+  presentation.className='canonical-card-preview-shell';
+  presentation.dataset.batch15gMeteorPresentation='1';
+  presentation.innerHTML=buildCanonicalCardPreview('S000035',{sourceType:'meteor-cast',playerId:p.key});
+  const card=presentation.querySelector('.canonical-card-preview');
+  await card.querySelector('.fz-img').decode();
+  closeCardPreview('meteor-cast');
+  document.body.appendChild(presentation);
+  const reveal=card.animate([{opacity:0,offset:0},{opacity:1,offset:.04},{opacity:1,offset:.96},{opacity:0,offset:1}],{duration:2500,fill:'both'});
+  try {
+    // Await this exact presentation animation; child animationend events cannot finish it.
+    await reveal.finished;
+  } finally {
+    presentation.remove();
+    reveal.cancel();
+    closeCardPreview('meteor-cast-complete');
+  }
   showNotif(batch15EText(playerName(p)+' appelle une pluie de météorites sur le champ de bataille !'),1800);
   return {success:true,cardId:'S000035',remainingWaves:3};
 }
@@ -14648,7 +14666,7 @@ async function playCardRuntime(cardId, slot, options={}) {
       S000046:['ÇA PASSE OU ÇA CASSE','Envoyer un troll tout casser !'],
       S000056:['Déplacement instantané','Choisissez le serviteur allié à marquer.'],
       S000061:['Bouclier de glace','Choisissez le serviteur allié à protéger.'],
-      S000062:['Déferlante de flammes','Choisissez le serviteur adverse à embraser.'],
+      S000062:['Déferlante de flammes','Choisissez un adversaire à réduire en cendres en priorité !'],
       S000063:['Choc mental','Choisissez le serviteur adverse à frapper.'],
       TRL000015:['Troll-nain','Choisissez le serviteur allié à renforcer.']
     }[cardId] || ['Aura de protection','Choisissez le serviteur allié à protéger.'];
@@ -21037,7 +21055,7 @@ async function resolveMeteoresEndOfTurn(turnPlayer=activePlayer) {
     const results=[];for(const target of targets)results.push(await applyEmbrasement(target,{sourcePlayer:source,sourceCardId:'S000035',refreshDuration:true,reason:'meteores',onEffectRendered:hit=>{showMeteorImpactVfx(hit);batch15gRenderedPulse(hit,'meteors');}}));
     await batch15gFinishPulses(targets);
     recordBatch15GEvent('meteors-wave',{sourcePlayerId:source.key,remainingWaves:effect.remainingWaves,targets:targets.map(targetSummary),results});
-    batch15gSyncCounters();if(effect.remainingWaves>0)await showMeteoresStartTurnMessage(source);else showNotif('La pluie de météores s’achève.',1800);
+    batch15gSyncCounters();if(effect.remainingWaves>0)await showMeteoresStartTurnMessage(source);else showNotif('La pluie de météorites s’achève.',1800);
   }batch15gSyncCounters();return {waves};
 }
 
